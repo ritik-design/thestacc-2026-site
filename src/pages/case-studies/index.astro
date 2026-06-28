@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'Case studies — Real businesses, real results · theStacc',
+  description: 'See how 127+ businesses use theStacc to rank, win the Map Pack, and publish daily. Featured: Solar Engineering Services — 0 to 47 keywords in 90 days.',
+  canonical: 'https://thestacc.com/case-studies/',
+  ogImage: '/og/case-studies.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "theStacc case studies",
+    "url": "https://thestacc.com/case-studies/"
+  }
+};
+
+const featured = {
+  slug: 'solar-engineering-services',
+  company: 'Solar Engineering Services',
+  vertical: 'Renewable energy · India',
+  quote: 'We went from 0 to 47 ranked keywords in 90 days. theStacc published 32 articles. We approved 4.',
+  attribution: 'Nirav Dhanani · Founder',
+  stats: [
+    { v: '47', l: 'Keywords ranked' },
+    { v: '32', l: 'Articles published' },
+    { v: '90', l: 'Days to first page' },
+    { v: '12×', l: 'Organic traffic' },
+  ],
+};
+
+const cases = [
+  { slug: 'replydaddy', company: 'ReplyDaddy', vertical: 'SaaS · USA', summary: 'From 12 to 380 ranked keywords in 6 months — purely on programmatic SEO.', stat: '380' },
+  { slug: 'noobbooklm', company: 'NoobBookLM', vertical: 'SaaS · USA', summary: 'AI-search cited in ChatGPT, Perplexity, and Gemini within 8 weeks of launch.', stat: '3 AI' },
+  { slug: 'chartmath', company: 'ChartMath', vertical: 'SaaS · USA', summary: '60 long-form articles published in 90 days. Bounce rate down 22%.', stat: '60' },
+  { slug: 'heaven-designs', company: 'Heaven Designs', vertical: 'Agency · India', summary: 'White-labeled theStacc to 14 clients. Margin per client up 3×.', stat: '14' },
+  { slug: 'qbits-energy', company: 'Qbits Energy', vertical: 'Renewable · India', summary: 'Won the Map Pack for 11 city keywords in under 60 days.', stat: '11' },
+  { slug: 'quickestimate', company: 'QuickEstimate', vertical: 'SaaS · USA', summary: 'AI-search citations now drive 18% of new signups.', stat: '18%' },
+  { slug: 'intello', company: 'Intello', vertical: 'SaaS · USA', summary: 'Built 220 programmatic SEO pages in 6 weeks. 47 ranked in top 10.', stat: '220' },
+  { slug: 'suncart', company: 'Suncart', vertical: 'Ecommerce · India', summary: 'Daily buying guides published to Shopify. AOV up 14%.', stat: '14%' },
+];
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Case studies · 9 featured</span>
+    <h1 class="h-display">Real businesses. <span class="accent">Real results.</span></h1>
+    <p class="hero-sub">No hand-wavy "drove 10× growth" claims. Every case has a starting number, an ending number, and the exact theStacc playbook in between.</p>
+    <div class="hero-ctas">
+      <a href="/checkout/" class="btn btn-primary"><span>Start your $1 trial <span class="arrow">→</span></span></a>
+      <a href="/demo/" class="btn btn-secondary">Book a 15-min demo</a>
+    </div>
+  </section>
+
+  <!-- FEATURED CASE -->
+  <section style="padding: 64px 32px; background: var(--bg-soft);">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <a href={`/case-studies/${featured.slug}/`} class="bento-card bento-feature" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; padding: 48px;">
+        <div>
+          <div class="bento-title" style="margin-bottom: 14px;">Featured · {featured.vertical}</div>
+          <h2 class="h-md" style="margin-bottom: 18px;">{featured.company}</h2>
+          <p style="font-size: 20px; line-height: 1.45; color: var(--text-1); font-weight: 500; margin-bottom: 22px; letter-spacing: -0.01em;">"{featured.quote}"</p>
+          <div style="font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--text-3); margin-bottom: 28px; letter-spacing: 0.05em;">— {featured.attribution}</div>
+          <div class="bento-cta">Read the full case study <span class="arrow">→</span></div>
+        </div>
+        <div style="background: white; border: 1px solid var(--border); padding: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
+          {featured.stats.map((s, i) => (
+            <div style={`padding: 18px; ${i % 2 === 0 ? 'border-right: 1px solid var(--border);' : ''} ${i < 2 ? 'border-bottom: 1px solid var(--border);' : ''}`}>
+              <div style="font-size: 36px; font-weight: 700; color: var(--brand); letter-spacing: -0.025em; line-height: 1;">{s.v}</div>
+              <div style="font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 10px;">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- CASES GRID -->
+  <section style="padding: 32px 32px 96px; background: var(--bg-soft);">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div class="cases-grid">
+        {cases.map((c) => (
+          <a href={`/case-studies/${c.slug}/`} class="bento-card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px;">
+              <div class="bento-title">{c.vertical}</div>
+              <div style="font-size: 22px; font-weight: 700; color: var(--brand); letter-spacing: -0.02em; line-height: 1;">{c.stat}</div>
+            </div>
+            <h3 class="h-sm" style="margin-bottom: 10px;">{c.company}</h3>
+            <p class="bento-desc">{c.summary}</p>
+            <div class="bento-cta" style="margin-top: 18px;">Read the case <span class="arrow">→</span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Be the next case study. <span class="accent">Start today.</span></h2>
+        <p class="final-sub">$1 trial. First article live in 24 hours.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .cases-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 1100px) { .cases-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 800px) { .cases-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .cases-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>

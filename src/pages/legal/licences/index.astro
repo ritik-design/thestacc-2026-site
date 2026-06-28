@@ -1,0 +1,332 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Open-source licences — theStacc',
+  description: 'The open-source libraries that power theStacc, their licences, and how to inspect a build. Last updated June 28, 2026.',
+  canonical: 'https://thestacc.com/legal/licences/',
+  ogImage: '/og-default.webp',
+  noindex: false,
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Open-source licences — theStacc",
+    "url": "https://thestacc.com/legal/licences/",
+    "datePublished": "2026-06-28",
+    "dateModified": "2026-06-28",
+    "publisher": {
+      "@type": "Organization",
+      "name": "theStacc",
+      "url": "https://thestacc.com/",
+      "logo": "https://thestacc.com/button.flex.svg"
+    }
+  }
+};
+---
+<BaseLayout seo={seo}>
+
+  <section class="legal-section">
+    <div class="legal-shell">
+
+      <!-- Sticky TOC (left at ≥1100px) -->
+      <aside class="legal-toc" aria-label="On this page">
+        <span class="label-pill">On this page</span>
+        <nav>
+          <a href="#why">Why we publish licences</a>
+          <a href="#inspect">How to inspect a build</a>
+          <a href="#list">Licence list</a>
+          <a href="#contact">Contact for disclosure</a>
+        </nav>
+      </aside>
+
+      <!-- Body -->
+      <article class="legal-body">
+
+        <header class="legal-head">
+          <span class="legal-eyebrow">Legal</span>
+          <h1 class="legal-h1">Open-source licences</h1>
+          <p class="legal-meta">Last updated: June 28, 2026</p>
+        </header>
+
+        <section id="why">
+          <h2>Why we publish licences</h2>
+          <p>theStacc would not exist without open-source software. The dashboard, the marketing site, the article engine, and the integration layer all sit on top of code that other people wrote, licensed openly, and gave away for free.</p>
+          <p>We publish this page for three reasons. First, every permissive open-source licence we depend on — MIT, Apache 2.0, BSD, CC0 — requires that we keep the original copyright notice and licence text available. This page is how we meet that obligation. Second, transparency builds trust — if you want to know what is running inside theStacc, you should be able to find out in under a minute. Third, we want to thank the maintainers. The list below is a list of people we owe something to.</p>
+          <p>If you are a maintainer of a project listed below and you want a different attribution, email <a href="mailto:legal@thestacc.com">legal@thestacc.com</a> and we will update it.</p>
+        </section>
+
+        <section id="inspect">
+          <h2>How to inspect a build</h2>
+          <p>The build of theStacc that runs in production is a server-side rendered Astro application. Every public route can be inspected directly:</p>
+          <ul>
+            <li><strong>View source</strong> in your browser shows the rendered HTML and the loaded scripts. Every script is served from thestacc.com or from a sub-domain we control.</li>
+            <li><strong>Network tab</strong> in DevTools lists every asset the page loads, including the bundled JavaScript and CSS. Bundles are minified but not obfuscated.</li>
+            <li><strong>npm package list</strong> for the marketing site is documented in the <code>package.json</code> at the root of the codebase. We do not publish the dashboard package list publicly but the marketing site list maps closely.</li>
+          </ul>
+          <p>If you need a software bill of materials (SBOM) for a security review, email <a href="mailto:security@thestacc.com">security@thestacc.com</a>. We generate an SPDX-format SBOM on every production deploy and can share it under NDA.</p>
+        </section>
+
+        <section id="list">
+          <h2>Licence list</h2>
+          <p>The list below covers the major open-source libraries that ship with the public-facing marketing site and dashboard. It does not include every transitive dependency — that list runs to several hundred packages and lives in the SBOM. Full licence text is reproduced in the original projects' repositories, which we link to below.</p>
+
+          <h3>Frameworks</h3>
+          <ul>
+            <li><strong>Astro</strong> · MIT licence · <a href="https://github.com/withastro/astro" target="_blank" rel="noopener">github.com/withastro/astro</a> · powers the marketing site at thestacc.com.</li>
+            <li><strong>Vite</strong> · MIT licence · <a href="https://github.com/vitejs/vite" target="_blank" rel="noopener">github.com/vitejs/vite</a> · bundler used by Astro.</li>
+            <li><strong>React</strong> · MIT licence · <a href="https://github.com/facebook/react" target="_blank" rel="noopener">github.com/facebook/react</a> · powers the dashboard UI.</li>
+            <li><strong>Node.js</strong> · MIT licence · <a href="https://github.com/nodejs/node" target="_blank" rel="noopener">github.com/nodejs/node</a> · server runtime for the marketing site and the API.</li>
+          </ul>
+
+          <h3>Styling</h3>
+          <ul>
+            <li><strong>Tailwind CSS</strong> · MIT licence · <a href="https://github.com/tailwindlabs/tailwindcss" target="_blank" rel="noopener">github.com/tailwindlabs/tailwindcss</a> · utility-first CSS framework.</li>
+            <li><strong>Geist</strong> · SIL Open Font Licence 1.1 · <a href="https://vercel.com/font" target="_blank" rel="noopener">vercel.com/font</a> · the typeface used for headings and body copy.</li>
+            <li><strong>Geist Mono</strong> · SIL Open Font Licence 1.1 · <a href="https://vercel.com/font" target="_blank" rel="noopener">vercel.com/font</a> · monospace counterpart used for labels and badges.</li>
+            <li><strong>Doto</strong> · SIL Open Font Licence 1.1 · <a href="https://fonts.google.com/specimen/Doto" target="_blank" rel="noopener">fonts.google.com/specimen/Doto</a> · the typeface used for the theStacc wordmark.</li>
+          </ul>
+
+          <h3>Icons and assets</h3>
+          <ul>
+            <li><strong>Simple Icons</strong> · CC0 1.0 Universal · <a href="https://github.com/simple-icons/simple-icons" target="_blank" rel="noopener">github.com/simple-icons/simple-icons</a> · brand icons for integration logos.</li>
+            <li><strong>Lucide</strong> · ISC licence · <a href="https://github.com/lucide-icons/lucide" target="_blank" rel="noopener">github.com/lucide-icons/lucide</a> · interface icons in the dashboard.</li>
+            <li><strong>Heroicons</strong> · MIT licence · <a href="https://github.com/tailwindlabs/heroicons" target="_blank" rel="noopener">github.com/tailwindlabs/heroicons</a> · supplementary icon set.</li>
+          </ul>
+
+          <h3>Tooling and build</h3>
+          <ul>
+            <li><strong>TypeScript</strong> · Apache 2.0 licence · <a href="https://github.com/microsoft/TypeScript" target="_blank" rel="noopener">github.com/microsoft/TypeScript</a> · typed JavaScript across the codebase.</li>
+            <li><strong>ESLint</strong> · MIT licence · <a href="https://github.com/eslint/eslint" target="_blank" rel="noopener">github.com/eslint/eslint</a> · code linting in CI.</li>
+            <li><strong>Prettier</strong> · MIT licence · <a href="https://github.com/prettier/prettier" target="_blank" rel="noopener">github.com/prettier/prettier</a> · code formatter.</li>
+            <li><strong>Vitest</strong> · MIT licence · <a href="https://github.com/vitest-dev/vitest" target="_blank" rel="noopener">github.com/vitest-dev/vitest</a> · unit-test runner.</li>
+          </ul>
+
+          <h3>Backend libraries</h3>
+          <ul>
+            <li><strong>PostgreSQL</strong> · PostgreSQL licence (BSD-style) · <a href="https://www.postgresql.org/about/licence/" target="_blank" rel="noopener">postgresql.org/about/licence</a> · the primary database.</li>
+            <li><strong>Redis</strong> · BSD 3-Clause licence · <a href="https://github.com/redis/redis" target="_blank" rel="noopener">github.com/redis/redis</a> · session cache and queue.</li>
+            <li><strong>Drizzle ORM</strong> · Apache 2.0 licence · <a href="https://github.com/drizzle-team/drizzle-orm" target="_blank" rel="noopener">github.com/drizzle-team/drizzle-orm</a> · type-safe SQL access.</li>
+          </ul>
+
+          <h3>Licence summaries</h3>
+          <p>The licences referenced above are permissive — they let us use the software in a commercial product as long as we keep the original copyright notice and licence text available. Below is the quick summary of each licence we depend on. The full licence text is in each project's repository.</p>
+          <ul>
+            <li><strong>MIT</strong> — permissive, attribution required, no warranty.</li>
+            <li><strong>Apache 2.0</strong> — permissive, attribution required, includes an explicit patent grant.</li>
+            <li><strong>BSD 3-Clause</strong> — permissive, attribution required, prohibits use of the project's name in promotion without permission.</li>
+            <li><strong>ISC</strong> — functionally equivalent to MIT, shorter text.</li>
+            <li><strong>PostgreSQL licence</strong> — BSD-style, attribution required.</li>
+            <li><strong>SIL Open Font Licence 1.1</strong> — fonts can be used freely, even commercially. They cannot be sold by themselves.</li>
+            <li><strong>CC0 1.0 Universal</strong> — public domain dedication. No attribution required, no warranty.</li>
+          </ul>
+        </section>
+
+        <section id="contact">
+          <h2>Contact for additional disclosure</h2>
+          <p>If you need disclosure beyond what is on this page — a signed SBOM, a security questionnaire response, a specific licence audit — email us:</p>
+          <ul>
+            <li><strong>Legal</strong> · <a href="mailto:legal@thestacc.com">legal@thestacc.com</a></li>
+            <li><strong>Security</strong> · <a href="mailto:security@thestacc.com">security@thestacc.com</a></li>
+            <li><strong>Postal</strong> · theStacc Software Pvt. Ltd., Jaipur, Rajasthan, India</li>
+          </ul>
+          <p>We respond within 24 hours. SBOMs and signed audit packs are shared under NDA, usually within 5 business days.</p>
+        </section>
+
+      </article>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .legal-section {
+    padding: 80px 32px 96px;
+    background: var(--bg);
+  }
+  .legal-shell {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 64px;
+    align-items: flex-start;
+  }
+
+  /* ─────── STICKY TOC ─────── */
+  .legal-toc {
+    position: sticky;
+    top: 96px;
+    align-self: flex-start;
+  }
+  .legal-toc .label-pill { margin-bottom: 20px; }
+  .legal-toc nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-left: 1px solid var(--border);
+    padding-left: 16px;
+  }
+  .legal-toc nav a {
+    font-size: 14px;
+    color: var(--text-3);
+    padding: 6px 0;
+    transition: color 0.15s;
+    line-height: 1.4;
+  }
+  .legal-toc nav a:hover,
+  .legal-toc nav a.active {
+    color: var(--brand);
+    font-weight: 500;
+  }
+
+  /* ─────── BODY ─────── */
+  .legal-body { max-width: 720px; }
+
+  .legal-head { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+  .legal-eyebrow {
+    display: inline-block;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brand);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .legal-h1 {
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--text-1);
+    margin-bottom: 14px;
+  }
+  .legal-meta {
+    font-size: 14px;
+    color: var(--text-3);
+    margin: 0;
+  }
+
+  .legal-body section { margin-bottom: 48px; scroll-margin-top: 96px; }
+  .legal-body section:last-child { margin-bottom: 0; }
+
+  .legal-body h2 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text-1);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .legal-body h3 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--text-1);
+    line-height: 1.3;
+    margin-top: 24px;
+    margin-bottom: 10px;
+  }
+  .legal-body p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text-2);
+    margin-bottom: 14px;
+  }
+  .legal-body p:last-child { margin-bottom: 0; }
+  .legal-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .legal-body li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-2);
+  }
+  .legal-body li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 6px;
+    height: 6px;
+    background: var(--brand);
+  }
+  .legal-body li strong { color: var(--text-1); font-weight: 600; }
+  .legal-body p strong { color: var(--text-1); font-weight: 600; }
+  .legal-body code {
+    font-family: 'Geist Mono', monospace;
+    font-size: 14px;
+    background: var(--brand-softer);
+    color: var(--brand-deep);
+    padding: 2px 6px;
+  }
+
+  .legal-body a {
+    color: var(--brand);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.15s;
+  }
+  .legal-body a:hover { color: var(--brand-deep); }
+
+  /* ─────── RESPONSIVE ─────── */
+  @media (max-width: 1100px) {
+    .legal-shell {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      max-width: 720px;
+    }
+    .legal-toc {
+      position: static;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .legal-toc nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      border-left: none;
+      padding-left: 0;
+    }
+    .legal-toc nav a { padding: 4px 0; font-size: 13px; }
+  }
+
+  @media (max-width: 640px) {
+    .legal-section { padding: 56px 24px 72px; }
+    .legal-body h2 { font-size: 22px; }
+  }
+</style>
+
+<script>
+  // Smooth scroll already handled globally via html { scroll-behavior: smooth }.
+  // Add scrollspy: highlight the active TOC link.
+  (function() {
+    const tocLinks = Array.from(document.querySelectorAll('.legal-toc nav a'));
+    if (!tocLinks.length) return;
+    const sections = tocLinks
+      .map(a => document.querySelector(a.getAttribute('href') || ''))
+      .filter(Boolean) as HTMLElement[];
+    if (!sections.length) return;
+
+    function onScroll() {
+      const scrollY = window.scrollY + 140;
+      let current = sections[0];
+      for (const s of sections) {
+        if (s.offsetTop <= scrollY) current = s;
+      }
+      tocLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current.id);
+      });
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>

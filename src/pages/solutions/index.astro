@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'Solutions — Built for how you work · theStacc',
+  description: 'theStacc for SaaS, agencies, local businesses, multi-location brands, franchises, ecommerce, and bloggers. Pick the playbook that fits your business.',
+  canonical: 'https://thestacc.com/solutions/',
+  ogImage: '/og/solutions.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "theStacc solutions",
+    "url": "https://thestacc.com/solutions/"
+  }
+};
+
+const solutions = [
+  { slug: 'saas', name: 'SaaS', eyebrow: 'Programmatic SEO', desc: 'Feature, integration, and alternative pages at scale. Built for product-led growth teams.', stat: '500+ pages', label: 'Per quarter', wide: true },
+  { slug: 'agencies', name: 'Agencies', eyebrow: 'White-label SEO', desc: 'Run theStacc for 5 to 50 client accounts under your own brand. Custom domain, custom reports.', stat: '$3,500/mo', label: 'Replaced per client', wide: true },
+  { slug: 'local-businesses', name: 'Local Businesses', eyebrow: 'Map Pack + reviews', desc: 'Rank in the Map Pack, get reviews replied to in 3 minutes, never miss a near-me search.', stat: '92%', label: 'Top 3 · 90 days' },
+  { slug: 'multi-location', name: 'Multi-location', eyebrow: '5–500 locations', desc: 'One dashboard, every location. Bulk-publish content, GBP posts, and citations per region.', stat: '500+', label: 'Locations supported' },
+  { slug: 'franchises', name: 'Franchises', eyebrow: 'Brand + franchisee', desc: 'Brand-safe templates corporate controls; local content franchisees ship daily.', stat: '50+', label: 'Franchise brands', brand: true },
+  { slug: 'ecommerce', name: 'Ecommerce', eyebrow: 'Shopify + DTC', desc: 'Buying guides, product comparisons, and gift roundups that rank — and link to checkout.', stat: '$40k+', label: 'Saved per year' },
+  { slug: 'bloggers', name: 'Bloggers', eyebrow: 'Solo + creator', desc: 'Niche-site owners and newsletter authors who want to compound traffic without writing 30 posts a month.', stat: '30/mo', label: 'Articles published' },
+];
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Solutions · Built for how you work</span>
+    <h1 class="h-display">Built for <span class="accent">how you work.</span></h1>
+    <p class="hero-sub">SaaS teams, agencies, local businesses, multi-location brands, franchises, ecommerce stores, and solo creators. Pick the playbook that fits — every one ships in 24 hours.</p>
+    <div class="hero-ctas">
+      <a href="/checkout/" class="btn btn-primary"><span>Start your $1 trial <span class="arrow">→</span></span></a>
+      <a href="/demo/" class="btn btn-secondary">Book a 15-min demo</a>
+    </div>
+  </section>
+
+  <!-- SOLUTIONS BENTO (re-using verticals-bento) -->
+  <section class="verticals-section" style="background: var(--bg-soft);">
+    <div class="verticals-bento">
+      {solutions.map((s) => {
+        const cls = ['vb-card'];
+        if (s.wide) cls.push('vb-feature');
+        if (s.brand) cls.push('vb-brand');
+        return (
+          <a href={`/solutions/${s.slug}/`} class={cls.join(' ')}>
+            <div class="vb-row">
+              <div class={`vb-icon ${s.brand ? 'vb-icon-light' : ''}`}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15 9 22 9 17 14 19 22 12 18 5 22 7 14 2 9 9 9"/></svg>
+              </div>
+              <span class="vb-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+            </div>
+            <div class="vb-eyebrow">{s.eyebrow}</div>
+            <h3 class="vb-title">{s.name}</h3>
+            <p class="vb-desc">{s.desc}</p>
+            <div class="vb-stat-row">
+              <span class="vb-stat-num">{s.stat}</span>
+              <span class="vb-stat-label">{s.label}</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">One platform. <span class="accent">Every playbook.</span></h2>
+        <p class="final-sub">Start with $1. Pick the playbook that fits your business.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

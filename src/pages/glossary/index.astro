@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'SEO Glossary — 690+ terms explained · theStacc',
+  description: '690+ SEO, marketing, local SEO, social, and AI search terms — each defined in plain English with examples. The reference every operator needs.',
+  canonical: 'https://thestacc.com/glossary/',
+  ogImage: '/og/glossary.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "theStacc SEO glossary",
+    "url": "https://thestacc.com/glossary/"
+  }
+};
+
+const azLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const categories = ['All', 'SEO', 'Marketing', 'Local SEO', 'Social Media', 'AI & Emerging'];
+
+const terms = [
+  { term: 'AI Overviews', cat: 'AI & Emerging', def: 'Google\'s AI-generated answer block at the top of search — replaces featured snippets for many queries.' },
+  { term: 'Anchor Text', cat: 'SEO', def: 'The clickable text in a hyperlink — used by Google to understand the linked page\'s topic.' },
+  { term: 'Backlink', cat: 'SEO', def: 'A link from another site pointing to yours — still the single biggest ranking signal in 2026.' },
+  { term: 'Bounce Rate', cat: 'Marketing', def: 'The percentage of visitors who leave your site after viewing one page.' },
+  { term: 'Canonical URL', cat: 'SEO', def: 'The "official" version of a page — tells Google which URL to rank when duplicates exist.' },
+  { term: 'Citation', cat: 'Local SEO', def: 'A mention of your business name, address, and phone number on another website.' },
+  { term: 'Click-Through Rate', cat: 'Marketing', def: 'The ratio of clicks to impressions — how often your listing earns the click.' },
+  { term: 'Core Web Vitals', cat: 'SEO', def: 'Google\'s three page-experience metrics: LCP, INP, and CLS. All must pass.' },
+  { term: 'Domain Authority', cat: 'SEO', def: 'A third-party score (0–100) estimating a domain\'s ranking strength. Not used by Google directly.' },
+  { term: 'E-E-A-T', cat: 'SEO', def: 'Experience, Expertise, Authoritativeness, Trustworthiness — Google\'s quality framework.' },
+  { term: 'Featured Snippet', cat: 'SEO', def: 'The boxed answer at the top of search results — pulled from a ranking page.' },
+  { term: 'Google Business Profile', cat: 'Local SEO', def: 'The free Google listing that lets local businesses show up on Maps and the Map Pack.' },
+  { term: 'Hashtag', cat: 'Social Media', def: 'A tag preceded by # that groups social content by topic — used for discovery on IG, X, TikTok.' },
+  { term: 'Indexing', cat: 'SEO', def: 'The process where Google reads and stores a page so it can appear in search results.' },
+  { term: 'JSON-LD', cat: 'SEO', def: 'The structured data format Google recommends — embedded as a script tag in your HTML.' },
+  { term: 'Keyword Research', cat: 'SEO', def: 'The process of finding what your customers search — the foundation of every SEO strategy.' },
+  { term: 'Local Pack', cat: 'Local SEO', def: 'Also "Map Pack" — the 3 business listings Google shows on Maps for local queries.' },
+  { term: 'Meta Description', cat: 'SEO', def: 'The 150–160-char summary under a search result. Doesn\'t affect ranking but drives clicks.' },
+  { term: 'NAP Consistency', cat: 'Local SEO', def: 'Name, Address, Phone — must match exactly across every directory for local SEO to work.' },
+  { term: 'Organic Traffic', cat: 'Marketing', def: 'Visitors who arrive from unpaid search results — the holy grail of SEO.' },
+  { term: 'Perplexity', cat: 'AI & Emerging', def: 'An AI search engine that cites sources inline — a major referral channel by 2026.' },
+  { term: 'Quality Score', cat: 'Marketing', def: 'Google Ads\' rating of your ad and landing page — lower scores cost more per click.' },
+  { term: 'Rank Tracking', cat: 'SEO', def: 'Daily monitoring of your position in search results for tracked keywords.' },
+  { term: 'Schema Markup', cat: 'SEO', def: 'Structured data that tells search engines what a page is about — Article, FAQ, Product, etc.' },
+];
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Glossary · 690+ terms</span>
+    <h1 class="h-display">690+ SEO, marketing & AI terms — <span class="accent">explained.</span></h1>
+    <p class="hero-sub">Every term you\'ll hit in a daily SEO standup — defined in plain English, with an example, and linked to the next concept you should know.</p>
+
+    <!-- Search bar (HTML only) -->
+    <form action="/glossary/search/" method="get" style="max-width: 560px; margin: 32px auto 0; display: flex; gap: 8px;">
+      <input type="search" name="q" placeholder="Search 690+ terms (e.g. canonical, schema, GBP)" aria-label="Search glossary" style="flex: 1; height: 48px; padding: 0 20px; border: 1px solid var(--border-strong); border-radius: 100px; font-size: 15px; font-family: inherit; background: white; color: var(--text-1);" />
+      <button type="submit" class="btn btn-primary" style="padding: 0 24px;"><span>Search <span class="arrow">→</span></span></button>
+    </form>
+  </section>
+
+  <!-- A–Z ANCHOR LINKS -->
+  <section style="padding: 28px 32px; background: white; border-bottom: 1px solid var(--border);">
+    <div style="max-width: 1180px; margin: 0 auto; display: flex; gap: 4px; flex-wrap: wrap; justify-content: center;">
+      {azLetters.map((l) => (
+        <a href={`#${l}`} style="display: grid; place-items: center; width: 32px; height: 32px; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 600; color: var(--text-2); border: 1px solid var(--border); transition: all 0.15s;">{l}</a>
+      ))}
+    </div>
+  </section>
+
+  <!-- CATEGORY TABS -->
+  <section style="padding: 28px 32px; background: var(--bg-soft); border-bottom: 1px solid var(--border);">
+    <div style="max-width: 1180px; margin: 0 auto; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+      {categories.map((c, i) => (
+        <span class="label-pill" style={i === 0 ? 'background: var(--brand-softer); border-color: var(--brand-soft);' : ''}>{c}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- TERMS GRID -->
+  <section style="padding: 64px 32px 96px; background: var(--bg-soft);">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div class="terms-grid">
+        {terms.map((t) => (
+          <a href={`/glossary/${t.term.toLowerCase().replace(/[^a-z0-9]+/g, '-')}/`} class="bento-card" style="padding: 24px;">
+            <div class="bento-title" style="margin-bottom: 10px;">{t.cat}</div>
+            <h3 class="h-sm" style="margin-bottom: 10px;">{t.term}</h3>
+            <p class="bento-desc">{t.def}</p>
+            <div class="bento-cta" style="margin-top: 16px;">Read full definition <span class="arrow">→</span></div>
+          </a>
+        ))}
+      </div>
+
+      <!-- PAGINATION -->
+      <div style="margin-top: 56px; display: flex; gap: 8px; justify-content: center; align-items: center;">
+        <span class="label-pill" style="background: var(--brand-softer); border-color: var(--brand-soft);">1</span>
+        <a href="/glossary/page/2/" class="label-pill">2</a>
+        <a href="/glossary/page/3/" class="label-pill">3</a>
+        <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); padding: 0 8px;">…</span>
+        <a href="/glossary/page/29/" class="label-pill">29</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Know the terms. <span class="accent">Now rank for them.</span></h2>
+        <p class="final-sub">$1 trial. First article live in 24 hours.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .terms-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 900px) { .terms-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .terms-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>

@@ -1,0 +1,746 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Book a 15-min demo — See theStacc live | theStacc',
+  description: 'See how theStacc publishes 30 articles a month, ranks in Map Pack, and posts to social — in 15 minutes. Pick a time. No sales pitch.',
+  canonical: 'https://thestacc.com/demo/',
+  ogImage: '/og/demo.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Demo", "item": "https://thestacc.com/demo/" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How long is the demo?",
+            "acceptedAnswer": { "@type": "Answer", "text": "15 minutes. We respect your time. We get through the product and any questions in 15 minutes." }
+          },
+          {
+            "@type": "Question",
+            "name": "Who from theStacc joins the call?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Siddharth (founder) for accounts under 5 locations. For 5+ locations, Priya from Growth joins as well." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I bring my team?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. Bring as many people as you want. Marketing leads, ops leads, founders — anyone you want to sign off on the buy." }
+          }
+        ]
+      }
+    ]
+  }
+};
+
+const today = new Date();
+const dates = Array.from({ length: 5 }, (_, i) => {
+  const d = new Date(today);
+  d.setDate(d.getDate() + i + 1);
+  return {
+    day: d.toLocaleDateString('en-US', { weekday: 'short' }),
+    num: d.getDate(),
+    month: d.toLocaleDateString('en-US', { month: 'short' }),
+    isToday: i === 0,
+  };
+});
+
+const slots = ['10:00 AM', '11:30 AM', '2:00 PM', '3:30 PM', '5:00 PM'];
+---
+<BaseLayout seo={seo}>
+
+  <!-- HERO + SCHEDULER (two-column) -->
+  <section style="padding: 56px 32px 80px;">
+    <div class="demo-grid">
+
+      <!-- LEFT -->
+      <div class="demo-left">
+        <span class="label-pill" style="margin-bottom: 24px;">Book a demo · 15 minutes</span>
+        <h1 class="h-display" style="text-align: left; font-size: clamp(38px, 5.4vw, 72px);">See theStacc <span class="accent">in 15 minutes.</span></h1>
+        <p class="hero-sub" style="text-align: left; margin: 24px 0 32px;">A founder-led walkthrough of every module — content, local SEO, social. <strong>No slide deck. Live product. Real customer data.</strong></p>
+
+        <ul class="outcome-list">
+          <li>
+            <div class="outcome-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <strong>See an article get published live</strong>
+              <span>From keyword to live URL in under 5 minutes.</span>
+            </div>
+          </li>
+          <li>
+            <div class="outcome-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <strong>Watch a Map Pack rank check run</strong>
+              <span>9x9 grid for your real city, your real keywords.</span>
+            </div>
+          </li>
+          <li>
+            <div class="outcome-check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <strong>Get a custom 90-day plan</strong>
+              <span>Tailored to your vertical, audience, and current SEO state.</span>
+            </div>
+          </li>
+        </ul>
+
+        <div class="trust-line">
+          <div class="trust-avatars">
+            <div class="av">R</div><div class="av">M</div><div class="av">S</div><div class="av">J</div>
+          </div>
+          <span><strong>127+</strong> founders booked. <strong>4.9★</strong> avg call rating.</span>
+        </div>
+      </div>
+
+      <!-- RIGHT — fake scheduler -->
+      <div class="demo-right">
+        <div class="scheduler-card">
+          <div class="scheduler-head">
+            <div class="scheduler-host">
+              <div class="host-avatar">SG</div>
+              <div>
+                <div class="host-name">Siddharth Gangal</div>
+                <div class="host-role">Founder &amp; CEO · theStacc</div>
+              </div>
+            </div>
+            <div class="scheduler-meta">
+              <div class="meta-row"><span class="meta-icon">⏱</span> 15 min</div>
+              <div class="meta-row"><span class="meta-icon">📹</span> Google Meet</div>
+              <div class="meta-row"><span class="meta-icon">🌐</span> Your time zone</div>
+            </div>
+          </div>
+
+          <div class="scheduler-body">
+            <div class="scheduler-title">Pick a time</div>
+            <div class="scheduler-sub">All times in your local time zone.</div>
+
+            <!-- Date strip -->
+            <div class="date-strip">
+              {dates.map((d, i) => (
+                <button class={`date-pill ${i === 0 ? 'active' : ''}`} type="button">
+                  <span class="date-day">{d.day}</span>
+                  <span class="date-num">{d.num}</span>
+                  <span class="date-month">{d.month}</span>
+                </button>
+              ))}
+            </div>
+
+            <!-- Slot list -->
+            <div class="slot-label">5 slots available</div>
+            <div class="slot-grid">
+              {slots.map((s, i) => (
+                <button class={`slot-pill ${i === 1 ? 'active' : ''}`} type="button">{s}</button>
+              ))}
+            </div>
+
+            <a href="mailto:founder@thestacc.com?subject=Book%20a%2015-min%20demo" class="scheduler-cta">
+              Confirm 11:30 AM <span class="arrow">→</span>
+            </a>
+
+            <div class="scheduler-foot">
+              Can't find a time? <a href="mailto:founder@thestacc.com">Email Siddharth directly →</a>
+            </div>
+          </div>
+        </div>
+
+        <p class="self-serve-line">
+          Want to skip the call? <a href="/checkout/">Start the $1 trial →</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU'LL SEE -->
+  <section style="padding: 96px 32px; background: var(--bg-soft);">
+    <div style="max-width: 1080px; margin: 0 auto;">
+      <div style="text-align: center; max-width: 720px; margin: 0 auto 56px;">
+        <span class="label-pill" style="margin-bottom: 20px;">On the call</span>
+        <h2 class="h-lg" style="margin-bottom: 16px;">What you will <span class="accent">actually see.</span></h2>
+        <p class="lede">No slides. We open the product, sign in to a real customer account, and show you the 3 things below.</p>
+      </div>
+      <div class="seen-grid">
+
+        <div class="seen-card">
+          <div class="seen-mock">
+            <div class="mock-header">
+              <span class="mock-dot red"></span>
+              <span class="mock-dot yellow"></span>
+              <span class="mock-dot green"></span>
+              <span class="mock-url">app.thestacc.com/articles</span>
+            </div>
+            <div class="mock-body content">
+              <div class="mock-bar w1"></div>
+              <div class="mock-bar w2"></div>
+              <div class="mock-bar w3"></div>
+              <div class="mock-bar w2"></div>
+              <div class="mock-bar w1"></div>
+            </div>
+          </div>
+          <div class="seen-num">01</div>
+          <h3 class="h-sm">A live article ship</h3>
+          <p>You pick a keyword. We type it in. 4 minutes later, a 2,400-word SEO article is live on the demo site.</p>
+        </div>
+
+        <div class="seen-card">
+          <div class="seen-mock">
+            <div class="mock-header">
+              <span class="mock-dot red"></span>
+              <span class="mock-dot yellow"></span>
+              <span class="mock-dot green"></span>
+              <span class="mock-url">app.thestacc.com/map-pack</span>
+            </div>
+            <div class="mock-body">
+              <div class="mock-grid">
+                {Array.from({ length: 25 }).map((_, i) => (
+                  <span class={`mock-pin ${i % 7 === 0 ? 'p1' : i % 5 === 0 ? 'p2' : 'p3'}`}>{(i % 9) + 1}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div class="seen-num">02</div>
+          <h3 class="h-sm">A Map Pack rank check</h3>
+          <p>For your city. Your real keywords. We show you exactly which grid squares you are losing rank in — and what to ship to fix it.</p>
+        </div>
+
+        <div class="seen-card">
+          <div class="seen-mock">
+            <div class="mock-header">
+              <span class="mock-dot red"></span>
+              <span class="mock-dot yellow"></span>
+              <span class="mock-dot green"></span>
+              <span class="mock-url">app.thestacc.com/social</span>
+            </div>
+            <div class="mock-body social">
+              <div class="mock-post"><div class="mock-bar w2"></div><div class="mock-bar w3"></div></div>
+              <div class="mock-post"><div class="mock-bar w1"></div><div class="mock-bar w2"></div></div>
+              <div class="mock-post"><div class="mock-bar w3"></div><div class="mock-bar w1"></div></div>
+            </div>
+          </div>
+          <div class="seen-num">03</div>
+          <h3 class="h-sm">A 30-day social calendar</h3>
+          <p>30 posts, scheduled across IG, LinkedIn, X, Facebook. We hit publish on 3 of them while you watch.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section style="padding: 96px 32px;">
+    <div style="max-width: 1080px; margin: 0 auto;">
+      <div style="text-align: center; max-width: 720px; margin: 0 auto 48px;">
+        <span class="label-pill" style="margin-bottom: 20px;">After the call</span>
+        <h2 class="h-lg" style="margin-bottom: 16px;">"I started the trial <span class="accent">the same day."</span></h2>
+        <p class="lede">What people say after a 15-minute demo.</p>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <p>"Siddharth showed me 3 articles live-ranking from a dental practice. I was in. Started the $1 trial during the call."</p>
+          <div class="testi-foot">
+            <div class="t-avatar purple">E</div>
+            <div>
+              <div class="testi-name">Elena Vasquez</div>
+              <div class="testi-role">Head of Content · Routehub</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <p>"Best demo I have taken in 2 years of buying SaaS. No deck. No sales theatre. Just the product."</p>
+          <div class="testi-foot">
+            <div class="t-avatar cyan">A</div>
+            <div>
+              <div class="testi-name">Aisha Williams</div>
+              <div class="testi-role">Founder · Bay Area Chiropractic</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <p>"15 minutes. Got my 90-day plan emailed within the hour. Signed up for the Bundle the next morning."</p>
+          <div class="testi-foot">
+            <div class="t-avatar orange">O</div>
+            <div>
+              <div class="testi-name">Orion Vance</div>
+              <div class="testi-role">Founder · DTC Shopify Brand</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="faq-grid">
+      <div class="faq-left">
+        <span class="label-pill">Demo FAQ</span>
+        <h2 class="h-md" style="margin-top:16px;">Before the call, <span class="accent">answered.</span></h2>
+        <p style="margin-top:16px;">Other questions? Email <a href="mailto:founder@thestacc.com">founder@thestacc.com</a> — reply in under 6 hours.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">How long is the demo?<span class="faq-icon"><svg><use href="#i-plus"/></svg></span></button>
+          <div class="faq-answer">15 minutes. We respect your time. We get through the product and your questions in 15.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Who from theStacc joins the call?<span class="faq-icon"><svg><use href="#i-plus"/></svg></span></button>
+          <div class="faq-answer">Siddharth (founder) for single-location buyers. For 5+ locations, Priya from Growth joins. You always get a founder on the line.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Can I bring my team?<span class="faq-icon"><svg><use href="#i-plus"/></svg></span></button>
+          <div class="faq-answer">Yes. Bring as many people as you want. Marketing leads, ops leads, founders — anyone you want to sign off on the buy.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Do you do screen-share or are slides involved?<span class="faq-icon"><svg><use href="#i-plus"/></svg></span></button>
+          <div class="faq-answer">Screen-share, every time. No slides. We open the product and click around in a real customer account.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Will I be pitched after the call?<span class="faq-icon"><svg><use href="#i-plus"/></svg></span></button>
+          <div class="faq-answer">No. We send one email with a recap and a custom 90-day plan. If you do not reply, we never email you again. Your choice.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Can I demo for my client?<span class="faq-icon"><svg><use href="#i-plus"/></svg></span></button>
+          <div class="faq-answer">Yes — agencies bring clients onto the call all the time. We also offer a white-label demo where you present the dashboard under your brand.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">What if I want to skip the demo?<span class="faq-icon"><svg><use href="#i-plus"/></svg></span></button>
+          <div class="faq-answer">Skip it. Start the $1 trial. First article publishes within 24 hours. No call needed for the first 30 days.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">What time zones do you cover?<span class="faq-icon"><svg><use href="#i-plus"/></svg></span></button>
+          <div class="faq-answer">All of them. We book demos 24 hours a day, Monday to Friday. The scheduler shows times in your local zone.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Not ready for a call? <span class="accent">Start the $1 trial.</span></h2>
+        <p class="final-sub">First article live in 24 hours. Cancel anytime. Content stays forever.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ─────── HERO GRID ─────── */
+  .demo-grid {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  /* ─────── LEFT ─────── */
+  .outcome-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .outcome-list li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .outcome-list strong {
+    display: block;
+    font-size: 15px;
+    color: var(--text-1);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .outcome-list span {
+    display: block;
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+  .outcome-check {
+    width: 26px;
+    height: 26px;
+    background: var(--brand-softer);
+    border: 1px solid var(--brand-soft);
+    color: var(--brand);
+    display: grid;
+    place-items: center;
+    margin-top: 2px;
+  }
+  .outcome-check svg { width: 14px; height: 14px; }
+
+  .trust-line {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .trust-avatars { display: flex; }
+  .trust-avatars .av {
+    width: 28px;
+    height: 28px;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-deep) 100%);
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: -8px;
+    border: 2px solid white;
+  }
+  .trust-avatars .av:first-child { margin-left: 0; }
+  .trust-line span { font-size: 14px; color: var(--text-2); }
+  .trust-line strong { color: var(--text-1); font-weight: 600; }
+
+  /* ─────── SCHEDULER CARD ─────── */
+  .scheduler-card {
+    background: white;
+    border: 1px solid var(--border);
+    box-shadow: 0 24px 60px -16px rgba(15,15,30,0.12);
+    overflow: hidden;
+    position: sticky;
+    top: 96px;
+  }
+  .scheduler-head {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+  }
+  .scheduler-host {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .host-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-deep) 100%);
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .host-name { font-size: 15px; font-weight: 600; color: var(--text-1); letter-spacing: -0.015em; }
+  .host-role { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+  .scheduler-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .meta-row {
+    font-size: 12px;
+    color: var(--text-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .meta-icon { font-size: 14px; }
+
+  .scheduler-body { padding: 24px; }
+  .scheduler-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-1);
+    letter-spacing: -0.015em;
+    margin-bottom: 4px;
+  }
+  .scheduler-sub {
+    font-size: 13px;
+    color: var(--text-3);
+    margin-bottom: 20px;
+  }
+
+  .date-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .date-pill {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 12px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .date-pill:hover { border-color: var(--brand); }
+  .date-pill.active {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: white;
+  }
+  .date-day {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    font-weight: 600;
+  }
+  .date-pill.active .date-day { color: rgba(255,255,255,0.7); }
+  .date-num {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-1);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .date-pill.active .date-num { color: white; }
+  .date-month {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    font-weight: 500;
+  }
+  .date-pill.active .date-month { color: rgba(255,255,255,0.6); }
+
+  .slot-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .slot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .slot-pill {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-1);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .slot-pill:hover { border-color: var(--brand); background: var(--brand-softer); }
+  .slot-pill.active {
+    background: var(--text-1);
+    border-color: var(--text-1);
+    color: white;
+  }
+
+  .scheduler-cta {
+    width: 100%;
+    height: 48px;
+    background: var(--brand);
+    color: white;
+    border-radius: 100px !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    margin-bottom: 16px;
+  }
+  .scheduler-cta:hover {
+    background: var(--brand-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px var(--brand-glow);
+  }
+  .scheduler-cta .arrow { transition: transform 0.2s; }
+  .scheduler-cta:hover .arrow { transform: translateX(3px); }
+
+  .scheduler-foot {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-3);
+  }
+  .scheduler-foot a { color: var(--brand); font-weight: 500; }
+
+  .self-serve-line {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-3);
+  }
+  .self-serve-line a { color: var(--brand); font-weight: 500; }
+
+  /* ─────── WHAT YOU'LL SEE ─────── */
+  .seen-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .seen-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 24px;
+    transition: all 0.2s cubic-bezier(.2,.8,.2,1);
+  }
+  .seen-card:hover {
+    border-color: var(--brand);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px -14px rgba(79,57,246,0.18);
+  }
+  .seen-mock {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .mock-header {
+    background: white;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .mock-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50% !important;
+  }
+  .mock-dot.red { background: #ef4444; }
+  .mock-dot.yellow { background: #f59e0b; }
+  .mock-dot.green { background: #10b981; }
+  .mock-url {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: var(--text-3);
+    margin-left: 8px;
+  }
+  .mock-body { padding: 16px; min-height: 120px; }
+  .mock-body.content { display: flex; flex-direction: column; gap: 8px; }
+  .mock-bar {
+    height: 6px;
+    background: linear-gradient(90deg, var(--brand) 0%, var(--brand-soft) 100%);
+  }
+  .mock-bar.w1 { width: 60%; }
+  .mock-bar.w2 { width: 90%; }
+  .mock-bar.w3 { width: 75%; }
+
+  .mock-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 3px;
+  }
+  .mock-pin {
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    font-family: 'Geist Mono', monospace;
+  }
+  .mock-pin.p1 { background: var(--brand); }
+  .mock-pin.p2 { background: var(--brand-bright); }
+  .mock-pin.p3 { background: var(--brand-soft); color: var(--brand); }
+
+  .mock-body.social { display: flex; flex-direction: column; gap: 10px; }
+  .mock-post {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .seen-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--brand);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    margin-bottom: 10px;
+  }
+  .seen-card h3 { margin-bottom: 8px; }
+  .seen-card p { font-size: 14px; line-height: 1.55; color: var(--text-2); }
+
+  /* ─────── TESTIMONIALS ─────── */
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .testi-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 28px;
+  }
+  .testi-card p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-1);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .testi-foot {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .t-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50% !important;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+  }
+  .t-avatar.purple { background: linear-gradient(135deg, var(--brand) 0%, var(--brand-deep) 100%); }
+  .t-avatar.cyan { background: linear-gradient(135deg, var(--accent-cyan) 0%, #0e7490 100%); }
+  .t-avatar.orange { background: linear-gradient(135deg, #f97316 0%, #c2410c 100%); }
+  .testi-name { font-size: 14px; font-weight: 600; color: var(--text-1); letter-spacing: -0.015em; }
+  .testi-role { font-size: 11px; color: var(--text-3); font-family: 'Geist Mono', monospace; letter-spacing: 0.06em; margin-top: 2px; }
+
+  /* ─────── RESPONSIVE ─────── */
+  @media (max-width: 1000px) {
+    .demo-grid { grid-template-columns: 1fr; gap: 48px; }
+    .scheduler-card { position: static; max-width: 480px; margin: 0 auto; width: 100%; }
+    .seen-grid { grid-template-columns: 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .date-strip { grid-template-columns: repeat(3, 1fr); }
+    .slot-grid { grid-template-columns: 1fr; }
+  }
+</style>

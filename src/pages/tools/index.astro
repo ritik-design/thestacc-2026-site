@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'Free SEO tools — 11 tools, no signup · theStacc',
+  description: '11 free SEO and marketing tools — audit, schema, headline analyzer, ROI calculator, GBP post generator, review tools. No signup. No credit card.',
+  canonical: 'https://thestacc.com/tools/',
+  ogImage: '/og/tools.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Free SEO tools",
+    "url": "https://thestacc.com/tools/"
+  }
+};
+
+const tools = [
+  { slug: 'seo-audit', name: 'SEO Audit Tool', desc: 'Full site audit in 60 seconds — broken links, slow pages, missing meta.', icon: 'check' },
+  { slug: 'website-seo-score', name: 'Website SEO Score', desc: 'A single 0–100 score for any URL, scored against 50 ranking signals.', icon: 'gauge' },
+  { slug: 'on-page-seo-checker', name: 'On-Page SEO Checker', desc: 'Title, meta, headers, alt text — all checked against the target keyword.', icon: 'list' },
+  { slug: 'meta-tag-analyzer', name: 'Meta Tag Analyzer', desc: 'See how your meta title, description, and OG tags render across search engines.', icon: 'tag' },
+  { slug: 'schema-markup-generator', name: 'Schema Markup Generator', desc: 'JSON-LD for Article, FAQ, How-to, Product, LocalBusiness — copy-paste ready.', icon: 'code' },
+  { slug: 'headline-analyzer', name: 'Headline Analyzer', desc: 'Score any headline for clarity, emotion, and CTR — with rewrites suggested.', icon: 'sparkle' },
+  { slug: 'seo-roi-calculator', name: 'SEO ROI Calculator', desc: 'See the dollar value of ranking #1 vs #10 for your top keywords.', icon: 'chart' },
+  { slug: 'gbp-post-generator', name: 'GBP Post Generator', desc: 'AI-written Google Business Profile posts — Offer, Event, Product, Update.', icon: 'pin' },
+  { slug: 'review-qr-code-generator', name: 'Review QR Code Generator', desc: 'A printable QR code that takes customers straight to your Google review page.', icon: 'qr' },
+  { slug: 'review-request-generator', name: 'Review Request Generator', desc: 'Templates for SMS, email, and in-person review requests that convert.', icon: 'mail' },
+  { slug: 'review-response-generator', name: 'Review Response Generator', desc: 'Reply to any review — 5 stars or 1 star — in your brand voice.', icon: 'reply' },
+];
+
+const iconMap = {
+  check: '<polyline points="20 6 9 17 4 12"/>',
+  gauge: '<path d="M12 14l4-4"/><circle cx="12" cy="14" r="9"/><path d="M3 14h2M19 14h2M12 5v2"/>',
+  list: '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="4" cy="18" r="1.5"/>',
+  tag: '<path d="M20.59 13.41L13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/>',
+  code: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  sparkle: '<path d="M12 2 L15 9 L22 12 L15 15 L12 22 L9 15 L2 12 L9 9 Z"/>',
+  chart: '<path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/>',
+  pin: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+  qr: '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/>',
+  mail: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/>',
+  reply: '<polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/>',
+};
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Free tools · 11 of them</span>
+    <h1 class="h-display">11 free SEO tools — <span class="accent">no signup.</span></h1>
+    <p class="hero-sub">Audit your site, generate schema, write GBP posts, calculate ROI. Every tool runs in your browser. No email. No credit card. No upsell wall.</p>
+    <div class="hero-ctas">
+      <a href="/tools/seo-audit/" class="btn btn-primary"><span>Run a free audit <span class="arrow">→</span></span></a>
+      <a href="/checkout/" class="btn btn-secondary">Start your $1 trial</a>
+    </div>
+  </section>
+
+  <!-- TOOLS GRID -->
+  <section style="padding: 80px 32px; background: var(--bg-soft);">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div class="tools-grid">
+        {tools.map((t) => (
+          <a href={`/tools/${t.slug}/`} class="bento-card">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={iconMap[t.icon]} />
+            </div>
+            <h3 class="h-sm" style="margin-bottom: 10px;">{t.name}</h3>
+            <p class="bento-desc">{t.desc}</p>
+            <div class="bento-cta" style="margin-top: 18px;">Open tool <span class="arrow">→</span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFIT BAND -->
+  <section style="padding: 80px 32px; background: white;">
+    <div style="max-width: 1080px; margin: 0 auto; text-align: center;">
+      <span class="label-pill" style="margin-bottom: 18px;">Built for the daily SEO grind</span>
+      <h2 class="h-lg" style="margin-bottom: 18px;">Use them daily. <span class="accent">For free. Forever.</span></h2>
+      <p class="lede" style="max-width: 720px; margin: 0 auto 40px;">Every tool here ships in our paid platform too — except in theStacc, it runs 100× a month, on autopilot, across every page and every keyword you care about.</p>
+      <a href="/checkout/" class="btn btn-primary"><span>Use them 100×/month — start $1 trial <span class="arrow">→</span></span></a>
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Free tools are great. <span class="accent">Automation is better.</span></h2>
+        <p class="final-sub">Run these 100× a month on autopilot. From $49/mo.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 1100px) { .tools-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 800px) { .tools-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .tools-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>

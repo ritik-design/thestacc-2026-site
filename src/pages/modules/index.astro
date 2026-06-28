@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'Modules — Content SEO, Local SEO & Social Media · theStacc',
+  description: 'Three modules. One platform. Pick Content SEO, Local SEO, or Social Media — or run all three for $167/mo. AI that writes, ranks, and posts for you.',
+  canonical: 'https://thestacc.com/modules/',
+  ogImage: '/og/modules.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "theStacc modules",
+    "description": "Three SEO automation modules — Content SEO, Local SEO, and Social Media.",
+    "url": "https://thestacc.com/modules/",
+    "hasPart": [
+      { "@type": "Product", "name": "Content SEO", "url": "https://thestacc.com/modules/content-seo/" },
+      { "@type": "Product", "name": "Local SEO", "url": "https://thestacc.com/modules/local-seo/" },
+      { "@type": "Product", "name": "Social Media", "url": "https://thestacc.com/modules/social-media/" }
+    ]
+  }
+};
+
+const modules = [
+  {
+    num: '01',
+    slug: 'content-seo',
+    title: 'Content SEO',
+    eyebrow: 'Long-form that ranks',
+    sub: 'SEO-optimized. AI-optimized. Built to rank in Google and get cited across every AI search engine.',
+    desc: '30 SEO-scored articles a month. Auto-published to your CMS. Cited by ChatGPT, Perplexity, Gemini, Claude, and Copilot.',
+    price: '$99/mo',
+    bullets: ['Rank on page 1 — average 60 days', 'Cited across every major AI engine', 'Brand-voice trained on your site', 'Live on your CMS in 24 hours'],
+  },
+  {
+    num: '02',
+    slug: 'local-seo',
+    title: 'Local SEO',
+    eyebrow: 'Win the Map Pack',
+    sub: 'Be the business customers call first — on Google, Maps, and AI search.',
+    desc: 'Map Pack rank tracking, auto-managed Google Business Profile, instant review replies, citations built in 50+ directories.',
+    price: '$49/mo',
+    bullets: ['92% top 3 in Map Pack · 90 days', 'GBP posts published daily', 'Reviews replied to in 3 min', 'Citations built across 50+ directories'],
+  },
+  {
+    num: '03',
+    slug: 'social-media',
+    title: 'Social Media',
+    eyebrow: 'Daily posts, zero busywork',
+    sub: 'Stay top-of-mind without posting yourself.',
+    desc: '30+ on-brand posts a month across Instagram, LinkedIn, X, and Facebook. One tap to approve, or full autopilot.',
+    price: '$49/mo',
+    bullets: ['Posts written in your voice', 'Carousels, threads, single images', 'Scheduled or auto-published', 'Performance reported weekly'],
+  },
+];
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Modules · One platform</span>
+    <h1 class="h-display">Three modules. <span class="accent">One platform.</span></h1>
+    <p class="hero-sub">Pick the job you need — long-form content, local search, or social posts. Or run all three on the bundle and replace three agencies for the price of one freelancer.</p>
+    <div class="hero-ctas">
+      <a href="/checkout/" class="btn btn-primary"><span>Start your $1 trial <span class="arrow">→</span></span></a>
+      <a href="/pricing/" class="btn btn-secondary">See pricing →</a>
+    </div>
+    <div class="hero-trust-line">
+      <span><span class="ok">●</span> $1 trial</span>
+      <span class="sep">·</span>
+      <span>Cancel anytime</span>
+      <span class="sep">·</span>
+      <span>Content stays forever</span>
+    </div>
+  </section>
+
+  <!-- MODULES GRID (large cards) -->
+  <section style="padding: 96px 32px; background: var(--bg-soft);">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+        {modules.map((m) => (
+          <a href={`/modules/${m.slug}/`} class="bento-card" style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; padding: 40px; align-items: center;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 18px;">
+                <span class="bento-num" style="position: static; padding: 4px 10px; border: 1px solid var(--border); color: var(--brand);">{m.num}</span>
+                <span class="bento-title" style="margin: 0;">{m.eyebrow}</span>
+              </div>
+              <h2 class="h-md" style="margin-bottom: 14px;">{m.title}</h2>
+              <p class="bento-sub" style="font-size: 18px; margin-bottom: 14px;">{m.sub}</p>
+              <p class="bento-desc" style="font-size: 15px; margin-bottom: 22px;">{m.desc}</p>
+              <ul class="bento-list">
+                {m.bullets.map((b) => (
+                  <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>{b}</li>
+                ))}
+              </ul>
+              <div class="bento-cta">Explore {m.title} <span class="arrow">→</span></div>
+            </div>
+            <div style="background: white; border: 1px solid var(--border); padding: 28px; min-height: 240px;">
+              <div class="bento-mock-meta" style="margin-bottom: 14px;">{m.eyebrow.toUpperCase()}</div>
+              <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;">
+                <span style="font-size: 44px; font-weight: 700; letter-spacing: -0.03em; color: var(--text-1);">{m.price.split('/')[0]}</span>
+                <span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em;">/ month</span>
+              </div>
+              <p style="font-size: 13px; color: var(--text-3); margin: 0;">Standalone module · cancel anytime · $1 trial</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BUNDLE STRIP -->
+  <section style="padding: 80px 32px; background: white;">
+    <div style="max-width: 880px; margin: 0 auto; text-align: center;">
+      <span class="label-pill" style="margin-bottom: 22px;">Bundle</span>
+      <h2 class="h-lg" style="margin-bottom: 16px;">Run all three for <span class="accent">$167/mo.</span></h2>
+      <p class="lede" style="margin-bottom: 32px;">One subscription replaces a content agency ($3,500/mo), a GBP manager ($800/mo), and a social scheduler ($199/mo). You save $40,800 a year.</p>
+      <a href="/pricing/" class="btn btn-primary"><span>See pricing <span class="arrow">→</span></span></a>
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark" style="padding: 0;">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Three modules. One platform. <span class="accent">$1 to start.</span></h2>
+        <p class="final-sub">Pick one module or run all three. Cancel anytime.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

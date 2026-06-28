@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'SEO software reviews — 22 honest verdicts · theStacc',
+  description: '22 in-depth SEO software reviews — Ahrefs, Semrush, Surfer, Jasper, Frase, Clearscope, Copy.ai, Scalenut. Honest verdicts from a daily user.',
+  canonical: 'https://thestacc.com/reviews/',
+  ogImage: '/og/reviews.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "theStacc SEO reviews",
+    "url": "https://thestacc.com/reviews/"
+  }
+};
+
+const categories = ['All', 'SEO Platforms', 'AI Writers', 'Content Optimization', 'Detectors'];
+
+const reviews = [
+  { slug: 'ahrefs', name: 'Ahrefs', rating: 4.6, price: '$129/mo', verdict: 'The strongest backlink index — pricey for everything else.' },
+  { slug: 'semrush', name: 'Semrush', rating: 4.5, price: '$139/mo', verdict: 'The Swiss Army knife. Bloated but covers every SEO job.' },
+  { slug: 'surfer', name: 'Surfer SEO', rating: 4.3, price: '$89/mo', verdict: 'Best on-page scoring tool. Limited beyond that.' },
+  { slug: 'jasper', name: 'Jasper', rating: 4.1, price: '$59/mo', verdict: 'Best AI writer for marketing copy. Average for long-form SEO.' },
+  { slug: 'frase', name: 'Frase', rating: 4.4, price: '$45/mo', verdict: 'Best value for content briefs and SERP analysis.' },
+  { slug: 'clearscope', name: 'Clearscope', rating: 4.5, price: '$170/mo', verdict: 'Enterprise content optimization. Premium quality, premium price.' },
+  { slug: 'copy-ai', name: 'Copy.ai', rating: 3.9, price: '$49/mo', verdict: 'Good short-form. Weak long-form SEO output.' },
+  { slug: 'scalenut', name: 'Scalenut', rating: 4.2, price: '$39/mo', verdict: 'Cheaper Frase clone. Solid for budget-conscious teams.' },
+  { slug: 'neuronwriter', name: 'NeuronWriter', rating: 4.4, price: '$23/mo', verdict: 'Best budget content optimizer. AppSumo lifetime deal still kicks.' },
+  { slug: 'koala', name: 'Koala', rating: 4.0, price: '$25/mo', verdict: 'Cheap, fast AI writer. Quality is hit-or-miss for long-form.' },
+  { slug: 'writesonic', name: 'Writesonic', rating: 4.1, price: '$16/mo', verdict: 'Volume-focused. Better for affiliate sites than brand publishing.' },
+  { slug: 'seo-ai', name: 'SEO.AI', rating: 4.2, price: '$49/mo', verdict: 'Promising newcomer. Article quality strong, ecosystem still small.' },
+  { slug: 'junia', name: 'Junia', rating: 4.0, price: '$29/mo', verdict: 'Mid-tier AI writer. Output edited heavily before publishing.' },
+  { slug: 'outrank', name: 'Outrank', rating: 4.1, price: '$49/mo', verdict: 'Automated WordPress publisher. Closest to theStacc on workflow.' },
+  { slug: 'grammarly', name: 'Grammarly', rating: 4.7, price: '$30/mo', verdict: 'Best-in-class editor. SEO features are an afterthought.' },
+  { slug: 'gptzero', name: 'GPTZero', rating: 4.0, price: '$15/mo', verdict: 'Most accurate AI detector. False positives still common.' },
+];
+
+const Stars = ({ r }) => {
+  const full = Math.floor(r);
+  const half = r - full >= 0.5;
+  return Array.from({ length: 5 }, (_, i) => i < full ? '★' : (i === full && half ? '½' : '☆')).join('');
+};
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Reviews · 22 software verdicts</span>
+    <h1 class="h-display">22 in-depth <span class="accent">SEO software reviews.</span></h1>
+    <p class="hero-sub">Daily-user verdicts on every major SEO platform. Pros, cons, pricing, and a 1-sentence verdict — plus where each tool wins against theStacc.</p>
+    <div class="hero-ctas">
+      <a href="/reviews/ahrefs/" class="btn btn-primary"><span>Most popular: Ahrefs review <span class="arrow">→</span></span></a>
+      <a href="/alternatives/" class="btn btn-secondary">See alternatives</a>
+    </div>
+  </section>
+
+  <!-- CATEGORY PILLS -->
+  <section style="padding: 32px; background: white; border-bottom: 1px solid var(--border);">
+    <div style="max-width: 1180px; margin: 0 auto; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+      {categories.map((c, i) => (
+        <span class="label-pill" style={i === 0 ? 'background: var(--brand-softer); border-color: var(--brand-soft);' : ''}>{c}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- REVIEWS GRID -->
+  <section style="padding: 80px 32px; background: var(--bg-soft);">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div class="reviews-grid">
+        {reviews.map((r) => (
+          <a href={`/reviews/${r.slug}/`} class="bento-card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 18px;">
+              <div>
+                <h3 class="h-sm" style="margin-bottom: 6px;">{r.name}</h3>
+                <div class="bento-title" style="margin: 0;">{r.price}</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 18px; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em;">{r.rating}</div>
+                <div style="color: #f59e0b; font-size: 12px; letter-spacing: 0.05em;">{Stars({ r: r.rating })}</div>
+              </div>
+            </div>
+            <p class="bento-desc">{r.verdict}</p>
+            <div class="bento-cta" style="margin-top: 18px;">Read the full review <span class="arrow">→</span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Read the reviews. <span class="accent">Then try theStacc.</span></h2>
+        <p class="final-sub">$1 for 30 days. Replaces 3 of these tools.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .reviews-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 1100px) { .reviews-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 800px) { .reviews-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .reviews-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>

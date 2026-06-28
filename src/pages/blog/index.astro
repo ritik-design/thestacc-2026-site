@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'Blog — SEO playbooks & AI growth tactics · theStacc',
+  description: '481 articles on SEO, AI search, local SEO, and content strategy. Operator-to-operator playbooks from the team building theStacc.',
+  canonical: 'https://thestacc.com/blog/',
+  ogImage: '/og/blog.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "theStacc blog",
+    "url": "https://thestacc.com/blog/"
+  }
+};
+
+const categories = ['All', 'Content Strategy', 'Local SEO', 'SEO Tips', 'AI Search'];
+
+const featured = {
+  slug: 'how-we-rank-30-articles-a-month',
+  cat: 'Content Strategy',
+  title: 'How we rank 30 articles a month on page 1 — the exact workflow',
+  excerpt: 'Inside the keyword research, brief, and publish loop that ships 30 articles to customer sites every month — and why 92% rank inside 60 days.',
+  author: 'Siddharth Gangal',
+  date: '2026-06-18',
+  readTime: '11 min',
+};
+
+const posts = [
+  { slug: 'ai-search-citation-playbook', cat: 'AI Search', title: 'The AI search citation playbook for 2026', excerpt: 'How to get ChatGPT, Perplexity, Gemini, and Claude to quote your site as the source.', author: 'Ritik Pasi', date: '2026-06-12', readTime: '8 min' },
+  { slug: 'map-pack-ranking-fundamentals', cat: 'Local SEO', title: 'Map Pack ranking fundamentals (still working in 2026)', excerpt: 'Proximity, prominence, relevance — and the 4 GBP signals Google rewards in 2026.', author: 'Manish R', date: '2026-06-08', readTime: '9 min' },
+  { slug: 'programmatic-seo-for-saas', cat: 'Content Strategy', title: 'Programmatic SEO for SaaS — without the spam', excerpt: '500 pages that actually rank. Here is the template stack we ship for product-led teams.', author: 'Siddharth Gangal', date: '2026-06-03', readTime: '12 min' },
+  { slug: 'review-reply-templates', cat: 'Local SEO', title: '17 review reply templates that protect your rating', excerpt: 'For every star count. Pre-written, brand-safe, and ready to drop into your GBP.', author: 'Jasleen K', date: '2026-05-28', readTime: '6 min' },
+  { slug: 'topical-authority-explained', cat: 'SEO Tips', title: 'Topical authority explained — the only framework you need', excerpt: 'Why publishing 5 articles on one topic beats 30 articles across five topics.', author: 'Ritik Pasi', date: '2026-05-22', readTime: '7 min' },
+  { slug: 'gbp-posts-that-convert', cat: 'Local SEO', title: 'GBP posts that convert — 9 formats that bring in calls', excerpt: 'Offer posts, event posts, product posts. Which actually drive direction requests.', author: 'Manish R', date: '2026-05-18', readTime: '5 min' },
+  { slug: 'how-perplexity-picks-sources', cat: 'AI Search', title: 'How Perplexity picks sources — the citation signals', excerpt: 'Schema, freshness, and topical authority. Inside the ranking model nobody documents.', author: 'Siddharth Gangal', date: '2026-05-12', readTime: '10 min' },
+  { slug: 'seo-content-brief-template', cat: 'Content Strategy', title: 'The SEO content brief template we ship to writers', excerpt: 'The 12-section brief that turns generic AI drafts into page-1 articles.', author: 'Ritik Pasi', date: '2026-05-08', readTime: '8 min' },
+  { slug: 'local-citation-checklist', cat: 'Local SEO', title: 'Local citation checklist — 50+ directories that matter', excerpt: 'Which still move the needle in 2026, which are dead weight, and what to skip entirely.', author: 'Jasleen K', date: '2026-05-02', readTime: '6 min' },
+  { slug: 'schema-for-ai-search', cat: 'SEO Tips', title: 'Schema for AI search — the structured data that gets you cited', excerpt: 'FAQ, How-to, Article, Organization, and the new ones Bing, Google, and AI engines reward.', author: 'Ritik Pasi', date: '2026-04-28', readTime: '9 min' },
+  { slug: 'how-to-write-for-llms', cat: 'AI Search', title: 'How to write for LLMs without sounding robotic', excerpt: 'Sentence rhythm, claim density, and the formatting tricks that get models to extract you.', author: 'Siddharth Gangal', date: '2026-04-22', readTime: '8 min' },
+  { slug: 'rank-tracking-stack-2026', cat: 'SEO Tips', title: 'The rank-tracking stack we run in 2026', excerpt: 'Why we ditched 3 enterprise tools and built our own. The full architecture.', author: 'Manish R', date: '2026-04-16', readTime: '7 min' },
+];
+
+const fmtDate = (s) => new Date(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Blog · 481 articles</span>
+    <h1 class="h-display">SEO playbooks <span class="accent">& AI growth tactics.</span></h1>
+    <p class="hero-sub">Operator-to-operator tactics from the team that publishes 30+ articles a month for 127 customers. Tested. Shipped. Ranked.</p>
+    <div class="hero-ctas">
+      <a href="/audit/" class="btn btn-primary"><span>Run free SEO audit <span class="arrow">→</span></span></a>
+      <a href="/checkout/" class="btn btn-secondary">Start your $1 trial</a>
+    </div>
+  </section>
+
+  <!-- CATEGORY PILLS -->
+  <section style="padding: 32px; background: white; border-bottom: 1px solid var(--border);">
+    <div style="max-width: 1180px; margin: 0 auto; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+      {categories.map((c, i) => (
+        <span class="label-pill" style={i === 0 ? 'background: var(--brand-softer); border-color: var(--brand-soft);' : ''}>{c}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- FEATURED POST -->
+  <section style="padding: 64px 32px 32px; background: var(--bg-soft);">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <a href={`/blog/${featured.slug}/`} class="bento-card bento-feature" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; padding: 40px;">
+        <div>
+          <div class="bento-title" style="margin-bottom: 16px;">Featured · {featured.cat}</div>
+          <h2 class="h-md" style="margin-bottom: 16px;">{featured.title}</h2>
+          <p class="bento-desc" style="font-size: 16px; margin-bottom: 24px;">{featured.excerpt}</p>
+          <div style="display: flex; gap: 16px; align-items: center; font-size: 13px; color: var(--text-3); margin-bottom: 22px; flex-wrap: wrap;">
+            <span><strong style="color: var(--text-1);">{featured.author}</strong></span>
+            <span>·</span>
+            <span>{fmtDate(featured.date)}</span>
+            <span>·</span>
+            <span>{featured.readTime} read</span>
+          </div>
+          <div class="bento-cta">Read the playbook <span class="arrow">→</span></div>
+        </div>
+        <div style="background: linear-gradient(135deg, var(--brand-soft), var(--brand-softer)); min-height: 280px; display: grid; place-items: center; border: 1px solid var(--brand-soft);">
+          <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.6" style="color: var(--brand);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- POSTS GRID -->
+  <section style="padding: 32px 32px 96px; background: var(--bg-soft);">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div class="posts-grid">
+        {posts.map((p) => (
+          <a href={`/blog/${p.slug}/`} class="bento-card" style="padding: 0;">
+            <div style="height: 160px; background: linear-gradient(135deg, var(--brand-soft), var(--brand-softer)); display: grid; place-items: center; border-bottom: 1px solid var(--border);">
+              <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.6" style="color: var(--brand);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div style="padding: 24px;">
+              <div class="bento-title" style="margin-bottom: 10px;">{p.cat}</div>
+              <h3 class="h-sm" style="margin-bottom: 10px;">{p.title}</h3>
+              <p class="bento-desc">{p.excerpt}</p>
+              <div style="margin-top: 16px; display: flex; gap: 10px; align-items: center; font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); flex-wrap: wrap;">
+                <span>{p.author}</span>
+                <span>·</span>
+                <span>{fmtDate(p.date)}</span>
+                <span>·</span>
+                <span>{p.readTime}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <!-- PAGINATION PLACEHOLDER -->
+      <div style="margin-top: 56px; display: flex; gap: 8px; justify-content: center; align-items: center;">
+        <span class="label-pill" style="background: var(--brand-softer); border-color: var(--brand-soft);">1</span>
+        <a href="/blog/page/2/" class="label-pill">2</a>
+        <a href="/blog/page/3/" class="label-pill">3</a>
+        <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); padding: 0 8px;">…</span>
+        <a href="/blog/page/41/" class="label-pill">41</a>
+        <a href="/blog/page/2/" class="label-pill">Next →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Read it. Then <span class="accent">ship it.</span></h2>
+        <p class="final-sub">Try theStacc — $1 for 30 days. First article live in 24 hours.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 900px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .posts-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>

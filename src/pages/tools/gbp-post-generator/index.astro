@@ -1,0 +1,329 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'GBP Post Generator — 3 Posts in 10 Seconds | theStacc',
+  description: 'Free GBP post generator. Enter your business, location, offer, and tone. Get 3 ready-to-paste Google Business Profile posts. No signup. No limits.',
+  canonical: 'https://thestacc.com/tools/gbp-post-generator/',
+  ogImage: '/og/tools-gbp-post-generator.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "GBP Post Generator",
+    "url": "https://thestacc.com/tools/gbp-post-generator/",
+    "description": "Free AI tool that generates 3 ready-to-paste Google Business Profile posts from a business type, location, offer, and tone.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "theStacc",
+      "url": "https://thestacc.com/"
+    }
+  }
+};
+---
+<BaseLayout seo={seo}>
+  <style>
+    .tool-hero { padding: 80px 32px 40px; text-align: center; max-width: 880px; margin: 0 auto; }
+    .tool-hero .eyebrow { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 600; margin-bottom: 16px; display: inline-block; }
+    .tool-hero h1 { font-size: clamp(38px, 5vw, 64px); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; color: var(--text-1); margin-bottom: 20px; }
+    .tool-hero p { font-size: 19px; line-height: 1.5; color: var(--text-2); max-width: 640px; margin: 0 auto; }
+
+    .tool-section { padding: 32px 32px 80px; max-width: 1080px; margin: 0 auto; }
+    .tool-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 28px; }
+    @media (max-width: 880px) { .tool-grid { grid-template-columns: 1fr; } }
+
+    .tool-form { background: white; border: 1px solid var(--border); padding: 32px; }
+    .tool-form h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; color: var(--text-1); margin-bottom: 4px; }
+    .tool-form .sub { font-size: 13px; color: var(--text-3); margin-bottom: 28px; }
+    .field { margin-bottom: 20px; }
+    .field label { display: block; font-size: 13px; font-weight: 600; color: var(--text-1); margin-bottom: 6px; font-family: 'Geist Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 12px 14px; font-size: 15px; color: var(--text-1);
+      background: white; border: 1px solid var(--border-strong);
+      font-family: inherit; transition: border-color 0.15s;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none; border-color: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-glow);
+    }
+    .field textarea { resize: vertical; min-height: 80px; }
+    .generate-btn {
+      width: 100%; padding: 14px 20px; background: var(--text-1); color: white;
+      font-size: 15px; font-weight: 600; border: none;
+      border-radius: 100px !important; cursor: pointer;
+      transition: all 0.2s; font-family: inherit;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .generate-btn:hover { background: var(--brand); transform: translateY(-1px); box-shadow: 0 8px 24px var(--brand-glow); }
+    .generate-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .results-panel { display: flex; flex-direction: column; gap: 16px; }
+    .results-empty { background: var(--bg-soft); border: 1px dashed var(--border-strong); padding: 48px 32px; text-align: center; color: var(--text-3); font-size: 14px; min-height: 320px; display: grid; place-items: center; }
+    .post-card { background: white; border: 1px solid var(--border); padding: 24px; transition: border-color 0.2s; }
+    .post-card:hover { border-color: var(--brand); }
+    .post-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .post-card .post-num { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 600; }
+    .post-card .post-len { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); }
+    .post-card .post-body { font-size: 15px; line-height: 1.55; color: var(--text-1); white-space: pre-wrap; margin-bottom: 16px; }
+    .post-card .post-actions { display: flex; gap: 8px; }
+    .copy-btn {
+      padding: 8px 14px; background: var(--bg-soft); color: var(--text-1);
+      border: 1px solid var(--border-strong); font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all 0.15s; font-family: inherit;
+      border-radius: 100px !important;
+    }
+    .copy-btn:hover { background: var(--brand); color: white; border-color: var(--brand); }
+    .copy-btn.copied { background: var(--accent-emerald); color: white; border-color: var(--accent-emerald); }
+
+    .how-section { padding: 64px 32px; background: var(--bg-soft); }
+    .how-inner { max-width: 1040px; margin: 0 auto; }
+    .how-inner h2 { font-size: clamp(28px, 3.2vw, 38px); font-weight: 600; letter-spacing: -0.02em; color: var(--text-1); margin-bottom: 32px; text-align: center; }
+    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 880px) { .how-grid { grid-template-columns: 1fr; } }
+    .how-card { background: white; border: 1px solid var(--border); padding: 28px; }
+    .how-card .num { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--brand); font-weight: 600; letter-spacing: 0.14em; margin-bottom: 12px; display: block; }
+    .how-card h3 { font-size: 18px; font-weight: 600; color: var(--text-1); margin-bottom: 8px; letter-spacing: -0.015em; }
+    .how-card p { font-size: 14px; line-height: 1.55; color: var(--text-2); }
+
+    .why-section { padding: 64px 32px; max-width: 880px; margin: 0 auto; }
+    .why-section h2 { font-size: clamp(28px, 3.2vw, 38px); font-weight: 600; letter-spacing: -0.02em; color: var(--text-1); margin-bottom: 20px; }
+    .why-section p { font-size: 17px; line-height: 1.65; color: var(--text-2); margin-bottom: 16px; }
+    .why-section a { color: var(--brand); text-decoration: underline; text-underline-offset: 3px; }
+
+    .related-tools { padding: 64px 32px; background: var(--bg-soft); }
+    .related-tools-inner { max-width: 1080px; margin: 0 auto; }
+    .related-tools h2 { font-size: clamp(26px, 3vw, 36px); font-weight: 600; letter-spacing: -0.02em; color: var(--text-1); margin-bottom: 28px; text-align: center; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 880px) { .related-grid { grid-template-columns: 1fr; } }
+    .related-tool { background: white; border: 1px solid var(--border); padding: 24px; transition: all 0.2s; display: flex; flex-direction: column; gap: 10px; }
+    .related-tool:hover { transform: translateY(-2px); border-color: var(--brand); box-shadow: 0 18px 36px -14px rgba(79,57,246,0.18); }
+    .related-tool .label { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 600; }
+    .related-tool h3 { font-size: 18px; font-weight: 600; color: var(--text-1); letter-spacing: -0.015em; }
+    .related-tool p { font-size: 14px; line-height: 1.5; color: var(--text-3); }
+    .related-tool .arrow-link { font-size: 13px; color: var(--brand); font-weight: 600; margin-top: auto; }
+  </style>
+
+  <!-- HERO -->
+  <section class="tool-hero">
+    <span class="eyebrow">Free tool · No signup</span>
+    <h1>Generate 3 Google Business Profile posts in 10 seconds</h1>
+    <p>Type your business, location, offer, and tone. The GBP post generator writes 3 ready-to-paste posts — each tuned for Google's local visibility ranking signals.</p>
+  </section>
+
+  <!-- TOOL -->
+  <section class="tool-section">
+    <div class="tool-grid">
+      <!-- FORM -->
+      <div class="tool-form">
+        <h2>Tell us about your post</h2>
+        <p class="sub">Everything stays in your browser. Nothing sent to a server.</p>
+
+        <div class="field">
+          <label for="biz-type">Business type</label>
+          <input type="text" id="biz-type" placeholder="e.g. Dental practice, plumber, law firm" value="Dental practice" />
+        </div>
+
+        <div class="field">
+          <label for="biz-location">Location</label>
+          <input type="text" id="biz-location" placeholder="e.g. Austin, TX" value="Austin, TX" />
+        </div>
+
+        <div class="field">
+          <label for="biz-offer">Offer or topic</label>
+          <textarea id="biz-offer" placeholder="e.g. $99 new-patient cleaning special this month">$99 new-patient cleaning special this month</textarea>
+        </div>
+
+        <div class="field">
+          <label for="biz-tone">Tone</label>
+          <select id="biz-tone">
+            <option value="friendly">Friendly &amp; warm</option>
+            <option value="urgent">Urgent &amp; direct</option>
+            <option value="professional">Professional &amp; trusted</option>
+            <option value="playful">Playful &amp; conversational</option>
+          </select>
+        </div>
+
+        <button id="generate-btn" class="generate-btn">
+          Generate 3 posts <span>→</span>
+        </button>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="results-panel" id="results-panel">
+        <div class="results-empty" id="results-empty">
+          Your 3 posts will appear here. Fill out the form and hit Generate.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO USE -->
+  <section class="how-section">
+    <div class="how-inner">
+      <h2>How to use this tool</h2>
+      <div class="how-grid">
+        <div class="how-card">
+          <span class="num">01</span>
+          <h3>Fill in the 4 fields</h3>
+          <p>Business type, city, the offer or news you want to share, and the tone. Be specific — "$99 cleaning" beats "great deal".</p>
+        </div>
+        <div class="how-card">
+          <span class="num">02</span>
+          <h3>Hit Generate</h3>
+          <p>Three posts appear instantly. Each one varies in length, structure, and angle so you can pick the best fit.</p>
+        </div>
+        <div class="how-card">
+          <span class="num">03</span>
+          <h3>Copy and paste into GBP</h3>
+          <p>One click copies a post. Paste into your Google Business Profile dashboard, add a photo, hit publish.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="why-section">
+    <h2>Why GBP posts matter for local SEO</h2>
+    <p>Google Business Profile posts are one of the few signals Google uses to determine if your listing is "active". Active listings rank higher in the Map Pack — the 3 spots at the top of local search results that capture 44% of all clicks.</p>
+    <p>Best practice: 1-2 posts per week. Mix offers, news, events, and updates. Always include a call-to-action button. Keep it under 1,500 characters so the post displays in full on mobile.</p>
+    <p>If you would rather have AI publish to your GBP automatically — every week, on schedule, with photos and CTAs — that is exactly what the <a href="/modules/local-seo/">Local SEO module</a> does. Same generator under the hood, plugged into the publishing pipeline. See <a href="/pricing/">pricing</a> or browse the <a href="/glossary/">glossary</a> for terms like Map Pack, GBP categories, and review velocity.</p>
+  </section>
+
+  <!-- RELATED TOOLS -->
+  <section class="related-tools">
+    <div class="related-tools-inner">
+      <h2>Other free tools</h2>
+      <div class="related-grid">
+        <a href="/tools/" class="related-tool">
+          <span class="label">Local SEO</span>
+          <h3>Map Pack rank checker</h3>
+          <p>Find your business's exact position in the Map Pack for any keyword and city.</p>
+          <span class="arrow-link">Open tool →</span>
+        </a>
+        <a href="/tools/" class="related-tool">
+          <span class="label">Content</span>
+          <h3>Meta description generator</h3>
+          <p>Write 5 click-worthy meta descriptions for any page in under 30 seconds.</p>
+          <span class="arrow-link">Open tool →</span>
+        </a>
+        <a href="/tools/" class="related-tool">
+          <span class="label">Schema</span>
+          <h3>JSON-LD schema generator</h3>
+          <p>Generate valid LocalBusiness, FAQ, or Article schema in one click.</p>
+          <span class="arrow-link">Open tool →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA (lite) -->
+  <section class="final-section dark" style="padding: 64px 32px;">
+    <div class="dot-pattern" aria-hidden="true"></div>
+    <div class="final-wrap final-content" style="max-width: 720px; margin: 0 auto; text-align: center; position: relative; z-index: 1;">
+      <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Publish to GBP on autopilot.</h2>
+      <p class="final-sub">$1 trial. AI writes, posts, and tracks — every week.</p>
+      <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      const btn = document.getElementById('generate-btn');
+      const resultsPanel = document.getElementById('results-panel');
+
+      const intros = {
+        friendly: ["Hey {city}!", "{city} friends —", "Big news for {city}:", "Looking to brighten your week?"],
+        urgent: ["Limited time:", "This month only:", "Don't miss this:", "Last chance, {city}:"],
+        professional: ["At our {city} office,", "We are pleased to announce", "Now available at our {city} location:", "Serving {city} since day one —"],
+        playful: ["Pssst, {city} 👀", "Plot twist:", "Okay {city}, hear us out —", "We did a thing:"]
+      };
+
+      const ctas = {
+        friendly: ["Book your spot today — we would love to see you.", "Call us or tap below to grab a slot.", "Reply or book online. Easy as that.", "Slots are filling up — tap to claim yours."],
+        urgent: ["Book now — spots are limited.", "Tap to claim before it's gone.", "Call today. Offer ends soon.", "Reserve your spot in under 60 seconds."],
+        professional: ["Schedule a consultation today.", "Contact our team to learn more.", "Visit our website to book.", "Reach out for full details."],
+        playful: ["Tap. Book. Done.", "Slide into our DMs (or just click below).", "Your future self will thank you.", "One tap and you're in."]
+      };
+
+      const angles = [
+        (biz, city, offer, intro, cta) => `${intro}\n\nWe just rolled out something for ${city}: ${offer}.\n\n${cta}`,
+        (biz, city, offer, intro, cta) => `${intro}\n\nIf you have been putting off finding a ${biz.toLowerCase()} in ${city}, this is your sign. ${offer}.\n\nWhy now?\n• Fast booking\n• ${city}-based team\n• Real humans, real care\n\n${cta}`,
+        (biz, city, offer, intro, cta) => `${intro}\n\n${offer} — for ${city} residents only.\n\nWe have helped 200+ ${city} customers this year. Whether it is your first visit or your fifteenth, we make it painless.\n\n${cta}`
+      ];
+
+      function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+      function generatePosts() {
+        const biz = (document.getElementById('biz-type').value || 'business').trim();
+        const city = (document.getElementById('biz-location').value || 'your city').trim();
+        const offer = (document.getElementById('biz-offer').value || 'our latest offer').trim();
+        const tone = document.getElementById('biz-tone').value || 'friendly';
+
+        const used = new Set();
+        const posts = [];
+        for (let i = 0; i < 3; i++) {
+          let intro = pick(intros[tone]).replace('{city}', city);
+          let cta = pick(ctas[tone]);
+          while (used.has(intro) && intros[tone].length > 3) intro = pick(intros[tone]).replace('{city}', city);
+          used.add(intro);
+          const angle = angles[i];
+          posts.push(angle(biz, city, offer, intro, cta));
+        }
+        return posts;
+      }
+
+      function render(posts) {
+        resultsPanel.innerHTML = '';
+        posts.forEach((text, i) => {
+          const card = document.createElement('div');
+          card.className = 'post-card';
+          card.innerHTML = `
+            <div class="post-card-head">
+              <span class="post-num">Post ${i + 1} of 3</span>
+              <span class="post-len">${text.length} chars</span>
+            </div>
+            <div class="post-body"></div>
+            <div class="post-actions">
+              <button class="copy-btn" data-copy="${i}">Copy to clipboard</button>
+            </div>
+          `;
+          card.querySelector('.post-body').textContent = text;
+          resultsPanel.appendChild(card);
+        });
+
+        resultsPanel.querySelectorAll('.copy-btn').forEach((b, idx) => {
+          b.addEventListener('click', () => {
+            navigator.clipboard.writeText(posts[idx]).then(() => {
+              b.textContent = 'Copied ✓';
+              b.classList.add('copied');
+              setTimeout(() => {
+                b.textContent = 'Copy to clipboard';
+                b.classList.remove('copied');
+              }, 1800);
+            }).catch(() => {
+              b.textContent = 'Press Ctrl+C';
+              setTimeout(() => { b.textContent = 'Copy to clipboard'; }, 1800);
+            });
+          });
+        });
+      }
+
+      btn.addEventListener('click', () => {
+        btn.disabled = true;
+        btn.innerHTML = 'Generating...';
+        setTimeout(() => {
+          const posts = generatePosts();
+          render(posts);
+          btn.disabled = false;
+          btn.innerHTML = 'Regenerate 3 posts <span>→</span>';
+        }, 420);
+      });
+    })();
+  </script>
+</BaseLayout>

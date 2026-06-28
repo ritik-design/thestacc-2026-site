@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'Integrations — Connect theStacc to your CMS',
+  description: 'theStacc publishes directly to WordPress, Webflow, Shopify, Ghost, Wix, Squarespace, HubSpot, Google Business Profile, and any custom CMS via webhook.',
+  canonical: 'https://thestacc.com/integrations/',
+  ogImage: '/og/integrations.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "theStacc integrations",
+    "url": "https://thestacc.com/integrations/"
+  }
+};
+
+const integrations = [
+  { slug: 'wordpress', name: 'WordPress', logo: 'wordpress', desc: 'Native plugin. Articles publish straight to drafts or live posts with full schema.', category: 'CMS' },
+  { slug: 'webflow', name: 'Webflow', logo: 'webflow', desc: 'CMS Collections API. Articles, images, and metadata land in your existing structure.', category: 'CMS' },
+  { slug: 'shopify', name: 'Shopify', logo: 'shopify', desc: 'Publish to the Shopify blog with product-linked schema and on-brand voice.', category: 'Ecommerce' },
+  { slug: 'ghost', name: 'Ghost', logo: 'ghost', desc: 'Admin API integration. Drafts in Ghost Editor — ready for one-click publish.', category: 'CMS' },
+  { slug: 'wix', name: 'Wix', logo: 'wix', desc: 'Publish via Wix Blog API with formatted images and inline schema.', category: 'CMS' },
+  { slug: 'squarespace', name: 'Squarespace', logo: 'squarespace', desc: 'Article + meta sync to your Squarespace blog collection on a daily cadence.', category: 'CMS' },
+  { slug: 'hubspot', name: 'HubSpot', logo: 'hubspot', desc: 'Publish to HubSpot CMS blog. Pipe leads from gated content back into HubSpot CRM.', category: 'Marketing' },
+  { slug: 'google-business-profile', name: 'Google Business Profile', logo: 'google', desc: 'Posts, photos, Q&A, and review replies — all managed from one dashboard.', category: 'Local SEO' },
+  { slug: 'custom-cms', name: 'Custom CMS', logo: 'webhook', desc: 'Generic webhook receiver. Any CMS that accepts JSON over POST works in under an hour.', category: 'CMS' },
+];
+
+const logoUrl = (l) => l === 'webhook' || l === 'google'
+  ? null
+  : `https://cdn.simpleicons.org/${l}`;
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Integrations · 9 native + custom</span>
+    <h1 class="h-display">Connect theStacc to <span class="accent">your stack.</span></h1>
+    <p class="hero-sub">Native publishers for every major CMS and a generic webhook for everything else. Whatever you run, articles land in 24 hours — zero copy-paste.</p>
+    <div class="hero-ctas">
+      <a href="/checkout/" class="btn btn-primary"><span>Start your $1 trial <span class="arrow">→</span></span></a>
+      <a href="/demo/" class="btn btn-secondary">Book a 15-min demo</a>
+    </div>
+  </section>
+
+  <!-- FILTER PILLS -->
+  <section style="padding: 32px; background: white; border-bottom: 1px solid var(--border);">
+    <div style="max-width: 1180px; margin: 0 auto; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+      <span class="label-pill" style="background: var(--brand-softer); border-color: var(--brand-soft);">All integrations</span>
+      <span class="label-pill">CMS</span>
+      <span class="label-pill">Ecommerce</span>
+      <span class="label-pill">Marketing</span>
+      <span class="label-pill">Local SEO</span>
+    </div>
+  </section>
+
+  <!-- INTEGRATIONS GRID -->
+  <section style="padding: 80px 32px; background: var(--bg-soft);">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div class="integ-grid">
+        {integrations.map((i) => (
+          <a href={`/integrations/${i.slug}/`} class="bento-card" style="padding: 32px;">
+            <div style="width: 56px; height: 56px; border: 1px solid var(--border); background: white; display: grid; place-items: center; margin-bottom: 22px;">
+              {logoUrl(i.logo) ? (
+                <img src={logoUrl(i.logo)} alt={`${i.name} logo`} loading="lazy" style="width: 28px; height: 28px; object-fit: contain;" />
+              ) : i.logo === 'google' ? (
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--brand);"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              ) : (
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand);"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              )}
+            </div>
+            <div class="bento-title" style="margin-bottom: 8px;">{i.category}</div>
+            <h3 class="h-sm" style="margin-bottom: 10px;">{i.name}</h3>
+            <p class="bento-desc">{i.desc}</p>
+            <div class="bento-cta" style="margin-top: 18px;">See setup guide <span class="arrow">→</span></div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">First article live in <span class="accent">24 hours.</span></h2>
+        <p class="final-sub">Plug in your CMS. We handle the rest.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .integ-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 900px) { .integ-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .integ-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>

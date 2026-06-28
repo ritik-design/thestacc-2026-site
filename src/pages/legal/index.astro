@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'Legal & policies — theStacc',
+  description: 'Privacy Policy, Terms of Service, Cookie Policy, Acceptable Use, Editorial Standards, and Data Processing for theStacc.',
+  canonical: 'https://thestacc.com/legal/',
+  ogImage: '/og/legal.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "theStacc legal & policies",
+    "url": "https://thestacc.com/legal/"
+  }
+};
+
+const policies = [
+  { slug: 'privacy-policy', name: 'Privacy Policy', desc: 'What data we collect, why we collect it, and how to delete it.', updated: '2026-05-01' },
+  { slug: 'terms-of-service', name: 'Terms of Service', desc: 'The contract between you and theStacc when you use the platform.', updated: '2026-05-01' },
+  { slug: 'cookie-policy', name: 'Cookie Policy', desc: 'Which cookies we set, what they do, and how to opt out.', updated: '2026-05-01' },
+  { slug: 'acceptable-use', name: 'Acceptable Use', desc: 'What you can and cannot publish through theStacc. No spam, no scams, no fraud.', updated: '2026-05-01' },
+  { slug: 'editorial-standards', name: 'Editorial Standards', desc: 'How we write, source, fact-check, and disclose AI-assisted content.', updated: '2026-05-01' },
+  { slug: 'data-processing', name: 'Data Processing', desc: 'GDPR-compliant DPA — how we process customer data on your behalf.', updated: '2026-05-01' },
+];
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Legal · The full set</span>
+    <h1 class="h-display">Legal & <span class="accent">policies.</span></h1>
+    <p class="hero-sub">Plain English. No "heretofore". Six documents — read whichever one you need.</p>
+  </section>
+
+  <!-- POLICIES LIST -->
+  <section style="padding: 64px 32px 96px; background: var(--bg-soft);">
+    <div style="max-width: 880px; margin: 0 auto;">
+      <div style="background: white; border: 1px solid var(--border);">
+        {policies.map((p, i) => (
+          <a href={`/legal/${p.slug}/`} style={`display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; padding: 28px 32px; color: inherit; ${i < policies.length - 1 ? 'border-bottom: 1px solid var(--border);' : ''} transition: background 0.15s;`}>
+            <div>
+              <h3 class="h-sm" style="margin-bottom: 6px;">{p.name}</h3>
+              <p style="font-size: 14px; color: var(--text-2); margin: 0 0 8px;">{p.desc}</p>
+              <div style="font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.04em;">Last updated · {p.updated}</div>
+            </div>
+            <div style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--brand);">
+              Read <span class="arrow">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <p style="margin-top: 32px; text-align: center; font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--text-3); letter-spacing: 0.04em;">
+        Questions? Email <a href="mailto:legal@thestacc.com" style="color: var(--brand);">legal@thestacc.com</a> — we reply within 4 hours.
+      </p>
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Built on trust. <span class="accent">Ready when you are.</span></h2>
+        <p class="final-sub">$1 trial. Cancel anytime. Data stays yours.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

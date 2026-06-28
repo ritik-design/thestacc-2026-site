@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'Best-of guides — 118 curated SEO software lists · theStacc',
+  description: '118 best-of guides on SEO tools, AI writers, local SEO, content optimization, GBP management, and more. Tested, scored, and ranked.',
+  canonical: 'https://thestacc.com/best/',
+  ogImage: '/og/best.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "theStacc best-of guides",
+    "url": "https://thestacc.com/best/"
+  }
+};
+
+const categories = ['All', 'SEO Tools', 'AI Writers', 'Local SEO', 'Content', 'Keyword Research', 'Small Business'];
+
+const guides = [
+  { slug: 'best-ai-seo-tools', topic: 'AI SEO Tools', n: 12, desc: 'The best AI SEO tools tested across rank tracking, content, and analytics.' },
+  { slug: 'best-ai-blog-writers', topic: 'AI Blog Writers', n: 15, desc: 'Which AI writers produce articles that actually rank in 2026.' },
+  { slug: 'best-local-seo-tools', topic: 'Local SEO Tools', n: 11, desc: 'The Map Pack and citation tools we recommend for service businesses.' },
+  { slug: 'best-seo-automation-tools', topic: 'SEO Automation', n: 9, desc: 'End-to-end SEO platforms that publish, not just score.' },
+  { slug: 'best-keyword-research-tools', topic: 'Keyword Research', n: 14, desc: 'From free Google Keyword Planner alternatives to enterprise stacks.' },
+  { slug: 'best-content-optimization-tools', topic: 'Content Optimization', n: 10, desc: 'The content scoring tools writers actually trust — Surfer, Frase, Clearscope and more.' },
+  { slug: 'best-seo-tools-small-business', topic: 'For Small Business', n: 13, desc: 'Affordable SEO tools under $99/mo for indie founders and SMBs.' },
+  { slug: 'best-gbp-management', topic: 'GBP Management', n: 8, desc: 'Tools to automate your Google Business Profile — posts, reviews, photos.' },
+  { slug: 'best-rank-trackers', topic: 'Rank Trackers', n: 12, desc: 'Daily-refresh rank trackers tested across desktop, mobile, and Map Pack.' },
+  { slug: 'best-link-building-tools', topic: 'Link Building', n: 10, desc: 'From outreach to broken-link finders to digital PR platforms.' },
+  { slug: 'best-on-page-seo-tools', topic: 'On-Page SEO', n: 9, desc: 'Tools that audit and fix your titles, meta, headers, and schema.' },
+  { slug: 'best-seo-audit-tools', topic: 'SEO Audit', n: 11, desc: 'Free and paid auditors that crawl, score, and prioritise fixes.' },
+  { slug: 'best-ai-content-detectors', topic: 'AI Content Detectors', n: 8, desc: 'Which AI detectors actually work — and which to ignore.' },
+  { slug: 'best-social-media-scheduling-tools', topic: 'Social Scheduling', n: 12, desc: 'Buffer, Hootsuite, Later, and the newer AI-first contenders.' },
+  { slug: 'best-review-management-software', topic: 'Review Management', n: 9, desc: 'Birdeye, Podium, NiceJob — and the platforms that quietly beat them.' },
+  { slug: 'best-citation-building-services', topic: 'Citation Building', n: 7, desc: 'Yext, BrightLocal, Whitespark — which actually moves Map Pack rankings.' },
+];
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Best-of · 118 guides</span>
+    <h1 class="h-display">118 curated <span class="accent">"best of" guides.</span></h1>
+    <p class="hero-sub">Honest, tested, and ranked. Every guide has a methodology section, a comparison table, and a clear winner pick — no affiliate-spam ordering.</p>
+    <div class="hero-ctas">
+      <a href="/best/best-ai-seo-tools/" class="btn btn-primary"><span>Top guide: Best AI SEO Tools <span class="arrow">→</span></span></a>
+      <a href="/checkout/" class="btn btn-secondary">Skip the comparison shopping</a>
+    </div>
+  </section>
+
+  <!-- CATEGORY PILLS -->
+  <section style="padding: 32px; background: white; border-bottom: 1px solid var(--border);">
+    <div style="max-width: 1180px; margin: 0 auto; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+      {categories.map((c, i) => (
+        <span class="label-pill" style={i === 0 ? 'background: var(--brand-softer); border-color: var(--brand-soft);' : ''}>{c}</span>
+      ))}
+    </div>
+  </section>
+
+  <!-- BEST GRID -->
+  <section style="padding: 80px 32px; background: var(--bg-soft);">
+    <div style="max-width: 1180px; margin: 0 auto;">
+      <div class="best-grid">
+        {guides.map((g) => (
+          <a href={`/best/${g.slug}/`} class="bento-card">
+            <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;">
+              <span style="font-size: 32px; font-weight: 700; letter-spacing: -0.025em; color: var(--brand); line-height: 1;">{g.n}</span>
+              <span class="bento-title" style="margin: 0;">{g.topic}</span>
+            </div>
+            <h3 class="h-sm" style="margin-bottom: 10px;">Best {g.topic} for 2026</h3>
+            <p class="bento-desc">{g.desc}</p>
+            <div class="bento-cta" style="margin-top: 18px;">Read the guide <span class="arrow">→</span></div>
+          </a>
+        ))}
+      </div>
+
+      <!-- PAGINATION -->
+      <div style="margin-top: 56px; display: flex; gap: 8px; justify-content: center; align-items: center;">
+        <span class="label-pill" style="background: var(--brand-softer); border-color: var(--brand-soft);">1</span>
+        <a href="/best/page/2/" class="label-pill">2</a>
+        <a href="/best/page/3/" class="label-pill">3</a>
+        <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); padding: 0 8px;">…</span>
+        <a href="/best/page/8/" class="label-pill">8</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Skip the comparison. <span class="accent">Try theStacc.</span></h2>
+        <p class="final-sub">$1 trial. Replaces 3 tools. Cancel anytime.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .best-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 1100px) { .best-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 800px) { .best-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 540px) { .best-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>

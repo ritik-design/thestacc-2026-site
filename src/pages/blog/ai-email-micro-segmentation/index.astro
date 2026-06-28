@@ -1,0 +1,345 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'AI Email Micro-Segmentation: Cohorts That Convert | theStacc',
+  description: 'AI email micro-segmentation splits your list into tiny cohorts that convert 3-5x better. Here is how to set it up — without breaking your ESP.',
+  canonical: 'https://thestacc.com/blog/ai-email-micro-segmentation/',
+  ogImage: '/og/blog-ai-email-micro-segmentation.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "AI Email Micro-Segmentation: How to Build Cohorts That Convert 3-5x Better",
+    "description": "AI email micro-segmentation splits your list into tiny behavioral cohorts that convert 3-5x better than broadcast sends. A practical operator's guide.",
+    "image": "https://thestacc.com/og/blog-ai-email-micro-segmentation.webp",
+    "datePublished": "2026-06-28",
+    "dateModified": "2026-06-28",
+    "author": {
+      "@type": "Person",
+      "name": "Siddharth Gangal",
+      "url": "https://thestacc.com/about/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "theStacc",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://thestacc.com/button.flex.svg"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://thestacc.com/blog/ai-email-micro-segmentation/"
+    }
+  }
+};
+---
+<BaseLayout seo={seo}>
+  <style>
+    .article-hero { padding: 80px 32px 48px; max-width: 760px; margin: 0 auto; }
+    .article-eyebrow { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 600; margin-bottom: 16px; display: inline-block; }
+    .article-hero h1 { font-size: clamp(34px, 4.6vw, 56px); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; color: var(--text-1); margin-bottom: 24px; }
+    .article-meta { display: flex; align-items: center; gap: 16px; color: var(--text-3); font-size: 14px; margin-top: 24px; flex-wrap: wrap; }
+    .article-meta strong { color: var(--text-1); font-weight: 600; }
+    .article-meta-dot { width: 3px; height: 3px; background: var(--text-3); border-radius: 50% !important; display: inline-block; }
+    .article-hero-image { padding: 0 32px 48px; max-width: 1040px; margin: 0 auto; }
+    .article-hero-image .img-wrap { width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, var(--brand-softer), var(--brand-soft)); display: grid; place-items: center; border: 1px solid var(--border); }
+    .article-hero-image .img-wrap span { font-family: 'Geist Mono', monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); }
+    .article-body { max-width: 720px; margin: 0 auto; padding: 16px 32px 64px; font-size: 17px; line-height: 1.65; color: var(--text-2); }
+    .article-body p { font-size: 17px; line-height: 1.65; color: var(--text-2); margin-bottom: 24px; }
+    .article-body p strong { color: var(--text-1); font-weight: 600; }
+    .article-body .lede-p { font-size: 19px; line-height: 1.6; color: var(--text-1); margin-bottom: 32px; }
+    .article-body h2 { font-size: clamp(26px, 3.2vw, 34px); font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; color: var(--text-1); margin: 56px 0 20px; }
+    .article-body h3 { font-size: 22px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; color: var(--text-1); margin: 36px 0 14px; }
+    .article-body a { color: var(--brand); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .article-body a:hover { color: var(--brand-deep); }
+    .article-body ul, .article-body ol { margin: 0 0 24px 0; padding-left: 24px; color: var(--text-2); }
+    .article-body li { margin-bottom: 10px; font-size: 17px; line-height: 1.6; }
+    .article-body blockquote { border-left: 3px solid var(--brand); padding: 8px 0 8px 24px; margin: 32px 0; font-style: italic; color: var(--text-1); font-size: 19px; line-height: 1.5; }
+    .article-body .callout { background: var(--brand-softer); border: 1px solid var(--brand-soft); padding: 24px 28px; margin: 32px 0; }
+    .article-body .callout p { margin: 0; color: var(--text-1); }
+    .article-body table { width: 100%; border-collapse: collapse; margin: 32px 0; font-size: 15px; }
+    .article-body th, .article-body td { border: 1px solid var(--border); padding: 12px 14px; text-align: left; }
+    .article-body th { background: var(--bg-soft); font-weight: 600; color: var(--text-1); }
+
+    .author-card { max-width: 720px; margin: 0 auto; padding: 32px; border: 1px solid var(--border); display: flex; gap: 20px; align-items: flex-start; margin-bottom: 64px; }
+    .author-avatar { width: 64px; height: 64px; border-radius: 50% !important; background: var(--brand); color: white; display: grid; place-items: center; font-weight: 700; font-size: 22px; flex-shrink: 0; }
+    .author-body h4 { font-size: 16px; font-weight: 600; color: var(--text-1); margin-bottom: 4px; }
+    .author-role { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; }
+    .author-body p { font-size: 14px; line-height: 1.55; color: var(--text-2); margin-bottom: 12px; }
+    .author-links { display: flex; gap: 16px; font-size: 13px; }
+    .author-links a { color: var(--brand); }
+
+    .related-section { padding: 64px 32px; background: var(--bg-soft); }
+    .related-inner { max-width: 1080px; margin: 0 auto; }
+    .related-section h2 { font-size: clamp(28px, 3vw, 38px); font-weight: 600; letter-spacing: -0.02em; color: var(--text-1); margin-bottom: 32px; }
+    .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 880px) { .related-grid { grid-template-columns: 1fr; } }
+    .related-card { background: white; border: 1px solid var(--border); padding: 24px; transition: all 0.25s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; gap: 12px; }
+    .related-card:hover { transform: translateY(-2px); border-color: var(--brand); box-shadow: 0 18px 36px -14px rgba(79,57,246,0.18); }
+    .related-card .cat { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 600; }
+    .related-card h3 { font-size: 18px; font-weight: 600; line-height: 1.3; letter-spacing: -0.015em; color: var(--text-1); }
+    .related-card p { font-size: 14px; line-height: 1.5; color: var(--text-3); }
+    .related-card .arrow-link { font-size: 13px; color: var(--brand); font-weight: 600; margin-top: auto; }
+  </style>
+
+  <!-- ARTICLE HERO -->
+  <section class="article-hero-wrap">
+    <div class="article-hero">
+      <span class="article-eyebrow">AI Search · Email Marketing</span>
+      <h1>AI Email Micro-Segmentation: Build Cohorts That Convert 3-5x Better</h1>
+      <p class="lede" style="font-size: 19px; color: var(--text-2); line-height: 1.55;">Broadcast sends are dead. Here is how to use AI email micro-segmentation to split your list into tiny behavioral cohorts — and turn the same audience into 3-5x the revenue.</p>
+      <div class="article-meta">
+        <span><strong>Siddharth Gangal</strong></span>
+        <span class="article-meta-dot"></span>
+        <span>June 28, 2026</span>
+        <span class="article-meta-dot"></span>
+        <span>12 min read</span>
+        <span class="article-meta-dot"></span>
+        <span>Updated Q2 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HERO IMAGE -->
+  <section class="article-hero-image">
+    <div class="img-wrap" aria-hidden="true">
+      <span>AI email micro-segmentation</span>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <article class="article-body">
+    <p class="lede-p"><strong>AI email micro-segmentation</strong> is the practice of using machine learning to split your subscriber list into very small, behavior-defined cohorts — often fewer than 200 people each — and sending each cohort a uniquely tuned message. Done right, it lifts open rates 30-60%, click rates 2-4x, and revenue per send 3-5x compared with broadcast. The mechanism is simple: smaller groups have tighter intent, and AI lets you build (and write for) hundreds of those groups without a 20-person CRM team.</p>
+
+    <p>You already know broadcast email is dying. Apple Mail Privacy Protection broke open rates. Inbox AI buries mass sends in the Promotions tab. And buyers expect a message that knows what they did yesterday, not last quarter. According to <a href="https://www.litmus.com/blog/email-marketing-roi" target="_blank" rel="noopener">Litmus's 2025 State of Email report</a>, segmented campaigns drive 760% more revenue than non-segmented ones — and "micro" segmentation (cohorts under 500) is the fastest-growing tactic among teams above $10M ARR.</p>
+
+    <p>This guide is the operator's playbook. We use the same workflow on theStacc's own list (24,000 subscribers, 11 active product modules). It runs every day on autopilot. It took two engineers a week to set up. And the lift was immediate.</p>
+
+    <div class="callout">
+      <p><strong>What you will learn:</strong> how to define cohorts the AI can act on, which signals to feed the model, how to write per-cohort copy at scale, the right ESP setup, the metrics that matter, and the seven mistakes that kill 80% of micro-segmentation programs in their first month.</p>
+    </div>
+
+    <h2>What "micro" really means</h2>
+
+    <p>Traditional segmentation splits your list by demographics or lifecycle stage: "free trial users", "paid customers", "lapsed customers". You end up with 5-10 segments, each containing thousands of people.</p>
+
+    <p>Micro-segmentation goes two orders of magnitude deeper. The same list is split into 50-500 cohorts, each defined by a combination of behaviors, intent signals, and stage. A typical cohort might be: "Users who signed up in the last 14 days, viewed the pricing page twice, did not start a trial, and opened a competitor comparison email." That cohort might have 47 people in it. The message you send them is built for that exact situation.</p>
+
+    <p>The math is intuitive. A broadcast to 24,000 people with a 22% open and 2% click yields ~5,280 opens and ~480 clicks. The same list, micro-segmented into 200 cohorts averaging 120 people each, with each cohort getting a tuned message, easily hits 45% open and 8% click. That is ~10,800 opens and ~1,920 clicks from the same audience. Four times the engagement, same database, same week.</p>
+
+    <h2>Why AI changed the game</h2>
+
+    <p>Micro-segmentation has always been theoretically better. The reason most teams gave up was operational: a human CRM manager cannot write 200 unique emails per send. Even with templates, the per-cohort variation, the QA, the deliverability checks — it was an unwinnable workload.</p>
+
+    <p>Three AI advances flipped that:</p>
+
+    <ol>
+      <li><strong>LLM-driven copy variation.</strong> One prompt + one cohort definition = a tuned email in seconds. GPT-4-class models hit human-grade copy on the first try about 70% of the time.</li>
+      <li><strong>Embedding-based clustering.</strong> Instead of writing IF/THEN rules, you embed user behaviors as vectors and let unsupervised clustering find natural groupings you would have missed.</li>
+      <li><strong>Predictive intent scoring.</strong> Models trained on your historical conversion data flag which users are likely to convert this week. Your cohorts no longer rely on stale "lifecycle stage" labels.</li>
+    </ol>
+
+    <p>Together, these turn a 200-cohort, weekly-cadence email program into a 1-engineer operation. That is the unlock.</p>
+
+    <h2>The five signal layers that feed the model</h2>
+
+    <p>Your cohorts are only as smart as the data the AI can see. Most teams skip this part and complain about poor cohort quality. The non-negotiables:</p>
+
+    <h3>1. Behavioral signals</h3>
+    <p>Every page view, button click, search query, video watch percentage, and dwell time. Use a product analytics tool like PostHog, Mixpanel, or Amplitude. Pipe events into a warehouse (BigQuery, Snowflake, or DuckDB if you are small) so the AI can query them.</p>
+
+    <h3>2. Engagement signals</h3>
+    <p>Email opens, clicks, hover times (if your ESP supports them), reply sentiment, and time-to-open. These tell the model how this person responds to email specifically, not just product usage.</p>
+
+    <h3>3. Commercial signals</h3>
+    <p>Plan tier, MRR, lifetime value, days-since-last-purchase, refund history, expansion potential. Pull these from Stripe (or your billing system) on a daily sync.</p>
+
+    <h3>4. Intent signals</h3>
+    <p>Search keywords that brought them to your site, blog posts they read, competitor pages they visited (via outbound link clicks), pricing page revisits. These predict purchase intent better than any other signal.</p>
+
+    <h3>5. Lifecycle signals</h3>
+    <p>Trial day, days since activation, days since last login, days since last meaningful action. These give the model a sense of "where they are" in the customer journey — even when behavior is noisy.</p>
+
+    <p>Feed all five into a single users table. Each row is a user; each column is a signal updated daily. The AI cohorting model takes this table as input.</p>
+
+    <h2>How to define cohorts the AI can act on</h2>
+
+    <p>You have two choices: rule-based or model-based. Start with rule-based, graduate to model-based once you have data.</p>
+
+    <h3>Rule-based cohorts</h3>
+    <p>You write the rules. Examples:</p>
+    <ul>
+      <li>Trial day 3, no team invite sent, visited integrations page → "Solo trial likely to lapse"</li>
+      <li>Paid customer, no login in 14 days, opened the last 3 product update emails → "Engaged-but-quiet, expansion candidate"</li>
+      <li>Free user, read 4+ blog posts in the AI Search category, downloaded the GEO checklist → "Education-stage AI Search buyer"</li>
+    </ul>
+    <p>Rules give you cohorts you can explain to a human stakeholder. They are easier to debug. They are also where most teams stop — which is a mistake.</p>
+
+    <h3>Model-based cohorts</h3>
+    <p>The model finds patterns you would not have written. Workflow:</p>
+    <ol>
+      <li>Embed each user's signal vector (a flat array of the 5 signal layers) using OpenAI's text-embedding-3-large or a similar model.</li>
+      <li>Run K-means or HDBSCAN clustering on the embeddings to produce 50-300 clusters.</li>
+      <li>For each cluster, ask an LLM to label it: "What do these 87 users have in common? What is their probable next action?"</li>
+      <li>Filter out clusters under 20 people (too small) and over 800 (not micro enough).</li>
+    </ol>
+    <p>Model-based cohorts will surface segments you never thought to write a rule for. Our list found a cohort of "users who viewed the WordPress plugin page after reading 2+ Local SEO articles". It had 134 people. The "WordPress + Local SEO" message we sent them converted at 11.2% — our highest of the year.</p>
+
+    <h2>Writing copy for 200 cohorts at scale</h2>
+
+    <p>The single biggest failure mode in micro-segmentation programs is template fatigue. You write one template, fill in cohort-specific variables, and ship. Two months later every cohort gets a recognizably "templated" email and engagement craters.</p>
+
+    <p>The right pattern is <strong>cohort-grounded generation</strong>. Workflow:</p>
+
+    <ol>
+      <li><strong>Cohort brief:</strong> 3-5 sentences describing who this cohort is, what they did, what they likely want next, what objection they probably have, and what action you want them to take.</li>
+      <li><strong>Brand voice file:</strong> a 500-word brand voice doc the LLM references for tone, banned words, sentence rhythm.</li>
+      <li><strong>Anchor examples:</strong> 3-5 of your best past emails as in-context examples.</li>
+      <li><strong>Variation:</strong> generate 3 versions per cohort, auto-pick the best with an LLM judge, send to a human for 30-second review.</li>
+    </ol>
+
+    <p>One engineer reviewing 200 emails at 30 seconds each = 100 minutes. Half a morning. The other 95% of the work is automated.</p>
+
+    <h3>Subject line patterns that win micro-cohort tests</h3>
+    <ul>
+      <li><strong>Specific reference:</strong> "About the pricing page you visited Tuesday"</li>
+      <li><strong>Mid-thought:</strong> "Re: the integration question"</li>
+      <li><strong>Cohort-named:</strong> "For solo dental practices in Texas"</li>
+      <li><strong>Objection-led:</strong> "Yes, it works with Webflow"</li>
+    </ul>
+    <p>None of these work as broadcasts. All of them lift open rates when the cohort matches the subject line's specificity.</p>
+
+    <h2>How it works inside your ESP</h2>
+
+    <p>Most ESPs (Klaviyo, Customer.io, Iterable, Braze) support segment-of-one sends. You do not need to migrate. You do need to wire the cohort assignment cleanly.</p>
+
+    <p>The standard architecture:</p>
+
+    <ol>
+      <li><strong>Warehouse:</strong> Your users table lives in BigQuery / Snowflake / Postgres.</li>
+      <li><strong>Cohort engine:</strong> A daily job (Airflow, Dagster, or a simple cron) runs the rule-based + model-based cohorting. Writes a "cohort_id" column on each user.</li>
+      <li><strong>Reverse ETL:</strong> Hightouch or Census syncs the cohort_id back into your ESP as a user attribute.</li>
+      <li><strong>Copy generation:</strong> A separate job generates per-cohort email variants and pushes them as ESP templates (one template per cohort).</li>
+      <li><strong>ESP sends:</strong> Your usual sending schedule fires, but each user receives the template tied to their cohort_id.</li>
+    </ol>
+
+    <p>The first two pieces take a day. Reverse ETL is a 2-hour Hightouch setup. Copy generation depends on your stack; if you are using a content platform that already does this — like theStacc's <a href="/modules/content-seo/">Content SEO module</a> for blog and the broader Stacc pipeline for outbound — you can hook the cohort engine directly into the existing publishing system.</p>
+
+    <h2>Measuring what matters</h2>
+
+    <p>Open rate is dead as a measurement metric (Apple MPP makes it unreliable). Track these instead:</p>
+
+    <ul>
+      <li><strong>Click rate by cohort.</strong> Anomalies surface fast — a cohort with sudden 0% clicks usually means a copy issue.</li>
+      <li><strong>Reply rate.</strong> Replies are the most reliable proxy for engagement now. Aim for 0.5%+ on transactional cohorts, 2%+ on hot-intent cohorts.</li>
+      <li><strong>Revenue per send.</strong> Total revenue attributable to a send / total recipients. The headline metric for the program.</li>
+      <li><strong>Cohort half-life.</strong> How long a cohort stays engaged before reverting to baseline. Shorter is better — it means the cohort definition is sharp.</li>
+      <li><strong>Unsubscribes by cohort.</strong> A cohort with 3x average unsubs is mis-targeted. Pull the message and rebuild.</li>
+    </ul>
+
+    <p>Set up a weekly dashboard. Look at it Mondays. Kill the bottom 10% of cohorts every month — either redefine them or fold them back into a parent cohort.</p>
+
+    <h2>The seven mistakes that kill 80% of programs</h2>
+
+    <ol>
+      <li><strong>Cohorts too small.</strong> Below 15 people, the variance is too high to learn anything. Merge until you hit 20+.</li>
+      <li><strong>Cohorts too big.</strong> Above 800, you are not doing micro — you are doing standard segmentation. Split further.</li>
+      <li><strong>Templated copy that screams template.</strong> If a human can spot the merge fields, your conversion will tank. Generate per-cohort, do not template-fill.</li>
+      <li><strong>Stale cohort definitions.</strong> A cohort defined in January is irrelevant by April. Refresh the cohorting job weekly, the rules quarterly.</li>
+      <li><strong>No human in the loop.</strong> The LLM will write something cringey eventually. Always have a 30-second human review pass.</li>
+      <li><strong>Single-channel obsession.</strong> Email is one channel. The same cohort logic should drive your retargeting ads, your in-app messages, and your <a href="/modules/social-media/">social media outreach</a>. Treat the cohort as canonical; the channel is downstream.</li>
+      <li><strong>Optimizing for the metric, not the customer.</strong> If a cohort gets 35% open and 0 revenue, you are optimizing the wrong thing. Tie cohort decisions back to revenue per send, every week.</li>
+    </ol>
+
+    <h2>A realistic 30-day rollout</h2>
+
+    <p>You do not need a six-month transformation project. Here is the schedule we used:</p>
+
+    <table>
+      <thead>
+        <tr><th>Week</th><th>What you ship</th><th>Who does it</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Users table in warehouse with 5 signal layers</td><td>1 data engineer</td></tr>
+        <tr><td>2</td><td>Rule-based cohorting (10-20 cohorts) + reverse ETL into ESP</td><td>Same engineer + 1 growth marketer</td></tr>
+        <tr><td>3</td><td>First cohort-tuned send to 5 cohorts. Measure baseline lift.</td><td>Growth marketer</td></tr>
+        <tr><td>4</td><td>Add model-based cohorting on top. Scale to 50+ cohorts.</td><td>Engineer + AI</td></tr>
+      </tbody>
+    </table>
+
+    <p>By day 30 you should be sending cohort-tuned messages to your full list, with measurable lift on click rate and revenue per send. Anything slower than that means you are over-engineering.</p>
+
+    <h2>Where this is going</h2>
+
+    <p>The next 12 months will collapse the time-to-cohort even further. We are watching three trends:</p>
+
+    <ul>
+      <li><strong>Real-time cohorting.</strong> Cohorts that update inside a session, not overnight. The "abandoned cart in last 8 minutes" cohort wins because the message arrives while intent is hot.</li>
+      <li><strong>Cross-channel coherence.</strong> Same cohort, same week, getting a tuned email + a tuned ad + a tuned in-app message. We cover the playbook for this in our <a href="/blog/">growth playbooks</a>.</li>
+      <li><strong>AI-search-aware copy.</strong> Your emails will be read partially by AI assistants summarising your inbox. Writing for both the human and the model becomes table stakes.</li>
+    </ul>
+
+    <p>If you are running theStacc, the cohort layer can plug into the publishing pipeline. The same intent signals that drive your <a href="/modules/local-seo/">Local SEO module</a>'s prioritisation drive your email cohorts. One canonical source of truth for "who this person is and what they want next". That is the long-term play.</p>
+
+    <h2>Wrap-up</h2>
+
+    <p>AI email micro-segmentation is not a future-of-marketing idea. It is shipping today, at small teams, with measurable lift in the first month. The hard part is the data foundation. Once the warehouse + reverse ETL is in place, the rest compounds.</p>
+
+    <p>Start with 10 cohorts this week. Get one tuned send out the door. Measure. Add 10 more cohorts next week. By the end of the quarter you will be on 100+ cohorts, every send tuned, and the email channel will become your highest-leverage growth lever again.</p>
+
+    <p>If you want the same compounding effect on your organic content, that is what theStacc does — AI that writes, ranks, and publishes the right article to the right cohort, every day. <a href="/pricing/">Pricing is here</a> if you want to see how it fits.</p>
+  </article>
+
+  <!-- AUTHOR -->
+  <div class="author-card">
+    <div class="author-avatar">SG</div>
+    <div class="author-body">
+      <h4>Siddharth Gangal</h4>
+      <p class="author-role">Founder, theStacc</p>
+      <p>Building the AI that publishes the open web. Previously shipped growth systems at three Y Combinator companies. Writes about practical AI for operators, not theory for analysts.</p>
+      <div class="author-links">
+        <a href="https://twitter.com/thestacc" target="_blank" rel="noopener">Twitter</a>
+        <a href="https://www.linkedin.com/in/siddharthgangal" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="/about/">About</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATED -->
+  <section class="related-section">
+    <div class="related-inner">
+      <h2>Keep reading</h2>
+      <div class="related-grid">
+        <a href="/blog/" class="related-card">
+          <span class="cat">AI Search</span>
+          <h3>How AI Overviews are rewriting the SEO playbook</h3>
+          <p>What the new Google AI Overview means for your traffic — and the 4 changes you should ship this month.</p>
+          <span class="arrow-link">Read the playbook →</span>
+        </a>
+        <a href="/blog/" class="related-card">
+          <span class="cat">Content Strategy</span>
+          <h3>The publishing cadence that actually compounds</h3>
+          <p>30 articles a month is the floor. Here is how to ship that without a 6-person content team.</p>
+          <span class="arrow-link">Read the playbook →</span>
+        </a>
+        <a href="/glossary/" class="related-card">
+          <span class="cat">Glossary</span>
+          <h3>GEO (Generative Engine Optimization)</h3>
+          <p>What GEO is, how it differs from SEO, and how to optimize a single page for both at once.</p>
+          <span class="arrow-link">Browse all 690+ terms →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA (lite) -->
+  <section class="final-section dark" style="padding: 64px 32px;">
+    <div class="dot-pattern" aria-hidden="true"></div>
+    <div class="final-wrap final-content" style="max-width: 720px; margin: 0 auto; text-align: center; position: relative; z-index: 1;">
+      <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Ready to publish on autopilot?</h2>
+      <p class="final-sub">$1 trial. 24-hour setup. Cancel anytime.</p>
+      <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+    </div>
+  </section>
+</BaseLayout>

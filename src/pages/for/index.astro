@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'For your vertical — SEO automation by industry · theStacc',
+  description: 'theStacc for dentists, lawyers, plumbers, HVAC, roofers, accountants, real estate, and restaurants. Rank in the Map Pack and publish on autopilot.',
+  canonical: 'https://thestacc.com/for/',
+  ogImage: '/og/for.webp',
+  schemaData: {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "theStacc by vertical",
+    "url": "https://thestacc.com/for/"
+  }
+};
+
+const verticals = [
+  { slug: 'dentists', name: 'Dentists', eyebrow: 'Local SEO · Reviews', desc: 'Rank for "dentist near me" and respond to every Google review in under 3 minutes.', stat: '18', label: 'Dental practices', wide: true },
+  { slug: 'lawyers', name: 'Lawyers', eyebrow: 'Content + Local SEO', desc: 'Practice-area pages that rank, plus a GBP that turns calls into consultations.', stat: '24', label: 'Law firms', wide: true },
+  { slug: 'plumbers', name: 'Plumbers', eyebrow: 'Map Pack', desc: 'Emergency-search pages, hyperlocal landing pages, and instant review replies.', stat: '32', label: 'Service areas' },
+  { slug: 'hvac', name: 'HVAC', eyebrow: 'Seasonal SEO', desc: 'AC tune-up, furnace repair, indoor air quality — content that ranks every season.', stat: '47+', label: 'Keywords ranked' },
+  { slug: 'roofers', name: 'Roofers', eyebrow: 'Storm-driven SEO', desc: 'After every storm, win the surge in "roof repair" searches before the competition.', stat: '92%', label: 'Map Pack top 3', brand: true },
+  { slug: 'accountants', name: 'Accountants', eyebrow: 'Tax-season SEO', desc: 'Content built for the tax-prep search cycle and the year-round bookkeeping audience.', stat: '60 days', label: 'To page 1' },
+  { slug: 'real-estate', name: 'Real Estate', eyebrow: 'Neighborhood SEO', desc: 'Per-neighborhood guides and per-listing pages that rank and convert to inquiries.', stat: '500+', label: 'Neighborhoods covered' },
+  { slug: 'restaurants', name: 'Restaurants', eyebrow: 'Local SEO + Social', desc: 'Daily Instagram posts, Google Posts, and review replies — all from one dashboard.', stat: '30+', label: 'Posts a month' },
+];
+---
+<BaseLayout seo={seo}>
+  <!-- HERO -->
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">By vertical · 8 industries</span>
+    <h1 class="h-display">Built for <span class="accent">your vertical.</span></h1>
+    <p class="hero-sub">From dentists winning the Map Pack to ecommerce stores publishing 30 buying guides a month — every playbook is tuned for the searches your customers actually run.</p>
+    <div class="hero-ctas">
+      <a href="/checkout/" class="btn btn-primary"><span>Start your $1 trial <span class="arrow">→</span></span></a>
+      <a href="/demo/" class="btn btn-secondary">Book a 15-min demo</a>
+    </div>
+  </section>
+
+  <!-- VERTICALS BENTO -->
+  <section class="verticals-section" style="background: var(--bg-soft);">
+    <div class="verticals-bento">
+      {verticals.map((v) => {
+        const cls = ['vb-card'];
+        if (v.wide) cls.push('vb-feature');
+        if (v.brand) cls.push('vb-brand');
+        return (
+          <a href={`/for/${v.slug}/`} class={cls.join(' ')}>
+            <div class="vb-row">
+              <div class={`vb-icon ${v.brand ? 'vb-icon-light' : ''}`}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <span class="vb-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+            </div>
+            <div class="vb-eyebrow">{v.eyebrow}</div>
+            <h3 class="vb-title">{v.name}</h3>
+            <p class="vb-desc">{v.desc}</p>
+            <div class="vb-stat-row">
+              <span class="vb-stat-num">{v.stat}</span>
+              <span class="vb-stat-label">{v.label}</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- LITE FINAL CTA -->
+  <section class="final-section dark">
+    <div class="final-wrap" style="padding: 80px 32px;">
+      <div class="final-content" style="max-width: 720px;">
+        <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Pick your vertical. <span class="accent">Start ranking.</span></h2>
+        <p class="final-sub">$1 trial. First article live in 24 hours. Cancel anytime.</p>
+        <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
