@@ -70,13 +70,80 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     --container-w: 1240px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
   body {
     font-family: 'Geist', system-ui, sans-serif;
     color: var(--text-1); background: var(--bg);
     line-height: 1.4; -webkit-font-smoothing: antialiased;
     font-feature-settings: 'ss01' 1;
     overflow-x: hidden;
+    max-width: 100vw;
+  }
+  /* Global guards against rogue overflow */
+  img, video, svg, iframe, canvas { max-width: 100%; height: auto; }
+  table { max-width: 100%; }
+  pre, code { max-width: 100%; overflow-x: auto; word-wrap: break-word; }
+  /* Universal responsive collapse for inline multi-column grids on small mobile.
+     Catches inline-styled `grid-template-columns: repeat(3|4, 1fr)` patterns and
+     common named grid classes that the bulk-imported pages forgot to make responsive. */
+  @media (max-width: 700px) {
+    [style*="grid-template-columns: repeat(4"],
+    [style*="grid-template-columns:repeat(4"],
+    [style*="grid-template-columns: repeat(3"],
+    [style*="grid-template-columns:repeat(3"] {
+      grid-template-columns: 1fr 1fr !important;
+    }
+    [style*="grid-template-columns: repeat(5"],
+    [style*="grid-template-columns:repeat(5"],
+    [style*="grid-template-columns: repeat(6"],
+    [style*="grid-template-columns:repeat(6"],
+    [style*="grid-template-columns: repeat(7"],
+    [style*="grid-template-columns:repeat(7"],
+    [style*="grid-template-columns: repeat(8"],
+    [style*="grid-template-columns:repeat(8"] {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+    /* Fixed-width 2-col layouts (sidebar + content) must stack on mobile */
+    [style*="grid-template-columns: 320px"],
+    [style*="grid-template-columns:320px"],
+    [style*="grid-template-columns: 280px"],
+    [style*="grid-template-columns:280px"],
+    [style*="grid-template-columns: 360px"],
+    [style*="grid-template-columns:360px"],
+    [style*="grid-template-columns: 400px"],
+    [style*="grid-template-columns:400px"],
+    [style*="grid-template-columns: 1fr 1.4fr"],
+    [style*="grid-template-columns: 1fr 1.6fr"],
+    [style*="grid-template-columns: 1fr 2fr"],
+    [style*="grid-template-columns: 2fr 1fr"],
+    [style*="grid-template-columns: 1.4fr 1fr"],
+    [style*="grid-template-columns: 1.6fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+    .values-grid,
+    .integ-grid,
+    .vert-grid,
+    .case-grid,
+    .feature-grid,
+    .stack-bento,
+    .testimonials-grid,
+    .testimonials-left,
+    .testimonials-right,
+    .team-grid,
+    .investors-strip,
+    .press-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  @media (max-width: 480px) {
+    [style*="grid-template-columns: repeat(3"],
+    [style*="grid-template-columns:repeat(3"],
+    [style*="grid-template-columns: repeat(2"],
+    [style*="grid-template-columns:repeat(2"],
+    [style*="grid-template-columns: repeat(4"],
+    [style*="grid-template-columns:repeat(4"] {
+      grid-template-columns: 1fr !important;
+    }
   }
   a { color: inherit; text-decoration: none; }
   button { font-family: inherit; cursor: pointer; border: none; background: none; }
@@ -660,6 +727,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .stat-num .accent { color: var(--brand); font-weight: 700; }
   .stat-label { margin-top: 12px; font-size: 13px; color: var(--text-3); }
   @media (max-width: 768px) { .stats-row { grid-template-columns: 1fr 1fr; } .stat-cell:nth-child(2) { border-right: none; } .stat-cell:nth-child(1), .stat-cell:nth-child(2) { border-bottom: 1px solid var(--border); } }
+  @media (max-width: 480px) { .stat-cell { padding: 28px 14px; } .stat-num { font-size: clamp(28px, 8vw, 40px); word-break: break-word; } .stat-label { font-size: 12px; } }
 
   /* ═══════════════════════════════════════════════
      SERP BATTLE SECTION
@@ -1411,6 +1479,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
      ═══════════════════════════════════════════════ */
   .testimonials-section { background: var(--bg-dark); color: white; padding: 0; overflow: clip; }
   .testimonials-wrap { padding: 96px 48px; position: relative; }
+  @media (max-width: 700px) { .testimonials-wrap { padding: 56px 20px; } .testimonials-grid { grid-template-columns: 1fr !important; gap: 32px !important; } }
   .testimonials-wrap::before {
     content: ''; position: absolute; inset: 0;
     background:
