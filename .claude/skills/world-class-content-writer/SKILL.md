@@ -804,14 +804,18 @@ Always link to these when topic adjacency allows:
 
 1. Writing in markdown only (must ship `.astro` file)
 2. Using old 700-line bento layout instead of new blog-style 2-col
-3. Inserting `<img>` tags (use `.figure-frame` gradient blocks)
+3. Inserting `<img>` tags or empty `.post-figure` gradient placeholders (omit entirely if no real image)
 4. Inventing pricing / stats / customer quotes
 5. Generic intro starting with "In today's..."
 6. Skipping the sticky sidebar
 7. Less than 8 distinct blog element types
 8. Skipping `bun run build` verification
-9. CTA pointing anywhere except `/checkout/` or `/demo/` or `/blog/`
+9. CTA pointing anywhere except `/checkout/`, `/demo/`, `/pricing/`, or `/blog/`
 10. Using banned phrases (game-changer, leverage, world-class, etc.)
+11. **Copying anything other than text content from the source blog/review.** When importing from an existing page (live thestacc.com or elsewhere): extract pricing, features, FAQs, customer quotes, ratings, sources — ignore the source's HTML structure, classes, scripts, embeds, image refs, layout. The output uses ONLY the new template's design system (`/styles/review-post.css` + the canonical section structure). Source = text; design = template.
+12. Inline `<style>` blocks in pages — CSS lives in `/src/styles/review-post.css`, imported once in frontmatter.
+13. Tick (✓) or cross (✗) marks in `.diy-dfy-col` lists — both columns use neutral `•` dots only. Per-row positive/negative framing comes from the column header, not the bullet glyph.
+14. Manual `<span class="src-num">[01]</span>` AND `<ol>` together — the global `.post-content ol` counter would double-render. Use `<ol class="sources-list">` (counter is suppressed for this class) and let `.src-num` handle the visible numbering.
 
 ---
 
