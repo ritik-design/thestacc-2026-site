@@ -93,6 +93,119 @@ Siddharth Gangal — operator, ex-head-of-growth, built theStacc after watching 
 
 ---
 
+## thestacc AUTHORS — auto-assignment
+
+Every article MUST be bylined to one of three real authors. Pick by topic. Never invent a fourth name.
+
+### Author roster
+
+| Author | Slug | Role | LinkedIn | Initials | Avatar gradient |
+|---|---|---|---|---|---|
+| **Siddharth Gangal** | `siddharth-gangal` | Founder & CEO | [linkedin.com/in/sidgangal](https://www.linkedin.com/in/sidgangal/) | `SG` | `linear-gradient(135deg, var(--brand), var(--brand-deep))` |
+| **Akshay VR** | `akshay-vr` | Marketing Head | [linkedin.com/in/akshay-vr-3aa1b9204](https://www.linkedin.com/in/akshay-vr-3aa1b9204/) | `AVR` | `linear-gradient(135deg, #f59e0b, #b45309)` (amber) |
+| **Ritik Namdev** | `ritik-namdev` | Growth Manager | [linkedin.com/in/ritiknamdev](https://www.linkedin.com/in/ritiknamdev/) | `RN` | `linear-gradient(135deg, #06b6d4, #0e7490)` (cyan) |
+
+### Verified facts (the only facts you may cite — never fabricate beyond these)
+
+- **Siddharth:** B.Tech Electrical Engineering, IIT Mandi (2013–17 batch); minors in German Language + Management; co-founded ARKA 360 (2017) — a satellite-imagery + drone-data SaaS for solar design; IIT Mandi Young Achiever Award 2020 for entrepreneurship + management; founded theStacc; X: @sidgangal; based in Delhi.
+- **Akshay:** Senior Marketing Specialist at ARKA 360 (Siddharth's sibling SaaS) before joining theStacc as Marketing Head; based in Malappuram, Kerala.
+- **Ritik:** at Arka Energy / theStacc family as Growth Manager; 5+ years digital marketing, content strategy, growth; publishes on Medium ([ritiknamdev.medium.com](https://ritiknamdev.medium.com/)) and YouTube ([@officialRitikNamdev](https://www.youtube.com/@officialRitikNamdev)).
+
+### Topic → author selection rules
+
+Apply in order. First match wins.
+
+| If the article is… | Author |
+|---|---|
+| A competitor SEO tool review (`/reviews/{slug}/`) | **Siddharth** — public face of competitive positioning |
+| An alternatives guide (`/alternatives/{slug}/`) | **Akshay** — editorial comparison work |
+| A best-of listicle (`/best/{slug}/`) | **Ritik** — practitioner ranking + scoring style |
+| Founder vision / contrarian thesis / SaaS economics / startup lessons | **Siddharth** |
+| AI SEO architecture · LLMs · GEO · programmatic SEO theory · technical SEO depth · automation strategy | **Siddharth** |
+| Editorial strategy · brand voice · content operations · keyword research craft · on-page SEO · topical authority · CRM/automation | **Akshay** |
+| Growth experiments · CRO · A/B testing · GA4 · Search Console · funnel ops · performance marketing · scale playbooks · execution narratives | **Ritik** |
+| Programmatic SEO at scale (execution-heavy, with stats) | **Ritik** |
+| Programmatic SEO theory or architecture | **Siddharth** |
+| Glossary terms (`/glossary/`) | **Akshay** — editorial definition voice |
+| Default (when truly ambiguous) | **Siddharth** |
+
+### Author voice — write IN this voice, not ABOUT them
+
+- **Siddharth:** founder first-person, blunt about costs, contrarian on agency models, comfortable with technical depth on AI/SEO architecture. "We tested this on a 4.2M URL site." "I quit my last job because…"
+- **Akshay:** editorial third-person leaning into "we", practitioner-led, brand-voice-conscious, frames everything as a repeatable playbook. "The teams that win at content ops do three things…"
+- **Ritik:** data-led, system-builder, before/after narratives with real numbers, instrument-everything mindset. "We A/B tested the meta title. CTR moved from 2.1% to 4.7%."
+
+### Byline metadata block — paste into every article frontmatter
+
+Pick the matching one:
+
+```js
+// Siddharth (default)
+const author = {
+  name: "Siddharth Gangal",
+  slug: "siddharth-gangal",
+  role: "Founder & CEO",
+  linkedin: "https://www.linkedin.com/in/sidgangal/",
+  twitter: "https://x.com/sidgangal",
+  avatar: "/authors/siddharth-gangal.webp",
+  initials: "SG",
+  bio: "Founder of theStacc. IIT Mandi B.Tech (2013–17). Co-founded ARKA 360 in 2017. Writes about AI SEO, LLM search, and the systems that compound traffic over time."
+};
+
+// Akshay
+const author = {
+  name: "Akshay VR",
+  slug: "akshay-vr",
+  role: "Marketing Head",
+  linkedin: "https://www.linkedin.com/in/akshay-vr-3aa1b9204/",
+  twitter: null,
+  avatar: "/authors/akshay-vr.webp",
+  initials: "AVR",
+  bio: "Marketing Head at theStacc. Previously Senior Marketing Specialist at ARKA 360. Writes about editorial strategy, content operations, and SEO craft for B2B SaaS."
+};
+
+// Ritik
+const author = {
+  name: "Ritik Namdev",
+  slug: "ritik-namdev",
+  role: "Growth Manager",
+  linkedin: "https://www.linkedin.com/in/ritiknamdev/",
+  twitter: null,
+  avatar: "/authors/ritik-namdev.webp",
+  initials: "RN",
+  bio: "Growth Manager at theStacc. Five years across digital marketing, content strategy, and growth systems. Publishes on Medium and YouTube. Writes about growth experiments, CRO, and programmatic SEO at scale."
+};
+```
+
+### Hero meta strip — link the author name
+
+In the `.post-hero .post-meta` block, the author name MUST be wrapped in `<a href="/authors/{slug}/">` so it links to the dedicated author page. Same for the author-block at the bottom of the article. Apply the author's avatar gradient as a per-page `<style>` override:
+
+```css
+/* For Akshay-authored pages */
+.meta-avatar, .author-avatar-lg { background: linear-gradient(135deg, #f59e0b, #b45309) !important; }
+
+/* For Ritik-authored pages */
+.meta-avatar, .author-avatar-lg { background: linear-gradient(135deg, #06b6d4, #0e7490) !important; }
+```
+
+(Siddharth uses the default brand gradient — no override needed.)
+
+### Author block in schemaData
+
+Every article's `schemaData` array MUST include an `author` Person object inside the primary schema entry (Review / Article / ItemList) AND a separate top-level `Person` entry is optional but encouraged for high-priority pages:
+
+```js
+"author": {
+  "@type": "Person",
+  "name": "Akshay VR",
+  "url": "https://thestacc.com/authors/akshay-vr/",
+  "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"]
+}
+```
+
+---
+
 ## thestacc ICP — pick ONE per article
 
 | # | Persona | Where this article fits |
@@ -474,10 +587,13 @@ Output is a finished `.astro` file using the **new blog-style design system**. R
 ```
 
 ### Required hero meta strip
-- Author avatar (initials) + name + role
+- Author avatar (initials, gradient matched to the selected author)
+- Author name wrapped in `<a href="/authors/{slug}/">` — links to author page
+- Author role line (`Founder · theStacc` / `Marketing Head · theStacc` / `Growth Manager · theStacc`)
 - Published date · Read time · Updated (quarter)
 - For reviews: 5-star rating row
 - For alternatives/best: "X tools tested · Nd window" badge
+- If the author is Akshay or Ritik, add the per-page avatar gradient override (see AUTHORS section above)
 
 ### Required sidebar
 - **Sidebar-cta** (dark gradient, sticky on top of sidebar):

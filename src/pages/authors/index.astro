@@ -1,0 +1,450 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Headshot specs:
+//   - 800x800 webp, white or off-white background (#fafaf9)
+//   - Tight headshot crop (shoulders up)
+//   - Consistent lighting + framing across all 3 authors
+//   - Neutral expression, looking at camera
+//   - File path: /public/authors/{slug}.webp
+
+const seo = {
+  title: 'theStacc editorial team — the operators writing every guide | theStacc',
+  description: 'Meet the theStacc editorial team. Founder Siddharth Gangal, Marketing Head Akshay VR, and Growth Manager Ritik Namdev — operators who write what they ship.',
+  canonical: 'https://thestacc.com/authors/',
+  ogImage: '/og/authors.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Authors", "item": "https://thestacc.com/authors/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "theStacc editorial team",
+      "url": "https://thestacc.com/authors/",
+      "description": "The operators behind every theStacc guide, review, and playbook.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "theStacc",
+        "url": "https://thestacc.com/"
+      },
+      "hasPart": [
+        {
+          "@type": "Person",
+          "name": "Siddharth Gangal",
+          "jobTitle": "Founder & CEO",
+          "url": "https://thestacc.com/authors/siddharth-gangal/"
+        },
+        {
+          "@type": "Person",
+          "name": "Akshay VR",
+          "jobTitle": "Marketing Head",
+          "url": "https://thestacc.com/authors/akshay-vr/"
+        },
+        {
+          "@type": "Person",
+          "name": "Ritik Namdev",
+          "jobTitle": "Growth Manager",
+          "url": "https://thestacc.com/authors/ritik-namdev/"
+        }
+      ]
+    }
+  ]
+};
+
+const authors = [
+  {
+    slug: 'siddharth-gangal',
+    name: 'Siddharth Gangal',
+    initials: 'SG',
+    role: 'Founder & CEO',
+    location: 'Delhi, India',
+    headline: 'Building AI systems that automate SEO at scale.',
+    bio: 'Co-founded ARKA 360 out of IIT Mandi in 2017 and grew it into a global solar SaaS used by thousands of installers. Now building theStacc — an AI platform that researches, writes, and publishes SEO content end-to-end. Writes about programmatic SEO, AI search, and what it actually takes to ship content at startup speed.',
+    expertise: ['AI SEO', 'Programmatic SEO', 'LLM SEO', 'SaaS', 'Founder Insights'],
+    posts: 12,
+  },
+  {
+    slug: 'akshay-vr',
+    name: 'Akshay VR',
+    initials: 'AVR',
+    role: 'Marketing Head',
+    location: 'Malappuram, Kerala',
+    headline: 'Content strategy and SEO for B2B SaaS.',
+    bio: 'Led marketing at ARKA 360 before joining theStacc to run editorial, SEO, and content operations. Writes about keyword research, editorial workflows, and the unglamorous work of building topical authority one well-edited article at a time.',
+    expertise: ['SEO Strategy', 'Content Marketing', 'Editorial Ops', 'B2B SaaS', 'Brand Voice'],
+    posts: 9,
+  },
+  {
+    slug: 'ritik-namdev',
+    name: 'Ritik Namdev',
+    initials: 'RN',
+    role: 'Growth Manager',
+    location: 'India',
+    headline: 'Building growth systems for content-led SaaS.',
+    bio: 'Five years inside digital marketing, content strategy, and growth at content-led SaaS companies. Publishes on Medium and YouTube about the tactical side of SEO — programmatic scale, CRO, analytics plumbing, and the funnel work that turns rankings into revenue.',
+    expertise: ['Growth Marketing', 'Programmatic SEO', 'CRO', 'Analytics', 'Funnel Ops'],
+    posts: 7,
+  },
+];
+---
+<BaseLayout seo={seo}>
+  <style>
+    .authors-hero { padding: 88px 32px 56px; max-width: 1080px; margin: 0 auto; text-align: center; }
+    .authors-breadcrumb { display: inline-flex; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 28px; }
+    .authors-breadcrumb a { color: var(--text-3); transition: color 0.15s; }
+    .authors-breadcrumb a:hover { color: var(--brand); }
+    .authors-breadcrumb .sep { color: var(--border-strong); }
+    .authors-breadcrumb .current { color: var(--text-1); font-weight: 600; }
+    .authors-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--brand-softer); border: 1px solid var(--brand-soft); border-radius: 100px; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand); font-weight: 600; margin-bottom: 28px; }
+    .authors-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--brand); border-radius: 50%; }
+    .authors-hero h1 { font-size: clamp(40px, 5.2vw, 64px); font-weight: 700; line-height: 1.05; letter-spacing: -0.035em; color: var(--text-1); margin-bottom: 24px; max-width: 18ch; margin-left: auto; margin-right: auto; }
+    .authors-hero .lede { font-size: 19px; line-height: 1.6; color: var(--text-2); max-width: 64ch; margin: 0 auto 36px; }
+    .authors-hero .lede strong { color: var(--text-1); font-weight: 600; }
+    .authors-eeat { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 880px; margin: 40px auto 0; border: 1px solid var(--border); }
+    @media (max-width: 700px) { .authors-eeat { grid-template-columns: repeat(2, 1fr); } }
+    .eeat-cell { padding: 22px 18px; border-right: 1px solid var(--border); text-align: left; }
+    .eeat-cell:last-child { border-right: none; }
+    @media (max-width: 700px) { .eeat-cell:nth-child(2n) { border-right: none; } .eeat-cell { border-bottom: 1px solid var(--border); } .eeat-cell:nth-last-child(-n+2) { border-bottom: none; } }
+    .eeat-num { font-size: 26px; font-weight: 700; color: var(--brand); letter-spacing: -0.02em; line-height: 1; }
+    .eeat-lbl { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-top: 10px; }
+    .eeat-sub { font-size: 12px; color: var(--text-2); margin-top: 4px; line-height: 1.45; }
+
+    .authors-divider { display: flex; align-items: center; gap: 12px; max-width: 880px; margin: 64px auto 24px; padding: 0 32px; }
+    .authors-divider::before, .authors-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .authors-divider span { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); }
+
+    .author-cards { max-width: 1080px; margin: 0 auto; padding: 0 32px 96px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 880px) { .author-cards { grid-template-columns: 1fr; gap: 18px; } }
+    .author-card { background: white; border: 1px solid var(--border); padding: 32px 28px; display: flex; flex-direction: column; transition: all 0.25s; position: relative; overflow: hidden; }
+    .author-card:hover { border-color: var(--brand); transform: translateY(-3px); box-shadow: 0 20px 40px -16px rgba(79,57,246,0.18); }
+    .author-card::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--brand), var(--brand-bright)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; }
+    .author-card:hover::before { transform: scaleX(1); }
+    .author-card .ac-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--brand), var(--brand-deep)); color: white; display: grid; place-items: center; font-weight: 700; font-size: 26px; letter-spacing: -0.02em; border-radius: 50% !important; margin-bottom: 20px; box-shadow: 0 12px 28px -10px var(--brand-glow); }
+    .author-card h3 { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.015em; margin-bottom: 4px; }
+    .author-card .ac-role { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand); font-weight: 600; margin-bottom: 16px; }
+    .author-card .ac-headline { font-size: 15px; line-height: 1.5; color: var(--text-1); font-weight: 500; margin-bottom: 16px; }
+    .author-card .ac-bio { font-size: 14px; line-height: 1.6; color: var(--text-2); margin-bottom: 20px; }
+    .author-card .ac-loc { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.06em; margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
+    .author-card .ac-loc::before { content: ''; width: 5px; height: 5px; background: var(--accent-emerald); border-radius: 50%; }
+    .author-card .ac-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
+    .author-card .ac-tag { font-size: 11px; padding: 4px 10px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-2); border-radius: 100px; font-weight: 500; }
+    .author-card .ac-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border); }
+    .author-card .ac-link { font-size: 13px; font-weight: 600; color: var(--brand); display: inline-flex; align-items: center; gap: 6px; }
+    .author-card:hover .ac-link span { transform: translateX(3px); }
+    .author-card .ac-link span { transition: transform 0.2s; }
+    .author-card .ac-posts { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .principles-section { background: var(--bg-soft); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 32px; }
+    .principles-wrap { max-width: 1080px; margin: 0 auto; }
+    .principles-head { text-align: center; margin-bottom: 48px; }
+    .principles-head .mono { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); margin-bottom: 16px; font-weight: 600; }
+    .principles-head h2 { font-size: clamp(28px, 3.6vw, 40px); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 18px; max-width: 22ch; margin-left: auto; margin-right: auto; }
+    .principles-head p { font-size: 17px; line-height: 1.6; color: var(--text-2); max-width: 60ch; margin: 0 auto; }
+    .principles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); background: white; }
+    @media (max-width: 880px) { .principles-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .principles-grid { grid-template-columns: 1fr; } }
+    .principle-cell { padding: 28px 24px; border-right: 1px solid var(--border); }
+    .principle-cell:last-child { border-right: none; }
+    @media (max-width: 880px) { .principle-cell:nth-child(2n) { border-right: none; } .principle-cell:nth-child(-n+2) { border-bottom: 1px solid var(--border); } }
+    @media (max-width: 480px) { .principle-cell { border-right: none; border-bottom: 1px solid var(--border); } .principle-cell:last-child { border-bottom: none; } }
+    .principle-num { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); font-weight: 700; margin-bottom: 16px; }
+    .principle-cell h3 { font-size: 17px; font-weight: 600; color: var(--text-1); letter-spacing: -0.015em; margin-bottom: 10px; }
+    .principle-cell p { font-size: 13.5px; line-height: 1.6; color: var(--text-2); }
+
+    .standards-section { padding: 80px 32px; max-width: 1080px; margin: 0 auto; }
+    .standards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    @media (max-width: 880px) { .standards-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .standards-grid h2 { font-size: clamp(28px, 3.6vw, 38px); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 18px; }
+    .standards-grid .col-left p { font-size: 17px; line-height: 1.65; color: var(--text-2); margin-bottom: 14px; }
+    .standards-grid .col-left .mono { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); margin-bottom: 14px; font-weight: 600; }
+    .standards-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--border); }
+    .standards-list li { padding: 18px 0; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.55; color: var(--text-1); display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; }
+    .standards-list .check { width: 24px; height: 24px; background: var(--brand-softer); border: 1px solid var(--brand-soft); display: grid; place-items: center; color: var(--brand); border-radius: 50% !important; }
+    .standards-list .check svg { width: 12px; height: 12px; }
+    .standards-list strong { color: var(--text-1); font-weight: 600; display: block; margin-bottom: 4px; }
+    .standards-list span.desc { color: var(--text-2); font-size: 13.5px; line-height: 1.55; font-weight: 400; }
+
+    @media (max-width: 700px) {
+      .authors-hero { padding: 56px 20px 40px; }
+      .author-cards { padding: 0 20px 64px; }
+      .standards-section { padding: 56px 20px; }
+      .principles-section { padding: 56px 20px; }
+      .authors-divider { padding: 0 20px; margin: 48px auto 20px; }
+    }
+  </style>
+
+  <!-- HERO -->
+  <section class="authors-hero">
+    <div class="authors-breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <span class="current">Authors</span>
+    </div>
+    <span class="authors-eyebrow">Editorial team</span>
+    <h1>The theStacc editorial team</h1>
+    <p class="lede">Every guide, review, and playbook on this site is written by operators who use the same tactics on theStacc itself. <strong>No freelancers. No ghostwriters. No outsourced content shops.</strong> When you read about programmatic SEO, AI search, or growth experiments here — it's coming from the people running those exact systems in production.</p>
+
+    <div class="authors-eeat">
+      <div class="eeat-cell">
+        <div class="eeat-num">3</div>
+        <div class="eeat-lbl">Operators</div>
+        <div class="eeat-sub">Founder, marketing, growth</div>
+      </div>
+      <div class="eeat-cell">
+        <div class="eeat-num">10+</div>
+        <div class="eeat-lbl">Years combined</div>
+        <div class="eeat-sub">Building content-led SaaS</div>
+      </div>
+      <div class="eeat-cell">
+        <div class="eeat-num">100%</div>
+        <div class="eeat-lbl">In-house</div>
+        <div class="eeat-sub">Zero ghostwritten posts</div>
+      </div>
+      <div class="eeat-cell">
+        <div class="eeat-num">Q2 '26</div>
+        <div class="eeat-lbl">Latest update</div>
+        <div class="eeat-sub">Editorial standards live</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="authors-divider"><span>Meet the team</span></div>
+
+  <!-- AUTHOR CARDS -->
+  <section class="author-cards">
+    {authors.map((a) => (
+      <a href={`/authors/${a.slug}/`} class="author-card">
+        <div class="ac-avatar">{a.initials}</div>
+        <h3>{a.name}</h3>
+        <div class="ac-role">{a.role}</div>
+        <div class="ac-loc">{a.location}</div>
+        <p class="ac-headline">{a.headline}</p>
+        <p class="ac-bio">{a.bio}</p>
+        <div class="ac-tags">
+          {a.expertise.map((tag) => <span class="ac-tag">{tag}</span>)}
+        </div>
+        <div class="ac-footer">
+          <span class="ac-link">Read profile <span>→</span></span>
+          <span class="ac-posts">{a.posts} posts</span>
+        </div>
+      </a>
+    ))}
+  </section>
+
+  <!-- EDITORIAL PRINCIPLES -->
+  <section class="principles-section">
+    <div class="principles-wrap">
+      <div class="principles-head">
+        <div class="mono">Editorial principles</div>
+        <h2>Why we write everything ourselves</h2>
+        <p>Most SaaS blogs hire ghost writers, pay $80 per article, and wonder why nothing ranks or converts. We don't. Here's how we work.</p>
+      </div>
+      <div class="principles-grid">
+        <div class="principle-cell">
+          <div class="principle-num">01 — Operators only</div>
+          <h3>Written by people shipping it</h3>
+          <p>Every article ships from someone with hands on the system. If we haven't built it, we don't write about it.</p>
+        </div>
+        <div class="principle-cell">
+          <div class="principle-num">02 — Plain English</div>
+          <h3>No jargon, no filler</h3>
+          <p>A small business owner should finish a paragraph and feel smarter. If a sentence sounds like a chatbot wrote it, it gets cut.</p>
+        </div>
+        <div class="principle-cell">
+          <div class="principle-num">03 — Numbers we can defend</div>
+          <h3>Verifiable or it gets cut</h3>
+          <p>Every stat links to a source we trust. No vendor-supplied "industry studies" with no methodology behind them.</p>
+        </div>
+        <div class="principle-cell">
+          <div class="principle-num">04 — Updated, not archived</div>
+          <h3>We revisit before we publish more</h3>
+          <p>Pricing, features, screenshots — anything time-sensitive gets re-verified every quarter. We mark the date on every page.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STANDARDS -->
+  <section class="standards-section">
+    <div class="standards-grid">
+      <div class="col-left">
+        <div class="mono">Editorial standards</div>
+        <h2>How we keep the bar high.</h2>
+        <p>We publish a lot of long-form. The only way that stays useful is a tight review loop and rules everyone follows. These are the standards every theStacc piece passes through before it ships.</p>
+        <p>If you ever spot something we got wrong, email <a href="/contact/" style="color: var(--brand);">corrections@thestacc.com</a> — we'll fix it and credit the catch.</p>
+      </div>
+      <ul class="standards-list">
+        <li>
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="currentColor" stroke-width="2"/></svg></span>
+          <span><strong>Two-pass review</strong><span class="desc">Every article is written by one team member and edited by another. No solo publishes.</span></span>
+        </li>
+        <li>
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="currentColor" stroke-width="2"/></svg></span>
+          <span><strong>Sources cited inline</strong><span class="desc">Any data point, price, or claim either links to a primary source or comes from our own testing.</span></span>
+        </li>
+        <li>
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="currentColor" stroke-width="2"/></svg></span>
+          <span><strong>Disclosure when we compete</strong><span class="desc">If we're reviewing a competitor, we say so at the top — every time.</span></span>
+        </li>
+        <li>
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="currentColor" stroke-width="2"/></svg></span>
+          <span><strong>Quarterly refresh</strong><span class="desc">Pricing, screenshots, and feature claims are re-verified every quarter. The "Updated" stamp tells you when.</span></span>
+        </li>
+        <li>
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="currentColor" stroke-width="2"/></svg></span>
+          <span><strong>No AI-generated drafts</strong><span class="desc">We build AI tools for a living. The irony is we don't trust them to draft our editorial — humans write, AI helps with research.</span></span>
+        </li>
+        <li>
+          <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="currentColor" stroke-width="2"/></svg></span>
+          <span><strong>Author accountability</strong><span class="desc">Every post carries the author's real name, role, and LinkedIn. No anonymous "content team" bylines.</span></span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- COLLECTIVE EXPERIENCE -->
+  <section style="padding: 80px 32px; max-width: 1080px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 48px;">
+      <div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); margin-bottom: 16px; font-weight: 600;">Why trust us</div>
+      <h2 style="font-size: clamp(28px, 3.6vw, 40px); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; color: var(--text-1); margin: 0 auto 18px; max-width: 24ch;">Operators with real products, not influencers with takes</h2>
+      <p style="font-size: 17px; line-height: 1.6; color: var(--text-2); max-width: 62ch; margin: 0 auto;">Everyone writing here has shipped a SaaS, run growth at a content-led company, or owned editorial inside a real marketing team. No theory-only authors.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border);">
+      <div style="padding: 28px 24px; border-right: 1px solid var(--border);">
+        <div style="font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 700; margin-bottom: 14px;">01 — Founder track</div>
+        <h3 style="font-size: 17px; font-weight: 600; color: var(--text-1); margin-bottom: 10px; letter-spacing: -0.015em;">Two SaaS companies, eight years apart</h3>
+        <p style="font-size: 14px; line-height: 1.6; color: var(--text-2);">Siddharth co-founded ARKA 360 out of IIT Mandi and now runs theStacc. The articles on AI search and founder strategy come from someone who is currently building the systems being described.</p>
+      </div>
+      <div style="padding: 28px 24px; border-right: 1px solid var(--border);">
+        <div style="font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 700; margin-bottom: 14px;">02 — Editorial track</div>
+        <h3 style="font-size: 17px; font-weight: 600; color: var(--text-1); margin-bottom: 10px; letter-spacing: -0.015em;">SaaS marketing in production</h3>
+        <p style="font-size: 14px; line-height: 1.6; color: var(--text-2);">Akshay ran marketing at ARKA 360 before moving to theStacc. Editorial workflows, keyword research, and content operations — all from someone currently running them.</p>
+      </div>
+      <div style="padding: 28px 24px;">
+        <div style="font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 700; margin-bottom: 14px;">03 — Growth track</div>
+        <h3 style="font-size: 17px; font-weight: 600; color: var(--text-1); margin-bottom: 10px; letter-spacing: -0.015em;">Five years of growth systems</h3>
+        <p style="font-size: 14px; line-height: 1.6; color: var(--text-2);">Ritik has spent five years building programmatic SEO, CRO, and analytics systems inside content-led SaaS. His write-ups on Medium and YouTube are the same kind of work, made public.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE PICK TOPICS -->
+  <section style="padding: 80px 32px; max-width: 880px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); margin-bottom: 14px; font-weight: 600;">Editorial process</div>
+      <h2 style="font-size: clamp(26px, 3.4vw, 36px); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; color: var(--text-1); margin: 0 auto 16px; max-width: 24ch;">How an article gets onto the site</h2>
+      <p style="font-size: 16px; line-height: 1.6; color: var(--text-2); max-width: 60ch; margin: 0 auto;">The short version of the editorial process, from idea to published. We try to be transparent about this because most "trust signal" pages aren't.</p>
+    </div>
+    <ol style="list-style: none; padding: 0; margin: 0; counter-reset: steps; border-top: 1px solid var(--border);">
+      <li style="counter-increment: steps; padding: 22px 0 22px 56px; border-bottom: 1px solid var(--border); position: relative; font-size: 15.5px; line-height: 1.65; color: var(--text-2);">
+        <span style="position: absolute; left: 0; top: 22px; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; color: var(--brand); letter-spacing: 0.04em;">01</span>
+        <strong style="color: var(--text-1); font-weight: 600; display: block; margin-bottom: 4px;">Topic comes from a real problem.</strong>
+        Either a customer asked it, a sales call surfaced it, or we hit it ourselves inside theStacc. No keyword-tool-first ideas.
+      </li>
+      <li style="counter-increment: steps; padding: 22px 0 22px 56px; border-bottom: 1px solid var(--border); position: relative; font-size: 15.5px; line-height: 1.65; color: var(--text-2);">
+        <span style="position: absolute; left: 0; top: 22px; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; color: var(--brand); letter-spacing: 0.04em;">02</span>
+        <strong style="color: var(--text-1); font-weight: 600; display: block; margin-bottom: 4px;">Assigned to whoever ships it.</strong>
+        Founder topics go to Siddharth. Editorial and SEO strategy go to Akshay. Growth and CRO go to Ritik. No outsourcing.
+      </li>
+      <li style="counter-increment: steps; padding: 22px 0 22px 56px; border-bottom: 1px solid var(--border); position: relative; font-size: 15.5px; line-height: 1.65; color: var(--text-2);">
+        <span style="position: absolute; left: 0; top: 22px; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; color: var(--brand); letter-spacing: 0.04em;">03</span>
+        <strong style="color: var(--text-1); font-weight: 600; display: block; margin-bottom: 4px;">Brief and first draft.</strong>
+        Brief includes angle, sources, structure, and tone. First draft is written, not generated.
+      </li>
+      <li style="counter-increment: steps; padding: 22px 0 22px 56px; border-bottom: 1px solid var(--border); position: relative; font-size: 15.5px; line-height: 1.65; color: var(--text-2);">
+        <span style="position: absolute; left: 0; top: 22px; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; color: var(--brand); letter-spacing: 0.04em;">04</span>
+        <strong style="color: var(--text-1); font-weight: 600; display: block; margin-bottom: 4px;">Edit pass by another team member.</strong>
+        Argument, voice, facts. If a stat can't be linked, it's cut. If a paragraph is filler, it's cut.
+      </li>
+      <li style="counter-increment: steps; padding: 22px 0 22px 56px; border-bottom: 1px solid var(--border); position: relative; font-size: 15.5px; line-height: 1.65; color: var(--text-2);">
+        <span style="position: absolute; left: 0; top: 22px; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; color: var(--brand); letter-spacing: 0.04em;">05</span>
+        <strong style="color: var(--text-1); font-weight: 600; display: block; margin-bottom: 4px;">Schema, internal links, publish.</strong>
+        Article ships with Person, Article, and BreadcrumbList schema. Internal-linking layer pulls in related posts from the cluster.
+      </li>
+      <li style="counter-increment: steps; padding: 22px 0 22px 56px; border-bottom: 1px solid var(--border); position: relative; font-size: 15.5px; line-height: 1.65; color: var(--text-2);">
+        <span style="position: absolute; left: 0; top: 22px; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; color: var(--brand); letter-spacing: 0.04em;">06</span>
+        <strong style="color: var(--text-1); font-weight: 600; display: block; margin-bottom: 4px;">Quarterly refresh.</strong>
+        Pricing, screenshots, and feature claims are re-verified every quarter. The "Updated" stamp on each post tells you when.
+      </li>
+    </ol>
+  </section>
+
+  <!-- WRITE FOR US -->
+  <section style="padding: 64px 32px; background: var(--bg-cream); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div style="max-width: 880px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); margin-bottom: 14px; font-weight: 600;">Want to contribute?</div>
+        <h2 style="font-size: clamp(24px, 3vw, 32px); font-weight: 700; line-height: 1.2; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 16px;">We occasionally take guest contributions.</h2>
+        <p style="font-size: 16px; line-height: 1.6; color: var(--text-2);">If you're an operator with a real story — not a content marketer pitching a backlink — we'd like to hear from you. We don't pay for posts and we don't accept generic SEO content.</p>
+      </div>
+      <div style="background: white; border: 1px solid var(--border); padding: 28px;">
+        <div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); font-weight: 600; margin-bottom: 16px;">What we'll consider</div>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="font-size: 14px; line-height: 1.55; color: var(--text-2); padding: 8px 0 8px 22px; position: relative;"><span style="position: absolute; left: 0; top: 8px; color: var(--brand); font-weight: 700;">+</span> Operator case studies with real numbers</li>
+          <li style="font-size: 14px; line-height: 1.55; color: var(--text-2); padding: 8px 0 8px 22px; position: relative;"><span style="position: absolute; left: 0; top: 8px; color: var(--brand); font-weight: 700;">+</span> Programmatic SEO build-outs you've shipped</li>
+          <li style="font-size: 14px; line-height: 1.55; color: var(--text-2); padding: 8px 0 8px 22px; position: relative;"><span style="position: absolute; left: 0; top: 8px; color: var(--brand); font-weight: 700;">+</span> AI search experiments with documented outcomes</li>
+          <li style="font-size: 14px; line-height: 1.55; color: var(--text-2); padding: 8px 0 8px 22px; position: relative;"><span style="position: absolute; left: 0; top: 8px; color: var(--brand); font-weight: 700;">+</span> Founder-mode write-ups, no agency content</li>
+        </ul>
+        <a href="/contact/" style="display: inline-block; margin-top: 18px; padding: 10px 18px; background: var(--brand); color: white; font-size: 13px; font-weight: 600; border-radius: 100px;">Pitch a post →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMON QUESTIONS -->
+  <section style="padding: 72px 32px; max-width: 760px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 36px;">
+      <div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); margin-bottom: 14px; font-weight: 600;">Common questions</div>
+      <h2 style="font-size: clamp(24px, 3vw, 32px); font-weight: 700; line-height: 1.2; letter-spacing: -0.025em; color: var(--text-1); margin: 0 auto;">About the editorial team</h2>
+    </div>
+    <div style="border-top: 1px solid var(--border);">
+      <details style="border-bottom: 1px solid var(--border); padding: 20px 0;">
+        <summary style="font-size: 17px; font-weight: 600; color: var(--text-1); cursor: pointer; letter-spacing: -0.01em; line-height: 1.4;">Do you accept guest posts?</summary>
+        <p style="margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--text-2);">Occasionally — from operators with real stories and real numbers, not from agencies or content marketers pitching for backlinks. No payment, no exceptions. Pitch via the contact form.</p>
+      </details>
+      <details style="border-bottom: 1px solid var(--border); padding: 20px 0;">
+        <summary style="font-size: 17px; font-weight: 600; color: var(--text-1); cursor: pointer; letter-spacing: -0.01em; line-height: 1.4;">Why don't you use AI to draft articles?</summary>
+        <p style="margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--text-2);">We build AI tools for a living, which is exactly why we don't trust them with editorial. AI helps with research and outlines — humans write the actual prose. The voice and the judgement calls are too hard to fake well at this stage.</p>
+      </details>
+      <details style="border-bottom: 1px solid var(--border); padding: 20px 0;">
+        <summary style="font-size: 17px; font-weight: 600; color: var(--text-1); cursor: pointer; letter-spacing: -0.01em; line-height: 1.4;">How do you handle competitor reviews?</summary>
+        <p style="margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--text-2);">With an editorial disclosure at the top of every piece. We compete with most tools we review, and we say so. The analysis is then as fair as we can make it, including the places competitors are genuinely better than us.</p>
+      </details>
+      <details style="border-bottom: 1px solid var(--border); padding: 20px 0;">
+        <summary style="font-size: 17px; font-weight: 600; color: var(--text-1); cursor: pointer; letter-spacing: -0.01em; line-height: 1.4;">What if you got something wrong?</summary>
+        <p style="margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--text-2);">Email the contact form with the URL and the issue. We'll fix the article, note the change in the editorial log, and credit the catch where appropriate.</p>
+      </details>
+      <details style="border-bottom: 1px solid var(--border); padding: 20px 0;">
+        <summary style="font-size: 17px; font-weight: 600; color: var(--text-1); cursor: pointer; letter-spacing: -0.01em; line-height: 1.4;">Are these authors available for podcasts or interviews?</summary>
+        <p style="margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--text-2);">Yes, selectively. Each author page has a "How to work with" section that covers the right channel. The short version: include the audience, topic, and timeline in the first message and route via the contact form.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-section dark">
+    <svg class="dot-pattern" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="dotGrid" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="currentColor"/></pattern>
+        <radialGradient id="dotFade" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="white" stop-opacity="1"/><stop offset="100%" stop-color="white" stop-opacity="0"/></radialGradient>
+        <mask id="dotMask"><rect width="100%" height="100%" fill="url(#dotFade)"/></mask>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dotGrid)" mask="url(#dotMask)"/>
+    </svg>
+    <div class="final-wrap">
+      <div class="final-content">
+        <span class="final-label">Read what we ship</span>
+        <h2 class="final-headline">Stop reading. <span class="accent">Start ranking.</span></h2>
+        <p class="final-sub">The same operators who write these articles built the platform behind them. Try theStacc for $1.</p>
+        <a href="/checkout/" class="final-cta-btn">Start $1 trial <span class="arrow">→</span></a>
+        <div class="final-trust"><span>127+ businesses</span> · <span>4.9 stars on G2</span> · <span>$1 trial</span> · <span>Cancel anytime</span></div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
