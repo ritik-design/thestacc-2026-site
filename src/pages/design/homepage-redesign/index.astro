@@ -1,0 +1,942 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Homepage redesign — 10 options',
+  description: 'Internal design preview: 5 layouts for the modules section + 5 layouts for the before/after problem section.',
+  canonical: 'https://thestacc.com/design/homepage-redesign/',
+  noindex: true
+};
+---
+<BaseLayout seo={seo}>
+  <style>
+    .design-preview { max-width: 1280px; margin: 0 auto; padding: 64px 32px; }
+    .design-preview h1 { font-size: 38px; font-weight: 700; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 8px; }
+    .design-preview .preview-sub { font-size: 16px; color: var(--text-3); margin-bottom: 48px; }
+    .preview-section-header { padding: 28px 32px; background: linear-gradient(135deg, var(--brand-softer), white); border: 2px solid var(--brand); margin: 80px 0 32px; }
+    .preview-section-header h2 { font-size: 24px; font-weight: 700; color: var(--brand); letter-spacing: -0.02em; margin: 0 0 4px; }
+    .preview-section-header p { font-size: 14px; color: var(--text-2); margin: 0; }
+    .option-divider { margin: 80px 0 24px; padding: 20px 24px; background: var(--bg-dark); color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .option-divider h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.015em; margin: 0; }
+    .option-divider .option-meta { font-family: 'Geist Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
+    .option-divider .option-tag { display: inline-block; padding: 4px 10px; background: var(--brand-bright); color: white; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; margin-right: 12px; }
+
+    /* ═══════════════════════════════════════════════
+       MODULES SECTION — OPTION A: Clean bento (refined current)
+       ═══════════════════════════════════════════════ */
+    .mA-section { padding: 80px 32px; background: white; }
+    .mA-head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+    .mA-eyebrow { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); font-weight: 700; margin-bottom: 14px; display: block; }
+    .mA-head h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; line-height: 1.05; color: var(--text-1); margin-bottom: 16px; }
+    .mA-head p { font-size: 17px; line-height: 1.55; color: var(--text-2); }
+    .mA-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; margin: 0 auto; }
+    @media (max-width: 900px) { .mA-grid { grid-template-columns: 1fr; } }
+    .mA-card { background: white; border: 1px solid var(--border); padding: 32px; transition: all 0.25s; position: relative; overflow: hidden; }
+    .mA-card:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 24px 48px -20px rgba(79,57,246,0.15); }
+    .mA-card .mA-num { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--brand); font-weight: 700; letter-spacing: 0.1em; }
+    .mA-card .mA-name { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em; margin: 8px 0 12px; }
+    .mA-card .mA-price { display: inline-block; padding: 4px 10px; background: var(--bg-soft); border: 1px solid var(--border); font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-2); font-weight: 600; margin-bottom: 16px; }
+    .mA-card .mA-tagline { font-size: 15px; line-height: 1.5; color: var(--text-1); font-weight: 500; margin-bottom: 20px; }
+    .mA-card ul { list-style: none; padding: 0; margin: 0 0 24px; }
+    .mA-card li { font-size: 13px; color: var(--text-2); padding-left: 20px; position: relative; margin-bottom: 8px; line-height: 1.45; }
+    .mA-card li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--brand); font-weight: 700; }
+    .mA-card .mA-cta { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--brand); font-weight: 600; }
+    .mA-card .mA-cta::after { content: '→'; transition: transform 0.2s; }
+    .mA-card:hover .mA-cta::after { transform: translateX(4px); }
+
+    /* ═══════════════════════════════════════════════
+       MODULES SECTION — OPTION B: Sticky-scroll left rail + detail
+       ═══════════════════════════════════════════════ */
+    .mB-section { padding: 80px 0 0; background: var(--bg-soft); }
+    .mB-head { max-width: 880px; margin: 0 auto 48px; padding: 0 32px; text-align: center; }
+    .mB-head h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 16px; }
+    .mB-grid { max-width: 1200px; margin: 0 auto; padding: 0 32px 80px; display: grid; grid-template-columns: 280px 1fr; gap: 56px; align-items: start; }
+    @media (max-width: 900px) { .mB-grid { grid-template-columns: 1fr; } }
+    .mB-rail { position: sticky; top: 96px; padding: 8px 0; }
+    .mB-rail-item { display: block; padding: 18px 20px; cursor: pointer; border-left: 3px solid var(--border); transition: all 0.2s; }
+    .mB-rail-item.active { border-left-color: var(--brand); background: var(--brand-softer); }
+    .mB-rail-item .mB-rail-num { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); letter-spacing: 0.1em; }
+    .mB-rail-item .mB-rail-name { font-size: 17px; font-weight: 600; color: var(--text-1); margin-top: 4px; letter-spacing: -0.015em; }
+    .mB-rail-item .mB-rail-tag { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+    .mB-rail-item.active .mB-rail-name { color: var(--brand); }
+    .mB-panels { background: white; border: 1px solid var(--border); padding: 0; }
+    .mB-panel { display: none; padding: 40px; }
+    .mB-panel.active { display: block; }
+    .mB-panel .mB-eyebrow { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 700; margin-bottom: 12px; }
+    .mB-panel h3 { font-size: 28px; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em; margin-bottom: 14px; }
+    .mB-panel .mB-tagline { font-size: 17px; line-height: 1.5; color: var(--text-2); margin-bottom: 24px; }
+    .mB-panel ul { list-style: none; padding: 0; margin: 0 0 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; }
+    @media (max-width: 700px) { .mB-panel ul { grid-template-columns: 1fr; } }
+    .mB-panel li { font-size: 14px; color: var(--text-1); padding-left: 24px; position: relative; line-height: 1.45; }
+    .mB-panel li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 16px; height: 16px; background: var(--brand-softer); color: var(--brand); display: grid; place-items: center; font-size: 10px; font-weight: 700; border-radius: 50%; }
+    .mB-mock { background: var(--bg-soft); border: 1px solid var(--border); padding: 24px; margin-bottom: 20px; font-family: 'Geist Mono', monospace; font-size: 13px; color: var(--text-2); }
+    .mB-mock .mB-mock-label { font-size: 10px; color: var(--brand); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .mB-mock strong { color: var(--text-1); font-weight: 600; }
+    .mB-panel .mB-cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .mB-panel .mB-cta { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; background: var(--text-1); color: white; font-size: 14px; font-weight: 600; transition: all 0.2s; }
+    .mB-panel .mB-cta:hover { background: var(--brand); }
+    .mB-panel .mB-price { font-family: 'Geist Mono', monospace; font-size: 13px; color: var(--text-3); font-weight: 500; }
+
+    /* ═══════════════════════════════════════════════
+       MODULES SECTION — OPTION C: Magazine — feature + 2 stacked
+       ═══════════════════════════════════════════════ */
+    .mC-section { padding: 80px 32px; background: white; }
+    .mC-head { max-width: 880px; margin: 0 auto 48px; }
+    .mC-head h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 16px; }
+    .mC-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .mC-grid { grid-template-columns: 1fr; } }
+    .mC-feature { padding: 48px; background: linear-gradient(135deg, #0a0a14 0%, #1f1640 100%); color: white; position: relative; overflow: hidden; min-height: 480px; display: flex; flex-direction: column; justify-content: flex-end; }
+    .mC-feature::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 600px 400px at 80% 0%, rgba(109,94,248,0.4) 0%, transparent 60%); pointer-events: none; }
+    .mC-feature > * { position: relative; }
+    .mC-feature .mC-num { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--brand-bright); font-weight: 700; letter-spacing: 0.12em; }
+    .mC-feature h3 { font-size: 40px; font-weight: 700; color: white; letter-spacing: -0.025em; margin: 8px 0 14px; line-height: 1.05; }
+    .mC-feature .mC-tag { font-size: 17px; color: rgba(255,255,255,0.75); line-height: 1.5; margin-bottom: 28px; max-width: 32ch; }
+    .mC-feature .mC-stats { display: flex; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+    .mC-feature .mC-stat { font-family: 'Geist Mono', monospace; }
+    .mC-feature .mC-stat strong { display: block; font-size: 22px; color: var(--brand-bright); letter-spacing: -0.02em; }
+    .mC-feature .mC-stat span { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 0.06em; text-transform: uppercase; }
+    .mC-feature .mC-cta { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; background: var(--brand-bright); color: white; font-size: 14px; font-weight: 600; align-self: flex-start; }
+    .mC-side { display: grid; grid-template-rows: 1fr 1fr; gap: 20px; }
+    .mC-mini { padding: 32px; background: white; border: 1px solid var(--border); position: relative; transition: all 0.2s; display: flex; flex-direction: column; }
+    .mC-mini:hover { border-color: var(--brand); transform: translateY(-2px); }
+    .mC-mini .mC-mini-num { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--brand); font-weight: 700; letter-spacing: 0.1em; }
+    .mC-mini h4 { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em; margin: 8px 0 10px; }
+    .mC-mini p { font-size: 14px; line-height: 1.5; color: var(--text-2); margin-bottom: 16px; flex: 1; }
+    .mC-mini .mC-mini-bullets { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.04em; display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .mC-mini .mC-mini-cta { font-size: 13px; color: var(--brand); font-weight: 600; margin-top: auto; }
+
+    /* ═══════════════════════════════════════════════
+       MODULES SECTION — OPTION D: Stacked rows (full-width per module)
+       ═══════════════════════════════════════════════ */
+    .mD-section { background: white; }
+    .mD-head { padding: 80px 32px 40px; text-align: center; max-width: 760px; margin: 0 auto; }
+    .mD-head h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 16px; }
+    .mD-row { padding: 64px 32px; border-top: 1px solid var(--border); }
+    .mD-row:nth-child(odd) { background: var(--bg-soft); }
+    .mD-row-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .mD-row:nth-child(even) .mD-row-inner > :first-child { order: 2; }
+    @media (max-width: 900px) { .mD-row-inner { grid-template-columns: 1fr; } .mD-row:nth-child(even) .mD-row-inner > :first-child { order: 0; } }
+    .mD-num { display: inline-block; padding: 6px 14px; background: var(--brand); color: white; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; margin-bottom: 18px; }
+    .mD-name { font-size: 36px; font-weight: 700; color: var(--text-1); letter-spacing: -0.025em; margin: 0 0 14px; }
+    .mD-tag { font-size: 18px; line-height: 1.5; color: var(--text-1); margin-bottom: 24px; font-weight: 500; }
+    .mD-desc { font-size: 15px; line-height: 1.65; color: var(--text-2); margin-bottom: 24px; }
+    .mD-meta-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+    .mD-meta-row .mD-meta { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.06em; }
+    .mD-meta strong { color: var(--text-1); font-weight: 700; }
+    .mD-cta-row { display: flex; gap: 12px; align-items: center; }
+    .mD-cta { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; background: var(--text-1); color: white; font-size: 14px; font-weight: 600; transition: all 0.2s; }
+    .mD-cta:hover { background: var(--brand); }
+    .mD-price { font-family: 'Geist Mono', monospace; font-size: 13px; color: var(--text-3); }
+    .mD-visual { aspect-ratio: 4/3; background: linear-gradient(135deg, var(--brand-softer), white); border: 1px solid var(--border); display: grid; place-items: center; padding: 24px; }
+    .mD-visual.dark { background: linear-gradient(135deg, #0a0a14, #2d2150); color: white; }
+    .mD-mock { font-family: 'Geist Mono', monospace; font-size: 13px; line-height: 1.7; }
+    .mD-mock strong { color: var(--brand); font-weight: 700; }
+    .mD-visual.dark .mD-mock { color: rgba(255,255,255,0.8); }
+    .mD-visual.dark .mD-mock strong { color: var(--brand-bright); }
+
+    /* ═══════════════════════════════════════════════
+       MODULES SECTION — OPTION E: Tabs with big detail panel
+       ═══════════════════════════════════════════════ */
+    .mE-section { padding: 80px 32px; background: var(--bg-cream); }
+    .mE-head { max-width: 720px; margin: 0 auto 40px; text-align: center; }
+    .mE-head h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 16px; }
+    .mE-tabs { max-width: 1100px; margin: 0 auto; }
+    .mE-tabs-nav { display: flex; gap: 0; border-bottom: 1px solid var(--border-strong); margin-bottom: 0; }
+    @media (max-width: 700px) { .mE-tabs-nav { flex-direction: column; } }
+    .mE-tab-btn { flex: 1; padding: 24px 28px; background: white; border: 1px solid var(--border-strong); border-bottom: none; cursor: pointer; text-align: left; transition: all 0.2s; font-family: inherit; }
+    .mE-tab-btn + .mE-tab-btn { margin-left: -1px; }
+    .mE-tab-btn .mE-tab-num { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.12em; font-weight: 700; }
+    .mE-tab-btn .mE-tab-name { font-size: 18px; font-weight: 700; color: var(--text-1); letter-spacing: -0.015em; margin-top: 6px; }
+    .mE-tab-btn .mE-tab-price { font-size: 12px; color: var(--text-3); font-family: 'Geist Mono', monospace; margin-top: 4px; }
+    .mE-tab-btn.active { background: white; border-bottom: 1px solid white; position: relative; top: 1px; box-shadow: 0 -3px 0 0 var(--brand) inset; }
+    .mE-tab-btn.active .mE-tab-name { color: var(--brand); }
+    .mE-tab-btn:hover:not(.active) { background: var(--bg-soft); }
+    .mE-panel { display: none; background: white; border: 1px solid var(--border-strong); border-top: none; padding: 48px; }
+    .mE-panel.active { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
+    @media (max-width: 900px) { .mE-panel.active { grid-template-columns: 1fr; } }
+    .mE-panel h3 { font-size: 32px; font-weight: 700; color: var(--text-1); letter-spacing: -0.025em; margin-bottom: 14px; line-height: 1.1; }
+    .mE-panel .mE-tag { font-size: 17px; line-height: 1.5; color: var(--text-2); margin-bottom: 24px; }
+    .mE-panel ul { list-style: none; padding: 0; margin: 0 0 28px; }
+    .mE-panel li { padding-left: 26px; position: relative; font-size: 15px; line-height: 1.55; color: var(--text-1); margin-bottom: 10px; }
+    .mE-panel li::before { content: '→'; position: absolute; left: 0; top: 0; color: var(--brand); font-weight: 700; }
+    .mE-panel .mE-cta-row { display: flex; gap: 16px; align-items: center; }
+    .mE-panel .mE-cta { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; background: var(--text-1); color: white; font-size: 14px; font-weight: 600; }
+    .mE-panel .mE-cta:hover { background: var(--brand); }
+    .mE-visual { aspect-ratio: 4/3; background: linear-gradient(135deg, var(--bg-cream), white); border: 1px solid var(--border); padding: 24px; display: grid; place-items: center; }
+    .mE-vis-content { font-family: 'Geist Mono', monospace; font-size: 13px; color: var(--text-2); line-height: 1.7; text-align: center; }
+    .mE-vis-content strong { color: var(--brand); display: block; font-size: 36px; margin-bottom: 6px; font-weight: 700; letter-spacing: -0.02em; }
+
+    /* ═══════════════════════════════════════════════
+       PROBLEM SECTION — OPTION 1: Compact 5-row alternating
+       ═══════════════════════════════════════════════ */
+    .p1-section { padding: 80px 32px; background: white; }
+    .p1-head { max-width: 720px; margin: 0 auto 48px; text-align: center; }
+    .p1-head h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 16px; }
+    .p1-rows { max-width: 1080px; margin: 0 auto; }
+    .p1-header-row { display: grid; grid-template-columns: 60px 1fr 1fr; gap: 20px; padding: 16px 24px; background: var(--bg-soft); border: 1px solid var(--border); border-bottom: none; }
+    .p1-header-row .p1-h-label { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); }
+    .p1-header-row .p1-h-label.before { color: #b91c1c; }
+    .p1-header-row .p1-h-label.after { color: #047857; }
+    .p1-row { display: grid; grid-template-columns: 60px 1fr 1fr; gap: 20px; padding: 24px; border: 1px solid var(--border); border-top: none; align-items: start; }
+    @media (max-width: 700px) { .p1-row, .p1-header-row { grid-template-columns: 50px 1fr; } .p1-row > :last-child, .p1-header-row > :last-child { grid-column: 2; } .p1-row > :nth-child(2) { padding-bottom: 16px; border-bottom: 1px dashed var(--border); } }
+    .p1-row .p1-num { font-family: 'Geist Mono', monospace; font-size: 18px; font-weight: 800; color: var(--brand); }
+    .p1-row .p1-before { color: var(--text-2); font-size: 14px; line-height: 1.5; }
+    .p1-row .p1-before strong { color: #b91c1c; font-weight: 600; }
+    .p1-row .p1-after { color: var(--text-1); font-size: 14px; line-height: 1.5; }
+    .p1-row .p1-after strong { color: #047857; font-weight: 700; }
+    .p1-row:nth-child(odd) { background: var(--bg-soft); }
+
+    /* ═══════════════════════════════════════════════
+       PROBLEM SECTION — OPTION 2: Big toggle slider
+       ═══════════════════════════════════════════════ */
+    .p2-section { padding: 80px 32px; background: var(--bg-dark); color: white; }
+    .p2-head { max-width: 720px; margin: 0 auto 32px; text-align: center; }
+    .p2-head h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; color: white; letter-spacing: -0.025em; margin-bottom: 16px; }
+    .p2-head p { font-size: 16px; color: rgba(255,255,255,0.7); }
+    .p2-toggle-row { display: flex; justify-content: center; margin-bottom: 32px; }
+    .p2-toggle { display: inline-flex; padding: 4px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); }
+    .p2-toggle-btn { padding: 12px 28px; background: transparent; color: rgba(255,255,255,0.6); border: none; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600; transition: all 0.2s; }
+    .p2-toggle-btn.active { background: white; color: var(--text-1); }
+    .p2-toggle-btn:hover:not(.active) { color: white; }
+    .p2-panel { max-width: 880px; margin: 0 auto; padding: 48px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); display: none; }
+    .p2-panel.active { display: block; }
+    .p2-panel .p2-eyebrow { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; margin-bottom: 16px; }
+    .p2-panel.before-panel .p2-eyebrow { color: #fca5a5; }
+    .p2-panel.after-panel .p2-eyebrow { color: #6ee7b7; }
+    .p2-panel h3 { font-size: 28px; font-weight: 700; color: white; letter-spacing: -0.02em; margin-bottom: 28px; line-height: 1.15; }
+    .p2-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+    .p2-item { display: grid; grid-template-columns: 32px 1fr; gap: 16px; padding: 18px; background: rgba(255,255,255,0.03); border-left: 3px solid; }
+    .p2-panel.before-panel .p2-item { border-left-color: #ef4444; }
+    .p2-panel.after-panel .p2-item { border-left-color: #10b981; }
+    .p2-item .p2-num { font-family: 'Geist Mono', monospace; font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.4); }
+    .p2-item .p2-title { font-size: 15px; font-weight: 600; color: white; margin-bottom: 4px; }
+    .p2-item .p2-desc { font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.65); }
+
+    /* ═══════════════════════════════════════════════
+       PROBLEM SECTION — OPTION 3: Stat-driven big deltas
+       ═══════════════════════════════════════════════ */
+    .p3-section { padding: 80px 32px; background: var(--bg-cream); }
+    .p3-head { max-width: 760px; margin: 0 auto 56px; text-align: center; }
+    .p3-head h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 16px; }
+    .p3-deltas { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--border); background: white; }
+    @media (max-width: 900px) { .p3-deltas { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 540px) { .p3-deltas { grid-template-columns: 1fr; } }
+    .p3-delta { padding: 32px 24px; border-right: 1px solid var(--border); text-align: center; }
+    .p3-delta:last-child { border-right: none; }
+    @media (max-width: 900px) { .p3-delta { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); } .p3-delta:nth-child(2n) { border-right: none; } }
+    .p3-delta .p3-label { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; }
+    .p3-delta .p3-before-val { font-size: 16px; color: #b91c1c; text-decoration: line-through; font-weight: 600; margin-bottom: 6px; }
+    .p3-delta .p3-arrow { font-size: 16px; color: var(--brand); margin: 8px 0; }
+    .p3-delta .p3-after-val { font-size: 32px; font-weight: 700; color: var(--brand); letter-spacing: -0.02em; line-height: 1; font-family: 'Geist Mono', monospace; margin-bottom: 8px; }
+    .p3-delta .p3-after-sub { font-size: 12px; color: var(--text-2); }
+    .p3-bullets { max-width: 1100px; margin: 32px auto 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; border: 1px solid var(--border); background: var(--bg-soft); }
+    @media (max-width: 900px) { .p3-bullets { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 540px) { .p3-bullets { grid-template-columns: 1fr; } }
+    .p3-bullet { padding: 20px 18px; border-right: 1px solid var(--border); font-size: 13px; line-height: 1.5; color: var(--text-2); }
+    .p3-bullet:last-child { border-right: none; }
+    .p3-bullet strong { color: var(--text-1); font-weight: 600; display: block; margin-bottom: 4px; }
+
+    /* ═══════════════════════════════════════════════
+       PROBLEM SECTION — OPTION 4: Journey arrow
+       ═══════════════════════════════════════════════ */
+    .p4-section { padding: 80px 32px; background: white; }
+    .p4-head { max-width: 720px; margin: 0 auto 56px; text-align: center; }
+    .p4-head h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 16px; }
+    .p4-journey { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 80px 1fr; gap: 0; align-items: stretch; }
+    @media (max-width: 800px) { .p4-journey { grid-template-columns: 1fr; } }
+    .p4-side { padding: 40px 32px; }
+    .p4-before { background: #fef2f2; border: 1px solid #fecaca; }
+    .p4-after { background: linear-gradient(135deg, var(--brand-softer), white); border: 2px solid var(--brand); }
+    .p4-side .p4-eyebrow { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+    .p4-before .p4-eyebrow { color: #b91c1c; }
+    .p4-after .p4-eyebrow { color: var(--brand); }
+    .p4-side h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .p4-before h3 { color: #7f1d1d; }
+    .p4-after h3 { color: var(--brand-deep); }
+    .p4-side .p4-sub { font-size: 13px; color: var(--text-3); margin-bottom: 24px; }
+    .p4-side ol { list-style: none; padding: 0; margin: 0; counter-reset: pjourney; }
+    .p4-side li { padding: 14px 0 14px 36px; position: relative; counter-increment: pjourney; border-bottom: 1px dashed; font-size: 14px; line-height: 1.5; }
+    .p4-before li { border-color: #fecaca; }
+    .p4-after li { border-color: var(--brand-soft); }
+    .p4-side li:last-child { border-bottom: none; }
+    .p4-side li::before { content: counter(pjourney, decimal-leading-zero); position: absolute; left: 0; top: 14px; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; padding: 4px 8px; }
+    .p4-before li::before { background: #fecaca; color: #7f1d1d; }
+    .p4-after li::before { background: var(--brand); color: white; }
+    .p4-side li strong { display: block; margin-bottom: 4px; }
+    .p4-before li strong { color: #7f1d1d; }
+    .p4-after li strong { color: var(--brand-deep); }
+    .p4-side li p { font-size: 13px; color: var(--text-2); margin: 0; line-height: 1.45; }
+    .p4-arrow-col { display: grid; place-items: center; padding: 24px 0; }
+    @media (max-width: 800px) { .p4-arrow-col { transform: rotate(90deg); } }
+    .p4-arrow { width: 48px; height: 48px; background: var(--text-1); color: white; border-radius: 50%; display: grid; place-items: center; font-size: 22px; font-weight: 700; }
+
+    /* ═══════════════════════════════════════════════
+       PROBLEM SECTION — OPTION 5: Card flip / hover reveal
+       ═══════════════════════════════════════════════ */
+    .p5-section { padding: 80px 32px; background: var(--bg-soft); }
+    .p5-head { max-width: 720px; margin: 0 auto 48px; text-align: center; }
+    .p5-head h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 700; letter-spacing: -0.025em; color: var(--text-1); margin-bottom: 16px; }
+    .p5-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+    @media (max-width: 900px) { .p5-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 540px) { .p5-grid { grid-template-columns: 1fr; } }
+    .p5-card { background: white; border: 1px solid var(--border); padding: 0; min-height: 240px; position: relative; overflow: hidden; transition: all 0.3s; cursor: pointer; }
+    .p5-card:hover { border-color: var(--brand); transform: translateY(-2px); }
+    .p5-face { padding: 24px; position: absolute; inset: 0; transition: all 0.4s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; gap: 12px; }
+    .p5-face-before { background: white; transform: translateY(0); }
+    .p5-face-after { background: linear-gradient(135deg, var(--brand-softer), white); transform: translateY(100%); }
+    .p5-card:hover .p5-face-before { transform: translateY(-100%); }
+    .p5-card:hover .p5-face-after { transform: translateY(0); }
+    .p5-face .p5-num { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; }
+    .p5-face-before .p5-num { color: #b91c1c; }
+    .p5-face-after .p5-num { color: var(--brand); }
+    .p5-face .p5-label { font-family: 'Geist Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px; }
+    .p5-face-before .p5-label { color: #b91c1c; }
+    .p5-face-after .p5-label { color: var(--brand); }
+    .p5-face h4 { font-size: 16px; font-weight: 700; color: var(--text-1); letter-spacing: -0.015em; line-height: 1.3; margin: 6px 0 8px; }
+    .p5-face p { font-size: 12px; line-height: 1.5; color: var(--text-2); margin: 0; }
+    .p5-face-after h4 { color: var(--brand-deep); }
+    .p5-hover-hint { position: absolute; bottom: 12px; right: 14px; font-family: 'Geist Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); pointer-events: none; }
+    .p5-card:hover .p5-hover-hint { color: var(--brand); }
+  </style>
+
+  <section class="design-preview">
+    <h1>Homepage redesign — 10 options to choose from</h1>
+    <p class="preview-sub">Pick one for the <strong>Modules</strong> section (A–E) and one for the <strong>Problem/Solution</strong> section (1–5). I'll wire the picks into the live homepage.</p>
+
+    <!-- ═══════════════════════════════════════════════
+         MODULES SECTION — 5 OPTIONS
+         ═══════════════════════════════════════════════ -->
+    <div class="preview-section-header">
+      <h2>Modules section — 5 options (A through E)</h2>
+      <p>Replaces the current "Three modules · One platform" with the 3 long cards.</p>
+    </div>
+
+    <!-- OPTION A -->
+    <div class="option-divider">
+      <h3><span class="option-tag">OPTION A</span>Clean bento — refined 3-up cards</h3>
+      <span class="option-meta">Closest to current · cleaner typography · per-card price chip</span>
+    </div>
+    <section class="mA-section">
+      <div class="mA-head">
+        <span class="mA-eyebrow">Three modules · One platform</span>
+        <h2>Everything you need to <span class="accent">get found, get chosen, and grow.</span></h2>
+        <p>Three jobs that used to cost three agencies. One platform. Coffee-money pricing.</p>
+      </div>
+      <div class="mA-grid">
+        <div class="mA-card">
+          <div class="mA-num">01 / Content SEO</div>
+          <h3 class="mA-name">Articles that rank — and get cited by AI.</h3>
+          <span class="mA-price">$99/mo · 30 articles</span>
+          <p class="mA-tagline">SEO-scored 90+ and structured so ChatGPT, Perplexity, Gemini, Claude, and Copilot quote you as the source.</p>
+          <ul>
+            <li>Rank on page 1 — average 60 days</li>
+            <li>Cited across every major AI search engine</li>
+            <li>Brand-voice trained — sounds like you wrote it</li>
+            <li>Live on your site in 24 hours, zero copy-paste</li>
+          </ul>
+          <a href="/modules/content-seo/" class="mA-cta">Explore Content SEO</a>
+        </div>
+        <div class="mA-card">
+          <div class="mA-num">02 / Local SEO</div>
+          <h3 class="mA-name">Be the business customers call first.</h3>
+          <span class="mA-price">$49/mo · GBP + Map Pack</span>
+          <p class="mA-tagline">Map Pack rankings, auto-managed Google Business Profile, instant review replies — when someone searches "near me," they find you.</p>
+          <ul>
+            <li>Map Pack rank tracking (1, 3, 5, 10 mile grids)</li>
+            <li>Auto GBP posts — every day, on-brand</li>
+            <li>Reviews answered within 30 minutes</li>
+            <li>Citations built + monitored across 70+ directories</li>
+          </ul>
+          <a href="/modules/local-seo/" class="mA-cta">Explore Local SEO</a>
+        </div>
+        <div class="mA-card">
+          <div class="mA-num">03 / Social Media</div>
+          <h3 class="mA-name">Stay top-of-mind without posting yourself.</h3>
+          <span class="mA-price">$49/mo · 30 posts</span>
+          <p class="mA-tagline">Daily, on-brand posts published to Instagram, LinkedIn, X, and Facebook — one tap to approve, or full autopilot.</p>
+          <ul>
+            <li>30+ posts per month across 4 channels</li>
+            <li>Carousels, threads, Reels — every format</li>
+            <li>Approve-then-publish or full autopilot</li>
+            <li>Auto-resize for every platform's specs</li>
+          </ul>
+          <a href="/modules/social-media/" class="mA-cta">Explore Social Media</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPTION B -->
+    <div class="option-divider">
+      <h3><span class="option-tag">OPTION B</span>Sticky-scroll rail — left tabs, right detail</h3>
+      <span class="option-meta">Click left rail, right panel updates · Stripe / Linear style</span>
+    </div>
+    <section class="mB-section">
+      <div class="mB-head">
+        <h2>One platform. <span class="accent">Three jobs.</span></h2>
+      </div>
+      <div class="mB-grid">
+        <nav class="mB-rail" id="mb-rail">
+          <a class="mB-rail-item active" data-mb="1">
+            <div class="mB-rail-num">01 · $99/mo</div>
+            <div class="mB-rail-name">Content SEO</div>
+            <div class="mB-rail-tag">30 articles · auto-published</div>
+          </a>
+          <a class="mB-rail-item" data-mb="2">
+            <div class="mB-rail-num">02 · $49/mo</div>
+            <div class="mB-rail-name">Local SEO</div>
+            <div class="mB-rail-tag">GBP + Map Pack + reviews</div>
+          </a>
+          <a class="mB-rail-item" data-mb="3">
+            <div class="mB-rail-num">03 · $49/mo</div>
+            <div class="mB-rail-name">Social Media</div>
+            <div class="mB-rail-tag">30+ posts · 4 channels</div>
+          </a>
+        </nav>
+        <div class="mB-panels">
+          <div class="mB-panel active" data-mb-panel="1">
+            <div class="mB-eyebrow">01 · Content SEO</div>
+            <h3>Articles that rank — and get cited by AI engines.</h3>
+            <p class="mB-tagline">SEO-scored 90+ for Google, and structured so ChatGPT, Perplexity, Gemini, Claude, and Copilot quote you as the source.</p>
+            <div class="mB-mock">
+              <div class="mB-mock-label">📝 Just published</div>
+              <strong>Dental Implants in Austin: The Complete 2026 Guide</strong> · SEO 94/100 · 2,847 words · cited in 4 AI engines
+            </div>
+            <ul>
+              <li>Rank on page 1 — average 60 days</li>
+              <li>Cited across every AI search engine</li>
+              <li>Brand-voice trained</li>
+              <li>Auto-published to your CMS</li>
+            </ul>
+            <div class="mB-cta-row">
+              <a href="/modules/content-seo/" class="mB-cta">Explore Content SEO →</a>
+              <span class="mB-price">$99/mo · 30 articles</span>
+            </div>
+          </div>
+          <div class="mB-panel" data-mb-panel="2">
+            <div class="mB-eyebrow">02 · Local SEO</div>
+            <h3>Be the business customers call first.</h3>
+            <p class="mB-tagline">Map Pack rankings, auto-managed Google Business Profile, instant review responses — so when someone searches "near me," they find you.</p>
+            <div class="mB-mock">
+              <div class="mB-mock-label">📍 Map Pack · Austin TX</div>
+              <strong>Position #3 · ↑ from #11 in 47 days</strong> · 1,240 calls this month · 89 reviews answered
+            </div>
+            <ul>
+              <li>Map Pack tracking (3/5/10 mile grids)</li>
+              <li>Auto-managed GBP posts</li>
+              <li>Reviews answered within 30 min</li>
+              <li>Citations across 70+ directories</li>
+            </ul>
+            <div class="mB-cta-row">
+              <a href="/modules/local-seo/" class="mB-cta">Explore Local SEO →</a>
+              <span class="mB-price">$49/mo · GBP + Map Pack</span>
+            </div>
+          </div>
+          <div class="mB-panel" data-mb-panel="3">
+            <div class="mB-eyebrow">03 · Social Media</div>
+            <h3>Stay top-of-mind without posting yourself.</h3>
+            <p class="mB-tagline">Daily, on-brand posts published across Instagram, LinkedIn, X, and Facebook — one tap to approve, or full autopilot.</p>
+            <div class="mB-mock">
+              <div class="mB-mock-label">📅 This week's queue</div>
+              <strong>IG carousel</strong> Mon · <strong>LI article</strong> Tue · <strong>X thread</strong> Wed · <strong>FB post</strong> Thu
+            </div>
+            <ul>
+              <li>30+ posts per month</li>
+              <li>4 channels (IG, LI, X, FB)</li>
+              <li>Carousels, threads, Reels</li>
+              <li>Approve or full autopilot</li>
+            </ul>
+            <div class="mB-cta-row">
+              <a href="/modules/social-media/" class="mB-cta">Explore Social Media →</a>
+              <span class="mB-price">$49/mo · 30+ posts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPTION C -->
+    <div class="option-divider">
+      <h3><span class="option-tag">OPTION C</span>Magazine — feature hero + 2 stacked</h3>
+      <span class="option-meta">Content SEO leads as dark feature · Local + Social stacked beside it</span>
+    </div>
+    <section class="mC-section">
+      <div class="mC-head">
+        <h2>One platform. <span class="accent">All of it. Done.</span></h2>
+      </div>
+      <div class="mC-grid">
+        <div class="mC-feature">
+          <div class="mC-num">01 · CONTENT SEO · $99/MO</div>
+          <h3>30 articles that rank — and get cited by AI.</h3>
+          <p class="mC-tag">SEO-scored 90+ for Google. Structured so ChatGPT, Perplexity, Gemini, Claude, and Copilot quote you as the source.</p>
+          <div class="mC-stats">
+            <div class="mC-stat"><strong>60d</strong><span>Avg time to page 1</span></div>
+            <div class="mC-stat"><strong>5</strong><span>AI engines cite you</span></div>
+            <div class="mC-stat"><strong>24h</strong><span>Time to first publish</span></div>
+          </div>
+          <a href="/modules/content-seo/" class="mC-cta">Explore Content SEO →</a>
+        </div>
+        <div class="mC-side">
+          <a href="/modules/local-seo/" class="mC-mini" style="text-decoration: none; color: inherit;">
+            <div class="mC-mini-num">02 · LOCAL SEO · $49/MO</div>
+            <h4>Be the business customers call first.</h4>
+            <p>Map Pack rankings, auto-managed GBP, instant review replies — when someone searches "near me," they find you.</p>
+            <div class="mC-mini-bullets"><span>· GBP</span><span>· Map Pack</span><span>· Reviews</span><span>· Citations</span></div>
+            <div class="mC-mini-cta">Explore Local SEO →</div>
+          </a>
+          <a href="/modules/social-media/" class="mC-mini" style="text-decoration: none; color: inherit;">
+            <div class="mC-mini-num">03 · SOCIAL MEDIA · $49/MO</div>
+            <h4>Top-of-mind without posting yourself.</h4>
+            <p>Daily, on-brand posts to Instagram, LinkedIn, X, and Facebook — one tap to approve, or full autopilot.</p>
+            <div class="mC-mini-bullets"><span>· IG</span><span>· LinkedIn</span><span>· X</span><span>· Facebook</span></div>
+            <div class="mC-mini-cta">Explore Social Media →</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPTION D -->
+    <div class="option-divider">
+      <h3><span class="option-tag">OPTION D</span>Stacked full-width rows — alternating zig-zag</h3>
+      <span class="option-meta">Each module gets a full row · text + visual mock alternating left/right</span>
+    </div>
+    <section class="mD-section">
+      <div class="mD-head">
+        <h2>Three modules. <span class="accent">One subscription.</span></h2>
+      </div>
+      <div class="mD-row">
+        <div class="mD-row-inner">
+          <div>
+            <span class="mD-num">01 · CONTENT SEO</span>
+            <h3 class="mD-name">Articles that rank.</h3>
+            <p class="mD-tag">SEO-optimised. AI-optimised. Built to rank in Google and get cited across every AI search engine.</p>
+            <p class="mD-desc">Every article is engineered for both worlds of search: scored 90+ for classic Google ranking, and structured so ChatGPT, Perplexity, Gemini, Claude, and Copilot quote you as the source.</p>
+            <div class="mD-meta-row">
+              <span class="mD-meta"><strong>30</strong> articles/mo</span>
+              <span class="mD-meta"><strong>60d</strong> to page 1</span>
+              <span class="mD-meta"><strong>24h</strong> first publish</span>
+            </div>
+            <div class="mD-cta-row">
+              <a href="/modules/content-seo/" class="mD-cta">Explore Content SEO →</a>
+              <span class="mD-price">$99/mo</span>
+            </div>
+          </div>
+          <div class="mD-visual">
+            <div class="mD-mock">
+              📝 <strong>ARTICLE #128 · LIVE</strong><br>
+              "Dental Implants in Austin: The Complete 2026 Guide"<br>
+              SEO <strong>94/100</strong> · <strong>2,847</strong> words<br>
+              Cited in <strong>4</strong> AI engines
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mD-row">
+        <div class="mD-row-inner">
+          <div>
+            <span class="mD-num">02 · LOCAL SEO</span>
+            <h3 class="mD-name">Map Pack rankings.</h3>
+            <p class="mD-tag">Be the business customers call first — on Maps, Google, and AI search.</p>
+            <p class="mD-desc">Map Pack rankings, auto-managed Google Business Profile, instant review responses, and citations across 70+ directories — so when someone searches "near me," they find you.</p>
+            <div class="mD-meta-row">
+              <span class="mD-meta"><strong>30min</strong> review reply SLA</span>
+              <span class="mD-meta"><strong>70+</strong> citations</span>
+              <span class="mD-meta"><strong>5mi</strong> grid tracking</span>
+            </div>
+            <div class="mD-cta-row">
+              <a href="/modules/local-seo/" class="mD-cta">Explore Local SEO →</a>
+              <span class="mD-price">$49/mo</span>
+            </div>
+          </div>
+          <div class="mD-visual dark">
+            <div class="mD-mock">
+              📍 <strong>MAP PACK · LIVE</strong><br>
+              Position <strong>#3</strong> ↑ from #11<br>
+              <strong>1,240</strong> calls this month<br>
+              <strong>89</strong> reviews answered
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mD-row">
+        <div class="mD-row-inner">
+          <div>
+            <span class="mD-num">03 · SOCIAL MEDIA</span>
+            <h3 class="mD-name">Top-of-mind, on autopilot.</h3>
+            <p class="mD-tag">Stay top-of-mind without posting yourself.</p>
+            <p class="mD-desc">Daily, on-brand posts published across Instagram, LinkedIn, X, and Facebook — one tap to approve, or full autopilot. Every format your brand needs: carousels, threads, reels, single posts.</p>
+            <div class="mD-meta-row">
+              <span class="mD-meta"><strong>30+</strong> posts/mo</span>
+              <span class="mD-meta"><strong>4</strong> channels</span>
+              <span class="mD-meta"><strong>Auto-resize</strong></span>
+            </div>
+            <div class="mD-cta-row">
+              <a href="/modules/social-media/" class="mD-cta">Explore Social Media →</a>
+              <span class="mD-price">$49/mo</span>
+            </div>
+          </div>
+          <div class="mD-visual">
+            <div class="mD-mock">
+              📅 <strong>THIS WEEK</strong><br>
+              <strong>IG</strong> Carousel · Mon 9 AM<br>
+              <strong>LI</strong> Article · Tue 11 AM<br>
+              <strong>X</strong> Thread · Wed 2 PM<br>
+              <strong>FB</strong> Post · Thu 10 AM
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPTION E -->
+    <div class="option-divider">
+      <h3><span class="option-tag">OPTION E</span>Browser-style tabs — click 01/02/03 to swap content</h3>
+      <span class="option-meta">Interactive tabs · single big detail panel below · cream-paper background</span>
+    </div>
+    <section class="mE-section">
+      <div class="mE-head">
+        <h2>One subscription. <span class="accent">Three modules.</span></h2>
+      </div>
+      <div class="mE-tabs" id="me-tabs">
+        <div class="mE-tabs-nav">
+          <button class="mE-tab-btn active" data-me="1">
+            <div class="mE-tab-num">01</div>
+            <div class="mE-tab-name">Content SEO</div>
+            <div class="mE-tab-price">$99/mo · 30 articles</div>
+          </button>
+          <button class="mE-tab-btn" data-me="2">
+            <div class="mE-tab-num">02</div>
+            <div class="mE-tab-name">Local SEO</div>
+            <div class="mE-tab-price">$49/mo · GBP + Map Pack</div>
+          </button>
+          <button class="mE-tab-btn" data-me="3">
+            <div class="mE-tab-num">03</div>
+            <div class="mE-tab-name">Social Media</div>
+            <div class="mE-tab-price">$49/mo · 30+ posts</div>
+          </button>
+        </div>
+        <div class="mE-panel active" data-me-panel="1">
+          <div>
+            <h3>Articles that rank — and get cited by AI.</h3>
+            <p class="mE-tag">SEO-scored 90+ for Google. Structured so ChatGPT, Perplexity, Gemini, Claude, and Copilot quote you as the source.</p>
+            <ul>
+              <li>Average 60 days to page 1</li>
+              <li>Cited across every major AI search engine</li>
+              <li>Brand-voice trained — sounds like you wrote it</li>
+              <li>Auto-published to your CMS within 24 hours</li>
+            </ul>
+            <div class="mE-cta-row"><a href="/modules/content-seo/" class="mE-cta">Explore Content SEO →</a></div>
+          </div>
+          <div class="mE-visual"><div class="mE-vis-content"><strong>30</strong>Articles/month, ranked + AI-cited</div></div>
+        </div>
+        <div class="mE-panel" data-me-panel="2">
+          <div>
+            <h3>Be the business customers call first.</h3>
+            <p class="mE-tag">Map Pack rankings, auto-managed GBP, instant review responses — when someone searches "near me," they find you.</p>
+            <ul>
+              <li>Map Pack tracking across 3/5/10 mile grids</li>
+              <li>GBP posts published daily, on-brand</li>
+              <li>Reviews answered within 30 minutes</li>
+              <li>Citations across 70+ local directories</li>
+            </ul>
+            <div class="mE-cta-row"><a href="/modules/local-seo/" class="mE-cta">Explore Local SEO →</a></div>
+          </div>
+          <div class="mE-visual"><div class="mE-vis-content"><strong>#3</strong>Map Pack rank · ↑ from #11</div></div>
+        </div>
+        <div class="mE-panel" data-me-panel="3">
+          <div>
+            <h3>Top-of-mind without posting yourself.</h3>
+            <p class="mE-tag">Daily, on-brand posts published across Instagram, LinkedIn, X, and Facebook — one tap to approve, or full autopilot.</p>
+            <ul>
+              <li>30+ posts per month across 4 channels</li>
+              <li>Carousels, threads, reels, single posts</li>
+              <li>Approve-then-publish or full autopilot</li>
+              <li>Auto-resized for every platform's specs</li>
+            </ul>
+            <div class="mE-cta-row"><a href="/modules/social-media/" class="mE-cta">Explore Social Media →</a></div>
+          </div>
+          <div class="mE-visual"><div class="mE-vis-content"><strong>30+</strong>Posts/month across 4 channels</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         PROBLEM SECTION — 5 OPTIONS
+         ═══════════════════════════════════════════════ -->
+    <div class="preview-section-header">
+      <h2>Problem / Solution section — 5 options (1 through 5)</h2>
+      <p>Replaces "01 · The Problem" with the Before / With theStacc two-column comparison.</p>
+    </div>
+
+    <!-- OPTION 1 -->
+    <div class="option-divider">
+      <h3><span class="option-tag">OPTION 1</span>Compact 5-row alternating table</h3>
+      <span class="option-meta">Easier scanning · before+after on same row · numbered list format</span>
+    </div>
+    <section class="p1-section">
+      <div class="p1-head">
+        <h2>SEO is expensive, messy, and slow. <span class="accent">theStacc fixes that.</span></h2>
+      </div>
+      <div class="p1-rows">
+        <div class="p1-header-row">
+          <div></div>
+          <div class="p1-h-label before">✗ Before theStacc</div>
+          <div class="p1-h-label after">✓ With theStacc</div>
+        </div>
+        <div class="p1-row"><div class="p1-num">01</div><div class="p1-before"><strong>Scattered tools, no system.</strong> Semrush + ChatGPT + Surfer + Hootsuite. Nothing connects.</div><div class="p1-after"><strong>One engine. Everything connected.</strong> Keywords, drafting, scoring, publishing, GBP, social, reviews — one dashboard.</div></div>
+        <div class="p1-row"><div class="p1-num">02</div><div class="p1-before"><strong>15+ hours/week.</strong> Researching, writing, scoring, posting. Half the time, nothing ships.</div><div class="p1-after"><strong>0 minutes from you.</strong> Articles, posts, replies, reports just appear. You're in control, never involved.</div></div>
+        <div class="p1-row"><div class="p1-num">03</div><div class="p1-before"><strong>$3.5k+/mo for slow output.</strong> Agencies charge thousands and deliver 4 articles. Quality varies.</div><div class="p1-after"><strong>$99/mo · 30+ articles.</strong> One platform replaces your agency, freelancers, and tool stack. 35× cheaper.</div></div>
+        <div class="p1-row"><div class="p1-num">04</div><div class="p1-before"><strong>Invisible in AI search.</strong> ChatGPT, Perplexity, and Gemini cite your competitors. Not you.</div><div class="p1-after"><strong>Cited by every AI engine.</strong> Articles structured so ChatGPT, Perplexity, Gemini, Claude, Copilot quote you as the source.</div></div>
+        <div class="p1-row"><div class="p1-num">05</div><div class="p1-before"><strong>No clue what's working.</strong> Rankings up, traffic flat, leads silent. Can't connect any article to revenue.</div><div class="p1-after"><strong>Friday reports tell you what worked.</strong> Which keywords ranked, which articles drove leads, which dollars came from where.</div></div>
+      </div>
+    </section>
+
+    <!-- OPTION 2 -->
+    <div class="option-divider">
+      <h3><span class="option-tag">OPTION 2</span>Dark toggle slider — Before / After switch</h3>
+      <span class="option-meta">Single panel that flips · pill toggle at top · 5 items inside</span>
+    </div>
+    <section class="p2-section">
+      <div class="p2-head">
+        <h2>SEO is expensive, messy, and slow. <span class="accent">theStacc fixes that.</span></h2>
+        <p>Toggle between the two realities. Pick the one you want to live in.</p>
+      </div>
+      <div class="p2-toggle-row">
+        <div class="p2-toggle" id="p2-toggle">
+          <button class="p2-toggle-btn active" data-p2="before">✗ Before theStacc</button>
+          <button class="p2-toggle-btn" data-p2="after">✓ With theStacc</button>
+        </div>
+      </div>
+      <div class="p2-panel before-panel active" data-p2-panel="before">
+        <div class="p2-eyebrow">Before theStacc — where most teams are today</div>
+        <h3>Stuck. Slow. Expensive.</h3>
+        <ul class="p2-list">
+          <li class="p2-item"><div class="p2-num">01</div><div><div class="p2-title">Scattered tools, no system</div><div class="p2-desc">Semrush + ChatGPT + Surfer + Hootsuite. Nothing connects. Nothing ships.</div></div></li>
+          <li class="p2-item"><div class="p2-num">02</div><div><div class="p2-title">Manual work eats your week</div><div class="p2-desc">15+ hours/week researching, writing, scoring, posting. Half the time, nothing goes live.</div></div></li>
+          <li class="p2-item"><div class="p2-num">03</div><div><div class="p2-title">$3,500+/month for slow output</div><div class="p2-desc">Agencies charge thousands and deliver 4 articles. Freelancers ghost. Quality varies.</div></div></li>
+          <li class="p2-item"><div class="p2-num">04</div><div><div class="p2-title">Invisible in AI search</div><div class="p2-desc">ChatGPT, Perplexity, and Gemini cite your competitors. You're not on the source list.</div></div></li>
+          <li class="p2-item"><div class="p2-num">05</div><div><div class="p2-title">No clue what's actually working</div><div class="p2-desc">Rankings up, traffic flat, leads silent. Can't connect any article to any dollar earned.</div></div></li>
+        </ul>
+      </div>
+      <div class="p2-panel after-panel" data-p2-panel="after">
+        <div class="p2-eyebrow">With theStacc — where you land in your first 30 days</div>
+        <h3>One platform. All of it. Done.</h3>
+        <ul class="p2-list">
+          <li class="p2-item"><div class="p2-num">01</div><div><div class="p2-title">One engine. Everything connected.</div><div class="p2-desc">Keywords, drafting, scoring, publishing, GBP, social, reviews — all in one dashboard.</div></div></li>
+          <li class="p2-item"><div class="p2-num">02</div><div><div class="p2-title">Hands-off automation</div><div class="p2-desc">0 minutes from you. Articles, posts, replies, reports just appear. You're in control, not involved.</div></div></li>
+          <li class="p2-item"><div class="p2-num">03</div><div><div class="p2-title">$99/month. 30+ articles delivered.</div><div class="p2-desc">One platform replaces your agency, your freelancers, and your tool stack. 35× cheaper.</div></div></li>
+          <li class="p2-item"><div class="p2-num">04</div><div><div class="p2-title">Cited by every AI engine</div><div class="p2-desc">Articles structured so ChatGPT, Perplexity, Gemini, Claude, Copilot quote you as the source.</div></div></li>
+          <li class="p2-item"><div class="p2-num">05</div><div><div class="p2-title">Friday reports tell you what worked</div><div class="p2-desc">Which keywords ranked, which articles drove leads, which dollars came from where.</div></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- OPTION 3 -->
+    <div class="option-divider">
+      <h3><span class="option-tag">OPTION 3</span>Stat-driven deltas — 5 BIG numbers</h3>
+      <span class="option-meta">Visual delta · before crossed out → after big · plus context bullets</span>
+    </div>
+    <section class="p3-section">
+      <div class="p3-head">
+        <h2>SEO today: expensive, messy, slow. <span class="accent">theStacc: 35× faster, 35× cheaper.</span></h2>
+      </div>
+      <div class="p3-deltas">
+        <div class="p3-delta">
+          <div class="p3-label">Time spent</div>
+          <div class="p3-before-val">15+ hr/wk</div>
+          <div class="p3-arrow">↓</div>
+          <div class="p3-after-val">0 min</div>
+          <div class="p3-after-sub">Fully hands-off</div>
+        </div>
+        <div class="p3-delta">
+          <div class="p3-label">Monthly cost</div>
+          <div class="p3-before-val">$3,500/mo</div>
+          <div class="p3-arrow">↓</div>
+          <div class="p3-after-val">$99/mo</div>
+          <div class="p3-after-sub">35× cheaper</div>
+        </div>
+        <div class="p3-delta">
+          <div class="p3-label">Articles shipped</div>
+          <div class="p3-before-val">4 / mo</div>
+          <div class="p3-arrow">↑</div>
+          <div class="p3-after-val">30+ / mo</div>
+          <div class="p3-after-sub">Auto-published</div>
+        </div>
+        <div class="p3-delta">
+          <div class="p3-label">Tool stack</div>
+          <div class="p3-before-val">4–6 tools</div>
+          <div class="p3-arrow">↓</div>
+          <div class="p3-after-val">1 platform</div>
+          <div class="p3-after-sub">All-in-one</div>
+        </div>
+        <div class="p3-delta">
+          <div class="p3-label">AI search visibility</div>
+          <div class="p3-before-val">Invisible</div>
+          <div class="p3-arrow">↑</div>
+          <div class="p3-after-val">Cited 5×</div>
+          <div class="p3-after-sub">ChatGPT, Perplexity…</div>
+        </div>
+      </div>
+      <div class="p3-bullets">
+        <div class="p3-bullet"><strong>Time</strong>The 15 hours go back to running your business.</div>
+        <div class="p3-bullet"><strong>Cost</strong>One subscription replaces agency + freelancers + tools.</div>
+        <div class="p3-bullet"><strong>Volume</strong>30 articles/mo at a quality SEO scoring tools rate 90+.</div>
+        <div class="p3-bullet"><strong>Stack</strong>No more Semrush + Surfer + Jasper + Hootsuite jigsaw.</div>
+        <div class="p3-bullet"><strong>AI</strong>Cited across ChatGPT, Perplexity, Gemini, Claude, Copilot.</div>
+      </div>
+    </section>
+
+    <!-- OPTION 4 -->
+    <div class="option-divider">
+      <h3><span class="option-tag">OPTION 4</span>Journey arrow — Before → After flow</h3>
+      <span class="option-meta">Two columns with arrow between · clear "from / to" story · accent emphasis on the right</span>
+    </div>
+    <section class="p4-section">
+      <div class="p4-head">
+        <h2>Where most teams are today. <span class="accent">Where you land in 30 days.</span></h2>
+      </div>
+      <div class="p4-journey">
+        <div class="p4-side p4-before">
+          <div class="p4-eyebrow">Before theStacc</div>
+          <h3>Stuck. Slow. Expensive.</h3>
+          <div class="p4-sub">Five things that punish anyone without a content team.</div>
+          <ol>
+            <li><strong>Scattered tools, no system</strong><p>Semrush + ChatGPT + Surfer + Hootsuite. Nothing connects.</p></li>
+            <li><strong>15+ hr/week of manual work</strong><p>Researching, writing, scoring, posting — half never ships.</p></li>
+            <li><strong>$3.5k/mo for slow output</strong><p>Agencies deliver 4 articles. Freelancers ghost.</p></li>
+            <li><strong>Invisible in AI search</strong><p>ChatGPT cites competitors. You're not on the list.</p></li>
+            <li><strong>No clarity on what works</strong><p>Rankings up, traffic flat, leads silent.</p></li>
+          </ol>
+        </div>
+        <div class="p4-arrow-col"><div class="p4-arrow">→</div></div>
+        <div class="p4-side p4-after">
+          <div class="p4-eyebrow">With theStacc · 30 days in</div>
+          <h3>One platform. All of it. Done.</h3>
+          <div class="p4-sub">Five outcomes that change the same week you start.</div>
+          <ol>
+            <li><strong>One engine, all connected</strong><p>Keywords, content, GBP, social, reviews — one dashboard.</p></li>
+            <li><strong>0 minutes from you</strong><p>Articles, posts, replies, reports — they just appear.</p></li>
+            <li><strong>$99/mo · 30+ articles</strong><p>Replaces agency + freelancers + tool stack. 35× cheaper.</p></li>
+            <li><strong>Cited by every AI engine</strong><p>ChatGPT, Perplexity, Gemini, Claude, Copilot quote you.</p></li>
+            <li><strong>Friday clarity reports</strong><p>Which keywords ranked. Which dollars came from where.</p></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPTION 5 -->
+    <div class="option-divider">
+      <h3><span class="option-tag">OPTION 5</span>Hover-flip cards — reveal solution on hover</h3>
+      <span class="option-meta">5 cards in a row · problem face by default · hover to slide reveal the solution</span>
+    </div>
+    <section class="p5-section">
+      <div class="p5-head">
+        <h2>5 SEO problems. <span class="accent">5 hovers to see the fix.</span></h2>
+      </div>
+      <div class="p5-grid">
+        <div class="p5-card">
+          <div class="p5-face p5-face-before">
+            <div class="p5-num">01</div>
+            <div class="p5-label">✗ Before</div>
+            <h4>Scattered tools, no system</h4>
+            <p>Semrush + ChatGPT + Surfer + Hootsuite. Nothing connects.</p>
+          </div>
+          <div class="p5-face p5-face-after">
+            <div class="p5-num">01</div>
+            <div class="p5-label">✓ With theStacc</div>
+            <h4>One engine, all connected</h4>
+            <p>Keywords, content, GBP, social, reviews — one dashboard.</p>
+          </div>
+          <span class="p5-hover-hint">Hover →</span>
+        </div>
+        <div class="p5-card">
+          <div class="p5-face p5-face-before">
+            <div class="p5-num">02</div>
+            <div class="p5-label">✗ Before</div>
+            <h4>15+ hours/week manual work</h4>
+            <p>Researching, writing, scoring, posting — half never ships.</p>
+          </div>
+          <div class="p5-face p5-face-after">
+            <div class="p5-num">02</div>
+            <div class="p5-label">✓ With theStacc</div>
+            <h4>0 minutes from you</h4>
+            <p>Articles, posts, replies just appear. You're in control, not involved.</p>
+          </div>
+          <span class="p5-hover-hint">Hover →</span>
+        </div>
+        <div class="p5-card">
+          <div class="p5-face p5-face-before">
+            <div class="p5-num">03</div>
+            <div class="p5-label">✗ Before</div>
+            <h4>$3.5k/mo for slow output</h4>
+            <p>Agencies deliver 4 articles. Freelancers ghost. Quality varies.</p>
+          </div>
+          <div class="p5-face p5-face-after">
+            <div class="p5-num">03</div>
+            <div class="p5-label">✓ With theStacc</div>
+            <h4>$99/mo · 30+ articles</h4>
+            <p>Replaces agency + freelancers + tool stack. 35× cheaper.</p>
+          </div>
+          <span class="p5-hover-hint">Hover →</span>
+        </div>
+        <div class="p5-card">
+          <div class="p5-face p5-face-before">
+            <div class="p5-num">04</div>
+            <div class="p5-label">✗ Before</div>
+            <h4>Invisible in AI search</h4>
+            <p>ChatGPT cites competitors. You're not even on the list.</p>
+          </div>
+          <div class="p5-face p5-face-after">
+            <div class="p5-num">04</div>
+            <div class="p5-label">✓ With theStacc</div>
+            <h4>Cited by every AI engine</h4>
+            <p>ChatGPT, Perplexity, Gemini, Claude, Copilot quote you as source.</p>
+          </div>
+          <span class="p5-hover-hint">Hover →</span>
+        </div>
+        <div class="p5-card">
+          <div class="p5-face p5-face-before">
+            <div class="p5-num">05</div>
+            <div class="p5-label">✗ Before</div>
+            <h4>No clue what's working</h4>
+            <p>Rankings up, traffic flat, leads silent. No revenue connection.</p>
+          </div>
+          <div class="p5-face p5-face-after">
+            <div class="p5-num">05</div>
+            <div class="p5-label">✓ With theStacc</div>
+            <h4>Friday clarity reports</h4>
+            <p>Which keywords ranked. Which dollars came from where.</p>
+          </div>
+          <span class="p5-hover-hint">Hover →</span>
+        </div>
+      </div>
+    </section>
+
+  </section>
+
+  <script is:inline>
+    // Option B sticky rail
+    document.querySelectorAll('#mb-rail .mB-rail-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const id = item.getAttribute('data-mb');
+        document.querySelectorAll('#mb-rail .mB-rail-item').forEach(x => x.classList.toggle('active', x === item));
+        document.querySelectorAll('.mB-panel').forEach(p => p.classList.toggle('active', p.getAttribute('data-mb-panel') === id));
+      });
+    });
+    // Option E tabs
+    document.querySelectorAll('#me-tabs .mE-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-me');
+        document.querySelectorAll('#me-tabs .mE-tab-btn').forEach(x => x.classList.toggle('active', x === btn));
+        document.querySelectorAll('.mE-panel').forEach(p => p.classList.toggle('active', p.getAttribute('data-me-panel') === id));
+      });
+    });
+    // Option 2 toggle
+    document.querySelectorAll('#p2-toggle .p2-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-p2');
+        document.querySelectorAll('#p2-toggle .p2-toggle-btn').forEach(x => x.classList.toggle('active', x === btn));
+        document.querySelectorAll('.p2-panel').forEach(p => p.classList.toggle('active', p.getAttribute('data-p2-panel') === id));
+      });
+    });
+  </script>
+</BaseLayout>
