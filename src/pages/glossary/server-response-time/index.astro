@@ -1,0 +1,456 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'Server Response Time: Definition, Benchmarks & How to Fix It | theStacc Glossary',
+  description: 'Server response time (TTFB) is the duration from a browser request to the first byte received. Under 200 ms is excellent. Learn causes, benchmarks, and fixes.',
+  canonical: 'https://thestacc.com/glossary/server-response-time/',
+  ogImage: '/og/glossary/server-response-time.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "Technical SEO", "item": "https://thestacc.com/glossary/?cat=technical-seo" },
+        { "@type": "ListItem", "position": 4, "name": "Server Response Time", "item": "https://thestacc.com/glossary/server-response-time/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "Server Response Time",
+      "description": "Server response time is the duration from a browser sending a request to the server returning the first byte of data, measured as Time to First Byte (TTFB). Google recommends keeping TTFB under 200 ms for optimal page experience.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "server-response-time",
+      "url": "https://thestacc.com/glossary/server-response-time/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is TTFB the same as server response time?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. TTFB (Time to First Byte) is the standard measurement of server response time. It captures the full duration from the browser's request to the arrival of the first response byte, including redirect time, connection time, and backend processing." }},
+        { "@type": "Question", "name": "What is a good TTFB for SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Google recommends TTFB under 200 ms for the best user experience. For competitive SEO and e-commerce, aim for under 100 ms. TTFB above 800 ms is considered poor and likely harms Core Web Vitals scores." }},
+        { "@type": "Question", "name": "Can a CDN improve server response time?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. CDNs cache content at edge locations geographically close to users, reducing network latency significantly. A CDN can reduce TTFB by 50-70% for international visitors by serving from the nearest edge node rather than the origin server." }},
+        { "@type": "Question", "name": "Does server response time directly affect Google rankings?", "acceptedAnswer": { "@type": "Answer", "text": "TTFB is not a standalone ranking signal, but it directly influences Largest Contentful Paint (LCP), which is a confirmed Core Web Vitals ranking factor. Slow TTFB makes it nearly impossible to achieve good LCP scores." }},
+        { "@type": "Question", "name": "What causes slow server response time?", "acceptedAnswer": { "@type": "Answer", "text": "Common causes include underpowered shared hosting, unoptimized databases with slow queries, missing caching layers, heavy plugins adding processing overhead, high traffic without auto-scaling, and geographic distance between the user and origin server." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=technical-seo">Technical SEO</a><span class="sep">/</span>
+      <span class="current">Server Response Time</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Technical SEO · Performance
+      <span class="term-difficulty">Intermediate</span>
+    </div>
+    <h1>Server Response Time</h1>
+    <p class="description">The time from a browser request to the server returning the first byte of data (TTFB). Google's threshold: <strong>under 200 ms</strong>. Slow TTFB is the single largest bottleneck for Core Web Vitals and page load speed.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jul 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">7 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">TTFB, Time to First Byte</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p><strong>Server response time</strong> is the amount of time it takes for a web server to respond to a browser request, measured as Time to First Byte (TTFB). It includes redirect duration, TCP/TLS connection time, and backend processing. Google recommends keeping TTFB <strong>under 200 ms</strong>. Everything else — HTML parsing, CSS rendering, images — waits until this first byte arrives.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">Google target</div>
+            <div class="tms-value">Under 200 ms</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Technical SEO</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Key metric</div>
+            <div class="tms-value">TTFB</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Intermediate</div>
+          </div>
+        </div>
+
+        <p class="lede-p">Every millisecond of server delay pushes back Largest Contentful Paint, increases bounce rate, and compounds into lost rankings. TTFB is the foundation — fix it first before optimizing anything else on the page.</p>
+
+        <h2 id="what-is">What is server response time?</h2>
+        <p>Server response time measures how long a server takes to send the first byte of data back to a browser after receiving a request. The browser cannot parse HTML, load CSS, or request images until this first byte arrives — making TTFB the upstream bottleneck for every subsequent performance metric.</p>
+        <p>TTFB is composed of three sequential phases:</p>
+        <ol>
+          <li><strong>Redirect duration</strong> — time spent following HTTP redirects before reaching the final URL</li>
+          <li><strong>Connection duration</strong> — time to complete TCP handshake and TLS negotiation</li>
+          <li><strong>Backend duration</strong> — time for the server to process the request, query the database, and generate the response</li>
+        </ol>
+        <p>The formula: <code>TTFB = Redirect time + Connection time + Backend processing time</code></p>
+
+        <div class="callout callout-info">
+          <div class="callout-label">Google's stance</div>
+          <p>Google PageSpeed Insights flags TTFB above 600 ms as a failing score. Google's own documentation recommends <strong>under 200 ms</strong> as the threshold for excellent server response time. TTFB above 800 ms correlates strongly with LCP failures, a confirmed Core Web Vitals ranking factor.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why server response time matters for SEO</h2>
+        <p>TTFB sits at the top of the page load waterfall. Every other metric — LCP, FCP, TBT — depends on a fast first byte. Three reasons this matters in practice:</p>
+        <ol>
+          <li><strong>Core Web Vitals dependency.</strong> Largest Contentful Paint cannot be fast if TTFB is slow. A 600 ms TTFB leaves only 1,900 ms to load and render the LCP element before crossing Google's 2,500 ms "good" threshold — extremely difficult at scale.</li>
+          <li><strong>User abandonment.</strong> Every 100 ms of added latency increases abandonment probability before the page loads. For e-commerce, Amazon found a 100 ms delay reduces sales by 1%. That compounds across thousands of sessions.</li>
+          <li><strong>Crawl efficiency.</strong> Googlebot also waits for TTFB. Slow server response reduces how many pages Google can crawl per session, shrinking effective crawl budget for large sites.</li>
+        </ol>
+
+        <h2 id="benchmarks">What are the TTFB benchmarks?</h2>
+        <p>Google PageSpeed Insights and industry tools use a consistent scale:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>TTFB Range</th><th>Rating</th><th>PageSpeed colour</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight">
+                <td><strong>Under 200 ms</strong></td>
+                <td>Excellent</td>
+                <td class="cell-yes">Green</td>
+                <td>Maintain</td>
+              </tr>
+              <tr><td><strong>200–500 ms</strong></td><td>Good</td><td class="cell-yes">Green</td><td>Monitor</td></tr>
+              <tr><td><strong>500–800 ms</strong></td><td>Needs improvement</td><td class="cell-meh">Orange</td><td>Prioritise fixes</td></tr>
+              <tr><td><strong>Over 800 ms</strong></td><td>Poor</td><td class="cell-no">Red</td><td>Urgent action</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="how-it-works">How server response time is measured</h2>
+        <p>TTFB is measured in milliseconds from the moment the browser sends the HTTP request to when the first byte of the response body is received. Most performance tools expose TTFB in their waterfall charts as the "waiting" phase of the first document request.</p>
+
+        <div class="url-flow">
+          <span class="uf-comment"># Measure TTFB with curl</span><br>
+          curl -o /dev/null -s -w "TTFB: %&#123;time_starttransfer&#125;s\n" https://example.com/<br>
+          <br>
+          <span class="uf-comment"># Output example</span><br>
+          <span class="uf-new">TTFB: 0.183s</span> <span class="uf-comment"># 183 ms — within excellent range</span>
+        </div>
+
+        <h2 id="causes">What causes slow server response time?</h2>
+        <p>Diagnosing TTFB means isolating which of the three phases is slow. The most common culprits:</p>
+        <ul>
+          <li><strong>Shared hosting</strong> — CPU and memory shared across hundreds of sites; any spike on a neighbour slows yours</li>
+          <li><strong>Unoptimised databases</strong> — slow queries, missing indexes, or bloated revisions/spam tables add hundreds of milliseconds per page request</li>
+          <li><strong>No caching</strong> — dynamic pages generated fresh for every visitor, even when content hasn't changed</li>
+          <li><strong>Heavy plugins or modules</strong> — each plugin adding PHP or Node processing overhead to every request</li>
+          <li><strong>Geographic distance</strong> — origin server in the US serving users in Asia adds 150-200 ms of network latency alone</li>
+          <li><strong>DNS resolution delays</strong> — slow DNS providers add 50-100 ms before any connection begins</li>
+          <li><strong>Redirect chains</strong> — each extra redirect adds a full round-trip before the final response starts</li>
+        </ul>
+
+        <h2 id="how-to-fix">How to improve server response time</h2>
+        <p>The fastest wins come from caching and hosting upgrades. Work down this list by impact:</p>
+        <ol>
+          <li><strong>Upgrade hosting.</strong> Move from shared to VPS, dedicated, or managed cloud. The jump from shared to VPS hosting typically cuts TTFB by 200-400 ms instantly.</li>
+          <li><strong>Implement server-side caching.</strong> Cache rendered HTML at the CDN edge or with a page cache plugin. Pre-cached pages return in under 50 ms regardless of server power.</li>
+          <li><strong>Use a CDN.</strong> Serve content from edge nodes close to users. A CDN alone can cut TTFB by 50-70% for international visitors.</li>
+          <li><strong>Optimise the database.</strong> Add indexes to frequently queried columns, remove unused plugins, clean up post revisions. A database audit often recovers 100-300 ms.</li>
+          <li><strong>Enable HTTP/2 or HTTP/3.</strong> Multiplexed connections eliminate the head-of-line blocking that slows HTTP/1.1 requests.</li>
+          <li><strong>Enable compression.</strong> Gzip or Brotli compression reduces response body size and transfer time, particularly for large HTML pages.</li>
+          <li><strong>Minimise redirects.</strong> Every redirect hop adds a round-trip. Use direct URLs wherever possible. Redirect to the final destination in one hop.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">Common mistake — optimising images before fixing TTFB</div>
+          <p>Teams often spend weeks compressing images and deferring scripts while ignoring a 900 ms TTFB. Images cannot load until the first byte arrives. Fix TTFB first — it's the multiplier that makes every other optimisation more effective.</p>
+        </div>
+
+        <h2 id="tools">Tools to measure server response time</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Tool</th><th>Best for</th><th>Cost</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight"><td><strong>Google PageSpeed Insights</strong></td><td>TTFB score + LCP correlation</td><td>Free</td></tr>
+              <tr><td><strong>WebPageTest</strong></td><td>Waterfall analysis + geographic testing</td><td>Free</td></tr>
+              <tr><td><strong>GTmetrix</strong></td><td>Historical TTFB trend tracking</td><td>Free / Paid</td></tr>
+              <tr><td><strong>Chrome DevTools Network</strong></td><td>Real-time debugging</td><td>Free</td></tr>
+              <tr><td><strong>curl</strong></td><td>CLI TTFB measurement</td><td>Free</td></tr>
+              <tr><td><strong>New Relic / Datadog</strong></td><td>Continuous production monitoring</td><td>Paid</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="vs-related">Server response time vs page load time — what's the difference?</h2>
+        <p>TTFB and page load time measure different phases. Understanding the distinction prevents misdiagnosing performance problems.</p>
+
+        <div class="pros-cons">
+          <div class="pros-card">
+            <h4>Server response time (TTFB)</h4>
+            <ul>
+              <li>Measures server-side performance only</li>
+              <li>Controlled by hosting, caching, database</li>
+              <li>Typically 50-800 ms range</li>
+              <li>Fix by upgrading infrastructure</li>
+              <li>Google target: under 200 ms</li>
+            </ul>
+          </div>
+          <div class="cons-card">
+            <h4>Page load time (LCP / TTI)</h4>
+            <ul>
+              <li>Measures full browser render pipeline</li>
+              <li>Controlled by assets, scripts, images</li>
+              <li>Typically 1,000-5,000 ms range</li>
+              <li>Fix by optimising front-end assets</li>
+              <li>Google LCP target: under 2,500 ms</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="best-practices">6 best practices for server response time</h2>
+        <ol>
+          <li><strong>Set a TTFB budget under 200 ms</strong> for all primary landing pages — not just the homepage.</li>
+          <li><strong>Cache at every layer</strong> — CDN edge, object cache (Redis/Memcached), page cache, and opcode cache (OPcache for PHP).</li>
+          <li><strong>Monitor from multiple geographic locations.</strong> A UK server may score 90 ms in Europe but 400 ms in Asia. Use WebPageTest's multi-region tests.</li>
+          <li><strong>Test under load.</strong> TTFB during a 10-user test means nothing at 1,000 concurrent users. Use k6 or Loader.io to simulate realistic traffic.</li>
+          <li><strong>Audit redirects regularly.</strong> Redirect chains accumulate over time. Run a crawl quarterly and collapse multi-hop chains to single hops.</li>
+          <li><strong>Review after every major plugin or dependency update.</strong> A single bloated plugin can add 200 ms to every request without any other code change.</li>
+        </ol>
+
+        <h2 id="mistakes">Common server response time mistakes to avoid</h2>
+        <ul>
+          <li><strong>Testing only from one location</strong> — TTFB varies by 200-400 ms depending on user geography</li>
+          <li><strong>Ignoring database optimisation</strong> — slow queries are the most common cause of high backend time</li>
+          <li><strong>Not caching authenticated pages</strong> — logged-in users hit uncached pages and see full backend time on every load</li>
+          <li><strong>Using a CDN without origin caching</strong> — cache misses still hit the slow origin server, defeating the purpose</li>
+          <li><strong>Relying on PageSpeed alone</strong> — lab data; use CrUX (real user data) to confirm actual TTFB for your visitors</li>
+        </ul>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Is TTFB the same as server response time?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes. TTFB (Time to First Byte) is the standard measurement of server response time. It captures the full duration from the browser's request to the arrival of the first response byte, including redirect time, connection time, and backend processing.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is a good TTFB for SEO?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Google recommends TTFB under 200 ms for the best user experience. For competitive SEO and e-commerce, aim for under 100 ms. TTFB above 800 ms is considered poor and makes achieving good LCP scores nearly impossible.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Can a CDN improve server response time?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes. CDNs cache content at edge locations geographically close to users, reducing network latency significantly. A CDN can reduce TTFB by 50-70% for international visitors by serving from the nearest edge node rather than the origin server.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Does server response time directly affect Google rankings?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>TTFB is not a standalone ranking signal, but it directly influences Largest Contentful Paint (LCP), which is a confirmed Core Web Vitals ranking factor. Slow TTFB makes it nearly impossible to achieve good LCP scores, indirectly harming rankings.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What causes slow server response time?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Common causes include underpowered shared hosting, unoptimised databases with slow queries, missing caching layers, heavy plugins adding processing overhead, high traffic without auto-scaling, and geographic distance between the user and origin server.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/core-web-vitals/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Core Web Vitals</div>
+            <p class="rt-desc">Google's user experience metrics (LCP, FID, CLS) used as ranking signals.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/page-speed/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Page Speed</div>
+            <p class="rt-desc">How quickly a web page's content fully loads and becomes interactive.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/content-delivery-network-cdn/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Content Delivery Network (CDN)</div>
+            <p class="rt-desc">Distributed servers that serve content from locations close to users.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/crawl-budget/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Crawl Budget</div>
+            <p class="rt-desc">The number of pages Googlebot crawls on your site within a given timeframe.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/server-side-rendering/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Server-Side Rendering</div>
+            <p class="rt-desc">Generating HTML on the server per request rather than in the browser.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/indexing/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Indexing</div>
+            <p class="rt-desc">The process by which Google stores and organises crawled pages for search.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://web.dev/ttfb/" target="_blank" rel="noopener">web.dev — Optimise TTFB (Google)</a></li>
+            <li><span class="src-num">[02]</span><a href="https://developers.google.com/speed/docs/insights/Server" target="_blank" rel="noopener">Google PageSpeed Insights — Server response time documentation</a></li>
+            <li><span class="src-num">[03]</span><a href="https://www.webpagetest.org/" target="_blank" rel="noopener">WebPageTest — TTFB measurement and waterfall analysis</a></li>
+            <li><span class="src-num">[04]</span><a href="https://ahrefs.com/blog/core-web-vitals/" target="_blank" rel="noopener">Ahrefs — Core Web Vitals guide including TTFB impact</a></li>
+            <li><span class="src-num">[05]</span><a href="https://datatracker.ietf.org/doc/html/rfc9110" target="_blank" rel="noopener">RFC 9110 — HTTP Semantics (IETF)</a></li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · ex-Sr Marketing Specialist, ARKA 360 · Malappuram, Kerala</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about SEO craft, technical optimisation, and the performance decisions that compound into ranking wins — including the infrastructure choices most teams overlook.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free SEO audit · 24-hour delivery</div>
+          <div class="cta-title">See what's costing you traffic.</div>
+          <p class="cta-desc">We audit your site — including TTFB, Core Web Vitals, and every technical issue slowing you down — and send back fixes ranked by SEO impact.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>TTFB and Core Web Vitals analysis</li>
+            <li>Technical fixes ranked by impact</li>
+            <li>Keyword gaps competitors rank for</li>
+            <li>Custom 90-day growth plan</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is server response time?</a></li>
+            <li><a href="#why-it-matters">Why it matters for SEO</a></li>
+            <li><a href="#benchmarks">TTFB benchmarks</a></li>
+            <li><a href="#how-it-works">How it is measured</a></li>
+            <li><a href="#causes">What causes slow TTFB</a></li>
+            <li><a href="#how-to-fix">How to improve TTFB</a></li>
+            <li><a href="#tools">Measurement tools</a></li>
+            <li><a href="#vs-related">TTFB vs page load time</a></li>
+            <li><a href="#best-practices">6 best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump current">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>

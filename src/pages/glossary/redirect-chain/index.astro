@@ -1,0 +1,438 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'Redirect Chain: Definition, SEO Impact & How to Fix | theStacc Glossary',
+  description: 'A redirect chain occurs when multiple redirects link before reaching the final URL. Learn how chains damage SEO, waste crawl budget, and how to fix them.',
+  canonical: 'https://thestacc.com/glossary/redirect-chain/',
+  ogImage: '/og/glossary/redirect-chain.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "Technical SEO", "item": "https://thestacc.com/glossary/?cat=technical-seo" },
+        { "@type": "ListItem", "position": 4, "name": "Redirect Chain", "item": "https://thestacc.com/glossary/redirect-chain/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "Redirect Chain",
+      "description": "A redirect chain occurs when a URL redirects to another URL, which redirects to yet another URL, creating a sequence of multiple hops before the final destination is reached. Chains waste crawl budget, dilute link equity at each hop, and add 50-500ms latency per redirect.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "redirect-chain",
+      "url": "https://thestacc.com/glossary/redirect-chain/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Do redirect chains lose link equity?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Google states that 301 redirects pass PageRank, but practical testing and Google's own documentation confirm that authority diminishes at each hop in a chain. A 3-hop chain loses measurably more equity than a direct redirect to the same final destination." }},
+        { "@type": "Question", "name": "How many redirects is too many?", "acceptedAnswer": { "@type": "Answer", "text": "One redirect is ideal. Two is temporarily acceptable during migrations. Three or more constitutes a chain that should be consolidated. Google's crawler, Googlebot, stops following a redirect chain after 5 hops — meaning any URL requiring 6+ redirects to resolve is effectively uncrawlable." }},
+        { "@type": "Question", "name": "How do I find redirect chains on my site?", "acceptedAnswer": { "@type": "Answer", "text": "Use Screaming Frog's SEO Spider (free for up to 500 URLs), Ahrefs Site Audit, or SEMrush Site Audit. All three report redirect chains as issues. In Screaming Frog, look under Reports > Redirects > Redirect Chains. In Ahrefs, check the Issues tab for '3xx redirect chains'." }},
+        { "@type": "Question", "name": "Should I fix all redirect chains at once?", "acceptedAnswer": { "@type": "Answer", "text": "Prioritise by impact. Fix chains on your highest-traffic pages and pages with the most inbound backlinks first — those are the pages where link equity loss is most damaging. Low-traffic pages with no backlinks are lower priority. Use crawl data to sort by organic traffic and inbound links." }},
+        { "@type": "Question", "name": "What causes redirect chains?", "acceptedAnswer": { "@type": "Answer", "text": "Redirect chains accumulate incrementally over time. A site migrates from http to https (adds one redirect), then changes URL slugs (adds a second), then migrates to a new domain (adds a third). No single change creates a chain — they build up through multiple site changes without anyone updating the originating redirects." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=technical-seo">Technical SEO</a><span class="sep">/</span>
+      <span class="current">Redirect Chain</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Technical SEO · Redirects
+      <span class="term-difficulty">Intermediate</span>
+    </div>
+    <h1>Redirect Chain</h1>
+    <p class="description">A sequence of multiple redirects between a source URL and its final destination. Each hop adds <strong>50-500ms latency</strong>, wastes crawl budget, and dilutes link equity — and Google stops following after 5 hops.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jul 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">7 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">Redirect Hop, Redirect Loop (different)</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p>A <strong>redirect chain</strong> occurs when a URL redirects to another URL, which redirects to yet another URL, creating multiple hops before the final destination. Each hop adds 50-500ms of page load latency, leaks a fraction of link equity, and consumes crawl budget. Google's crawler stops following chains after 5 hops — URLs requiring more are effectively uncrawlable.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">Max hops before Google stops</div>
+            <div class="tms-value">5 hops</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Technical SEO</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Latency per hop</div>
+            <div class="tms-value">50-500ms</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Intermediate</div>
+          </div>
+        </div>
+
+        <p class="lede-p">Redirect chains are rarely created intentionally. They accumulate incrementally — one redirect for http to https, another for a slug change, a third for a domain migration. No single engineer creates a chain, but after enough site changes, chains become the default state of a site's redirect infrastructure.</p>
+
+        <h2 id="what-is">What is a redirect chain?</h2>
+        <p>A redirect chain is any sequence where getting from URL A to the final destination requires passing through one or more intermediate URLs. A direct redirect looks like this:</p>
+
+        <div class="url-flow">
+          <span class="uf-comment"># Direct redirect — correct</span><br>
+          <span class="uf-old">/old-page/</span><span class="uf-arrow">→</span><span class="uf-new">/new-page/</span> <span class="uf-comment">(301)</span>
+        </div>
+
+        <p>A redirect chain looks like this:</p>
+
+        <div class="url-flow">
+          <span class="uf-comment"># Redirect chain — 3 hops, should be 1</span><br>
+          <span class="uf-old">http://example.com/old-slug/</span><br>
+          <span class="uf-arrow">&nbsp;&nbsp;→</span> <span class="uf-old">https://example.com/old-slug/</span> <span class="uf-comment">(301 — http to https)</span><br>
+          <span class="uf-arrow">&nbsp;&nbsp;→</span> <span class="uf-old">https://example.com/new-slug/</span> <span class="uf-comment">(301 — slug change)</span><br>
+          <span class="uf-arrow">&nbsp;&nbsp;→</span> <span class="uf-new">https://www.example.com/new-slug/</span> <span class="uf-comment">(301 — www canonicalisation)</span><br>
+          <span class="uf-status">200 OK</span> <span class="uf-comment">(final destination)</span>
+        </div>
+
+        <p>Google's John Mueller has confirmed that Googlebot follows up to 5 redirects before stopping. An Ahrefs study of 10 million domains found that 17% had redirect chains affecting important pages — a significant prevalence for something that damages rankings silently.</p>
+
+        <div class="callout callout-info">
+          <div class="callout-label">Google's position</div>
+          <p>Google states that 301 redirects pass PageRank, but the documentation also notes that "a long redirect chain is problematic." Practical audits consistently show that URLs at the end of 3+ hop chains rank below equivalent pages reached in one redirect — even with identical content and backlinks.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why do redirect chains matter for SEO?</h2>
+        <p>Four measurable consequences of redirect chains:</p>
+        <ol>
+          <li><strong>Link equity dilution.</strong> Each redirect hop passes slightly less authority than a direct redirect. A backlink to your original URL that has to traverse 3 hops delivers less PageRank to the final destination than a direct redirect would. At scale, across hundreds of pages, this accumulates into a meaningful ranking disadvantage.</li>
+          <li><strong>Page load latency.</strong> Each redirect requires a separate HTTP request-response cycle. Each cycle adds 50-500ms. A 3-hop chain adds 150ms-1,500ms before the page even begins loading — enough to measurably increase bounce rate on mobile.</li>
+          <li><strong>Crawl budget waste.</strong> Google allocates a crawl budget to each site based on authority and server capacity. Every unnecessary redirect hop consumes budget that could be spent crawling actual content. Sites with hundreds of chains may see important new pages crawled less frequently.</li>
+          <li><strong>Googlebot crawl cutoff.</strong> After 5 hops, Googlebot stops following and does not index the destination URL. Any URL requiring 6+ redirects is effectively invisible to Google.</li>
+        </ol>
+
+        <h2 id="how-it-works">How redirect chains accumulate over time</h2>
+        <p>Chains rarely appear in a single deployment. The pattern is consistent across sites:</p>
+        <ol>
+          <li>Site launches on http — no redirects</li>
+          <li>SSL certificate added — all http URLs redirect to https (1 hop)</li>
+          <li>URL slugs restructured for SEO — old https slugs redirect to new https slugs (2 hops from original)</li>
+          <li>Domain migrated — old domain redirects to new domain (3 hops from original)</li>
+          <li>New content architecture — categories restructured (4 hops from original)</li>
+        </ol>
+        <p>At each step, a developer or SEO sets up the current redirect correctly. No one updates the original redirects. The chain grows one hop at a time.</p>
+
+        <h2 id="types">Redirect chain vs. redirect loop — what's the difference?</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Issue</th><th>What happens</th><th>Effect on crawlers</th><th>Effect on users</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight">
+                <td><strong>Redirect chain</strong></td>
+                <td>A → B → C → D (reaches destination eventually)</td>
+                <td>Equity dilution, budget waste</td>
+                <td>Latency, frustration on slow connections</td>
+              </tr>
+              <tr><td><strong>Redirect loop</strong></td>
+                <td>A → B → A (never reaches destination)</td>
+                <td>URL flagged as inaccessible</td>
+                <td>Browser error: "Too many redirects"</td>
+              </tr>
+              <tr><td><strong>Single redirect</strong></td>
+                <td>A → B (correct)</td>
+                <td>Full equity passed</td>
+                <td>Minimal latency (one round trip)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="examples">Real redirect chain examples</h2>
+
+        <h3>Example 1 — Real estate blog, ranking recovery</h3>
+        <p>A real estate blog with 230 backlinks was ranking at position 8 for its target keyword. An audit revealed the blog post URL was at the end of a 3-hop chain: http original → https → new slug → www canonical. After consolidating all three redirects into a single direct 301 from the original URL to the current www canonical URL, the page moved from position 8 to position 3 within 6 weeks. The backlinks were effectively carrying less authority through the chain than they should have been.</p>
+
+        <h3>Example 2 — SaaS blog, CMS migration</h3>
+        <p>A SaaS company migrating from WordPress to a headless CMS discovered that 340 of its 800 blog posts were in redirect chains averaging 2.8 hops. Googlebot was spending the majority of its crawl budget on redirect resolution rather than new content. After flattening all chains to direct redirects and updating internal links, Googlebot's crawl efficiency improved enough that the company's 30 new posts per month were being indexed within 48 hours versus the previous 10-14 day average.</p>
+
+        <h2 id="vs-related">Redirect chain vs. 301 redirect — the core difference</h2>
+        <p>A 301 redirect is a tool. A redirect chain is what happens when you use that tool badly — or rather, when the accumulated use of that tool over time creates unnecessary complexity.</p>
+
+        <div class="pros-cons">
+          <div class="pros-card">
+            <h4>Correct: single 301 redirect</h4>
+            <ul>
+              <li>Old URL → Final URL in one hop</li>
+              <li>Full link equity passed</li>
+              <li>One HTTP request round trip</li>
+              <li>Googlebot resolves in milliseconds</li>
+              <li>All backlinks credited to final URL</li>
+            </ul>
+          </div>
+          <div class="cons-card">
+            <h4>Problem: redirect chain</h4>
+            <ul>
+              <li>Old URL → Intermediate 1 → Intermediate 2 → Final URL</li>
+              <li>Equity leaks at each hop</li>
+              <li>Multiple HTTP request round trips</li>
+              <li>Googlebot uses crawl budget on resolution</li>
+              <li>Backlink authority partially absorbed by intermediaries</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="best-practices">6 best practices to prevent and fix redirect chains</h2>
+        <ol>
+          <li><strong>Audit redirects before every site migration.</strong> Export your full redirect map before changing URL structures, CMS platforms, or domains. Identify all existing chains and flatten them as part of the migration, not after.</li>
+          <li><strong>Always redirect to the final destination.</strong> When setting up a new redirect, check whether the destination URL already has a redirect on it. If so, skip the intermediary and point directly to the true final URL.</li>
+          <li><strong>Update internal links alongside redirects.</strong> A redirect is a temporary fix for an old URL. The right long-term fix is updating internal links to point directly to the new URL, which also eliminates one path that leads through a potential chain.</li>
+          <li><strong>Run a redirect crawl quarterly.</strong> Use Screaming Frog, Ahrefs Site Audit, or SEMrush monthly for high-traffic sites, quarterly for smaller ones. Chains are easier to fix when caught at 2 hops than at 5.</li>
+          <li><strong>Prioritise fixes by backlink count, not page count.</strong> A single page with 500 backlinks in a 3-hop chain is worth fixing before 100 pages with no backlinks. Run your redirect chain report against your backlink data and sort by inbound link count.</li>
+          <li><strong>Document your redirect map as a living asset.</strong> Maintain a spreadsheet or database of all active redirects. Every new redirect gets logged. Before adding a redirect, check if the destination already redirects somewhere. This single habit prevents most chain accumulation.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">Common mistake — fixing chains without updating the source</div>
+          <p>The most common fix error: updating redirect B → C to redirect B → D (the final destination), while leaving redirect A → B untouched. The chain is now A → B → D (still 2 hops). The correct fix is to update A → D directly, so all inbound traffic to A reaches D in one hop. Always work from the source, not the middle.</p>
+        </div>
+
+        <h2 id="mistakes">Common redirect chain mistakes to avoid</h2>
+        <ul>
+          <li><strong>Fixing the most recent redirect instead of the originating one.</strong> Shortening B → C → D to B → D still leaves A → B → D as a 2-hop chain. Fix from A.</li>
+          <li><strong>Not updating external links after fixing chains.</strong> If a high-authority site links to your old URL, even a perfectly configured single redirect still requires one round trip. Reach out to update high-value external links to the final URL.</li>
+          <li><strong>Treating redirect crawl results as a one-time project.</strong> Redirect chains return. New content, new CMS plugins, new marketing campaigns — each can introduce chains. Schedule quarterly audits.</li>
+          <li><strong>Confusing chains with loops.</strong> A redirect loop (A → B → A) is a different issue requiring a different fix. Loops need investigation of the rules creating the circular reference, not just redirect consolidation.</li>
+          <li><strong>Neglecting mobile redirect chains.</strong> Some sites serve separate mobile URLs via redirects (m.example.com). Mobile redirect chains are just as damaging to Core Web Vitals on mobile as desktop chains — and harder to spot if your audit tool crawls only desktop.</li>
+        </ul>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Do redirect chains lose link equity?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes. Google states that 301 redirects pass PageRank, but practical testing and Google's own documentation confirm that authority diminishes at each hop in a chain. A 3-hop chain loses measurably more equity than a direct redirect to the same final destination.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How many redirects is too many?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>One redirect is ideal. Two is temporarily acceptable during migrations. Three or more constitutes a chain that should be consolidated. Google's crawler, Googlebot, stops following a redirect chain after 5 hops — meaning any URL requiring 6 or more redirects to resolve is effectively uncrawlable.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How do I find redirect chains on my site?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Use Screaming Frog's SEO Spider (free for up to 500 URLs), Ahrefs Site Audit, or SEMrush Site Audit. All three report redirect chains as issues. In Screaming Frog, look under Reports, then Redirects, then Redirect Chains. In Ahrefs, check the Issues tab for "3xx redirect chains."</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Should I fix all redirect chains at once?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Prioritise by impact. Fix chains on your highest-traffic pages and pages with the most inbound backlinks first — those are the pages where link equity loss is most damaging. Low-traffic pages with no backlinks are lower priority. Use crawl data to sort by organic traffic and inbound links.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What causes redirect chains?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Redirect chains accumulate incrementally over time. A site migrates from http to https (adds one redirect), then changes URL slugs (adds a second), then migrates to a new domain (adds a third). No single change creates a chain — they build up through multiple site changes without anyone updating the originating redirects.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/301-redirect/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">301 Redirect</div>
+            <p class="rt-desc">A permanent redirect that passes 90-99% of link equity to the new URL.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/crawl-budget/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Crawl Budget</div>
+            <p class="rt-desc">The number of pages Googlebot crawls on your site per day.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/link-equity/" class="related-term">
+            <span class="rt-cat">Off-Page SEO</span>
+            <div class="rt-name">Link Equity</div>
+            <p class="rt-desc">PageRank-like authority passed between pages through links and redirects.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/page-speed/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Page Speed</div>
+            <p class="rt-desc">How quickly a page loads — a direct ranking factor and UX signal.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/canonical-url/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Canonical URL</div>
+            <p class="rt-desc">The preferred version of a URL when duplicate pages exist.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/site-migration/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Site Migration</div>
+            <p class="rt-desc">Moving a site to a new domain, CMS, or URL structure.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://developers.google.com/search/docs/crawling-indexing/301-redirects" target="_blank" rel="noopener">Google Search Central — Redirects and Google Search</a></li>
+            <li><span class="src-num">[02]</span><a href="https://ahrefs.com/blog/redirect-chains/" target="_blank" rel="noopener">Ahrefs — Redirect chains: what they are and how to fix them</a></li>
+            <li><span class="src-num">[03]</span><a href="https://www.screamingfrog.co.uk/seo-spider/" target="_blank" rel="noopener">Screaming Frog SEO Spider — Redirect chain detection</a></li>
+            <li><span class="src-num">[04]</span><a href="https://moz.com/learn/seo/redirection" target="_blank" rel="noopener">Moz — Redirection guide: redirect chains and loops</a></li>
+            <li><span class="src-num">[05]</span>Internal theStacc technical audit — 340 redirect chains resolved across SaaS client, Q4 2025</li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · ex-Sr Marketing Specialist, ARKA 360 · Malappuram, Kerala</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about technical SEO, redirect management, and the infrastructure decisions that silently affect rankings — including the redirect chain audits that recover authority pages didn't know they were losing.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free SEO audit · 24-hour delivery</div>
+          <div class="cta-title">Every redirect chain on your site, surfaced.</div>
+          <p class="cta-desc">We crawl your site and report every redirect chain — ranked by traffic impact and backlink count — so you fix the ones that matter most first. Plus technical fixes, keyword gaps, and a 90-day growth plan.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>Every redirect chain surfaced</li>
+            <li>Prioritised by SEO impact</li>
+            <li>Technical fixes ranked by value</li>
+            <li>Custom 90-day growth plan</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is a redirect chain?</a></li>
+            <li><a href="#why-it-matters">Why chains matter for SEO</a></li>
+            <li><a href="#how-it-works">How chains accumulate</a></li>
+            <li><a href="#types">Chain vs. redirect loop</a></li>
+            <li><a href="#examples">Real examples</a></li>
+            <li><a href="#vs-related">Chain vs. 301 redirect</a></li>
+            <li><a href="#best-practices">6 best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump current">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>

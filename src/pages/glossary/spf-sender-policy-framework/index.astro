@@ -1,0 +1,440 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'SPF (Sender Policy Framework): Definition, Setup & 2026 Guide | theStacc Glossary',
+  description: 'SPF is a DNS-based email authentication protocol that authorises which mail servers can send email on behalf of your domain. Learn how to set it up, combine with DKIM and DMARC, and avoid deliverability failures.',
+  canonical: 'https://thestacc.com/glossary/spf-sender-policy-framework/',
+  ogImage: '/og/glossary/spf-sender-policy-framework.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "Email Marketing", "item": "https://thestacc.com/glossary/?cat=email-marketing" },
+        { "@type": "ListItem", "position": 4, "name": "SPF — Sender Policy Framework", "item": "https://thestacc.com/glossary/spf-sender-policy-framework/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "SPF (Sender Policy Framework)",
+      "description": "SPF (Sender Policy Framework) is a DNS TXT record that specifies which mail servers are authorised to send email from your domain. Receiving servers check SPF to verify the sending IP is on the approved list before accepting the message. SPF is one of three pillars of email authentication alongside DKIM and DMARC.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "spf-sender-policy-framework",
+      "url": "https://thestacc.com/glossary/spf-sender-policy-framework/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What does SPF stand for in email?", "acceptedAnswer": { "@type": "Answer", "text": "SPF stands for Sender Policy Framework. It is a DNS-based email authentication method that lets domain owners specify which mail servers are permitted to send email on behalf of their domain. Receiving servers check this list to detect spoofing and phishing." }},
+        { "@type": "Question", "name": "Does SPF prevent email spoofing on its own?", "acceptedAnswer": { "@type": "Answer", "text": "SPF alone is not sufficient to prevent email spoofing. It only authenticates the envelope sender (the 'MAIL FROM' address), not the 'From' header visible to recipients. Attackers can still spoof the visible From address. SPF must be combined with DKIM and DMARC for meaningful protection." }},
+        { "@type": "Question", "name": "What happens if SPF check fails?", "acceptedAnswer": { "@type": "Answer", "text": "If the SPF check fails (the sending IP is not in the authorised list), the receiving server's action depends on your DMARC policy. With no DMARC policy, most servers accept the mail but may route it to spam. With a 'p=reject' DMARC policy, the message is rejected outright." }},
+        { "@type": "Question", "name": "How many DNS lookups does SPF allow?", "acceptedAnswer": { "@type": "Answer", "text": "SPF records are limited to 10 DNS lookups per evaluation. Mechanisms like 'include', 'a', and 'mx' each count as one lookup. Exceeding 10 lookups causes a PermError, which some servers treat as an SPF failure. This limit is a common source of SPF problems for large organisations." }},
+        { "@type": "Question", "name": "What is the difference between SPF ~all and -all?", "acceptedAnswer": { "@type": "Answer", "text": "'~all' (soft fail) means non-listed servers are suspicious but should still be accepted — the message might be flagged as spam. '-all' (hard fail) means non-listed servers should be rejected. Most deliverability experts recommend starting with '~all' and moving to '-all' only after confirming all legitimate senders are included." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=email-marketing">Email Marketing</a><span class="sep">/</span>
+      <span class="current">SPF — Sender Policy Framework</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Email Marketing · Email Authentication
+      <span class="term-difficulty">Intermediate</span>
+    </div>
+    <h1>SPF (Sender Policy Framework)</h1>
+    <p class="description">A DNS TXT record that tells receiving mail servers <strong>exactly which IPs are allowed to send email from your domain</strong>. The first line of defence against spoofing and a prerequisite for Gmail and Yahoo's 2024+ bulk sender requirements.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jun 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">8 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">Email SPF Record</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p><strong>SPF (Sender Policy Framework)</strong> is a DNS TXT record that specifies which mail servers are authorised to send email on behalf of your domain. When an email arrives, the receiving server looks up your SPF record and checks whether the sending IP is on the approved list. If it is not, the server can reject or flag the message. SPF is one of three core email authentication protocols alongside DKIM and DMARC.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Email Marketing</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Also Called</div>
+            <div class="tms-value">Email SPF Record</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Intermediate</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Read Time</div>
+            <div class="tms-value">8 min</div>
+          </div>
+        </div>
+
+        <p class="lede-p">Without a valid SPF record, your marketing emails, transactional notifications, and sales outreach are all at higher risk of landing in spam — or being rejected entirely. Since Gmail and Yahoo rolled out their 2024 bulk sender requirements, SPF is no longer optional for any serious email programme.</p>
+
+        <h2 id="what-is">What is SPF (Sender Policy Framework)?</h2>
+        <p>SPF is an email authentication standard defined in RFC 7208. It works through the Domain Name System (DNS): the domain owner publishes a TXT record that lists the IP addresses and mail servers permitted to send email from that domain. Every time an email claiming to be from your domain arrives at a receiving server, that server queries your DNS for the SPF record and checks whether the sending IP is authorised.</p>
+        <p>The concept is simple: if an attacker tries to send a phishing email pretending to be from your domain, the sending server will not be on your approved list, and the receiving server can detect and block the fraud.</p>
+        <p>SPF addresses a fundamental weakness in the original SMTP protocol: email was designed in the 1970s with no built-in authentication. Any server could send mail claiming to be from any domain. SPF (standardised in 2006) was the first widely adopted solution to that problem.</p>
+
+        <div class="callout callout-info">
+          <div class="callout-label">SPF + DKIM + DMARC</div>
+          <p>SPF alone is not sufficient. SPF authenticates the <em>envelope sender</em> (the server that sent the email), but not the <em>From header</em> the recipient sees. DKIM authenticates the message content with a cryptographic signature. DMARC ties both together and specifies what to do when either check fails. All three are needed for robust email security.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why SPF matters for email deliverability</h2>
+        <p>In February 2024, Google and Yahoo implemented new requirements for bulk email senders (those sending more than 5,000 messages per day to Gmail or Yahoo addresses). SPF authentication became a mandatory requirement — not a best practice, but a hard requirement. Bulk senders without SPF face message rejection.</p>
+        <p>Beyond compliance with sender requirements, SPF improves deliverability in three concrete ways:</p>
+        <ol>
+          <li><strong>Inbox placement.</strong> Spam filters weigh authentication signals heavily. Passing SPF gives your messages a better chance of reaching the inbox rather than the spam folder.</li>
+          <li><strong>Domain reputation protection.</strong> If a spammer spoofs your domain to send phishing emails, recipients who report those emails as spam damage your domain's sending reputation — even though you did not send them. SPF reduces the likelihood of successful spoofing.</li>
+          <li><strong>DMARC policy enforcement.</strong> DMARC requires either SPF or DKIM to pass (and align with the From domain). Without SPF, you rely entirely on DKIM for DMARC compliance — and if DKIM breaks (as it can during email forwarding), you have no backup authentication.</li>
+        </ol>
+
+        <h2 id="how-it-works">How SPF works step by step</h2>
+        <p>Here is what happens during the SPF check for a single incoming email:</p>
+        <ol>
+          <li>A sending server attempts to deliver email to a receiving server, claiming to be from "hello@yourdomain.com".</li>
+          <li>The receiving server extracts the domain from the envelope sender address (not the visible From header, but the SMTP MAIL FROM command).</li>
+          <li>The receiving server queries DNS for the TXT record at "yourdomain.com" that starts with "v=spf1".</li>
+          <li>The SPF record lists authorised IPs and includes. The server checks whether the sending server's IP matches any entry.</li>
+          <li>The server returns a result: Pass, Fail, SoftFail, Neutral, None, TempError, or PermError.</li>
+          <li>The receiving server uses that result, along with DKIM and DMARC results, to decide whether to deliver, quarantine, or reject the message.</li>
+        </ol>
+
+        <h2 id="anatomy">Anatomy of an SPF record</h2>
+        <p>An SPF record is a DNS TXT record with a specific syntax. Here is a typical example:</p>
+        <div class="url-flow">
+          v=spf1 ip4:203.0.113.0/24 include:_spf.google.com include:sendgrid.net -all
+        </div>
+        <p>Breaking this down:</p>
+        <ul>
+          <li><strong>v=spf1</strong> — version tag. Must be first. Tells the parser this is an SPF record.</li>
+          <li><strong>ip4:203.0.113.0/24</strong> — authorises an IPv4 address range. Use ip6: for IPv6.</li>
+          <li><strong>include:_spf.google.com</strong> — tells the parser to also check Google's SPF record (for Google Workspace senders).</li>
+          <li><strong>include:sendgrid.net</strong> — authorises SendGrid's mail servers (for transactional email).</li>
+          <li><strong>-all</strong> — hard fail. Any server not listed above should be rejected.</li>
+        </ul>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Qualifier</th><th>Syntax</th><th>Meaning</th><th>Recommended?</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight">
+                <td><strong>Pass</strong></td>
+                <td>+all or (default)</td>
+                <td>Authorised — deliver the message</td>
+                <td>For listed IPs</td>
+              </tr>
+              <tr><td><strong>Fail</strong></td>
+                <td>-all</td>
+                <td>Not authorised — reject</td>
+                <td>Yes, once list is confirmed</td>
+              </tr>
+              <tr><td><strong>SoftFail</strong></td>
+                <td>~all</td>
+                <td>Suspicious — accept but flag</td>
+                <td>During testing phase</td>
+              </tr>
+              <tr><td><strong>Neutral</strong></td>
+                <td>?all</td>
+                <td>No policy stated</td>
+                <td>No — too permissive</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="setup">How to set up SPF for your domain</h2>
+        <p>Setting up SPF requires access to your domain's DNS settings. The process takes under 10 minutes once you know which services send email on your behalf.</p>
+        <ol>
+          <li><strong>Inventory all your sending sources.</strong> List every service that sends email from your domain: your mail server (Google Workspace, Microsoft 365, etc.), transactional email providers (SendGrid, Mailgun, Postmark), marketing automation platforms (Mailchimp, HubSpot), and CRM tools (Salesforce, Pipedrive).</li>
+          <li><strong>Get the SPF include string for each provider.</strong> Every major email service provider publishes their SPF include string in their documentation. For example, Google Workspace uses "include:_spf.google.com", SendGrid uses "include:sendgrid.net".</li>
+          <li><strong>Write your SPF record.</strong> Combine all includes into a single TXT record. Keep the record under 10 DNS lookups.</li>
+          <li><strong>Add the TXT record to your DNS.</strong> Log in to your DNS provider (Cloudflare, Route 53, GoDaddy, etc.) and add a TXT record at your root domain with your SPF string as the value.</li>
+          <li><strong>Test the record.</strong> Use MXToolbox SPF Checker, Google Admin Toolbox, or dmarcian's SPF Surveyor to verify the record is correctly published and resolves within the 10-lookup limit.</li>
+          <li><strong>Monitor with DMARC reports.</strong> Once SPF is live, set up a DMARC record to receive aggregate reports showing which sources are passing or failing SPF. This surfaces unknown sending sources you may have missed.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">The 10 DNS lookup limit</div>
+          <p>SPF records are limited to 10 DNS lookups per evaluation. Each "include:", "a:", and "mx:" mechanism counts as one lookup. Large organisations using many email services frequently exceed this limit. When you hit PermError from too many lookups, the SPF check fails. Solutions include SPF flattening (replacing includes with raw IPs) or a managed SPF service.</p>
+        </div>
+
+        <h2 id="common-mistakes">Common SPF mistakes</h2>
+        <ul>
+          <li><strong>Multiple SPF records.</strong> You can only have one SPF TXT record per domain. Multiple records cause a PermError. If you need to add a new sending source, edit the existing record — do not create a second one.</li>
+          <li><strong>Using "+all" (pass all).</strong> Setting "+all" at the end means any server can send on behalf of your domain, defeating the entire purpose of SPF. Always end with "-all" or at minimum "~all".</li>
+          <li><strong>Forgetting third-party senders.</strong> If your CRM, marketing automation platform, or transactional email provider is not in your SPF record, their emails will fail SPF and may not be delivered.</li>
+          <li><strong>Not checking subdomains.</strong> SPF records apply only to the exact domain they are published on. "yourdomain.com" SPF does not cover "mail.yourdomain.com" — subdomains need their own SPF records or an explicit redirect.</li>
+          <li><strong>Ignoring the 512-character limit.</strong> Some older DNS implementations do not support SPF records longer than 512 characters. If your record is very long due to many includes, consider SPF flattening.</li>
+        </ul>
+
+        <h2 id="spf-vs-dkim-dmarc">SPF vs DKIM vs DMARC</h2>
+        <p>Email authentication works best as a layered system. Here is how the three protocols divide responsibility:</p>
+        <div class="pros-cons">
+          <div class="pros-card">
+            <h4>What SPF covers</h4>
+            <ul>
+              <li>Authorises sending mail servers by IP</li>
+              <li>Checks the envelope From (SMTP layer)</li>
+              <li>Quick to implement — one DNS record</li>
+              <li>Breaks when email is forwarded</li>
+              <li>Does not sign message content</li>
+            </ul>
+          </div>
+          <div class="cons-card">
+            <h4>What DKIM + DMARC add</h4>
+            <ul>
+              <li>DKIM signs message headers/body with cryptography</li>
+              <li>DMARC aligns SPF + DKIM with the visible From domain</li>
+              <li>DMARC specifies policy: none, quarantine, or reject</li>
+              <li>DMARC reports reveal unauthorised senders</li>
+              <li>Together, all three are required for full protection</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="best-practices">SPF best practices for 2026</h2>
+        <ol>
+          <li><strong>Publish SPF on every domain and subdomain you own</strong> — including domains you never send email from. For non-sending domains, use "v=spf1 -all" to explicitly block all email.</li>
+          <li><strong>Keep the 10-lookup limit in mind.</strong> Monitor your SPF record complexity. Tools like dmarcian's SPF Surveyor show your current lookup count. Add a buffer — staying at 7-8 lookups leaves room for future senders.</li>
+          <li><strong>Pair SPF with DKIM and DMARC immediately.</strong> SPF alone gives you authentication for one scenario (direct sends). DKIM covers forwarded email. DMARC ties the policies together and gives you visibility via aggregate reports.</li>
+          <li><strong>Use DMARC reports to find unknown senders.</strong> Set up DMARC with "p=none" and a reporting address to collect aggregate reports. Within a few weeks, the reports will reveal every service sending email from your domain — including ones you forgot about.</li>
+          <li><strong>Move to "-all" (hard fail) once your list is complete.</strong> Start with "~all" during the discovery phase. Once you are confident your SPF record includes every legitimate sender, switch to "-all" for maximum spoofing protection.</li>
+        </ol>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What does SPF stand for in email?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>SPF stands for Sender Policy Framework. It is a DNS-based email authentication method that lets domain owners specify which mail servers are permitted to send email on behalf of their domain. Receiving servers check this list to detect spoofing and phishing.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Does SPF prevent email spoofing on its own?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>SPF alone is not sufficient to prevent email spoofing. It only authenticates the envelope sender (the 'MAIL FROM' address), not the 'From' header visible to recipients. Attackers can still spoof the visible From address. SPF must be combined with DKIM and DMARC for meaningful protection.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What happens if SPF check fails?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>If the SPF check fails (the sending IP is not in the authorised list), the receiving server's action depends on your DMARC policy. With no DMARC policy, most servers accept the mail but may route it to spam. With a 'p=reject' DMARC policy, the message is rejected outright.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How many DNS lookups does SPF allow?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>SPF records are limited to 10 DNS lookups per evaluation. Mechanisms like 'include', 'a', and 'mx' each count as one lookup. Exceeding 10 lookups causes a PermError, which some servers treat as an SPF failure. This limit is a common source of SPF problems for large organisations.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is the difference between SPF ~all and -all?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>'~all' (soft fail) means non-listed servers are suspicious but should still be accepted — the message might be flagged as spam. '-all' (hard fail) means non-listed servers should be rejected. Most deliverability experts recommend starting with '~all' and moving to '-all' only after confirming all legitimate senders are included.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/dkim/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">DKIM</div>
+            <p class="rt-desc">Cryptographic email authentication that signs message headers and body.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/dmarc/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">DMARC</div>
+            <p class="rt-desc">Policy layer that ties SPF and DKIM together and enables reporting.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/email-deliverability/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Email Deliverability</div>
+            <p class="rt-desc">The ability of emails to reach recipients' inboxes rather than spam.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/sender-reputation/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Sender Reputation</div>
+            <p class="rt-desc">The trustworthiness score ISPs assign to a sending domain or IP.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/email-warm-up/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Email Warm-Up</div>
+            <p class="rt-desc">Gradually increasing send volume to build a positive sender reputation.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/spam-trap/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Spam Trap</div>
+            <p class="rt-desc">Email addresses used to identify senders with poor list hygiene.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://datatracker.ietf.org/doc/html/rfc7208" target="_blank" rel="noopener">RFC 7208 — Sender Policy Framework (IETF)</a></li>
+            <li><span class="src-num">[02]</span><a href="https://support.google.com/a/answer/33786" target="_blank" rel="noopener">Google Workspace — Authorise email senders with SPF</a></li>
+            <li><span class="src-num">[03]</span><a href="https://dmarcian.com/spf-syntax-table/" target="_blank" rel="noopener">dmarcian — SPF Syntax Table</a></li>
+            <li><span class="src-num">[04]</span><a href="https://mxtoolbox.com/spf.aspx" target="_blank" rel="noopener">MXToolbox — SPF Record Check</a></li>
+            <li><span class="src-num">[05]</span><a href="https://sendgrid.com/blog/sender-policy-framework-explained/" target="_blank" rel="noopener">SendGrid — Sender Policy Framework Explained</a></li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · ex-Sr Marketing Specialist, ARKA 360 · Malappuram, Kerala</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about SEO craft, content operations, and the technical decisions that underpin deliverability — including setting up email authentication the right way.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free SEO audit · 24-hour delivery</div>
+          <div class="cta-title">See what's costing you traffic.</div>
+          <p class="cta-desc">We audit your site's technical health — including email authentication setup, deliverability signals, and technical SEO — and send back a ranked fix list within 24 hours.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>Email authentication gaps identified</li>
+            <li>Technical fixes ranked by impact</li>
+            <li>Keyword gaps competitors rank for</li>
+            <li>Custom 90-day growth plan</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is SPF?</a></li>
+            <li><a href="#why-it-matters">Why it matters</a></li>
+            <li><a href="#how-it-works">How SPF works</a></li>
+            <li><a href="#anatomy">Anatomy of an SPF record</a></li>
+            <li><a href="#setup">How to set up SPF</a></li>
+            <li><a href="#common-mistakes">Common mistakes</a></li>
+            <li><a href="#spf-vs-dkim-dmarc">SPF vs DKIM vs DMARC</a></li>
+            <li><a href="#best-practices">Best practices</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>

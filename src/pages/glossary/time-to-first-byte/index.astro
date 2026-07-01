@@ -1,0 +1,435 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'Time to First Byte (TTFB): Definition, Benchmarks & How to Fix It 2026 | theStacc Glossary',
+  description: 'Time to First Byte (TTFB) measures how long a browser waits before receiving the first byte from the server. Definition, what a good TTFB is, causes, and how to reduce it.',
+  canonical: 'https://thestacc.com/glossary/time-to-first-byte/',
+  ogImage: '/og/glossary/time-to-first-byte.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "Technical SEO", "item": "https://thestacc.com/glossary/?cat=technical-seo" },
+        { "@type": "ListItem", "position": 4, "name": "Time to First Byte", "item": "https://thestacc.com/glossary/time-to-first-byte/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "Time to First Byte",
+      "description": "Time to First Byte (TTFB) is a web performance metric that measures the duration between a browser sending an HTTP request and receiving the first byte of the server's response. It reflects server response time, network latency, and caching effectiveness, and is a contributing factor in Google's Core Web Vitals.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "time-to-first-byte",
+      "url": "https://thestacc.com/glossary/time-to-first-byte/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is Time to First Byte (TTFB)?", "acceptedAnswer": { "@type": "Answer", "text": "Time to First Byte (TTFB) is the time elapsed between a browser sending an HTTP request to a server and receiving the first byte of the response. It measures server responsiveness and is influenced by server processing time, network latency, and whether a CDN or cache is serving the response." }},
+        { "@type": "Question", "name": "What is a good TTFB score?", "acceptedAnswer": { "@type": "Answer", "text": "Google's Web.dev guidance considers TTFB good when it is under 800 milliseconds, needing improvement between 800ms and 1,800ms, and poor above 1,800ms. For competitive sites, aiming for under 200ms is best practice. Most CDN-cached HTML responses should achieve 50-200ms." }},
+        { "@type": "Question", "name": "Does TTFB affect SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, indirectly. TTFB is not a direct Core Web Vitals metric, but it has a cascading effect on Largest Contentful Paint (LCP), which is. A slow TTFB delays all subsequent page load events, making it nearly impossible to pass LCP thresholds without first fixing TTFB." }},
+        { "@type": "Question", "name": "What causes a slow TTFB?", "acceptedAnswer": { "@type": "Answer", "text": "Common causes include: slow server hardware or insufficient resources, high server-side processing time (database queries, unoptimised application code), no caching layer, high network latency due to geographic distance between server and user, and DNS resolution delays." }},
+        { "@type": "Question", "name": "How do I measure TTFB?", "acceptedAnswer": { "@type": "Answer", "text": "TTFB can be measured using: Google PageSpeed Insights (lab data), Chrome DevTools Network tab (look for 'Waiting for server response'), WebPageTest.org (shows TTFB separately per request), and real user monitoring (RUM) tools like Cloudflare Web Analytics or SpeedCurve that capture field TTFB data." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=technical-seo">Technical SEO</a><span class="sep">/</span>
+      <span class="current">Time to First Byte</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Technical SEO · Web Performance
+      <span class="term-difficulty">Intermediate</span>
+    </div>
+    <h1>Time to First Byte (TTFB)</h1>
+    <p class="description">The time elapsed between a browser sending an HTTP request and receiving the first byte back from the server. A slow TTFB <strong>cascades into every other page speed metric</strong> — fix it first before optimising images or JavaScript.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jun 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">7 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">TTFB, Server Response Time</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p><strong>Time to First Byte (TTFB)</strong> is a web performance metric that measures how long a browser waits after sending an HTTP request before it receives the first byte of the server's response. It captures server processing time, network latency, and caching effectiveness. A high TTFB delays every subsequent page load event and indirectly damages Core Web Vitals scores and SEO performance.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Technical SEO</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Also Called</div>
+            <div class="tms-value">TTFB, Server Response Time</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Intermediate</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Read Time</div>
+            <div class="tms-value">7 min</div>
+          </div>
+        </div>
+
+        <p class="lede-p">TTFB sits at the very beginning of the browser's page load sequence. Every millisecond you add to TTFB delays First Contentful Paint, Largest Contentful Paint, and every other user-experience metric. Google considers TTFB a foundational element of page experience — not a Core Web Vital itself, but the upstream bottleneck that determines whether you can pass the ones that are.</p>
+
+        <h2 id="what-is">What is TTFB?</h2>
+        <p>When a user or a search bot navigates to a URL, the browser follows this sequence:</p>
+        <ol>
+          <li><strong>DNS lookup</strong> — resolves the domain name to an IP address.</li>
+          <li><strong>TCP connection</strong> — establishes a connection to the server.</li>
+          <li><strong>TLS handshake</strong> — negotiates encryption for HTTPS (adds latency on first request).</li>
+          <li><strong>HTTP request sent</strong> — browser asks for the resource.</li>
+          <li><strong>Server processing</strong> — server receives the request, processes it, and begins sending a response.</li>
+          <li><strong>First byte received</strong> — the browser receives the opening bytes of the server's response.</li>
+        </ol>
+        <p>TTFB measures the total elapsed time across steps 1-6. In Chrome DevTools, you can see this broken into sub-components: "Queued", "Stalled", "DNS Lookup", "Initial connection", "SSL", and "Waiting (TTFB)".</p>
+        <p>The "Waiting" figure in DevTools is the pure server response time — excluding DNS and connection setup. Google's Core Web Vitals documentation uses a broader definition that includes DNS + connection + server response in the TTFB total.</p>
+
+        <div class="callout callout-info">
+          <div class="callout-label">TTFB benchmarks (Google's thresholds)</div>
+          <p><strong>Good:</strong> Under 800ms · <strong>Needs improvement:</strong> 800ms–1,800ms · <strong>Poor:</strong> Over 1,800ms. In practice, well-optimised sites with CDN caching serve TTFB under 200ms. Aim for 200ms or below as an internal target.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why TTFB matters for SEO</h2>
+        <p>TTFB is not a direct ranking signal, but it determines whether your other performance metrics can succeed. The relationship is causal:</p>
+        <ul>
+          <li><strong>TTFB delays FCP and LCP.</strong> Nothing can paint on screen until the server has started responding. A 2-second TTFB means your LCP cannot occur before 2 seconds — making a passing LCP score (under 2.5 seconds) essentially impossible unless your LCP element loads instantly from cache.</li>
+          <li><strong>Googlebot speed matters.</strong> Google crawls millions of pages daily. Slow server responses reduce how many of your pages Googlebot can crawl per day — a crawl budget problem for large sites.</li>
+          <li><strong>User experience and bounce rate.</strong> Every 100ms of additional TTFB increases bounce rate. Google uses real user metrics from Chrome (the Chrome User Experience Report / CrUX) as field data for Core Web Vitals scoring. High bounce from slow TTFB indirectly influences the signals Google measures.</li>
+        </ul>
+
+        <h2 id="causes">What causes a slow TTFB?</h2>
+        <p>TTFB is a composite metric — multiple independent factors can inflate it. Diagnosing which factor is responsible is the first step to fixing it.</p>
+
+        <h3>1. Slow server-side processing</h3>
+        <p>If your CMS, application server, or API backend takes time to compute a response — running database queries, calling third-party APIs, executing rendering logic — that processing time adds directly to TTFB. WordPress sites doing full-page rendering on every request without caching are the most common offender.</p>
+
+        <h3>2. Insufficient server resources</h3>
+        <p>An underpowered server (too little RAM, slow CPU, single-threaded app server) that is handling concurrent traffic will queue requests and inflate TTFB. Shared hosting with resource contention is a frequent cause.</p>
+
+        <h3>3. No caching layer</h3>
+        <p>A dynamically generated page that executes database queries on every request will always be slower than a cached static HTML file. Full-page caching (at the server, CDN, or application layer) eliminates the processing time component for repeat requests entirely.</p>
+
+        <h3>4. Geographic distance (network latency)</h3>
+        <p>If your server is in Frankfurt and your user is in Singapore, raw network latency alone adds 150-200ms before the server even receives the request. Without a CDN, every user far from your origin server experiences this penalty.</p>
+
+        <h3>5. DNS resolution delays</h3>
+        <p>Slow DNS response times add to the TTFB total on first connection. Using a fast DNS provider (Cloudflare 1.1.1.1, Google 8.8.8.8) and configuring appropriate DNS TTLs reduces this component.</p>
+
+        <h2 id="how-to-fix">How to reduce TTFB</h2>
+        <p>Ranked by impact for most sites:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Fix</th><th>What it does</th><th>Typical TTFB reduction</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight">
+                <td><strong>CDN with edge caching</strong></td>
+                <td>Serves cached HTML from a server close to the user</td>
+                <td>50-90% reduction</td>
+              </tr>
+              <tr>
+                <td><strong>Full-page server caching</strong></td>
+                <td>Eliminates per-request database/processing time</td>
+                <td>60-80% reduction</td>
+              </tr>
+              <tr>
+                <td><strong>Upgrade server resources</strong></td>
+                <td>Faster CPU/RAM reduces processing time</td>
+                <td>20-50% reduction</td>
+              </tr>
+              <tr>
+                <td><strong>Database query optimisation</strong></td>
+                <td>Reduces server-side processing time</td>
+                <td>10-40% reduction</td>
+              </tr>
+              <tr>
+                <td><strong>HTTP/3 and QUIC</strong></td>
+                <td>Faster connection setup, especially on lossy networks</td>
+                <td>5-20% reduction</td>
+              </tr>
+              <tr>
+                <td><strong>Fast DNS provider</strong></td>
+                <td>Reduces DNS lookup component of TTFB</td>
+                <td>5-15% reduction</td>
+              </tr>
+              <tr>
+                <td><strong>Preconnect to origin</strong></td>
+                <td>Warms up TCP + TLS for expected requests</td>
+                <td>5-10% reduction</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>CDN edge caching (highest impact)</h3>
+        <p>A CDN stores a cached copy of your HTML at dozens of edge nodes around the world. When a user requests your page, the CDN serves it from the nearest node rather than routing the request to your origin server. The network round-trip drops from hundreds of milliseconds to single-digit milliseconds. For static or semi-static pages, this is the single highest-impact TTFB optimisation available.</p>
+
+        <h3>Full-page caching for dynamic sites</h3>
+        <p>For WordPress and similar dynamic CMS platforms: install a caching plugin (WP Rocket, W3 Total Cache, LiteSpeed Cache) that generates static HTML files for pages and serves them directly without executing PHP or querying the database. This transforms a 500-1,500ms dynamic TTFB into a 50-200ms cached response.</p>
+
+        <h2 id="measuring">How to measure TTFB</h2>
+        <p>Multiple tools measure TTFB — using at least two gives a clearer picture:</p>
+        <ul>
+          <li><strong>Chrome DevTools:</strong> Open DevTools (F12) &gt; Network tab &gt; reload the page &gt; click the HTML document request &gt; look at "Waiting (TTFB)" in the Timing tab. This is lab data measured from your location.</li>
+          <li><strong>PageSpeed Insights:</strong> Shows TTFB in the "Server response times are low" diagnostic — both lab and field data if CrUX data exists for the URL.</li>
+          <li><strong>WebPageTest.org:</strong> The most detailed tool. Shows TTFB for every request, broken into all sub-components, from multiple global test locations. Use this to verify that CDN caching is working.</li>
+          <li><strong>Google Search Console:</strong> The Core Web Vitals report shows field LCP data. If LCP is poor across many pages, TTFB is often the upstream cause.</li>
+          <li><strong>Real User Monitoring (RUM):</strong> Tools like Cloudflare Web Analytics, Sentry, or SpeedCurve capture actual user TTFB from real sessions — the most accurate representation of what users experience.</li>
+        </ul>
+
+        <h2 id="best-practices">TTFB optimisation best practices</h2>
+        <ol>
+          <li><strong>Fix TTFB before optimising other performance metrics.</strong> There is no point compressing images or deferring JavaScript if the server takes 3 seconds to respond. TTFB is always the first bottleneck to address.</li>
+          <li><strong>Use a CDN with cache-control headers that permit HTML caching.</strong> Many developers set <code>Cache-Control: no-store</code> on HTML responses to avoid stale content, accidentally disabling CDN caching. Use <code>stale-while-revalidate</code> instead for the best balance of freshness and speed.</li>
+          <li><strong>Test TTFB from multiple geographic locations.</strong> WebPageTest lets you run from the US, Europe, and Asia simultaneously. A fast TTFB in your home country can mask a terrible experience in other markets.</li>
+          <li><strong>Monitor TTFB after every infrastructure change.</strong> Server upgrades, plugin installations, or code deployments can inadvertently degrade TTFB. Continuous monitoring via a synthetic monitoring tool catches regressions before they affect rankings.</li>
+          <li><strong>Pre-warm your cache after deployments.</strong> When you deploy new code or flush your cache, TTFB spikes until the cache is repopulated. Run a crawl or warming script against your most critical URLs immediately after cache clears.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">TTFB vs server response time — what's the difference?</div>
+          <p>DevTools labels the pure server processing time as "Waiting (TTFB)" and some tools use "Server Response Time" for the same concept. Google's official TTFB definition in the Web Vitals documentation includes DNS + connection + server processing time. Always confirm which definition a tool is using when comparing numbers across platforms.</p>
+        </div>
+
+        <h2 id="mistakes">Common TTFB mistakes</h2>
+        <ul>
+          <li><strong>Measuring TTFB only from your local machine.</strong> Your office or home is likely close to your server, giving you a false best-case reading. Always test from representative geographic locations.</li>
+          <li><strong>Caching HTML with too-long TTLs.</strong> A 24-hour CDN cache TTL means content updates take 24 hours to propagate. Use cache invalidation on deployment rather than relying on TTL expiry for content freshness.</li>
+          <li><strong>Ignoring TTFB on API endpoints.</strong> For single-page applications, TTFB on API calls matters as much as TTFB on the HTML document. A fast HTML TTFB with slow API responses still produces a poor user experience.</li>
+          <li><strong>Conflating TTFB with full page load time.</strong> TTFB measures only when the first byte arrives, not when the page is fully rendered. Improving TTFB will improve all downstream metrics, but TTFB alone does not guarantee a fast user experience.</li>
+        </ul>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is Time to First Byte (TTFB)?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Time to First Byte (TTFB) is the time elapsed between a browser sending an HTTP request to a server and receiving the first byte of the response. It measures server responsiveness and is influenced by server processing time, network latency, and whether a CDN or cache is serving the response.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is a good TTFB score?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Google's Web.dev guidance considers TTFB good when it is under 800 milliseconds, needing improvement between 800ms and 1,800ms, and poor above 1,800ms. For competitive sites, aiming for under 200ms is best practice. Most CDN-cached HTML responses should achieve 50-200ms.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Does TTFB affect SEO?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes, indirectly. TTFB is not a direct Core Web Vitals metric, but it has a cascading effect on Largest Contentful Paint (LCP), which is. A slow TTFB delays all subsequent page load events, making it nearly impossible to pass LCP thresholds without first fixing TTFB.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What causes a slow TTFB?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Common causes include: slow server hardware or insufficient resources, high server-side processing time (database queries, unoptimised application code), no caching layer, high network latency due to geographic distance between server and user, and DNS resolution delays.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How do I measure TTFB?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>TTFB can be measured using: Google PageSpeed Insights (lab data), Chrome DevTools Network tab (look for "Waiting for server response"), WebPageTest.org (shows TTFB separately per request), and real user monitoring (RUM) tools like Cloudflare Web Analytics or SpeedCurve that capture field TTFB data.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/core-web-vitals/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Core Web Vitals</div>
+            <p class="rt-desc">Google's three user experience metrics: LCP, FID/INP, and CLS.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/largest-contentful-paint/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Largest Contentful Paint</div>
+            <p class="rt-desc">Measures when the largest visible element finishes rendering — directly affected by TTFB.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/page-speed/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Page Speed</div>
+            <p class="rt-desc">The overall measure of how quickly a page loads and becomes interactive.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/content-delivery-network-cdn/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">CDN (Content Delivery Network)</div>
+            <p class="rt-desc">A distributed network of servers that delivers content closer to users.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/server-response-time/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Server Response Time</div>
+            <p class="rt-desc">How long the server takes to process a request and begin sending a response.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/crawl-budget/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Crawl Budget</div>
+            <p class="rt-desc">The number of pages Googlebot crawls on your site within a given time period.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://web.dev/articles/ttfb" target="_blank" rel="noopener">web.dev — Time to First Byte (TTFB) official guide</a></li>
+            <li><span class="src-num">[02]</span><a href="https://developers.google.com/search/docs/crawling-indexing/site-performance" target="_blank" rel="noopener">Google Search Central — Site performance and crawling</a></li>
+            <li><span class="src-num">[03]</span><a href="https://www.webpagetest.org/learn/ttfb/" target="_blank" rel="noopener">WebPageTest — Understanding and optimising TTFB</a></li>
+            <li><span class="src-num">[04]</span><a href="https://developer.chrome.com/docs/devtools/network/" target="_blank" rel="noopener">Chrome DevTools — Network panel documentation</a></li>
+            <li><span class="src-num">[05]</span><a href="https://www.cloudflare.com/learning/performance/time-to-first-byte/" target="_blank" rel="noopener">Cloudflare — What is TTFB and how to improve it</a></li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · ex-Sr Marketing Specialist, ARKA 360 · Malappuram, Kerala</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about technical SEO, site performance, and the infrastructure decisions that quietly determine whether a site grows or stagnates — including the TTFB fixes that unlock Core Web Vitals improvements.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free technical SEO audit · 24-hour delivery</div>
+          <div class="cta-title">Is slow TTFB costing you rankings?</div>
+          <p class="cta-desc">We audit your server response times, Core Web Vitals, and caching configuration — then deliver a prioritised fix list ranked by SEO impact within 24 hours.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>TTFB and LCP benchmarked against competitors</li>
+            <li>Caching and CDN configuration review</li>
+            <li>Core Web Vitals field data analysis</li>
+            <li>Prioritised technical fix list</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is TTFB?</a></li>
+            <li><a href="#why-it-matters">Why it matters for SEO</a></li>
+            <li><a href="#causes">What causes slow TTFB?</a></li>
+            <li><a href="#how-to-fix">How to reduce TTFB</a></li>
+            <li><a href="#measuring">How to measure TTFB</a></li>
+            <li><a href="#best-practices">Best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>

@@ -1,0 +1,402 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'Soft 404: Definition, How to Detect & Fix It | theStacc Glossary',
+  description: 'A soft 404 is a page that returns a 200 OK status code but has no useful content — Google treats it as a 404. Learn how to detect, fix, and prevent soft 404s damaging your rankings.',
+  canonical: 'https://thestacc.com/glossary/soft-404/',
+  ogImage: '/og/glossary/soft-404.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "Technical SEO", "item": "https://thestacc.com/glossary/?cat=technical-seo" },
+        { "@type": "ListItem", "position": 4, "name": "Soft 404", "item": "https://thestacc.com/glossary/soft-404/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "Soft 404",
+      "description": "A soft 404 is a page that returns an HTTP 200 OK status code but contains little or no useful content — making Google treat it as a not-found page even though the server technically delivered a successful response. Common causes include empty search results pages, out-of-stock product pages with no content, pages with only navigation and footer, and mass 301 redirects to the homepage.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "soft-404",
+      "url": "https://thestacc.com/glossary/soft-404/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is a soft 404?", "acceptedAnswer": { "@type": "Answer", "text": "A soft 404 is a page that returns an HTTP 200 OK status code but has little or no useful content — so Google identifies it as effectively not-found even though the server did not return a 404. This prevents the page from ranking and wastes crawl budget on URLs that deliver no value." }},
+        { "@type": "Question", "name": "How do soft 404s affect SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Soft 404s waste crawl budget, dilute a site's overall content quality signals, and prevent affected pages from ranking. At scale — particularly on e-commerce sites with thousands of out-of-stock or empty category pages — they can signal to Google that the site has poor content quality overall." }},
+        { "@type": "Question", "name": "How do I find soft 404s on my site?", "acceptedAnswer": { "@type": "Answer", "text": "Google Search Console's Coverage report flags soft 404s explicitly under the Excluded tab. You can also find them by crawling your site with Screaming Frog and checking for 200-status pages with very low word counts, and by reviewing your server logs for pages Googlebot visits repeatedly but that never appear in the index." }},
+        { "@type": "Question", "name": "How do I fix a soft 404?", "acceptedAnswer": { "@type": "Answer", "text": "The fix depends on the page type. If the page should exist: add real, useful content. If the content is temporarily unavailable: keep the page live with context and related content. If the page is permanently gone: return a proper 404 or 410 status code. If it was a misrouted 301 to the homepage: create a more targeted redirect or return 404." }},
+        { "@type": "Question", "name": "What is the difference between a 404 and a soft 404?", "acceptedAnswer": { "@type": "Answer", "text": "A true 404 returns an HTTP 404 Not Found status code — Google recognises the page as missing and stops trying to index it. A soft 404 returns a 200 OK status but has no useful content. Google has to infer it is effectively empty rather than being told by the status code. Soft 404s are harder for Google to handle automatically." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=technical-seo">Technical SEO</a><span class="sep">/</span>
+      <span class="current">Soft 404</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Technical SEO · Indexing
+      <span class="term-difficulty">Intermediate</span>
+    </div>
+    <h1>Soft 404</h1>
+    <p class="description">A page that returns HTTP 200 OK but has no useful content — so Google treats it as not-found anyway. Wastes crawl budget, kills indexing, and at scale signals <strong>poor content quality to the entire domain</strong>.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jun 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">7 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">Empty Page, Ghost Page</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p>A <strong>soft 404</strong> is a page that returns an HTTP 200 OK status code — telling browsers and crawlers the request succeeded — but contains little or no useful content. Google identifies these pages as effectively not-found, excludes them from the index, and treats crawl time spent on them as wasted. Common culprits include empty search results pages, sold-out product pages, and homepage redirects from retired URLs.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">HTTP status</div>
+            <div class="tms-value"><span class="http-code-chip ok">200 OK</span> (but empty)</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Technical SEO</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Intermediate</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Read Time</div>
+            <div class="tms-value">7 min</div>
+          </div>
+        </div>
+
+        <p class="lede-p">The name is counterintuitive: a soft 404 is not a 404. The server returns 200 — success. But Google's crawler reads the page, finds nothing useful, and makes an editorial decision to exclude it from the index. You cannot see a soft 404 from the HTTP response alone; you have to look at content, Search Console, and crawl behaviour to catch them.</p>
+
+        <h2 id="what-is">What is a soft 404?</h2>
+        <p>To understand a soft 404, it helps to understand what a real 404 is. A true 404 (Not Found) is an HTTP status code the server returns when a requested URL does not exist. Google sees the 404 and knows definitively: this URL has no content. It removes it from the index or stops trying to crawl it.</p>
+        <p>A soft 404 happens when the server returns 200 — everything is technically fine — but the page delivered has no meaningful content. This creates a mismatch: the status code says "this page exists and has content," but the page itself proves otherwise.</p>
+        <p>Google identifies soft 404s by analysing what it finds at a 200-status URL. Signs that trigger the soft-404 classification include:</p>
+        <ul>
+          <li>Page text that says "no results found," "page not found," "product unavailable," or similar</li>
+          <li>Pages with very low unique word counts — just navigation, header, footer, and a brief message</li>
+          <li>Pages that are nearly identical to a large number of other pages on the site</li>
+          <li>Pages where the main content area is empty or populated only by boilerplate</li>
+        </ul>
+
+        <div class="callout callout-info">
+          <div class="callout-label">Google Search Console</div>
+          <p>Google Search Console flags soft 404s explicitly in the Coverage report under the "Excluded" tab. If you have more than a handful flagged, it is worth investigating the pattern — they are rarely isolated incidents. A site with thousands of soft 404s is typically experiencing a structural content problem, not individual page issues.</p>
+        </div>
+
+        <h2 id="common-causes">Common causes of soft 404s</h2>
+        <p>Most soft 404s fall into one of five categories:</p>
+
+        <h3>1. Empty search results pages</h3>
+        <p>Your site's internal search returns a 200 with a message like "No products found for 'blue widget'" — and that URL gets crawled and indexed. These are the most common source of soft 404s on e-commerce sites and can number in the thousands for large catalogues. Fix: use the <code>noindex</code> meta tag on all search results pages, or block the search URL pattern in robots.txt.</p>
+
+        <h3>2. Out-of-stock product pages</h3>
+        <p>A product page that loads correctly but shows only "Out of stock — check back later" with no product description, no images, no specifications. Google sees a 200-status page with essentially no content. Fix: keep full product content on the page even when out of stock, show related products, and give an expected restock date if possible.</p>
+
+        <h3>3. Homepage redirects from retired URLs</h3>
+        <p>When a site retires 200 old pages and redirects all of them to the homepage rather than to relevant replacement content, Google treats those redirects as soft 404s. The homepage has nothing relevant to offer visitors who were looking for the specific content that lived at the old URL. Fix: map retired URLs to the closest content match, or return a genuine 410 Gone.</p>
+
+        <h3>4. Faceted navigation and filter pages</h3>
+        <p>Category pages filtered to a combination that returns zero products — /shoes/red/size-47/ — can produce soft 404s if the page still returns 200. Fix: noindex filter combinations that produce empty results, or use JavaScript to prevent empty filter combinations from generating crawlable URLs.</p>
+
+        <h3>5. Deleted or drafted CMS content</h3>
+        <p>A blog post or product that was unpublished from the CMS but whose URL still loads a shell template (with header, footer, sidebar, and no body content) instead of returning 404 or 410.</p>
+
+        <h2 id="seo-impact">How soft 404s impact SEO</h2>
+        <p>Soft 404s cause damage in three distinct ways:</p>
+        <ol>
+          <li><strong>Wasted crawl budget.</strong> Googlebot spends time crawling URLs that will never rank. On large sites with limited crawl budget, this displaces crawling of pages that should be indexed. Fresh content goes unindexed while Googlebot cycles through empty filter pages.</li>
+          <li><strong>Diluted content quality signals.</strong> Google assesses site quality in part by the ratio of useful to useless content it finds. A site with 10,000 pages but 3,000 soft 404s is signalling that 30% of its URL space has no value. This can suppress rankings across the entire domain, not just the affected pages.</li>
+          <li><strong>Lost indexing.</strong> The specific pages flagged as soft 404s are excluded from Google's index and cannot rank for any query. If those pages represent genuine inventory, services, or content, their exclusion represents direct organic traffic loss.</li>
+        </ol>
+
+        <h2 id="how-to-find">How to find soft 404s</h2>
+        <p>Three methods for identifying soft 404s on your site:</p>
+
+        <h3>Method 1: Google Search Console</h3>
+        <p>Go to Search Console → Indexing → Pages → scroll to the "Why pages aren't indexed" section. Look for "Soft 404" in the list of exclusion reasons. Click through to see the affected URLs. This is the authoritative list of what Google has actually flagged — it may lag the current state of your site by days or weeks.</p>
+
+        <h3>Method 2: Site crawl with word count filter</h3>
+        <p>Use Screaming Frog or Sitebulb to crawl your site. Filter the results to show 200-status pages with a word count below 200 (or whichever threshold is appropriate for your content type). Review these low-word-count pages — the ones with only template elements and no real content are soft 404 candidates.</p>
+
+        <h3>Method 3: Log file analysis</h3>
+        <p>Review your server logs for URLs that Googlebot visits repeatedly over months but that never appear in Search Console's indexed pages report. If a URL is being crawled regularly but never indexed, it is almost certainly a soft 404 or a noindex/nofollow issue.</p>
+
+        <h2 id="how-to-fix">How to fix soft 404s</h2>
+        <p>The right fix depends on the page type and the reason the content is missing:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Situation</th><th>Recommended fix</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Empty search results page</td><td>Add noindex meta tag to all search result URLs</td></tr>
+              <tr class="row-highlight"><td>Out-of-stock product — will return</td><td>Keep full product content, add "out of stock" notice + related products</td></tr>
+              <tr><td>Out-of-stock product — discontinued</td><td>Return 410 Gone or 301 to closest replacement</td></tr>
+              <tr><td>Bulk 301s to homepage</td><td>Map each retired URL to a relevant content match or return 410</td></tr>
+              <tr><td>Empty filter/facet pages</td><td>Noindex empty combinations; block in robots.txt if possible</td></tr>
+              <tr><td>Deleted CMS content with empty shell</td><td>Fix CMS to return 404 or 410 for deleted content</td></tr>
+              <tr><td>Thin page with real intended content</td><td>Add substantive content to meet the page's actual purpose</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">Do not use noindex as a blanket fix</div>
+          <p>Adding noindex to a soft 404 page removes it from the index — but it does not fix the underlying problem that the page has no content. For pages that should have content, noindex is a patch, not a fix. Reserve noindex for pages that genuinely should not be indexed (search results, filter combinations, utility pages). Pages with real purpose need real content.</p>
+        </div>
+
+        <h2 id="soft-404-vs-404">Soft 404 vs. true 404 vs. 410</h2>
+        <p>Understanding when to use each response code is a core technical SEO skill:</p>
+        <ul>
+          <li><strong>200 OK</strong> — use only when the page has genuine, useful content that serves the visitor. If the page is empty or has placeholder content, fix it before returning 200.</li>
+          <li><strong>404 Not Found</strong> — use when a page no longer exists and may return at some point (e.g., temporarily out of stock). Google eventually stops crawling 404s but may retry occasionally.</li>
+          <li><strong>410 Gone</strong> — use when a page is permanently gone with no intention of returning. Stronger signal than 404 — Google deprioritises recrawling 410 URLs faster. Use for discontinued products, deleted content, and retired blog posts with no replacement.</li>
+          <li><strong>301 Moved Permanently</strong> — use when the content has moved to a specific replacement URL with equivalent content. Do not use 301 to point removed content at the homepage.</li>
+        </ul>
+
+        <h2 id="prevention">Preventing soft 404s</h2>
+        <ol>
+          <li><strong>Noindex your internal search results.</strong> Add a blanket noindex to all internal search URLs via robots.txt or meta robots tag. Search results pages are almost never worth indexing.</li>
+          <li><strong>Build product page permanence into your CMS.</strong> Out-of-stock products should keep their content — only the availability status changes. Build this as the default behaviour in your product management system.</li>
+          <li><strong>Redirect specifically, not generically.</strong> When retiring content, invest the time to create specific redirect mappings to equivalent content. Homepage redirects are rarely an acceptable solution.</li>
+          <li><strong>Audit after every content refresh.</strong> Any time you remove, unpublish, or restructure content, audit what those URLs now return. A CMS "unpublish" often produces a soft 404, not a proper 404.</li>
+          <li><strong>Monitor Search Console monthly.</strong> Set a monthly reminder to check the Coverage report for new soft 404s. Catching them early prevents them from accumulating into a crawl budget and quality signal problem.</li>
+        </ol>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is a soft 404?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>A soft 404 is a page that returns an HTTP 200 OK status code but has little or no useful content — so Google identifies it as effectively not-found even though the server did not return a 404. This prevents the page from ranking and wastes crawl budget on URLs that deliver no value.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How do soft 404s affect SEO?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Soft 404s waste crawl budget, dilute a site's overall content quality signals, and prevent affected pages from ranking. At scale — particularly on e-commerce sites — they can signal to Google that the site has poor content quality overall, suppressing rankings domain-wide.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How do I find soft 404s on my site?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Check Google Search Console's Coverage report under the Excluded tab — soft 404s are flagged explicitly. You can also crawl your site with Screaming Frog and filter for 200-status pages with very low word counts, or review server logs for pages Googlebot visits but never indexes.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How do I fix a soft 404?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>The fix depends on the page type. If the page should exist: add real, useful content. If the content is temporarily unavailable: keep the page with context and related content. If permanently gone: return a proper 404 or 410. If it was a misrouted 301 to the homepage: create a targeted redirect or return 404.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is the difference between a 404 and a soft 404?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>A true 404 returns an HTTP 404 Not Found status code — Google recognises the page as missing immediately. A soft 404 returns a 200 OK status but has no useful content. Google has to infer it is effectively empty rather than being told by the status code, making soft 404s harder to handle automatically.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/301-redirect/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">301 Redirect</div>
+            <p class="rt-desc">A permanent HTTP redirect that passes link equity to the new URL.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/crawl-budget/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Crawl Budget</div>
+            <p class="rt-desc">The number of pages Googlebot will crawl on your site within a given period.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/index-bloat/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Index Bloat</div>
+            <p class="rt-desc">Having too many low-quality or duplicate pages in Google's index.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/thin-content/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Thin Content</div>
+            <p class="rt-desc">Pages with little or no original value that can harm domain-wide rankings.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/google-search-console/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Google Search Console</div>
+            <p class="rt-desc">Google's free tool for monitoring indexing, coverage, and search performance.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/canonical-url/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Canonical URL</div>
+            <p class="rt-desc">The preferred version of a page when multiple URLs contain similar content.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://developers.google.com/search/docs/crawling-indexing/http-network-errors#soft-404-errors" target="_blank" rel="noopener">Google Search Central — Soft 404 Errors</a></li>
+            <li><span class="src-num">[02]</span><a href="https://support.google.com/webmasters/answer/7440203" target="_blank" rel="noopener">Google Search Console Help — Excluded by 'noindex' and Soft 404</a></li>
+            <li><span class="src-num">[03]</span><a href="https://ahrefs.com/blog/soft-404/" target="_blank" rel="noopener">Ahrefs — Soft 404 Errors: What They Are and How to Fix Them</a></li>
+            <li><span class="src-num">[04]</span><a href="https://moz.com/blog/soft-404s-how-to-identify-and-fix" target="_blank" rel="noopener">Moz — Soft 404s: How to Identify and Fix Them</a></li>
+            <li><span class="src-num">[05]</span><a href="https://www.screamingfrog.co.uk/seo-spider/user-guide/tabs/#response-codes" target="_blank" rel="noopener">Screaming Frog — Filtering by Response Code</a></li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · ex-Sr Marketing Specialist, ARKA 360 · Malappuram, Kerala</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about technical SEO, crawl efficiency, and the structural decisions that separate sites that compound traffic from those that stagnate — including what to do when soft 404s are eating your crawl budget.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free SEO audit · 24-hour delivery</div>
+          <div class="cta-title">See what's costing you traffic.</div>
+          <p class="cta-desc">We audit your site's indexing health — surfacing soft 404s, crawl budget drains, and technical issues ranked by SEO impact.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>Soft 404 inventory and fix plan</li>
+            <li>Crawl budget analysis</li>
+            <li>Index bloat diagnosis</li>
+            <li>Custom 90-day growth plan</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is a soft 404?</a></li>
+            <li><a href="#common-causes">Common causes</a></li>
+            <li><a href="#seo-impact">SEO impact</a></li>
+            <li><a href="#how-to-find">How to find them</a></li>
+            <li><a href="#how-to-fix">How to fix them</a></li>
+            <li><a href="#soft-404-vs-404">Soft 404 vs. 404 vs. 410</a></li>
+            <li><a href="#prevention">Preventing soft 404s</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>

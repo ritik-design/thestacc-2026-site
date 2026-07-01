@@ -1,0 +1,434 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'Server-Side Rendering (SSR): Definition, How It Works & SEO Guide | theStacc Glossary',
+  description: 'Server-side rendering (SSR) generates HTML on the server per request, delivering fully rendered pages to browsers. Definition, SEO benefits, frameworks, and when to use SSR vs SSG vs CSR.',
+  canonical: 'https://thestacc.com/glossary/server-side-rendering/',
+  ogImage: '/og/glossary/server-side-rendering.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "Technical SEO", "item": "https://thestacc.com/glossary/?cat=technical-seo" },
+        { "@type": "ListItem", "position": 4, "name": "Server-Side Rendering", "item": "https://thestacc.com/glossary/server-side-rendering/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "Server-Side Rendering",
+      "description": "Server-side rendering (SSR) is a web architecture where the server generates complete HTML for each page request before sending it to the browser. Users receive fully rendered content for immediate display rather than empty shells that rely on JavaScript to load content.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "server-side-rendering",
+      "url": "https://thestacc.com/glossary/server-side-rendering/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is server-side rendering better for SEO than client-side rendering?", "acceptedAnswer": { "@type": "Answer", "text": "Generally yes. SSR delivers fully rendered HTML to Googlebot immediately. Client-side rendering (CSR) relies on JavaScript execution, which Google may delay or skip. For content-heavy pages, SSR ensures every piece of content is indexable without waiting for JavaScript." }},
+        { "@type": "Question", "name": "What is the difference between SSR and SSG?", "acceptedAnswer": { "@type": "Answer", "text": "SSR generates HTML on the server for each request, so content is always fresh. SSG (Static Site Generation) pre-renders all pages at build time and serves them as static files. SSG is faster for stable content; SSR is necessary for frequently changing or personalised content." }},
+        { "@type": "Question", "name": "Does SSR hurt TTFB?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. SSR increases Time to First Byte because the server must render HTML before responding. Complex pages can add 200-500 ms to TTFB. The trade-off is better LCP and FCP once the first byte arrives, since all content is already in the HTML." }},
+        { "@type": "Question", "name": "Which frameworks support server-side rendering?", "acceptedAnswer": { "@type": "Answer", "text": "Major SSR frameworks include Next.js (React), Nuxt.js (Vue), SvelteKit, Angular Universal, and Astro. Each provides mechanisms to fetch data on the server and render HTML before sending to the browser." }},
+        { "@type": "Question", "name": "When should I use SSR instead of SSG?", "acceptedAnswer": { "@type": "Answer", "text": "Use SSR when content changes frequently (e-commerce prices, inventory), when pages are personalised per user (dashboards, accounts), or when you have too many pages to pre-build. Use SSG for blogs, documentation, and marketing pages where content is stable." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=technical-seo">Technical SEO</a><span class="sep">/</span>
+      <span class="current">Server-Side Rendering</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Technical SEO · JavaScript SEO
+      <span class="term-difficulty">Advanced</span>
+    </div>
+    <h1>Server-Side Rendering (SSR)</h1>
+    <p class="description">A web architecture where HTML is generated on the server for each request. Browsers receive <strong>fully rendered pages</strong> immediately — no waiting for JavaScript. Critical for crawlability and Core Web Vitals.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jul 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">8 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">SSR, Dynamic Rendering</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p><strong>Server-side rendering (SSR)</strong> is a web development technique where the server generates complete HTML for each page request before sending it to the browser. Unlike client-side rendering (CSR), where the browser receives an empty container and relies on JavaScript to populate it, SSR delivers <strong>fully rendered content immediately</strong> — visible to users and crawlers without any JavaScript execution required.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">TTFB impact</div>
+            <div class="tms-value">+200-500 ms</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Technical SEO</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">SEO benefit</div>
+            <div class="tms-value">Full crawlability</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Advanced</div>
+          </div>
+        </div>
+
+        <p class="lede-p">If your site relies on JavaScript to render content, Googlebot may never see it. SSR solves this by delivering complete HTML directly — the same content a user sees is what the crawler indexes, with no JS dependency.</p>
+
+        <h2 id="what-is">What is server-side rendering?</h2>
+        <p>Server-side rendering is a web architecture where a server generates the full HTML of a page — including all text, headings, and structured data — before sending the response to the browser. The browser receives a complete document it can immediately display.</p>
+        <p>The SSR request cycle works in six steps:</p>
+        <ol>
+          <li>User's browser requests a URL</li>
+          <li>Server receives the request</li>
+          <li>Server fetches data from databases or APIs</li>
+          <li>Server renders the HTML with all content embedded</li>
+          <li>Browser receives complete HTML and displays it immediately</li>
+          <li>JavaScript hydrates the page to add interactivity (event listeners, state)</li>
+        </ol>
+
+        <div class="callout callout-info">
+          <div class="callout-label">Google's stance on JavaScript rendering</div>
+          <p>Google has confirmed that Googlebot may not wait for all JavaScript execution when crawling. Google processes JavaScript in a second wave, which can delay indexing by days or weeks. SSR eliminates this risk — Googlebot receives the complete HTML on the first crawl pass.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why server-side rendering matters for SEO</h2>
+        <p>SSR has direct consequences for crawlability, Core Web Vitals, and social sharing. Four reasons SEOs care:</p>
+        <ol>
+          <li><strong>Full crawlability without JavaScript.</strong> Googlebot, Bingbot, and social crawlers receive complete HTML immediately. No second-wave JavaScript rendering required, which means content is indexed faster and more reliably.</li>
+          <li><strong>Better Largest Contentful Paint (LCP).</strong> With SSR, the LCP element is already in the initial HTML. The browser can begin painting it as soon as the HTML parses, without waiting for a JavaScript bundle to execute and inject content.</li>
+          <li><strong>Correct social sharing previews.</strong> Twitter, LinkedIn, and Facebook crawlers don't execute JavaScript. SSR ensures OG tags and page content are visible to these crawlers, so link previews display correctly.</li>
+          <li><strong>Accessibility.</strong> Users with JavaScript disabled or screen readers relying on static markup receive full content from an SSR page. CSR pages are blank or broken without JavaScript.</li>
+        </ol>
+
+        <h2 id="how-it-works">How server-side rendering works — SSR vs CSR</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Factor</th><th>SSR</th><th>CSR</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight">
+                <td><strong>Initial HTML</strong></td>
+                <td class="cell-yes">Complete content</td>
+                <td class="cell-no">Empty container</td>
+              </tr>
+              <tr><td><strong>First Contentful Paint</strong></td><td class="cell-yes">Immediate</td><td class="cell-no">After JS bundle loads</td></tr>
+              <tr><td><strong>JavaScript required</strong></td><td class="cell-yes">No (for content)</td><td class="cell-no">Yes (for all content)</td></tr>
+              <tr><td><strong>TTFB</strong></td><td class="cell-meh">Slower (server renders)</td><td class="cell-yes">Faster (minimal HTML)</td></tr>
+              <tr><td><strong>Server load</strong></td><td class="cell-meh">Higher</td><td class="cell-yes">Lower</td></tr>
+              <tr><td><strong>Crawlability</strong></td><td class="cell-yes">Excellent</td><td class="cell-meh">Dependent on JS execution</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="types">SSR vs SSG vs CSR — when to use each</h2>
+        <p>These three architectures cover different content and traffic patterns. Choosing the wrong one creates either a performance problem or an indexability problem.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Scenario</th><th>Best choice</th><th>Reason</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Blog or marketing site</td><td class="cell-yes"><strong>SSG</strong></td><td>Content rarely changes; pre-built HTML is fastest</td></tr>
+              <tr class="row-highlight"><td>E-commerce product pages</td><td class="cell-yes"><strong>SSR</strong></td><td>Prices and inventory change constantly</td></tr>
+              <tr><td>User dashboards</td><td class="cell-yes"><strong>SSR</strong></td><td>Personalised content per user</td></tr>
+              <tr><td>Documentation site</td><td class="cell-yes"><strong>SSG</strong></td><td>Stable content, speed priority</td></tr>
+              <tr><td>News site with live updates</td><td class="cell-yes"><strong>SSR</strong></td><td>Content changes by the minute</td></tr>
+              <tr><td>SPA needing SEO</td><td class="cell-meh"><strong>SSR + hydration</strong></td><td>Complex interactivity with crawler support</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="frameworks">SSR frameworks and implementations</h2>
+        <p>Every major frontend framework now has an official SSR solution:</p>
+        <ul>
+          <li><strong>Next.js (React)</strong> — <code>getServerSideProps</code> or App Router with server components. The most widely deployed SSR framework.</li>
+          <li><strong>Nuxt.js (Vue)</strong> — <code>asyncData</code> and <code>fetch</code> hooks. Vue's official SSR layer.</li>
+          <li><strong>SvelteKit</strong> — server routes and page endpoints with built-in SSR, ships minimal JS by default.</li>
+          <li><strong>Angular Universal</strong> — Google's official Angular SSR module.</li>
+          <li><strong>Astro</strong> — server-first architecture with hybrid SSR/SSG, ships zero JS by default for static content.</li>
+        </ul>
+
+        <h2 id="challenges">SSR challenges and how to mitigate them</h2>
+        <p>SSR has real trade-offs. Understanding them prevents common implementation mistakes:</p>
+
+        <div class="pros-cons">
+          <div class="pros-card">
+            <h4>SSR advantages</h4>
+            <ul>
+              <li>Full crawlability without JavaScript</li>
+              <li>Better LCP and FCP metrics</li>
+              <li>Correct social sharing previews</li>
+              <li>Works for users with JS disabled</li>
+              <li>Fresh content on every request</li>
+            </ul>
+          </div>
+          <div class="cons-card">
+            <h4>SSR trade-offs</h4>
+            <ul>
+              <li>Higher TTFB (server must render first)</li>
+              <li>More server resources per request</li>
+              <li>Hydration complexity and mismatch errors</li>
+              <li>Waterfall data fetching risk</li>
+              <li>Harder to cache than static files</li>
+            </ul>
+          </div>
+        </div>
+
+        <p>The TTFB trade-off is the most important: SSR adds 200-500 ms of server rendering time to TTFB compared to a static file serve. Mitigate this with CDN edge caching, streaming SSR, and stale-while-revalidate patterns.</p>
+
+        <h2 id="best-practices">5 best practices for SSR implementation</h2>
+        <ol>
+          <li><strong>Cache rendered pages at the CDN edge.</strong> For pages that don't change per user, cache the SSR output at the CDN for 60 seconds or more. This gives you SSR crawlability with SSG performance for most requests.</li>
+          <li><strong>Use streaming SSR.</strong> Send the HTML head and page shell immediately while streaming the body as it renders. Users see a fast first paint even if data fetching takes time.</li>
+          <li><strong>Implement stale-while-revalidate.</strong> Serve the cached SSR response immediately and re-render in the background. Avoids TTFB spikes on cache misses.</li>
+          <li><strong>Parallel data fetching.</strong> Don't chain API calls sequentially on the server. Fetch all data in parallel with <code>Promise.all()</code> to minimise backend time.</li>
+          <li><strong>Test with JavaScript disabled.</strong> Browse your key landing pages with JS turned off. If they're blank, you have a CSR problem disguised as SSR.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">Common mistake — dynamic rendering as a long-term fix</div>
+          <p>Dynamic rendering serves a fully rendered page to crawlers while showing the JavaScript SPA to users. Google officially labels this a workaround, not a long-term solution, and recommends moving to proper SSR or hybrid hydration. Sites relying solely on dynamic rendering face ongoing maintenance overhead and potential crawl inconsistencies.</p>
+        </div>
+
+        <h2 id="mistakes">Common SSR mistakes to avoid</h2>
+        <ul>
+          <li><strong>Hydration mismatches</strong> — server-rendered HTML differs from client-rendered HTML, causing flickering or broken interactivity</li>
+          <li><strong>Not caching SSR output</strong> — re-rendering unchanged pages for every visitor wastes server resources and increases TTFB</li>
+          <li><strong>Waterfall data fetching</strong> — sequentially awaiting API calls on the server multiplies TTFB with each dependency</li>
+          <li><strong>Confusing SSR with SSG</strong> — applying SSR to static pages that would serve better as pre-built HTML</li>
+          <li><strong>Skipping the JavaScript-disabled test</strong> — the only reliable way to verify SSR is actually serving real content</li>
+        </ul>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Is server-side rendering better for SEO than client-side rendering?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Generally yes. SSR delivers fully rendered HTML to Googlebot immediately. CSR relies on JavaScript execution, which Google may delay or skip. For content-heavy pages, SSR ensures every piece of content is indexable without waiting for JavaScript.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is the difference between SSR and SSG?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>SSR generates HTML on the server for each request, so content is always fresh. SSG pre-renders all pages at build time and serves them as static files. SSG is faster for stable content; SSR is necessary for frequently changing or personalised content.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Does SSR hurt TTFB?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes. SSR increases Time to First Byte because the server must render HTML before responding. Complex pages can add 200-500 ms to TTFB. The trade-off is better LCP and FCP once the first byte arrives, since all content is already in the HTML.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Which frameworks support server-side rendering?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Major SSR frameworks include Next.js (React), Nuxt.js (Vue), SvelteKit, Angular Universal, and Astro. Each provides mechanisms to fetch data on the server and render HTML before sending to the browser.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">When should I use SSR instead of SSG?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Use SSR when content changes frequently (e-commerce prices, inventory), when pages are personalised per user (dashboards, accounts), or when you have too many pages to pre-build. Use SSG for blogs, documentation, and marketing pages where content is stable.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/javascript-seo/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">JavaScript SEO</div>
+            <p class="rt-desc">Ensuring JavaScript-rendered content is crawlable and indexable by search engines.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/core-web-vitals/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Core Web Vitals</div>
+            <p class="rt-desc">Google's page experience metrics — LCP, FID, and CLS — used in ranking.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/server-response-time/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Server Response Time</div>
+            <p class="rt-desc">Time to First Byte (TTFB) — the foundation metric for page load speed.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/indexing/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Indexing</div>
+            <p class="rt-desc">The process Google uses to store and organise crawled web pages for search.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/crawl-budget/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Crawl Budget</div>
+            <p class="rt-desc">The number of pages Googlebot crawls on your site in a given period.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/page-speed/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Page Speed</div>
+            <p class="rt-desc">How quickly a web page fully loads and becomes interactive for users.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" target="_blank" rel="noopener">Google Search Central — JavaScript SEO basics</a></li>
+            <li><span class="src-num">[02]</span><a href="https://web.dev/rendering-on-the-web/" target="_blank" rel="noopener">web.dev — Rendering on the web (Google)</a></li>
+            <li><span class="src-num">[03]</span><a href="https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering" target="_blank" rel="noopener">Next.js — Server-side rendering documentation</a></li>
+            <li><span class="src-num">[04]</span><a href="https://ahrefs.com/blog/javascript-seo/" target="_blank" rel="noopener">Ahrefs — JavaScript SEO guide</a></li>
+            <li><span class="src-num">[05]</span><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/dynamic-rendering" target="_blank" rel="noopener">Google — Dynamic rendering documentation</a></li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · ex-Sr Marketing Specialist, ARKA 360 · Malappuram, Kerala</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about SEO craft, JavaScript rendering, and the technical architecture decisions that determine whether a site's content actually gets indexed.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free SEO audit · 24-hour delivery</div>
+          <div class="cta-title">See what's costing you traffic.</div>
+          <p class="cta-desc">We audit your site — including JavaScript rendering issues, indexability gaps, and Core Web Vitals failures — and send back fixes ranked by SEO impact.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>JavaScript rendering audit included</li>
+            <li>Technical fixes ranked by impact</li>
+            <li>Keyword gaps competitors rank for</li>
+            <li>Custom 90-day growth plan</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is SSR?</a></li>
+            <li><a href="#why-it-matters">Why it matters for SEO</a></li>
+            <li><a href="#how-it-works">SSR vs CSR comparison</a></li>
+            <li><a href="#types">SSR vs SSG vs CSR</a></li>
+            <li><a href="#frameworks">SSR frameworks</a></li>
+            <li><a href="#challenges">Challenges and trade-offs</a></li>
+            <li><a href="#best-practices">5 best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump current">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>

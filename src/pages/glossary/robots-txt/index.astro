@@ -1,0 +1,440 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'Robots.txt: Definition, Directives & Best Practices (2026 Guide) | theStacc Glossary',
+  description: 'Robots.txt is a root-level text file that tells search engine crawlers which pages to access. One wrong line can block your entire site. Here is how to get it right.',
+  canonical: 'https://thestacc.com/glossary/robots-txt/',
+  ogImage: '/og/glossary/robots-txt.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "Technical SEO", "item": "https://thestacc.com/glossary/?cat=technical-seo" },
+        { "@type": "ListItem", "position": 4, "name": "Robots.txt", "item": "https://thestacc.com/glossary/robots-txt/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "Robots.txt",
+      "description": "Robots.txt is a plain-text file placed at a domain's root (yoursite.com/robots.txt) that instructs search engine crawlers which pages or sections they can access. Major search engines including Google, Bing, and Yahoo check this file before crawling. It controls crawl budget and keeps low-value pages out of the indexing queue — but it does not prevent pages from appearing in search results.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "robots-txt",
+      "url": "https://thestacc.com/glossary/robots-txt/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does robots.txt stop pages from appearing in Google?", "acceptedAnswer": { "@type": "Answer", "text": "Not directly. Robots.txt prevents crawling, not indexing. If other sites link to a blocked page, Google may still show it in results without a description snippet. Use a noindex meta tag to fully remove a page from search results." }},
+        { "@type": "Question", "name": "Where do I put my robots.txt file?", "acceptedAnswer": { "@type": "Answer", "text": "Place it at your domain root: https://yoursite.com/robots.txt. Subdirectory placement doesn't work. Each subdomain needs its own robots.txt file — a rule at example.com/robots.txt does not apply to blog.example.com." }},
+        { "@type": "Question", "name": "Can robots.txt improve my rankings?", "acceptedAnswer": { "@type": "Answer", "text": "Indirectly, yes. Blocking low-value pages preserves crawl budget for important content. On large sites this means faster discovery and indexing of new pages, potentially speeding up ranking improvements for the pages that matter." }},
+        { "@type": "Question", "name": "Do all bots follow robots.txt rules?", "acceptedAnswer": { "@type": "Answer", "text": "Legitimate search engine bots (Googlebot, Bingbot) respect robots.txt. Malicious bots and scrapers typically ignore it. Don't rely on robots.txt for security — it's a guideline for cooperative crawlers, not a firewall." }},
+        { "@type": "Question", "name": "What happens if my robots.txt file returns a 500 error?", "acceptedAnswer": { "@type": "Answer", "text": "If Google gets a 5xx server error when fetching robots.txt, it temporarily limits crawling of the entire site to avoid overloading a struggling server. A 404 (file not found) is treated as no restrictions — all pages are crawlable." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=technical-seo">Technical SEO</a><span class="sep">/</span>
+      <span class="current">Robots.txt</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Technical SEO · Crawling
+      <span class="term-difficulty">Intermediate</span>
+    </div>
+    <h1>Robots.txt</h1>
+    <p class="description">A plain-text file at <code>yoursite.com/robots.txt</code> that tells search engine crawlers which pages they can access. Misuse it and you can <strong>block your entire site from Google</strong> — but used correctly it protects crawl budget and keeps junk pages out of indexing queues.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jul 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">8 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">Robots Exclusion Protocol</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p><strong>Robots.txt</strong> is a plain-text file placed at the root of a domain (<code>yoursite.com/robots.txt</code>) that tells search engine crawlers which URLs they are allowed or disallowed from accessing. Google, Bing, and other major crawlers check this file before requesting any page. It controls crawl budget allocation but does <strong>not</strong> prevent pages from appearing in Google's index if they are linked from other sites.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">File location</div>
+            <div class="tms-value"><code>/robots.txt</code> at domain root</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Technical SEO</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">What it controls</div>
+            <div class="tms-value">Crawl access, not indexing</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Intermediate</div>
+          </div>
+        </div>
+
+        <p class="lede-p">According to Google's documentation: "Googlebot checks robots.txt before making any request to your server." That single file gates every crawl decision. Get it wrong and you hand Google a list of pages not to crawl — sometimes including your most important content.</p>
+
+        <h2 id="what-is">What is robots.txt?</h2>
+        <p>Robots.txt implements the Robots Exclusion Protocol, a de facto web standard since 1994. It's a plain-text file — no HTML, no markup — containing a series of rules that cooperative web crawlers read before accessing any page on your domain.</p>
+        <p>The file uses three core components:</p>
+        <ul>
+          <li><strong>User-agent:</strong> Specifies which crawler the rule targets. <code>User-agent: *</code> applies to all bots. <code>User-agent: Googlebot</code> targets only Google's crawler.</li>
+          <li><strong>Disallow:</strong> Blocks access to specific paths. <code>Disallow: /admin/</code> prevents crawlers from requesting any URL starting with /admin/. A blank <code>Disallow:</code> means allow everything.</li>
+          <li><strong>Allow:</strong> Overrides a broader Disallow for specific sub-paths. Useful when you block a directory but need one file within it to be crawlable.</li>
+        </ul>
+
+        <div class="callout callout-info">
+          <div class="callout-label">Google's processing rules</div>
+          <p>If Google receives a <strong>200</strong> response for robots.txt, it follows the rules. A <strong>404</strong> (file not found) means no restrictions — everything is crawlable. A <strong>5xx</strong> server error causes Google to temporarily limit crawling of the whole site to protect a struggling server.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why robots.txt matters for SEO</h2>
+        <p>On small sites with 50 pages, robots.txt is low-stakes. On sites with thousands of pages, it's a critical traffic allocation tool. Four reasons it matters:</p>
+        <ol>
+          <li><strong>Crawl budget protection.</strong> Google allocates a crawl budget to every site — a rate-limited number of pages it will crawl per day. Blocking low-value pages (admin panels, staging areas, duplicate filter variations) keeps that budget focused on the pages you want indexed.</li>
+          <li><strong>Preventing sensitive area indexing.</strong> Internal search results, login pages, cart pages, and staging environments don't belong in Google's index. Robots.txt keeps crawlers away from these paths before they even land on the page.</li>
+          <li><strong>Faster discovery of new content.</strong> When crawlers stop wasting requests on junk pages, they find new blog posts and product pages faster. A site that publishes 30 new articles a month benefits from every crawl being spent on real content.</li>
+          <li><strong>Server load management.</strong> Blocking unnecessary crawling reduces resource consumption. For shared hosting or small VPS deployments, this can meaningfully reduce server strain during crawl bursts.</li>
+        </ol>
+
+        <h2 id="how-it-works">How robots.txt directives work</h2>
+        <p>A robots.txt file is read from top to bottom. The first matching rule wins. Here's what each directive does in practice:</p>
+
+        <div class="url-flow">
+          <span class="uf-comment"># Allow all bots to crawl everything (default when no file exists)</span><br>
+          User-agent: *<br>
+          Disallow:<br>
+          <br>
+          <span class="uf-comment"># Block all bots from the entire site (dangerous — avoid in production)</span><br>
+          User-agent: *<br>
+          Disallow: /<br>
+          <br>
+          <span class="uf-comment"># Block Googlebot from admin and staging only</span><br>
+          User-agent: Googlebot<br>
+          Disallow: /admin/<br>
+          Disallow: /staging/<br>
+          <br>
+          <span class="uf-comment"># Point to XML sitemap</span><br>
+          Sitemap: https://example.com/sitemap.xml
+        </div>
+
+        <h2 id="types">Types of robots.txt directives</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Directive</th><th>Function</th><th>Example</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight">
+                <td><strong>Disallow</strong></td>
+                <td>Block crawler from path</td>
+                <td><code>Disallow: /wp-admin/</code></td>
+              </tr>
+              <tr><td><strong>Allow</strong></td><td>Override a Disallow for sub-path</td><td><code>Allow: /wp-admin/admin-ajax.php</code></td></tr>
+              <tr><td><strong>User-agent</strong></td><td>Target specific crawler</td><td><code>User-agent: Googlebot</code></td></tr>
+              <tr><td><strong>Sitemap</strong></td><td>Point to XML sitemap</td><td><code>Sitemap: https://site.com/sitemap.xml</code></td></tr>
+              <tr><td><strong>Crawl-delay</strong></td><td>Rate-limit crawler requests</td><td><code>Crawl-delay: 10</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="examples">Real robots.txt examples</h2>
+
+        <h3>1. WordPress site — blocking admin and filter URLs</h3>
+        <div class="url-flow">
+          User-agent: *<br>
+          Disallow: /wp-admin/<br>
+          Disallow: /wp-login.php<br>
+          Disallow: /cart/<br>
+          Disallow: /checkout/<br>
+          Allow: /wp-admin/admin-ajax.php<br>
+          <br>
+          Sitemap: https://yoursite.com/sitemap.xml
+        </div>
+
+        <h3>2. E-commerce site — blocking filter parameter URLs</h3>
+        <p>An online retailer with 50 products but 3,000 filter-generated URL combinations uses one Disallow line to save crawl budget:</p>
+        <div class="url-flow">
+          User-agent: Googlebot<br>
+          Disallow: /products?filter=<br>
+          Disallow: /products?sort=<br>
+          Disallow: /products?color=<br>
+          <br>
+          Sitemap: https://store.example.com/sitemap.xml
+        </div>
+
+        <h3>3. The production mistake that cost 3 weeks of indexing</h3>
+        <p>A marketing agency left <code>Disallow: /</code> in their production robots.txt after copying from a staging environment. The result: zero new pages indexed for 3 weeks and a steep traffic drop before the error was caught via Search Console. One line, massive consequence.</p>
+
+        <h2 id="vs-related">Robots.txt vs meta robots tag — which to use</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Aspect</th><th>Robots.txt</th><th>Meta Robots Tag</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Location</strong></td><td>Root directory file</td><td>HTML <code>&lt;head&gt;</code> of individual pages</td></tr>
+              <tr class="row-highlight"><td><strong>Timing</strong></td><td>Before crawling</td><td>After crawling (page must be fetched)</td></tr>
+              <tr><td><strong>Scope</strong></td><td>Entire directories or paths</td><td>Individual pages</td></tr>
+              <tr><td><strong>Prevents indexing?</strong></td><td>No — only prevents crawling</td><td>Yes — <code>noindex</code> removes from search</td></tr>
+              <tr><td><strong>Best for</strong></td><td>Blocking site sections at scale</td><td>Removing specific pages from search</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">Critical trap — blocking a noindex page in robots.txt</div>
+          <p>If you block a page in robots.txt, Google cannot crawl it and therefore cannot read the <code>&lt;meta name="robots" content="noindex"&gt;</code> tag. The page may still appear in results if external sites link to it. To remove a page from Google, you need it to be crawlable so Google can see the noindex directive.</p>
+        </div>
+
+        <h2 id="best-practices">5 robots.txt best practices</h2>
+        <ol>
+          <li><strong>Always include a Sitemap directive.</strong> Point crawlers directly to your XML sitemap so they discover all indexable URLs systematically rather than relying on link-following alone.</li>
+          <li><strong>Never block CSS or JavaScript files.</strong> Google needs to render your pages to understand content. Blocking JS or CSS causes Google to see a stripped-down, partially-broken version of your page — hurting quality assessment.</li>
+          <li><strong>Test every change before deploying.</strong> Use Google Search Console's robots.txt tester or the URL Inspection tool to verify your rules work as intended. A single typo can break a critical rule.</li>
+          <li><strong>Review quarterly as your site grows.</strong> New directories, new CMS plugins, and new URL patterns can create unblocked junk paths. Robots.txt should evolve with the site.</li>
+          <li><strong>Use Disallow for directories, not individual files.</strong> Block entire paths (<code>/admin/</code>) rather than individual filenames. Directories are stable; filenames change. Path-level rules are more durable.</li>
+        </ol>
+
+        <h2 id="mistakes">Common robots.txt mistakes to avoid</h2>
+        <ul>
+          <li><strong>Deploying staging robots.txt to production.</strong> The most common catastrophic error. Always check that production never has <code>Disallow: /</code>.</li>
+          <li><strong>Blocking CSS and JavaScript.</strong> Prevents Google from rendering pages correctly. Causes Googlebot to evaluate unstyled, broken page layouts.</li>
+          <li><strong>Blocking pages to remove them from Google.</strong> Blocked pages can still be indexed if linked externally. Use <code>noindex</code> instead for removal.</li>
+          <li><strong>Forgetting subdomain isolation.</strong> A robots.txt file at example.com does not apply to blog.example.com. Each subdomain needs its own file.</li>
+          <li><strong>No sitemap reference.</strong> Missing the <code>Sitemap:</code> directive means crawlers must rely entirely on link discovery to find your pages.</li>
+          <li><strong>Relying on robots.txt for security.</strong> It's a courtesy protocol, not a security mechanism. Malicious bots ignore it. Don't put sensitive endpoints behind robots.txt alone.</li>
+        </ul>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Does robots.txt stop pages from appearing in Google?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Not directly. Robots.txt prevents crawling, not indexing. If other sites link to a blocked page, Google may still show it in results without a description snippet. Use a noindex meta tag to fully remove a page from search results.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Where do I put my robots.txt file?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Place it at your domain root: <code>https://yoursite.com/robots.txt</code>. Subdirectory placement doesn't work. Each subdomain needs its own robots.txt file — a rule at example.com/robots.txt does not apply to blog.example.com.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Can robots.txt improve my rankings?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Indirectly, yes. Blocking low-value pages preserves crawl budget for important content. On large sites this means faster discovery and indexing of new pages, potentially speeding up ranking improvements for the pages that matter.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Do all bots follow robots.txt rules?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Legitimate search engine bots (Googlebot, Bingbot) respect robots.txt. Malicious bots and scrapers typically ignore it. Don't rely on robots.txt for security — it's a guideline for cooperative crawlers, not a firewall.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What happens if my robots.txt file returns a 500 error?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>If Google gets a 5xx server error when fetching robots.txt, it temporarily limits crawling of the entire site to avoid overloading a struggling server. A 404 (file not found) is treated as no restrictions — all pages are crawlable.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/crawl-budget/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Crawl Budget</div>
+            <p class="rt-desc">The rate-limited number of pages Googlebot crawls per day on your site.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/meta-robots-tag/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Meta Robots Tag</div>
+            <p class="rt-desc">Per-page directive for controlling indexing — the complement to robots.txt.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/xml-sitemap/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">XML Sitemap</div>
+            <p class="rt-desc">A file listing all crawlable URLs to guide search engine discovery.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/noindex/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Noindex</div>
+            <p class="rt-desc">A directive that removes a page from Google's search results entirely.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/indexing/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Indexing</div>
+            <p class="rt-desc">The process by which Google stores and organizes crawled pages for search.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/technical-seo/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Technical SEO</div>
+            <p class="rt-desc">The discipline of optimizing a site's infrastructure for crawling and indexing.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://developers.google.com/search/docs/crawling-indexing/robots/intro" target="_blank" rel="noopener">Google Search Central — Introduction to robots.txt</a></li>
+            <li><span class="src-num">[02]</span><a href="https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt" target="_blank" rel="noopener">Google Search Central — How Google interprets the robots.txt specification</a></li>
+            <li><span class="src-num">[03]</span><a href="https://moz.com/learn/seo/robotstxt" target="_blank" rel="noopener">Moz — Robots.txt: Learn SEO</a></li>
+            <li><span class="src-num">[04]</span><a href="https://ahrefs.com/blog/robots-txt/" target="_blank" rel="noopener">Ahrefs — Robots.txt: The Ultimate Guide</a></li>
+            <li><span class="src-num">[05]</span><a href="https://datatracker.ietf.org/doc/html/draft-koster-rep" target="_blank" rel="noopener">IETF — Robots Exclusion Protocol specification</a></li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · ex-Sr Marketing Specialist, ARKA 360 · Malappuram, Kerala</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about SEO craft, content operations, and the small technical decisions that determine which pages Google actually crawls — including how robots.txt can silently destroy organic traffic when deployed carelessly.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free SEO audit · 24-hour delivery</div>
+          <div class="cta-title">See what's costing you traffic.</div>
+          <p class="cta-desc">We audit your robots.txt, crawl coverage, and indexing gaps — then rank fixes by organic traffic impact so you know exactly where to start.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>Robots.txt errors and risks surfaced</li>
+            <li>Crawl budget waste identified</li>
+            <li>Indexing gaps ranked by priority</li>
+            <li>Custom 90-day growth plan</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is robots.txt?</a></li>
+            <li><a href="#why-it-matters">Why it matters for SEO</a></li>
+            <li><a href="#how-it-works">How directives work</a></li>
+            <li><a href="#types">Types of directives</a></li>
+            <li><a href="#examples">Real examples</a></li>
+            <li><a href="#vs-related">Robots.txt vs meta robots</a></li>
+            <li><a href="#best-practices">5 best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>
