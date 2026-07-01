@@ -1,0 +1,71 @@
+/* ═══════════════════════════════════════════════
+   GLOSSARY POST — Shared CSS for /glossary/{slug}/ pages
+   Extends /styles/review-post.css with glossary-specific elements.
+   Import BOTH stylesheets in frontmatter:
+     import '../../styles/review-post.css';
+     import '../../styles/glossary-post.css';
+   ═══════════════════════════════════════════════ */
+
+/* Term badge (category + difficulty above H1) */
+.term-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: white; border: 1px solid var(--border); font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); font-weight: 600; margin-bottom: 20px; }
+.term-badge .term-cat-dot { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; }
+.term-badge .term-difficulty { padding: 2px 8px; background: var(--brand-softer); color: var(--brand); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; }
+
+/* Definition answer box — Google featured-snippet target */
+.snippet-answer { margin: 32px 0; padding: 28px 32px; background: linear-gradient(135deg, var(--brand-softer), white); border: 1px solid var(--brand-soft); border-left: 6px solid var(--brand); position: relative; }
+.snippet-answer::before { content: 'DEFINITION'; position: absolute; top: -10px; left: 24px; background: var(--brand); color: white; padding: 4px 12px; font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; }
+.snippet-answer p { font-size: 18px; line-height: 1.55; color: var(--text-1); margin: 0; font-weight: 400; }
+.snippet-answer p strong { color: var(--text-1); font-weight: 700; }
+
+/* At-a-glance metadata strip (HTTP status, category, key metric, difficulty) */
+.term-meta-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin: 28px 0; border: 1px solid var(--border); background: white; }
+@media (max-width: 700px) { .term-meta-strip { grid-template-columns: repeat(2, 1fr); } }
+.tms-cell { padding: 20px 22px; border-right: 1px solid var(--border); }
+.tms-cell:last-child { border-right: none; }
+@media (max-width: 700px) { .tms-cell:nth-child(2n) { border-right: none; } .tms-cell:nth-child(-n+2) { border-bottom: 1px solid var(--border); } }
+.tms-label { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; font-weight: 700; }
+.tms-value { font-size: 15px; color: var(--text-1); font-weight: 600; line-height: 1.35; }
+
+/* HTTP status / code chip */
+.http-code-chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--text-1); color: white; font-family: 'Geist Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; }
+.http-code-chip.ok { background: #047857; }
+.http-code-chip.warn { background: #b45309; }
+.http-code-chip.err { background: #b91c1c; }
+
+/* Terminal-style URL / code flow block */
+.url-flow { margin: 24px 0; padding: 24px; background: #0f0e10; color: #d4d4d8; font-family: 'Geist Mono', monospace; font-size: 13px; line-height: 1.7; overflow-x: auto; }
+.url-flow .uf-comment { color: #71717a; }
+.url-flow .uf-old { color: #fca5a5; }
+.url-flow .uf-arrow { color: #a3a3a3; margin: 0 8px; }
+.url-flow .uf-new { color: #86efac; }
+.url-flow .uf-status { color: #6ee7b7; }
+.url-flow .uf-label { color: #a78bfa; }
+
+/* Related terms cross-link grid */
+.related-terms { margin: 32px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 700px) { .related-terms { grid-template-columns: 1fr; } }
+.related-term { padding: 20px 22px; background: white; border: 1px solid var(--border); text-decoration: none; color: inherit; transition: all 0.2s; display: flex; flex-direction: column; gap: 6px; }
+.related-term:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 12px 24px -12px rgba(79,57,246,0.12); }
+.related-term .rt-cat { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand); font-weight: 700; }
+.related-term .rt-name { font-size: 16px; font-weight: 600; color: var(--text-1); letter-spacing: -0.015em; }
+.related-term .rt-desc { font-size: 13px; color: var(--text-3); line-height: 1.45; }
+.related-term .rt-arrow { font-size: 13px; color: var(--brand); font-weight: 600; margin-top: auto; }
+
+/* Alphabetical A-Z sidebar navigation */
+.letter-jumps { background: white; border: 1px solid var(--border); padding: 20px 22px; margin-top: 16px; }
+.letter-jumps-head { font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; }
+.letter-jump-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.letter-jump { padding: 8px 0; text-align: center; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--bg-soft); transition: all 0.15s; text-decoration: none; }
+.letter-jump:hover { background: var(--brand); color: white; }
+.letter-jump.current { background: var(--brand); color: white; }
+
+/* Extra: an alternative "vs" comparison block variant for glossary */
+.gloss-vs-block { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 32px 0; }
+@media (max-width: 700px) { .gloss-vs-block { grid-template-columns: 1fr; } }
+.gloss-vs-card { padding: 24px; border: 1px solid var(--border); background: white; }
+.gloss-vs-card.this { border-left: 4px solid var(--brand); }
+.gloss-vs-card.that { border-left: 4px solid #06b6d4; }
+.gloss-vs-card h4 { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 12px; }
+.gloss-vs-card.this h4 { color: var(--brand); }
+.gloss-vs-card.that h4 { color: #0e7490; }
+.gloss-vs-card p { font-size: 14px; line-height: 1.55; color: var(--text-2); margin: 0; }
