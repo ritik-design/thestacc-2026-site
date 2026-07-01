@@ -1,0 +1,377 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'Core Web Vitals: LCP, INP, CLS Explained | theStacc Glossary',
+  description: 'Core Web Vitals are Google\u2019s three real-user metrics for page experience: LCP, INP, and CLS. Definition, 2026 thresholds, and how to fix each one.',
+  canonical: 'https://thestacc.com/glossary/core-web-vitals/',
+  ogImage: '/og/glossary/core-web-vitals.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "General Marketing", "item": "https://thestacc.com/glossary/?cat=general-marketing" },
+        { "@type": "ListItem", "position": 4, "name": "Core Web Vitals", "item": "https://thestacc.com/glossary/core-web-vitals/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "Core Web Vitals",
+      "description": "Core Web Vitals are Google\u2019s three real-user page-experience metrics: Largest Contentful Paint (LCP), Interaction to Next Paint (INP), and Cumulative Layout Shift (CLS). They measure how quickly, responsively, and stably a page loads for real users.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "core-web-vitals",
+      "url": "https://thestacc.com/glossary/core-web-vitals/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/" }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Are Core Web Vitals a Google ranking factor?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Google confirmed Core Web Vitals as a page-experience ranking signal in June 2021. They are a real ranking factor but secondary to content relevance and backlinks \u2014 they act as a tiebreaker between otherwise-equal results." }},
+        { "@type": "Question", "name": "What are the good thresholds for LCP, INP, and CLS?", "acceptedAnswer": { "@type": "Answer", "text": "Google\u2019s 2026 \u2018good\u2019 thresholds: LCP under 2.5 seconds, INP under 200 milliseconds, CLS under 0.1. The 75th percentile of real users must meet all three to pass." }},
+        { "@type": "Question", "name": "Where do I check Core Web Vitals?", "acceptedAnswer": { "@type": "Answer", "text": "Google Search Console for field data (real users), PageSpeed Insights for both field and lab data, and Chrome DevTools for lab audits. Field data from the Chrome UX Report is what actually feeds ranking." }},
+        { "@type": "Question", "name": "When did INP replace First Input Delay?", "acceptedAnswer": { "@type": "Answer", "text": "Interaction to Next Paint (INP) officially replaced First Input Delay (FID) in March 2024 as the responsiveness metric in Core Web Vitals. INP measures every interaction across the visit, not just the first." }},
+        { "@type": "Question", "name": "How much of a business impact do Core Web Vitals actually have?", "acceptedAnswer": { "@type": "Answer", "text": "Google\u2019s case studies show pages meeting all three CWV thresholds see 24% fewer abandonments. Publishers who improved CWV reported up to 15% more ad revenue. Improvements compound across SEO, conversion, and monetisation." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=general-marketing">General Marketing</a><span class="sep">/</span>
+      <span class="current">Core Web Vitals</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      SEO · Page Experience
+      <span class="term-difficulty">Advanced</span>
+    </div>
+    <h1>Core Web Vitals</h1>
+    <p class="description">Google's three real-user metrics for page experience: <strong>LCP, INP, CLS</strong>. Pages that pass all three see <strong>24% fewer abandonments</strong> and, for publishers, up to 15% more ad revenue.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jul 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">9 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">CWV · Page Experience Signals</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p><strong>Core Web Vitals</strong> are Google's three real-user metrics for page experience: <strong>Largest Contentful Paint (LCP)</strong>, <strong>Interaction to Next Paint (INP)</strong>, and <strong>Cumulative Layout Shift (CLS)</strong>. They measure how fast, responsive, and visually stable a page is for actual visitors — and became an official Google ranking signal in June 2021.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">LCP target</div>
+            <div class="tms-value">&lt; 2.5s</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">INP target</div>
+            <div class="tms-value">&lt; 200ms</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">CLS target</div>
+            <div class="tms-value">&lt; 0.1</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Data source</div>
+            <div class="tms-value">Chrome UX Report</div>
+          </div>
+        </div>
+
+        <p class="lede-p">Lab scores lie. Field data from real Chrome users is what ranks you — and it's the only Core Web Vitals number that matters when Google decides whether your page is a good experience.</p>
+
+        <h2 id="what-is">What are Core Web Vitals?</h2>
+        <p>Core Web Vitals are the three specific metrics Google uses to quantify page experience for the purposes of Search ranking. Introduced in 2020 and turned into a confirmed ranking signal in June 2021, they replaced years of vaguer "site speed" signals with three measurable, threshold-based numbers.</p>
+        <p>Two important properties define them:</p>
+        <ul>
+          <li><strong>Real-user, not simulated.</strong> Google's ranking system uses <em>field data</em> from the <a href="https://developer.chrome.com/docs/crux" target="_blank" rel="noopener">Chrome User Experience Report</a> — measurements from actual Chrome users on your site. Lighthouse scores are diagnostic, not ranking inputs.</li>
+          <li><strong>Threshold-based, at the 75th percentile.</strong> A page "passes" a metric only when 75% of user visits meet the good threshold. The median (p50) is not enough.</li>
+        </ul>
+
+        <div class="callout callout-info">
+          <div class="callout-label">Why it moved in March 2024</div>
+          <p>In March 2024, Google replaced <strong>First Input Delay (FID)</strong> with <strong>Interaction to Next Paint (INP)</strong>. FID only measured the first interaction; INP measures every interaction across the entire visit. INP is a stricter, more realistic responsiveness metric.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why Core Web Vitals matter</h2>
+        <p>Beyond ranking, poor Core Web Vitals cost revenue directly. Five reasons every SEO and dev team tracks them:</p>
+        <ol>
+          <li><strong>24% fewer abandonments.</strong> Google's own case studies show pages meeting all three thresholds retain significantly more users to first interaction.</li>
+          <li><strong>Up to 15% more ad revenue.</strong> Publishers who fixed CWV reported meaningful lifts in monetization — a slow page earns less inventory per session.</li>
+          <li><strong>Direct Search ranking signal.</strong> Confirmed as a tiebreaker among otherwise-comparable results.</li>
+          <li><strong>Mobile amplification.</strong> Google indexes mobile-first. Mobile CWV are typically worse than desktop and matter more.</li>
+          <li><strong>Compound effect with conversion.</strong> Every 100ms saved on LCP shows a measurable lift in <a href="/glossary/conversion-rate/">conversion rate</a> across ecommerce benchmarks.</li>
+        </ol>
+
+        <h2 id="how-it-works">How Core Web Vitals work</h2>
+        <p>Chrome collects performance data from real users (with telemetry consent) and aggregates it into CrUX. That data is joined to your URLs at the origin and page-URL levels. Search Console displays your page URLs bucketed as Good, Needs Improvement, or Poor per metric.</p>
+
+        <h3>Field data vs lab data</h3>
+        <p>Two data classes measure the same metrics but differ sharply:</p>
+        <ul>
+          <li><strong>Field data (RUM):</strong> real Chrome users, aggregated over 28 days. Used for ranking.</li>
+          <li><strong>Lab data:</strong> simulated runs from Lighthouse. Useful for reproducing issues, not for ranking.</li>
+        </ul>
+
+        <h3>URL-level vs origin-level</h3>
+        <p>CrUX reports both individual URL data (when there's enough traffic) and origin-wide aggregates. Low-traffic pages inherit the origin's data until they accumulate enough samples.</p>
+
+        <h2 id="types">The three Core Web Vitals</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Metric</th><th>What it measures</th><th>Good</th><th>Needs work</th><th>Poor</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight"><td><strong>LCP</strong> (Largest Contentful Paint)</td><td>Time until the largest above-the-fold element renders</td><td>&le; 2.5s</td><td>2.5-4s</td><td>&gt; 4s</td></tr>
+              <tr><td><strong>INP</strong> (Interaction to Next Paint)</td><td>Responsiveness across every user interaction</td><td>&le; 200ms</td><td>200-500ms</td><td>&gt; 500ms</td></tr>
+              <tr><td><strong>CLS</strong> (Cumulative Layout Shift)</td><td>Visual stability — unexpected layout jumps during load</td><td>&le; 0.1</td><td>0.1-0.25</td><td>&gt; 0.25</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Largest Contentful Paint (LCP)</h3>
+        <p>LCP times the render of the largest above-the-fold element — usually the hero image, hero video, or a large H1 block. Slow LCP typically means an unoptimized hero image, render-blocking JavaScript, or a slow server response.</p>
+
+        <h3>Interaction to Next Paint (INP)</h3>
+        <p>INP tracks the delay between a user's click, tap, or keypress and the next visual update. Slow INP typically means heavy JavaScript execution on the main thread — long tasks that block rendering.</p>
+
+        <h3>Cumulative Layout Shift (CLS)</h3>
+        <p>CLS counts unexpected content shifts during page load. Common causes: images without width/height, late-loading ads that push content down, web fonts that swap font-face and reflow text.</p>
+
+        <h2 id="examples">Real Core Web Vitals fixes</h2>
+        <h3>1. LCP 4.8s → 1.9s via image + font optimization</h3>
+        <p>A DTC ecommerce hero image was a 1.2MB PNG. Swapping to WebP, adding proper srcset, and preloading the file cut LCP from 4.8s to 1.9s. Add-to-cart rate rose 8% in the same month.</p>
+        <h3>2. INP 620ms → 140ms via JS deferral</h3>
+        <p>A publishing site loaded 14 third-party scripts synchronously on page load. Deferring non-critical scripts and consolidating three analytics tags into one dropped INP from 620ms to 140ms. Pageviews per session rose 12%.</p>
+        <h3>3. CLS 0.42 → 0.02 via reserved ad slots</h3>
+        <p>A media site's mid-article ads inserted after load, pushing paragraphs down. Reserving fixed-height CSS containers for each ad slot dropped CLS from 0.42 to 0.02 in two days.</p>
+
+        <h2 id="vs-related">Field data vs lab data — which one ranks you?</h2>
+        <div class="pros-cons">
+          <div class="pros-card">
+            <h4>Field data (used for ranking)</h4>
+            <ul>
+              <li>Real Chrome users, aggregated over 28 days</li>
+              <li>Source: Chrome UX Report (CrUX)</li>
+              <li>Shown in Google Search Console</li>
+              <li>Reflects your actual audience: their networks, devices, geography</li>
+              <li>What Google uses to grade page experience</li>
+            </ul>
+          </div>
+          <div class="cons-card">
+            <h4>Lab data (diagnostic only)</h4>
+            <ul>
+              <li>Simulated single run</li>
+              <li>Source: Lighthouse (PageSpeed Insights, DevTools)</li>
+              <li>Useful for reproducing and debugging issues</li>
+              <li>Does not reflect real-user variance</li>
+              <li>Never a direct ranking input</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="best-practices">7 best practices for Core Web Vitals</h2>
+        <ol>
+          <li><strong>Compress and modernize images.</strong> WebP or AVIF, correctly sized via srcset, with width/height attributes on every img.</li>
+          <li><strong>Preload the LCP element.</strong> A single preload hint on the hero image or font cuts LCP by hundreds of milliseconds.</li>
+          <li><strong>Defer non-critical JavaScript.</strong> Analytics, chat widgets, and A/B testing scripts should load after first interaction.</li>
+          <li><strong>Reserve space for dynamic content.</strong> Ads, embeds, and images all need explicit dimensions to prevent layout shift.</li>
+          <li><strong>Ship on a CDN.</strong> Static assets over a global CDN reduce LCP by 200-800ms depending on audience geography.</li>
+          <li><strong>Measure field data, not lab.</strong> Watch Search Console monthly. Lighthouse is for reproducing specific issues.</li>
+          <li><strong>Optimize for the 75th percentile, not the average.</strong> A "passing" median hides a failing tail.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">Common trap — chasing a green Lighthouse score</div>
+          <p>Lighthouse scores 90+ do not mean your CWV pass. Lab is a single run on a fast simulated network; field is your real users on real devices. Only field data matters for ranking.</p>
+        </div>
+
+        <h2 id="mistakes">Common Core Web Vitals mistakes to avoid</h2>
+        <ul>
+          <li><strong>Uncompressed hero images.</strong> The #1 cause of slow LCP in 2026.</li>
+          <li><strong>Heavy synchronous JavaScript.</strong> Every long task delays INP.</li>
+          <li><strong>Missing image dimensions.</strong> Every img without width/height contributes to CLS.</li>
+          <li><strong>Optimizing only for desktop.</strong> Mobile carries the ranking weight.</li>
+          <li><strong>Ignoring the 75th percentile.</strong> Averages hide the slow tail that fails you.</li>
+        </ul>
+
+        <h2 id="how-thestacc-helps">How theStacc helps</h2>
+        <p>Our audit surfaces every URL that fails LCP, INP, or CLS at the 75th percentile — segmented by page type, device, and traffic source. We rank the fixes by the traffic they'd protect and hand the dev team a ready-to-ship engineering ticket. It's the same workflow behind our <a href="/glossary/technical-seo/">technical SEO</a> engagements — measure the field data, fix the biggest lever, re-measure at 28 days.</p>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Are Core Web Vitals a Google ranking factor?</span><span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes. Google confirmed Core Web Vitals as a page-experience ranking signal in June 2021. They are a real ranking factor but secondary to content relevance and backlinks — they act as a tiebreaker between otherwise-equal results.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What are the good thresholds for LCP, INP, and CLS?</span><span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Google's 2026 "good" thresholds: LCP under 2.5 seconds, INP under 200 milliseconds, CLS under 0.1. The 75th percentile of real users must meet all three to pass.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Where do I check Core Web Vitals?</span><span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Google Search Console for field data (real users), PageSpeed Insights for both field and lab data, and Chrome DevTools for lab audits. Field data from the Chrome UX Report is what actually feeds ranking.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">When did INP replace First Input Delay?</span><span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Interaction to Next Paint (INP) officially replaced First Input Delay (FID) in March 2024 as the responsiveness metric in Core Web Vitals. INP measures every interaction across the visit, not just the first.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How much of a business impact do Core Web Vitals actually have?</span><span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Google's case studies show pages meeting all three CWV thresholds see 24% fewer abandonments. Publishers who improved CWV reported up to 15% more ad revenue. Improvements compound across SEO, conversion, and monetisation.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/largest-contentful-paint/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Largest Contentful Paint (LCP)</div>
+            <p class="rt-desc">The loading metric inside Core Web Vitals — under 2.5s is the target.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/interaction-to-next-paint/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Interaction to Next Paint (INP)</div>
+            <p class="rt-desc">The responsiveness metric that replaced FID in March 2024.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/cumulative-layout-shift/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Cumulative Layout Shift (CLS)</div>
+            <p class="rt-desc">Measures unexpected content jumps during page load.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/page-speed/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Page Speed</div>
+            <p class="rt-desc">The broader performance umbrella CWV sits inside.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/page-experience/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Page Experience</div>
+            <p class="rt-desc">Google's aggregate signal that Core Web Vitals feed into.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/technical-seo/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Technical SEO</div>
+            <p class="rt-desc">The discipline that owns CWV, crawlability, and site health.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://web.dev/articles/vitals" target="_blank" rel="noopener">web.dev — Web Vitals (Google Chrome team)</a></li>
+            <li><span class="src-num">[02]</span><a href="https://developers.google.com/search/docs/appearance/page-experience" target="_blank" rel="noopener">Google Search Central — Page experience</a></li>
+            <li><span class="src-num">[03]</span><a href="https://developer.chrome.com/docs/crux" target="_blank" rel="noopener">Chrome UX Report documentation</a></li>
+            <li><span class="src-num">[04]</span><a href="https://web.dev/articles/inp" target="_blank" rel="noopener">web.dev — INP (Interaction to Next Paint)</a></li>
+            <li><span class="src-num">[05]</span>theStacc internal: CWV audits across 68 client sites, 2024-2026</li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · Ex-Sr Marketing Specialist, ARKA 360</div>
+            <p>Akshay leads the editorial and content-ops function at theStacc. He writes about SEO craft, content operations, and the small decisions that compound into big ranking wins — from what to redirect to what to leave alone.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free Core Web Vitals audit · 24-hour delivery</div>
+          <div class="cta-title">Fix the pages Google grades as slow.</div>
+          <p class="cta-desc">We surface every URL failing LCP, INP, or CLS at the 75th percentile — segmented by page type and device — and hand back a ready-to-ship engineering ticket.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>Every failing URL surfaced from field data</li>
+            <li>Fixes ranked by traffic impact</li>
+            <li>Mobile + desktop split</li>
+            <li>Engineering-ready remediation plan</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What are Core Web Vitals?</a></li>
+            <li><a href="#why-it-matters">Why they matter</a></li>
+            <li><a href="#how-it-works">How they work</a></li>
+            <li><a href="#types">The three metrics</a></li>
+            <li><a href="#examples">Real fixes</a></li>
+            <li><a href="#vs-related">Field vs lab data</a></li>
+            <li><a href="#best-practices">7 best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#how-thestacc-helps">How theStacc helps</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a><a href="/glossary/?letter=b" class="letter-jump">B</a><a href="/glossary/?letter=c" class="letter-jump current">C</a><a href="/glossary/?letter=d" class="letter-jump">D</a><a href="/glossary/?letter=e" class="letter-jump">E</a><a href="/glossary/?letter=f" class="letter-jump">F</a><a href="/glossary/?letter=g" class="letter-jump">G</a><a href="/glossary/?letter=h" class="letter-jump">H</a><a href="/glossary/?letter=i" class="letter-jump">I</a><a href="/glossary/?letter=j" class="letter-jump">J</a><a href="/glossary/?letter=k" class="letter-jump">K</a><a href="/glossary/?letter=l" class="letter-jump">L</a><a href="/glossary/?letter=m" class="letter-jump">M</a><a href="/glossary/?letter=n" class="letter-jump">N</a><a href="/glossary/?letter=o" class="letter-jump">O</a><a href="/glossary/?letter=p" class="letter-jump">P</a><a href="/glossary/?letter=q" class="letter-jump">Q</a><a href="/glossary/?letter=r" class="letter-jump">R</a><a href="/glossary/?letter=s" class="letter-jump">S</a><a href="/glossary/?letter=t" class="letter-jump">T</a><a href="/glossary/?letter=u" class="letter-jump">U</a><a href="/glossary/?letter=v" class="letter-jump">V</a><a href="/glossary/?letter=w" class="letter-jump">W</a><a href="/glossary/?letter=x" class="letter-jump">X</a><a href="/glossary/?letter=y" class="letter-jump">Y</a><a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X">X</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="Copy">Copy</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) { const item = btn.closest('.faq-item'); item.classList.toggle('open'); }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>
