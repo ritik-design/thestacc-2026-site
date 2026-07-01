@@ -1,0 +1,407 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'Cache: Definition, How It Works & SEO Impact | theStacc Glossary',
+  description: 'A cache is a temporary storage layer that serves saved copies of pages, files, or data to make future requests faster. Types, SEO impact, and best practices.',
+  canonical: 'https://thestacc.com/glossary/cache/',
+  ogImage: '/og/glossary/cache.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "General Marketing", "item": "https://thestacc.com/glossary/?cat=general-marketing" },
+        { "@type": "ListItem", "position": 4, "name": "Cache", "item": "https://thestacc.com/glossary/cache/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "Cache",
+      "description": "A cache is a temporary storage layer that saves copies of web pages, files, or data so future requests can be served faster. Browser caches, server caches, and CDN caches together can cut page load times by 50-90% and directly improve Core Web Vitals scores.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "cache",
+      "url": "https://thestacc.com/glossary/cache/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does caching improve SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, indirectly. Caching improves page speed and Core Web Vitals — both direct Google ranking signals. Faster pages also reduce bounce rate, increase crawl efficiency, and give Googlebot more budget to index deeper pages." }},
+        { "@type": "Question", "name": "What is the difference between browser cache and server cache?", "acceptedAnswer": { "@type": "Answer", "text": "Browser cache stores resources on the visitor's device so repeat visits are near-instant. Server cache (or CDN cache) stores rendered pages closer to the request so first visits are faster. Great sites use both." }},
+        { "@type": "Question", "name": "How do you clear a cache?", "acceptedAnswer": { "@type": "Answer", "text": "For browsers: DevTools → Application → Clear storage, or a hard refresh (Ctrl+Shift+R). For CDNs: use a purge API or dashboard button. For server-side caches: restart the caching layer (Redis, Varnish) or expire specific keys." }},
+        { "@type": "Question", "name": "What is a good cache hit ratio?", "acceptedAnswer": { "@type": "Answer", "text": "For static assets, aim for a cache hit ratio of 95% or higher. For dynamic HTML, 70-90% is achievable with smart TTLs. Sub-50% usually means TTLs are too short or cache keys are too specific." }},
+        { "@type": "Question", "name": "Does Google use its own cache?", "acceptedAnswer": { "@type": "Answer", "text": "Google previously offered a public 'Cached' link in SERPs but retired it in February 2024. Google still caches pages internally for indexing, but users can no longer view the cached copy from the search results." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=general-marketing">General Marketing</a><span class="sep">/</span>
+      <span class="current">Cache</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Technical · Performance
+      <span class="term-difficulty">Intermediate</span>
+    </div>
+    <h1>Cache</h1>
+    <p class="description">A temporary storage layer that serves saved copies of pages, files, and data instead of regenerating them. Properly configured caching can cut page load times by <strong>50-90%</strong> and directly lifts Core Web Vitals.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jul 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">7 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">Caching Layer</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p>A <strong>cache</strong> is a temporary storage layer that saves copies of web pages, files, or data so future requests can be served faster. Instead of regenerating the same page from scratch, the server (or the browser, or a CDN node) returns the saved copy in milliseconds. Well-configured caching can reduce page load times by <strong>50-90%</strong>, directly improving Core Web Vitals and downstream SEO signals.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">Speed impact</div>
+            <div class="tms-value">50-90% faster</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Technical / Performance</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Target hit rate</div>
+            <div class="tms-value">≥ 95% static · ≥ 70% dynamic</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Intermediate</div>
+          </div>
+        </div>
+
+        <p class="lede-p">Caching is the single highest-leverage performance tactic on the web. Get it right and every visitor sees a faster site while your servers do less work. Get it wrong and users see stale prices, missing images, or the wrong shopping cart.</p>
+
+        <h2 id="what-is">What is a cache?</h2>
+        <p>A cache is any storage layer that keeps a copy of the result of an expensive operation so the operation does not have to run again. In web performance, the "expensive operation" is usually rendering an HTML page, executing a database query, or transferring a file over the network. Caches sit between the requester and the origin, intercepting requests and serving the saved copy whenever one is available.</p>
+        <p>Every web request typically passes through four cache layers:</p>
+        <ul>
+          <li><strong>Browser cache</strong> — on the visitor's device</li>
+          <li><strong>CDN / edge cache</strong> — at a geographically-nearby node</li>
+          <li><strong>Reverse proxy cache</strong> — in front of your web server (Varnish, Nginx)</li>
+          <li><strong>Application cache</strong> — inside your app (Redis, Memcached)</li>
+        </ul>
+
+        <div class="callout callout-info">
+          <div class="callout-label">The Cloudflare benchmark</div>
+          <p>Cloudflare reports that adding a CDN cache in front of an un-cached origin typically reduces Time-to-First-Byte (TTFB) by <strong>60-80%</strong> and cuts origin bandwidth by <strong>50-80%</strong>. Every 100ms of TTFB shaved off has been linked by Google to measurable ranking and conversion improvements.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why caching matters for SEO</h2>
+        <p>Caching is not a "nice-to-have optimisation" — it is one of the highest-ROI investments a technical SEO can make. Five reasons every performance-conscious team obsesses over it:</p>
+        <ol>
+          <li><strong>Core Web Vitals become achievable.</strong> LCP under 2.5s and TTFB under 200ms are far easier with caching than without.</li>
+          <li><strong>Ranking signal.</strong> Google confirmed <a href="/glossary/page-speed/">page speed</a> as a ranking factor in 2010 and made <a href="/glossary/core-web-vitals/">Core Web Vitals</a> official in 2021.</li>
+          <li><strong>Crawl efficiency.</strong> Faster responses mean Googlebot indexes more pages within its <a href="/glossary/crawl-budget/">crawl budget</a>.</li>
+          <li><strong>Lower bounce rate.</strong> Google research shows bounce probability rises 32% when page load goes from 1s to 3s.</li>
+          <li><strong>Cost reduction.</strong> A 90% cache hit ratio can slash origin infrastructure spend by an order of magnitude.</li>
+        </ol>
+
+        <h2 id="how-it-works">How caching actually works</h2>
+        <p>Every cache follows the same lifecycle: request, check, serve, update.</p>
+
+        <div class="url-flow">
+          <span class="uf-comment"># 1. Browser requests a page</span><br>
+          GET <span class="uf-new">/blog/awesome-post/</span> HTTP/1.1<br>
+          <br>
+          <span class="uf-comment"># 2. CDN checks its cache</span><br>
+          &nbsp;&nbsp;→ Is this URL cached and unexpired?<br>
+          &nbsp;&nbsp;→ YES: return <span class="uf-status">200 OK</span> with X-Cache: HIT<br>
+          &nbsp;&nbsp;→ NO: forward to origin<br>
+          <br>
+          <span class="uf-comment"># 3. On MISS, origin renders and returns HTML</span><br>
+          HTTP/1.1 <span class="uf-status">200 OK</span><br>
+          <span class="uf-label">Cache-Control:</span> public, max-age=3600, s-maxage=86400<br>
+          <br>
+          <span class="uf-comment"># 4. CDN stores the response and serves it</span><br>
+          &nbsp;&nbsp;→ Future requests within TTL return HIT
+        </div>
+
+        <p>The <code>Cache-Control</code> header is where caching behaviour is defined. Key directives:</p>
+        <ul>
+          <li><code>public</code> — anyone can cache this</li>
+          <li><code>private</code> — only the browser can cache it, not shared caches</li>
+          <li><code>max-age=3600</code> — browser TTL in seconds</li>
+          <li><code>s-maxage=86400</code> — shared cache (CDN) TTL in seconds</li>
+          <li><code>no-store</code> — do not cache at all (login pages, checkout)</li>
+        </ul>
+
+        <h2 id="types">Types of cache</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Cache type</th><th>Where it lives</th><th>What it caches</th><th>Typical TTL</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Browser cache</strong></td><td>Visitor's device</td><td>CSS, JS, images, fonts</td><td>1 day - 1 year</td></tr>
+              <tr class="row-highlight"><td><strong>CDN / edge cache</strong></td><td>Global PoPs (Cloudflare, Fastly)</td><td>Full HTML + assets</td><td>1 hour - 1 day</td></tr>
+              <tr><td><strong>Reverse proxy</strong></td><td>Varnish, Nginx</td><td>Rendered HTML</td><td>Minutes to hours</td></tr>
+              <tr><td><strong>Object cache</strong></td><td>Redis, Memcached</td><td>DB query results, API responses</td><td>Seconds to minutes</td></tr>
+              <tr><td><strong>Opcode cache</strong></td><td>PHP OPcache</td><td>Compiled PHP bytecode</td><td>Until deploy</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="examples">Real caching examples</h2>
+
+        <h3>1. Cloudflare Cache-Control on a marketing page</h3>
+        <div class="url-flow">
+          <span class="uf-comment"># Response headers</span><br>
+          <span class="uf-label">Cache-Control:</span> public, max-age=300, s-maxage=86400<br>
+          <span class="uf-label">CF-Cache-Status:</span> <span class="uf-status">HIT</span><br>
+          <span class="uf-label">Age:</span> 4321
+        </div>
+        <p>The browser caches for 5 minutes, Cloudflare caches for 24 hours. The <code>HIT</code> status confirms this response came from the edge cache — TTFB will be under 50ms globally.</p>
+
+        <h3>2. WordPress + Redis object cache</h3>
+        <p>A WordPress site with 50 database queries per page adds a Redis object cache. Repeated queries now return in under 1ms instead of 20-40ms each. Server TTFB drops from ~800ms to ~120ms.</p>
+
+        <h3>3. Purging a stale product page</h3>
+        <div class="url-flow">
+          <span class="uf-comment"># Cloudflare API purge</span><br>
+          POST /client/v4/zones/&#123;zone_id&#125;/purge_cache<br>
+          &#123;<br>
+          &nbsp;&nbsp;"files": ["https://example.com<span class="uf-new">/products/blue-widget/</span>"]<br>
+          &#125;
+        </div>
+
+        <h2 id="vs-related">Cache vs CDN — related but not the same</h2>
+        <p>Every CDN is a cache. Not every cache is a CDN.</p>
+
+        <div class="pros-cons">
+          <div class="pros-card">
+            <h4>Cache (concept)</h4>
+            <ul>
+              <li>Any temporary storage of computed results</li>
+              <li>Lives in browsers, servers, apps, and CDNs</li>
+              <li>Purely about reuse and speed</li>
+              <li>Configured via headers or code</li>
+              <li>Example: Redis, browser storage, OPcache</li>
+            </ul>
+          </div>
+          <div class="cons-card">
+            <h4><a href="/glossary/content-delivery-network-cdn/">CDN</a></h4>
+            <ul>
+              <li>A global network of edge servers</li>
+              <li>Caching is one of its jobs (also security, TLS, routing)</li>
+              <li>Purely about geographical proximity + speed</li>
+              <li>Configured via dashboard + Cache-Control</li>
+              <li>Example: Cloudflare, Fastly, Akamai</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="best-practices">7 caching best practices for SEO teams</h2>
+        <ol>
+          <li><strong>Set long TTLs for static assets.</strong> CSS, JS, fonts, and images should cache for 1 year with fingerprinted filenames.</li>
+          <li><strong>Use shorter TTLs for HTML.</strong> Minutes to hours — long enough to matter, short enough that content stays fresh.</li>
+          <li><strong>Purge on publish.</strong> Every time a page updates, purge the specific URL from the CDN.</li>
+          <li><strong>Cache the full HTML on the edge.</strong> Serving HTML from a CDN node cuts TTFB more than any origin tweak.</li>
+          <li><strong>Never cache logged-in or personalised pages.</strong> Use <code>Cache-Control: private, no-store</code> for cart, account, and checkout URLs.</li>
+          <li><strong>Monitor cache hit ratio.</strong> Target 95%+ on static, 70%+ on HTML. Sub-50% means your TTLs are wrong.</li>
+          <li><strong>Fingerprint your assets.</strong> Ship files as <code>app.4f2a1c.css</code> so cache-busting is automatic on deploy.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">Common mistake — over-caching dynamic content</div>
+          <p>The most damaging caching bug is caching a personalised page — like a logged-in dashboard or a cart page — publicly on the CDN. One user starts seeing another user's data. Always exclude authenticated URLs and cookies from your cache key.</p>
+        </div>
+
+        <h2 id="mistakes">Common cache mistakes to avoid</h2>
+        <ul>
+          <li><strong>No <code>Cache-Control</code> header at all.</strong> Browsers and CDNs guess conservatively and cache almost nothing.</li>
+          <li><strong>Same TTL for HTML and assets.</strong> HTML needs freshness, assets do not.</li>
+          <li><strong>Caching auth-protected URLs publicly.</strong> Data leaks and privacy incidents.</li>
+          <li><strong>Forgetting to purge on publish.</strong> Users and Googlebot see stale content for hours.</li>
+          <li><strong>Cache keys that include tracking params.</strong> <code>?utm_source=twitter</code> creates a new cache entry per campaign — hit ratio collapses.</li>
+          <li><strong>Ignoring Vary headers.</strong> Serving the wrong language, currency, or mobile variant from cache.</li>
+        </ul>
+
+        <h2 id="how-thestacc-helps">How theStacc keeps pages fast without extra work</h2>
+        <p>theStacc-generated pages ship with edge-cacheable, statically-rendered HTML and long-TTL fingerprinted assets by default. Publishing new content triggers a targeted CDN purge, and pages are pre-warmed on the edge so the very first visitor still gets a cache hit — no manual caching config, no stale pages.</p>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Does caching improve SEO?</span><span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes, indirectly. Caching improves page speed and Core Web Vitals — both direct Google ranking signals. Faster pages also reduce bounce rate, increase crawl efficiency, and give Googlebot more budget to index deeper pages.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What is the difference between browser cache and server cache?</span><span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Browser cache stores resources on the visitor's device so repeat visits are near-instant. Server cache (or CDN cache) stores rendered pages closer to the request so first visits are faster. Great sites use both.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How do you clear a cache?</span><span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+            <div class="faq-a"><div class="faq-a-inner"><p>For browsers: DevTools → Application → Clear storage, or a hard refresh (Ctrl+Shift+R). For CDNs: use a purge API or dashboard button. For server-side caches: restart the caching layer (Redis, Varnish) or expire specific keys.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What is a good cache hit ratio?</span><span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+            <div class="faq-a"><div class="faq-a-inner"><p>For static assets, aim for a cache hit ratio of 95% or higher. For dynamic HTML, 70-90% is achievable with smart TTLs. Sub-50% usually means TTLs are too short or cache keys are too specific.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Does Google use its own cache?</span><span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Google previously offered a public 'Cached' link in SERPs but retired it in February 2024. Google still caches pages internally for indexing, but users can no longer view the cached copy from the search results.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/content-delivery-network-cdn/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Content Delivery Network</div>
+            <p class="rt-desc">The global caching layer that serves pages from the nearest node.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/core-web-vitals/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Core Web Vitals</div>
+            <p class="rt-desc">The Google-defined speed metrics that caching directly improves.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/page-speed/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Page Speed</div>
+            <p class="rt-desc">The umbrella metric that caching moves more than any other tactic.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/time-to-first-byte/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Time to First Byte</div>
+            <p class="rt-desc">The metric CDN caches move most dramatically.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/crawl-budget/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Crawl Budget</div>
+            <p class="rt-desc">Faster cached pages let Googlebot index more of your site.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/server-response-time/" class="related-term">
+            <span class="rt-cat">Technical SEO</span><div class="rt-name">Server Response Time</div>
+            <p class="rt-desc">The origin-side latency caching removes from most requests.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" target="_blank" rel="noopener">MDN Web Docs — HTTP Caching</a></li>
+            <li><span class="src-num">[02]</span><a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching" target="_blank" rel="noopener">Google Web Fundamentals — HTTP Caching</a></li>
+            <li><span class="src-num">[03]</span><a href="https://www.cloudflare.com/learning/cdn/what-is-caching/" target="_blank" rel="noopener">Cloudflare — What is caching?</a></li>
+            <li><span class="src-num">[04]</span><a href="https://datatracker.ietf.org/doc/html/rfc9111" target="_blank" rel="noopener">RFC 9111 — HTTP Caching (IETF)</a></li>
+            <li><span class="src-num">[05]</span><a href="https://web.dev/vitals/" target="_blank" rel="noopener">web.dev — Core Web Vitals</a></li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · ex-Sr Marketing Specialist, ARKA 360 · Malappuram, Kerala</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about SEO craft, content operations, and the small decisions that compound into ranking wins — including which pages you should cache aggressively and which you should never touch.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free SEO audit · 24-hour delivery</div>
+          <div class="cta-title">See what's slowing your pages down.</div>
+          <p class="cta-desc">We audit your caching setup, TTFB, and Core Web Vitals — then send back the exact fixes ranked by ranking + conversion impact.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>Cache hit ratio + TTL audit</li>
+            <li>Core Web Vitals scorecard</li>
+            <li>Origin bandwidth savings estimate</li>
+            <li>Custom 90-day performance plan</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is a cache?</a></li>
+            <li><a href="#why-it-matters">Why it matters for SEO</a></li>
+            <li><a href="#how-it-works">How caching works</a></li>
+            <li><a href="#types">Types of cache</a></li>
+            <li><a href="#examples">Real examples</a></li>
+            <li><a href="#vs-related">Cache vs CDN</a></li>
+            <li><a href="#best-practices">7 best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#how-thestacc-helps">How theStacc helps</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a><a href="/glossary/?letter=b" class="letter-jump">B</a><a href="/glossary/?letter=c" class="letter-jump current">C</a><a href="/glossary/?letter=d" class="letter-jump">D</a><a href="/glossary/?letter=e" class="letter-jump">E</a><a href="/glossary/?letter=f" class="letter-jump">F</a><a href="/glossary/?letter=g" class="letter-jump">G</a><a href="/glossary/?letter=h" class="letter-jump">H</a><a href="/glossary/?letter=i" class="letter-jump">I</a><a href="/glossary/?letter=j" class="letter-jump">J</a><a href="/glossary/?letter=k" class="letter-jump">K</a><a href="/glossary/?letter=l" class="letter-jump">L</a><a href="/glossary/?letter=m" class="letter-jump">M</a><a href="/glossary/?letter=n" class="letter-jump">N</a><a href="/glossary/?letter=o" class="letter-jump">O</a><a href="/glossary/?letter=p" class="letter-jump">P</a><a href="/glossary/?letter=q" class="letter-jump">Q</a><a href="/glossary/?letter=r" class="letter-jump">R</a><a href="/glossary/?letter=s" class="letter-jump">S</a><a href="/glossary/?letter=t" class="letter-jump">T</a><a href="/glossary/?letter=u" class="letter-jump">U</a><a href="/glossary/?letter=v" class="letter-jump">V</a><a href="/glossary/?letter=w" class="letter-jump">W</a><a href="/glossary/?letter=x" class="letter-jump">X</a><a href="/glossary/?letter=y" class="letter-jump">Y</a><a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X">X</a>
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="Copy">Copy</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) { const item = btn.closest('.faq-item'); item.classList.toggle('open'); }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>
