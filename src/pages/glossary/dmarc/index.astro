@@ -1,0 +1,456 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'DMARC: Definition, Policies & 2026 Setup Guide | theStacc Glossary',
+  description: 'DMARC is an email authentication policy that tells receivers what to do when SPF or DKIM fail. Full definition, p=none/quarantine/reject policies, and DNS example.',
+  canonical: 'https://thestacc.com/glossary/dmarc/',
+  ogImage: '/og/glossary/dmarc.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "Email Marketing", "item": "https://thestacc.com/glossary/?cat=email-marketing" },
+        { "@type": "ListItem", "position": 4, "name": "DMARC", "item": "https://thestacc.com/glossary/dmarc/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "DMARC (Domain-based Message Authentication, Reporting and Conformance)",
+      "description": "DMARC is an email authentication policy layered on top of SPF and DKIM. Publishers declare what receivers should do with unauthenticated mail (none, quarantine, or reject) and receive aggregate reports on delivery attempts. Defined in RFC 7489.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "dmarc",
+      "url": "https://thestacc.com/glossary/dmarc/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is DMARC in simple terms?", "acceptedAnswer": { "@type": "Answer", "text": "DMARC is a set of rules published in DNS that tells receiving mail servers what to do when an email fails SPF or DKIM authentication. It also asks those receivers to send you reports so you can see who is sending mail on your behalf." }},
+        { "@type": "Question", "name": "What are the three DMARC policies?", "acceptedAnswer": { "@type": "Answer", "text": "p=none (monitor only, deliver normally), p=quarantine (send failing mail to spam), and p=reject (block failing mail entirely). Most teams start at none, move to quarantine within 30-60 days, and finish at reject." }},
+        { "@type": "Question", "name": "Do I need DMARC?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, especially since Feb 2024 when Google and Yahoo made DMARC mandatory for anyone sending 5,000+ emails per day. Even below that threshold, DMARC prevents spoofing of your domain and is a signal of a well-run sender." }},
+        { "@type": "Question", "name": "How do I set up DMARC?", "acceptedAnswer": { "@type": "Answer", "text": "Publish a TXT record at _dmarc.yourdomain.com with v=DMARC1; p=none; rua=mailto:reports@yourdomain.com. Collect reports for 30-60 days, fix any unauthorised senders, then progressively tighten the policy to quarantine and reject." }},
+        { "@type": "Question", "name": "What is DMARC alignment?", "acceptedAnswer": { "@type": "Answer", "text": "DMARC passes only when the domain in the From header aligns with either the SPF Return-Path domain or the DKIM signing domain. Alignment can be relaxed (subdomains match) or strict (exact match). Most senders use relaxed." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=email-marketing">Email Marketing</a><span class="sep">/</span>
+      <span class="current">DMARC</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Email Marketing &middot; Deliverability
+      <span class="term-difficulty">Intermediate</span>
+    </div>
+    <h1>DMARC</h1>
+    <p class="description">An email authentication policy that sits on top of SPF and DKIM. It tells receivers what to do with mail that fails checks &mdash; <strong>none, quarantine, or reject</strong> &mdash; and gives you visibility reports on every sender using your domain.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head &middot; theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jul 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">8 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">DMARC Policy</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p><strong>DMARC</strong> (Domain-based Message Authentication, Reporting and Conformance) is an email standard defined in <strong>RFC 7489</strong>. It lets a domain owner publish a DNS policy telling receiving inboxes what to do with unauthenticated mail: monitor (<code>p=none</code>), send to spam (<code>p=quarantine</code>), or reject outright (<code>p=reject</code>). It also produces aggregate reports so senders can see every source that is signing mail as their domain.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">Standard</div>
+            <div class="tms-value">RFC 7489</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Email Authentication</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Requires</div>
+            <div class="tms-value">SPF and/or DKIM</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Intermediate</div>
+          </div>
+        </div>
+
+        <p class="lede-p">If SPF and DKIM are the locks on your email domain, DMARC is the security guard reading the log. It is the one authentication record that turns everything else from theoretical protection into enforced policy &mdash; and, since Feb 2024, a hard requirement for sending to Gmail and Yahoo at scale.</p>
+
+        <h2 id="what-is">What is DMARC?</h2>
+        <p>DMARC is the third pillar of modern email authentication, built on top of SPF and DKIM. It solves three problems those two protocols left open:</p>
+        <ul>
+          <li><strong>What should receivers do when SPF or DKIM fail?</strong> Before DMARC, each receiver decided on its own. DMARC gives the sender a way to declare the desired policy.</li>
+          <li><strong>How do we prevent header-From spoofing?</strong> SPF checks Return-Path; DKIM signs any domain it wants. DMARC enforces alignment between the visible From: address and the authentication domain.</li>
+          <li><strong>How does the sender see what is happening?</strong> DMARC reports (<code>rua</code> aggregate + <code>ruf</code> forensic) give the sender daily visibility into every source using its domain.</li>
+        </ul>
+
+        <div class="callout callout-info">
+          <div class="callout-label">Why DMARC exists</div>
+          <p>Before DMARC (2012), a phisher could send email that passed SPF for a lookalike domain, or was signed with DKIM by a completely different domain, and the visible From: still read as your CEO. DMARC closed that gap by requiring <strong>alignment</strong> between the authenticated domain and the visible sender.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why DMARC matters</h2>
+        <p>Four concrete reasons every marketing and IT team implements DMARC in 2026:</p>
+        <ol>
+          <li><strong>Mandatory for bulk senders.</strong> Google and Yahoo require at least <code>p=none</code> DMARC for anyone sending 5,000+ messages/day since Feb 2024. Microsoft is rolling out similar rules.</li>
+          <li><strong>Anti-phishing protection.</strong> An enforced DMARC policy blocks attackers from spoofing your domain in customer-facing phishing campaigns.</li>
+          <li><strong>Deliverability lift.</strong> A properly aligned DMARC record signals a well-run sender to inbox providers, improving Primary tab placement.</li>
+          <li><strong>Ecosystem visibility.</strong> DMARC aggregate reports reveal every third-party tool (invoicing, ATS, sales tools, ESPs) sending mail as your domain &mdash; often surprising, sometimes rogue.</li>
+        </ol>
+
+        <h2 id="how-it-works">How DMARC actually works</h2>
+        <p>DMARC runs on every inbound email in a four-step check.</p>
+
+        <div class="url-flow">
+          1. Receiver reads <span class="uf-label">From:</span> header domain (e.g. <span class="uf-new">example.com</span>)<br>
+          2. Fetches TXT at <span class="uf-new">_dmarc.example.com</span><br>
+          3. Checks whether the message passes SPF AND aligns, OR passes DKIM AND aligns<br>
+          4. If neither aligns &rarr; applies the policy:<br>
+          &nbsp;&nbsp;&nbsp;<span class="uf-status">p=none</span> &rarr; deliver + report<br>
+          &nbsp;&nbsp;&nbsp;<span class="uf-status">p=quarantine</span> &rarr; send to spam<br>
+          &nbsp;&nbsp;&nbsp;<span class="uf-old">p=reject</span> &rarr; block message entirely
+        </div>
+
+        <h3>Example DMARC TXT record</h3>
+        <div class="url-flow">
+          <span class="uf-label">Host:</span> _dmarc.example.com<br>
+          <span class="uf-label">Type:</span> TXT<br>
+          <span class="uf-label">Value:</span> v=DMARC1; p=quarantine; rua=mailto:dmarc@example.com; ruf=mailto:forensic@example.com; sp=quarantine; adkim=r; aspf=r; pct=100
+        </div>
+
+        <h3>What each tag means</h3>
+        <ul>
+          <li><strong>v=DMARC1</strong> &mdash; protocol version (required first)</li>
+          <li><strong>p=</strong> &mdash; policy (none / quarantine / reject)</li>
+          <li><strong>rua=</strong> &mdash; where aggregate XML reports go</li>
+          <li><strong>ruf=</strong> &mdash; where forensic per-message reports go</li>
+          <li><strong>sp=</strong> &mdash; policy for subdomains</li>
+          <li><strong>adkim=</strong> / <strong>aspf=</strong> &mdash; strict (s) or relaxed (r) alignment</li>
+          <li><strong>pct=</strong> &mdash; percentage of failing mail the policy applies to</li>
+        </ul>
+
+        <h2 id="types">DMARC policies compared</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Policy</th><th>Behaviour on failure</th><th>When to use</th><th>Risk level</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>p=none</strong></td><td>Deliver normally, send reports</td><td>Setup phase &mdash; monitor senders</td><td class="cell-yes">Zero delivery risk</td></tr>
+              <tr class="row-highlight"><td><strong>p=quarantine</strong></td><td>Route to spam folder</td><td>Once all legitimate senders are aligned</td><td class="cell-meh">Some misconfigured mail hits spam</td></tr>
+              <tr><td><strong>p=reject</strong></td><td>Block delivery entirely</td><td>Steady state &mdash; strongest protection</td><td class="cell-no">Any misalignment = lost mail</td></tr>
+              <tr><td><strong>pct=25</strong></td><td>Apply policy to 25% of failures</td><td>Gradually ramping quarantine/reject</td><td class="cell-meh">Reduced blast radius</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="examples">Real DMARC rollout examples</h2>
+        <p>Four common paths to a fully enforced DMARC posture.</p>
+
+        <h3>1. Startup with one ESP</h3>
+        <div class="url-flow">
+          <span class="uf-comment"># Week 1: monitor</span><br>
+          v=DMARC1; p=none; rua=mailto:dmarc@startup.com<br>
+          <br>
+          <span class="uf-comment"># Week 4: enforce for 25%</span><br>
+          v=DMARC1; p=quarantine; pct=25; rua=mailto:dmarc@startup.com<br>
+          <br>
+          <span class="uf-comment"># Week 8: full enforcement</span><br>
+          v=DMARC1; p=reject; rua=mailto:dmarc@startup.com
+        </div>
+
+        <h3>2. Enterprise with 20+ sending tools</h3>
+        <p>A mid-size company discovers 22 tools sending as their domain in the first week of <code>p=none</code> reports: ATS, invoicing, CRM, sales engagement, ticketing, calendar tools. Each needs SPF/DKIM aligned before <code>p=quarantine</code> becomes safe. Timeline: 3-6 months.</p>
+
+        <h3>3. Subdomain policy split</h3>
+        <div class="url-flow">
+          <span class="uf-comment"># Root domain fully enforced, subdomains still ramping</span><br>
+          v=DMARC1; p=reject; sp=quarantine; rua=mailto:dmarc@example.com
+        </div>
+
+        <h3>4. Marketing subdomain isolated</h3>
+        <p>Common pattern: send bulk marketing from <code>mkt.example.com</code> with its own DKIM/SPF/DMARC so a deliverability incident does not damage the reputation of the root domain used for transactional mail.</p>
+
+        <h2 id="vs-related">DMARC vs SPF vs DKIM &mdash; how they combine</h2>
+        <p>DMARC is not a replacement for SPF or DKIM &mdash; it is the enforcement layer that ties them together. All three run on every email in a modern inbox.</p>
+
+        <div class="pros-cons">
+          <div class="pros-card">
+            <h4>DMARC gives you</h4>
+            <ul>
+              <li>Policy control (none / quarantine / reject)</li>
+              <li>Alignment enforcement (From: matches auth domain)</li>
+              <li>Aggregate reports on every sender</li>
+              <li>Anti-spoofing at the domain level</li>
+              <li>Prerequisite for BIMI logos</li>
+            </ul>
+          </div>
+          <div class="cons-card">
+            <h4>DMARC will NOT</h4>
+            <ul>
+              <li>Sign your emails (that is DKIM)</li>
+              <li>Authorise sending IPs (that is SPF)</li>
+              <li>Stop lookalike-domain phishing (that is TLS + brand monitoring)</li>
+              <li>Fix bad list hygiene or spam complaints</li>
+              <li>Work without at least one of SPF or DKIM passing</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="best-practices">7 best practices for DMARC rollout</h2>
+        <ol>
+          <li><strong>Start at p=none.</strong> Deploying reject on day one blocks legitimate mail from tools you did not know were sending as you.</li>
+          <li><strong>Use a DMARC report parser.</strong> Aggregate XML is dense &mdash; tools like Postmark DMARC, DMARC Digests, or Valimail turn it into a readable dashboard.</li>
+          <li><strong>Fix unauthenticated senders one at a time.</strong> Every tool needs its own SPF include + DKIM setup + alignment fix.</li>
+          <li><strong>Ramp with pct=.</strong> Move to quarantine at pct=10, then 25, 50, 100 before switching to reject.</li>
+          <li><strong>Publish a subdomain policy (sp=).</strong> Otherwise attackers spoof <code>invoices.example.com</code> even after your root is locked down.</li>
+          <li><strong>Prefer relaxed alignment (adkim=r, aspf=r).</strong> Strict alignment (s) breaks common patterns like mail from <code>mail.example.com</code> signed for <code>example.com</code>.</li>
+          <li><strong>Never leave rua empty.</strong> Reports are the only way to catch drift when a new tool starts sending as you.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">Common mistake &mdash; jumping straight to p=reject</div>
+          <p>Every senior deliverability engineer has a horror story about a company that published <code>p=reject</code> on Friday and spent the weekend explaining why nobody received calendar invites, invoices, or password resets. Always start with <code>p=none</code> for at least 30 days.</p>
+        </div>
+
+        <h2 id="mistakes">Common DMARC mistakes to avoid</h2>
+        <ul>
+          <li><strong>Publishing multiple DMARC records</strong> &mdash; only one is valid; duplicates invalidate DMARC entirely.</li>
+          <li><strong>Forgetting subdomains (sp=)</strong> &mdash; attackers use unprotected subdomains for phishing.</li>
+          <li><strong>Ignoring aggregate reports</strong> &mdash; drift starts within weeks of new tools being adopted.</li>
+          <li><strong>Setting strict alignment too early</strong> &mdash; breaks marketing tools that sign with subdomains.</li>
+          <li><strong>No plan to move past p=none</strong> &mdash; monitor mode gives zero anti-spoofing benefit.</li>
+        </ul>
+
+        <h2 id="how-thestacc-helps">How theStacc helps with DMARC</h2>
+        <p>DMARC rollouts stall because report parsing is tedious and every misconfigured tool becomes a fire drill. theStacc audits your DMARC record, parses aggregate reports for every sending source, and delivers a ranked plan to move you from <code>p=none</code> to <code>p=reject</code> without breaking legitimate mail. You get a per-tool alignment checklist, a ramp schedule with pct= milestones, and monitoring so drift never surprises you.</p>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is DMARC in simple terms?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>DMARC is a set of rules published in DNS that tells receiving mail servers what to do when an email fails SPF or DKIM authentication. It also asks those receivers to send you reports so you can see who is sending mail on your behalf.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What are the three DMARC policies?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>p=none (monitor only, deliver normally), p=quarantine (send failing mail to spam), and p=reject (block failing mail entirely). Most teams start at none, move to quarantine within 30-60 days, and finish at reject.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Do I need DMARC?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes, especially since Feb 2024 when Google and Yahoo made DMARC mandatory for anyone sending 5,000+ emails per day. Even below that threshold, DMARC prevents spoofing of your domain and is a signal of a well-run sender.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How do I set up DMARC?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Publish a TXT record at _dmarc.yourdomain.com with v=DMARC1; p=none; rua=mailto:reports@yourdomain.com. Collect reports for 30-60 days, fix any unauthorised senders, then progressively tighten the policy to quarantine and reject.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is DMARC alignment?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>DMARC passes only when the domain in the From header aligns with either the SPF Return-Path domain or the DKIM signing domain. Alignment can be relaxed (subdomains match) or strict (exact match). Most senders use relaxed.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/dkim/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">DKIM</div>
+            <p class="rt-desc">The cryptographic signature layer DMARC enforces.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+          <a href="/glossary/spf-sender-policy-framework/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">SPF</div>
+            <p class="rt-desc">The sending IP authorisation layer DMARC also checks.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+          <a href="/glossary/email-deliverability/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Email Deliverability</div>
+            <p class="rt-desc">The umbrella outcome DMARC directly affects.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+          <a href="/glossary/sender-reputation/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Sender Reputation</div>
+            <p class="rt-desc">The score DMARC helps you build with inbox providers.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+          <a href="/glossary/email-warm-up/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Email Warm-Up</div>
+            <p class="rt-desc">Ramp a domain gradually so DMARC-aligned mail builds trust.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+          <a href="/glossary/hard-bounce/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Hard Bounce</div>
+            <p class="rt-desc">DMARC reject can cause hard bounces if misconfigured.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://datatracker.ietf.org/doc/html/rfc7489" target="_blank" rel="noopener">RFC 7489 &mdash; Domain-based Message Authentication, Reporting and Conformance</a></li>
+            <li><span class="src-num">[02]</span><a href="https://dmarc.org/" target="_blank" rel="noopener">DMARC.org &mdash; Official reference implementation site</a></li>
+            <li><span class="src-num">[03]</span><a href="https://blog.google/products/gmail/gmail-security-authentication-spam-protection/" target="_blank" rel="noopener">Google Blog &mdash; New Gmail sender requirements (Feb 2024)</a></li>
+            <li><span class="src-num">[04]</span><a href="https://senders.yahooinc.com/best-practices/" target="_blank" rel="noopener">Yahoo Postmaster &mdash; Sender best practices</a></li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head &middot; theStacc &middot; ex-Sr Marketing Specialist, ARKA 360</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about SEO craft, content operations, and the deliverability infrastructure that quietly decides whether marketing campaigns even land in the inbox.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free deliverability audit &middot; 24-hour delivery</div>
+          <div class="cta-title">Move from p=none to p=reject safely.</div>
+          <p class="cta-desc">We parse your DMARC reports, map every sender, and deliver a ramp plan so you can enforce reject without breaking legitimate mail.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>&rarr;</span></a>
+          <ul class="cta-bullets">
+            <li>Full sender inventory from your reports</li>
+            <li>Per-tool alignment checklist</li>
+            <li>Safe ramp schedule with pct= milestones</li>
+            <li>Ongoing DMARC drift monitoring</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is DMARC?</a></li>
+            <li><a href="#why-it-matters">Why it matters</a></li>
+            <li><a href="#how-it-works">How it works</a></li>
+            <li><a href="#types">DMARC policies</a></li>
+            <li><a href="#examples">Real rollout examples</a></li>
+            <li><a href="#vs-related">DMARC vs SPF vs DKIM</a></li>
+            <li><a href="#best-practices">7 best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#how-thestacc-helps">How theStacc helps</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump current">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>

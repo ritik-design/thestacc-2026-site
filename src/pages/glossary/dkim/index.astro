@@ -1,0 +1,457 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'DKIM: Definition, How It Works & 2026 Setup Guide | theStacc Glossary',
+  description: 'DKIM (DomainKeys Identified Mail) is an email authentication method that adds a cryptographic signature to every message. Full definition, DNS example, and setup checklist.',
+  canonical: 'https://thestacc.com/glossary/dkim/',
+  ogImage: '/og/glossary/dkim.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "Email Marketing", "item": "https://thestacc.com/glossary/?cat=email-marketing" },
+        { "@type": "ListItem", "position": 4, "name": "DKIM", "item": "https://thestacc.com/glossary/dkim/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "DKIM (DomainKeys Identified Mail)",
+      "description": "DKIM is an email authentication standard that lets a sender attach a cryptographic signature to outbound messages. Receivers verify the signature against a public key published in DNS to confirm the email really came from the claimed domain and was not altered in transit.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "dkim",
+      "url": "https://thestacc.com/glossary/dkim/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is DKIM in simple terms?", "acceptedAnswer": { "@type": "Answer", "text": "DKIM is a way for your email server to sign every message with a hidden signature that receiving inboxes can check. If the signature matches, the receiver knows the email really came from your domain and was not tampered with." }},
+        { "@type": "Question", "name": "Do I need DKIM if I already have SPF?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. SPF only checks the sending server IP. DKIM signs the actual email content, so it survives forwarding. Google and Yahoo now require both DKIM and SPF (plus DMARC) for bulk senders." }},
+        { "@type": "Question", "name": "How do I set up DKIM?", "acceptedAnswer": { "@type": "Answer", "text": "Generate a key pair in your email service (Google Workspace, Microsoft 365, SendGrid, Mailchimp, etc.), publish the public key as a TXT record at selector._domainkey.yourdomain.com, then enable signing. Most providers give the exact record to paste into DNS." }},
+        { "@type": "Question", "name": "What is a DKIM selector?", "acceptedAnswer": { "@type": "Answer", "text": "A selector is a short label that identifies which DKIM public key to use. It appears in the DNS record as selector._domainkey.yourdomain.com. Using different selectors lets you rotate keys or run multiple sending services." }},
+        { "@type": "Question", "name": "What happens if DKIM fails?", "acceptedAnswer": { "@type": "Answer", "text": "If DKIM verification fails, receivers rely on your DMARC policy. A p=none policy still delivers; p=quarantine sends to spam; p=reject blocks the message outright. Failed DKIM usually points to a broken key, missing selector, or content modified by an intermediate server." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=email-marketing">Email Marketing</a><span class="sep">/</span>
+      <span class="current">DKIM</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Email Marketing &middot; Deliverability
+      <span class="term-difficulty">Intermediate</span>
+    </div>
+    <h1>DKIM (DomainKeys Identified Mail)</h1>
+    <p class="description">An email authentication protocol that attaches a <strong>cryptographic signature</strong> to every outbound message. Receiving inboxes verify the signature against a public key in DNS to confirm the email is genuinely from your domain.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head &middot; theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jul 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">8 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">DomainKeys Identified Mail</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p><strong>DKIM</strong> (DomainKeys Identified Mail) is an email authentication standard defined in <strong>RFC 6376</strong>. The sending server signs every email with a private key; the receiving server fetches the matching public key from DNS and verifies the signature. A valid signature proves the email came from the claimed domain and was not modified in transit &mdash; the foundation of modern deliverability alongside SPF and DMARC.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">Standard</div>
+            <div class="tms-value">RFC 6376</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Email Authentication</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Works with</div>
+            <div class="tms-value">SPF + DMARC</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Intermediate</div>
+          </div>
+        </div>
+
+        <p class="lede-p">Since February 2024, Gmail and Yahoo <em>require</em> DKIM for anyone sending more than 5,000 emails per day. Without it, your marketing emails go to spam &mdash; or bounce entirely. This page covers what DKIM is, how it works, and how to set it up correctly the first time.</p>
+
+        <h2 id="what-is">What is DKIM?</h2>
+        <p>DKIM is one of three pillars of modern email authentication (alongside SPF and DMARC). It works with public-key cryptography: the sending domain owns a private key that it uses to sign outbound emails; the corresponding public key is published in DNS as a TXT record. Any receiving inbox can look up the public key and verify the signature independently.</p>
+        <p>A DKIM signature is added as a header to the email, invisible to end users. It typically looks like this:</p>
+        <ul>
+          <li><strong>v=1</strong> &mdash; DKIM version</li>
+          <li><strong>a=rsa-sha256</strong> &mdash; signing algorithm</li>
+          <li><strong>d=example.com</strong> &mdash; the signing domain</li>
+          <li><strong>s=selector1</strong> &mdash; the selector, so receivers know which public key to fetch</li>
+          <li><strong>bh=&hellip;</strong> &mdash; body hash</li>
+          <li><strong>b=&hellip;</strong> &mdash; the actual signature</li>
+        </ul>
+
+        <div class="callout callout-info">
+          <div class="callout-label">Why DKIM exists</div>
+          <p>Email was designed in 1982 with zero authentication. Anyone could set the From address to <code>ceo@yourcompany.com</code> and mail servers would deliver it. DKIM (2007) closed that gap by making sending domains prove ownership of every message using cryptography.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why DKIM matters for deliverability</h2>
+        <p>DKIM is the single most important lever for inbox placement. Get it right and your open rates lift; get it wrong and campaigns die in spam. Four reasons every email sender cares:</p>
+        <ol>
+          <li><strong>Gmail and Yahoo require it.</strong> Since Feb 2024, both providers reject or spam unauthenticated mail from bulk senders (5K+/day). Enterprise inboxes (Microsoft 365, Zoho) apply similar rules.</li>
+          <li><strong>DMARC depends on it.</strong> DMARC alignment needs either SPF or DKIM to pass. DKIM is the more reliable of the two because it survives email forwarding.</li>
+          <li><strong>Anti-spoofing protection.</strong> DKIM makes it much harder for bad actors to impersonate your domain in phishing attacks.</li>
+          <li><strong>Reputation building.</strong> Consistent DKIM signing across all your streams (marketing, transactional, sales) builds a stronger domain reputation with mailbox providers.</li>
+        </ol>
+
+        <h2 id="how-it-works">How DKIM actually works</h2>
+        <p>Every DKIM email goes through six steps &mdash; three at the sender, three at the receiver.</p>
+
+        <div class="url-flow">
+          <span class="uf-comment"># SENDER side</span><br>
+          1. Compose email<br>
+          2. Server hashes headers + body with private key<br>
+          3. Adds <span class="uf-label">DKIM-Signature:</span> header and sends<br>
+          <br>
+          <span class="uf-comment"># RECEIVER side</span><br>
+          4. Reads <span class="uf-label">d=</span> (domain) and <span class="uf-label">s=</span> (selector) from header<br>
+          5. Fetches TXT record at <span class="uf-new">selector._domainkey.example.com</span><br>
+          6. Verifies signature &rarr; <span class="uf-status">PASS</span> or <span class="uf-old">FAIL</span>
+        </div>
+
+        <h3>Example DNS TXT record</h3>
+        <div class="url-flow">
+          <span class="uf-comment"># Host</span><br>
+          selector1._domainkey.example.com<br>
+          <br>
+          <span class="uf-comment"># Type: TXT</span><br>
+          <span class="uf-comment"># Value</span><br>
+          v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GN&hellip;<br>
+          &hellip;AwEAAQ==
+        </div>
+
+        <h2 id="types">DKIM vs SPF vs DMARC &mdash; how the three fit</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Protocol</th><th>What it verifies</th><th>Where it lives</th><th>Survives forwarding?</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight">
+                <td><strong>DKIM</strong></td>
+                <td>Signature over headers + body</td>
+                <td>TXT at selector._domainkey</td>
+                <td class="cell-yes">Yes</td>
+              </tr>
+              <tr><td><strong>SPF</strong></td><td>Sending server IP is authorised</td><td>TXT at root domain</td><td class="cell-no">No (breaks on forward)</td></tr>
+              <tr><td><strong>DMARC</strong></td><td>Alignment between DKIM/SPF and From:</td><td>TXT at _dmarc.domain</td><td class="cell-yes">Follows DKIM/SPF</td></tr>
+              <tr><td><strong>BIMI</strong></td><td>Brand logo display (needs DMARC p=quarantine+)</td><td>TXT at default._bimi</td><td class="cell-yes">Yes</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="examples">Real DKIM setup examples</h2>
+        <p>Four common setups you will run into, and the pattern each one uses.</p>
+
+        <h3>1. Google Workspace</h3>
+        <div class="url-flow">
+          <span class="uf-comment"># Admin console generates the record</span><br>
+          <span class="uf-label">Host:</span> google._domainkey.example.com<br>
+          <span class="uf-label">Type:</span> TXT<br>
+          <span class="uf-label">Value:</span> v=DKIM1; k=rsa; p=MIIB&hellip;
+        </div>
+
+        <h3>2. Microsoft 365</h3>
+        <p>Uses two CNAME records pointing at Microsoft-hosted keys, so Microsoft can rotate them without you touching DNS.</p>
+        <div class="url-flow">
+          selector1._domainkey.example.com CNAME selector1-example-com._domainkey.example.onmicrosoft.com<br>
+          selector2._domainkey.example.com CNAME selector2-example-com._domainkey.example.onmicrosoft.com
+        </div>
+
+        <h3>3. SendGrid (marketing / transactional)</h3>
+        <p>SendGrid signs with a unique selector per subuser. You publish three CNAME records &mdash; two for DKIM (s1/s2) and one for return-path alignment.</p>
+
+        <h3>4. Mailchimp / HubSpot</h3>
+        <p>Both give you a CNAME record to publish. Verification usually completes within an hour, and DKIM signing starts on the next send.</p>
+
+        <h2 id="vs-related">DKIM vs SPF &mdash; which should you set up first?</h2>
+        <p>Set up <strong>both</strong>. Modern deliverability requires SPF, DKIM, and DMARC. But if you can only do one first, DKIM is the higher-value move because it survives forwarding and is required for reliable DMARC alignment.</p>
+
+        <div class="pros-cons">
+          <div class="pros-card">
+            <h4>Use DKIM when</h4>
+            <ul>
+              <li>You want signatures that survive email forwarding</li>
+              <li>You send from multiple platforms (marketing + transactional + sales)</li>
+              <li>You plan to enable a strict DMARC policy</li>
+              <li>You send bulk email to Gmail, Yahoo, or Microsoft</li>
+              <li>You want to enable BIMI logos in Gmail</li>
+            </ul>
+          </div>
+          <div class="cons-card">
+            <h4>Use SPF when</h4>
+            <ul>
+              <li>You need a fast baseline authentication (5-minute setup)</li>
+              <li>Sending from a single, known IP or provider</li>
+              <li>You want to prevent basic spoofing</li>
+              <li>You need lightweight backup authentication for DMARC</li>
+              <li>Your sending platform does not support DKIM yet (rare)</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="best-practices">7 DKIM best practices</h2>
+        <ol>
+          <li><strong>Use 2048-bit keys.</strong> 1024-bit is technically valid but crackable with enough compute. Every major provider now defaults to 2048.</li>
+          <li><strong>Rotate keys annually.</strong> Rotation limits the blast radius if a private key is ever exposed. Use different selectors (s1/s2) so you can swap without downtime.</li>
+          <li><strong>Sign every sending stream.</strong> Marketing, transactional, sales tools, ticketing systems &mdash; every one needs its own DKIM setup or messages fail alignment.</li>
+          <li><strong>Publish only what you use.</strong> Remove old selectors from DNS when you leave a provider. Stale keys become attack surface.</li>
+          <li><strong>Monitor DKIM with DMARC reports.</strong> Aggregate reports (rua) will show which sending sources are passing and failing DKIM.</li>
+          <li><strong>Do not modify signed messages downstream.</strong> Content filters, appended footers, or list servers can break the body hash and cause DKIM to fail.</li>
+          <li><strong>Test before you launch.</strong> Send to a mail-tester.com address or check headers in Gmail (Show original &rarr; dkim=pass).</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">Common mistake &mdash; forgetting a selector</div>
+          <p>Many teams set up DKIM on their primary email server, then start sending marketing through a new ESP without adding that ESP&rsquo;s DKIM record. The ESP&rsquo;s emails go out unsigned, DMARC starts failing, and inbox placement collapses. Every sending platform needs its own DKIM.</p>
+        </div>
+
+        <h2 id="mistakes">Common DKIM mistakes to avoid</h2>
+        <ul>
+          <li><strong>Copying the DKIM value with line breaks</strong> &mdash; DNS providers often mangle multi-line TXT values. Paste as a single string.</li>
+          <li><strong>Using weak 1024-bit keys</strong> &mdash; deprecated by most modern authentication guidance.</li>
+          <li><strong>Signing with the wrong domain (d=)</strong> &mdash; must align with the From: header for DMARC to pass.</li>
+          <li><strong>Not enabling signing after DNS publish</strong> &mdash; the record can be live and the platform still not signing until you flip the switch.</li>
+          <li><strong>Leaving old ESPs&rsquo; selectors in DNS forever</strong> &mdash; growing attack surface with no benefit.</li>
+        </ul>
+
+        <h2 id="how-thestacc-helps">How theStacc helps with email authentication</h2>
+        <p>Email deliverability is one of the hidden reasons growth stalls &mdash; you can double sending volume and still lose revenue if DKIM, SPF, and DMARC are misconfigured. theStacc audits every domain your team sends from, checks each authentication record, and flags the ESPs signing without alignment. You get a prioritised setup list and a monitoring plan that catches drift before it costs you an inbox.</p>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is DKIM in simple terms?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>DKIM is a way for your email server to sign every message with a hidden signature that receiving inboxes can check. If the signature matches, the receiver knows the email really came from your domain and was not tampered with.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Do I need DKIM if I already have SPF?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes. SPF only checks the sending server IP. DKIM signs the actual email content, so it survives forwarding. Google and Yahoo now require both DKIM and SPF (plus DMARC) for bulk senders.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How do I set up DKIM?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Generate a key pair in your email service (Google Workspace, Microsoft 365, SendGrid, Mailchimp, etc.), publish the public key as a TXT record at selector._domainkey.yourdomain.com, then enable signing. Most providers give the exact record to paste into DNS.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is a DKIM selector?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>A selector is a short label that identifies which DKIM public key to use. It appears in the DNS record as selector._domainkey.yourdomain.com. Using different selectors lets you rotate keys or run multiple sending services.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What happens if DKIM fails?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>If DKIM verification fails, receivers rely on your DMARC policy. A p=none policy still delivers; p=quarantine sends to spam; p=reject blocks the message outright. Failed DKIM usually points to a broken key, missing selector, or content modified by an intermediate server.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/dmarc/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">DMARC</div>
+            <p class="rt-desc">The policy layer that ties DKIM and SPF together.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+          <a href="/glossary/spf-sender-policy-framework/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">SPF</div>
+            <p class="rt-desc">Sender Policy Framework &mdash; the other half of authentication.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+          <a href="/glossary/email-deliverability/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Email Deliverability</div>
+            <p class="rt-desc">The set of factors that decide inbox vs spam placement.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+          <a href="/glossary/sender-reputation/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Sender Reputation</div>
+            <p class="rt-desc">Your domain and IP&rsquo;s standing with mailbox providers.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+          <a href="/glossary/email-warm-up/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Email Warm-Up</div>
+            <p class="rt-desc">Gradually ramping a new domain or IP to build reputation.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+          <a href="/glossary/email-marketing/" class="related-term">
+            <span class="rt-cat">Email Marketing</span>
+            <div class="rt-name">Email Marketing</div>
+            <p class="rt-desc">The channel that depends entirely on DKIM working.</p>
+            <span class="rt-arrow">Read &rarr;</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://datatracker.ietf.org/doc/html/rfc6376" target="_blank" rel="noopener">RFC 6376 &mdash; DomainKeys Identified Mail (DKIM) Signatures</a></li>
+            <li><span class="src-num">[02]</span><a href="https://support.google.com/a/answer/174124" target="_blank" rel="noopener">Google Workspace Admin &mdash; Turn on DKIM</a></li>
+            <li><span class="src-num">[03]</span><a href="https://learn.microsoft.com/en-us/defender-office-365/email-authentication-dkim-configure" target="_blank" rel="noopener">Microsoft Learn &mdash; Configure DKIM to sign mail from Microsoft 365</a></li>
+            <li><span class="src-num">[04]</span><a href="https://blog.google/products/gmail/gmail-security-authentication-spam-protection/" target="_blank" rel="noopener">Google Blog &mdash; New Gmail sender requirements (Feb 2024)</a></li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head &middot; theStacc &middot; ex-Sr Marketing Specialist, ARKA 360</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about SEO craft, content operations, and the deliverability details that quietly decide whether marketing campaigns even reach the inbox.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free deliverability audit &middot; 24-hour delivery</div>
+          <div class="cta-title">See what is killing your inbox rate.</div>
+          <p class="cta-desc">We check DKIM, SPF, DMARC, and BIMI across every sending domain and platform &mdash; then send back a ranked fix list so your next campaign lands in Primary, not Spam.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>&rarr;</span></a>
+          <ul class="cta-bullets">
+            <li>Every DKIM selector checked</li>
+            <li>SPF, DMARC, BIMI alignment verified</li>
+            <li>Rotation and monitoring plan included</li>
+            <li>Priority-ranked fix list</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is DKIM?</a></li>
+            <li><a href="#why-it-matters">Why it matters</a></li>
+            <li><a href="#how-it-works">How it works</a></li>
+            <li><a href="#types">DKIM vs SPF vs DMARC</a></li>
+            <li><a href="#examples">Real setup examples</a></li>
+            <li><a href="#vs-related">DKIM vs SPF</a></li>
+            <li><a href="#best-practices">7 best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#how-thestacc-helps">How theStacc helps</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump current">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>
