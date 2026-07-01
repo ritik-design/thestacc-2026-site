@@ -1,0 +1,424 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+import '../../../styles/glossary-post.css';
+
+const seo = {
+  title: 'JavaScript SEO: Definition, Rendering Issues & Best Practices | theStacc Glossary',
+  description: 'JavaScript SEO is the practice of ensuring search engines can crawl, render, and index JavaScript-generated content. 65% of JS-dependent pages have indexing issues.',
+  canonical: 'https://thestacc.com/glossary/javascript-seo/',
+  ogImage: '/og/glossary/javascript-seo.webp',
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "Technical SEO", "item": "https://thestacc.com/glossary/?cat=technical-seo" },
+        { "@type": "ListItem", "position": 4, "name": "JavaScript SEO", "item": "https://thestacc.com/glossary/javascript-seo/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "JavaScript SEO",
+      "description": "JavaScript SEO is the practice of ensuring search engine crawlers can properly crawl, render, and index content that is generated or modified by JavaScript. Sites built with React, Angular, or Vue that render content client-side are most affected. A Merkle study found 65% of JavaScript-dependent pages have indexing issues versus 8% of server-rendered pages.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "javascript-seo",
+      "url": "https://thestacc.com/glossary/javascript-seo/",
+      "author": { "@type": "Person", "name": "Akshay VR", "url": "https://thestacc.com/authors/akshay-vr/", "sameAs": ["https://www.linkedin.com/in/akshay-vr-3aa1b9204/"] }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Can Google render JavaScript?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Googlebot uses an evergreen Chromium-based renderer that handles most modern JavaScript. However, rendering is queued — Google's Martin Splitt confirmed the queue can delay JavaScript processing by hours to weeks. Content invisible until JS executes may not be indexed promptly or at all." }},
+        { "@type": "Question", "name": "How do I test if Google can see my JavaScript content?", "acceptedAnswer": { "@type": "Answer", "text": "Use Google Search Console's URL Inspection tool and click View Crawled Page to see what Googlebot actually received. Compare the rendered HTML to your live page. Google's Rich Results Test also shows rendered output." }},
+        { "@type": "Question", "name": "Is server-side rendering necessary for SEO?", "acceptedAnswer": { "@type": "Answer", "text": "SSR is the gold standard but not strictly required. Static site generation (SSG) works even better since pages are pre-built at deploy time. Dynamic rendering is acceptable as a stopgap. Pure client-side rendering is riskiest for content-critical pages." }},
+        { "@type": "Question", "name": "Do React and Vue sites have SEO problems?", "acceptedAnswer": { "@type": "Answer", "text": "They can, if content is rendered purely client-side. React, Vue, and Angular SPA sites that serve an empty div to crawlers and populate content via JavaScript are at high risk of indexing failures. The fix is server-side rendering (Next.js, Nuxt.js) or static site generation." }},
+        { "@type": "Question", "name": "What is dynamic rendering in JavaScript SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Dynamic rendering serves pre-rendered HTML to search engine crawlers and standard JavaScript versions to users. Google calls it 'a workaround, not a long-term solution' — useful as a stopgap while migrating to SSR or SSG, but not a permanent architecture recommendation." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=technical-seo">Technical SEO</a><span class="sep">/</span>
+      <span class="current">JavaScript SEO</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Technical SEO · Rendering
+      <span class="term-difficulty">Advanced</span>
+    </div>
+    <h1>JavaScript SEO</h1>
+    <p class="description">The practice of ensuring search engines can crawl, render, and index content that JavaScript generates. <strong>65% of JS-dependent pages have indexing issues</strong> versus 8% of server-rendered pages.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jul 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">8 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Affects</span><span class="meta-value">React, Vue, Angular sites</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <div class="snippet-answer">
+          <p><strong>JavaScript SEO</strong> is the discipline of making JavaScript-heavy websites accessible to search engine crawlers. Modern sites built with React, Angular, and Vue render content client-side — meaning Googlebot initially sees an empty HTML shell, with content only appearing after JavaScript executes. If Google cannot render that JavaScript, your content effectively does not exist in search results.</p>
+        </div>
+
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">Indexing failure rate</div>
+            <div class="tms-value">65% (JS pages)</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Technical SEO</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Rendering delay</div>
+            <div class="tms-value">Hours to weeks</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Advanced</div>
+          </div>
+        </div>
+
+        <p class="lede-p">A site migrating from a CMS to a React single-page app without addressing rendering is making a high-stakes SEO bet. A Merkle study found 65% of JavaScript-dependent pages had indexing issues compared to only 8% of server-rendered pages. Most teams discover the problem months after traffic has already collapsed.</p>
+
+        <h2 id="what-is">What is JavaScript SEO?</h2>
+        <p>JavaScript SEO is a subset of technical SEO focused on how search engines process websites where content is generated, modified, or shown/hidden by JavaScript. It matters most for:</p>
+        <ul>
+          <li>Single-page applications (SPAs) built with React, Vue, Angular, or Svelte</li>
+          <li>E-commerce sites using JavaScript to lazy-load product descriptions, reviews, and prices</li>
+          <li>Sites using JavaScript navigation instead of standard <code>&lt;a href&gt;</code> anchor tags</li>
+          <li>Sites hiding or revealing content based on user interaction (tabs, accordions, filters)</li>
+          <li>Sites that fetch and inject content after initial page load via API calls</li>
+        </ul>
+        <p>If your key content — headings, body text, product descriptions, internal links — is only visible after JavaScript executes, Googlebot may never see it.</p>
+
+        <div class="callout callout-info">
+          <div class="callout-label">Google's rendering queue</div>
+          <p>Google's Martin Splitt confirmed in multiple Webmaster Hangout sessions that Googlebot's rendering queue can delay JavaScript processing by <strong>hours to even weeks</strong>. Crawling raw HTML is fast. Rendering JavaScript-heavy pages requires a separate queued process using headless Chromium. High-priority pages get rendered first; long tails may wait.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why JavaScript SEO matters</h2>
+        <p>For content-heavy sites — blogs, e-commerce catalogs, SaaS marketing sites — JavaScript SEO failures are silent and devastating:</p>
+        <ol>
+          <li><strong>Invisible content.</strong> If your page body text only exists after JS executes, Google indexes an empty page. That page cannot rank for any keyword target, regardless of how good the content is.</li>
+          <li><strong>Delayed indexing.</strong> Even when Google can eventually render JS, the queue delay means new content takes weeks instead of days to appear in search results. Time-sensitive content loses its window.</li>
+          <li><strong>Wasted crawl budget.</strong> Rendering JavaScript costs Googlebot more resources than serving plain HTML. For large sites, this means JS-dependent pages consume disproportionate crawl budget, slowing discovery of all content.</li>
+          <li><strong>Broken internal links.</strong> JavaScript-powered navigation that doesn't use standard <code>&lt;a href&gt;</code> tags may not be followed by Googlebot. If your entire site navigation is JS-rendered, you may have created a navigation system that works for users but fails to pass any link equity.</li>
+          <li><strong>JavaScript-hidden structured data.</strong> Schema.org markup injected via JavaScript may not be processed reliably by Google's structured data parsers.</li>
+        </ol>
+
+        <h2 id="how-it-works">How Googlebot processes JavaScript</h2>
+        <p>Google's rendering pipeline has two distinct phases:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Phase</th><th>What happens</th><th>Timing</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight">
+                <td><strong>Phase 1: Crawl</strong></td>
+                <td>Googlebot fetches the raw HTML. Fast, happens immediately during crawl.</td>
+                <td>Same as normal crawl</td>
+              </tr>
+              <tr>
+                <td><strong>Phase 2: Render</strong></td>
+                <td>Page enters a rendering queue. Headless Chromium executes JavaScript. Content becomes visible to Google.</td>
+                <td>Hours to weeks later</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>If your critical content is only present after Phase 2, you're betting that Google will render your page quickly. For important pages, this bet regularly fails. The fix is ensuring critical content is present in the initial HTML — before JavaScript executes.</p>
+
+        <h2 id="types">JavaScript rendering approaches — SSR, SSG, CSR compared</h2>
+        <p>Three architecture choices determine your JavaScript SEO risk:</p>
+        <ul>
+          <li><strong>Server-side rendering (SSR).</strong> The server runs JavaScript and sends fully rendered HTML to both browsers and crawlers. Googlebot sees complete content on the first crawl. Next.js, Nuxt.js, and SvelteKit all support SSR. Best SEO outcome for dynamic content.</li>
+          <li><strong>Static site generation (SSG).</strong> Pages are pre-built as plain HTML at deploy time. The fastest possible option for SEO — no rendering queue, no JavaScript dependency for indexing. Astro, Gatsby, and Next.js with <code>getStaticProps</code> all support SSG. Best SEO outcome overall.</li>
+          <li><strong>Client-side rendering (CSR).</strong> The server sends a near-empty HTML shell. JavaScript fetches data and builds the page in the browser. Highest SEO risk — Google sees the empty shell unless rendering is completed. Pure CSR SPAs regularly fail JavaScript SEO.</li>
+        </ul>
+
+        <h2 id="examples">JavaScript SEO failures — real cases</h2>
+
+        <h3>Case 1: SaaS marketing site migration</h3>
+        <p>A SaaS company migrated their marketing site from WordPress to React without implementing SSR. Traffic dropped 40% within six weeks. URL Inspection in Search Console showed Googlebot receiving only <code>&lt;div id="root"&gt;&lt;/div&gt;</code> — the empty shell. Every page was effectively a blank document. Migrating to Next.js with SSR restored indexing within three weeks and traffic recovered over four months.</p>
+
+        <h3>Case 2: E-commerce lazy-loading</h3>
+        <p>An e-commerce store used JavaScript to lazy-load product descriptions and customer reviews below the fold. Googlebot indexed only the above-fold content. Pages ranked for brand name searches but missed all long-tail queries mentioning features in the lazy-loaded sections — the highest-converting queries. Moving descriptions into the initial server response HTML recovered the long-tail traffic within 60 days.</p>
+
+        <h3>Case 3: JavaScript-only navigation</h3>
+        <p>A media site rebuilt their navigation using a custom JavaScript routing system with no <code>&lt;a href&gt;</code> links. Internal links between articles were implemented as JavaScript click handlers. Googlebot could not follow these links, so the internal link graph effectively disappeared. Thousands of articles had zero inbound internal links discoverable by Google. Restoring standard anchor tags resolved the crawl issue.</p>
+
+        <h2 id="vs-related">JavaScript SEO vs standard technical SEO</h2>
+        <div class="pros-cons">
+          <div class="pros-card">
+            <h4>Standard technical SEO</h4>
+            <ul>
+              <li>Covers crawlability, indexability, redirects, sitemaps</li>
+              <li>Works on server-rendered HTML pages</li>
+              <li>Tools: Screaming Frog, Search Console</li>
+              <li>Googlebot sees all content on first crawl</li>
+              <li>Relatively predictable and auditable</li>
+            </ul>
+          </div>
+          <div class="cons-card">
+            <h4>JavaScript SEO</h4>
+            <ul>
+              <li>Adds rendering pipeline complexity</li>
+              <li>Content may only exist after JS executes</li>
+              <li>Tools: URL Inspection, Chrome DevTools, Puppeteer</li>
+              <li>Googlebot may see different content than users</li>
+              <li>Requires developer involvement to fix properly</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="best-practices">JavaScript SEO best practices</h2>
+        <ol>
+          <li><strong>Audit what Googlebot actually sees.</strong> Use Google Search Console's URL Inspection tool and click "View Crawled Page." Compare the rendered HTML screenshot to what a user sees. Any content gap is a potential indexing failure.</li>
+          <li><strong>Use SSR or SSG for content-critical pages.</strong> Product pages, blog posts, landing pages, and any page targeting organic keywords must have their content in the initial server response. Next.js and Nuxt.js are the most common solutions for React and Vue apps respectively.</li>
+          <li><strong>Implement standard anchor tags for all navigation.</strong> Every link Googlebot should follow must be a standard <code>&lt;a href="/path/"&gt;</code> element. JavaScript click handlers, <code>history.pushState</code> without anchor tags, and custom routing that doesn't produce crawlable links will break your internal link graph.</li>
+          <li><strong>Don't lazy-load critical above-fold content.</strong> Content visible in the viewport on page load should be in the initial HTML. Lazy loading below-fold content is acceptable — Google renders some content, but prioritizes what's visible first.</li>
+          <li><strong>Test with real crawl data, not just Lighthouse.</strong> Lighthouse runs JavaScript and shows the rendered page. Screaming Frog in JavaScript disabled mode simulates what Googlebot sees on first crawl. Both views are important — they reveal the gap between crawled and rendered states.</li>
+          <li><strong>Inline critical structured data in HTML.</strong> Don't inject JSON-LD via JavaScript if you can avoid it. Inline schema markup in the server-rendered HTML ensures Google's structured data parser processes it reliably.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">Common mistake — assuming Google renders everything</div>
+          <p>Google can render JavaScript — but "can" and "will promptly" are different things. For a high-authority domain, critical pages get rendered quickly. For a new site or deep URLs on a large site, the rendering queue delay can be weeks. Never rely on JavaScript rendering as the only delivery mechanism for content on pages targeting organic search. Always have a fallback in the initial HTML.</p>
+        </div>
+
+        <h2 id="mistakes">Common JavaScript SEO mistakes to avoid</h2>
+        <ul>
+          <li><strong>Building SPAs without SSR.</strong> A React SPA serving <code>&lt;div id="root"&gt;&lt;/div&gt;</code> to crawlers is the most common and most damaging JavaScript SEO failure.</li>
+          <li><strong>Using JavaScript for internal navigation only.</strong> If clicking a link triggers a JavaScript route change without a standard <code>&lt;a href&gt;</code> tag, Googlebot cannot follow it. Your internal link structure disappears from Google's perspective.</li>
+          <li><strong>Lazy-loading content that contains target keywords.</strong> Product features, reviews, and body text hidden until user scroll or interaction are high-risk for indexing failures. Move keyword-critical content into the initial server response.</li>
+          <li><strong>Injecting canonical tags via JavaScript.</strong> Canonical tags need to be in the <code>&lt;head&gt;</code> of the initial HTML. JavaScript-injected canonicals may be processed after Google's indexer has already made its canonical decision.</li>
+          <li><strong>No testing after framework migration.</strong> Migrating from WordPress to a JavaScript framework is a high-risk SEO event. Always run URL Inspection before and after, and monitor Search Console indexing coverage for 90 days post-migration.</li>
+        </ul>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Can Google render JavaScript?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes. Googlebot uses an evergreen Chromium-based renderer that handles most modern JavaScript. However, rendering is queued and delayed — hours to weeks. Content invisible until JS executes may not be indexed promptly or at all on lower-priority pages.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How do I test if Google can see my JavaScript content?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Use Google Search Console's URL Inspection tool and click View Crawled Page to see what Googlebot actually received. Compare the rendered HTML to your live page. Google's Rich Results Test also shows rendered output. Screaming Frog with JavaScript disabled shows the pre-render state.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Is server-side rendering necessary for SEO?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>SSR is the gold standard but not strictly required. Static site generation (SSG) works even better since pages are pre-built at deploy time. Dynamic rendering is acceptable as a stopgap. Pure client-side rendering is riskiest for content-critical pages targeting organic search.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Do React and Vue sites have SEO problems?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>They can, if content is rendered purely client-side. React and Vue SPAs that serve an empty div to crawlers are at high risk of indexing failures. The fix is server-side rendering via Next.js or Nuxt.js, or static site generation which pre-builds HTML at deploy time.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What is dynamic rendering in JavaScript SEO?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Dynamic rendering serves pre-rendered HTML to search engine crawlers and standard JavaScript versions to users. Google calls it "a workaround, not a long-term solution" — useful while migrating to SSR or SSG, but not a permanent architecture. It also introduces a cloaking risk if not implemented carefully.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/technical-seo/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Technical SEO</div>
+            <p class="rt-desc">Optimizing crawlability, indexability, and performance of a site.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/crawl-budget/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Crawl Budget</div>
+            <p class="rt-desc">How many pages Googlebot crawls on your site in a given period.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/indexing/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Indexing</div>
+            <p class="rt-desc">The process by which Google adds a page to its searchable index.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/core-web-vitals/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Core Web Vitals</div>
+            <p class="rt-desc">Google's three user experience metrics: LCP, INP, and CLS.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/site-architecture/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Site Architecture</div>
+            <p class="rt-desc">How a website's pages are organized and linked together for crawlability.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/canonical-url/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Canonical URL</div>
+            <p class="rt-desc">The preferred URL when duplicate or near-duplicate pages exist.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" target="_blank" rel="noopener">Google Search Central — JavaScript SEO basics</a></li>
+            <li><span class="src-num">[02]</span><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/dynamic-rendering" target="_blank" rel="noopener">Google Search Central — Dynamic rendering</a></li>
+            <li><span class="src-num">[03]</span><a href="https://www.merkleinc.com/thought-leadership/white-papers/javascript-seo" target="_blank" rel="noopener">Merkle — JavaScript SEO: Indexing challenges study (65% finding)</a></li>
+            <li><span class="src-num">[04]</span><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/fix-search-javascript" target="_blank" rel="noopener">Google Search Central — Fix JavaScript-related search issues</a></li>
+            <li><span class="src-num">[05]</span><a href="https://www.youtube.com/playlist?list=PLKoqnv2vTMUPOalM1zuWDP9OQl851WMM9" target="_blank" rel="noopener">Google Search Central — JavaScript SEO video series (Martin Splitt)</a></li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · ex-Sr Marketing Specialist, ARKA 360 · Malappuram, Kerala</div>
+            <p>Akshay leads editorial and content operations at theStacc. He writes about technical SEO, JavaScript rendering, and the infrastructure decisions that silently determine whether a site's content can rank — before any keyword or content strategy matters.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free SEO audit · 24-hour delivery</div>
+          <div class="cta-title">See what's costing you traffic.</div>
+          <p class="cta-desc">We audit your site — JavaScript rendering, crawl issues, indexing failures, content gaps — and send back a ranked action plan within 24 hours.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>JavaScript rendering assessment</li>
+            <li>Indexing failure pages identified</li>
+            <li>Technical fixes ranked by SEO impact</li>
+            <li>Custom 90-day growth plan</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">On this page</div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is JavaScript SEO?</a></li>
+            <li><a href="#why-it-matters">Why it matters</a></li>
+            <li><a href="#how-it-works">How Googlebot processes JS</a></li>
+            <li><a href="#types">SSR vs SSG vs CSR</a></li>
+            <li><a href="#examples">Real failure cases</a></li>
+            <li><a href="#vs-related">JS SEO vs standard technical SEO</a></li>
+            <li><a href="#best-practices">Best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump current">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>
