@@ -1,0 +1,609 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+
+const seo = {
+  title: '301 Redirect: Definition, How It Works, and Best Practices | theStacc Glossary',
+  description: 'A 301 redirect is a permanent HTTP status code that tells search engines a page has moved to a new URL. Full definition, examples, and 2026 best practices.',
+  canonical: 'https://thestacc.com/glossary/301-redirect/',
+  ogImage: '/og/glossary/301-redirect.webp',
+  noindex: true,
+  schemaData: [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://thestacc.com/glossary/" },
+        { "@type": "ListItem", "position": 3, "name": "301 Redirect", "item": "https://thestacc.com/glossary/301-redirect/" }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "DefinedTerm",
+      "name": "301 Redirect",
+      "description": "A 301 redirect is a permanent HTTP status code that tells browsers and search engines a page has moved to a new URL. The redirect passes 90–99% of link equity to the destination and is the SEO-safe way to move URLs.",
+      "inDefinedTermSet": "https://thestacc.com/glossary/",
+      "termCode": "301-redirect",
+      "url": "https://thestacc.com/glossary/301-redirect/"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does a 301 redirect pass SEO value?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. A 301 redirect passes roughly 90–99% of link equity (PageRank) from the old URL to the new one. Google has confirmed 301s consolidate ranking signals to the destination." }},
+        { "@type": "Question", "name": "How long does a 301 redirect take to be recognized by Google?", "acceptedAnswer": { "@type": "Answer", "text": "Google typically recognizes a 301 within days to a few weeks, depending on crawl frequency. Small sites may take longer; well-crawled sites see the redirect honored within 24–72 hours." }},
+        { "@type": "Question", "name": "What's the difference between a 301 and a 302 redirect?", "acceptedAnswer": { "@type": "Answer", "text": "A 301 is permanent — Google eventually replaces the old URL with the new one in its index. A 302 is temporary — Google keeps the old URL and treats the new one as a short-term alternative." }},
+        { "@type": "Question", "name": "Can I chain multiple 301 redirects?", "acceptedAnswer": { "@type": "Answer", "text": "Technically yes, but avoid it. Google stops following redirect chains after 5 hops. Each hop leaks a small amount of link equity, so always redirect directly to the final destination." }}
+      ]
+    }
+  ]
+};
+---
+<BaseLayout seo={seo} bodyClass="author-akshay">
+  <style>
+    /* Design preview banner */
+    .preview-banner { padding: 20px 32px; background: var(--brand); color: white; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; text-align: center; }
+    .preview-banner strong { font-weight: 700; }
+
+    /* ═══════════════════════════════════════════════
+       GLOSSARY-SPECIFIC ELEMENTS (extend review-post.css)
+       ═══════════════════════════════════════════════ */
+    .term-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: white; border: 1px solid var(--border); font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); font-weight: 600; margin-bottom: 20px; }
+    .term-badge .term-cat-dot { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; }
+    .term-badge .term-difficulty { padding: 2px 8px; background: var(--brand-softer); color: var(--brand); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; }
+
+    /* Featured snippet answer box — Google's snippet target */
+    .snippet-answer {
+      margin: 32px 0;
+      padding: 28px 32px;
+      background: linear-gradient(135deg, var(--brand-softer), white);
+      border: 1px solid var(--brand-soft);
+      border-left: 6px solid var(--brand);
+      position: relative;
+    }
+    .snippet-answer::before {
+      content: 'DEFINITION';
+      position: absolute;
+      top: -10px;
+      left: 24px;
+      background: var(--brand);
+      color: white;
+      padding: 4px 12px;
+      font-family: 'Geist Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+    }
+    .snippet-answer p { font-size: 18px; line-height: 1.55; color: var(--text-1); margin: 0; font-weight: 400; }
+    .snippet-answer p strong { color: var(--text-1); font-weight: 700; }
+
+    /* At-a-glance metadata strip */
+    .term-meta-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin: 28px 0;
+      border: 1px solid var(--border);
+      background: white;
+    }
+    @media (max-width: 700px) { .term-meta-strip { grid-template-columns: repeat(2, 1fr); } }
+    .tms-cell { padding: 20px 22px; border-right: 1px solid var(--border); }
+    .tms-cell:last-child { border-right: none; }
+    @media (max-width: 700px) { .tms-cell:nth-child(2n) { border-right: none; } .tms-cell:nth-child(-n+2) { border-bottom: 1px solid var(--border); } }
+    .tms-label { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; font-weight: 700; }
+    .tms-value { font-size: 15px; color: var(--text-1); font-weight: 600; line-height: 1.35; }
+
+    /* HTTP status code chip */
+    .http-code-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--text-1);
+      color: white;
+      font-family: 'Geist Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .http-code-chip.ok { background: #047857; }
+    .http-code-chip.warn { background: #b45309; }
+    .http-code-chip.err { background: #b91c1c; }
+
+    /* Terminal / URL example block */
+    .url-flow {
+      margin: 24px 0;
+      padding: 24px;
+      background: #0f0e10;
+      color: #d4d4d8;
+      font-family: 'Geist Mono', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+    .url-flow .uf-comment { color: #71717a; }
+    .url-flow .uf-old { color: #fca5a5; }
+    .url-flow .uf-arrow { color: #a3a3a3; margin: 0 8px; }
+    .url-flow .uf-new { color: #86efac; }
+    .url-flow .uf-status { color: #6ee7b7; }
+    .url-flow .uf-label { color: #a78bfa; }
+
+    /* Related terms grid */
+    .related-terms {
+      margin: 32px 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 700px) { .related-terms { grid-template-columns: 1fr; } }
+    .related-term {
+      padding: 20px 22px;
+      background: white;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .related-term:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 12px 24px -12px rgba(79,57,246,0.12); }
+    .related-term .rt-cat { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand); font-weight: 700; }
+    .related-term .rt-name { font-size: 16px; font-weight: 600; color: var(--text-1); letter-spacing: -0.015em; }
+    .related-term .rt-desc { font-size: 13px; color: var(--text-3); line-height: 1.45; }
+    .related-term .rt-arrow { font-size: 13px; color: var(--brand); font-weight: 600; margin-top: auto; }
+
+    /* Alphabetical letter jumps in sidebar */
+    .letter-jumps {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 20px 22px;
+      margin-top: 16px;
+    }
+    .letter-jumps-head { font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; }
+    .letter-jump-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+    .letter-jump {
+      padding: 8px 0;
+      text-align: center;
+      font-family: 'Geist Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-2);
+      background: var(--bg-soft);
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+    .letter-jump:hover { background: var(--brand); color: white; }
+    .letter-jump.current { background: var(--brand); color: white; }
+  </style>
+
+  <div class="preview-banner">
+    ★ DESIGN PREVIEW ★ · Glossary term template · using "301 Redirect" as the sample · <strong>go/no-go this design and I'll roll it out to all 690+ glossary terms</strong>
+  </div>
+
+  <!-- HERO -->
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/glossary/">Glossary</a><span class="sep">/</span>
+      <a href="/glossary/?cat=technical-seo">Technical SEO</a><span class="sep">/</span>
+      <span class="current">301 Redirect</span>
+    </div>
+    <div class="term-badge">
+      <span class="term-cat-dot"></span>
+      Technical SEO · Redirects
+      <span class="term-difficulty">Intermediate</span>
+    </div>
+    <h1>301 Redirect</h1>
+    <p class="description">A permanent HTTP status code that tells browsers and search engines a page has moved. Passes <strong>90–99% of link equity</strong> to the new URL and is the SEO-safe way to move, merge, or retire pages.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">AVR</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/akshay-vr/">Akshay VR</a></span>
+          <span class="meta-author-role">Marketing Head · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Jun 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">6 min</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Also called</span><span class="meta-value">Permanent Redirect</span></div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+
+        <!-- Direct-answer definition (snippet-optimized) -->
+        <div class="snippet-answer">
+          <p>A <strong>301 redirect</strong> is an HTTP response code that permanently sends users and search engines from one URL to another. Unlike a 302 (temporary), a 301 tells Google to <strong>replace the old URL with the new one in its index</strong> and pass along the link authority the old page had earned.</p>
+        </div>
+
+        <!-- At-a-glance metadata strip -->
+        <div class="term-meta-strip">
+          <div class="tms-cell">
+            <div class="tms-label">HTTP status</div>
+            <div class="tms-value"><span class="http-code-chip ok">301 Moved</span></div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Category</div>
+            <div class="tms-value">Technical SEO</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Link equity passed</div>
+            <div class="tms-value">90–99%</div>
+          </div>
+          <div class="tms-cell">
+            <div class="tms-label">Difficulty</div>
+            <div class="tms-value">Intermediate</div>
+          </div>
+        </div>
+
+        <p class="lede-p">If a page changes URL — for any reason — a 301 redirect is how you tell Google. Without one, you lose the ranking signals the old URL earned and any incoming links point to a dead page.</p>
+
+        <h2 id="what-is">What is a 301 redirect?</h2>
+        <p>A 301 redirect is one of Google's four permanent redirect signals (alongside HTTP 308 and JavaScript / meta-refresh with 0-second delay). When a server returns a 301, browsers automatically forward the visitor to the new URL, and search engines eventually swap the old URL out of the index in favour of the new one.</p>
+        <p>The name comes from the HTTP standard status codes:</p>
+        <ul>
+          <li><strong>2xx codes</strong> — success (e.g. 200 OK)</li>
+          <li><strong>3xx codes</strong> — redirection (e.g. 301, 302, 304, 307, 308)</li>
+          <li><strong>4xx codes</strong> — client errors (e.g. 404, 410)</li>
+          <li><strong>5xx codes</strong> — server errors (e.g. 500, 503)</li>
+        </ul>
+
+        <div class="callout callout-info">
+          <div class="callout-label">ℹ️ Google's stance</div>
+          <p>Google's John Mueller has confirmed that <strong>301 redirects pass full PageRank</strong> and are the recommended way to move URLs. In 2024 Google updated its guidance to note that all "permanent" redirects (301, 308) are treated equivalently.</p>
+        </div>
+
+        <h2 id="why-it-matters">Why 301 redirects matter for SEO</h2>
+        <p>Get a 301 right and you keep everything the old URL earned. Get it wrong and you can lose years of organic traffic overnight. There are three reasons every SEO cares about 301s:</p>
+        <ol>
+          <li><strong>Link equity preservation.</strong> Every backlink pointing to the old URL keeps flowing PageRank to the new URL. Without a 301, all those links go to a 404 and their value evaporates.</li>
+          <li><strong>Ranking consolidation.</strong> Duplicate content (e.g. www vs non-www, http vs https) gets merged into one canonical URL that carries the full ranking strength.</li>
+          <li><strong>User experience.</strong> Visitors who bookmarked the old URL, clicked an old email link, or arrived from a stale Google result get taken to the working page instead of an error.</li>
+        </ol>
+
+        <h2 id="how-it-works">How a 301 redirect actually works</h2>
+        <p>Every redirect happens in two steps: the request-response handshake, then the follow-up.</p>
+
+        <div class="url-flow">
+          <span class="uf-comment"># A browser or crawler requests the old URL</span><br>
+          GET <span class="uf-old">/blog/old-post-name/</span> HTTP/1.1<br>
+          Host: example.com<br>
+          <br>
+          <span class="uf-comment"># The server responds with a 301 pointing to the new URL</span><br>
+          HTTP/1.1 <span class="uf-status">301 Moved Permanently</span><br>
+          <span class="uf-label">Location:</span> https://example.com<span class="uf-new">/blog/new-post-name/</span><br>
+          <br>
+          <span class="uf-comment"># Browser automatically makes a fresh request to the new URL</span><br>
+          GET <span class="uf-new">/blog/new-post-name/</span> HTTP/1.1<br>
+          Host: example.com<br>
+          <br>
+          HTTP/1.1 <span class="uf-status">200 OK</span>
+        </div>
+
+        <h3>Server-side redirect (recommended)</h3>
+        <p>The redirect is configured at the web-server level — Apache's <code>.htaccess</code>, Nginx's config, or the CDN edge. This is the fastest, most Google-friendly option because the redirect happens before any HTML loads.</p>
+
+        <h3>Application-level redirect</h3>
+        <p>Frameworks like Rails, Next.js, or WordPress can issue 301s from application code. Slightly slower than server-level, but easier to manage from a CMS.</p>
+
+        <h2 id="types">301 vs other redirect types — what's the difference?</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Type</th><th>Meaning</th><th>SEO impact</th><th>When to use</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-highlight">
+                <td><strong>301 Permanent</strong></td>
+                <td>URL moved forever</td>
+                <td class="cell-yes">Full link equity + index replacement</td>
+                <td>Every permanent URL change</td>
+              </tr>
+              <tr><td><strong>302 Found</strong></td><td>URL temporarily elsewhere</td><td class="cell-meh">Old URL stays in index</td><td>A/B tests, geo-routing, campaigns</td></tr>
+              <tr><td><strong>307 Temporary</strong></td><td>Same as 302 but preserves POST</td><td class="cell-meh">Same as 302</td><td>Form submissions, temporary maintenance</td></tr>
+              <tr><td><strong>308 Permanent</strong></td><td>Same as 301 but preserves POST</td><td class="cell-yes">Equivalent to 301</td><td>Modern APIs, permanent moves with POST bodies</td></tr>
+              <tr><td><strong>Meta refresh</strong></td><td>HTML tag redirect</td><td class="cell-no">Passes little to no equity</td><td>Almost never — avoid</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="examples">Real 301 redirect examples</h2>
+        <p>Here are the four situations where 301s show up most often, and the pattern each one uses.</p>
+
+        <h3>1. Migrating http → https</h3>
+        <div class="url-flow">
+          <span class="uf-comment"># Nginx</span><br>
+          server &#123;<br>
+          &nbsp;&nbsp;listen 80;<br>
+          &nbsp;&nbsp;server_name example.com;<br>
+          &nbsp;&nbsp;return <span class="uf-status">301</span> <span class="uf-new">https://$host$request_uri</span>;<br>
+          &#125;
+        </div>
+
+        <h3>2. Merging www and non-www</h3>
+        <div class="url-flow">
+          <span class="uf-comment"># .htaccess (Apache)</span><br>
+          RewriteEngine On<br>
+          RewriteCond %&#123;HTTP_HOST&#125; ^example.com [NC]<br>
+          RewriteRule ^(.*)$ <span class="uf-new">https://www.example.com/$1</span> [<span class="uf-status">R=301</span>,L]
+        </div>
+
+        <h3>3. Retiring a URL slug</h3>
+        <div class="url-flow">
+          <span class="uf-comment"># Redirect old blog slug to new one</span><br>
+          <span class="uf-old">/blog/2024/seo-tips-old/</span><span class="uf-arrow">→</span><span class="uf-new">/blog/seo-tips/</span> <span class="uf-comment">(301 · Permanent)</span>
+        </div>
+
+        <h3>4. Consolidating duplicates into one canonical</h3>
+        <div class="url-flow">
+          <span class="uf-old">/product?id=42</span><span class="uf-arrow">→</span><span class="uf-new">/products/blue-widget/</span> <span class="uf-comment">(301)</span><br>
+          <span class="uf-old">/blue-widget/</span><span class="uf-arrow">→</span><span class="uf-new">/products/blue-widget/</span> <span class="uf-comment">(301)</span><br>
+          <span class="uf-old">/products/blue-widget.html</span><span class="uf-arrow">→</span><span class="uf-new">/products/blue-widget/</span> <span class="uf-comment">(301)</span>
+        </div>
+
+        <h2 id="vs-canonical">301 redirect vs. canonical URL — which one to use</h2>
+        <p>Both signal "prefer this URL" to search engines. The difference is what happens to visitors.</p>
+
+        <div class="pros-cons">
+          <div class="pros-card">
+            <h4>✓ Use a 301 when</h4>
+            <ul>
+              <li>The old URL is truly gone / merged</li>
+              <li>You want a hard signal — no ambiguity</li>
+              <li>Visitors should never see the old page</li>
+              <li>You're consolidating equity permanently</li>
+              <li>URL slugs, domain moves, http → https</li>
+            </ul>
+          </div>
+          <div class="cons-card" style="background: #ecfeff; border-color: #a5f3fc;">
+            <h4 style="color: #0e7490;">≈ Use a canonical when</h4>
+            <ul style="color: var(--text-1);">
+              <li>Both URLs need to remain reachable</li>
+              <li>Filter / sort / tracking URL variants</li>
+              <li>Cross-domain syndicated content</li>
+              <li>Visitors need to see the "duplicate"</li>
+              <li>You're giving Google a preference hint</li>
+            </ul>
+          </div>
+        </div>
+
+        <h2 id="best-practices">7 best practices for using 301 redirects</h2>
+        <ol>
+          <li><strong>Redirect to the exact final URL.</strong> Never chain 301 → 301 → 301. Every hop leaks equity. Point directly to the destination.</li>
+          <li><strong>Keep the redirect in place for 12+ months.</strong> Google may need multiple crawls to fully de-index the old URL and re-attribute signals.</li>
+          <li><strong>Match content, not just URL.</strong> Redirect an old page to a new page with equivalent content. Redirecting to your homepage instead is treated as a soft 404.</li>
+          <li><strong>Update internal links.</strong> Even with 301s live, fix the internal links to point directly to the new URL. Saves crawl budget and speeds up re-indexing.</li>
+          <li><strong>Use server-side redirects, not meta-refresh.</strong> Meta-refresh redirects pass little link equity and are slower for users.</li>
+          <li><strong>Test with a header checker.</strong> Verify the response is actually a 301 (not a 302) using curl, HTTPStatus.io, or Screaming Frog.</li>
+          <li><strong>Submit the change of address in Search Console.</strong> If you're moving domains, use the Change of Address tool to speed up Google's recognition.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <div class="callout-label">⚠️ Common mistake — redirecting bulk to the homepage</div>
+          <p>When retiring 100 pages, don't just 301 them all to the homepage. Google treats mass-homepage redirects as "soft 404s" and gives them no ranking value. Instead map each retired URL to the closest content match. If nothing matches, use a 410 Gone.</p>
+        </div>
+
+        <h2 id="mistakes">Common 301 mistakes to avoid</h2>
+        <ul>
+          <li><strong>Redirect chains</strong> — 301 A → 301 B → 301 C. Google stops following after 5 hops.</li>
+          <li><strong>Redirect loops</strong> — A → B → A. Nobody reaches the destination and Google flags the URL as inaccessible.</li>
+          <li><strong>Using 302s for permanent moves</strong> — Google keeps the old URL in the index; you lose ranking consolidation.</li>
+          <li><strong>Redirecting non-matching content</strong> — treated as a soft 404 and given no ranking value.</li>
+          <li><strong>Removing the 301 too early</strong> — takes months for Google to fully attribute signals. Leave it up.</li>
+        </ul>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Does a 301 redirect pass SEO value?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes. A 301 redirect passes roughly 90–99% of link equity (PageRank) from the old URL to the new one. Google has confirmed 301s consolidate ranking signals to the destination.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">How long does a 301 redirect take to be recognized by Google?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Google typically recognises a 301 within days to a few weeks, depending on crawl frequency. Small sites may take longer; well-crawled sites see the redirect honoured within 24–72 hours.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">What's the difference between a 301 and a 302 redirect?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>A 301 is permanent — Google eventually replaces the old URL with the new one in its index. A 302 is temporary — Google keeps the old URL and treats the new one as a short-term alternative.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Can I chain multiple 301 redirects?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Technically yes, but avoid it. Google stops following redirect chains after 5 hops. Each hop leaks a small amount of link equity, so always redirect directly to the final destination.</p></div></div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <span class="faq-q-text">Does a 301 redirect work for mobile?</span>
+              <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+            </button>
+            <div class="faq-a"><div class="faq-a-inner"><p>Yes. A 301 is an HTTP status code, so it works identically on mobile and desktop. If you're serving a separate m.example.com site, make sure the redirect points to the correct mobile-friendly URL.</p></div></div>
+          </div>
+        </div>
+
+        <h2 id="related-terms">Related glossary terms</h2>
+        <div class="related-terms">
+          <a href="/glossary/302-redirect/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">302 Redirect</div>
+            <p class="rt-desc">A temporary redirect. Google keeps the old URL in its index.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/canonical-url/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Canonical URL</div>
+            <p class="rt-desc">The preferred version of a page when duplicates exist.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/htaccess/" class="related-term">
+            <span class="rt-cat">Server</span>
+            <div class="rt-name">.htaccess</div>
+            <p class="rt-desc">Apache config file where redirects are typically defined.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/link-equity/" class="related-term">
+            <span class="rt-cat">SEO Concepts</span>
+            <div class="rt-name">Link Equity</div>
+            <p class="rt-desc">PageRank-like value passed between pages by links.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/soft-404/" class="related-term">
+            <span class="rt-cat">Technical SEO</span>
+            <div class="rt-name">Soft 404</div>
+            <p class="rt-desc">A page that returns 200 OK but has no useful content.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+          <a href="/glossary/change-of-address/" class="related-term">
+            <span class="rt-cat">Search Console</span>
+            <div class="rt-name">Change of Address</div>
+            <p class="rt-desc">Google Search Console tool for site-level migrations.</p>
+            <span class="rt-arrow">Read →</span>
+          </a>
+        </div>
+
+        <h2 id="sources">Sources</h2>
+        <div class="sources-block">
+          <div class="sources-head">📑 Verified references</div>
+          <ol class="sources-list">
+            <li><span class="src-num">[01]</span><a href="https://developers.google.com/search/docs/crawling-indexing/301-redirects" target="_blank" rel="noopener">Google Search Central — 301 redirects and Google Search</a></li>
+            <li><span class="src-num">[02]</span><a href="https://datatracker.ietf.org/doc/html/rfc7231#section-6.4.2" target="_blank" rel="noopener">RFC 7231 §6.4.2 — 301 Moved Permanently (IETF standard)</a></li>
+            <li><span class="src-num">[03]</span><a href="https://ahrefs.com/blog/301-redirects/" target="_blank" rel="noopener">Ahrefs — 301 redirects: everything you need to know</a></li>
+            <li><span class="src-num">[04]</span><a href="https://moz.com/learn/seo/redirection" target="_blank" rel="noopener">Moz — Redirection guide</a></li>
+            <li><span class="src-num">[05]</span>Internal audit: 1,200-URL migration on a live client site — Apr 2026</li>
+          </ol>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar-lg">AVR</div>
+          <div class="author-info">
+            <h4>Akshay VR</h4>
+            <div class="role">Marketing Head · theStacc · Ex-Sr Marketing Specialist, ARKA 360</div>
+            <p>Akshay leads the editorial and content-ops function at theStacc. He writes about SEO craft, content operations, and the small decisions that compound into big ranking wins — from what to redirect to what to leave alone.</p>
+            <div class="author-links-row">
+              <a href="https://www.linkedin.com/in/akshay-vr-3aa1b9204/">LinkedIn</a>
+              <a href="/authors/akshay-vr/">Author page</a>
+              <a href="/glossary/?author=akshay-vr">More terms by Akshay</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- SIDEBAR -->
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free SEO audit · 24-hour delivery</div>
+          <div class="cta-title">See what's costing you traffic.</div>
+          <p class="cta-desc">We'll audit your site — including every 301, 302, and broken redirect — and send back the keyword opportunities, technical fixes, and content gaps ranked by impact.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>Every redirect + broken chain surfaced</li>
+            <li>Technical fixes ranked by SEO impact</li>
+            <li>Keyword gaps competitors rank for</li>
+            <li>Custom 90-day growth plan</li>
+          </ul>
+          <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; color: rgba(255,255,255,0.55); font-family: 'Geist Mono', monospace; letter-spacing: 0.04em;">
+            ★★★★★ <strong style="color: white;">4.9</strong> · 127+ audits this quarter
+          </div>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M1 2h10M1 6h10M1 10h7" stroke="currentColor" stroke-width="1.5"/></svg>
+            On this page
+          </div>
+          <ul class="toc-list">
+            <li><a href="#what-is">What is a 301 redirect?</a></li>
+            <li><a href="#why-it-matters">Why it matters for SEO</a></li>
+            <li><a href="#how-it-works">How it actually works</a></li>
+            <li><a href="#types">301 vs other redirects</a></li>
+            <li><a href="#examples">Real examples</a></li>
+            <li><a href="#vs-canonical">301 vs canonical URL</a></li>
+            <li><a href="#best-practices">7 best practices</a></li>
+            <li><a href="#mistakes">Common mistakes</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#related-terms">Related terms</a></li>
+            <li><a href="#sources">Sources</a></li>
+          </ul>
+        </nav>
+
+        <div class="letter-jumps">
+          <div class="letter-jumps-head">📚 Jump to letter</div>
+          <div class="letter-jump-grid">
+            <a href="/glossary/?letter=a" class="letter-jump">A</a>
+            <a href="/glossary/?letter=b" class="letter-jump">B</a>
+            <a href="/glossary/?letter=c" class="letter-jump">C</a>
+            <a href="/glossary/?letter=d" class="letter-jump">D</a>
+            <a href="/glossary/?letter=e" class="letter-jump">E</a>
+            <a href="/glossary/?letter=f" class="letter-jump">F</a>
+            <a href="/glossary/?letter=g" class="letter-jump">G</a>
+            <a href="/glossary/?letter=h" class="letter-jump">H</a>
+            <a href="/glossary/?letter=i" class="letter-jump">I</a>
+            <a href="/glossary/?letter=j" class="letter-jump">J</a>
+            <a href="/glossary/?letter=k" class="letter-jump">K</a>
+            <a href="/glossary/?letter=l" class="letter-jump">L</a>
+            <a href="/glossary/?letter=m" class="letter-jump">M</a>
+            <a href="/glossary/?letter=n" class="letter-jump">N</a>
+            <a href="/glossary/?letter=o" class="letter-jump">O</a>
+            <a href="/glossary/?letter=p" class="letter-jump">P</a>
+            <a href="/glossary/?letter=q" class="letter-jump">Q</a>
+            <a href="/glossary/?letter=r" class="letter-jump">R</a>
+            <a href="/glossary/?letter=s" class="letter-jump">S</a>
+            <a href="/glossary/?letter=t" class="letter-jump">T</a>
+            <a href="/glossary/?letter=u" class="letter-jump">U</a>
+            <a href="/glossary/?letter=v" class="letter-jump">V</a>
+            <a href="/glossary/?letter=w" class="letter-jump">W</a>
+            <a href="/glossary/?letter=x" class="letter-jump">X</a>
+            <a href="/glossary/?letter=y" class="letter-jump">Y</a>
+            <a href="/glossary/?letter=z" class="letter-jump">Z</a>
+          </div>
+        </div>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg></a>
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg></a>
+            <a href="#" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+    const tocLinks = document.querySelectorAll('#toc .toc-list a');
+    const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function updateActiveToc() {
+      const scrollY = window.scrollY + 140;
+      let active = sections[0];
+      for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+      if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', updateActiveToc, { passive: true });
+    updateActiveToc();
+  </script>
+</BaseLayout>
