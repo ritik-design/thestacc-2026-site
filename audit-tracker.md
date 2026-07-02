@@ -207,3 +207,83 @@ The new theStacc Astro website is **production-ready** for the English traffic p
 ### Go / No-Go Decision
 
 **GO** — The site can be deployed. All critical migration, technical SEO, accessibility, and functional blockers are resolved. The remaining items are documented recommendations that do not prevent launch.
+
+---
+
+## Site Inventory Coverage Comparison — 2026-07-02
+
+Compared `https://thestacc.com/sitemap-0.xml` against the new Astro build (`dist/sitemap-0.xml`).
+
+### High-level numbers
+
+| Metric | Count |
+|--------|-------|
+| Current site URLs | **3,516** |
+| New site URLs | **1,971** |
+| Exact URL matches | **1,852 (52.7%)** |
+| Missing from new site | **1,664** |
+| Extra/new pages in new site | **119** |
+
+### Core English content coverage
+
+Excluding international sub-sites and docs (see below):
+
+| Metric | Count |
+|--------|-------|
+| Core English content on old site | **1,900** |
+| Covered or renamed/consolidated in new site | **1,829** |
+| **Core content coverage** | **96.3%** |
+| Truly missing core English pages | **0** |
+
+### What is left / missing
+
+| Category | Count | Notes |
+|----------|-------|-------|
+| International/localized pages | **1,534** | `/it/`, `/fr/`, `/de/`, `/es/`, `/pt-br/` — full localized sub-sites not in new build |
+| Docs | **82** | `/docs/account/*`, `/docs/content-seo/*`, etc. — no docs section in new build |
+| Blog pagination | **32** | `/blog/page/2/` … `/blog/page/33/` — new site has no paginated blog index in sitemap |
+| Renamed/consolidated | **16** | Same content under different URL or merged into features/solutions |
+| URL-encoded slug | **1** | `/blog/content%20audit%20template/` exists as `/blog/content-audit-template/` |
+| **Total missing** | **1,664** | |
+
+### Renamed/consolidated pages needing redirects
+
+| Old URL | New target / status |
+|---------|---------------------|
+| `/case-studies/solar-design-software/` | `/case-studies/vertical-saas-software/` |
+| `/author/siddharth-gangal/` | `/authors/siddharth-gangal/` |
+| `/blog/content%20audit%20template/` | `/blog/content-audit-template/` |
+| `/citation-building-software/` | `/features/citation-management/` |
+| `/franchise-seo/`, `/franchise-seo-software/` | `/solutions/franchises/` |
+| `/google-business-profile-software/` | `/features/` or `/integrations/google-business-profile/` |
+| `/local-seo-automation/` | `/solutions/` or `/features/` |
+| `/multi-location-seo-software/` | `/solutions/multi-location/` |
+| `/review-management-software/` | `/features/review-monitoring/` |
+| `/seo-automation-software/`, `/seo-software/` | `/features/` or `/solutions/` |
+| `/social-media-automation-tool/` | `/features/social-scheduling/` |
+| `/lp/`, `/lp/thankyou/`, `/thankyou-stacc/` | `/thank-you/` |
+
+### Major new sections not on old site
+
+- `/features/*` (10 pages)
+- `/for/*` industry pages (31 pages)
+- `/solutions/*` (5 pages)
+- `/integrations/*` (8 pages)
+- `/authors/*` (4 pages)
+- `/legal/*` (6 pages)
+- 39 additional glossary terms
+- 6 additional blog posts
+
+### Recommendations
+
+1. Confirm scope for **1,534 international pages** — largest remaining gap.
+2. Decide fate of **82 docs pages** — migrate or move to separate docs host.
+3. Add **blog pagination** or confirm single-page/infinite-scroll approach.
+4. Implement **301 redirects** for the 16 renamed/consolidated URLs.
+5. Ensure renamed pages like `/case-studies/vertical-saas-software/` are included in the generated sitemap.
+
+### Result
+
+- Raw URL coverage: **52.7%**
+- Core English content coverage: **96.3%**
+- Core English pages truly missing: **0**
