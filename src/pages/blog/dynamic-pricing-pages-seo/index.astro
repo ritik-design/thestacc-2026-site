@@ -87,6 +87,7 @@ const readTime = "26 min";
   date={date}
   readTime={readTime}
 >
+
 <p>Your prices change every hour. Your search snippets show the price from three weeks ago. That gap is bleeding revenue you cannot see in any dashboard.</p>
 <p>Dynamic pricing pages SEO is the discipline of keeping live prices, schema, title tags, and merchant feeds in lockstep across every product page. Done right, <a href="https://www.searchpilot.com/resources/case-studies/seo-split-test-lessons-adding-dynamic-prices-to-titles-versus-static-prices">Search Pilot reports</a> a 17% click-through lift on title tags that carry the current price. Done wrong, you lose rich snippets, get Merchant Center warnings, and watch competitors with stale databases outrank you on freshness.</p>
 <p>This guide gives you the exact 2026 playbook. You will see the schema fields Google validates on every crawl, the AI pipeline that pushes a new price from competitor scrape to Indexing API in 15 minutes, the Core Web Vitals rules that prevent live price renders from breaking mobile rankings, and the 16-point audit we run before any client touches their repricing engine.</p>
@@ -421,28 +422,16 @@ const readTime = "26 min";
 <p>Crawl budget stays low on transactional pages because Google sees nothing changed. The repricing engine runs hourly. The index lags by 2 to 4 weeks. Every snippet is stale.</p>
 <p>The fix: update sitemap lastmod on every price change. Ping high-value URLs via Indexing API. Submit URL volume in proportion to crawl budget, not all at once.</p>
 <h2>Dynamic Pricing Pages SEO FAQ</h2>
-<p><strong>Do dynamic prices hurt SEO?</strong>
-No, dynamic prices help SEO when the pipeline is clean. Search Pilot found a 17% CTR lift on title tags with live prices versus static. The risk is drift between layers (schema, HTML, feed), not the dynamic pricing itself.</p>
-<p><strong>How often should I update product schema for dynamic pricing?</strong>
-Update Offer schema on every price change, not on a schedule. The visible price and the schema price must match at all times. If your repricing engine fires hourly, your schema must update hourly.</p>
-<p><strong>Should priceValidUntil be far in the future for SEO?</strong>
-No. Set priceValidUntil 30 to 90 days in the future, and refresh on every repricing event. Setting it years out slows Google's recrawl cadence on transactional pages, which causes stale prices in search results.</p>
-<p><strong>Does Google penalize stores for changing prices often?</strong>
-No. Google does not penalize price changes. It penalizes stale snippets, drift between schema and HTML, and missing required fields. Frequent price changes with a clean pipeline are a freshness signal.</p>
-<p><strong>Can AI reprice pages without hurting SEO?</strong>
-Yes, if the AI pipeline writes to a single source of truth and downstream layers (schema, HTML, title tag, feed) regenerate from that record. AI repricing only hurts SEO when it bypasses the SEO layer or causes drift.</p>
-<p><strong>How do I handle dynamic pricing in title tags?</strong>
-Render the live price at build time or edge time using a serverless function that pulls from the same database record. Test the pattern on 10% of catalog first. Measure CTR over 4 weeks. Roll out wider only if you see a clean lift.</p>
-<p><strong>Do I need different schema for sale prices versus regular prices?</strong>
-Use the priceSpecification object to represent original and sale price together. A standalone <code>price</code> field cannot express a discount. Crossed-out HTML alone does not give Google the original price to compare against.</p>
-<p><strong>What is the right Merchant Center sync cadence for dynamic prices?</strong>
-Every 15 minutes is the sweet spot for most ecommerce catalogs. Faster wastes capacity, slower lets drift compound. For high-velocity categories (travel, electronics during launches), every 5 minutes can be worth the cost.</p>
-<h2>Bottom Line</h2>
-<p>Dynamic pricing pages win on search when every layer of the stack updates from one record. The repricing engine, the JSON-LD, the title tag, the merchant feed, and the sitemap lastmod all point to the same number, and they all change together. That coordination is what unlocks the 17% CTR lift Search Pilot measured and the 2x to 4x revenue compounding our team sees across clients.</p>
-<p>The shortcut everyone wants is to bolt AI repricing onto a static SEO stack. It does not work. The price changes hourly, the schema stays Tuesday's number, the merchant feed warns, the rich snippet disappears, and the AI Overview cites a competitor. Every hour of drift is paid in lost clicks and lost trust.</p>
-<p>If you want a content and schema layer that keeps pace with whatever your repricing engine does, that is what we publish for $99 a month. Pricing pages, product content, and the schema underneath, all maintained in lockstep.</p>
-<p><strong><a href="/pricing/">See how Stacc keeps your pages crawl-fresh → Start for $1</a></strong></p>
-<p><em>Sources cited: <a href="https://www.searchpilot.com/resources/case-studies/seo-split-test-lessons-adding-dynamic-prices-to-titles-versus-static-prices">Search Pilot SEO split test on dynamic vs static prices in title tags</a>, <a href="https://developers.google.com/search/apis/indexing-api/v3/quickstart">Google Indexing API documentation</a>, <a href="https://schema.org/OfferShippingDetails">Schema.org OfferShippingDetails specification</a>.</em></p>
+<div class="faq-list">
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="do-dynamic-prices-hurt-seo-no-dynamic-prices-help-">
+      <span class="faq-q-text">Do dynamic prices hurt SEO? No, dynamic prices help SEO when the pipeline is clean. Search Pilot found a 17% CTR lift on title tags with live prices versus static. The risk is drift between layers (schema, HTML, feed), not the dynamic pricing itself. How often should I update product schema for dynamic pricing? Update Offer schema on every price change, not on a schedule. The visible price and the schema price must match at all times. If your repricing engine fires hourly, your schema must update hourly. Should priceValidUntil be far in the future for SEO? No. Set priceValidUntil 30 to 90 days in the future, and refresh on every repricing event. Setting it years out slows Google's recrawl cadence on transactional pages, which causes stale prices in search results. Does Google penalize stores for changing prices often? No. Google does not penalize price changes. It penalizes stale snippets, drift between schema and HTML, and missing required fields. Frequent price changes with a clean pipeline are a freshness signal. Can AI reprice pages without hurting SEO? Yes, if the AI pipeline writes to a single source of truth and downstream layers (schema, HTML, title tag, feed) regenerate from that record. AI repricing only hurts SEO when it bypasses the SEO layer or causes drift. How do I handle dynamic pricing in title tags? Render the live price at build time or edge time using a serverless function that pulls from the same database record. Test the pattern on 10% of catalog first. Measure CTR over 4 weeks. Roll out wider only if you see a clean lift. Do I need different schema for sale prices versus regular prices? Use the priceSpecification object to represent original and sale price together. A standalone price field cannot express a discount. Crossed-out HTML alone does not give Google the original price to compare against. What is the right Merchant Center sync cadence for dynamic prices? Every 15 minutes is the sweet spot for most ecommerce catalogs. Faster wastes capacity, slower lets drift compound. For high-velocity categories (travel, electronics during launches), every 5 minutes can be worth the cost. Bottom Line Dynamic pricing pages win on search when every layer of the stack updates from one record. The repricing engine, the JSON-LD, the title tag, the merchant feed, and the sitemap lastmod all point to the same number, and they all change together. That coordination is what unlocks the 17% CTR lift Search Pilot measured and the 2x to 4x revenue compounding our team sees across clients. The shortcut everyone wants is to bolt AI repricing onto a static SEO stack. It does not work. The price changes hourly, the schema stays Tuesday's number, the merchant feed warns, the rich snippet disappears, and the AI Overview cites a competitor. Every hour of drift is paid in lost clicks and lost trust. If you want a content and schema layer that keeps pace with whatever your repricing engine does, that is what we publish for $99 a month. Pricing pages, product content, and the schema underneath, all maintained in lockstep. See how Stacc keeps your pages crawl-fresh → Start for $1</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="do-dynamic-prices-hurt-seo-no-dynamic-prices-help-"><div class="faq-a-inner"><p><em>Sources cited: <a href="https://www.searchpilot.com/resources/case-studies/seo-split-test-lessons-adding-dynamic-prices-to-titles-versus-static-prices">Search Pilot SEO split test on dynamic vs static prices in title tags</a>, <a href="https://developers.google.com/search/apis/indexing-api/v3/quickstart">Google Indexing API documentation</a>, <a href="https://schema.org/OfferShippingDetails">Schema.org OfferShippingDetails specification</a>.</em></p></div></div>
+  </div>
+</div>
+
 <h2>Related Tools &amp; Resources</h2>
 <p><strong>Free SEO Tools:</strong>
 - <a href="/tools/seo-audit/">Free SEO Audit</a>
@@ -463,4 +452,5 @@ Every 15 minutes is the sweet spot for most ecommerce catalogs. Faster wastes ca
 <p>The mistake to avoid: mixing both patterns within the same product line. Pick one. Use it consistently. Our <a href="/blog/canonical-tags-guide/">canonical tags guide</a> covers the decision logic in depth.</p></div></div>
   </div>
 </div>
+
 </BlogLayout>

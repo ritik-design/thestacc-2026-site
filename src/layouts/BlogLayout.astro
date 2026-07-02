@@ -40,6 +40,24 @@ const {
 } = Astro.props;
 
 const hasSources = sources.length > 0;
+
+// Render slot to HTML so we can build the TOC server-side
+const slotHtml = await Astro.slots.render('default');
+
+// Extract headings from the rendered content
+function slugifyHeading(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+}
+
+const headings = [];
+let processedSlotHtml = slotHtml.replace(/<h([23])([^>]*)>([\s\S]*?)<\/h\1>/gi, (match, level, attrs, inner) => {
+  const text = inner.replace(/<[^>]+>/g, '').replace(/¶/g, '').trim();
+  if (!text) return match;
+  headings.push({ level, text });
+  const id = slugifyHeading(text);
+  if (attrs.includes('id=')) return match;
+  return `<h${level} id="${id}"${attrs}>${inner}</h${level}>`;
+});
 ---
 <BaseLayout seo={seo} bodyClass={`blog-post author-${author?.slug || 'thestacc'}`}>
   <section class="post-hero">
@@ -97,21 +115,23 @@ const hasSources = sources.length > 0;
   <div class="post-body-wrap">
     <div class="post-grid">
       <article class="post-content" id="post-content">
-        <slot />
+        <Fragment set:html={processedSlotHtml} />
 
         {hasSources && (
-          <h2 id="sources">Sources &amp; references</h2>
-          <div class="sources-block">
-            <div class="sources-head">📑 Sources &amp; references</div>
-            <ol class="sources-list">
-              {sources.map((s) => (
-                <li>
-                  {s.num && <span class="src-num">[{s.num}]</span>}
-                  {s.url ? <a href={s.url} target="_blank" rel="noopener">{s.text}</a> : <span>{s.text}</span>}
-                </li>
-              ))}
-            </ol>
-          </div>
+          <>
+            <h2 id="sources">Sources &amp; references</h2>
+            <div class="sources-block">
+              <div class="sources-head">📑 Sources &amp; references</div>
+              <ol class="sources-list">
+                {sources.map((s) => (
+                  <li>
+                    {s.num && <span class="src-num">[{s.num}]</span>}
+                    {s.url ? <a href={s.url} target="_blank" rel="noopener">{s.text}</a> : <span>{s.text}</span>}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </>
         )}
       </article>
 
@@ -133,7 +153,18 @@ const hasSources = sources.length > 0;
             <svg viewBox="0 0 12 12" fill="none"><path d="M1 2h10M1 6h10M1 10h7" stroke="currentColor" stroke-width="1.5"/></svg>
             On this page
           </div>
-          <ul class="toc-list" id="toc-list"></ul>
+          <ul class="toc-list" id="toc-list">
+            {headings.map((h) => {
+              const id = slugifyHeading(h.text);
+              return (
+                <li>
+                  <a href={`#${id}`} style={h.level === '3' ? 'padding-left: 16px; font-size: 13px;' : ''}>
+                    {h.text}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
         </nav>
 
         <div class="sidebar-share">
@@ -175,31 +206,13 @@ const hasSources = sources.length > 0;
     function toggleFaq(btn) {
       const item = btn.closest('.faq-item');
       item.classList.toggle('open');
+      btn.setAttribute('aria-expanded', item.classList.contains('open'));
     }
     window.toggleFaq = toggleFaq;
 
-    function buildToc() {
-      const content = document.getElementById('post-content');
+    function initActiveToc() {
       const tocList = document.getElementById('toc-list');
-      if (!content || !tocList) return;
-
-      const headings = Array.from(content.querySelectorAll('h2, h3'));
-      headings.forEach((h, idx) => {
-        if (!h.id) {
-          h.id = 'section-' + idx;
-        }
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = '#' + h.id;
-        a.textContent = h.textContent.replace('¶', '').trim();
-        if (h.tagName === 'H3') {
-          a.style.paddingLeft = '16px';
-          a.style.fontSize = '13px';
-        }
-        li.appendChild(a);
-        tocList.appendChild(li);
-      });
-
+      if (!tocList) return;
       const tocLinks = tocList.querySelectorAll('a');
       const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
       function updateActiveToc() {
@@ -210,66 +223,6 @@ const hasSources = sources.length > 0;
       }
       window.addEventListener('scroll', updateActiveToc, { passive: true });
       updateActiveToc();
-    }
-
-    function convertFaq() {
-      const content = document.getElementById('post-content');
-      if (!content) return;
-
-      const h2s = content.querySelectorAll('h2');
-      let faqHeading = null;
-      h2s.forEach(h => {
-        if (/frequently asked questions|faq|common questions/i.test(h.textContent)) faqHeading = h;
-      });
-      if (!faqHeading) return;
-
-      const faqList = document.createElement('div');
-      faqList.className = 'faq-list';
-
-      let sibling = faqHeading.nextElementSibling;
-      while (sibling && !sibling.matches('h2')) {
-        const qEl = sibling;
-        const aEl = qEl.nextElementSibling;
-        if (!aEl) {
-          sibling = sibling.nextElementSibling;
-          continue;
-        }
-
-        let question = '';
-        if (qEl.tagName === 'P' && qEl.querySelector('strong')) {
-          question = qEl.querySelector('strong').textContent.trim();
-        } else if (qEl.tagName === 'P' || qEl.tagName === 'H3') {
-          question = qEl.textContent.trim();
-        } else {
-          sibling = sibling.nextElementSibling;
-          continue;
-        }
-
-        if (!question) {
-          sibling = sibling.nextElementSibling;
-          continue;
-        }
-
-        const answerHtml = aEl.innerHTML;
-        const item = document.createElement('div');
-        item.className = 'faq-item';
-        item.innerHTML = `
-          <button class="faq-q" onclick="toggleFaq(this)">
-            <span class="faq-q-text">${question.replace(/"/g, '&quot;')}</span>
-            <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
-          </button>
-          <div class="faq-a"><div class="faq-a-inner">${answerHtml}</div></div>
-        `;
-        faqList.appendChild(item);
-
-        const oldQ = qEl;
-        const oldA = aEl;
-        sibling = aEl.nextElementSibling;
-        oldQ.remove();
-        oldA.remove();
-      }
-
-      faqHeading.after(faqList);
     }
 
     function initShare() {
@@ -290,8 +243,56 @@ const hasSources = sources.length > 0;
       }
     }
 
-    buildToc();
-    convertFaq();
+    // Fallback: convert any remaining plain FAQ sections for posts not migrated server-side
+    function convertFaqFallback() {
+      const content = document.getElementById('post-content');
+      if (!content) return;
+      const h2s = content.querySelectorAll('h2');
+      let faqHeading = null;
+      h2s.forEach(h => {
+        if (/frequently asked questions|faq|common questions/i.test(h.textContent)) faqHeading = h;
+      });
+      if (!faqHeading || faqHeading.nextElementSibling?.classList.contains('faq-list')) return;
+
+      const faqList = document.createElement('div');
+      faqList.className = 'faq-list';
+      let sibling = faqHeading.nextElementSibling;
+      while (sibling && !sibling.matches('h2')) {
+        const qEl = sibling;
+        const aEl = qEl.nextElementSibling;
+        if (!aEl) { sibling = sibling.nextElementSibling; continue; }
+        let question = '';
+        if (qEl.tagName === 'P' && qEl.querySelector('strong')) {
+          question = qEl.querySelector('strong').textContent.trim();
+        } else if (qEl.tagName === 'P' || qEl.tagName === 'H3') {
+          question = qEl.textContent.trim();
+        } else {
+          sibling = sibling.nextElementSibling;
+          continue;
+        }
+        if (!question) { sibling = sibling.nextElementSibling; continue; }
+        const answerHtml = aEl.innerHTML;
+        const item = document.createElement('div');
+        item.className = 'faq-item';
+        item.innerHTML = `
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-text">${question.replace(/"/g, '&quot;')}</span>
+            <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">${answerHtml}</div></div>
+        `;
+        faqList.appendChild(item);
+        const oldQ = qEl;
+        const oldA = aEl;
+        sibling = aEl.nextElementSibling;
+        oldQ.remove();
+        oldA.remove();
+      }
+      faqHeading.after(faqList);
+    }
+
+    initActiveToc();
     initShare();
+    convertFaqFallback();
   </script>
 </BaseLayout>

@@ -87,6 +87,7 @@ const readTime = "30 min";
   date={date}
   readTime={readTime}
 >
+
 <p>Notion as a CMS sounds perfect until your pages do not show up on Google.</p>
 <p>You have built a beautiful content database. Your editorial workflow is smooth. Your team writes in Notion every day. But search engines cannot find your work. Meta descriptions are missing. URLs look like random strings. Page speed scores are embarrassing.</p>
 <p>This is the reality of native Notion as a publishing platform. The writing experience is world-class. The SEO experience is not.</p>
@@ -213,415 +214,121 @@ const readTime = "30 min";
 <a href="/pricing/">Start for $1 →</a></p>
 </blockquote>
 <h2>Chapter 3: Notion-Powered Website Builders That Fix SEO &#123;#ch3&#125;</h2>
-<p>The fastest way to make Notion SEO-friendly is to add a specialized frontend layer. Three tools dominate this space: Super, Feather, and Bullet. Each takes a different approach to solving Notion's SEO problems.</p>
-<h3>Super.so: The All-Rounder</h3>
-<p>Super.so is the most popular Notion website builder. It wraps your Notion content in a fast, optimized frontend. You get custom domains, clean URLs, and meta tag control.</p>
-<p>Super generates static HTML from your Notion pages. This eliminates the JavaScript rendering problem. Google receives fully rendered HTML immediately. Crawling and indexing speed improves dramatically.</p>
-<p>SEO features include custom title tags, meta descriptions, and Open Graph images. Super also generates XML sitemaps automatically. You can add Google Analytics, Facebook Pixel, and custom scripts for structured data.</p>
-<p>The downside is cost. Super starts at $16 per month for basic features. Advanced SEO controls require higher-tier plans. You are essentially paying for a hosting layer on top of Notion's existing cost.</p>
-<p>Super works best for simple websites, portfolios, and small blogs. It handles up to a few hundred pages well. For larger sites, performance can degrade.</p>
-<h3>Feather.so: The Blog Specialist</h3>
-<p>Feather.so focuses specifically on blogging. It turns Notion databases into SEO-optimized blogs. The standout feature is subfolder blog structure. Your blog lives at <code>/blog/</code> instead of <code>blog.yoursite.com</code>. This preserves domain authority and improves rankings.</p>
-<p>Feather adds SEO fields directly to your Notion database. You create properties for SEO title, meta description, slug, and publish status. Feather reads these properties and generates the correct HTML tags.</p>
-<p>The platform also handles image optimization. Notion image URLs expire after one hour. Feather downloads and caches images, serving them through a CDN. This fixes a major performance problem.</p>
-<p>Feather includes analytics integration, newsletter signup forms, and related post suggestions. It is designed for content publishers who want Notion's editing experience without the SEO trade-offs.</p>
-<p>Pricing starts at $29 per month. The blog-focused feature set justifies the cost for serious publishers.</p>
-<h3>Bullet.so: The Business Site Builder</h3>
-<p>Bullet.so targets small business websites. It offers custom domains, SEO optimization, and Google Analytics integration. The focus is on simplicity rather than advanced features.</p>
-<p>Bullet generates fast-loading pages from Notion content. It handles meta tags, sitemaps, and basic structured data. The platform is less feature-rich than Super or Feather but easier to set up.</p>
-<p>Bullet works well for landing pages, service sites, and small business portfolios. It is not ideal for large blogs or content-heavy sites.</p>
-<h3>Which Builder Should You Choose?</h3>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Use Case</th>
-<th>Best Tool</th>
-<th>Why</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Simple website or portfolio</td>
-<td>Super.so</td>
-<td>Fastest setup, broad features</td>
-</tr>
-<tr>
-<td>Professional blog</td>
-<td>Feather.so</td>
-<td>Subfolder SEO, image caching, analytics</td>
-</tr>
-<tr>
-<td>Small business site</td>
-<td>Bullet.so</td>
-<td>Simple, affordable, good enough</td>
-</tr>
-<tr>
-<td>Large content site</td>
-<td>Next.js + Notion API</td>
-<td>Full control, best performance</td>
-</tr>
-</tbody>
-</table></div>
-<p><img loading="lazy" alt="Notion website builder comparison showing Super, Feather, and Bullet side by side for notion cms seo" src="/images/blog/notion-cms-seo-builders.webp" /></p>
-<h2>Chapter 4: Building a Headless Notion CMS for Maximum SEO Control &#123;#ch4&#125;</h2>
-<p>For developers and technical teams, the most powerful approach is using Notion as a headless CMS. You store content in Notion. You serve it through a custom frontend built with Next.js, Astro, or another static site generator.</p>
-<p>This setup gives you complete control over every SEO element. You are not limited by what Super or Feather offer. You build exactly what you need.</p>
-<h3>How Headless Notion Works</h3>
-<p>The architecture is straightforward. Notion serves as the content database. Your team writes and organizes content in Notion databases. A custom application fetches this content through the Notion API. The application generates static HTML pages at build time. These pages are served through a CDN.</p>
-<p>The flow looks like this:</p>
-<p><img loading="lazy" alt="Headless Notion CMS architecture diagram showing Notion Database to Notion API to Next.js to CDN to Visitor for notion cms seo" src="/images/blog/notion-cms-seo-architecture.webp" /></p>
-<p>Notion Database → Notion API → Static Site Generator → CDN → Visitor</p>
-<p>At build time, your application requests all content from Notion. It generates HTML, CSS, and JavaScript. It creates sitemaps, RSS feeds, and structured data. The result is a fully optimized static site.</p>
-<h3>Setting Up the Notion Database for SEO</h3>
-<p>Your Notion database needs specific properties to support SEO. Here is the schema we recommend:</p>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Title</td>
-<td>Title</td>
-<td>Page title and H1 heading</td>
-</tr>
-<tr>
-<td>Slug</td>
-<td>Text</td>
-<td>Clean URL path</td>
-</tr>
-<tr>
-<td>SEO Title</td>
-<td>Text</td>
-<td>Custom <code>&lt;title&gt;</code> tag</td>
-</tr>
-<tr>
-<td>Meta Description</td>
-<td>Text</td>
-<td>Search result snippet</td>
-</tr>
-<tr>
-<td>Published</td>
-<td>Checkbox</td>
-<td>Visibility control</td>
-</tr>
-<tr>
-<td>Date</td>
-<td>Date</td>
-<td>Publication date for freshness</td>
-</tr>
-<tr>
-<td>Tags</td>
-<td>Multi-select</td>
-<td>Topic categories</td>
-</tr>
-<tr>
-<td>Cover Image</td>
-<td>Files</td>
-<td>Open Graph and featured image</td>
-</tr>
-<tr>
-<td>Author</td>
-<td>People</td>
-<td>Content attribution</td>
-</tr>
-<tr>
-<td>Excerpt</td>
-<td>Text</td>
-<td>Summary for listing pages</td>
-</tr>
-</tbody>
-</table></div>
-<p>This schema gives your frontend everything it needs to generate optimized HTML. The Slug field creates clean URLs. The SEO Title and Meta Description fields override the defaults. The Published field controls whether a page appears on the site.</p>
-<p><img loading="lazy" alt="Notion database schema for SEO showing recommended properties like Slug, SEO Title, Meta Description, and Tags for notion cms seo" src="/images/blog/notion-cms-seo-database-schema.webp" /></p>
-<h3>Next.js Implementation Best Practices</h3>
-<p>Next.js is the most popular framework for headless Notion setups. It offers <a href="https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation">Static Site Generation (SSG)</a>, <a href="https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration">Incremental Static Regeneration (ISR)</a>, and image optimization.</p>
-<p>Use <code>getStaticProps</code> to fetch Notion content at build time. This generates HTML ahead of time. Visitors receive pre-rendered pages instantly. Google crawls fully rendered HTML without waiting for JavaScript.</p>
-<p>Implement ISR for content that updates frequently. ISR rebuilds pages in the background when content changes. You get the performance of static sites with the freshness of dynamic ones.</p>
-<p>Use the Next.js Image component for all images. It automatically optimizes, resizes, and serves images in modern formats. This fixes Notion's image performance problem.</p>
-<p>Generate a dynamic sitemap using Next.js API routes. The sitemap should list every published page with its last-modified date. Submit this sitemap to Google Search Console.</p>
-<p>Add structured data using JSON-LD scripts. Include Article schema for blog posts, Organization schema for your site, and BreadcrumbList schema for navigation. This makes your content eligible for rich results.</p>
-<h3>The Image Problem and How to Solve It</h3>
-<p>Notion image URLs expire after one hour. If you embed Notion images directly in your HTML, they will break. This is a critical issue for any headless setup.</p>
-<p>The solution is to download and cache images at build time. Your build script should fetch every image referenced in your Notion database. It should save them to your project's public directory. The frontend serves these cached images instead of hotlinking Notion.</p>
-<p>For large sites, use a CDN like Cloudflare or CloudFront. Upload images to the CDN during build. Serve them through the CDN's global network. This provides fast loading worldwide.</p>
-<h3>Performance Benchmarks</h3>
-<p>In our testing, a headless Notion site built with Next.js and deployed to Vercel scored significantly better than native Notion:</p>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Native Notion</th>
-<th>Next.js + Notion</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>LCP (mobile)</td>
-<td>4.2s</td>
-<td>1.1s</td>
-</tr>
-<tr>
-<td>INP</td>
-<td>380ms</td>
-<td>45ms</td>
-</tr>
-<tr>
-<td>CLS</td>
-<td>0.15</td>
-<td>0.00</td>
-</tr>
-<tr>
-<td>Time to First Byte</td>
-<td>890ms</td>
-<td>120ms</td>
-</tr>
-<tr>
-<td>Lighthouse SEO Score</td>
-<td>62</td>
-<td>98</td>
-</tr>
-</tbody>
-</table></div>
-<p>These scores place the headless setup in the top tier of web performance. Native Notion scores in the bottom quartile.</p>
-<p><img loading="lazy" alt="Performance benchmarks comparing native Notion to Next.js headless setup showing LCP, INP, CLS, and Lighthouse SEO scores for notion cms seo" src="/images/blog/notion-cms-seo-performance.webp" /></p>
-<blockquote>
-<p><strong>Your content deserves a frontend that ranks.</strong> Stacc publishes SEO-optimized articles on WordPress, Ghost, and Webflow with perfect technical foundations. Custom meta tags, automatic sitemaps, and Core Web Vitals scores above 90.
-<a href="/pricing/">See our publishing options →</a></p>
-</blockquote>
-<h2>Chapter 5: Content Optimization Tactics Inside Notion &#123;#ch5&#125;</h2>
-<p>Even with perfect technical SEO, content quality determines rankings. Notion's editor supports many on-page SEO best practices natively. You just need to use them correctly.</p>
-<h3>Heading Hierarchy for Topical Authority</h3>
-<p>Search engines use headings to understand content structure. A clear hierarchy helps Google grasp your main topic and subtopics. It also makes content scannable for readers.</p>
-<p>In Notion, use heading blocks consistently. Your page title is the H1. Use H2 for major sections. Use H3 for subsections within those sections. Never skip levels. Do not jump from H2 to H4.</p>
-<p>Place your primary keyword in the H1. Include related keywords in H2 headings. This signals topical relevance without keyword stuffing.</p>
-<p>For example, if your primary keyword is "notion cms seo," your heading structure might look like this:</p>
-<ul>
-<li>H1: Notion CMS SEO: The Complete Guide for 2026</li>
-<li>H2: How Notion Handles SEO Natively</li>
-<li>H2: Technical SEO Limitations</li>
-<li>H3: No Custom Meta Tags</li>
-<li>H3: No XML Sitemap</li>
-<li>H2: Content Optimization Tactics</li>
-<li>H3: Heading Hierarchy</li>
-<li>H3: Internal Linking</li>
-</ul>
-<p>This structure tells Google that your page covers notion cms seo broadly, with specific attention to technical limitations and content tactics.</p>
-<h3>Internal Linking Strategy</h3>
-<p>Notion makes internal linking easy with the <code>[[</code> command. Type double brackets and start typing a page name. Notion suggests matching pages. Select one to create a link.</p>
-<p>Internal links distribute authority across your site. They help Google discover new pages. They keep visitors engaged longer. Both signals improve rankings.</p>
-<p>Build a linking habit. Every new article should link to 3 to 5 related articles on your site. Every article should receive links from 3 to 5 other articles. This creates a dense content graph that signals topical authority.</p>
-<p>In Notion, you can see all backlinks to a page in the "Backlinks" section. Use this to find linking opportunities. If a page has few backlinks, add links from relevant articles.</p>
-<h3>Keyword Placement Best Practices</h3>
-<p>Place your primary keyword in these locations:</p>
-<ul>
-<li>Page title (H1)</li>
-<li>First 100 words of content</li>
-<li>At least one H2 heading</li>
-<li>URL slug (if using a builder that supports custom URLs)</li>
-<li>Meta description</li>
-<li>Image alt text</li>
-</ul>
-<p>Use related keywords naturally throughout the content. These are terms that search engines associate with your primary topic. For notion cms seo, related keywords include "headless CMS," "Notion website builder," "content management system," and "technical SEO."</p>
-<p>Do not force keywords into sentences where they do not fit. Write for readers first. Search engines understand natural language. Keyword stuffing hurts rankings.</p>
-<h3>Content Freshness Signals</h3>
-<p>Google prefers fresh content for many queries. Updating existing articles can improve rankings without writing new content. Notion's database properties make this easy.</p>
-<p>Add a "Last Updated" date property to your content database. Update articles quarterly. Change the date when you make significant updates. Google notices these changes and may re-rank your content.</p>
-<p>For time-sensitive topics, publish dates matter. Notion databases can sort by date. Use this to surface your newest content on listing pages.</p>
-<h3>Writing for Featured Snippets</h3>
-<p>Featured snippets appear at the top of search results. They answer queries directly. Winning a snippet can double your traffic for a keyword.</p>
-<p>To target snippets, write concise answers near your headings. Place a 40 to 60 word answer immediately after an H2 or H3. Use clear, declarative sentences. Format lists with bullet points or numbered steps.</p>
-<p>For example, after an H2 like "Is Notion Good for SEO?" write:</p>
-<p>"Notion is not good for SEO out of the box. Native Notion lacks custom meta tags, XML sitemaps, and structured data. However, third-party builders like Super and Feather add these capabilities. For maximum SEO control, use Notion as a headless CMS with Next.js."</p>
-<p>This format is exactly what Google's snippet extraction algorithm looks for.</p>
-<h2>Chapter 6: Notion vs WordPress: An Honest SEO Comparison &#123;#ch6&#125;</h2>
-<p>WordPress powers <a href="https://w3techs.com/technologies/details/cm-wordpress">43% of all websites</a>. Notion powers millions of workspaces. When it comes to SEO, which platform wins?</p>
-<p>The answer depends on your technical resources and publishing volume.</p>
-<h3>Where WordPress Wins</h3>
-<p>WordPress has 20 years of SEO optimization behind it. The ecosystem includes plugins like Yoast SEO, Rank Math, and All in One SEO. These plugins handle meta tags, sitemaps, structured data, and social sharing automatically.</p>
-<p>WordPress offers complete URL control. You can set any permalink structure. You can create custom post types. You can build complex content architectures that support large-scale SEO strategies.</p>
-<p>The platform also has unmatched plugin ecosystem depth. Need schema markup? There is a plugin. Need image optimization? There is a plugin. Need automatic internal linking? There is a plugin. This extensibility means WordPress can handle virtually any SEO requirement.</p>
-<p>WordPress sites can achieve excellent Core Web Vitals scores with proper hosting and optimization. Managed WordPress hosts like Kinsta and WP Engine deliver sub-second load times. Caching plugins like WP Rocket and LiteSpeed Cache make optimization accessible.</p>
-<h3>Where Notion Wins</h3>
-<p>Notion wins on editorial experience. The writing interface is clean, fast, and distraction-free. Collaboration features are built-in. Comments, mentions, and real-time editing make team workflows smooth.</p>
-<p>Database views are another advantage. You can see all your content in a spreadsheet-like interface. Filter by status, author, date, or tag. This makes content planning and management far easier than WordPress's post list.</p>
-<p>Notion also wins on maintenance. There are no plugin updates, theme conflicts, or security patches. The platform handles hosting, backups, and uptime. You focus on content, not infrastructure.</p>
-<p>For small teams publishing infrequently, this simplicity is valuable. You trade some SEO capability for reduced operational overhead.</p>
-<h3>The Honest Verdict</h3>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Factor</th>
-<th>WordPress</th>
-<th>Notion + Builder</th>
-<th>Notion Headless</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Setup complexity</td>
-<td>Medium</td>
-<td>Low</td>
-<td>High</td>
-</tr>
-<tr>
-<td>Ongoing maintenance</td>
-<td>High</td>
-<td>Low</td>
-<td>Medium</td>
-</tr>
-<tr>
-<td>SEO control</td>
-<td>Maximum</td>
-<td>Medium</td>
-<td>Maximum</td>
-</tr>
-<tr>
-<td>Editorial experience</td>
-<td>Good</td>
-<td>Excellent</td>
-<td>Excellent</td>
-</tr>
-<tr>
-<td>Cost (small site)</td>
-<td>$10-30/mo</td>
-<td>$25-45/mo</td>
-<td>$5-20/mo</td>
-</tr>
-<tr>
-<td>Cost (large site)</td>
-<td>$50-200/mo</td>
-<td>$50-100/mo</td>
-<td>$20-50/mo</td>
-</tr>
-<tr>
-<td>Best for</td>
-<td>Serious SEO</td>
-<td>Simple sites</td>
-<td>Technical teams</td>
-</tr>
-</tbody>
-</table></div>
-<p>For businesses where SEO is a primary growth channel, WordPress or a headless Notion setup is the better choice. The SEO control justifies the additional complexity.</p>
-<p>For personal blogs, portfolios, and small business sites where SEO is secondary, Notion with a builder like Super or Feather is sufficient. The editorial benefits outweigh the SEO trade-offs.</p>
-<p>For technical teams who want both, headless Notion offers the best of both worlds. You get Notion's writing experience with complete SEO control.</p>
-<p><img loading="lazy" alt="WordPress vs Notion CMS SEO comparison showing strengths and weaknesses of each platform for notion cms seo" src="/images/blog/notion-cms-seo-wordpress-comparison.webp" /></p>
-<blockquote>
-<p><strong>Why choose between great writing and great SEO?</strong> Stacc handles both. We publish 30 to 80 SEO-optimized articles per month on WordPress, Ghost, and Webflow. Your team writes briefs. We handle the rest.
-<a href="/pricing/">Start for $1 →</a></p>
-</blockquote>
-<h2>Chapter 7: Advanced SEO Features for Notion Sites &#123;#ch7&#125;</h2>
-<p>Once you have the basics covered, advanced SEO tactics can push your Notion site further. These features require either a capable builder or a headless setup.</p>
-<h3>Schema Markup Implementation</h3>
-<p>Schema markup helps search engines understand your content context. It enables rich results like star ratings, recipe cards, and event listings. Notion has no native schema support, but you can add it through custom scripts.</p>
-<p>With Super, add schema through the custom code injection feature. Paste JSON-LD scripts into the head section of your pages. With a headless setup, generate schema programmatically based on your Notion database properties.</p>
-<p>Essential schema types for content sites include:</p>
-<ul>
-<li><strong>Article schema</strong> for blog posts</li>
-<li><strong>Organization schema</strong> for your business information</li>
-<li><strong>BreadcrumbList schema</strong> for navigation paths</li>
-<li><strong>FAQPage schema</strong> for FAQ sections</li>
-<li><strong>HowTo schema</strong> for tutorial content</li>
-</ul>
-<p>Article schema should include headline, author, publish date, modify date, and image. Organization schema should include name, URL, logo, and social profiles. BreadcrumbList schema helps Google display navigation breadcrumbs in search results.</p>
-<h3>Open Graph and Twitter Cards</h3>
-<p>Social sharing drives traffic and signals content quality. Open Graph tags control how your content appears on Facebook, LinkedIn, and other platforms. Twitter Cards do the same for Twitter/X.</p>
-<p>Notion generates basic Open Graph tags automatically. But you cannot customize them. You cannot set a specific image for social sharing. You cannot write a custom description for social platforms.</p>
-<p>Super, Feather, and headless setups all support custom Open Graph tags. Set a dedicated social image for each page. Write a social-specific description. These small optimizations increase click-through rates from social shares.</p>
-<h3>Canonical URLs and Pagination</h3>
-<p>Duplicate content hurts rankings. Canonical URLs tell search engines which version of a page is the original. This prevents duplicate content penalties when the same content appears at multiple URLs.</p>
-<p>Notion does not support canonical URLs natively. If your content appears on both a Notion public page and a custom domain, Google may see them as duplicates. This splits your ranking authority between two URLs.</p>
-<p>Third-party builders handle canonicals automatically. They set the canonical URL to your custom domain. Headless setups let you configure canonicals programmatically.</p>
-<p>For paginated content like blog archives, use <code>rel="next"</code> and <code>rel="prev"</code> tags. These help Google understand the relationship between paginated pages. Notion does not support pagination natively. Builders and headless setups can add these tags.</p>
-<h3>Multilingual SEO</h3>
-<p>Multilingual sites need hreflang tags. These tell Google which language version of a page to show to which audience. Notion has no multilingual features. You cannot create language-specific versions of pages.</p>
-<p>For multilingual SEO with Notion, use separate databases for each language. Build language-specific pages in your headless frontend. Add hreflang tags pointing to all language variants. This is complex but achievable with a custom setup.</p>
-<h3>Analytics and Search Console Integration</h3>
-<p>You cannot improve what you do not measure. Google Analytics and Google Search Console are essential for SEO. Notion has no native analytics integration.</p>
-<p>Super and Feather include Google Analytics integration. Add your tracking ID and data flows automatically. For headless setups, add the Analytics script to your site template.</p>
-<p>Google Search Console requires sitemap submission and verification. All third-party builders and headless setups support this. Verify your domain, submit your sitemap, and monitor indexing status, click-through rates, and ranking positions.</p>
-<h2>Chapter 8: The Complete Notion CMS SEO Checklist &#123;#ch8&#125;</h2>
-<p>Use this checklist to audit and optimize your Notion-based site. Work through each item systematically.</p>
-<h3>Technical SEO</h3>
-<ul>
-<li>[ ] Enable search engine indexing on all public pages</li>
-<li>[ ] Verify indexing status in Google Search Console</li>
-<li>[ ] Set up a custom domain (not notion.site)</li>
-<li>[ ] Configure custom URL slugs for all pages</li>
-<li>[ ] Write custom title tags for every page (under 60 characters)</li>
-<li>[ ] Write custom meta descriptions for every page (under 160 characters)</li>
-<li>[ ] Generate and submit an XML sitemap</li>
-<li>[ ] Create a robots.txt file</li>
-<li>[ ] Implement structured data (Article, Organization, BreadcrumbList)</li>
-<li>[ ] Add canonical URLs to prevent duplicate content</li>
-<li>[ ] Set up Google Analytics tracking</li>
-<li>[ ] Verify domain in Google Search Console</li>
-<li>[ ] Submit sitemap to Google Search Console</li>
-<li>[ ] Check Core Web Vitals scores in PageSpeed Insights</li>
-<li>[ ] Optimize images (compress, use WebP, add alt text)</li>
-<li>[ ] Enable HTTPS (SSL certificate)</li>
-</ul>
-<h3>Content SEO</h3>
-<ul>
-<li>[ ] Place primary keyword in H1 title</li>
-<li>[ ] Include primary keyword in first 100 words</li>
-<li>[ ] Use primary keyword in at least one H2 heading</li>
-<li>[ ] Include primary keyword in meta description</li>
-<li>[ ] Add primary keyword to image alt text</li>
-<li>[ ] Use related keywords naturally throughout content</li>
-<li>[ ] Write 40 to 60 word answer blocks after headings for snippet targeting</li>
-<li>[ ] Include 3 to 5 internal links per 1,000 words</li>
-<li>[ ] Link to 2 to 3 authoritative external sources per article</li>
-<li>[ ] Use proper heading hierarchy (H1 → H2 → H3, no skips)</li>
-<li>[ ] Add alt text to all images</li>
-<li>[ ] Update old content quarterly with fresh information</li>
-<li>[ ] Set publish dates and last-modified dates</li>
-</ul>
-<h3>On-Page Optimization</h3>
-<ul>
-<li>[ ] Write compelling title tags that include benefit or differentiator</li>
-<li>[ ] Craft meta descriptions that drive clicks</li>
-<li>[ ] Add Open Graph images for social sharing</li>
-<li>[ ] Write Twitter Card descriptions</li>
-<li>[ ] Include author attribution on all articles</li>
-<li>[ ] Add publish date and last-modified date</li>
-<li>[ ] Use bullet points and numbered lists for scannable content</li>
-<li>[ ] Keep paragraphs under 4 sentences</li>
-<li>[ ] Use bold text for key takeaways</li>
-<li>[ ] Add a table of contents for long articles</li>
-</ul>
-<h3>Performance</h3>
-<ul>
-<li>[ ] Target LCP under 2.5 seconds on mobile</li>
-<li>[ ] Target INP under 200 milliseconds</li>
-<li>[ ] Target CLS under 0.1</li>
-<li>[ ] Compress all images before uploading</li>
-<li>[ ] Use lazy loading for images below the fold</li>
-<li>[ ] Minimize JavaScript on page load</li>
-<li>[ ] Use a CDN for static assets</li>
-<li>[ ] Enable browser caching</li>
-</ul>
-<p><img loading="lazy" alt="Complete Notion CMS SEO checklist showing technical SEO, content SEO, on-page optimization, and performance tasks for notion cms seo" src="/images/blog/notion-cms-seo-checklist.webp" /></p>
-<h2>Frequently Asked Questions</h2>
-<p><strong>Is Notion good for SEO out of the box?</strong></p>
-<p>No. Native Notion has significant SEO limitations. Free accounts cannot enable Google indexing. Paid accounts offer basic indexing but lack custom meta tags, XML sitemaps, structured data, and URL customization. For competitive SEO, you need a third-party builder or a headless setup.</p>
-<p><strong>Can Google index Notion pages?</strong></p>
-<p>Google can index Notion pages on paid plans with indexing enabled. However, the process is slower than traditional websites due to JavaScript rendering. Some users report persistent <code>noindex</code> tags even after enabling indexing. Verify status in Google Search Console.</p>
-<p><strong>What is the best Notion website builder for SEO?</strong></p>
-<p>Feather.so is the best choice for blogs due to subfolder structure and image caching. Super.so works best for general websites and portfolios. Bullet.so is ideal for simple small business sites. For maximum control, build a headless setup with Next.js.</p>
-<p><strong>How do I add meta tags to Notion?</strong></p>
-<p>You cannot add meta tags to native Notion. Use a third-party builder like Super or Feather. These tools read custom properties from your Notion database and generate the correct HTML meta tags. In a headless setup, you generate meta tags programmatically.</p>
-<p><strong>Is Notion or WordPress better for SEO?</strong></p>
-<p>WordPress is better for SEO out of the box. It offers complete control over meta tags, URLs, sitemaps, and structured data. The plugin ecosystem handles advanced SEO automatically. Notion can match WordPress SEO only when paired with a headless frontend or capable builder.</p>
-<p><strong>How do I create a sitemap for my Notion site?</strong></p>
-<p>Native Notion does not generate sitemaps. Super, Feather, and other builders create sitemaps automatically. For headless setups, generate a dynamic sitemap at build time using your site's page list. Submit the sitemap to Google Search Console.</p>
-<p><strong>Can I use Notion as a headless CMS?</strong></p>
-<p>Yes. Notion works well as a headless CMS. Store content in Notion databases. Fetch it through the Notion API. Generate static pages with Next.js, Astro, or another framework. This gives you Notion's editorial experience with complete SEO control.</p>
-<p><strong>Why are Notion image URLs expiring?</strong></p>
-<p>Notion image URLs expire after one hour for security reasons. This breaks images on external sites. Fix this by downloading and caching images at build time. Use a CDN for serving cached images. Builders like Feather handle this automatically.</p>
+<div class="faq-list">
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="super-so-the-all-rounder">
+      <span class="faq-q-text">Super.so: The All-Rounder</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="super-so-the-all-rounder"><div class="faq-a-inner"><p>Super.so is the most popular Notion website builder. It wraps your Notion content in a fast, optimized frontend. You get custom domains, clean URLs, and meta tag control.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="feather-so-the-blog-specialist">
+      <span class="faq-q-text">Feather.so: The Blog Specialist</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="feather-so-the-blog-specialist"><div class="faq-a-inner"><p>Feather.so focuses specifically on blogging. It turns Notion databases into SEO-optimized blogs. The standout feature is subfolder blog structure. Your blog lives at <code>/blog/</code> instead of <code>blog.yoursite.com</code>. This preserves domain authority and improves rankings.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="bullet-so-the-business-site-builder">
+      <span class="faq-q-text">Bullet.so: The Business Site Builder</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="bullet-so-the-business-site-builder"><div class="faq-a-inner"><p>Bullet.so targets small business websites. It offers custom domains, SEO optimization, and Google Analytics integration. The focus is on simplicity rather than advanced features.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="which-builder-should-you-choose-use-case-best-tool">
+      <span class="faq-q-text">Which Builder Should You Choose? Use Case Best Tool Why Simple website or portfolio Super.so Fastest setup, broad features Professional blog Feather.so Subfolder SEO, image caching, analytics Small business site Bullet.so Simple, affordable, good enough Large content site Next.js + Notion API Full control, best performance Chapter 4: Building a Headless Notion CMS for Maximum SEO Control &#123;#ch4&#125; For developers and technical teams, the most powerful approach is using Notion as a headless CMS. You store content in Notion. You serve it through a custom frontend built with Next.js, Astro, or another static site generator. This setup gives you complete control over every SEO element. You are not limited by what Super or Feather offer. You build exactly what you need. How Headless Notion Works</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="which-builder-should-you-choose-use-case-best-tool"><div class="faq-a-inner"><p>The architecture is straightforward. Notion serves as the content database. Your team writes and organizes content in Notion databases. A custom application fetches this content through the Notion API. The application generates static HTML pages at build time. These pages are served through a CDN.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="setting-up-the-notion-database-for-seo">
+      <span class="faq-q-text">Setting Up the Notion Database for SEO</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="setting-up-the-notion-database-for-seo"><div class="faq-a-inner"><p>Your Notion database needs specific properties to support SEO. Here is the schema we recommend:</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="next-js-implementation-best-practices">
+      <span class="faq-q-text">Next.js Implementation Best Practices</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="next-js-implementation-best-practices"><div class="faq-a-inner"><p>Next.js is the most popular framework for headless Notion setups. It offers <a href="https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation">Static Site Generation (SSG)</a>, <a href="https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration">Incremental Static Regeneration (ISR)</a>, and image optimization.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="the-image-problem-and-how-to-solve-it">
+      <span class="faq-q-text">The Image Problem and How to Solve It</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="the-image-problem-and-how-to-solve-it"><div class="faq-a-inner"><p>Notion image URLs expire after one hour. If you embed Notion images directly in your HTML, they will break. This is a critical issue for any headless setup.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="performance-benchmarks">
+      <span class="faq-q-text">Performance Benchmarks</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="performance-benchmarks"><div class="faq-a-inner"><p>In our testing, a headless Notion site built with Next.js and deployed to Vercel scored significantly better than native Notion:</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="your-content-deserves-a-frontend-that-ranks-stacc-">
+      <span class="faq-q-text">Your content deserves a frontend that ranks. Stacc publishes SEO-optimized articles on WordPress, Ghost, and Webflow with perfect technical foundations. Custom meta tags, automatic sitemaps, and Core Web Vitals scores above 90. See our publishing options → Chapter 5: Content Optimization Tactics Inside Notion &#123;#ch5&#125; Even with perfect technical SEO, content quality determines rankings. Notion's editor supports many on-page SEO best practices natively. You just need to use them correctly. Heading Hierarchy for Topical Authority Search engines use headings to understand content structure. A clear hierarchy helps Google grasp your main topic and subtopics. It also makes content scannable for readers. In Notion, use heading blocks consistently. Your page title is the H1. Use H2 for major sections. Use H3 for subsections within those sections. Never skip levels. Do not jump from H2 to H4. Place your primary keyword in the H1. Include related keywords in H2 headings. This signals topical relevance without keyword stuffing. For example, if your primary keyword is "notion cms seo," your heading structure might look like this: H1: Notion CMS SEO: The Complete Guide for 2026 H2: How Notion Handles SEO Natively H2: Technical SEO Limitations H3: No Custom Meta Tags H3: No XML Sitemap H2: Content Optimization Tactics H3: Heading Hierarchy H3: Internal Linking This structure tells Google that your page covers notion cms seo broadly, with specific attention to technical limitations and content tactics. Internal Linking Strategy Notion makes internal linking easy with the [[ command. Type double brackets and start typing a page name. Notion suggests matching pages. Select one to create a link. Internal links distribute authority across your site. They help Google discover new pages. They keep visitors engaged longer. Both signals improve rankings. Build a linking habit. Every new article should link to 3 to 5 related articles on your site. Every article should receive links from 3 to 5 other articles. This creates a dense content graph that signals topical authority. In Notion, you can see all backlinks to a page in the "Backlinks" section. Use this to find linking opportunities. If a page has few backlinks, add links from relevant articles. Keyword Placement Best Practices Place your primary keyword in these locations: Page title (H1) First 100 words of content At least one H2 heading URL slug (if using a builder that supports custom URLs) Meta description Image alt text Use related keywords naturally throughout the content. These are terms that search engines associate with your primary topic. For notion cms seo, related keywords include "headless CMS," "Notion website builder," "content management system," and "technical SEO." Do not force keywords into sentences where they do not fit. Write for readers first. Search engines understand natural language. Keyword stuffing hurts rankings. Content Freshness Signals Google prefers fresh content for many queries. Updating existing articles can improve rankings without writing new content. Notion's database properties make this easy. Add a "Last Updated" date property to your content database. Update articles quarterly. Change the date when you make significant updates. Google notices these changes and may re-rank your content. For time-sensitive topics, publish dates matter. Notion databases can sort by date. Use this to surface your newest content on listing pages. Writing for Featured Snippets Featured snippets appear at the top of search results. They answer queries directly. Winning a snippet can double your traffic for a keyword. To target snippets, write concise answers near your headings. Place a 40 to 60 word answer immediately after an H2 or H3. Use clear, declarative sentences. Format lists with bullet points or numbered steps. For example, after an H2 like "Is Notion Good for SEO?" write: "Notion is not good for SEO out of the box. Native Notion lacks custom meta tags, XML sitemaps, and structured data. However, third-party builders like Super and Feather add these capabilities. For maximum SEO control, use Notion as a headless CMS with Next.js." This format is exactly what Google's snippet extraction algorithm looks for. Chapter 6: Notion vs WordPress: An Honest SEO Comparison &#123;#ch6&#125; WordPress powers 43% of all websites. Notion powers millions of workspaces. When it comes to SEO, which platform wins? The answer depends on your technical resources and publishing volume. Where WordPress Wins WordPress has 20 years of SEO optimization behind it. The ecosystem includes plugins like Yoast SEO, Rank Math, and All in One SEO. These plugins handle meta tags, sitemaps, structured data, and social sharing automatically. WordPress offers complete URL control. You can set any permalink structure. You can create custom post types. You can build complex content architectures that support large-scale SEO strategies. The platform also has unmatched plugin ecosystem depth. Need schema markup? There is a plugin. Need image optimization? There is a plugin. Need automatic internal linking? There is a plugin. This extensibility means WordPress can handle virtually any SEO requirement. WordPress sites can achieve excellent Core Web Vitals scores with proper hosting and optimization. Managed WordPress hosts like Kinsta and WP Engine deliver sub-second load times. Caching plugins like WP Rocket and LiteSpeed Cache make optimization accessible. Where Notion Wins Notion wins on editorial experience. The writing interface is clean, fast, and distraction-free. Collaboration features are built-in. Comments, mentions, and real-time editing make team workflows smooth. Database views are another advantage. You can see all your content in a spreadsheet-like interface. Filter by status, author, date, or tag. This makes content planning and management far easier than WordPress's post list. Notion also wins on maintenance. There are no plugin updates, theme conflicts, or security patches. The platform handles hosting, backups, and uptime. You focus on content, not infrastructure. For small teams publishing infrequently, this simplicity is valuable. You trade some SEO capability for reduced operational overhead. The Honest Verdict Factor WordPress Notion + Builder Notion Headless Setup complexity Medium Low High Ongoing maintenance High Low Medium SEO control Maximum Medium Maximum Editorial experience Good Excellent Excellent Cost (small site) $10-30/mo $25-45/mo $5-20/mo Cost (large site) $50-200/mo $50-100/mo $20-50/mo Best for Serious SEO Simple sites Technical teams For businesses where SEO is a primary growth channel, WordPress or a headless Notion setup is the better choice. The SEO control justifies the additional complexity. For personal blogs, portfolios, and small business sites where SEO is secondary, Notion with a builder like Super or Feather is sufficient. The editorial benefits outweigh the SEO trade-offs. For technical teams who want both, headless Notion offers the best of both worlds. You get Notion's writing experience with complete SEO control. Why choose between great writing and great SEO? Stacc handles both. We publish 30 to 80 SEO-optimized articles per month on WordPress, Ghost, and Webflow. Your team writes briefs. We handle the rest. Start for $1 → Chapter 7: Advanced SEO Features for Notion Sites &#123;#ch7&#125; Once you have the basics covered, advanced SEO tactics can push your Notion site further. These features require either a capable builder or a headless setup. Schema Markup Implementation Schema markup helps search engines understand your content context. It enables rich results like star ratings, recipe cards, and event listings. Notion has no native schema support, but you can add it through custom scripts. With Super, add schema through the custom code injection feature. Paste JSON-LD scripts into the head section of your pages. With a headless setup, generate schema programmatically based on your Notion database properties. Essential schema types for content sites include: Article schema for blog posts Organization schema for your business information BreadcrumbList schema for navigation paths FAQPage schema for FAQ sections HowTo schema for tutorial content Article schema should include headline, author, publish date, modify date, and image. Organization schema should include name, URL, logo, and social profiles. BreadcrumbList schema helps Google display navigation breadcrumbs in search results. Open Graph and Twitter Cards Social sharing drives traffic and signals content quality. Open Graph tags control how your content appears on Facebook, LinkedIn, and other platforms. Twitter Cards do the same for Twitter/X. Notion generates basic Open Graph tags automatically. But you cannot customize them. You cannot set a specific image for social sharing. You cannot write a custom description for social platforms. Super, Feather, and headless setups all support custom Open Graph tags. Set a dedicated social image for each page. Write a social-specific description. These small optimizations increase click-through rates from social shares. Canonical URLs and Pagination Duplicate content hurts rankings. Canonical URLs tell search engines which version of a page is the original. This prevents duplicate content penalties when the same content appears at multiple URLs. Notion does not support canonical URLs natively. If your content appears on both a Notion public page and a custom domain, Google may see them as duplicates. This splits your ranking authority between two URLs. Third-party builders handle canonicals automatically. They set the canonical URL to your custom domain. Headless setups let you configure canonicals programmatically. For paginated content like blog archives, use rel="next" and rel="prev" tags. These help Google understand the relationship between paginated pages. Notion does not support pagination natively. Builders and headless setups can add these tags. Multilingual SEO Multilingual sites need hreflang tags. These tell Google which language version of a page to show to which audience. Notion has no multilingual features. You cannot create language-specific versions of pages. For multilingual SEO with Notion, use separate databases for each language. Build language-specific pages in your headless frontend. Add hreflang tags pointing to all language variants. This is complex but achievable with a custom setup. Analytics and Search Console Integration You cannot improve what you do not measure. Google Analytics and Google Search Console are essential for SEO. Notion has no native analytics integration. Super and Feather include Google Analytics integration. Add your tracking ID and data flows automatically. For headless setups, add the Analytics script to your site template. Google Search Console requires sitemap submission and verification. All third-party builders and headless setups support this. Verify your domain, submit your sitemap, and monitor indexing status, click-through rates, and ranking positions. Chapter 8: The Complete Notion CMS SEO Checklist &#123;#ch8&#125; Use this checklist to audit and optimize your Notion-based site. Work through each item systematically. Technical SEO [ ] Enable search engine indexing on all public pages [ ] Verify indexing status in Google Search Console [ ] Set up a custom domain (not notion.site) [ ] Configure custom URL slugs for all pages [ ] Write custom title tags for every page (under 60 characters) [ ] Write custom meta descriptions for every page (under 160 characters) [ ] Generate and submit an XML sitemap [ ] Create a robots.txt file [ ] Implement structured data (Article, Organization, BreadcrumbList) [ ] Add canonical URLs to prevent duplicate content [ ] Set up Google Analytics tracking [ ] Verify domain in Google Search Console [ ] Submit sitemap to Google Search Console [ ] Check Core Web Vitals scores in PageSpeed Insights [ ] Optimize images (compress, use WebP, add alt text) [ ] Enable HTTPS (SSL certificate) Content SEO [ ] Place primary keyword in H1 title [ ] Include primary keyword in first 100 words [ ] Use primary keyword in at least one H2 heading [ ] Include primary keyword in meta description [ ] Add primary keyword to image alt text [ ] Use related keywords naturally throughout content [ ] Write 40 to 60 word answer blocks after headings for snippet targeting [ ] Include 3 to 5 internal links per 1,000 words [ ] Link to 2 to 3 authoritative external sources per article [ ] Use proper heading hierarchy (H1 → H2 → H3, no skips) [ ] Add alt text to all images [ ] Update old content quarterly with fresh information [ ] Set publish dates and last-modified dates On-Page Optimization [ ] Write compelling title tags that include benefit or differentiator [ ] Craft meta descriptions that drive clicks [ ] Add Open Graph images for social sharing [ ] Write Twitter Card descriptions [ ] Include author attribution on all articles [ ] Add publish date and last-modified date [ ] Use bullet points and numbered lists for scannable content [ ] Keep paragraphs under 4 sentences [ ] Use bold text for key takeaways [ ] Add a table of contents for long articles Performance [ ] Target LCP under 2.5 seconds on mobile [ ] Target INP under 200 milliseconds [ ] Target CLS under 0.1 [ ] Compress all images before uploading [ ] Use lazy loading for images below the fold [ ] Minimize JavaScript on page load [ ] Use a CDN for static assets [ ] Enable browser caching Frequently Asked Questions Is Notion good for SEO out of the box?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="your-content-deserves-a-frontend-that-ranks-stacc-"><div class="faq-a-inner"><p>No. Native Notion has significant SEO limitations. Free accounts cannot enable Google indexing. Paid accounts offer basic indexing but lack custom meta tags, XML sitemaps, structured data, and URL customization. For competitive SEO, you need a third-party builder or a headless setup.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-google-index-notion-pages">
+      <span class="faq-q-text">Can Google index Notion pages?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-google-index-notion-pages"><div class="faq-a-inner"><p>Google can index Notion pages on paid plans with indexing enabled. However, the process is slower than traditional websites due to JavaScript rendering. Some users report persistent <code>noindex</code> tags even after enabling indexing. Verify status in Google Search Console.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="what-is-the-best-notion-website-builder-for-seo">
+      <span class="faq-q-text">What is the best Notion website builder for SEO?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="what-is-the-best-notion-website-builder-for-seo"><div class="faq-a-inner"><p>Feather.so is the best choice for blogs due to subfolder structure and image caching. Super.so works best for general websites and portfolios. Bullet.so is ideal for simple small business sites. For maximum control, build a headless setup with Next.js.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-do-i-add-meta-tags-to-notion">
+      <span class="faq-q-text">How do I add meta tags to Notion?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-do-i-add-meta-tags-to-notion"><div class="faq-a-inner"><p>You cannot add meta tags to native Notion. Use a third-party builder like Super or Feather. These tools read custom properties from your Notion database and generate the correct HTML meta tags. In a headless setup, you generate meta tags programmatically.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="is-notion-or-wordpress-better-for-seo">
+      <span class="faq-q-text">Is Notion or WordPress better for SEO?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="is-notion-or-wordpress-better-for-seo"><div class="faq-a-inner"><p>WordPress is better for SEO out of the box. It offers complete control over meta tags, URLs, sitemaps, and structured data. The plugin ecosystem handles advanced SEO automatically. Notion can match WordPress SEO only when paired with a headless frontend or capable builder.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-do-i-create-a-sitemap-for-my-notion-site">
+      <span class="faq-q-text">How do I create a sitemap for my Notion site?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-do-i-create-a-sitemap-for-my-notion-site"><div class="faq-a-inner"><p>Native Notion does not generate sitemaps. Super, Feather, and other builders create sitemaps automatically. For headless setups, generate a dynamic sitemap at build time using your site's page list. Submit the sitemap to Google Search Console.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-i-use-notion-as-a-headless-cms">
+      <span class="faq-q-text">Can I use Notion as a headless CMS?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-i-use-notion-as-a-headless-cms"><div class="faq-a-inner"><p>Yes. Notion works well as a headless CMS. Store content in Notion databases. Fetch it through the Notion API. Generate static pages with Next.js, Astro, or another framework. This gives you Notion's editorial experience with complete SEO control.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="why-are-notion-image-urls-expiring">
+      <span class="faq-q-text">Why are Notion image URLs expiring?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="why-are-notion-image-urls-expiring"><div class="faq-a-inner"><p>Notion image URLs expire after one hour for security reasons. This breaks images on external sites. Fix this by downloading and caching images at build time. Use a CDN for serving cached images. Builders like Feather handle this automatically.</p></div></div>
+  </div>
+</div>
+
 <p>Notion is a brilliant writing and collaboration tool. It was never designed to be a publishing platform. The gap between Notion's editorial strengths and its SEO weaknesses is real. But it is bridgeable.</p>
 <p>For simple sites, Super or Feather adds enough SEO capability. For serious publishers, a headless Notion setup with Next.js delivers both world-class editing and world-class search performance. For businesses where SEO is the primary growth channel, WordPress or Ghost remains the safer choice.</p>
 <p>The right approach depends on your team, your budget, and how much search traffic matters to your business. Choose the path that matches your resources. Then execute it thoroughly.</p>
@@ -673,4 +380,5 @@ const readTime = "30 min";
 <p>This setup gives you complete control over every SEO element. You are not limited by what Super or Feather offer. You build exactly what you need.</p></div></div>
   </div>
 </div>
+
 </BlogLayout>

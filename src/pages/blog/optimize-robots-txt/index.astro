@@ -73,6 +73,7 @@ const readTime = "21 min";
   date={date}
   readTime={readTime}
 >
+
 <p>A misconfigured robots.txt file can silently block Google from crawling your most important pages. Research shows that robots.txt errors reduce search visibility by up to 30% on affected sites.</p>
 <p>Most website owners either use a default robots.txt they never touch or make changes without understanding the consequences. Both paths lead to the same outcome: wasted <a href="/blog/how-to-do-seo-audit/">crawl budget</a>, blocked resources, and pages that never appear in search results.</p>
 <p>The fix is not complicated. A properly optimized robots.txt file takes 15 minutes to set up and saves months of lost rankings.</p>
@@ -522,28 +523,56 @@ Allow: /private/public/
 <p>For smaller sites under 1,000 pages, the main benefit is preventing mistakes. Clean robots.txt rules ensure Google never accidentally skips your best content.</p>
 <p>Track your progress in Google Search Console under <strong>Crawl Stats</strong> and <strong>Page Indexing</strong>. Look for an increase in "Crawled - currently indexed" pages and a decrease in "Discovered - currently not indexed" pages.</p>
 <h2>Frequently Asked Questions</h2>
-<p><strong>Does every website need a robots.txt file?</strong></p>
-<p>Not technically. Google will crawl all accessible pages by default. But every site benefits from having one. It gives you control over crawl behavior, references your sitemap, and lets you manage AI bot access. Sites without a robots.txt file leave these decisions entirely to the crawlers.</p>
-<p><strong>Can robots.txt hurt my SEO?</strong></p>
-<p>Yes. A misconfigured file can block Googlebot from your most important pages. The most common SEO damage comes from leftover staging rules that block the entire site or rules that accidentally prevent CSS and JavaScript access. Always test changes before publishing.</p>
-<p><strong>How do I block a specific bot without affecting Google?</strong></p>
-<p>Create a separate User-agent block for that bot. Rules under <code>User-agent: Googlebot</code> only affect Google. Rules under <code>User-agent: *</code> affect all bots that do not have their own specific block.</p>
-<pre><code>User-agent: Googlebot
-Allow: /
+<div class="faq-list">
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="does-every-website-need-a-robots-txt-file">
+      <span class="faq-q-text">Does every website need a robots.txt file?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="does-every-website-need-a-robots-txt-file"><div class="faq-a-inner"><p>Not technically. Google will crawl all accessible pages by default. But every site benefits from having one. It gives you control over crawl behavior, references your sitemap, and lets you manage AI bot access. Sites without a robots.txt file leave these decisions entirely to the crawlers.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-robots-txt-hurt-my-seo">
+      <span class="faq-q-text">Can robots.txt hurt my SEO?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-robots-txt-hurt-my-seo"><div class="faq-a-inner"><p>Yes. A misconfigured file can block Googlebot from your most important pages. The most common SEO damage comes from leftover staging rules that block the entire site or rules that accidentally prevent CSS and JavaScript access. Always test changes before publishing.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-do-i-block-a-specific-bot-without-affecting-go">
+      <span class="faq-q-text">How do I block a specific bot without affecting Google?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-do-i-block-a-specific-bot-without-affecting-go"><div class="faq-a-inner"><p>Create a separate User-agent block for that bot. Rules under <code>User-agent: Googlebot</code> only affect Google. Rules under <code>User-agent: *</code> affect all bots that do not have their own specific block.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-often-should-i-update-my-robots-txt-file">
+      <span class="faq-q-text">How often should I update my robots.txt file?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-often-should-i-update-my-robots-txt-file"><div class="faq-a-inner"><p>Review it quarterly at minimum. Update it immediately after site migrations, redesigns, or URL structure changes. Also check it when <a href="/blog/how-to-do-seo-audit/">auditing your SEO</a> performance each quarter.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="what-is-the-maximum-file-size-for-robots-txt">
+      <span class="faq-q-text">What is the maximum file size for robots.txt?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="what-is-the-maximum-file-size-for-robots-txt"><div class="faq-a-inner"><p>Google supports robots.txt files up to 500 kibibytes (512 KB). Files larger than this limit are partially ignored. Keep your file concise. Most sites need fewer than 20 rules.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="should-i-block-ai-bots-from-crawling-my-site">
+      <span class="faq-q-text">Should I block AI bots from crawling my site?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="should-i-block-ai-bots-from-crawling-my-site"><div class="faq-a-inner"><p>It depends on your goals. If you want your content cited in AI search results from tools like Perplexity or ChatGPT, allow their search bots. If you want to prevent your content from training AI models, block the training bots like GPTBot and Google-Extended. Most publishers take a hybrid approach: allow search bots, block training bots.</p></div></div>
+  </div>
+</div>
 
-User-agent: BadBot
-Disallow: /
-</code></pre>
-<p><strong>How often should I update my robots.txt file?</strong></p>
-<p>Review it quarterly at minimum. Update it immediately after site migrations, redesigns, or URL structure changes. Also check it when <a href="/blog/how-to-do-seo-audit/">auditing your SEO</a> performance each quarter.</p>
-<p><strong>What is the maximum file size for robots.txt?</strong></p>
-<p>Google supports robots.txt files up to 500 kibibytes (512 KB). Files larger than this limit are partially ignored. Keep your file concise. Most sites need fewer than 20 rules.</p>
-<p><strong>Should I block AI bots from crawling my site?</strong></p>
-<p>It depends on your goals. If you want your content cited in AI search results from tools like Perplexity or ChatGPT, allow their search bots. If you want to prevent your content from training AI models, block the training bots like GPTBot and Google-Extended. Most publishers take a hybrid approach: allow search bots, block training bots.</p>
 <p>A clean robots.txt file is one of the simplest technical SEO wins. It takes 15 minutes to set up and protects your crawl budget for years.</p>
 <p>Start with Step 1 today. Locate your existing file, audit every rule, and apply the optimizations from this guide. Your <a href="/blog/how-to-do-seo-audit/">next SEO audit</a> will show cleaner crawl stats and fewer wasted bot visits.</p>
 <blockquote>
 <p><strong>Technical SEO should not eat your calendar.</strong> Stacc handles content publishing, on-page optimization, and technical best practices on autopilot.
 <a href="/pricing/">Start for $1 →</a></p>
 </blockquote>
+
 </BlogLayout>

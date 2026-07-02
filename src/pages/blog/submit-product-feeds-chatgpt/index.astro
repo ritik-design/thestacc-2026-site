@@ -119,6 +119,7 @@ const readTime = "23 min";
   date={date}
   readTime={readTime}
 >
+
 <h2>Why Product Visibility in ChatGPT Matters in 2026</h2>
 <p>Shopping behavior is changing in a way that is hard to overstate. Consumers increasingly start product searches not with a Google query but with a conversational prompt in ChatGPT, Perplexity, or Gemini. They ask "what's the best waterproof running jacket under $150?" and receive a curated set of product recommendations with prices, images, and direct purchase links — without visiting a traditional search results page.</p>
 <p>ChatGPT's shopping integration is powered primarily through Bing's product index. OpenAI and Microsoft have a longstanding deal that gives ChatGPT access to Bing's web index, including Bing Shopping data. When a user asks a product question, ChatGPT queries that index and surfaces products that match the intent. This means the mechanics of appearing in ChatGPT Shopping are closely tied to your visibility in Bing's product ecosystem, not just Google's.</p>
@@ -387,26 +388,79 @@ Allow: /
 </ul>
 <p>ChatGPT Shopping results are unsponsored. There is no way to pay for placement. Relevance, data quality, and review sentiment determine which products appear.</p>
 <h2>FAQ</h2>
-<h3>Is ChatGPT Shopping free for merchants?</h3>
-<p>Yes. Product results in ChatGPT Shopping are currently organic and unsponsored. There is no cost to submit a product feed or have products appear in shopping results. OpenAI began testing ads in January 2026 for Free and Go tier users, but product discovery results remain unpaid.</p>
-<h3>Do I need a direct feed if I use Shopify?</h3>
-<p>No. Shopify catalogs are automatically integrated with ChatGPT Shopping. Your products are already discoverable. Focus on Product schema markup, product page quality, and customer reviews to maximize how your products appear.</p>
-<h3>What file format should I use for the product feed?</h3>
-<p>JSONL with gzip compression is the most common choice. OpenAI also accepts CSV, TSV (both gzip-compressed), and Parquet with zstd compression. Use whichever format your ecommerce platform exports most easily.</p>
-<h3>How often should I update my product feed?</h3>
-<p>At minimum, daily. High-volume stores should update every 15 minutes (the maximum frequency OpenAI supports). Price changes and inventory updates should push to the feed within 1 hour. Stale data reduces your product's visibility in shopping results.</p>
-<h3>Can I submit my product feed directly to ChatGPT?</h3>
-<p>Yes, for merchants not on auto-integrated platforms (Shopify, Etsy), OpenAI offers direct product feed submission through the Agentic Commerce Protocol. Apply at <a href="https://chatgpt.com/merchants/">chatgpt.com/merchants/</a>, get approved, and push your feed via SFTP to the provided endpoint. OpenAI accepts JSONL, CSV, TSV, and Parquet formats. For Shopify merchants, no submission is needed — your catalog is already integrated automatically.</p>
-<h3>Does ChatGPT use Google Shopping or Bing for products?</h3>
-<p>ChatGPT primarily uses Bing's product index, not Google Shopping. OpenAI has a longstanding deal with Microsoft that gives ChatGPT access to Bing's web index, including Bing Shopping data. This means submitting your sitemap to Bing Webmaster Tools and ensuring Bingbot can crawl your product pages is more directly relevant to ChatGPT Shopping visibility than Google Search Console activity.</p>
-<h3>What structured data helps products appear in ChatGPT?</h3>
-<p><code>schema.org/Product</code> markup in JSON-LD format is the most important structured data for ChatGPT product visibility. The required fields are <code>name</code>, <code>description</code>, <code>image</code>, <code>offers.price</code>, <code>offers.priceCurrency</code>, and <code>offers.availability</code>. Including <code>aggregateRating</code> (star rating and review count) and <code>brand</code> further improves how your products are presented in ChatGPT Shopping results. Validate your schema using Google's Rich Results Test to catch any errors before relying on it for visibility.</p>
-<h3>How do I know if ChatGPT is recommending my products?</h3>
-<p>There is no dedicated analytics dashboard for ChatGPT product recommendations yet. The most reliable indicators are: (1) referral traffic from <code>chatgpt.com</code> appearing in your analytics, (2) direct manual searches of your brand name and top products in ChatGPT, and (3) conversion rate analysis on sessions where the referrer is an AI platform. Monitor these monthly and look for growth after you complete feed submission and schema implementation.</p>
-<h3>Is llms.txt required for ChatGPT product visibility?</h3>
-<p>No, llms.txt is not currently required by OpenAI or any AI platform. It is a voluntary file that provides AI crawlers with structured context about your site. Some AI platforms including Perplexity have confirmed they read it. Creating one is low-effort and provides a clear signal to AI models about what your site sells, which pages matter most, and any relevant context about your catalog. For product-heavy sites, it is worth creating even if adoption is still uneven across platforms.</p>
-<h3>Can I submit product feeds to other AI shopping platforms?</h3>
-<p>Google AI Shopping uses Google Merchant Center feeds. Perplexity crawls product pages organically. Each platform has different data sources. Read our <a href="/blog/gemini-vs-chatgpt-search/">Gemini vs ChatGPT search comparison</a> for platform-specific details. Optimizing Product schema and allowing AI crawlers covers the broadest set of platforms.</p>
+<div class="faq-list">
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="is-chatgpt-shopping-free-for-merchants">
+      <span class="faq-q-text">Is ChatGPT Shopping free for merchants?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="is-chatgpt-shopping-free-for-merchants"><div class="faq-a-inner"><p>Yes. Product results in ChatGPT Shopping are currently organic and unsponsored. There is no cost to submit a product feed or have products appear in shopping results. OpenAI began testing ads in January 2026 for Free and Go tier users, but product discovery results remain unpaid.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="do-i-need-a-direct-feed-if-i-use-shopify">
+      <span class="faq-q-text">Do I need a direct feed if I use Shopify?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="do-i-need-a-direct-feed-if-i-use-shopify"><div class="faq-a-inner"><p>No. Shopify catalogs are automatically integrated with ChatGPT Shopping. Your products are already discoverable. Focus on Product schema markup, product page quality, and customer reviews to maximize how your products appear.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="what-file-format-should-i-use-for-the-product-feed">
+      <span class="faq-q-text">What file format should I use for the product feed?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="what-file-format-should-i-use-for-the-product-feed"><div class="faq-a-inner"><p>JSONL with gzip compression is the most common choice. OpenAI also accepts CSV, TSV (both gzip-compressed), and Parquet with zstd compression. Use whichever format your ecommerce platform exports most easily.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-often-should-i-update-my-product-feed">
+      <span class="faq-q-text">How often should I update my product feed?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-often-should-i-update-my-product-feed"><div class="faq-a-inner"><p>At minimum, daily. High-volume stores should update every 15 minutes (the maximum frequency OpenAI supports). Price changes and inventory updates should push to the feed within 1 hour. Stale data reduces your product's visibility in shopping results.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-i-submit-my-product-feed-directly-to-chatgpt">
+      <span class="faq-q-text">Can I submit my product feed directly to ChatGPT?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-i-submit-my-product-feed-directly-to-chatgpt"><div class="faq-a-inner"><p>Yes, for merchants not on auto-integrated platforms (Shopify, Etsy), OpenAI offers direct product feed submission through the Agentic Commerce Protocol. Apply at <a href="https://chatgpt.com/merchants/">chatgpt.com/merchants/</a>, get approved, and push your feed via SFTP to the provided endpoint. OpenAI accepts JSONL, CSV, TSV, and Parquet formats. For Shopify merchants, no submission is needed — your catalog is already integrated automatically.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="does-chatgpt-use-google-shopping-or-bing-for-produ">
+      <span class="faq-q-text">Does ChatGPT use Google Shopping or Bing for products?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="does-chatgpt-use-google-shopping-or-bing-for-produ"><div class="faq-a-inner"><p>ChatGPT primarily uses Bing's product index, not Google Shopping. OpenAI has a longstanding deal with Microsoft that gives ChatGPT access to Bing's web index, including Bing Shopping data. This means submitting your sitemap to Bing Webmaster Tools and ensuring Bingbot can crawl your product pages is more directly relevant to ChatGPT Shopping visibility than Google Search Console activity.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="what-structured-data-helps-products-appear-in-chat">
+      <span class="faq-q-text">What structured data helps products appear in ChatGPT?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="what-structured-data-helps-products-appear-in-chat"><div class="faq-a-inner"><p><code>schema.org/Product</code> markup in JSON-LD format is the most important structured data for ChatGPT product visibility. The required fields are <code>name</code>, <code>description</code>, <code>image</code>, <code>offers.price</code>, <code>offers.priceCurrency</code>, and <code>offers.availability</code>. Including <code>aggregateRating</code> (star rating and review count) and <code>brand</code> further improves how your products are presented in ChatGPT Shopping results. Validate your schema using Google's Rich Results Test to catch any errors before relying on it for visibility.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-do-i-know-if-chatgpt-is-recommending-my-produc">
+      <span class="faq-q-text">How do I know if ChatGPT is recommending my products?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-do-i-know-if-chatgpt-is-recommending-my-produc"><div class="faq-a-inner"><p>There is no dedicated analytics dashboard for ChatGPT product recommendations yet. The most reliable indicators are: (1) referral traffic from <code>chatgpt.com</code> appearing in your analytics, (2) direct manual searches of your brand name and top products in ChatGPT, and (3) conversion rate analysis on sessions where the referrer is an AI platform. Monitor these monthly and look for growth after you complete feed submission and schema implementation.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="is-llms-txt-required-for-chatgpt-product-visibilit">
+      <span class="faq-q-text">Is llms.txt required for ChatGPT product visibility?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="is-llms-txt-required-for-chatgpt-product-visibilit"><div class="faq-a-inner"><p>No, llms.txt is not currently required by OpenAI or any AI platform. It is a voluntary file that provides AI crawlers with structured context about your site. Some AI platforms including Perplexity have confirmed they read it. Creating one is low-effort and provides a clear signal to AI models about what your site sells, which pages matter most, and any relevant context about your catalog. For product-heavy sites, it is worth creating even if adoption is still uneven across platforms.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-i-submit-product-feeds-to-other-ai-shopping-pl">
+      <span class="faq-q-text">Can I submit product feeds to other AI shopping platforms?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-i-submit-product-feeds-to-other-ai-shopping-pl"><div class="faq-a-inner"><p>Google AI Shopping uses Google Merchant Center feeds. Perplexity crawls product pages organically. Each platform has different data sources. Read our <a href="/blog/gemini-vs-chatgpt-search/">Gemini vs ChatGPT search comparison</a> for platform-specific details. Optimizing Product schema and allowing AI crawlers covers the broadest set of platforms.</p></div></div>
+  </div>
+</div>
+
 <p>ChatGPT Shopping is the largest new product discovery channel since Google Shopping. 800 million weekly users. Organic placement. No ad spend required. The merchants who submit their feeds and optimize their product pages now will capture the early traffic before the channel becomes as competitive as Google.</p>
 <h2 id="frequently-asked-questions">Frequently asked questions</h2>
 <div class="faq-list">
@@ -482,4 +536,5 @@ Allow: /
 <p>ChatGPT Shopping is the largest new product discovery channel since Google Shopping. 800 million weekly users. Organic placement. No ad spend required. The merchants who submit their feeds and optimize their product pages now will capture the early traffic before the channel becomes as competitive as Google.</p></div></div>
   </div>
 </div>
+
 </BlogLayout>

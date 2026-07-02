@@ -73,6 +73,7 @@ const readTime = "21 min";
   date={date}
   readTime={readTime}
 >
+
 <p>You cannot tell how much traffic ChatGPT, Perplexity, or Google AI Overviews send to your site. Google Analytics lumps every AI visit into "Referral" or "Direct." That hides a channel growing 1% month over month.</p>
 <p>That blind spot costs you two things. First, you miss the revenue signal from your highest-converting visitors. Second, you cannot prove to stakeholders that AI search is working, so the budget goes somewhere else.</p>
 <p>This guide shows you how to track AI traffic in Google Analytics in 7 steps. You will build a custom channel group and a regex pattern that catches 40+ AI platforms. You will also build a GA4 exploration that reports sessions, engagement, and conversions side by side.</p>
@@ -338,18 +339,51 @@ const readTime = "21 min";
 <p><strong>Problem: Regex pattern saves but channel still empty after 24 hours.</strong>
 <strong>Solution:</strong> GA4 has a 500-character limit on regex patterns in channel conditions. If your pattern is longer, split it into two channels (AI Search Part 1, AI Search Part 2) and combine them in reports using a calculated metric.</p>
 <h2>Frequently Asked Questions</h2>
-<p><strong>Does Google Analytics track AI traffic by default?</strong></p>
-<p>No. GA4 classifies ChatGPT, Perplexity, and Claude traffic as generic "Referral" and Gemini traffic as "Organic Search." You need a custom channel group with a regex pattern to see AI traffic as a distinct channel.</p>
-<p><strong>Can I track AI traffic without GA4 Admin access?</strong></p>
-<p>No. Custom channel groups require Editor or Admin permissions on the GA4 property. If you only have Viewer access, ask your admin to follow Steps 3 and 4 once. You can still build Explorations with Viewer access.</p>
-<p><strong>Why does ChatGPT traffic show up as Direct?</strong></p>
-<p>Free ChatGPT users (Web and app) do not pass a referrer header. Their clicks land as <code>(direct) / (none)</code> regardless of tracking setup. Only paid ChatGPT Plus and Enterprise users reliably send a <code>chatgpt.com</code> referrer. Expect to capture 60 to 80% of actual ChatGPT traffic.</p>
-<p><strong>Do AI visitors convert better than organic search visitors?</strong></p>
-<p>In our reports, yes. AI traffic converts at 2 to 5 times the rate of organic search on B2B SaaS sites. ChatGPT traffic averages a 15.9% conversion rate and Perplexity averages 10.5%. Session duration averages 9 to 10 minutes, much higher than organic search. Your numbers will vary by industry.</p>
-<p><strong>How often should I update the AI regex pattern?</strong></p>
-<p>Every quarter. New AI platforms launch constantly. Grok, DeepSeek, and Kimi all appeared in the last 12 months. Check your Traffic Acquisition report for unfamiliar referrers with growing sessions, add them to the regex, and save.</p>
-<p><strong>Can I track Google AI Overview clicks separately?</strong></p>
-<p>Not cleanly. Google does not tag AI Overview clicks differently from regular organic clicks. The workaround is to filter organic sessions by landing pages that rank in AI Overviews. See the <a href="https://searchengineland.com/segment-llm-traffic-ga4-449127">Search Engine Land guide to LLM traffic segmentation</a> for a more advanced setup.</p>
+<div class="faq-list">
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="does-google-analytics-track-ai-traffic-by-default">
+      <span class="faq-q-text">Does Google Analytics track AI traffic by default?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="does-google-analytics-track-ai-traffic-by-default"><div class="faq-a-inner"><p>No. GA4 classifies ChatGPT, Perplexity, and Claude traffic as generic "Referral" and Gemini traffic as "Organic Search." You need a custom channel group with a regex pattern to see AI traffic as a distinct channel.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-i-track-ai-traffic-without-ga4-admin-access">
+      <span class="faq-q-text">Can I track AI traffic without GA4 Admin access?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-i-track-ai-traffic-without-ga4-admin-access"><div class="faq-a-inner"><p>No. Custom channel groups require Editor or Admin permissions on the GA4 property. If you only have Viewer access, ask your admin to follow Steps 3 and 4 once. You can still build Explorations with Viewer access.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="why-does-chatgpt-traffic-show-up-as-direct">
+      <span class="faq-q-text">Why does ChatGPT traffic show up as Direct?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="why-does-chatgpt-traffic-show-up-as-direct"><div class="faq-a-inner"><p>Free ChatGPT users (Web and app) do not pass a referrer header. Their clicks land as <code>(direct) / (none)</code> regardless of tracking setup. Only paid ChatGPT Plus and Enterprise users reliably send a <code>chatgpt.com</code> referrer. Expect to capture 60 to 80% of actual ChatGPT traffic.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="do-ai-visitors-convert-better-than-organic-search-">
+      <span class="faq-q-text">Do AI visitors convert better than organic search visitors?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="do-ai-visitors-convert-better-than-organic-search-"><div class="faq-a-inner"><p>In our reports, yes. AI traffic converts at 2 to 5 times the rate of organic search on B2B SaaS sites. ChatGPT traffic averages a 15.9% conversion rate and Perplexity averages 10.5%. Session duration averages 9 to 10 minutes, much higher than organic search. Your numbers will vary by industry.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-often-should-i-update-the-ai-regex-pattern">
+      <span class="faq-q-text">How often should I update the AI regex pattern?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-often-should-i-update-the-ai-regex-pattern"><div class="faq-a-inner"><p>Every quarter. New AI platforms launch constantly. Grok, DeepSeek, and Kimi all appeared in the last 12 months. Check your Traffic Acquisition report for unfamiliar referrers with growing sessions, add them to the regex, and save.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-i-track-google-ai-overview-clicks-separately">
+      <span class="faq-q-text">Can I track Google AI Overview clicks separately?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-i-track-google-ai-overview-clicks-separately"><div class="faq-a-inner"><p>Not cleanly. Google does not tag AI Overview clicks differently from regular organic clicks. The workaround is to filter organic sessions by landing pages that rank in AI Overviews. See the <a href="https://searchengineland.com/segment-llm-traffic-ga4-449127">Search Engine Land guide to LLM traffic segmentation</a> for a more advanced setup.</p></div></div>
+  </div>
+</div>
+
 <h2>Conclusion</h2>
 <p>Now you know how to track AI traffic in Google Analytics. You built a custom channel group and a regex pattern that catches 40+ AI platforms. You also built an exploration that ties AI sessions to conversions.</p>
 <p>The setup takes 30 minutes once. The payoff is a channel report that proves whether AI search drives revenue. That question had no clear answer an hour ago.</p>
@@ -365,4 +399,5 @@ const readTime = "21 min";
 <p><strong>Best Lists:</strong>
 - <a href="/best/ai-seo-tools/">Best AI SEO Tools</a>
 - <a href="/best/ai-content-writing-tools-for-seo/">Best AI Writing Tools</a></p>
+
 </BlogLayout>

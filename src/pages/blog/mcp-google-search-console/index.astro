@@ -73,6 +73,7 @@ const readTime = "23 min";
   date={date}
   readTime={readTime}
 >
+
 <p>Google Search Console holds every data point you need to improve rankings. Clicks, impressions, CTR, index coverage, crawl errors. But pulling that data into a format you can act on takes 30 to 60 minutes per property, per week.</p>
 <p>MCP for Google Search Console eliminates that bottleneck. The <a href="/blog/what-is-mcp/">Model Context Protocol</a> connects your GSC account directly to AI assistants like Claude, Cursor, or Gemini CLI. You ask a question in plain English. The AI queries your live search data and returns an answer in seconds.</p>
 <p>We publish 3,500+ blogs across 70+ industries. Every one relies on search performance data. The workflow below is the same process we use to monitor keyword movement, find content gaps, and flag indexing issues without ever opening the GSC dashboard.</p>
@@ -609,18 +610,51 @@ submitted URLs that are not indexed? Show me the gap.
 <p>MCP handles the "what is happening on my site" question. Paid tools handle the "what are my competitors doing" question. Neither replaces the other.</p>
 <p>This distinction matters for <a href="/blog/ai-seo-vs-manual-seo/">choosing the right SEO stack</a>. Over-relying on third-party data means you miss what Google actually sees. Over-relying on GSC data means you have no competitive context.</p>
 <h2>Frequently Asked Questions</h2>
-<p><strong>Is the GSC MCP server free to use?</strong></p>
-<p>Yes. All 3 recommended servers are open source and free. The only cost is the Google Cloud project, which stays within the free tier for Search Console API usage. Google provides 1,200 queries per minute at no charge.</p>
-<p><strong>Does MCP work with ChatGPT?</strong></p>
-<p>Not directly. As of April 2026, MCP is natively supported in Claude Desktop, Cursor, Gemini CLI, and several IDE integrations. ChatGPT uses a different plugin architecture. However, MCP adoption is growing across AI platforms.</p>
-<p><strong>Can MCP write to my Google Search Console account?</strong></p>
-<p>By default, the recommended MCP servers are read-only. They can query data and submit URLs for indexing but cannot delete properties or remove sitemaps. Destructive operations require an explicit <code>GSC_ALLOW_DESTRUCTIVE=true</code> flag.</p>
-<p><strong>How fresh is the data from MCP?</strong></p>
-<p>MCP pulls data directly from the GSC API. The data freshness matches what you see in the GSC dashboard. Typically 2 to 3 days behind real time. Set <code>GSC_DATA_STATE</code> to "all" for the most recent (unfinalized) data or "final" for confirmed data only.</p>
-<p><strong>Do I need to know Python to use a GSC MCP server?</strong></p>
-<p>You need Python installed but not Python knowledge. The setup involves running 4 to 5 terminal commands. After that, all interaction happens through natural language in your AI assistant. If you can copy and paste terminal commands, you can set this up.</p>
-<p><strong>Is my GSC data sent to a third party?</strong></p>
-<p>No. The MCP server runs locally on your machine. Your GSC data travels from Google's API to your computer to your local AI client. No data passes through third-party servers. For OAuth, Google handles authentication directly with your browser.</p>
+<div class="faq-list">
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="is-the-gsc-mcp-server-free-to-use">
+      <span class="faq-q-text">Is the GSC MCP server free to use?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="is-the-gsc-mcp-server-free-to-use"><div class="faq-a-inner"><p>Yes. All 3 recommended servers are open source and free. The only cost is the Google Cloud project, which stays within the free tier for Search Console API usage. Google provides 1,200 queries per minute at no charge.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="does-mcp-work-with-chatgpt">
+      <span class="faq-q-text">Does MCP work with ChatGPT?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="does-mcp-work-with-chatgpt"><div class="faq-a-inner"><p>Not directly. As of April 2026, MCP is natively supported in Claude Desktop, Cursor, Gemini CLI, and several IDE integrations. ChatGPT uses a different plugin architecture. However, MCP adoption is growing across AI platforms.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-mcp-write-to-my-google-search-console-account">
+      <span class="faq-q-text">Can MCP write to my Google Search Console account?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-mcp-write-to-my-google-search-console-account"><div class="faq-a-inner"><p>By default, the recommended MCP servers are read-only. They can query data and submit URLs for indexing but cannot delete properties or remove sitemaps. Destructive operations require an explicit <code>GSC_ALLOW_DESTRUCTIVE=true</code> flag.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-fresh-is-the-data-from-mcp">
+      <span class="faq-q-text">How fresh is the data from MCP?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-fresh-is-the-data-from-mcp"><div class="faq-a-inner"><p>MCP pulls data directly from the GSC API. The data freshness matches what you see in the GSC dashboard. Typically 2 to 3 days behind real time. Set <code>GSC_DATA_STATE</code> to "all" for the most recent (unfinalized) data or "final" for confirmed data only.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="do-i-need-to-know-python-to-use-a-gsc-mcp-server">
+      <span class="faq-q-text">Do I need to know Python to use a GSC MCP server?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="do-i-need-to-know-python-to-use-a-gsc-mcp-server"><div class="faq-a-inner"><p>You need Python installed but not Python knowledge. The setup involves running 4 to 5 terminal commands. After that, all interaction happens through natural language in your AI assistant. If you can copy and paste terminal commands, you can set this up.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="is-my-gsc-data-sent-to-a-third-party">
+      <span class="faq-q-text">Is my GSC data sent to a third party?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="is-my-gsc-data-sent-to-a-third-party"><div class="faq-a-inner"><p>No. The MCP server runs locally on your machine. Your GSC data travels from Google's API to your computer to your local AI client. No data passes through third-party servers. For OAuth, Google handles authentication directly with your browser.</p></div></div>
+  </div>
+</div>
+
 <h2>Start Querying Your Search Data Today</h2>
 <p>Setting up MCP for Google Search Console takes 15 to 25 minutes. The time investment pays for itself in the first week.</p>
 <p>The biggest wins come from consistency. Manual dashboard reviews are sporadic. MCP queries are instant and repeatable. That shift from periodic checks to continuous monitoring catches ranking drops, indexing issues, and content opportunities weeks earlier.</p>
@@ -629,4 +663,5 @@ submitted URLs that are not indexed? Show me the gap.
 <p><strong>Your SEO content, published on autopilot.</strong> 30 articles per month. 92% average SEO score. No writers to manage.
 <a href="/pricing/">Start for $1 →</a></p>
 </blockquote>
+
 </BlogLayout>

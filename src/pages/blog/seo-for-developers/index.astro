@@ -73,6 +73,7 @@ const readTime = "34 min";
   date={date}
   readTime={readTime}
 >
+
 <p>You shipped the site. The Lighthouse score is 98. The code is clean. Then six months later, marketing asks why organic traffic is flat and your CEO forwards a screenshot showing 0 indexed pages in Search Console. Welcome to the SEO for developers problem.</p>
 <p>Most developer SEO failures are not coding mistakes. They are architecture decisions made before anyone thought about search. A JavaScript framework that defers rendering. A robots.txt copied from staging. A canonical tag pointing at the dev domain. None of it shows up in your test suite, and none of it matters until your traffic disappears.</p>
 <p>This guide is the technical reference we hand to engineering teams who want to ship code that ranks. It covers what search engines actually do with your HTML, the exact failure points that kill rankings, and the deploy checklist we use on every site we touch. We are not going to tell you to "write good content." We are going to tell you which HTTP status code, which header, and which directive gets the page into Google's index.</p>
@@ -496,215 +497,93 @@ Sitemap: https://example.com/sitemap.xml
 </code></pre>
 <p>Test every schema implementation in the <a href="https://search.google.com/test/rich-results">Rich Results Test</a>. Invalid schema does not break the page, but it does fail silently and you lose the rich result. Our <a href="/blog/structured-data-guide/">structured data guide</a> covers the full property reference for each type.</p>
 <h2>Layer 6: URL Structure, Headers, and Semantic HTML</h2>
-<p><img loading="lazy" alt="Developer SEO pre-deploy checklist with robots sitemap meta tags schema canonicals Core Web Vitals and internal links" src="/images/blog/seo-developers-checklist.png" /></p>
-<p>The last layer is the on-page mechanics. URLs, heading hierarchy, semantic HTML elements, and internal linking. These are not as dramatic as crawlability or rendering, but they compound over time.</p>
-<h3>URL Structure</h3>
-<p>Good URLs are short, descriptive, lowercase, and hyphen-separated. They should describe the content, not the implementation.</p>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Good</th>
-<th>Bad</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>/blog/seo-for-developers</code></td>
-<td><code>/blog/post?id=12847</code></td>
-</tr>
-<tr>
-<td><code>/products/red-widget</code></td>
-<td><code>/products/3920-Widget-Red-V2-Final</code></td>
-</tr>
-<tr>
-<td><code>/about</code></td>
-<td><code>/about-us.html</code></td>
-</tr>
-<tr>
-<td><code>/services/web-design</code></td>
-<td><code>/services/category-2/subcategory-7/web-design</code></td>
-</tr>
-</tbody>
-</table></div>
-<p>Keep URLs flat. Avoid deep nesting. Match the URL slug to the page H1 where reasonable. Never put session IDs, tracking parameters, or random hashes in canonical URLs.</p>
-<h3>Heading Hierarchy</h3>
-<p>Headings tell search engines and screen readers what the page structure is. The rules are simple.</p>
-<ul>
-<li>One <code>&lt;h1&gt;</code> per page. The H1 should match the user's intent and include the primary keyword.</li>
-<li><code>&lt;h2&gt;</code> for major sections. <code>&lt;h3&gt;</code> for subsections of an H2. <code>&lt;h4&gt;</code> for subsections of an H3.</li>
-<li>Never skip levels. An H4 inside an H2 is a structural error.</li>
-<li>Do not use headings for styling. If you want big text that is not a heading, use CSS.</li>
-</ul>
-<p>The accessibility validators that test for heading order will also catch the SEO issues. Run <a href="https://www.deque.com/axe/devtools/">axe DevTools</a> or Lighthouse Accessibility audit on every page.</p>
-<h3>Semantic HTML</h3>
-<p>Use the right HTML element for the job. <code>&lt;nav&gt;</code> for navigation. <code>&lt;main&gt;</code> for the primary content. <code>&lt;article&gt;</code> for self-contained pieces. <code>&lt;aside&gt;</code> for sidebars. <code>&lt;footer&gt;</code> for the footer.</p>
-<p>Search engines use semantic elements to understand which part of the page is the main content. Generic <code>&lt;div&gt;</code> soup forces them to guess. Guessing means missed context, missed primary content extraction, and lower confidence scores in the indexer.</p>
-<h3>Internal Linking</h3>
-<p>Internal links are the routing graph search engines use to discover and prioritize pages. The rules are short.</p>
-<ul>
-<li>Every important page should be reachable in 3 clicks from the homepage.</li>
-<li>Use descriptive anchor text. "Click here" tells Google nothing. "<a href="/blog/technical-seo-checklist/">2026 technical SEO checklist</a>" tells Google a lot.</li>
-<li>Link from high-traffic pages to pages you want to rank.</li>
-<li>Avoid orphan pages. Every URL in your sitemap should have at least 1 internal link pointing at it.</li>
-</ul>
-<h2>The 12 Developer SEO Mistakes That Kill Rankings</h2>
-<p><img loading="lazy" alt="Common SEO mistakes developers make including JS-only rendering broken canonicals and missing structured data" src="/images/blog/seo-developers-mistakes.png" /></p>
-<p>After auditing hundreds of sites, the same mistakes appear over and over. The list below is the 12 that cost the most traffic. Avoid these and you will outperform 80% of the developer-built sites we see.</p>
-<ol>
-<li><strong>Staging robots.txt pushed to production.</strong> <code>Disallow: /</code> on the live domain blocks the entire site.</li>
-<li><strong>Noindex meta tag left on production.</strong> Often a templating default in CMS themes.</li>
-<li><strong>JavaScript-only content.</strong> Critical content hidden behind a client-side render that Google may never reach.</li>
-<li><strong>Canonical tags pointing at staging or dev URLs.</strong> Cancels the indexation signal entirely.</li>
-<li><strong>No XML sitemap.</strong> Or a sitemap that lists 404s and redirects instead of canonical URLs.</li>
-<li><strong>HTTP and HTTPS both live.</strong> Splits ranking signal across two domains and creates duplicate content.</li>
-<li><strong>Trailing slash inconsistency.</strong> <code>/page</code> and <code>/page/</code> indexed separately as different URLs.</li>
-<li><strong>Slow Time to First Byte.</strong> Server takes 2+ seconds to respond. Kills both ranking and conversion.</li>
-<li><strong>Lazy-loading the LCP image.</strong> Defers the largest visible element and tanks LCP.</li>
-<li><strong>Missing alt text.</strong> Images become invisible in Google Image Search and accessibility audits fail.</li>
-<li><strong>Render-blocking third-party scripts in the head.</strong> Live chat, analytics, and tag managers loaded synchronously above the fold.</li>
-<li><strong>Redirect chains.</strong> Page A redirects to B redirects to C redirects to D. Google drops the chain after the third hop.</li>
-</ol>
-<p>Run a <a href="/blog/technical-seo-checklist/">technical SEO checklist</a> audit before every deploy and you will catch most of these before they hit production.</p>
-<p><img loading="lazy" alt="12 developer SEO mistakes checklist with severity ratings" src="/images/blog/12-developer-seo-mistakes.png" /></p>
-<h2>The Pre-Deploy SEO Checklist</h2>
-<p>This is the exact checklist we run on every site before it goes live. It is shorter than most SEO checklists because it focuses on the items that genuinely break rankings. The cosmetic stuff can wait.</p>
-<h3>Code Review</h3>
-<ul>
-<li>[ ] <code>robots.txt</code> allows all production URLs</li>
-<li>[ ] No <code>noindex</code> meta tag on production pages</li>
-<li>[ ] Canonical tags point at production URLs with correct protocol and trailing slash</li>
-<li>[ ] XML sitemap generates correctly and is submitted to Search Console</li>
-<li>[ ] All redirects use 301 (not 302) for permanent moves</li>
-<li>[ ] HTTPS is forced via 301 from HTTP</li>
-<li>[ ] Either WWW or non-WWW is forced via 301 from the other</li>
-</ul>
-<h3>Rendering</h3>
-<ul>
-<li>[ ] Critical above-the-fold content appears in raw HTML (view source)</li>
-<li>[ ] Page renders correctly with JavaScript disabled</li>
-<li>[ ] LCP element loads with <code>fetchpriority="high"</code> or is preloaded</li>
-<li>[ ] No render-blocking scripts in <code>&lt;head&gt;</code></li>
-<li>[ ] Mobile viewport meta tag is set</li>
-</ul>
-<h3>Metadata</h3>
-<ul>
-<li>[ ] Every page has a unique <code>&lt;title&gt;</code> tag under 60 characters</li>
-<li>[ ] Every page has a unique meta description under 155 characters</li>
-<li>[ ] Every page has Open Graph tags (<code>og:title</code>, <code>og:description</code>, <code>og:image</code>)</li>
-<li>[ ] Every image has descriptive <code>alt</code> text</li>
-<li>[ ] Structured data is present and validates in Rich Results Test</li>
-</ul>
-<h3>Performance</h3>
-<ul>
-<li>[ ] PageSpeed Insights shows green for LCP, INP, CLS on mobile</li>
-<li>[ ] Time to First Byte under 600 ms on a sample of pages</li>
-<li>[ ] All static assets cached with far-future expiry</li>
-<li>[ ] Images served in AVIF or WebP with fallback</li>
-</ul>
-<h3>Post-Deploy</h3>
-<ul>
-<li>[ ] Run URL Inspection in Search Console on 5 sample URLs</li>
-<li>[ ] Check Coverage report 48 hours after deploy</li>
-<li>[ ] Monitor Search Console for new errors over the next week</li>
-<li>[ ] Compare organic traffic 30 days post-deploy to baseline</li>
-</ul>
-<h2>The Tools That Actually Matter</h2>
-<p>You do not need 20 SEO tools to do developer SEO well. The 6 below cover 95% of what you need.</p>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-<th>Tool</th>
-<th>What It Does</th>
-<th>Cost</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Google Search Console</strong></td>
-<td>Index status, errors, queries</td>
-<td>Free</td>
-</tr>
-<tr>
-<td><strong>PageSpeed Insights</strong></td>
-<td>Core Web Vitals, performance audit</td>
-<td>Free</td>
-</tr>
-<tr>
-<td><strong>Rich Results Test</strong></td>
-<td>Validate structured data</td>
-<td>Free</td>
-</tr>
-<tr>
-<td><strong>URL Inspection</strong></td>
-<td>See exactly what Google rendered</td>
-<td>Free</td>
-</tr>
-<tr>
-<td><strong>Screaming Frog</strong></td>
-<td>Site-wide crawl, technical audit</td>
-<td>Free up to 500 URLs</td>
-</tr>
-<tr>
-<td><strong>Ahrefs or Semrush</strong></td>
-<td>Backlinks, keywords, competitor data</td>
-<td>$99 – $449/mo</td>
-</tr>
-</tbody>
-</table></div>
-<p>Search Console and PageSpeed Insights are free and non-negotiable. Every site needs both connected before launch. Screaming Frog is the best technical crawler under $200. Ahrefs or Semrush is optional for developer work, mostly useful for content and keyword decisions.</p>
-<h2>Framework-Specific Gotchas</h2>
-<p>Each modern framework has at least one default that quietly breaks SEO. The list below is what we have hit in production audits.</p>
-<h3>Next.js</h3>
-<ul>
-<li>The default <code>&lt;Image&gt;</code> component lazy-loads everything. Pass <code>priority</code> to the LCP image.</li>
-<li>Client Components in the App Router do not ship rendered HTML for dynamic content. Move SEO-critical content to Server Components.</li>
-<li><code>next/router</code> does not trigger a full HTML reload. Make sure metadata updates on route change.</li>
-</ul>
-<h3>Astro</h3>
-<ul>
-<li>Component islands rehydrate on the client but the initial HTML is static. Astro is the safest default for content sites.</li>
-<li>The <code>&lt;Image&gt;</code> component requires explicit <code>width</code> and <code>height</code> or it skips optimization.</li>
-<li>The <code>@astrojs/sitemap</code> plugin needs the <code>site</code> config in <code>astro.config.mjs</code> set to the production domain.</li>
-</ul>
-<h3>Nuxt</h3>
-<ul>
-<li>The <code>useFetch</code> composable runs on both server and client by default. For SEO-critical data, force server-only with the <code>server: true</code> option.</li>
-<li>Nuxt 3 SSR ships JSON state in the HTML. The payload can balloon and slow LCP. Audit the size of <code>__NUXT__</code> state.</li>
-<li>The <code>nitro.prerender</code> config controls which routes are statically generated. Default is none.</li>
-</ul>
-<h3>SvelteKit</h3>
-<ul>
-<li>Use <code>export const prerender = true</code> for static pages. Without it, SvelteKit defaults to SSR which is slower at the edge.</li>
-<li>The <code>+page.server.ts</code> load function runs on the server only. Keep SEO data fetching there.</li>
-<li>The default error page returns 200 even for not-found content. Set the status code explicitly.</li>
-</ul>
-<h3>Remix</h3>
-<ul>
-<li>Loaders run on the server and ship rendered HTML by default. SEO is mostly handled correctly out of the box.</li>
-<li>Use the <code>meta</code> export on each route to set unique title and description tags.</li>
-<li>The <code>&lt;Links&gt;</code> component manages preloading. Add canonical and hreflang tags through the <code>meta</code> export.</li>
-</ul>
-<h2>Frequently Asked Questions</h2>
-<p><strong>Is SEO dead or evolving in 2026?</strong></p>
-<p>SEO is not dead. It is evolving toward a model where AI Overviews, AI Mode, and traditional blue links share the same SERP. The work is the same — get crawled, indexed, rendered, and cited — but the citation surface has expanded. Pages that pass Core Web Vitals and ship server-rendered HTML get cited by AI systems more often than pages that do not. Our <a href="/blog/ai-search-statistics/">AI search</a> coverage tracks the shift.</p>
-<p><strong>Do developers do SEO?</strong></p>
-<p>Developers handle the technical SEO layer. That is 60 to 80% of what determines whether a page can rank at all. Marketers handle content, keyword research, and on-page copy. The split is roughly 80/20 on a new build and flips to 20/80 in maintenance mode. Most ranking failures we audit are technical, which means they are in the developer's lane.</p>
-<p><strong>What is the 80/20 rule for SEO?</strong></p>
-<p>The 80/20 rule for developer SEO is that 6 things drive 80% of the technical impact: a working sitemap, correct canonical tags, fast Time to First Byte, passing Core Web Vitals, server-rendered HTML, and clean redirect logic. Get those 6 right and you outperform most sites. The other 20% — structured data refinements, hreflang clusters, fine-tuned crawl budget — adds incremental gains.</p>
-<p><strong>Is SEO being phased out?</strong></p>
-<p>No. Every major shift in search has been framed as the end of SEO. Mobile, voice, zero-click results, and now AI Overviews have all been called the end of SEO. None of them eliminated the underlying work. They reshaped which signals matter. The constant is that pages have to be discoverable, indexable, and trustworthy. The mechanics live in your code.</p>
-<p><strong>Is SEO replaced by AI?</strong></p>
-<p>AI is changing how search results look, not what makes a page rankable. AI Overviews and chat-based search still cite the same pages that rank in traditional search. The pages they cite tend to be fast, structured, and authoritative. If your code passes the technical SEO checklist, your pages are eligible for AI citations. If it does not, you miss both the blue links and the AI surface.</p>
-<p><strong>Should developers use AI to write SEO content?</strong></p>
-<p>For the technical work in this guide, no. AI is not a substitute for canonical tags, Core Web Vitals, or sitemap validation. For the content layer — blog posts, product descriptions, FAQ pages — AI helps if the workflow is right. We use AI to draft and humans to verify. That is the model behind <a href="/pricing/">Stacc's $99/month service</a> — 30 articles per month, written and published automatically with editorial quality control.</p>
-<p><strong>How long until SEO changes show in Google Search Console?</strong></p>
-<p>Crawl and index changes show within 24 to 72 hours for high-priority pages. Ranking changes take longer — 2 to 8 weeks is normal for new content, 1 to 3 weeks for technical fixes on existing pages. Core Web Vitals are measured on a rolling 28-day window, so improvements take at least 4 weeks to reflect in the field data Google ranks on.</p>
-<h2>The Bottom Line</h2>
-<p>Developer SEO is the technical foundation that decides whether your content has a chance to rank. The work is finite and well-documented. Get crawlability right. Get indexability right. Ship server-rendered HTML. Pass Core Web Vitals. Add structured data. Run a pre-deploy checklist. That is the entire game on the technical side.</p>
-<p>The content layer is a separate problem. Most engineering teams either ignore content entirely or treat it as an afterthought between releases. Both approaches fail. The teams that win in organic search ship clean code and publish consistently — usually 20 to 30 articles per month on the topics their customers search for.</p>
-<p>If you have the technical foundation handled and you want the content side automated, that is what we do. Stacc publishes 30 SEO articles per month for $99, written and shipped to your site without a content team. Same workflow we use on our own site.</p>
-<p><strong><a href="/pricing/">Start for $1 → See your first 5 articles in 72 hours</a></strong></p>
-<p><em>Last updated May 2026. All pricing and statistics verified against public sources. This guide is reviewed quarterly.</em></p>
+<div class="faq-list">
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="url-structure">
+      <span class="faq-q-text">URL Structure</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="url-structure"><div class="faq-a-inner"><p>Good URLs are short, descriptive, lowercase, and hyphen-separated. They should describe the content, not the implementation.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="heading-hierarchy">
+      <span class="faq-q-text">Heading Hierarchy</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="heading-hierarchy"><div class="faq-a-inner"><p>Headings tell search engines and screen readers what the page structure is. The rules are simple.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="semantic-html">
+      <span class="faq-q-text">Semantic HTML</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="semantic-html"><div class="faq-a-inner"><p>Use the right HTML element for the job. <code>&lt;nav&gt;</code> for navigation. <code>&lt;main&gt;</code> for the primary content. <code>&lt;article&gt;</code> for self-contained pieces. <code>&lt;aside&gt;</code> for sidebars. <code>&lt;footer&gt;</code> for the footer.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="internal-linking">
+      <span class="faq-q-text">Internal Linking</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="internal-linking"><div class="faq-a-inner"><p>Internal links are the routing graph search engines use to discover and prioritize pages. The rules are short.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="is-seo-dead-or-evolving-in-2026">
+      <span class="faq-q-text">Is SEO dead or evolving in 2026?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="is-seo-dead-or-evolving-in-2026"><div class="faq-a-inner"><p>SEO is not dead. It is evolving toward a model where AI Overviews, AI Mode, and traditional blue links share the same SERP. The work is the same — get crawled, indexed, rendered, and cited — but the citation surface has expanded. Pages that pass Core Web Vitals and ship server-rendered HTML get cited by AI systems more often than pages that do not. Our <a href="/blog/ai-search-statistics/">AI search</a> coverage tracks the shift.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="do-developers-do-seo">
+      <span class="faq-q-text">Do developers do SEO?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="do-developers-do-seo"><div class="faq-a-inner"><p>Developers handle the technical SEO layer. That is 60 to 80% of what determines whether a page can rank at all. Marketers handle content, keyword research, and on-page copy. The split is roughly 80/20 on a new build and flips to 20/80 in maintenance mode. Most ranking failures we audit are technical, which means they are in the developer's lane.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="what-is-the-80-20-rule-for-seo">
+      <span class="faq-q-text">What is the 80/20 rule for SEO?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="what-is-the-80-20-rule-for-seo"><div class="faq-a-inner"><p>The 80/20 rule for developer SEO is that 6 things drive 80% of the technical impact: a working sitemap, correct canonical tags, fast Time to First Byte, passing Core Web Vitals, server-rendered HTML, and clean redirect logic. Get those 6 right and you outperform most sites. The other 20% — structured data refinements, hreflang clusters, fine-tuned crawl budget — adds incremental gains.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="is-seo-being-phased-out">
+      <span class="faq-q-text">Is SEO being phased out?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="is-seo-being-phased-out"><div class="faq-a-inner"><p>No. Every major shift in search has been framed as the end of SEO. Mobile, voice, zero-click results, and now AI Overviews have all been called the end of SEO. None of them eliminated the underlying work. They reshaped which signals matter. The constant is that pages have to be discoverable, indexable, and trustworthy. The mechanics live in your code.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="is-seo-replaced-by-ai">
+      <span class="faq-q-text">Is SEO replaced by AI?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="is-seo-replaced-by-ai"><div class="faq-a-inner"><p>AI is changing how search results look, not what makes a page rankable. AI Overviews and chat-based search still cite the same pages that rank in traditional search. The pages they cite tend to be fast, structured, and authoritative. If your code passes the technical SEO checklist, your pages are eligible for AI citations. If it does not, you miss both the blue links and the AI surface.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="should-developers-use-ai-to-write-seo-content">
+      <span class="faq-q-text">Should developers use AI to write SEO content?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="should-developers-use-ai-to-write-seo-content"><div class="faq-a-inner"><p>For the technical work in this guide, no. AI is not a substitute for canonical tags, Core Web Vitals, or sitemap validation. For the content layer — blog posts, product descriptions, FAQ pages — AI helps if the workflow is right. We use AI to draft and humans to verify. That is the model behind <a href="/pricing/">Stacc's $99/month service</a> — 30 articles per month, written and published automatically with editorial quality control.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-long-until-seo-changes-show-in-google-search-c">
+      <span class="faq-q-text">How long until SEO changes show in Google Search Console?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-long-until-seo-changes-show-in-google-search-c"><div class="faq-a-inner"><p>Crawl and index changes show within 24 to 72 hours for high-priority pages. Ranking changes take longer — 2 to 8 weeks is normal for new content, 1 to 3 weeks for technical fixes on existing pages. Core Web Vitals are measured on a rolling 28-day window, so improvements take at least 4 weeks to reflect in the field data Google ranks on.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="start-for-1-see-your-first-5-articles-in-72-hours">
+      <span class="faq-q-text">Start for $1 → See your first 5 articles in 72 hours</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="start-for-1-see-your-first-5-articles-in-72-hours"><div class="faq-a-inner"><p><em>Last updated May 2026. All pricing and statistics verified against public sources. This guide is reviewed quarterly.</em></p></div></div>
+  </div>
+</div>
+
 <h2>Related Tools &amp; Resources</h2>
 <p><strong>Free SEO Tools:</strong>
 - <a href="/tools/seo-audit/">Free SEO Audit</a>
@@ -713,4 +592,5 @@ Sitemap: https://example.com/sitemap.xml
 <p><strong>Best Lists:</strong>
 - <a href="/best/ai-seo-tools/">Best AI SEO Tools</a>
 - <a href="/best/seo-automation-tools/">Best SEO Automation Tools</a></p>
+
 </BlogLayout>

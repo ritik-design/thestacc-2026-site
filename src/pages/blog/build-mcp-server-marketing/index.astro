@@ -73,6 +73,7 @@ const readTime = "22 min";
   date={date}
   readTime={readTime}
 >
+
 <p>Marketing teams drown in disconnected data. Google Ads sits in one tab. HubSpot lives in another. Google Analytics runs in a third. Every question about campaign performance means switching between 4 or 5 tools, exporting CSVs, and stitching numbers together by hand.</p>
 <p>That manual process costs 5 to 10 hours per week for the average marketing analyst. Over a full year, that is more than 300 hours lost to tab-switching and spreadsheet wrangling.</p>
 <p>This guide shows you how to build an MCP server for marketing. You will connect your ad platforms, CRM data, and analytics tools to AI assistants like Claude or ChatGPT through one structured protocol.</p>
@@ -581,20 +582,54 @@ assert(result.content[0].text.includes(&quot;spend&quot;));
 <p><strong>Problem:</strong> Server crashes under concurrent requests.
 <strong>Fix:</strong> Add session management with unique IDs for each client connection. The MCP SDK supports this natively. Also check your API rate limits. Google Ads allows 15,000 requests per day by default.</p>
 <h2>Frequently Asked Questions</h2>
-<p><strong>Do I need to know TypeScript to build an MCP server for marketing?</strong></p>
-<p>TypeScript is the fastest path because the official MCP SDK is built for it. Python support exists through the FastMCP library, and it works well for teams already using Python. If your marketing team has Python skills from data analysis work, that is a valid alternative. The core concepts (tools, resources, transports) are identical in both languages.</p>
-<p><strong>How long does it take to build a marketing MCP server from scratch?</strong></p>
-<p>A basic server with 2 to 3 tools takes 2 to 4 hours for someone with intermediate JavaScript skills. A production-ready server with authentication, logging, and multiple data sources takes 1 to 2 full days. The API credential setup (especially Google Ads developer token approval) often takes longer than the actual coding.</p>
-<p><strong>Can I use existing MCP servers instead of building one?</strong></p>
-<p>Yes. HubSpot, Google Analytics, and Google Search Console all have official or well-maintained community MCP servers. Check <a href="https://www.pulsemcp.com/servers">PulseMCP</a> or the <a href="https://mcpmarket.com/">MCP Market</a> for existing options. Build custom only when you need to combine multiple sources, add business logic, or connect to platforms without existing servers.</p>
-<p><strong>Is an MCP server secure enough for production marketing data?</strong></p>
-<p>The protocol itself supports OAuth 2.0, TLS encryption, and scoped permissions. Security depends on your implementation. Use read-only API tokens where possible. Store credentials in environment variables. Add rate limiting and audit logging. The <a href="https://zuplo.com/mcp-report">Zuplo MCP Report</a> covers security best practices in detail.</p>
-<p><strong>What AI clients support MCP servers?</strong></p>
-<p>Claude Desktop, Cursor, VS Code (with GitHub Copilot), Windsurf, and several other IDE-based clients support MCP natively as of early 2026. OpenAI added MCP support in March 2025. The protocol is client-agnostic, so any application implementing the MCP client specification can connect to your server.</p>
-<p><strong>How does building an MCP server compare to using Zapier or Make?</strong></p>
-<p>Zapier and Make handle workflow automation (trigger X, then do Y). MCP servers handle conversational data access (ask a question, get an answer from live data). They solve different problems. Many teams use both. Zapier automates repetitive actions. MCP gives AI assistants real-time access to query and analyze marketing data on demand.</p>
+<div class="faq-list">
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="do-i-need-to-know-typescript-to-build-an-mcp-serve">
+      <span class="faq-q-text">Do I need to know TypeScript to build an MCP server for marketing?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="do-i-need-to-know-typescript-to-build-an-mcp-serve"><div class="faq-a-inner"><p>TypeScript is the fastest path because the official MCP SDK is built for it. Python support exists through the FastMCP library, and it works well for teams already using Python. If your marketing team has Python skills from data analysis work, that is a valid alternative. The core concepts (tools, resources, transports) are identical in both languages.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-long-does-it-take-to-build-a-marketing-mcp-ser">
+      <span class="faq-q-text">How long does it take to build a marketing MCP server from scratch?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-long-does-it-take-to-build-a-marketing-mcp-ser"><div class="faq-a-inner"><p>A basic server with 2 to 3 tools takes 2 to 4 hours for someone with intermediate JavaScript skills. A production-ready server with authentication, logging, and multiple data sources takes 1 to 2 full days. The API credential setup (especially Google Ads developer token approval) often takes longer than the actual coding.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-i-use-existing-mcp-servers-instead-of-building">
+      <span class="faq-q-text">Can I use existing MCP servers instead of building one?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-i-use-existing-mcp-servers-instead-of-building"><div class="faq-a-inner"><p>Yes. HubSpot, Google Analytics, and Google Search Console all have official or well-maintained community MCP servers. Check <a href="https://www.pulsemcp.com/servers">PulseMCP</a> or the <a href="https://mcpmarket.com/">MCP Market</a> for existing options. Build custom only when you need to combine multiple sources, add business logic, or connect to platforms without existing servers.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="is-an-mcp-server-secure-enough-for-production-mark">
+      <span class="faq-q-text">Is an MCP server secure enough for production marketing data?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="is-an-mcp-server-secure-enough-for-production-mark"><div class="faq-a-inner"><p>The protocol itself supports OAuth 2.0, TLS encryption, and scoped permissions. Security depends on your implementation. Use read-only API tokens where possible. Store credentials in environment variables. Add rate limiting and audit logging. The <a href="https://zuplo.com/mcp-report">Zuplo MCP Report</a> covers security best practices in detail.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="what-ai-clients-support-mcp-servers">
+      <span class="faq-q-text">What AI clients support MCP servers?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="what-ai-clients-support-mcp-servers"><div class="faq-a-inner"><p>Claude Desktop, Cursor, VS Code (with GitHub Copilot), Windsurf, and several other IDE-based clients support MCP natively as of early 2026. OpenAI added MCP support in March 2025. The protocol is client-agnostic, so any application implementing the MCP client specification can connect to your server.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-does-building-an-mcp-server-compare-to-using-z">
+      <span class="faq-q-text">How does building an MCP server compare to using Zapier or Make?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-does-building-an-mcp-server-compare-to-using-z"><div class="faq-a-inner"><p>Zapier and Make handle workflow automation (trigger X, then do Y). MCP servers handle conversational data access (ask a question, get an answer from live data). They solve different problems. Many teams use both. Zapier automates repetitive actions. MCP gives AI assistants real-time access to query and analyze marketing data on demand.</p></div></div>
+  </div>
+</div>
+
 <h2>Start Building</h2>
 <p>You now have a complete blueprint to build an MCP server for marketing. The 7 steps take your team from disconnected data silos to conversational marketing intelligence driven by AI.</p>
 <p>Start with Step 1. Pick your 2 most-queried data sources. Build a working prototype this week. Add more tools as your team discovers new use cases.</p>
 <p>For the content and SEO side of marketing, <a href="/pricing/">Stacc handles publishing automatically</a>. Pair an MCP server for data queries with automated content publishing, and your marketing engine runs on autopilot.</p>
+
 </BlogLayout>

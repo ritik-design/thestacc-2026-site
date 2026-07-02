@@ -73,6 +73,7 @@ const readTime = "21 min";
   date={date}
   readTime={readTime}
 >
+
 <p>You changed a URL. Maybe you moved to a new domain. Maybe you consolidated 3 pages into 1. Now visitors hit a 404, and Google drops your rankings overnight.</p>
 <p>Every broken URL leaks link equity you spent months earning. Users bounce. Google flags your site as poorly maintained. A single migration without 301 redirects can wipe out 40% or more of your organic traffic in a week.</p>
 <p>This guide walks through 7 steps to set up 301 redirects the right way. You will learn the exact process for WordPress, Apache <code>.htaccess</code>, Nginx, Shopify, and Cloudflare. No guesswork. No broken links. No lost rankings.</p>
@@ -458,18 +459,52 @@ RewriteRule ^(.*)$ https://newsite.com/$1 [R=301,L]
 <a href="/pricing/">Start for $1 →</a></p>
 </blockquote>
 <h2>Frequently Asked Questions</h2>
-<p><strong>How long should you keep 301 redirects in place?</strong></p>
-<p>Google recommends keeping 301 redirects active for at least 1 year. External sites linking to your old URL will continue sending traffic through that redirect. Removing it before those external links update (most never will) sends their visitors to a 404. When in doubt, keep the redirect permanently. The server overhead is negligible.</p>
-<p><strong>Do 301 redirects hurt SEO?</strong></p>
-<p>No. Google confirmed in 2016 that 30x redirects no longer cause PageRank loss. A properly configured <code>301</code> passes 90 to 99% of link equity to the destination URL. The only risk is implementation errors like chains, loops, or redirecting to irrelevant pages.</p>
-<p><strong>What is the difference between a 301 and 302 redirect?</strong></p>
-<p>A <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/301">301 redirect</a> signals a permanent move. Google transfers link equity and eventually deindexes the old URL. A <code>302</code> signals a temporary move. Google keeps the old URL indexed and may not transfer full equity. Use <code>301</code> for any permanent URL change.</p>
-<p><strong>Can too many 301 redirects slow down my site?</strong></p>
-<p>Individual redirects add minimal latency (under 100ms). The problem is redirect chains. Each hop adds 50 to 100ms. A 3-hop chain adds 150 to 300ms before the page even starts loading. Keep every redirect to a single hop and the performance impact stays negligible.</p>
-<p><strong>How do I check if my 301 redirects are working?</strong></p>
-<p>Use <code>curl -I [URL]</code> in your terminal. The response should show <code>HTTP/1.1 301 Moved Permanently</code> with a <code>Location:</code> header pointing to the correct destination. You can also use Chrome DevTools (Network tab with "Preserve log" enabled) or free online tools like httpstatus.io.</p>
-<p><strong>Should I use a 301 redirect or a canonical tag?</strong></p>
-<p>Use a <code>301</code> when you are removing the old page entirely. Use a <code>canonical</code> tag when both pages stay live but you want Google to consolidate ranking signals to one version. A common example: product pages with URL parameters. The filtered URL stays accessible, but the canonical points to the clean URL. For <a href="/blog/fix-keyword-cannibalization/">keyword cannibalization</a> between 2 live pages, a canonical tag is often the better first step.</p>
+<div class="faq-list">
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-long-should-you-keep-301-redirects-in-place">
+      <span class="faq-q-text">How long should you keep 301 redirects in place?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-long-should-you-keep-301-redirects-in-place"><div class="faq-a-inner"><p>Google recommends keeping 301 redirects active for at least 1 year. External sites linking to your old URL will continue sending traffic through that redirect. Removing it before those external links update (most never will) sends their visitors to a 404. When in doubt, keep the redirect permanently. The server overhead is negligible.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="do-301-redirects-hurt-seo">
+      <span class="faq-q-text">Do 301 redirects hurt SEO?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="do-301-redirects-hurt-seo"><div class="faq-a-inner"><p>No. Google confirmed in 2016 that 30x redirects no longer cause PageRank loss. A properly configured <code>301</code> passes 90 to 99% of link equity to the destination URL. The only risk is implementation errors like chains, loops, or redirecting to irrelevant pages.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="what-is-the-difference-between-a-301-and-302-redir">
+      <span class="faq-q-text">What is the difference between a 301 and 302 redirect?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="what-is-the-difference-between-a-301-and-302-redir"><div class="faq-a-inner"><p>A <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/301">301 redirect</a> signals a permanent move. Google transfers link equity and eventually deindexes the old URL. A <code>302</code> signals a temporary move. Google keeps the old URL indexed and may not transfer full equity. Use <code>301</code> for any permanent URL change.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-too-many-301-redirects-slow-down-my-site">
+      <span class="faq-q-text">Can too many 301 redirects slow down my site?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-too-many-301-redirects-slow-down-my-site"><div class="faq-a-inner"><p>Individual redirects add minimal latency (under 100ms). The problem is redirect chains. Each hop adds 50 to 100ms. A 3-hop chain adds 150 to 300ms before the page even starts loading. Keep every redirect to a single hop and the performance impact stays negligible.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-do-i-check-if-my-301-redirects-are-working">
+      <span class="faq-q-text">How do I check if my 301 redirects are working?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-do-i-check-if-my-301-redirects-are-working"><div class="faq-a-inner"><p>Use <code>curl -I [URL]</code> in your terminal. The response should show <code>HTTP/1.1 301 Moved Permanently</code> with a <code>Location:</code> header pointing to the correct destination. You can also use Chrome DevTools (Network tab with "Preserve log" enabled) or free online tools like httpstatus.io.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="should-i-use-a-301-redirect-or-a-canonical-tag">
+      <span class="faq-q-text">Should I use a 301 redirect or a canonical tag?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="should-i-use-a-301-redirect-or-a-canonical-tag"><div class="faq-a-inner"><p>Use a <code>301</code> when you are removing the old page entirely. Use a <code>canonical</code> tag when both pages stay live but you want Google to consolidate ranking signals to one version. A common example: product pages with URL parameters. The filtered URL stays accessible, but the canonical points to the clean URL. For <a href="/blog/fix-keyword-cannibalization/">keyword cannibalization</a> between 2 live pages, a canonical tag is often the better first step.</p></div></div>
+  </div>
+</div>
+
 <p>301 redirects protect the link equity and rankings you already earned. Every URL change without a redirect is a leak in your SEO foundation.</p>
 <p>Set up redirects right, test them, monitor them, and pair the work with consistent content publishing. That is how you <a href="/blog/how-to-rank-higher-google/">rank higher on Google</a> and keep the positions you win.</p>
+
 </BlogLayout>

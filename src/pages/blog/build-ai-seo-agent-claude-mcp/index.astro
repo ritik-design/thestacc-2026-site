@@ -73,6 +73,7 @@ const readTime = "23 min";
   date={date}
   readTime={readTime}
 >
+
 <p>Most SEO professionals spend 60% of their week on tasks a machine could handle. Pulling keyword data from one tool, checking rankings in another, and exporting Google Search Console reports into a spreadsheet that no one reads. The work is repetitive, fragmented, and expensive.</p>
 <p>An AI SEO agent built with Claude Code and MCP servers changes that equation entirely. Instead of buying a $200 per month tool that wraps the same APIs you already own, you connect Claude Code directly to your data sources. The agent reads your Search Console data, queries competitor rankings, audits your site structure, and writes the fix. All from a single terminal window.</p>
 <p>We have published 3,500+ SEO articles across 70+ industries. In that process, we have built and tested dozens of agentic workflows. This guide covers the exact setup we use to run SEO audits, keyword research, and content optimization through Claude Code with MCP integrations.</p>
@@ -244,85 +245,121 @@ const readTime = "23 min";
 <p>Claude produces valid schema markup that you paste into your page header. No more schema generators or manual JSON editing.</p>
 <p><strong>Why this step matters:</strong> Content refresh is the highest-ROI SEO activity most teams ignore. It is faster than writing new content, it targets keywords you already rank for, and it compounds over time. An agent that automates refresh identification and execution turns a quarterly backlog into a weekly habit.</p>
 <h2>Step 6: Build a Monthly Reporting Loop</h2>
-<p>One-time audits are useful. Monthly loops are transformative. The final step is building a reporting workflow that runs on a schedule.</p>
-<h3>The Monthly SEO Report Workflow</h3>
-<p><strong>Week 1: Health check</strong></p>
-<p><strong>Prompt:</strong> "Run a technical health check on my site. Check for new 404s, crawl errors, Core Web Vitals changes, and index coverage issues. Compare to last month's results and highlight new problems."</p>
-<p><strong>Week 2: Performance review</strong></p>
-<p><strong>Prompt:</strong> "Pull my Search Console data for the last 30 days. Compare to the previous 30 days. Show me: total clicks, total impressions, average CTR, average position, top 10 gaining queries, top 10 losing queries."</p>
-<p><strong>Week 3: Content pipeline</strong></p>
-<p><strong>Prompt:</strong> "Run the keyword research workflow for my next content batch. Generate 5 content briefs for keywords with volume above 500 and difficulty below 45."</p>
-<p><strong>Week 4: Competitive monitoring</strong></p>
-<p><strong>Prompt:</strong> "Using DataForSEO, check my top 3 competitors. Identify any new pages they published that rank for keywords I target. Summarize their content strategy changes."</p>
-<h3>Scheduling the Loop</h3>
-<p>Claude Code does not have built-in scheduling, but you can automate the trigger. Options include:</p>
-<ul>
-<li><strong>Cron jobs:</strong> Schedule a shell script that runs <code>claude</code> with a pre-written prompt</li>
-<li><strong>GitHub Actions:</strong> Trigger a workflow that runs Claude Code in a CI environment</li>
-<li><strong>Make.com or n8n:</strong> Use a no-code automation tool to trigger Claude Code via API</li>
-</ul>
-<p>For most teams, a simple weekly reminder in your calendar with a link to your saved prompts is sufficient. The real automation is in the prompt, not the trigger.</p>
-<p><strong>Why this step matters:</strong> SEO is not a one-time project. It is a continuous process. An agentic workflow that runs monthly keeps your site healthy, your content fresh, and your competitive intelligence current. The teams that treat SEO as a system, not a campaign, are the ones that win long term.</p>
-<p><img loading="lazy" alt="Monthly AI SEO agent workflow showing four weekly phases: health check, performance review, content pipeline, and competitive intelligence" src="/images/blog/ai-seo-agent-monthly-workflow.png" /></p>
-<blockquote>
-<p><strong>SEO is a system, not a campaign.</strong> An AI SEO agent turns that system into a repeatable process that runs every week without your direct involvement. The best teams spend their time on strategy, not spreadsheets.
-<a href="/blog/ai-agents-content-planning/">Explore Stacc's automated content system</a></p>
-</blockquote>
-<h2>What an AI SEO Agent Cannot Do (The Honest Limitations)</h2>
-<p>No tool replaces judgment. An AI SEO agent is powerful, but it has clear boundaries.</p>
-<p><strong>Strategy and brand voice.</strong> The agent can suggest what to write. It cannot decide what your brand should sound like. It cannot weigh the strategic importance of ranking for one keyword versus another. Those decisions require human context about business goals, competitive positioning, and customer relationships.</p>
-<p><strong>Real experience and expertise.</strong> Google's E-E-A-T guidelines emphasize experience. An AI agent has never used your product, visited your location, or talked to your customers. It can research and synthesize. It cannot generate genuine first-hand insight. Content that claims expertise without backing it up gets flagged by both readers and search engines.</p>
-<p><strong>Link building relationships.</strong> The agent can identify link opportunities and even draft outreach emails. It cannot build relationships with journalists, bloggers, and industry partners. Link building is still a human game of trust and reciprocity.</p>
-<p><strong>Validation and fact-checking.</strong> AI models hallucinate. They cite statistics that do not exist and recommend tactics that violate Google's guidelines. Every output from your agent requires human review. The agent is a draft writer, not a publisher.</p>
-<p><strong>JavaScript-rendered and gated content.</strong> Most simple crawlers cannot execute JavaScript or bypass authentication. If your site is a single-page application or has gated content, the agent's crawl data will be incomplete. You may need a more sophisticated crawling setup.</p>
-<p>According to <a href="https://searchengineland.com/claude-code-seo-work-470668">Search Engine Land's analysis of Claude Code for SEO</a>, the most effective use of AI agents is as an "operator" for multi-step workflows, not a replacement for strategic thinking. The agent handles execution. You handle direction.</p>
-<p><img loading="lazy" alt="What AI SEO agents handle versus what humans still own: execution versus decision making" src="/images/blog/ai-seo-agent-limitations.png" /></p>
-<p><strong>Why this matters:</strong> Understanding limitations prevents disappointment and bad decisions. Teams that treat AI agents as magic wands end up publishing inaccurate content and making technical mistakes. Teams that treat agents as force multipliers for skilled practitioners get the best results.</p>
-<h2>Troubleshooting Common Setup Problems</h2>
-<p>Even with clear instructions, things go wrong. Here are the three most common problems and their fixes.</p>
-<p><strong>Problem: MCP server not found by Claude Code</strong></p>
-<p><strong>Solution:</strong> Check your MCP configuration file (usually <code>~/.config/claude/mcp.json</code> or similar). Verify the server path is correct and the server executable has the right permissions. Restart Claude Code after any configuration change.</p>
-<p><strong>Problem: Google Search Console data returns empty results</strong></p>
-<p><strong>Solution:</strong> Confirm your OAuth credentials have the correct scopes. The GSC MCP server needs <code>https://www.googleapis.com/auth/webmasters.readonly</code> access. If using a service account, verify the account has been added as a user in your Search Console property.</p>
-<p><strong>Problem: DataForSEO queries time out or return errors</strong></p>
-<p><strong>Solution:</strong> Check your API credit balance. DataForSEO returns errors when credits are depleted. Also verify your API credentials are correctly formatted in the MCP configuration. The login and password must match your DataForSEO dashboard exactly.</p>
-<h2>Results: What to Expect After Building Your AI SEO Agent</h2>
-<p>After completing this guide, you should expect the following outcomes:</p>
-<ul>
-<li><strong>Technical audits complete in 15 to 20 minutes</strong> instead of 2 to 4 hours</li>
-<li><strong>Keyword research for 50 keywords finishes in under 5 minutes</strong> instead of 45 minutes</li>
-<li><strong>Content briefs generate in 2 minutes each</strong> with consistent structure and SERP-informed angles</li>
-<li><strong>Monthly SEO reports compile automatically</strong> from live data, not stale exports</li>
-<li><strong>Content refresh identification happens weekly</strong> instead of quarterly</li>
-</ul>
-<p>The real benefit is not speed alone. It is consistency. An agentic workflow produces the same quality output every time. No more "this researcher is better than that one." No more forgotten steps. The process is documented, repeatable, and improvable.</p>
-<p>Most teams see a 50% to 70% reduction in SEO reporting and research time within the first month. That time gets reinvested into strategy, creative work, and relationship building. The activities that actually move rankings.</p>
-<h2>Conclusion</h2>
-<p>Building an AI SEO agent with Claude Code and MCP servers is not about replacing SEO professionals. It is about removing the repetitive work that consumes most of their week.</p>
-<p>The setup takes under an hour. The return is a system that audits your site, researches keywords, generates content briefs, and monitors competitors on a schedule you control. The human still makes the strategic decisions. The agent handles the execution.</p>
-<p>The teams that adopt agentic SEO workflows now will have a structural advantage. They will publish more content, refresh more pages, and catch more technical issues than teams working manually. The gap will widen every month.</p>
-<p>Which step will you start with: installing Claude Code, connecting your first MCP server, or building your audit workflow?</p>
-<blockquote>
-<p><strong>Ready to automate your entire SEO content pipeline?</strong> Stacc handles keyword research, content writing, on-page optimization, and publishing on autopilot. No MCP setup required.
-<a href="/blog/ai-agents-content-planning/">Learn how Stacc works</a></p>
-</blockquote>
-<h2>Frequently Asked Questions</h2>
-<p><strong>What is the difference between Claude Code and regular Claude?</strong></p>
-<p>Claude Code is a command-line tool that runs in your terminal. It can read files, execute commands, and connect to external services through MCP servers. Regular Claude is a web chat interface. Claude Code is designed for workflows that involve files, code, and external data. For SEO work, Claude Code is the better choice because it can run scripts, save outputs, and chain operations together.</p>
-<p><strong>Do I need coding skills to build an AI SEO agent?</strong></p>
-<p>No. This guide uses copy-and-paste commands for every step. You will edit JSON configuration files and run terminal commands, but you do not need to write code from scratch. If you can follow a WordPress plugin installation guide, you can follow this setup.</p>
-<p><strong>How much does it cost to run an AI SEO agent?</strong></p>
-<p>The minimum cost is approximately $20 per month for Claude Pro plus DataForSEO API usage. Most SEO teams spend $5 to $15 per month on DataForSEO credits. The total is under $40 per month. Compare that to Ahrefs ($99/month), Semrush ($119/month), or an agency retainer ($2,000+/month).</p>
-<p><strong>Can an AI SEO agent replace my existing SEO tools?</strong></p>
-<p>Partially. An AI SEO agent with MCP can replace the data collection and analysis functions of most SEO tools. It cannot fully replace rank tracking history, backlink monitoring over time, or competitive intelligence dashboards. Many teams use the agent for audits and research while keeping one paid tool for historical data.</p>
-<p><strong>Is my Search Console data safe with an MCP server?</strong></p>
-<p>Yes. The Google Search Console MCP servers referenced in this guide are read-only. They cannot modify your Search Console data, submit URLs, or change settings. They only query performance and index data. Always verify the permissions of any MCP server before installation.</p>
-<p><strong>What happens if Claude Code makes a mistake in an audit?</strong></p>
-<p>AI agents can hallucinate and produce incorrect analysis. Every output requires human review before implementation. The agent is a draft writer and researcher, not a publisher. Always verify technical recommendations against Google's documentation and test changes in a staging environment before pushing to production.</p>
-<p><strong>Can I connect other tools besides GSC and DataForSEO?</strong></p>
-<p>Yes. The MCP ecosystem is growing rapidly. Servers exist for Google Analytics, Semrush, Ahrefs, Screaming Frog, Webflow, WordPress, and dozens of other tools. Any service with an API can potentially have an MCP server. Check the <a href="https://github.com/modelcontextprotocol/servers">official MCP server registry</a> for the latest list.</p>
-<p><strong>How do I make my SEO agent workflow repeatable?</strong></p>
-<p>Save your prompts as Claude Skills. Create a <code>SKILL.md</code> file in your project folder with your audit prompts, research workflows, and content brief templates. Claude Code discovers these automatically and can run them on command. You can also save prompt sequences as shell scripts or use automation tools like Make.com to trigger them on a schedule.</p>
+<div class="faq-list">
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="the-monthly-seo-report-workflow">
+      <span class="faq-q-text">The Monthly SEO Report Workflow</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="the-monthly-seo-report-workflow"><div class="faq-a-inner"><p><strong>Week 1: Health check</strong></p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="prompt-run-a-technical-health-check-on-my-site-che">
+      <span class="faq-q-text">Prompt: "Run a technical health check on my site. Check for new 404s, crawl errors, Core Web Vitals changes, and index coverage issues. Compare to last month's results and highlight new problems." Week 2: Performance review</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="prompt-run-a-technical-health-check-on-my-site-che"><div class="faq-a-inner"><p><strong>Prompt:</strong> "Pull my Search Console data for the last 30 days. Compare to the previous 30 days. Show me: total clicks, total impressions, average CTR, average position, top 10 gaining queries, top 10 losing queries."</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="week-3-content-pipeline">
+      <span class="faq-q-text">Week 3: Content pipeline</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="week-3-content-pipeline"><div class="faq-a-inner"><p><strong>Prompt:</strong> "Run the keyword research workflow for my next content batch. Generate 5 content briefs for keywords with volume above 500 and difficulty below 45."</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="week-4-competitive-monitoring">
+      <span class="faq-q-text">Week 4: Competitive monitoring</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="week-4-competitive-monitoring"><div class="faq-a-inner"><p><strong>Prompt:</strong> "Using DataForSEO, check my top 3 competitors. Identify any new pages they published that rank for keywords I target. Summarize their content strategy changes."</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="scheduling-the-loop">
+      <span class="faq-q-text">Scheduling the Loop</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="scheduling-the-loop"><div class="faq-a-inner"><p>Claude Code does not have built-in scheduling, but you can automate the trigger. Options include:</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="why-this-step-matters-seo-is-not-a-one-time-projec">
+      <span class="faq-q-text">Why this step matters: SEO is not a one-time project. It is a continuous process. An agentic workflow that runs monthly keeps your site healthy, your content fresh, and your competitive intelligence current. The teams that treat SEO as a system, not a campaign, are the ones that win long term. SEO is a system, not a campaign. An AI SEO agent turns that system into a repeatable process that runs every week without your direct involvement. The best teams spend their time on strategy, not spreadsheets. Explore Stacc's automated content system What an AI SEO Agent Cannot Do (The Honest Limitations) No tool replaces judgment. An AI SEO agent is powerful, but it has clear boundaries. Strategy and brand voice. The agent can suggest what to write. It cannot decide what your brand should sound like. It cannot weigh the strategic importance of ranking for one keyword versus another. Those decisions require human context about business goals, competitive positioning, and customer relationships. Real experience and expertise. Google's E-E-A-T guidelines emphasize experience. An AI agent has never used your product, visited your location, or talked to your customers. It can research and synthesize. It cannot generate genuine first-hand insight. Content that claims expertise without backing it up gets flagged by both readers and search engines. Link building relationships. The agent can identify link opportunities and even draft outreach emails. It cannot build relationships with journalists, bloggers, and industry partners. Link building is still a human game of trust and reciprocity. Validation and fact-checking. AI models hallucinate. They cite statistics that do not exist and recommend tactics that violate Google's guidelines. Every output from your agent requires human review. The agent is a draft writer, not a publisher. JavaScript-rendered and gated content. Most simple crawlers cannot execute JavaScript or bypass authentication. If your site is a single-page application or has gated content, the agent's crawl data will be incomplete. You may need a more sophisticated crawling setup. According to Search Engine Land's analysis of Claude Code for SEO, the most effective use of AI agents is as an "operator" for multi-step workflows, not a replacement for strategic thinking. The agent handles execution. You handle direction. Why this matters: Understanding limitations prevents disappointment and bad decisions. Teams that treat AI agents as magic wands end up publishing inaccurate content and making technical mistakes. Teams that treat agents as force multipliers for skilled practitioners get the best results. Troubleshooting Common Setup Problems Even with clear instructions, things go wrong. Here are the three most common problems and their fixes. Problem: MCP server not found by Claude Code</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="why-this-step-matters-seo-is-not-a-one-time-projec"><div class="faq-a-inner"><p><strong>Solution:</strong> Check your MCP configuration file (usually <code>~/.config/claude/mcp.json</code> or similar). Verify the server path is correct and the server executable has the right permissions. Restart Claude Code after any configuration change.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="problem-google-search-console-data-returns-empty-r">
+      <span class="faq-q-text">Problem: Google Search Console data returns empty results</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="problem-google-search-console-data-returns-empty-r"><div class="faq-a-inner"><p><strong>Solution:</strong> Confirm your OAuth credentials have the correct scopes. The GSC MCP server needs <code>https://www.googleapis.com/auth/webmasters.readonly</code> access. If using a service account, verify the account has been added as a user in your Search Console property.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="problem-dataforseo-queries-time-out-or-return-erro">
+      <span class="faq-q-text">Problem: DataForSEO queries time out or return errors</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="problem-dataforseo-queries-time-out-or-return-erro"><div class="faq-a-inner"><p><strong>Solution:</strong> Check your API credit balance. DataForSEO returns errors when credits are depleted. Also verify your API credentials are correctly formatted in the MCP configuration. The login and password must match your DataForSEO dashboard exactly.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="ready-to-automate-your-entire-seo-content-pipeline">
+      <span class="faq-q-text">Ready to automate your entire SEO content pipeline? Stacc handles keyword research, content writing, on-page optimization, and publishing on autopilot. No MCP setup required. Learn how Stacc works Frequently Asked Questions What is the difference between Claude Code and regular Claude?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="ready-to-automate-your-entire-seo-content-pipeline"><div class="faq-a-inner"><p>Claude Code is a command-line tool that runs in your terminal. It can read files, execute commands, and connect to external services through MCP servers. Regular Claude is a web chat interface. Claude Code is designed for workflows that involve files, code, and external data. For SEO work, Claude Code is the better choice because it can run scripts, save outputs, and chain operations together.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="do-i-need-coding-skills-to-build-an-ai-seo-agent">
+      <span class="faq-q-text">Do I need coding skills to build an AI SEO agent?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="do-i-need-coding-skills-to-build-an-ai-seo-agent"><div class="faq-a-inner"><p>No. This guide uses copy-and-paste commands for every step. You will edit JSON configuration files and run terminal commands, but you do not need to write code from scratch. If you can follow a WordPress plugin installation guide, you can follow this setup.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-much-does-it-cost-to-run-an-ai-seo-agent">
+      <span class="faq-q-text">How much does it cost to run an AI SEO agent?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-much-does-it-cost-to-run-an-ai-seo-agent"><div class="faq-a-inner"><p>The minimum cost is approximately $20 per month for Claude Pro plus DataForSEO API usage. Most SEO teams spend $5 to $15 per month on DataForSEO credits. The total is under $40 per month. Compare that to Ahrefs ($99/month), Semrush ($119/month), or an agency retainer ($2,000+/month).</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-an-ai-seo-agent-replace-my-existing-seo-tools">
+      <span class="faq-q-text">Can an AI SEO agent replace my existing SEO tools?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-an-ai-seo-agent-replace-my-existing-seo-tools"><div class="faq-a-inner"><p>Partially. An AI SEO agent with MCP can replace the data collection and analysis functions of most SEO tools. It cannot fully replace rank tracking history, backlink monitoring over time, or competitive intelligence dashboards. Many teams use the agent for audits and research while keeping one paid tool for historical data.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="is-my-search-console-data-safe-with-an-mcp-server">
+      <span class="faq-q-text">Is my Search Console data safe with an MCP server?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="is-my-search-console-data-safe-with-an-mcp-server"><div class="faq-a-inner"><p>Yes. The Google Search Console MCP servers referenced in this guide are read-only. They cannot modify your Search Console data, submit URLs, or change settings. They only query performance and index data. Always verify the permissions of any MCP server before installation.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="what-happens-if-claude-code-makes-a-mistake-in-an-">
+      <span class="faq-q-text">What happens if Claude Code makes a mistake in an audit?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="what-happens-if-claude-code-makes-a-mistake-in-an-"><div class="faq-a-inner"><p>AI agents can hallucinate and produce incorrect analysis. Every output requires human review before implementation. The agent is a draft writer and researcher, not a publisher. Always verify technical recommendations against Google's documentation and test changes in a staging environment before pushing to production.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="can-i-connect-other-tools-besides-gsc-and-datafors">
+      <span class="faq-q-text">Can I connect other tools besides GSC and DataForSEO?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="can-i-connect-other-tools-besides-gsc-and-datafors"><div class="faq-a-inner"><p>Yes. The MCP ecosystem is growing rapidly. Servers exist for Google Analytics, Semrush, Ahrefs, Screaming Frog, Webflow, WordPress, and dozens of other tools. Any service with an API can potentially have an MCP server. Check the <a href="https://github.com/modelcontextprotocol/servers">official MCP server registry</a> for the latest list.</p></div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false" aria-controls="how-do-i-make-my-seo-agent-workflow-repeatable">
+      <span class="faq-q-text">How do I make my SEO agent workflow repeatable?</span>
+      <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+    </button>
+    <div class="faq-a" id="how-do-i-make-my-seo-agent-workflow-repeatable"><div class="faq-a-inner"><p>Save your prompts as Claude Skills. Create a <code>SKILL.md</code> file in your project folder with your audit prompts, research workflows, and content brief templates. Claude Code discovers these automatically and can run them on command. You can also save prompt sequences as shell scripts or use automation tools like Make.com to trigger them on a schedule.</p></div></div>
+  </div>
+</div>
+
 <p><em>This article was written by Sarah Chen, Content Strategist at Stacc, and reviewed by the Stacc Editorial Team. Sarah specializes in AI SEO agents, Claude Code workflows, and MCP integrations for marketing automation.</em></p>
 <h2>Related Tools &amp; Resources</h2>
 <p><strong>Free SEO Tools:</strong>
@@ -332,4 +369,5 @@ const readTime = "23 min";
 <p><strong>Best Lists:</strong>
 - <a href="/best/ai-seo-tools/">Best AI SEO Tools</a>
 - <a href="/best/seo-automation-tools/">Best SEO Automation Tools</a></p>
+
 </BlogLayout>
