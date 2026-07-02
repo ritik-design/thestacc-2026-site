@@ -334,3 +334,46 @@ After docs migration:
 | Core English content coverage | ~97.3% |
 
 Remaining gaps are now: 1,534 international pages, 32 blog pagination pages, 16 renamed/consolidated pages.
+
+---
+
+## Static Pages Migration — 2026-07-02
+
+### Objective
+Preserve exact content and slugs for 5 specific pages from current `thestacc.com`:
+- `/lp/`
+- `/lp/thankyou/`
+- `/thankyou-stacc/`
+- `/seo-automation-software/`
+- `/social-media-automation-tool/`
+
+### Method
+1. Scraped full HTML + local assets (CSS, JS, images, video) for each page.
+2. Saved as static snapshots in `public/[path]/index.html`.
+3. Downloaded required `_astro/` and `lp-assets/` files to preserve styles/functionality.
+4. Removed incorrect Astro redirects that were sending these URLs elsewhere.
+5. Added the 5 URLs to `sitemap.customPages` so they appear in `sitemap-0.xml`.
+
+### Verification
+
+| Page | Status | Size | Title |
+|------|--------|------|-------|
+| `/lp/` | ✅ Built | 63,691 bytes | AI SEO Tool That Replaces Your Content Team |
+| `/lp/thankyou/` | ✅ Built | 77,619 bytes | You're booked |
+| `/thankyou-stacc/` | ✅ Built | 78,213 bytes | You're booked |
+| `/seo-automation-software/` | ✅ Built | 131,078 bytes | SEO Automation Software for Local Businesses |
+| `/social-media-automation-tool/` | ✅ Built | 131,603 bytes | Social Media Automation Tool for Local Businesses |
+
+### Updated coverage
+
+After preserving these 5 pages:
+
+| Metric | Count |
+|--------|-------|
+| Current site URLs | 3,516 |
+| New site URLs | 2,058 (+5) |
+| Exact URL matches | 1,939 (55.1%) |
+| Missing from new site | 1,577 |
+| Core English content coverage | ~97.5% |
+
+Remaining gaps: 1,534 international pages, 54 blog pagination pages (intentionally not needed), 10 renamed/consolidated pages.

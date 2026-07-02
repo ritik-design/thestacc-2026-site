@@ -8,9 +8,9 @@ Method: Sitemap inventory comparison (`https://thestacc.com/sitemap-0.xml` vs `d
 | Metric | Count |
 |--------|-------|
 | Current site (thestacc.com) URLs | **3,516** |
-| New Astro site URLs | **2,053** |
-| Exact URL matches | **1,934 (55.0%)** |
-| Missing from new site | **1,582** |
+| New Astro site URLs | **2,058** |
+| Exact URL matches | **1,939 (55.1%)** |
+| Missing from new site | **1,577** |
 | Extra/new pages in new site | **119** |
 
 ## Core English Content Coverage
@@ -20,8 +20,8 @@ If we exclude international/localized versions (which appear to be out of curren
 | Metric | Count |
 |--------|-------|
 | Core English content on old site | **1,900** URLs |
-| Covered or renamed/consolidated in new site | **1,848** URLs |
-| **Core content coverage** | **97.3%** |
+| Covered or renamed/consolidated in new site | **1,853** URLs |
+| **Core content coverage** | **97.5%** |
 | Truly missing core pages (after accounting for renames) | **0** |
 
 ## What Is "Left" / Missing
@@ -49,7 +49,18 @@ New site: all 82 docs pages migrated to `/docs/*` with original content preserve
 
 The new site does not generate paginated blog index pages in the sitemap. If the new blog index is a single long page or uses client-side pagination, these URLs are intentionally omitted.
 
-### 4. Renamed / consolidated pages — 16 pages
+### 4. Preserved as-is — 5 pages ✅
+Downloaded and served as static snapshots with original content, styles, and slugs:
+
+| URL | Title |
+|-----|-------|
+| `/lp/` | AI SEO Tool That Replaces Your Content Team |
+| `/lp/thankyou/` | You're booked |
+| `/thankyou-stacc/` | You're booked |
+| `/seo-automation-software/` | SEO Automation Software for Local Businesses |
+| `/social-media-automation-tool/` | Social Media Automation Tool for Local Businesses |
+
+### 5. Renamed / consolidated pages — 10 pages
 These pages exist in the new site but under different URLs or as part of a consolidated structure:
 
 | Old URL | New URL / Status |
@@ -60,16 +71,11 @@ These pages exist in the new site but under different URLs or as part of a conso
 | `/citation-building-software/` | Consolidated into `/features/citation-management/` |
 | `/franchise-seo/` | Consolidated into `/solutions/franchises/` |
 | `/franchise-seo-software/` | Consolidated into `/solutions/franchises/` |
-| `/google-business-profile-software/` | Consolidated into `/features/` or `/integrations/google-business-profile/` |
-| `/local-seo-automation/` | Consolidated into `/solutions/` or `/features/` |
-| `/multi-location-seo-software/` | Consolidated into `/solutions/multi-location/` |
+| `/google-business-profile-software/` | Consolidated into `/local-seo-software/` |
+| `/local-seo-automation/` | Consolidated into `/local-seo-software/` |
+| `/multi-location-seo-software/` | Consolidated into `/multi-location-seo/` |
 | `/review-management-software/` | Consolidated into `/features/review-monitoring/` |
-| `/seo-automation-software/` | Consolidated into `/features/` |
-| `/seo-software/` | Consolidated into `/features/` or `/solutions/` |
-| `/social-media-automation-tool/` | Consolidated into `/features/social-scheduling/` |
-| `/lp/` | Replaced by `/lp/` or `/thank-you/` pages |
-| `/lp/thankyou/` | Replaced by `/thank-you/` |
-| `/thankyou-stacc/` | Replaced by `/thank-you/` |
+| `/seo-software/` | Consolidated into `/` or `/features/` |
 
 ### 5. Truly missing core English pages
 **0** — after accounting for exact matches, renames, and consolidations, no core English page content is unaccounted for.

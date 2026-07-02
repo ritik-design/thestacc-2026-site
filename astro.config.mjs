@@ -5,7 +5,17 @@ export default defineConfig({
   site: 'https://thestacc.com',
   trailingSlash: 'always',
   image: { service: { entrypoint: 'astro/assets/services/sharp' } },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      customPages: [
+        'https://thestacc.com/lp/',
+        'https://thestacc.com/lp/thankyou/',
+        'https://thestacc.com/thankyou-stacc/',
+        'https://thestacc.com/seo-automation-software/',
+        'https://thestacc.com/social-media-automation-tool/',
+      ],
+    }),
+  ],
   redirects: {
     '/case-studies/solar-design-software/': '/case-studies/vertical-saas-software/',
     '/tools/local-rank-tracker/': '/tools/seo-audit/',
@@ -82,12 +92,8 @@ export default defineConfig({
     '/review-management-software/': '/features/review-monitoring/',
     '/multi-location-seo-software/': '/multi-location-seo/',
     '/seo-software/': '/',
-    '/social-media-automation-tool/': '/modules/social-media/',
     '/review/': '/reviews/',
     '/pricing-v2/': '/pricing/',
-    '/lp/': '/',
-    '/lp/thankyou/': '/contact/thanks/',
     '/thank-you/': '/contact/thanks/',
-    '/thankyou-stacc/': '/contact/thanks/',
   },
 });
