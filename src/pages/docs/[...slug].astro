@@ -1,0 +1,21 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import pages from '../../data/docs/pages.json';
+
+export function getStaticPaths() {
+  return pages.map((page) => ({
+    params: { slug: page.slug },
+    props: {
+      title: page.title,
+      contentHtml: page.contentHtml,
+      headings: page.headings,
+      slug: page.slug,
+    },
+  }));
+}
+
+const { title, contentHtml, headings, slug } = Astro.props;
+---
+<DocsLayout title={title} slug={slug} headings={headings}>
+  <Fragment set:html={contentHtml} />
+</DocsLayout>

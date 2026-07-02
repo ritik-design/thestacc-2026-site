@@ -1,0 +1,338 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import navigation from '../data/docs/navigation.json';
+
+export interface Props {
+  title: string;
+  description?: string;
+  slug: string;
+  headings: Array<{ level: number; text: string; id: string }>;
+}
+
+const { title, description = 'theStacc documentation — setup guides, content SEO, local SEO, social media, and developer references.', slug, headings } = Astro.props;
+
+const currentPath = `/docs/${slug}/`;
+
+function isActive(href: string) {
+  return href === currentPath || href === currentPath.replace(/\/$/, '');
+}
+---
+<BaseLayout
+  seo={{
+    title: `${title} - theStacc Docs`,
+    description,
+    canonical: `https://thestacc.com/docs/${slug}/`,
+  }}
+  bodyClass="docs-page"
+>
+  <div class="docs-shell">
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <nav class="docs-nav">
+        <a href="/docs/getting-started/introduction/" class="docs-home-link">Docs home</a>
+        {navigation.map((section) => (
+          <div class="docs-nav-section">
+            {section.heading && <h3 class="docs-nav-heading">{section.heading}</h3>}
+            <ul class="docs-nav-items">
+              {section.items.map((item) => (
+                <li>
+                  <a href={item.href} class={isActive(item.href) ? 'active' : ''}>{item.title}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+    </aside>
+
+    <main class="docs-main">
+      <article class="docs-content-wrapper">
+        <header class="docs-header">
+          <h1 class="docs-title">{title}</h1>
+        </header>
+        <div class="docs-body">
+          <slot />
+        </div>
+      </article>
+    </main>
+
+    {headings.length > 0 && (
+      <aside class="docs-toc" aria-label="On this page">
+        <h2 class="toc-title">On this page</h2>
+        <ul>
+          {headings.map((h) => (
+            <li class={`toc-level-${h.level}`}>
+              <a href={`#${h.id}`}>{h.text}</a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .docs-page {
+    background: var(--bg-soft);
+  }
+  .docs-shell {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr) 240px;
+    gap: 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+    min-height: calc(100vh - 200px);
+  }
+  .docs-sidebar {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+  .docs-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .docs-home-link {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-1);
+    text-decoration: none;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .docs-home-link:hover {
+    border-color: var(--brand);
+    color: var(--brand);
+  }
+  .docs-nav-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .docs-nav-heading {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-3);
+    padding: 0 16px;
+  }
+  .docs-nav-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .docs-nav-items li a {
+    display: block;
+    padding: 8px 16px;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text-2);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+  }
+  .docs-nav-items li a:hover {
+    color: var(--brand);
+    background: var(--bg);
+  }
+  .docs-nav-items li a.active {
+    color: var(--brand);
+    border-left-color: var(--brand);
+    background: var(--bg);
+    font-weight: 600;
+  }
+  .docs-main {
+    min-width: 0;
+  }
+  .docs-content-wrapper {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 48px;
+  }
+  .docs-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .docs-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text-1);
+  }
+  .docs-body {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-2);
+  }
+  .docs-body > * + * {
+    margin-top: 16px;
+  }
+  .docs-body h2,
+  .docs-body h3,
+  .docs-body h4 {
+    font-family: var(--font-display);
+    color: var(--text-1);
+    margin-top: 40px;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .docs-body h2 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .docs-body h3 {
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .docs-body h4 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .docs-body p {
+    margin-bottom: 16px;
+  }
+  .docs-body a {
+    color: var(--brand);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .docs-body a:hover {
+    color: var(--brand-deep);
+  }
+  .docs-body ul,
+  .docs-body ol {
+    padding-left: 24px;
+    margin-bottom: 16px;
+  }
+  .docs-body li {
+    margin-bottom: 8px;
+  }
+  .docs-body strong {
+    color: var(--text-1);
+    font-weight: 600;
+  }
+  .docs-body code {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    background: var(--bg-soft);
+    padding: 2px 6px;
+    border: 1px solid var(--border);
+    color: var(--text-1);
+  }
+  .docs-body pre {
+    background: var(--bg-dark);
+    color: #e7e5e4;
+    padding: 20px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .docs-body pre code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: inherit;
+  }
+  .docs-body blockquote {
+    border-left: 3px solid var(--brand);
+    padding-left: 20px;
+    color: var(--text-2);
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+  .docs-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+  .docs-body th,
+  .docs-body td {
+    padding: 12px;
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+  .docs-body th {
+    background: var(--bg-soft);
+    font-weight: 600;
+    color: var(--text-1);
+  }
+  .docs-body img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+  }
+  .docs-toc {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    font-size: 13px;
+  }
+  .toc-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-3);
+    margin-bottom: 12px;
+  }
+  .docs-toc ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .docs-toc a {
+    color: var(--text-3);
+    text-decoration: none;
+    display: block;
+    line-height: 1.4;
+  }
+  .docs-toc a:hover {
+    color: var(--brand);
+  }
+  .toc-level-2 {
+    font-weight: 500;
+  }
+  .toc-level-3 {
+    padding-left: 12px;
+  }
+  .toc-level-4 {
+    padding-left: 24px;
+  }
+  @media (max-width: 1100px) {
+    .docs-shell {
+      grid-template-columns: 260px minmax(0, 1fr);
+    }
+    .docs-toc {
+      display: none;
+    }
+  }
+  @media (max-width: 800px) {
+    .docs-shell {
+      grid-template-columns: 1fr;
+      padding: 16px;
+    }
+    .docs-sidebar {
+      position: static;
+      max-height: none;
+    }
+    .docs-content-wrapper {
+      padding: 24px;
+    }
+  }
+</style>

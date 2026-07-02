@@ -8,20 +8,20 @@ Method: Sitemap inventory comparison (`https://thestacc.com/sitemap-0.xml` vs `d
 | Metric | Count |
 |--------|-------|
 | Current site (thestacc.com) URLs | **3,516** |
-| New Astro site URLs | **1,971** |
-| Exact URL matches | **1,852 (52.7%)** |
-| Missing from new site | **1,664** |
+| New Astro site URLs | **2,053** |
+| Exact URL matches | **1,934 (55.0%)** |
+| Missing from new site | **1,582** |
 | Extra/new pages in new site | **119** |
 
 ## Core English Content Coverage
 
-If we exclude international/localized versions and docs (which appear to be out of current scope):
+If we exclude international/localized versions (which appear to be out of current scope):
 
 | Metric | Count |
 |--------|-------|
 | Core English content on old site | **1,900** URLs |
-| Covered or renamed/consolidated in new site | **1,829** URLs |
-| **Core content coverage** | **96.3%** |
+| Covered or renamed/consolidated in new site | **1,848** URLs |
+| **Core content coverage** | **97.3%** |
 | Truly missing core pages (after accounting for renames) | **0** |
 
 ## What Is "Left" / Missing
@@ -39,9 +39,9 @@ The old site has 5 localized sub-sites that are not in the new build:
 
 Each locale has localized blog, glossary, alternatives, reviews, tools, features, etc.
 
-### 2. Documentation — 82 pages
+### 2. Documentation — 82 pages ✅ MIGRATED
 Old site: `/docs/account/...`, `/docs/content-seo/...`, etc.  
-New site: no `/docs/` section.
+New site: all 82 docs pages migrated to `/docs/*` with original content preserved.
 
 ### 3. Blog pagination — 54 pages
 - English: `/blog/page/2/` through `/blog/page/33/` (32 pages)

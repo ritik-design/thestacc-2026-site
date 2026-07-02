@@ -282,8 +282,55 @@ Excluding international sub-sites and docs (see below):
 4. Implement **301 redirects** for the 16 renamed/consolidated URLs.
 5. Ensure renamed pages like `/case-studies/vertical-saas-software/` are included in the generated sitemap.
 
-### Result
+
+
+### Result (pre-docs migration)
 
 - Raw URL coverage: **52.7%**
 - Core English content coverage: **96.3%**
 - Core English pages truly missing: **0**
+
+---
+
+## Docs Migration — 2026-07-02
+
+### Objective
+Migrate all 82 `/docs/*` pages from current `thestacc.com` into the new Astro site, preserving exact content, URLs, and slugs.
+
+### Method
+1. Scraped all 82 docs pages from `https://thestacc.com/docs/*`.
+2. Extracted original content from `div.docs-content`.
+3. Preserved internal docs links with trailing-slash normalization.
+4. Created `src/layouts/DocsLayout.astro` with new-brand design (sharp corners, sidebar nav, TOC).
+5. Generated dynamic route `src/pages/docs/[...slug].astro` for all 82 pages.
+6. Built and verified each page against the original.
+
+### Tracking files
+- `docs-migration-tracking.md` — full page list and navigation
+- `docs-verification-report.md` — content verification results
+- `src/data/docs/pages.json` — scraped page data
+- `src/data/docs/navigation.json` — docs sidebar navigation
+
+### Verification
+
+| Check | Result |
+|-------|--------|
+| Pages scraped | 82 / 82 |
+| Pages built | 82 / 82 |
+| Content verification (word count + title match) | 82 / 82 OK |
+| URL preservation | ✅ All `/docs/[...]/` slugs preserved |
+| Original content unchanged | ✅ Raw HTML content preserved exactly |
+
+### Updated site coverage
+
+After docs migration:
+
+| Metric | Count |
+|--------|-------|
+| Current site URLs | 3,516 |
+| New site URLs | 2,053 (+82 docs) |
+| Exact URL matches | 1,934 (55.0%) |
+| Missing from new site | 1,582 |
+| Core English content coverage | ~97.3% |
+
+Remaining gaps are now: 1,534 international pages, 32 blog pagination pages, 16 renamed/consolidated pages.
