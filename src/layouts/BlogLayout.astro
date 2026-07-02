@@ -1,0 +1,297 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '../styles/review-post.css';
+
+export interface Props {
+  seo?: any;
+  category?: string;
+  title?: string;
+  description?: string;
+  author?: {
+    name: string;
+    role: string;
+    slug: string;
+    avatar: string;
+    bio?: string;
+    linkedin?: string;
+  };
+  date?: string;
+  readTime?: string;
+  updated?: string;
+  showCover?: boolean;
+  coverTitle?: string;
+  coverSub?: string;
+  sources?: Array<{ num?: string; text: string; url?: string }>;
+}
+
+const {
+  seo = {},
+  category = 'Blog',
+  title = '',
+  description = '',
+  author,
+  date,
+  readTime,
+  updated,
+  showCover = false,
+  coverTitle,
+  coverSub,
+  sources = [],
+} = Astro.props;
+
+const hasSources = sources.length > 0;
+---
+<BaseLayout seo={seo} bodyClass={`blog-post author-${author?.slug || 'thestacc'}`}>
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog/">Blog</a><span class="sep">/</span>
+      <span class="current">{title}</span>
+    </div>
+    <span class="post-cat">{category}</span>
+    <h1>{title}</h1>
+    <p class="description" set:html={description}></p>
+    <div class="post-meta">
+      {author && (
+        <div class="meta-author">
+          <div class="meta-avatar">{author.avatar}</div>
+          <div class="meta-author-info">
+            <span class="meta-author-name"><a href={`/authors/${author.slug}/`}>{author.name}</a></span>
+            <span class="meta-author-role">{author.role}</span>
+          </div>
+        </div>
+      )}
+      {date && (
+        <>
+          <div class="meta-divider"></div>
+          <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">{date}</span></div>
+        </>
+      )}
+      {readTime && (
+        <>
+          <div class="meta-divider"></div>
+          <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">{readTime}</span></div>
+        </>
+      )}
+      {updated && (
+        <>
+          <div class="meta-divider"></div>
+          <div class="meta-item"><span class="meta-label">Updated</span><span class="meta-value">{updated}</span></div>
+        </>
+      )}
+    </div>
+  </section>
+
+  {showCover && (
+    <section class="post-cover">
+      <div class="cover-frame">
+        <div class="cover-content">
+          <div class="cover-mono">{category}</div>
+          <div class="cover-title">{coverTitle || title}</div>
+          <div class="cover-sub">{coverSub}</div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content" id="post-content">
+        <slot />
+
+        {hasSources && (
+          <h2 id="sources">Sources &amp; references</h2>
+          <div class="sources-block">
+            <div class="sources-head">📑 Sources &amp; references</div>
+            <ol class="sources-list">
+              {sources.map((s) => (
+                <li>
+                  {s.num && <span class="src-num">[{s.num}]</span>}
+                  {s.url ? <a href={s.url} target="_blank" rel="noopener">{s.text}</a> : <span>{s.text}</span>}
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+      </article>
+
+      <aside class="post-sidebar">
+        <div class="sidebar-cta">
+          <div class="cta-eyebrow">Free SEO audit</div>
+          <div class="cta-title">Stop guessing. Start ranking.</div>
+          <p class="cta-desc">Get a personalised audit with keyword opportunities, technical fixes, and content gaps — delivered in 24 hours.</p>
+          <a href="/demo/" class="cta-btn">Get my free audit <span>→</span></a>
+          <ul class="cta-bullets">
+            <li>Keyword gaps your competitors own</li>
+            <li>Technical fixes ranked by impact</li>
+            <li>Custom 90-day content roadmap</li>
+          </ul>
+        </div>
+
+        <nav class="sidebar-toc" id="toc">
+          <div class="toc-head">
+            <svg viewBox="0 0 12 12" fill="none"><path d="M1 2h10M1 6h10M1 10h7" stroke="currentColor" stroke-width="1.5"/></svg>
+            On this page
+          </div>
+          <ul class="toc-list" id="toc-list"></ul>
+        </nav>
+
+        <div class="sidebar-share">
+          <span class="share-label">Share</span>
+          <div class="share-icons">
+            <a href="#" aria-label="Share on X" class="share-x">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.6L23 22h-6.81l-5.34-6.96L4.65 22H1.39l8.04-9.2L1 2h6.95l4.83 6.39L18.244 2zm-1.2 18h1.96L7.05 4H5l12.04 16z"/></svg>
+            </a>
+            <a href="#" aria-label="Share on LinkedIn" class="share-linkedin">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.881 3.87 6 2.5 6S0 4.881 0 3.5C0 2.12 1.12 1 2.5 1S4.98 2.12 4.98 3.5zM5 8H0v16h5V8zm7.982 0H8.014v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0V24H24V13.869c0-7.88-8.922-7.593-11.018-3.714V8z"/></svg>
+            </a>
+            <a href="#" aria-label="Copy link" class="share-copy">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  {author && (
+    <div class="post-body-wrap" style="padding-top: 0;">
+      <div class="author-block">
+        <div class="author-avatar-lg">{author.avatar}</div>
+        <div class="author-info">
+          <h4><a href={`/authors/${author.slug}/`}>{author.name}</a></h4>
+          <div class="role">{author.role}</div>
+          <p>{author.bio}</p>
+          <div class="author-links-row">
+            {author.linkedin && <a href={author.linkedin} target="_blank" rel="noopener">LinkedIn</a>}
+            <a href="/about/">About theStacc</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+
+  <script is:inline>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+    window.toggleFaq = toggleFaq;
+
+    function buildToc() {
+      const content = document.getElementById('post-content');
+      const tocList = document.getElementById('toc-list');
+      if (!content || !tocList) return;
+
+      const headings = Array.from(content.querySelectorAll('h2, h3'));
+      headings.forEach((h, idx) => {
+        if (!h.id) {
+          h.id = 'section-' + idx;
+        }
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent.replace('¶', '').trim();
+        if (h.tagName === 'H3') {
+          a.style.paddingLeft = '16px';
+          a.style.fontSize = '13px';
+        }
+        li.appendChild(a);
+        tocList.appendChild(li);
+      });
+
+      const tocLinks = tocList.querySelectorAll('a');
+      const sections = Array.from(tocLinks).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      function updateActiveToc() {
+        const scrollY = window.scrollY + 140;
+        let active = sections[0];
+        for (const s of sections) { if (s.offsetTop <= scrollY) active = s; }
+        if (active) tocLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + active.id));
+      }
+      window.addEventListener('scroll', updateActiveToc, { passive: true });
+      updateActiveToc();
+    }
+
+    function convertFaq() {
+      const content = document.getElementById('post-content');
+      if (!content) return;
+
+      const h2s = content.querySelectorAll('h2');
+      let faqHeading = null;
+      h2s.forEach(h => {
+        if (/frequently asked questions|faq|common questions/i.test(h.textContent)) faqHeading = h;
+      });
+      if (!faqHeading) return;
+
+      const faqList = document.createElement('div');
+      faqList.className = 'faq-list';
+
+      let sibling = faqHeading.nextElementSibling;
+      while (sibling && !sibling.matches('h2')) {
+        const qEl = sibling;
+        const aEl = qEl.nextElementSibling;
+        if (!aEl) {
+          sibling = sibling.nextElementSibling;
+          continue;
+        }
+
+        let question = '';
+        if (qEl.tagName === 'P' && qEl.querySelector('strong')) {
+          question = qEl.querySelector('strong').textContent.trim();
+        } else if (qEl.tagName === 'P' || qEl.tagName === 'H3') {
+          question = qEl.textContent.trim();
+        } else {
+          sibling = sibling.nextElementSibling;
+          continue;
+        }
+
+        if (!question) {
+          sibling = sibling.nextElementSibling;
+          continue;
+        }
+
+        const answerHtml = aEl.innerHTML;
+        const item = document.createElement('div');
+        item.className = 'faq-item';
+        item.innerHTML = `
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-text">${question.replace(/"/g, '&quot;')}</span>
+            <span class="faq-toggle"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">${answerHtml}</div></div>
+        `;
+        faqList.appendChild(item);
+
+        const oldQ = qEl;
+        const oldA = aEl;
+        sibling = aEl.nextElementSibling;
+        oldQ.remove();
+        oldA.remove();
+      }
+
+      faqHeading.after(faqList);
+    }
+
+    function initShare() {
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent(document.title);
+      const x = document.querySelector('.share-x');
+      const linkedin = document.querySelector('.share-linkedin');
+      const copy = document.querySelector('.share-copy');
+      if (x) x.href = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+      if (linkedin) linkedin.href = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+      if (copy) {
+        copy.addEventListener('click', (e) => {
+          e.preventDefault();
+          navigator.clipboard.writeText(window.location.href);
+          copy.classList.add('copied');
+          setTimeout(() => copy.classList.remove('copied'), 1500);
+        });
+      }
+    }
+
+    buildToc();
+    convertFaq();
+    initShare();
+  </script>
+</BaseLayout>
