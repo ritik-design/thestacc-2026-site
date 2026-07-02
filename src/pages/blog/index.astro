@@ -13,31 +13,20 @@ const seo = {
   }
 };
 
+import postsData from '../../data/blog-posts.json';
+
 const categories = ['All', 'Content Strategy', 'Local SEO', 'SEO Tips', 'AI Search'];
 
-const featured = { slug: 'accounting-firm-seo-guide', cat: 'SEO Tips', title: 'Accounting Firm SEO (2026): Strategies, Tactics & Ex...', excerpt: 'Practical accounting firm seo guide strategies for 2026: step-by-step tactics, real examples, and tools to improve rankings and drive organic traffic.', author: 'Akshay VR', date: '2026-07-01', readTime: '7 min' };
-
-const posts = [
-  { slug: '404-error-seo', cat: 'SEO Tips', title: '404 Error SEO (2026): Strategies, Tactics & Examples', excerpt: 'Practical 404 error seo strategies for 2026: step-by-step tactics, real examples, and tools to improve rankings and drive organic traffic.', author: 'Siddharth Gangal', date: '2026-07-01', readTime: '7 min' },
-  { slug: '5x-content-output-ai', cat: 'Content Strategy', title: 'How to 5x Content Output Without Hiring (7 Steps)', excerpt: 'Scale content production 5x without adding headcount. 7 steps covering workflow audits, AI drafts, repurposing, and automation. Updated April 2026.', author: 'Siddharth Gangal', date: '2026-07-01', readTime: '7 min' },
-  { slug: 'adapt-google-algorithm-updates', cat: 'SEO Tips', title: 'How to Adapt to Google Algorithm Updates: A Strategi...', excerpt: 'Google updates constantly. Learn how to build a content strategy that is resilient to algorithm changes and adapts quickly when they happen.', author: 'Akshay VR', date: '2026-07-01', readTime: '7 min' },
-  { slug: 'add-experience-ai-content', cat: 'Content Strategy', title: 'Add First-Hand Experience to AI Content: 6-Step Guide', excerpt: 'Learn how to add first-hand experience to AI content and boost E-E-A-T signals. A 6-step guide with the Experience Injection Method for higher rankings…', author: 'Siddharth Gangal', date: '2026-07-01', readTime: '7 min' },
-  { slug: 'aeo-vs-seo', cat: 'SEO Tips', title: 'AEO vs SEO: What Changed and How to Optimize for Both', excerpt: 'AEO vs SEO explained with data. Learn how answer engine optimization differs from SEO, which strategies overlap, and where to invest. Updated March 2026.', author: 'Siddharth Gangal', date: '2026-07-01', readTime: '7 min' },
-  { slug: 'agency-business-model', cat: 'SEO Tips', title: 'Digital Marketing Agency Business Model: Complete 20...', excerpt: 'Build a profitable digital marketing agency business model. Covers pricing structures, revenue streams, profit benchmarks, team scaling, and cash flow…', author: 'Akshay VR', date: '2026-07-01', readTime: '7 min' },
-  { slug: 'agency-pricing-models', cat: 'SEO Tips', title: 'Agency Pricing Models: The Complete Guide for 2026', excerpt: 'Agency pricing models explained: 8 structures from hourly to value-based, with real rate ranges, margin benchmarks, and formulas to set profitable…', author: 'Siddharth Gangal', date: '2026-07-01', readTime: '7 min' },
-  { slug: 'agency-pricing-models-seo-services', cat: 'SEO Tips', title: 'SEO Agency Pricing Models (2026): Retainers, Hourly ...', excerpt: 'SEO agency pricing models explained: monthly retainers ($1,500-$10,000+), hourly rates ($75-$300), project fees, and value-based pricing. Real numbers…', author: 'Siddharth Gangal', date: '2026-07-01', readTime: '7 min' },
-  { slug: 'agentic-ai-marketing', cat: 'SEO Tips', title: 'Agentic AI Marketing (2026): Strategies, Tactics & E...', excerpt: 'agentic ai marketing strategies for 2026: proven tactics, real case studies, tools, and metrics to drive growth and ROI.', author: 'Siddharth Gangal', date: '2026-07-01', readTime: '7 min' },
-  { slug: 'ai-agent-adoption-statistics', cat: 'AI Search', title: 'AI Agent Adoption Statistics 2026: $10.9B Market, 79...', excerpt: '40+ AI agent adoption statistics for 2026: $10.9 billion market size, 79% organizational adoption, enterprise deployment rates, ROI data, and…', author: 'Siddharth Gangal', date: '2026-07-01', readTime: '7 min' },
-  { slug: 'ai-agent-adoption-statistics-2026', cat: 'AI Search', title: 'AI Agent Adoption Statistics 2026: 52 Facts and Figures', excerpt: '52 AI agent adoption stats for 2026. Market size, enterprise deployment, ROI, industry breakdowns, and failure rates. Sourced. Updated May 2026.', author: 'Siddharth Gangal', date: '2026-07-01', readTime: '7 min' },
-  { slug: 'ai-agent-orchestration-marketing', cat: 'AI Search', title: 'AI Agent Orchestration for Marketing (2026): Guide', excerpt: 'ai agent orchestration marketing strategies for 2026: proven tactics, real case studies, tools, and metrics to drive growth and ROI.', author: 'Siddharth Gangal', date: '2026-07-01', readTime: '7 min' }
-];
+const sortedPosts = postsData.sort((a, b) => new Date(b.date) - new Date(a.date));
+const featured = sortedPosts[0];
+const posts = sortedPosts.slice(1);
 
 const fmtDate = (s) => new Date(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 ---
 <BaseLayout seo={seo}>
   <!-- HERO -->
   <section class="hero-section">
-    <span class="label-pill" style="margin-bottom: 24px;">Blog · 481 articles</span>
+    <span class="label-pill" style="margin-bottom: 24px;">Blog · {postsData.length} articles</span>
     <h1 class="h-display">SEO playbooks <span class="accent">& AI growth tactics.</span></h1>
     <p class="hero-sub">Operator-to-operator tactics from the team that publishes 30+ articles a month for 127 customers. Tested. Shipped. Ranked.</p>
     <div class="hero-ctas">
