@@ -380,3 +380,34 @@ Remaining gaps: 1,534 international pages, 54 blog pagination pages (intentional
 2026-07-02 11:34:42 UTC
 
 Trigger commit to force Cloudflare Pages redeploy.
+
+---
+
+## Cloudflare Workers Deployment — 2026-07-02
+
+### Deployment method
+Switched from Astro SSR on Workers to **static build + Workers Static Assets** because the SSR worker bundle (71 MB) exceeded Cloudflare's 64 MB uncompressed worker size limit.
+
+### Files added
+- `wrangler.toml` — Worker + static assets configuration
+- `worker.js` — Minimal Worker handling legacy `/api/demo/` form submissions
+
+### Deployed URL
+https://thestacc-2026-site.ritik-243.workers.dev
+
+### Verified pages
+| URL | Status | Title |
+|-----|--------|-------|
+| `/` | 200 | theStacc — AI SEO automation that publishes for you |
+| `/lp/` | 200 | AI SEO Tool That Replaces Your Content Team |
+| `/lp/thankyou/` | 200 | You're booked |
+| `/thankyou-stacc/` | 200 | You're booked |
+| `/seo-automation-software/` | 200 | SEO Automation Software for Local Businesses |
+| `/social-media-automation-tool/` | 200 | Social Media Automation Tool for Local Businesses |
+| `/docs/getting-started/introduction/` | 200 | Introduction - theStacc Docs |
+| `/blog/` | 200 | Blog — SEO playbooks & AI growth tactics |
+
+### Command
+```bash
+bun run build && npx wrangler deploy
+```
