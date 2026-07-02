@@ -1,0 +1,61 @@
+---
+title: Billing & Plans
+---
+
+ <p>theStacc uses module-based subscriptions. Each module - Blog SEO (Content SEO), Local SEO, and Social Media - is priced separately, so you only pay for what you use. Run one module or all three.</p>
+<p>Each subscription can be <strong>account-level</strong> (covers your whole account) or <strong>project-level</strong> (attached to one project). Most customers run a project-level subscription per project, so different projects can carry different plans.</p>
+<p>You manage everything under <strong>Settings &gt; Billing</strong>.</p>
+<h2 id="plans-pricing">Plans &amp; pricing<a aria-label="Copy link to Plans &amp; pricing" class="heading-anchor" href="#plans-pricing">#</a></h2>
+<p>Every module comes in three volume tiers. Pick the tier that matches how much content you want each cycle. You can switch tiers later.</p>
+<h3 id="blog-seo">Blog SEO<a aria-label="Copy link to Blog SEO" class="heading-anchor" href="#blog-seo">#</a></h3>
+<ul><li><strong>30 articles</strong> - $99/month</li><li><strong>50 articles</strong> - $149/month</li><li><strong>80 articles</strong> - $199/month</li></ul>
+<h3 id="local-seo">Local SEO<a aria-label="Copy link to Local SEO" class="heading-anchor" href="#local-seo">#</a></h3>
+<ul><li><strong>30 posts</strong> - $49/month</li><li><strong>60 posts</strong> - $79/month</li><li><strong>80 posts</strong> - $99/month</li></ul>
+<p>Every Local SEO tier includes 1 Google Business Profile location.</p>
+<h3 id="social-media">Social Media<a aria-label="Copy link to Social Media" class="heading-anchor" href="#social-media">#</a></h3>
+<ul><li><strong>30 posts</strong> - $49/month</li><li><strong>60 posts</strong> - $79/month</li><li><strong>120 posts</strong> - $129/month</li></ul>
+<p>Social tiers also raise the number of platforms you can connect (3, 6, and 14 platforms respectively).</p>
+<h3 id="monthly-or-annual">Monthly or annual<a aria-label="Copy link to Monthly or annual" class="heading-anchor" href="#monthly-or-annual">#</a></h3>
+<p>Use the <strong>monthly / annual</strong> toggle on the pricing page to switch. <strong>Annual plans cost 10x the monthly price - so you get 2 months free, about 17% off.</strong> The annual headline price is the full yearly charge; the per-month figure shown is just the annual price divided across the year.</p>
+<p>For the full plan-by-plan breakdown and what each tier includes, see <a href="/docs/account/plans-pricing/">Plans &amp; Pricing Reference</a>.</p>
+<h2 id="the-1-trial">The $1 trial<a aria-label="Copy link to The $1 trial" class="heading-anchor" href="#the-1-trial">#</a></h2>
+<p>Every module starts with a <strong>$1 trial for 3 days</strong> so you can see real output before committing. During the trial:</p>
+<ul><li>Full access to that module's features</li><li>Days remaining shown on your dashboard and billing card</li><li>Cancel anytime - no contract</li><li>Convert to a paid plan whenever you're ready</li></ul>
+<p>For the complete trial walkthrough - what's included, how it converts, and what happens if you don't upgrade - see <a href="/docs/account/trials/">Trials Explained</a>.</p>
+<h2 id="the-bundle-discount">The bundle discount<a aria-label="Copy link to The bundle discount" class="heading-anchor" href="#the-bundle-discount">#</a></h2>
+<p>Run more than one module and you save automatically. <strong>When you already have an active or trialing subscription on another module, theStacc applies a bundle discount (about 10-15% off) at checkout</strong> - you'll see the <code>BUNDLE10</code> discount applied on the Dodo checkout screen. There's nothing to enter; it's added for you the moment a second (or third) module is in play.</p>
+<h2 id="checkout">Checkout<a aria-label="Copy link to Checkout" class="heading-anchor" href="#checkout">#</a></h2>
+<ol><li>Go to <strong>Settings &gt; Pricing</strong> (or <strong>Settings &gt; Billing</strong> and choose <strong>Get Started</strong> / <strong>Upgrade</strong>).</li><li>Pick a module, a volume tier, and monthly or annual.</li><li>Select <strong>Subscribe</strong>.</li><li>A secure <strong>Dodo Payments</strong> checkout opens as an overlay right on the page - you don't leave theStacc.</li><li>Enter your card details and confirm.</li></ol>
+<p>After payment, theStacc receives a confirmation from Dodo and activates the module on your account or project within seconds. If you don't see it immediately, refresh the page.</p>
+<h2 id="subscription-states">Subscription states<a aria-label="Copy link to Subscription states" class="heading-anchor" href="#subscription-states">#</a></h2>
+<p>Your subscription is always in one of these states, and the state decides whether the module is usable:</p>
+<ul><li><strong>Trialing</strong> - trial period active. <strong>Module access is on.</strong></li><li><strong>Active</strong> - paid subscription running. <strong>Module access is on.</strong></li><li><strong>Past due</strong> - a payment failed. <strong>Action needed</strong> - update your payment method in the billing portal so access isn't interrupted.</li><li><strong>Cancelled</strong> - the subscription is ending. <strong>Access continues until the end of the current billing period</strong>, then it switches off. You don't lose anything mid-cycle.</li></ul>
+<p>You can see the current state of every module on the cards under <strong>Settings &gt; Billing</strong>.</p>
+<h2 id="quotas-and-your-billing-cycle">Quotas and your billing cycle<a aria-label="Copy link to Quotas and your billing cycle" class="heading-anchor" href="#quotas-and-your-billing-cycle">#</a></h2>
+<p>Each plan includes a set content volume <strong>per cycle</strong> that refreshes on your monthly anniversary:</p>
+<ul><li>A Blog SEO 30 plan = <strong>30 articles per cycle</strong>.</li><li>A Local SEO 60 plan = <strong>60 Google Business Profile posts per cycle</strong>.</li><li>A Social 120 plan = <strong>120 social posts per cycle</strong>.</li></ul>
+<p><strong>Annual plans get the same per-cycle cap, not the whole year at once.</strong> An annual Blog SEO 30 plan gives you 30 articles this cycle, then another 30 next month, and so on - it is <strong>not</strong> 360 articles available on day one. The yearly term only changes how often you're billed and the discount; your working quota still resets each month.</p>
+<p>What counts against the quota, and how the counter resets, is covered per module in:</p>
+<ul><li><a href="/docs/content-seo/blog-generation/">Blog generation</a> and the <a href="/docs/content-seo/overview/">Content SEO overview</a></li><li><a href="/docs/local-seo/overview/">Local SEO overview</a></li><li><a href="/docs/social-media/overview/">Social Media overview</a></li></ul>
+<h2 id="add-ons">Add-ons<a aria-label="Copy link to Add-ons" class="heading-anchor" href="#add-ons">#</a></h2>
+<p>Need more than your tier allows without jumping to the next plan? Some modules offer add-ons (for example, extra content packs or extra Local SEO capacity) that attach to your subscription at checkout. See <a href="/docs/account/add-ons/">Add-ons</a> for what's available and how they're billed.</p>
+<h2 id="changing-your-plan">Changing your plan<a aria-label="Copy link to Changing your plan" class="heading-anchor" href="#changing-your-plan">#</a></h2>
+<h3 id="upgrade-or-change-tier">Upgrade or change tier<a aria-label="Copy link to Upgrade or change tier" class="heading-anchor" href="#upgrade-or-change-tier">#</a></h3>
+<p>Move from trial to paid, or to a higher tier, from <strong>Settings &gt; Pricing</strong>. Pick the new tier and check out again. The card on your billing page highlights the tier you're currently on so it's clear what you have.</p>
+<h3 id="cancellation">Cancellation<a aria-label="Copy link to Cancellation" class="heading-anchor" href="#cancellation">#</a></h3>
+<p>Cancel any module from <strong>Settings &gt; Billing</strong>. Cancellation is completed in the <strong>Dodo customer portal</strong> - theStacc opens it in a new tab, and you finish the cancellation there. Once cancelled:</p>
+<ul><li>Access continues until the end of the current billing period (see <strong>Cancelled</strong> above).</li><li>Published content stays on your website - <strong>theStacc never removes content you've already published.</strong></li></ul>
+<h2 id="the-billing-portal">The billing portal<a aria-label="Copy link to The billing portal" class="heading-anchor" href="#the-billing-portal">#</a></h2>
+<p>Your billing portal is the secure <strong>Dodo customer portal</strong>. Open it from the <strong>Update</strong> button next to your payment method, or the <strong>View all invoices</strong> link, under <strong>Settings &gt; Billing</strong>. From the portal you can:</p>
+<ul><li>Update your payment method</li><li>View and download invoices</li><li>Cancel a subscription</li><li>Update your billing details</li></ul>
+<h2 id="payment-method">Payment method<a aria-label="Copy link to Payment method" class="heading-anchor" href="#payment-method">#</a></h2>
+<p>theStacc accepts major credit and debit cards through Dodo Payments. Your card details are handled entirely by Dodo - <strong>theStacc never sees or stores your full card number.</strong> Your billing card shows the card brand and last four digits on file. Use <strong>Update</strong> to change the card in the portal.</p>
+<h2 id="invoices-payment-history">Invoices &amp; payment history<a aria-label="Copy link to Invoices &amp; payment history" class="heading-anchor" href="#invoices-payment-history">#</a></h2>
+<p>The <strong>Invoices</strong> section under <strong>Settings &gt; Billing</strong> lists your recent payments with the date, amount, and status. theStacc reads this history directly from Dodo (up to 50 records, paged). For the full archive and downloadable PDF invoices, use <strong>View all invoices</strong> to open the Dodo customer portal.</p>
+<h2 id="good-to-know-rules-limits">Good to know (rules &amp; limits)<a aria-label="Copy link to Good to know (rules &amp; limits)" class="heading-anchor" href="#good-to-know-rules-limits">#</a></h2>
+<ul><li><strong>One active subscription per module, per scope.</strong> You can't hold two active or trialing subscriptions for the same module on the same project (or the same account-level scope). If you try to subscribe again, checkout tells you that scope already has an active subscription for that module. To change volume, switch the existing plan's tier rather than buying a second one.</li><li><strong>Retired plans can't be picked.</strong> Older or deactivated plan tiers (for example, legacy half-yearly Blog plans) are no longer for sale. If a deactivated plan code is somehow requested, checkout refuses it with a "not available" message.</li><li><strong>A bundle discount needs a second live module.</strong> <code>BUNDLE10</code> only applies while you have another active or trialing module - it isn't a standalone coupon.</li></ul>
+<h2 id="deleting-a-project">Deleting a project<a aria-label="Copy link to Deleting a project" class="heading-anchor" href="#deleting-a-project">#</a></h2>
+<p>Under <strong>Settings &gt; Billing</strong> you'll find the <strong>Danger Zone</strong> for project deletion (visible to project admins and owners). Deleting a project permanently removes all of its data - blogs, content plans, keywords, publishing integrations, Local SEO and Social data, team access, and module activations - in one atomic step. <strong>This cannot be undone.</strong></p>
+<p><strong>You must cancel a project's active subscriptions before you can delete it.</strong> If the project still has an active or trialing subscription, deletion is blocked and theStacc tells you exactly which module(s) to cancel first - for example, "Cancel the active social subscription before deleting this project." This protects you from being billed for a project that no longer exists. Cancel the subscription(s) in the billing portal, then delete the project.</p>
+<h2 id="looking-for-done-for-you-setup">Looking for done-for-you setup?<a aria-label="Copy link to Looking for done-for-you setup?" class="heading-anchor" href="#looking-for-done-for-you-setup">#</a></h2>
+<p>If you'd rather have our team configure and run a module for you, see <a href="/docs/account/managed-services/">Managed Services</a>.</p> 

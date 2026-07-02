@@ -1,0 +1,29 @@
+---
+title: Introduction
+---
+
+ <p>theStacc is an AI-powered marketing automation platform that helps small businesses get found online. It handles SEO content creation, local search optimization, and social media management - all on autopilot.</p>
+<p>Instead of hiring a writer, a local SEO specialist, and a social media manager, you set up theStacc once with your business details, and it produces on-brand, search-ready content on a schedule. You stay in control: publish automatically, or review everything before it goes live.</p>
+<h2 id="three-core-modules">Three core modules<a aria-label="Copy link to Three core modules" class="heading-anchor" href="#three-core-modules">#</a></h2>
+<p>theStacc is built from three modules. Each one is subscribed and trialed separately, so you only pay for what you use - run one module on its own, or all three together.</p>
+<h3 id="content-seo">Content SEO<a aria-label="Copy link to Content SEO" class="heading-anchor" href="#content-seo">#</a></h3>
+<p>Generates AI-written, SEO-optimized blog posts and publishes them to your website automatically. Includes keyword research, a rolling content plan, original image generation, a 0-100 SEO score on every post, and automatic publishing to WordPress, Webflow, Ghost, and Zepio - or any custom site via webhook.</p>
+<p>Learn more: <a href="/docs/content-seo/overview/">Content SEO overview</a>.</p>
+<h3 id="local-seo">Local SEO<a aria-label="Copy link to Local SEO" class="heading-anchor" href="#local-seo">#</a></h3>
+<p>Optimizes your Google Business Profile, manages customer reviews with AI-generated responses, publishes local posts to keep your profile active, and tracks your visibility in "near me" searches and the Google Map Pack.</p>
+<p>Learn more: <a href="/docs/local-seo/overview/">Local SEO overview</a>.</p>
+<h3 id="social-media">Social Media<a aria-label="Copy link to Social Media" class="heading-anchor" href="#social-media">#</a></h3>
+<p>Creates and publishes AI-generated posts across Instagram, Facebook, LinkedIn, and X (Twitter). Includes brand style customization, content pillars, multi-language content, and platform-specific formatting so each caption reads like it was written for that network.</p>
+<p>Learn more: <a href="/docs/social-media/overview/">Social Media overview</a>.</p>
+<h2 id="how-it-works">How it works<a aria-label="Copy link to How it works" class="heading-anchor" href="#how-it-works">#</a></h2>
+<ol><li><strong>Connect</strong> - Link your website, Google Business Profile, and social accounts.</li><li><strong>Configure</strong> - Set your business details, target audience, keywords, and brand style.</li><li><strong>Generate</strong> - AI creates optimized content across all your channels.</li><li><strong>Publish</strong> - Content publishes automatically or waits for your approval.</li><li><strong>Track</strong> - Monitor rankings, reviews, and engagement from your dashboard.</li></ol>
+<h2 id="who-it-s-for">Who it's for<a aria-label="Copy link to Who it's for" class="heading-anchor" href="#who-it-s-for">#</a></h2>
+<p>theStacc is built for small businesses, agencies, and marketers who want a consistent online presence without the manual effort.</p>
+<ul><li><strong>Small business owners</strong> get a hands-off way to publish blogs, keep their Google profile fresh, and stay active on social - without learning SEO or hiring a team.</li><li><strong>Agencies</strong> can run multiple clients, each in its own project with separate content plans, keywords, team access, and billing.</li><li><strong>Marketers</strong> get a content engine that handles the heavy lifting of research, writing, imagery, and scheduling, so they can focus on strategy.</li></ul>
+<p>The modules work alone or together. Because each is priced and trialed on its own, you can start with just the one you need today and add the others later. When you run more than one module, theStacc automatically applies a multi-module bundle discount to your subscription - see <a href="/docs/account/billing/">Billing &amp; Plans</a> for current pricing and exactly what each plan includes.</p>
+<h2 id="try-it-for-1">Try it for $1<a aria-label="Copy link to Try it for $1" class="heading-anchor" href="#try-it-for-1">#</a></h2>
+<p>Every module starts with a <strong>$1 trial</strong> so you can see real output before committing. The trial gives you full access to that module's features, shows your days remaining on the dashboard, and can be cancelled anytime - there's no contract. Each module has its own trial, so trying Content SEO doesn't use up your chance to try Local SEO or Social Media.</p>
+<h2 id="prefer-it-done-for-you">Prefer it done for you?<a aria-label="Copy link to Prefer it done for you?" class="heading-anchor" href="#prefer-it-done-for-you">#</a></h2>
+<p>If you'd rather not touch the dashboard at all, theStacc also offers managed-service tiers where our team handles setup, configuration, and ongoing content for you. See <a href="/docs/getting-started/managed-services/">Managed Services</a> to learn what's included.</p>
+<h2 id="next-steps">Next steps<a aria-label="Copy link to Next steps" class="heading-anchor" href="#next-steps">#</a></h2>
+<ul><li><a href="/docs/getting-started/quick-start/">Quick Start</a> - get set up and generate your first content in minutes.</li><li><a href="/docs/getting-started/onboarding-first-steps/">Onboarding &amp; First Steps</a> - a walkthrough of the guided setup flow for each module.</li><li><a href="/docs/getting-started/accounts-workspaces/">Accounts &amp; Workspaces</a> - how projects, team members, and roles work.</li><li><a href="/docs/getting-started/key-concepts/">Key Concepts</a> - the ideas the platform is built around.</li><li>Explore each module: <a href="/docs/content-seo/overview/">Content SEO</a>, <a href="/docs/local-seo/overview/">Local SEO</a>, or <a href="/docs/social-media/overview/">Social Media</a>.</li></ul> 

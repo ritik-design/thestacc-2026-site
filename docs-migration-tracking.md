@@ -127,3 +127,9 @@ Total docs pages: 82
 - All 82 docs pages built successfully in dist/docs/
 - URLs preserved with trailing slashes (e.g. /docs/getting-started/introduction/)
 - Content verified against original site: word counts match, titles match
+
+## Deployment optimization
+
+- Refactored docs from single `pages.json` import to Astro Content Collections (`src/content/docs/*.md`)
+- This distributes memory usage across individual files and avoids loading a 1.4 MB JSON into build memory
+- Build remains 2,054 pages; local build completes in ~130s

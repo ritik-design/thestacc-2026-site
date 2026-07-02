@@ -1,21 +1,45 @@
 ---
+import { getCollection } from 'astro:content';
 import DocsLayout from '../../layouts/DocsLayout.astro';
-import pages from '../../data/docs/pages.json';
 
-export function getStaticPaths() {
-  return pages.map((page) => ({
-    params: { slug: page.slug },
-    props: {
-      title: page.title,
-      contentHtml: page.contentHtml,
-      headings: page.headings,
-      slug: page.slug,
-    },
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map((doc) => ({
+    params: { slug: doc.slug },
+    props: { doc },
   }));
 }
 
-const { title, contentHtml, headings, slug } = Astro.props;
+const { doc } = Astro.props;
+const { Content } = await doc.render();
+
+// Extract headings from the raw HTML body (markdown body contains HTML)
+const headingRegex = /<h([2-4])[^>]*id=["']([^"']+)["'][^>]*>(.*?)<\/h\1>/gi;
+const headings = [];
+let match;
+while ((match = headingRegex.exec(doc.body)) !== null) {
+  const level = parseInt(match[1], 10);
+  const id = match[2];
+  // Strip any inner HTML (like anchor links) and decode entities
+  const text = match[3]
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\s*#\s*$/, '')
+    .trim();
+  if (text && id) {
+    headings.push({ level, text, id });
+  }
+}
 ---
-<DocsLayout title={title} slug={slug} headings={headings}>
-  <Fragment set:html={contentHtml} />
+<DocsLayout
+  title={doc.data.title}
+  slug={doc.slug}
+  headings={headings}
+>
+  <Content />
 </DocsLayout>
