@@ -1,0 +1,282 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free On-Page SEO Checker — 15 Checks + AI Rewrites | theStacc';
+const pageDescription = 'Paste any URL and target keyword. Get a 15-point on-page SEO score, real keyword volume + difficulty, top-10 SERP comparison, and AI-rewritten title, meta, and opening paragraph. Free.';
+const pageUrl = 'https://thestacc.com/tools/on-page-seo-checker/';
+const lastUpdated = '2026-05-10';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free On-Page SEO Checker',
+  description: 'Analyzes any URL against a target keyword across 15 on-page factors: keyword placement, content quality, technical signals. Includes real Google search volume + KD, top-10 SERP competitor analysis, People Also Ask coverage, and AI-rewritten title tag, meta description, and opening paragraph.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is on-page SEO?', a: 'On-page SEO is the practice of optimizing individual web pages so they rank higher in search results for specific keywords. It covers everything you control on the page itself: title tag, meta description, H1, headings, body content, image alt text, internal links, schema markup, and URL structure. Done well, on-page SEO is the highest-leverage SEO work because every change is fully under your control and the results show up within 1-3 weeks of re-indexing.' },
+  { q: 'How does this on-page SEO checker work?', a: 'Paste your page URL and target keyword. The tool fetches your page, parses the HTML, runs 15 on-page checks, then pulls live SERP data from Google for your keyword (search volume, difficulty, top 10 ranking pages, People Also Ask). Three of the top-ranking competitors are also fetched to compare word counts. Finally, an AI layer reviews your content quality and writes specific rewrites for your title tag, meta description, and opening paragraph.' },
+  { q: 'What is a good on-page SEO score?', a: 'A score of 75 or above (grade B) means your page is well-optimized for the target keyword. 90+ is excellent. Most pages score 40-65 on first run because of missing keyword placement in the H1, meta description, image alt text, or thin word count compared to top-ranking competitors. Focus on the top 3 issues highlighted in red — they typically account for 60-70% of the gap.' },
+  { q: 'Where should my target keyword appear on the page?', a: 'In priority order: title tag (highest weight), H1 heading, meta description, first 100 words, subheadings (H2/H3), URL slug, image alt text, and naturally throughout body content. The title tag and H1 carry the most weight because they tell Google what the page is about. Always include your keyword early — Google weights early-position keywords more heavily than late ones.' },
+  { q: 'What is keyword density and how much is too much?', a: 'Keyword density is the percentage of times your keyword appears relative to the total word count. The optimal range is 1-3% for most pages. Below 0.5% means you may be underusing the keyword. Above 3% risks tripping Google\'s keyword stuffing filters. Modern SEO favors natural language with semantic variations over rigid density targets — use synonyms and related phrases (which the tool surfaces in the related-keywords panel).' },
+  { q: 'Does this tool actually fetch my page or just check the URL?', a: 'It fetches the rendered HTML of your page server-side using a real browser User-Agent. It then parses the title, meta tags, H1-H3 headings, body text, images, links, and JSON-LD schema. If your page renders content client-side via JavaScript (React, Vue, etc.), what we see may differ from what users see — in that case, also test with our SEO Audit tool which simulates fuller rendering.' },
+  { q: 'How accurate is the keyword difficulty (KD) score?', a: 'KD is pulled live from a SEO data provider that calculates it based on the strength of the top 10 ranking pages for your keyword (referring domains, content quality, on-page optimization). It\'s on a 0-100 scale — under 30 is easy, 30-50 is moderate, 50-70 is hard, 70+ is very hard. KD is directional, not absolute — a low-DR site competing on a KD 65 keyword is a heavy lift. Pair KD with search volume for a realistic ranking forecast.' },
+  { q: 'What are People Also Ask questions and why do they matter?', a: 'PAA questions are the expandable Q&A boxes Google shows in search results. They reveal what real users want to know about your keyword. Covering these questions in your H2/H3 sections — with direct answers right under the heading — dramatically increases your chances of being pulled into AI Overviews and Featured Snippets. Most tools don\'t surface PAA; this one does because it\'s the cheapest ranking lift available.' },
+  { q: 'Will the AI rewrites match my brand voice?', a: 'The rewrites are short by design (title 50-60 chars, meta 150-160, opening paragraph 40-60 words) and follow neutral, direct prose. Use them as starting points — adjust 5-10% to match your brand voice. We avoid corporate-speak ("we pride ourselves," "industry-leading") so the rewrites work for most B2B and local-business contexts without heavy editing.' },
+  { q: 'Is this on-page SEO checker really free?', a: 'Yes. No credit card. The tool is free to use 5 times per day per IP. The full report (AI rewrites, priority fix list) is unlocked with a brief lead form — that\'s how we keep the lights on. Everything else (score, keyword data, top issues, SERP top 10, PAA questions, all 15 check details) is fully visible without any signup.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free On-Page SEO Checker"
+  toolDescription="Paste a URL + target keyword. Get a 15-point score, live keyword data, top-10 SERP analysis, and AI rewrites in 12 seconds."
+  trustCount=""
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="url-input">Page URL <span class="text-red-500">*</span></label>
+          <input type="url" id="url-input" required placeholder="e.g., yoursite.com/services/dental-implants"
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="keyword-input">Target Keyword <span class="text-red-500">*</span></label>
+          <input type="text" id="keyword-input" required maxlength="100" placeholder="e.g., dental implants Austin, emergency plumber San Diego"
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 text-[11px] text-[#79716b]">The exact phrase you want this page to rank for in Google.</p>
+        </div>
+
+        <button id="check-btn" type="submit" class="w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+          Check On-Page SEO
+        </button>
+        <p class="mt-2.5 text-center font-mono text-[11px] text-[#79716b]">Free · No signup for the score · 5 analyses per day</p>
+        <p id="form-error" class="mt-2 hidden text-xs text-red-500"></p>
+      </form>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading-section" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+      <div class="flex items-center gap-3">
+        <span><svg class="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4f39f6" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="#4f39f6" stroke-width="3" stroke-linecap="round"/></svg></span>
+        <span data-step="step" class="font-sans text-[14px] text-[#57534e]">Fetching your page and pulling live SERP data...</span>
+      </div>
+      <p class="mt-2 font-mono text-[11px] text-[#79716b]">First-time analysis takes 8-12 seconds. Cached results return in under 200ms.</p>
+    </div>
+
+    <!-- Error -->
+    <div id="error-section" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-5 flex items-start gap-3">
+      <svg class="mt-0.5 shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      <div>
+        <p class="text-[15px] text-red-700 font-semibold">Couldn't analyze the page</p>
+        <p class="error-msg mt-1 text-[13px] text-red-600">Check the URL and try again. Make sure the page is publicly accessible.</p>
+      </div>
+    </div>
+
+    <!-- Results — populated by JS -->
+    <div id="results-section" class="mt-6 hidden space-y-5"></div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">You just optimized 1 page.<br/>Stacc publishes 30 optimized articles per month.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Every article targets a real keyword, hits the on-page checks, and goes live without your hand on the keyboard. Starting at $99/mo.</p>
+        <a href="/demo/?source=onpage-tool-results" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start your $1 trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days · Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / SPEAKABLE -->
+    <div class="speakable mb-8 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-5">
+      <p class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#4f39f6] mb-2">Summary · Last updated {lastUpdated}</p>
+      <p class="font-sans text-[16px] leading-[1.8] text-[#292524]">
+        The Free On-Page SEO Checker analyzes any URL against a target keyword across 15 on-page factors: 8 keyword placement checks (title, H1, meta, first 100 words, subheadings, URL, alt text, density), 4 content quality checks (word count vs SERP avg, internal links, external links, heading structure), and 3 technical checks (image alt coverage, schema markup, mobile + canonical + indexability). Pulls live data from Google: search volume, keyword difficulty, top 10 ranking pages, and People Also Ask questions. AI layer writes 3 specific rewrites: title tag, meta description, opening paragraph. Free for 5 analyses per day. Best for SEO writers, content teams, and local-business owners optimizing service-area pages.
+      </p>
+    </div>
+
+    <!-- Stat block -->
+    <div class="mb-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">15</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">On-page factors checked</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">Live</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Volume + KD from Google</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">12s</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Per full analysis</p>
+      </div>
+    </div>
+
+    <!-- What does it check? -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mb-3">What does the on-page SEO checker actually check?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong>15 specific factors, grouped into three categories.</strong> Each check is scored individually so you see exactly which signals are pulling your score down — and what to fix first.
+    </p>
+
+    <h3 class="text-[18px] leading-[1.4] font-semibold text-[#292524] mt-6 mb-2">Keyword placement (8 checks · 50 points)</h3>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      Whether your target keyword appears in the locations Google weights most heavily: <strong class="text-[#292524]">title tag</strong> (10 pts) — the single highest on-page signal. <strong class="text-[#292524]">H1 heading</strong> (8 pts) — should appear exactly once and contain the keyword. <strong class="text-[#292524]">Meta description</strong> (6 pts) — not a direct ranking factor but boosts click-through rate when keyword is bolded in SERPs. <strong class="text-[#292524]">First 100 words</strong> (6 pts) — Google weights early-position keywords. <strong class="text-[#292524]">Subheadings</strong> (5 pts) — at least one H2 or H3 should reinforce the topic. <strong class="text-[#292524]">URL slug</strong> (5 pts) — a clean keyword-rich URL is a small but real signal. <strong class="text-[#292524]">Image alt text</strong> (5 pts) — at least one image should have keyword-rich alt text. <strong class="text-[#292524]">Density</strong> (5 pts) — 0.5-3% is the sweet spot; below is underuse, above risks stuffing.
+    </p>
+
+    <h3 class="text-[18px] leading-[1.4] font-semibold text-[#292524] mt-6 mb-2">Content quality (4 checks · 30 points)</h3>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong class="text-[#292524]">Word count vs competitor average</strong> (10 pts) — we fetch the top 3 ranking pages and benchmark your length against theirs. Going to war 60% shorter than the SERP average rarely works. <strong class="text-[#292524]">Internal links</strong> (6 pts) — 3+ to related pages. <strong class="text-[#292524]">External links</strong> (4 pts) — at least one citation to an authoritative source. <strong class="text-[#292524]">Heading structure</strong> (10 pts) — exactly 1 H1, 3+ H2s, and 2+ H3s.
+    </p>
+
+    <h3 class="text-[18px] leading-[1.4] font-semibold text-[#292524] mt-6 mb-2">Technical signals (3 checks · 20 points)</h3>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong class="text-[#292524]">Image alt coverage</strong> (8 pts) — % of images with descriptive alt text. <strong class="text-[#292524]">Schema markup</strong> (7 pts) — JSON-LD with content-specific types (Article, FAQ, LocalBusiness) trigger rich results. Generic Organization schema alone scores partial. <strong class="text-[#292524]">Mobile + canonical + indexable</strong> (5 pts) — viewport meta tag, canonical link, and no accidental noindex meta tag.
+    </p>
+
+    <!-- Where should keyword appear -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">Where should my target keyword appear on the page?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong>In priority order, here's where keyword placement actually moves rankings:</strong>
+    </p>
+    <ol class="list-decimal pl-5 mb-6 space-y-2 text-[16px] text-[#57534e] leading-[1.75]">
+      <li><strong class="text-[#292524]">Title tag.</strong> The single most important on-page placement. Keyword near the start. 50-60 characters. "Emergency Plumber Austin · 24/7 Service" beats "Our Services · ABC Plumbing" by a wide margin.</li>
+      <li><strong class="text-[#292524]">H1 heading.</strong> Exactly one per page, containing the keyword. The H1 is what users see first; Google reads it as the page topic confirmation.</li>
+      <li><strong class="text-[#292524]">First 100 words.</strong> Google weights early-position keywords. Don't bury "dental implants Austin" 600 words deep in a generic intro.</li>
+      <li><strong class="text-[#292524]">Subheadings (H2/H3).</strong> At least one subheading containing the keyword or close variation. Helps with Featured Snippets.</li>
+      <li><strong class="text-[#292524]">Body content.</strong> Naturally throughout, at 1-3% density. Use semantic variations — Google understands "dentist Austin," "Austin dental practice," and "dental care in Austin" as the same topic.</li>
+      <li><strong class="text-[#292524]">URL slug.</strong> /dental-implants-austin beats /page-id-12345. Keep slugs short and readable.</li>
+      <li><strong class="text-[#292524]">Image alt text.</strong> Where natural — don't stuff every image with the same phrase.</li>
+      <li><strong class="text-[#292524]">Meta description.</strong> Not a ranking factor, but Google bolds keyword matches in SERPs, lifting CTR by 5-10%.</li>
+    </ol>
+
+    <!-- Density question -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">What is keyword density and how much is too much?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong>Keyword density is the percentage of times your target keyword appears relative to the total word count.</strong> For a 1,000-word page targeting "dentist in Austin," 2% density means the phrase appears about 20 times. The optimal range is <strong class="text-[#292524]">1-3%</strong>.
+    </p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      Below 0.5% means you may not have mentioned your keyword often enough for Google to confidently associate the page with that search term. Above 3% starts to feel unnatural to readers and can trigger Google's keyword stuffing filters — which actively hurts rankings.
+    </p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      The right approach: write naturally for your audience, then check density. If you're below 1%, add the keyword in 2-3 natural places (an H2, a body sentence, an alt text). If you're above 3%, replace some exact-match instances with synonyms and related phrases. Google's semantic models understand "dentist," "dental practice," and "dental care" as the same topical territory.
+    </p>
+
+    <!-- Local SEO -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">On-page SEO for local businesses</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      Local businesses have a structural advantage with on-page SEO: your target keywords almost always include a city or service area. Keywords like "dentist in Austin," "emergency plumber San Diego," or "personal injury lawyer Houston" have explicit local intent that pages can match directly.
+    </p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      The winning strategy is straightforward: <strong>create a dedicated page for each service + city combination you want to rank for.</strong> "Dental implants in Austin" gets its own page. "Teeth whitening in Austin" gets its own. Each page has a unique title, H1, and 800+ words of content specifically about that service in that city. Mention neighborhoods, landmarks, and nearby areas to reinforce local relevance.
+    </p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      The biggest mistake local businesses make is trying to rank one page for everything. A single "Services" page cannot compete with a competitor who has 15 individual service pages — even if your single page is better written. Use this tool to check each of your service pages against its target keyword, then prioritize fixes by impact.
+    </p>
+
+    <!-- Comparison table -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">How this tool differs from Ahrefs, Surfer, and Semrush on-page tools</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-4">We built this because every existing on-page tool had at least one of these problems: locked behind $99+/mo subscriptions, didn't fetch live SERP context, or didn't write actual rewrites. Here's how we compare:</p>
+    <div class="overflow-x-auto rounded-xl border border-[#e7e5e4] bg-white">
+      <table class="w-full text-[14px]">
+        <thead class="bg-[#fafaf9]">
+          <tr>
+            <th class="px-4 py-3 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">Ahrefs / Semrush</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">Surfer SEO</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e7e5e4]">
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Free, no signup for score</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">$99-$449/mo</td><td class="px-4 py-2.5 text-[#dc2626]">$89/mo</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Live keyword volume + KD</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Top 10 SERP comparison</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Competitor word count benchmark</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (top 3 fetched)</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">People Also Ask coverage</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#79716b]">Limited</td><td class="px-4 py-2.5 text-[#79716b]">Add-on</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">15-point check breakdown with fixes</td><td class="px-4 py-2.5 text-[#292524] font-semibold">All inline</td><td class="px-4 py-2.5 text-[#79716b]">Generic recommendations</td><td class="px-4 py-2.5 text-[#79716b]">In editor only</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">AI-rewritten title + meta + opener</td><td class="px-4 py-2.5 text-[#292524] font-semibold">3 rewrites</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#79716b]">Editor-based</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Priority fix list (effort + impact)</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Schema markup detection</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#79716b]">Limited</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FAQ -->
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently asked questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      {faqs.map((faq, idx) => (
+        <div class:list={[idx < faqs.length - 1 && 'border-b border-[#f3f4f6]']}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[16px] font-semibold text-[#111827]">{faq.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[15px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More free SEO tools</h2>
+        <p class="mt-1 font-sans text-[13px] text-[#79716b]">Ship the fixes from this report with these next.</p>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <a href="/tools/seo-audit/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Free SEO Audit</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Whole-site audit across 50+ checks</p>
+          </a>
+          <a href="/tools/website-seo-score/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Website SEO Score</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Site-wide SEO health in seconds</p>
+          </a>
+          <a href="/tools/meta-tag-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Meta Tag Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Title + meta + social previews</p>
+          </a>
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score headlines on 8 dimensions</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">JSON-LD for 23 industries</p>
+          </a>
+          <a href="/tools/gbp-post-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">GBP Post Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">3 ready-to-publish GBP posts</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script is:inline src="/js/on-page-checker-engine.js"></script>
+  </Fragment>
+</ToolLayout>

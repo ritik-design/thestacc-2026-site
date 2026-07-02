@@ -1,0 +1,127 @@
+---
+const milestones = [
+  { month: 'Month 3', stat: '+47%', desc: 'Indexed pages' },
+  { month: 'Month 6', stat: '+180%', desc: 'Organic traffic' },
+  { month: 'Month 12', stat: '+320%', desc: 'Qualified leads' },
+];
+---
+
+<section class="border-t border-[#e7e5e4] bg-[#fafaf9]" id="growth">
+  <div class="container-x pt-16 pb-0 text-center md:pt-20">
+    <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Compounding Growth</p>
+    <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2rem]">
+      30 articles/month changes the math.
+    </h2>
+    <p class="mx-auto mt-3 max-w-[480px] font-sans text-[15px] leading-[1.7] text-[#79716b]">
+      Most businesses publish 1–4 posts per month. You'll publish 30. Traffic compounds from there.
+    </p>
+  </div>
+
+  <!-- Chart -->
+  <div class="mx-auto mt-10 max-w-[800px] px-6">
+    <div class="rounded-xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <!-- Chart header -->
+      <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <span class="font-mono text-[14px] font-semibold text-[#292524]">Organic Traffic Growth</span>
+        <div class="flex gap-5 font-sans text-[13px] text-[#79716b]">
+          <span class="flex items-center gap-2">
+            <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#615fff]"></span>
+            With Stacc
+          </span>
+          <span class="flex items-center gap-2">
+            <span class="inline-block h-2.5 w-2.5 rounded-full bg-[#d6d3d1]"></span>
+            Industry average
+          </span>
+        </div>
+      </div>
+
+      <!-- SVG Chart -->
+      <div class="growth-chart-wrap relative w-full" id="growth-chart">
+        <svg viewBox="0 0 700 280" class="w-full" preserveAspectRatio="xMidYMid meet" aria-label="Organic traffic growth: Stacc vs industry average over 12 months">
+          <!-- Grid lines -->
+          <line x1="0" y1="56" x2="700" y2="56" stroke="#f5f5f4" stroke-width="1"/>
+          <line x1="0" y1="112" x2="700" y2="112" stroke="#f5f5f4" stroke-width="1"/>
+          <line x1="0" y1="168" x2="700" y2="168" stroke="#f5f5f4" stroke-width="1"/>
+          <line x1="0" y1="224" x2="700" y2="224" stroke="#f5f5f4" stroke-width="1"/>
+
+          <!-- Industry average (flat-ish line) -->
+          <polyline
+            points="0,220 58,215 117,212 175,210 233,208 292,207 350,205 408,204 467,202 525,201 583,200 642,198 700,196"
+            fill="none" stroke="#d6d3d1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          />
+
+          <!-- Stacc growth area -->
+          <polygon
+            class="growth-area"
+            points="0,220 58,210 117,195 175,175 233,155 292,130 350,108 408,85 467,65 525,48 583,35 642,25 700,18 700,280 0,280"
+            fill="url(#stacc-gradient)" opacity="0"
+          />
+
+          <!-- Stacc growth line -->
+          <polyline
+            class="growth-line"
+            points="0,220 58,210 117,195 175,175 233,155 292,130 350,108 408,85 467,65 525,48 583,35 642,25 700,18"
+            fill="none" stroke="#615fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+            stroke-dasharray="1200" stroke-dashoffset="1200"
+          />
+
+          <!-- Gradient def -->
+          <defs>
+            <linearGradient id="stacc-gradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#615fff" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#615fff" stop-opacity="0.01"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <!-- X-axis labels -->
+      <div class="flex justify-between px-1 pt-3 font-mono text-[12px] text-[#79716b]">
+        <span>Mo 1</span><span>Mo 3</span><span>Mo 6</span><span>Mo 9</span><span>Mo 12</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Milestones -->
+  <div class="mx-auto mt-6 grid max-w-[800px] grid-cols-1 gap-4 px-6 pb-10 sm:grid-cols-3">
+    {milestones.map(m => (
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5 text-center">
+        <div class="font-mono text-[11px] font-bold uppercase tracking-[2px] text-[#615fff]">{m.month}</div>
+        <div class="mt-2 font-sans text-[28px] font-bold tracking-tight text-[#292524]">{m.stat}</div>
+        <div class="mt-1 font-sans text-[13px] text-[#79716b]">{m.desc}</div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  @keyframes drawLine {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes fadeArea {
+    to { opacity: 1; }
+  }
+  .growth-line.animate {
+    animation: drawLine 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .growth-area.animate {
+    animation: fadeArea 1.5s 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+</style>
+
+<script>
+  const chartObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const line = entry.target.querySelector('.growth-line');
+        const area = entry.target.querySelector('.growth-area');
+        line?.classList.add('animate');
+        area?.classList.add('animate');
+        chartObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const chart = document.getElementById('growth-chart');
+  if (chart) chartObserver.observe(chart);
+</script>

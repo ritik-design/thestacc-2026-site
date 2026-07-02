@@ -1,0 +1,381 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "How many locations can I track in a single report?",
+    a: "There's no hard limit. Stacc's multi-location reporting is designed to handle enterprise-scale portfolios — customers manage 500+ locations in a single dashboard. Reports aggregate across all locations simultaneously with no slowdown.",
+  },
+  {
+    q: "Can I see which locations are improving vs declining?",
+    a: "Yes. The location comparison dashboard ranks all locations by any metric — keyword ranking, citation accuracy, review score, GBP activity. Sort ascending or descending to instantly surface your worst performers and best performers. No manual analysis required.",
+  },
+  {
+    q: "Can I generate separate reports for each location?",
+    a: "Yes. You can view aggregate data across all locations or drill into any individual location for a dedicated report. Individual location reports include the same full dataset — rankings, citations, reviews, GBP activity — scoped to that one location.",
+  },
+  {
+    q: "Can I share reports with clients or stakeholders?",
+    a: "Yes. Reports can be exported as PDF or shared via a live link. If you're using the white-label dashboard, reports carry your agency's branding — not Stacc's. Clients see your logo, your domain, your report.",
+  },
+  {
+    q: "How often is the data updated?",
+    a: "Ranking data updates daily. Citation data updates continuously as changes are detected across the directory network. Review data syncs in near real-time from connected platforms. Your reports always reflect current state, not last week's snapshot.",
+  },
+  {
+    q: "Can I set up automated report delivery?",
+    a: "Yes. Configure weekly or monthly report emails for any location group. Reports are generated automatically and sent to whoever you specify — your team, clients, or franchise owners. No manual export required.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Multi-Location Reporting",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "See every location's SEO performance in one dashboard. Identify underperformers instantly, generate cross-location reports automatically, and stop managing 30 tabs at once.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Features", "item": "https://thestacc.com/features/" },
+        { "@type": "ListItem", "position": 3, "name": "Multi-Location Reporting", "item": "https://thestacc.com/features/multi-location-reporting/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Multi-Location SEO Reporting — One Dashboard for Every Location | theStacc"
+  description="Stop opening 30 tabs to check your locations. theStacc's multi-location reporting dashboard aggregates rankings, citations, and reviews across every location in one view."
+
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Multi-Location Reporting · Local SEO Module</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Every location's performance.<br />
+            <span style="color:#4f39f6;">One dashboard. Zero tabs.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Stacc aggregates rankings, citations, reviews, and GBP activity across every location into a single reporting view. See which locations are growing, which are stagnating, and exactly what's driving the difference.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              See the dashboard
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pricing/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              See pricing
+            </a>
+          </div>
+
+          <div class="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {['Aggregate + individual views', 'Best/worst performer ranking', 'Automated report delivery', '$1 for 3 days'].map(c => (
+              <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#79716b]">
+                <span class="h-1 w-1 rounded-full bg-[#4f39f6]"></span>{c}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PAIN SECTION ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">The problem</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            30 tabs to check 30 locations<br />is not a reporting workflow.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            When every location lives in a separate tool login, you don't have reporting — you have an archaeological dig. You open tab after tab, copy numbers into a spreadsheet, try to figure out which locations are improving and which are quietly declining. By the time you've finished "checking in" on all your locations, it's Thursday and your data is already outdated. You can't act on what you can't see clearly.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {[
+            { icon: 'M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2', title: 'Underperformers hide in the noise.', body: 'When you\'re checking locations one by one, the laggards stay invisible until they\'re months behind. By then, the ranking loss is real and recovery takes 3x longer than it would have if you\'d caught it in week two.' },
+            { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Manual aggregation is always wrong.', body: 'Copy-pasting data across locations into spreadsheets introduces errors every time. Your "portfolio view" is a snapshot of stale, manually collated numbers that required two hours to produce — and will be wrong again by Monday.' },
+            { icon: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Reporting delays cost ranking ground.', body: 'A location that drops from position 3 to position 7 loses 50%+ of its click-through rate overnight. If your reporting cycle catches that in month two instead of week one, six weeks of lost traffic compounds into a backlog that takes months to claw back.' },
+          ].map(p => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={p.icon}/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{p.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">How it works</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            All your locations. One view.<br />Underperformers surfaced automatically.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Connect your locations once. Stacc pulls in ranking, citation, review, and GBP data for every location daily — and makes the comparisons for you.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+          {[
+            { n: '01', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101', title: 'Connect all your locations', body: 'Add all your locations to Stacc. Each location connects its GBP listing, citation sources, and review platforms. Takes minutes per location, and your entire portfolio aggregates automatically from day one.' },
+            { n: '02', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', title: 'View aggregate + individual performance', body: 'The portfolio dashboard shows all locations ranked side by side. Switch between aggregate portfolio view and individual location deep-dives with one click. Sort by any metric to see exactly who\'s winning and who needs attention.' },
+            { n: '03', icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9', title: 'Automated reports delivered on schedule', body: 'Set your reporting cadence — weekly, monthly, or custom. Stacc generates and delivers reports automatically. No export, no manual formatting, no forgetting. Every stakeholder gets the right data at the right time.' },
+          ].map(s => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={s.icon}/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.n}</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CAPABILITY GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Everything included</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Every reporting capability.<br />Built for multi-location at scale.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z', title: 'Location comparison dashboard', body: 'See all locations ranked side by side across every key metric. Instantly identify who\'s winning, who\'s stagnating, and where to focus next.' },
+            { icon: 'M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z', title: 'Trend analysis by location', body: 'Track performance trends over 30, 60, or 90-day windows for any location. Spot upward or downward trajectories early — before they become costly problems.' },
+            { icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10', title: 'Location group reporting', body: 'Group locations by region, franchise owner, or market. Generate reports for individual groups without pulling the full portfolio. Useful for sharing with specific clients or regional managers.' },
+            { icon: 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', title: 'Automated PDF + live link export', body: 'Export any report as a clean PDF or share a live link that updates with fresh data. No manual formatting. Reports are ready to send the moment you need them.' },
+            { icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9', title: 'Scheduled report delivery', body: 'Set weekly or monthly auto-delivery for any report. Stacc generates and emails reports on schedule — no reminders, no manual exports, no forgetting a client.' },
+            { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Underperformer alerts', body: 'Get notified when any location\'s ranking, review score, or citation accuracy drops below your threshold. Catch problems in days, not months.' },
+          ].map(c => (
+            <div class="bg-white px-7 py-8">
+              <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={c.icon}/></svg>
+              </div>
+              <p class="font-sans text-[0.95rem] font-semibold text-[#111827]">{c.title}</p>
+              <p class="mt-1.5 font-sans text-[13px] leading-[1.6] text-[#79716b]">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% 0%,rgba(79,57,246,0.10) 0%,transparent 65%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">By the numbers</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2.4rem]">
+            What multi-location reporting<br />does to your workflow.
+          </h2>
+        </div>
+        <div class="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3">
+          {[
+            { from: 0, to: 30, suffix: '+', label: 'Locations managed by one person', sub: 'Single dashboard, no tab-switching' },
+            { from: 0, to: 90, suffix: '%', label: 'Less cross-location reporting time', sub: 'Automated aggregation replaces manual work' },
+            { from: 0, to: 5, suffix: '×', label: 'Faster underperformer identification', sub: 'Sorted ranking vs tab-by-tab discovery' },
+          ].map(m => (
+            <div class="text-center">
+              <div class="font-sans text-[3.5rem] font-bold leading-none tracking-[-0.04em] text-white">
+                <span data-count-up data-from={m.from} data-to={m.to} data-suffix={m.suffix}>0</span>
+              </div>
+              <p class="mt-3 font-sans text-[0.95rem] font-semibold text-[#292524]/90">{m.label}</p>
+              <p class="mt-1 font-mono text-[11px] uppercase tracking-[0.1em]" style="color:#818cf8;">{m.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-16">
+        <figure class="mx-auto max-w-2xl text-center">
+          <blockquote class="font-sans text-[1.25rem] font-medium leading-[1.55] tracking-[-0.015em] text-[#111827]">
+            "I was opening 18 tabs every Monday morning to check each location. Now I open Stacc, see the whole portfolio in two seconds, and know exactly which two locations need attention. Everything else is green — I move on."
+          </blockquote>
+          <figcaption class="mt-6">
+            <span class="font-sans text-[14px] font-semibold text-[#292524]">Priya Narayanan</span>
+            <span class="mx-2 text-[#e7e5e4]">·</span>
+            <span class="font-sans text-[14px] text-[#79716b]">Director of Local Marketing, 24-location franchise group</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED FEATURES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16">
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Related features</p>
+        <div class="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-3">
+          {[
+            { href: '/features/rank-tracking/', label: 'Rank Tracking', desc: 'Daily ranking updates for every keyword at every location.' },
+            { href: '/features/client-reporting/', label: 'Client Reporting', desc: 'Auto-generated reports delivered to clients on your schedule.' },
+            { href: '/features/bulk-location-management/', label: 'Bulk Location Management', desc: 'Update 500+ locations simultaneously. No one-by-one editing.' },
+          ].map(r => (
+            <a href={r.href} class="group bg-white px-7 py-7 transition-colors hover:bg-[#f5f3ff]">
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#4f39f6]">{r.label}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.6] text-[#57534e]">{r.desc}</p>
+              <span class="mt-4 inline-flex items-center gap-1 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#4f39f6] opacity-0 transition-opacity group-hover:opacity-100">
+                Learn more
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">FAQ</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Everything you need to know<br />about multi-location reporting.
+          </h2>
+          <div class="mt-10 divide-y divide-[#e7e5e4]">
+            {faqs.map((f, i) => (
+              <div class="py-5">
+                <button class="faq-btn flex w-full items-start justify-between gap-4 text-left" aria-expanded="false" aria-controls={`faq-${i}`}>
+                  <span class="font-sans text-[1rem] font-semibold text-[#111827]">{f.q}</span>
+                  <span class="mt-0.5 flex-shrink-0">
+                    <svg class="faq-icon-plus h-5 w-5 text-[#4f39f6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                    <svg class="faq-icon-minus hidden h-5 w-5 text-[#4f39f6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+                  </span>
+                </button>
+                <div id={`faq-${i}`} class="faq-answer hidden pt-3">
+                  <p class="font-sans text-[0.95rem] leading-[1.7] text-[#57534e]">{f.a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[400px]" style="background:radial-gradient(ellipse at 50% 0%,rgba(79,57,246,0.35) 0%,transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative py-24 text-center">
+        <h2 class="font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.8rem]">
+          Stop checking 30 tabs.<br />See every location in one place.
+        </h2>
+        <p class="mx-auto mt-5 max-w-[520px] font-sans text-[1rem] leading-[1.7]" style="color:#9ca3af;">
+          Connect your locations today and get your first cross-portfolio report in under 10 minutes.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <a href="/demo/" target="_blank" rel="noopener noreferrer"
+            class="inline-flex h-12 items-center gap-2 rounded-xl bg-[#4f39f6] px-7 font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+            Start free — no credit card
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="/pricing/"
+            class="inline-flex h-12 items-center rounded-xl border border-white/15 bg-white/5 px-7 font-sans text-[15px] font-medium text-white/80 transition-colors hover:bg-white/10">
+            See pricing
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      const answer = btn.nextElementSibling as HTMLElement;
+      if (answer) answer.classList.toggle('hidden', expanded);
+      btn.querySelector('.faq-icon-plus')?.classList.toggle('hidden', !expanded);
+      btn.querySelector('.faq-icon-minus')?.classList.toggle('hidden', expanded);
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-count-up]').forEach(el => {
+    const from = parseFloat(el.dataset.from || '0');
+    const to = parseFloat(el.dataset.to || '0');
+    const suffix = el.dataset.suffix || '';
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    const duration = 1800;
+    let start: number | null = null;
+    const obs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      obs.disconnect();
+      const step = (ts: number) => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = (from + (to - from) * ease).toFixed(decimals) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }, { threshold: 0.3 });
+    obs.observe(el);
+  });
+</script>

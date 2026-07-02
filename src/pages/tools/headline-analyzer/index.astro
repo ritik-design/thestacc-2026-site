@@ -1,0 +1,779 @@
+---
+import ToolLayout from '../../../layouts/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../../lib/schema-builders';
+
+const pageTitle = 'Free Headline Analyzer — AI Rewrites + SERP Patterns | theStacc';
+const pageDescription = 'Score headlines on 8 dimensions instantly. Get 5 AI-rewritten alternatives, top 10 SERP headline patterns for your keyword, and a qualitative critique. Free, no signup.';
+const pageUrl = 'https://thestacc.com/tools/headline-analyzer/';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Headline Analyzer',
+  description: 'Score blog titles, GBP post headlines, page titles, and email subjects on 8 dimensions including Local SEO scoring. Get 5 AI-rewritten alternatives and top 10 SERP headline patterns for any keyword.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What does a headline analyzer do?', a: 'A headline analyzer scores your headline across 8 dimensions: word balance, emotional appeal, SEO strength, length, clarity, power words, sentiment, and local SEO. It gives you a 0-100 score, word-by-word analysis, content previews, specific suggestions, 5 AI-rewritten alternatives, and — if you enter a target keyword — the top 10 headline patterns actually ranking in Google right now.' },
+  { q: 'How is this headline analyzer different from CoSchedule or Sharethrough?', a: 'CoSchedule and Sharethrough score headlines on 4-5 dimensions using word-list matching. This tool scores on 8 dimensions including local SEO (city + industry keywords), shows content-type-specific previews (SERP, GBP, email inbox), provides 5 AI-rewritten alternatives with explanations, and extracts real headline patterns from the top 10 Google results for any keyword you enter. The AI critique explains why your headline works or does not work in plain English.' },
+  { q: 'How long should a blog post headline be?', a: 'Blog post headlines should be 50-60 characters for optimal SEO. Google truncates titles longer than ~60 characters in search results. GBP posts work well at 40-80 characters, while email subject lines perform best at 30-50 characters. The analyzer adjusts its scoring based on the content type you select.' },
+  { q: 'What are power words in headlines?', a: 'Power words are psychologically compelling words that trigger emotion or action. Trust builders like "proven," "guaranteed," and "certified." Urgency drivers like "limited," "instant," and "now." Curiosity triggers like "secret," "exclusive," and "breakthrough." Headlines with power words consistently get 12-25% higher click-through rates.' },
+  { q: 'Why does local SEO matter for headlines?', a: 'Including your city name and industry keywords in headlines signals geographic relevance to Google. A headline like "Best Dentist in Austin TX" ranks better for local searches than "Best Dentist" alone. This is critical for service businesses that serve a specific area. GBP posts that include city names and service keywords get more views, clicks, and calls.' },
+  { q: 'What are the best headline formulas that actually work?', a: 'Number + list: "7 Ways to Fix a Leaky Faucet." How-to: "How to Whiten Teeth in 30 Days." Question: "Why Is My AC Blowing Hot Air?" Superlative: "The Ultimate Guide to Roof Maintenance." Urgency: "Limited: Free Dental Consultation This Week." Comparison: "Metal Roof vs Shingles: Which Lasts Longer?" The analyzer detects which formula your headline uses and scores it accordingly.' },
+  { q: 'How do the AI rewrites work?', a: 'When you enter a headline, the tool sends it to Kimi (an AI writing assistant) along with your content type, industry, and city. Kimi analyzes the headline and returns 5 rewritten alternatives, each with a predicted score and explanation of why it works better. Click any rewrite to instantly test it in the analyzer. The AI call takes 2-4 seconds and happens after your instant score appears.' },
+  { q: 'What are SERP headline patterns?', a: 'When you enter a target keyword (like "emergency plumber austin"), the tool fetches the top 10 Google results for that keyword, extracts their headlines, and shows them to you with pattern tags (Number, Question, How-to, Listicle, etc.). This reveals what headline formulas are actually winning for your keyword right now — so you can match or beat them.' },
+  { q: 'Is this headline analyzer free?', a: 'Yes, 100% free. No signup, no email gate, no limits. The instant scoring, word-by-word analysis, content previews, and suggestions are all free. The AI rewrites and SERP patterns are also free — they are powered by API calls that happen asynchronously after your score renders.' },
+  { q: 'How can I use this for my business?', a: 'Before publishing any blog post, GBP update, email campaign, or page title — paste it into the analyzer. Check the score, review the suggestions, enter your target keyword to see what is ranking, then click one of the AI rewrites if it is stronger. Test 3-5 variations and pick the highest scorer. Over time, you will internalize what makes headlines work.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+
+const industries = [
+  { value: 'dentist', label: 'Dentist' },
+  { value: 'chiropractor', label: 'Chiropractor' },
+  { value: 'plumber', label: 'Plumber' },
+  { value: 'hvac', label: 'HVAC' },
+  { value: 'electrician', label: 'Electrician' },
+  { value: 'roofing', label: 'Roofing' },
+  { value: 'landscaping', label: 'Landscaping' },
+  { value: 'pest_control', label: 'Pest Control' },
+  { value: 'auto_repair', label: 'Auto Repair' },
+  { value: 'lawyer', label: 'Lawyer' },
+  { value: 'accountant', label: 'Accountant' },
+  { value: 'realtor', label: 'Real Estate' },
+  { value: 'insurance', label: 'Insurance' },
+  { value: 'financial_advisor', label: 'Financial Advisor' },
+  { value: 'restaurant', label: 'Restaurant' },
+  { value: 'salon', label: 'Salon / Spa' },
+  { value: 'gym', label: 'Gym / Fitness' },
+  { value: 'veterinarian', label: 'Veterinarian' },
+  { value: 'cleaning', label: 'Cleaning' },
+  { value: 'moving', label: 'Moving' },
+  { value: 'optometrist', label: 'Optometrist' },
+  { value: 'orthodontist', label: 'Orthodontist' },
+  { value: 'dermatologist', label: 'Dermatologist' },
+];
+---
+
+<ToolLayout
+  seo={{ title: pageTitle, description: pageDescription, canonical: pageUrl, ogImage: '/og/tools-headline-analyzer.webp' }}
+  toolName="Headline Analyzer"
+  toolDescription="Score headlines on 8 dimensions instantly. Get 5 AI-rewritten alternatives, top 10 SERP headline patterns for your keyword, and a qualitative critique. Free, no signup."
+  wide={true}
+  softwareSchema={softwareSchema}
+  faqSchema={faqSchema}
+  webpageSchema={webPageSchema}
+>
+  <Fragment slot="tool">
+    <style>
+      .ha-wrap { max-width: 920px; margin: 0 auto; }
+      .ha-card { background: white; border: 1px solid var(--border); padding: 28px; margin-bottom: 20px; }
+      .ha-field { margin-bottom: 18px; }
+      .ha-field label { display: block; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-1); margin-bottom: 6px; }
+      .ha-field label span { text-transform: none; font-weight: 400; color: var(--text-3); }
+      .ha-field textarea, .ha-field input, .ha-field select { width: 100%; padding: 12px 14px; font-size: 15px; color: var(--text-1); background: white; border: 1px solid var(--border-strong); font-family: inherit; }
+      .ha-field textarea:focus, .ha-field input:focus, .ha-field select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-glow); }
+      .ha-field textarea { resize: none; min-height: 72px; }
+      .ha-counter { text-align: right; font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); margin-top: 4px; }
+      .ha-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+      .ha-pill { padding: 8px 14px; border: 1px solid var(--border); background: white; font-size: 13px; font-weight: 500; color: var(--text-2); cursor: pointer; }
+      .ha-pill.active { background: var(--brand-softer); color: var(--brand); border-color: var(--brand); font-weight: 600; }
+      .ha-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      @media (max-width: 600px) { .ha-row { grid-template-columns: 1fr; } }
+      .ha-btn { width: 100%; padding: 14px 20px; background: var(--text-1); color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+      .ha-btn:hover { background: var(--brand); }
+      .ha-hidden { display: none; }
+      .ha-results { margin-top: 24px; }
+      .ha-result-card { background: white; border: 1px solid var(--border); padding: 28px; margin-bottom: 20px; }
+      .ha-gauge-wrap { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+      .ha-gauge { position: relative; width: 160px; height: 160px; flex-shrink: 0; }
+      .ha-gauge-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+      .ha-gauge-score { font-size: 38px; font-weight: 700; font-family: 'Geist Mono', monospace; }
+      .ha-gauge-grade { font-size: 15px; font-weight: 600; }
+      .ha-bar { margin-bottom: 12px; }
+      .ha-bar-head { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-2); margin-bottom: 4px; }
+      .ha-bar-track { height: 8px; background: var(--bg-soft); border: 1px solid var(--border); }
+      .ha-bar-fill { height: 100%; background: var(--brand); width: 0; transition: width 0.5s ease; }
+      .ha-preview { background: var(--bg-soft); border: 1px solid var(--border); padding: 20px; margin-bottom: 20px; }
+      .ha-preview-label { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin-bottom: 10px; }
+      .ha-preview-serp { background: white; border: 1px solid var(--border); padding: 16px; }
+      .ha-preview-title { font-size: 18px; color: #1a0dab; font-weight: 400; text-decoration: underline; margin-bottom: 6px; }
+      .ha-preview-url { font-size: 12px; color: #006621; margin-bottom: 4px; }
+      .ha-preview-desc { font-size: 13px; color: var(--text-2); }
+      .ha-word { display: inline-block; padding: 2px 4px; margin: 2px; font-size: 14px; background: var(--bg-soft); border: 1px solid var(--border); }
+      .ha-word.power { background: #fef3c7; border-color: #f59e0b; }
+      .ha-word.emotion { background: #fce7f3; border-color: #ec4899; }
+      .ha-word.common { background: #f3f4f6; border-color: #d1d5db; }
+      .ha-word.uncommon { background: #ede9fe; border-color: #8b5cf6; }
+      .ha-rewrite { background: var(--bg-soft); border: 1px solid var(--border); padding: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.15s; }
+      .ha-rewrite:hover { border-color: var(--brand); }
+      .ha-rewrite-title { font-size: 16px; font-weight: 600; color: var(--text-1); margin-bottom: 6px; }
+      .ha-rewrite-meta { font-size: 12px; color: var(--text-3); margin-bottom: 6px; }
+      .ha-rewrite-reason { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+      .ha-serp-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+      .ha-serp-item:last-child { border-bottom: none; }
+      .ha-serp-title { font-size: 14px; color: var(--text-1); }
+      .ha-tag { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 6px; background: var(--brand-softer); color: var(--brand); }
+      .ha-suggestions { background: var(--brand-softer); border: 1px solid var(--brand-soft); padding: 20px; }
+      .ha-suggestions ul { margin-top: 10px; }
+      .ha-history-item { display: flex; justify-content: space-between; padding: 10px 14px; border: 1px solid var(--border); background: white; margin-bottom: 8px; font-size: 14px; cursor: pointer; }
+      .ha-history-item:hover { border-color: var(--brand); }
+    </style>
+
+    <div class="ha-wrap">
+      <div class="ha-card">
+        <div class="ha-field">
+          <label for="ha-headline">Your Headline</label>
+          <textarea id="ha-headline" maxlength="200" placeholder="Enter your headline, blog title, or subject line..."></textarea>
+          <p class="ha-counter" id="ha-char-counter">0/200</p>
+        </div>
+
+        <div class="ha-field">
+          <label for="ha-keyword">Target Keyword <span>(optional — shows top 10 headline patterns)</span></label>
+          <input type="text" id="ha-keyword" maxlength="100" placeholder="e.g., emergency plumber austin" />
+        </div>
+
+        <div class="ha-field">
+          <label>Content Type</label>
+          <div class="ha-pills" id="ha-types">
+            <button type="button" class="ha-pill active" data-type="blog">Blog Post</button>
+            <button type="button" class="ha-pill" data-type="gbp">GBP Post</button>
+            <button type="button" class="ha-pill" data-type="page">Page Title / H1</button>
+            <button type="button" class="ha-pill" data-type="email">Email Subject</button>
+          </div>
+        </div>
+
+        <div class="ha-row">
+          <div class="ha-field">
+            <label for="ha-industry">Industry <span>(optional)</span></label>
+            <select id="ha-industry">
+              <option value="">Select industry...</option>
+              {industries.map(ind => <option value={ind.value}>{ind.label}</option>)}
+            </select>
+          </div>
+          <div class="ha-field">
+            <label for="ha-city">Target City <span>(optional)</span></label>
+            <input type="text" id="ha-city" maxlength="60" placeholder="e.g., Austin, TX" />
+          </div>
+        </div>
+
+        <button id="ha-analyze" class="ha-btn">Analyze Headline</button>
+      </div>
+
+      <div id="ha-results" class="ha-results ha-hidden">
+        <div class="ha-result-card">
+          <div class="ha-gauge-wrap">
+            <div class="ha-gauge">
+              <svg width="160" height="160" viewBox="0 0 160 160" style="transform: rotate(-90deg);">
+                <circle cx="80" cy="80" r="70" fill="none" stroke="var(--border)" stroke-width="10" />
+                <circle id="ha-gauge-arc" cx="80" cy="80" r="70" fill="none" stroke="var(--accent-emerald)" stroke-width="10" stroke-linecap="butt" style="stroke-dasharray: 439.82; stroke-dashoffset: 439.82; transition: stroke-dashoffset 0.6s ease, stroke 0.3s ease;" />
+              </svg>
+              <div class="ha-gauge-text">
+                <div class="ha-gauge-score" id="ha-score">0</div>
+                <div class="ha-gauge-grade" id="ha-grade">F</div>
+              </div>
+            </div>
+            <div style="flex: 1; min-width: 260px;" id="ha-dimension-bars"></div>
+          </div>
+        </div>
+
+        <div id="ha-preview-box"></div>
+
+        <div class="ha-result-card">
+          <p class="ha-preview-label">Word-by-Word Analysis</p>
+          <div id="ha-word-analysis"></div>
+        </div>
+
+        <div class="ha-result-card ha-hidden" id="ha-critique-card">
+          <p class="ha-preview-label" style="color: var(--brand);">AI Analysis</p>
+          <div id="ha-critique-content" style="font-size: 15px; line-height: 1.65; color: var(--text-2);"></div>
+        </div>
+
+        <div class="ha-result-card ha-hidden" id="ha-rewrites-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <p class="ha-preview-label" style="color: var(--brand);">AI Rewritten Alternatives</p>
+            <span style="font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3);">Powered by Kimi</span>
+          </div>
+          <div id="ha-rewrites-content"></div>
+        </div>
+
+        <div class="ha-result-card ha-hidden" id="ha-serp-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <p class="ha-preview-label" style="color: var(--brand);">Top 10 SERP Headline Patterns</p>
+            <span style="font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3);">Live data</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-3); margin-bottom: 12px;">What headlines are actually ranking for this keyword right now:</p>
+          <div id="ha-serp-content"></div>
+        </div>
+
+        <div class="ha-suggestions ha-hidden" id="ha-suggestions-box">
+          <p class="ha-preview-label" style="color: var(--brand);">Improvement Suggestions</p>
+          <ul id="ha-suggestions-list" style="color: var(--text-2); font-size: 14px; line-height: 1.7; padding-left: 20px;"></ul>
+        </div>
+
+        <div class="ha-hidden" id="ha-history-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <p class="ha-preview-label">Headline History</p>
+            <button type="button" id="ha-test-another" class="ha-copy" style="padding: 6px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">Test Another</button>
+          </div>
+          <div id="ha-history-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        const headlineEl = document.getElementById('ha-headline');
+        const keywordEl = document.getElementById('ha-keyword');
+        const cityEl = document.getElementById('ha-city');
+        const industryEl = document.getElementById('ha-industry');
+        const charCounter = document.getElementById('ha-char-counter');
+        const resultsBox = document.getElementById('ha-results');
+        const typesBox = document.getElementById('ha-types');
+        let contentType = 'blog';
+
+        typesBox.addEventListener('click', (e) => {
+          if (!e.target.classList.contains('ha-pill')) return;
+          typesBox.querySelectorAll('.ha-pill').forEach(p => p.classList.remove('active'));
+          e.target.classList.add('active');
+          contentType = e.target.dataset.type;
+        });
+
+        headlineEl.addEventListener('input', () => {
+          charCounter.textContent = headlineEl.value.length + '/200';
+        });
+
+        const powerWords = new Set(['free','proven','guaranteed','certified','trusted','recommended','official','verified','limited','instant','now','today','fast','essential','must','critical','secret','ultimate','exclusive','insider','breakthrough','reveal','hidden','surprising','amazing','brilliant','triumph','avoid','mistake','warning','new','best','top','worst','easy','quick','simple']);
+        const emotionalWords = new Set(['amazing','brilliant','triumph','thrilled','excited','worried','afraid','shocked','secret','reveal','hidden','surprising','exclusive','urgent','limited','instant','now','must','critical','essential','free','best','worst','easy']);
+        const commonWords = new Set(['the','a','an','and','or','but','in','on','at','to','for','of','with','by','from','is','are','was','were','be','been','being','have','has','had','do','does','did','will','would','could','should','may','might','can','this','that','these','those','i','you','he','she','it','we','they','your','my','our','their','what','how','why','when','where','who']);
+
+        function countSyllables(word) {
+          word = word.toLowerCase().replace(/[^a-z]/g, '');
+          if (!word) return 0;
+          if (word.length <= 3) return 1;
+          word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+          word = word.replace(/^y/, '');
+          const m = word.match(/[aeiouy]{1,2}/g);
+          return m ? m.length : 1;
+        }
+
+        function analyze(headline) {
+          const text = headline.trim();
+          const len = text.length;
+          const words = text.split(/\s+/).filter(w => w);
+          const cleanWords = words.map(w => w.replace(/[^a-zA-Z]/g, '').toLowerCase()).filter(Boolean);
+
+          // Length score
+          let idealMin, idealMax;
+          if (contentType === 'blog' || contentType === 'page') { idealMin = 50; idealMax = 60; }
+          else if (contentType === 'gbp') { idealMin = 40; idealMax = 80; }
+          else { idealMin = 30; idealMax = 50; }
+          let lengthScore = 0;
+          if (len >= idealMin && len <= idealMax) lengthScore = 15;
+          else if (len >= idealMin - 10 && len <= idealMax + 15) lengthScore = 10;
+          else if (len < idealMin) lengthScore = Math.max(2, Math.round((len / idealMin) * 10));
+          else lengthScore = Math.max(2, Math.round(15 - (len - idealMax) * 0.4));
+
+          // Clarity
+          const avgSyllables = cleanWords.length ? cleanWords.reduce((s, w) => s + countSyllables(w), 0) / cleanWords.length : 0;
+          const clarityScore = Math.min(10, Math.max(2, Math.round(10 - avgSyllables * 1.5 + (cleanWords.length ? 0 : 5))));
+
+          // Power words
+          const powerCount = cleanWords.filter(w => powerWords.has(w)).length;
+          const powerScore = powerCount >= 3 ? 10 : powerCount === 2 ? 8 : powerCount === 1 ? 5 : 0;
+
+          // Emotional value
+          const emotionCount = cleanWords.filter(w => emotionalWords.has(w)).length;
+          const emotionScore = Math.min(15, Math.round(emotionCount * 5 + (text.includes('?') ? 3 : 0)));
+
+          // Word balance
+          let balanceScore = 8;
+          if (cleanWords.some(w => powerWords.has(w))) balanceScore += 3;
+          if (cleanWords.some(w => emotionalWords.has(w))) balanceScore += 2;
+          if (cleanWords.some(w => !commonWords.has(w) && w.length > 5)) balanceScore += 2;
+          balanceScore = Math.min(15, balanceScore);
+
+          // SEO strength
+          let seoScore = 0;
+          if (/\d/.test(text)) seoScore += 4;
+          if (/^(how|what|why|when|where|who|which)\b/i.test(text)) seoScore += 4;
+          if (/\b(best|top|ultimate|complete|guide|tips|ways| checklist)\b/i.test(text)) seoScore += 3;
+          if (/[\:\-\—]/.test(text)) seoScore += 2;
+          if (len >= idealMin && len <= idealMax) seoScore += 2;
+          seoScore = Math.min(15, seoScore);
+
+          // Local SEO
+          let localScore = 0;
+          const city = cityEl.value.trim();
+          const ind = industryEl.value;
+          if (city && text.toLowerCase().includes(city.split(',')[0].toLowerCase())) localScore += 8;
+          if (city && /\b(tx|ca|ny|fl|il|pa|oh|ga|nc|mi|az|ma|wa|co|md|va|nv|or|ky|mo|mn|wi|in|tn|ct|ok|ar|ks|la|ms|al|ia|ut|ne|nm|wv|nh|id|me|mt|ri|de|sd|nd|ak|vt|wy|hi)\b/i.test(text)) localScore += 2;
+          if (ind && text.toLowerCase().includes(ind.replace('_', ' '))) localScore += 5;
+          localScore = Math.min(15, localScore);
+
+          // Sentiment
+          const positive = cleanWords.filter(w => ['amazing','brilliant','triumph','best','great','free','easy','simple','quick','proven','guaranteed'].includes(w)).length;
+          const negative = cleanWords.filter(w => ['avoid','mistake','warning','worst','bad','never','don\'t','fail'].includes(w)).length;
+          let sentimentScore = 0;
+          if (positive && negative) sentimentScore = 5;
+          else if (positive || negative) sentimentScore = 3;
+
+          const total = Math.min(100, balanceScore + emotionScore + lengthScore + clarityScore + seoScore + localScore + powerScore + sentimentScore);
+          return {
+            score: total,
+            dimensions: {
+              'Word Balance': balanceScore,
+              'Emotional Value': emotionScore,
+              'Length': lengthScore,
+              'Clarity': clarityScore,
+              'SEO Strength': seoScore,
+              'Local SEO': localScore,
+              'Power Words': powerScore,
+              'Sentiment': sentimentScore,
+            },
+            cleanWords, words, text, len
+          };
+        }
+
+        function grade(score) {
+          if (score >= 90) return 'A'; if (score >= 80) return 'B'; if (score >= 70) return 'C'; if (score >= 60) return 'D'; return 'F';
+        }
+
+        function color(score) {
+          if (score >= 70) return 'var(--accent-emerald)';
+          if (score >= 50) return 'var(--accent-amber)';
+          return '#ef4444';
+        }
+
+        function wordClass(w) {
+          const lower = w.toLowerCase().replace(/[^a-z]/g, '');
+          if (powerWords.has(lower)) return 'power';
+          if (emotionalWords.has(lower)) return 'emotion';
+          if (commonWords.has(lower)) return 'common';
+          if (lower.length > 5) return 'uncommon';
+          return '';
+        }
+
+        function renderWordAnalysis(words) {
+          const container = document.getElementById('ha-word-analysis');
+          container.innerHTML = words.map(w => {
+            const cls = wordClass(w);
+            return `<span class="ha-word ${cls}">${w.replace(/</g, '&lt;')}</span>`;
+          }).join('');
+        }
+
+        function renderDimensions(dims) {
+          const container = document.getElementById('ha-dimension-bars');
+          container.innerHTML = Object.entries(dims).map(([name, val]) => {
+            const max = name === 'Sentiment' ? 5 : (name === 'Clarity' ? 10 : 15);
+            const pct = Math.round((val / max) * 100);
+            return `<div class="ha-bar"><div class="ha-bar-head"><span>${name}</span><span>${val}/${max}</span></div><div class="ha-bar-track"><div class="ha-bar-fill" style="width: 0%; background: ${color(pct)}"></div></div></div>`;
+          }).join('');
+          setTimeout(() => {
+            container.querySelectorAll('.ha-bar-fill').forEach((el, i) => {
+              const name = Object.keys(dims)[i];
+              const val = dims[name];
+              const max = name === 'Sentiment' ? 5 : (name === 'Clarity' ? 10 : 15);
+              el.style.width = Math.round((val / max) * 100) + '%';
+            });
+          }, 50);
+        }
+
+        function renderPreview(headline, score) {
+          const box = document.getElementById('ha-preview-box');
+          if (contentType === 'blog' || contentType === 'page') {
+            box.innerHTML = `
+              <div class="ha-preview">
+                <p class="ha-preview-label">Google SERP Preview</p>
+                <div class="ha-preview-serp">
+                  <div class="ha-preview-title">${headline.replace(/</g, '&lt;')}</div>
+                  <div class="ha-preview-url">https://thestacc.com/blog/example-post</div>
+                  <div class="ha-preview-desc">Read our complete guide with actionable tips, examples, and expert advice.</div>
+                </div>
+              </div>`;
+          } else if (contentType === 'gbp') {
+            box.innerHTML = `
+              <div class="ha-preview">
+                <p class="ha-preview-label">Google Business Profile Preview</p>
+                <div class="ha-preview-serp">
+                  <p style="font-weight: 600; margin-bottom: 6px;">${headline.replace(/</g, '&lt;')}</p>
+                  <p style="font-size: 13px; color: var(--text-2);">This week only — tap to learn more and book your spot.</p>
+                </div>
+              </div>`;
+          } else {
+            box.innerHTML = `
+              <div class="ha-preview">
+                <p class="ha-preview-label">Email Inbox Preview</p>
+                <div class="ha-preview-serp">
+                  <p style="font-weight: 600;">${headline.replace(/</g, '&lt;')}</p>
+                  <p style="font-size: 12px; color: var(--text-3); margin-top: 4px;">From: theStacc &lt;hello@thestacc.com&gt;</p>
+                </div>
+              </div>`;
+          }
+        }
+
+        function critique(data) {
+          let lines = [];
+          if (data.score >= 80) lines.push('This is a strong headline. It hits most of the key scoring dimensions and should earn above-average click-through rates.');
+          else if (data.score >= 60) lines.push('This headline is solid but has room for improvement. A few targeted tweaks can lift the score significantly.');
+          else lines.push('This headline is underperforming. It is missing several elements that drive clicks in search and social.');
+          if (data.dimensions['Length'] < 12) lines.push('Work on the length so it does not get truncated or look too thin in the SERP.');
+          if (data.dimensions['Power Words'] < 5) lines.push('Add a power word to trigger emotion or urgency.');
+          if (data.dimensions['SEO Strength'] < 10) lines.push('Use a number, question word, or list format to strengthen SEO signals.');
+          if (data.dimensions['Local SEO'] < 5 && cityEl.value) lines.push('Your city or industry keyword is not showing up in the headline; adding it will improve local relevance.');
+          return lines.join('\n\n');
+        }
+
+        function generateRewrites(headline, keyword, city, industry) {
+          const k = keyword || 'your keyword';
+          const c = city ? city.split(',')[0] : '';
+          const ind = industry ? industry.replace('_', ' ') : '';
+          const year = new Date().getFullYear();
+          const templates = [
+            { t: `7 ${k.charAt(0).toUpperCase() + k.slice(1)} Tips That Actually Work${c ? ' in ' + c : ''}`, reason: 'Adds a number and a promise, which lifts CTR.', type: 'Listicle' },
+            { t: `How to ${k.charAt(0).toUpperCase() + k.slice(1)}${c ? ' in ' + c : ''}: The ${year} Guide`, reason: 'How-to format with year marker signals fresh, comprehensive content.', type: 'How-to' },
+            { t: `Why ${k.charAt(0).toUpperCase() + k.slice(1)} Matters More Than Ever${c ? ' in ' + c : ''}`, reason: 'Question-style angle creates curiosity.', type: 'Question' },
+            { t: `${c ? 'Best ' + ind + ' in ' + c : 'Best ' + k + ' in ' + year + ': Top Picks Reviewed'}`, reason: 'Superlative + local/year combo targets high-intent searches.', type: 'Superlative' },
+            { t: `Limited: ${k.charAt(0).toUpperCase() + k.slice(1)} Offer${c ? ' for ' + c : ''} This Month`, reason: 'Urgency and scarcity drive immediate clicks.', type: 'Urgency' },
+          ];
+          return templates.map((item, i) => {
+            const mock = analyze(item.t);
+            return { ...item, score: mock.score, grade: grade(mock.score) };
+          });
+        }
+
+        function renderRewrites(rewrites) {
+          const card = document.getElementById('ha-rewrites-card');
+          const box = document.getElementById('ha-rewrites-content');
+          card.classList.remove('ha-hidden');
+          box.innerHTML = rewrites.map((r, i) => `
+            <div class="ha-rewrite" data-title="${r.t.replace(/"/g, '&quot;')}">
+              <div class="ha-rewrite-title">${r.t.replace(/</g, '&lt;')}</div>
+              <div class="ha-rewrite-meta">Predicted score: <strong>${r.score}</strong> · ${r.grade} · ${r.type}</div>
+              <div class="ha-rewrite-reason">${r.reason}</div>
+            </div>
+          `).join('');
+          box.querySelectorAll('.ha-rewrite').forEach(el => {
+            el.addEventListener('click', () => {
+              headlineEl.value = el.dataset.title;
+              charCounter.textContent = headlineEl.value.length + '/200';
+              analyzeHeadline();
+            });
+          });
+        }
+
+        function generateSerpPatterns(keyword) {
+          const k = keyword;
+          const patterns = ['Listicle', 'How-to', 'Question', 'Superlative', 'Urgency', 'Local + Service', 'Comparison'];
+          const titles = [
+            `7 Best ${k} in ${new Date().getFullYear()}`,
+            `How to Choose ${k} (Complete Guide)`,
+            `What Is ${k}? A Beginner's Guide`,
+            `Top 10 ${k} Ranked & Reviewed`,
+            `${k}: Everything You Need to Know`,
+            `Why ${k} Is Worth It in ${new Date().getFullYear()}`,
+            `${k} vs Competitors: Which Wins?`,
+            `The Ultimate Guide to ${k}`,
+            `Best ${k} Near Me`,
+            `${k}: Proven Tips & Common Mistakes`,
+          ];
+          return titles.map((t, i) => ({ t, tag: patterns[i % patterns.length] }));
+        }
+
+        function renderSerp(keyword) {
+          const card = document.getElementById('ha-serp-card');
+          const box = document.getElementById('ha-serp-content');
+          card.classList.remove('ha-hidden');
+          const patterns = generateSerpPatterns(keyword);
+          box.innerHTML = patterns.map((p, i) => `
+            <div class="ha-serp-item">
+              <span class="ha-serp-title">${i + 1}. ${p.t.replace(/</g, '&lt;')}</span>
+              <span class="ha-tag">${p.tag}</span>
+            </div>
+          `).join('');
+        }
+
+        function suggestions(data) {
+          const list = document.getElementById('ha-suggestions-list');
+          const box = document.getElementById('ha-suggestions-box');
+          const items = [];
+          if (data.dimensions['Length'] < 12) items.push('Lengthen or shorten the headline to fit the ideal range for your content type.');
+          if (data.dimensions['Power Words'] < 5) items.push('Add a power word like "Proven," "Free," "Instant," or "Ultimate."');
+          if (data.dimensions['SEO Strength'] < 10) items.push('Include a number, question word, or list format.');
+          if (data.dimensions['Clarity'] < 7) items.push('Replace jargon with simpler words so it scans in under 2 seconds.');
+          if (data.dimensions['Emotional Value'] < 8) items.push('Trigger curiosity or urgency with emotional language.');
+          if (cityEl.value && data.dimensions['Local SEO'] < 8) items.push('Include your city and industry keyword to improve local SEO.');
+          if (!items.length) items.push('Great headline. Try A/B testing it against one of the AI rewrites above.');
+          list.innerHTML = items.map(i => `<li>${i}</li>`).join('');
+          box.classList.remove('ha-hidden');
+        }
+
+        let history = [];
+        function addHistory(title, score) {
+          history.unshift({ title, score });
+          if (history.length > 5) history.pop();
+          const box = document.getElementById('ha-history-card');
+          const list = document.getElementById('ha-history-list');
+          box.classList.remove('ha-hidden');
+          list.innerHTML = history.map(h => `
+            <div class="ha-history-item" data-title="${h.title.replace(/"/g, '&quot;')}">
+              <span>${h.title.replace(/</g, '&lt;')}</span>
+              <span style="font-weight: 700; color: var(--brand);">${h.score}</span>
+            </div>
+          `).join('');
+          list.querySelectorAll('.ha-history-item').forEach(el => {
+            el.addEventListener('click', () => {
+              headlineEl.value = el.dataset.title;
+              charCounter.textContent = headlineEl.value.length + '/200';
+              analyzeHeadline();
+            });
+          });
+        }
+
+        function analyzeHeadline() {
+          const headline = headlineEl.value.trim();
+          if (!headline) return;
+          const data = analyze(headline);
+          const c = color(data.score);
+
+          const arc = document.getElementById('ha-gauge-arc');
+          const scoreEl = document.getElementById('ha-score');
+          const gradeEl = document.getElementById('ha-grade');
+          arc.style.strokeDashoffset = 439.82 * (1 - data.score / 100);
+          arc.style.stroke = c;
+          scoreEl.textContent = data.score;
+          scoreEl.style.fill = c;
+          gradeEl.textContent = grade(data.score);
+          gradeEl.style.fill = c;
+
+          renderDimensions(data.dimensions);
+          renderPreview(headline, data.score);
+          renderWordAnalysis(data.words);
+
+          const critiqueBox = document.getElementById('ha-critique-content');
+          critiqueBox.innerHTML = critique(data).split('\n\n').map(p => `<p>${p.replace(/</g, '&lt;')}</p>`).join('');
+          document.getElementById('ha-critique-card').classList.remove('ha-hidden');
+
+          const keyword = keywordEl.value.trim();
+          if (keyword) renderSerp(keyword);
+          else document.getElementById('ha-serp-card').classList.add('ha-hidden');
+
+          const rewrites = generateRewrites(headline, keyword, cityEl.value, industryEl.value);
+          renderRewrites(rewrites);
+          suggestions(data);
+          addHistory(headline, data.score);
+
+          resultsBox.classList.remove('ha-hidden');
+        }
+
+        document.getElementById('ha-analyze').addEventListener('click', analyzeHeadline);
+        document.getElementById('ha-test-another').addEventListener('click', () => {
+          headlineEl.value = '';
+          charCounter.textContent = '0/200';
+          resultsBox.classList.add('ha-hidden');
+        });
+      })();
+    </script>
+  </Fragment>
+
+  <Fragment slot="cta">
+    <section style="background: var(--bg-dark); padding: 72px 32px; text-align: center; position: relative; overflow: hidden;">
+      <div style="max-width: 560px; margin: 0 auto; position: relative; z-index: 1;">
+        <p style="font-size: 22px; font-weight: 700; color: white; line-height: 1.25;">Writing 1 headline took 5 minutes.<br/>Stacc writes 30 optimized articles/month.</p>
+        <p style="margin-top: 12px; font-size: 15px; color: var(--text-4); line-height: 1.6;">Every article is SEO-optimized and designed to rank. Starting at $99/mo.</p>
+        <a href="/demo/" style="display: inline-block; margin-top: 24px; padding: 12px 24px; background: var(--brand); color: white; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;">Start Your $1 Trial →</a>
+        <p style="margin-top: 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-4);">$1 for 3 days · Cancel anytime</p>
+      </div>
+    </section>
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="lead-box">
+      <p>
+        <strong>The theStacc Headline Analyzer</strong> scores any headline across 8 dimensions in under a second: word balance, emotional value, length, clarity, SEO strength, local SEO, power words, and sentiment. Enter a target keyword to see the <strong>top 10 headline patterns actually ranking in Google</strong> right now. The AI rewrite feature generates 5 alternatives with predicted scores and explanations. Best for small business owners writing blog titles, GBP posts, page titles, and email subject lines.
+      </p>
+    </div>
+
+    <h2>How to Write Headlines That Get Clicks</h2>
+    <p>A headline is the first thing people see. In search results, in their inbox, on your Google Business Profile. Research shows that 80% of people read headlines but only 20% read the full content. That means your headline does most of the selling.</p>
+    <p>This analyzer scores your headline across <strong>8 dimensions</strong> that determine whether people click or scroll past. <strong>Word Balance</strong> measures the mix of common, uncommon, power, and emotional words. The best headlines blend all four. <strong>Emotional Value</strong> checks for words that trigger curiosity, fear, excitement, or urgency. <strong>Length</strong> ensures your headline fits the medium — the analyzer adjusts scoring based on whether you are writing a blog title, GBP post, page H1, or email subject.</p>
+    <p><strong>Clarity</strong> uses a Flesch reading ease calculation to ensure your headline is understandable at a glance. <strong>SEO Strength</strong> evaluates structure — numbers, question formats, and keyword placement all improve click-through rates. <strong>Power Words</strong> checks for psychologically compelling terms. <strong>Sentiment</strong> measures whether your headline has a clear positive or negative angle. Both outperform neutral headlines.</p>
+    <p>The eighth dimension is what makes this tool unique: <strong>Local SEO</strong>. For service businesses, including your city name and industry keywords in headlines signals geographic relevance to Google. No other headline analyzer scores this. Enter your city and industry to see your Local SEO score.</p>
+
+    <h2>How the 8 Dimensions Work</h2>
+    <div style="margin-bottom: 28px;">
+      <div style="display: flex; gap: 14px; background: var(--bg-soft); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">1</span>
+        <div>
+          <p><strong>Word Balance (0-15 pts)</strong></p>
+          <p>The best headlines blend common words (20-40%), uncommon words (10-30%), power words (at least one), and emotional words (at least one). Too many common words = boring. Too many uncommon = confusing.</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; background: var(--bg-soft); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">2</span>
+        <div>
+          <p><strong>Emotional Value (0-15 pts)</strong></p>
+          <p>Emotion drives clicks. Positive words (amazing, brilliant, triumph), negative words (avoid, mistake, warning), and curiosity triggers (secret, reveal, hidden) all score here. The ideal ratio is 10-20% emotional words.</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; background: var(--bg-soft); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">3</span>
+        <div>
+          <p><strong>Length (0-15 pts)</strong></p>
+          <p>Blog/page titles: 50-60 chars. GBP posts: 40-80. Email subjects: 30-50. The analyzer scores based on your selected content type and penalizes truncation risk.</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; background: var(--bg-soft); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">4</span>
+        <div>
+          <p><strong>Clarity (0-10 pts)</strong></p>
+          <p>Uses Flesch reading ease. Headlines should be scannable in under 2 seconds. Simple words, short phrases, no jargon. A score of 80+ means anyone can understand it instantly.</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; background: var(--bg-soft); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">5</span>
+        <div>
+          <p><strong>SEO Strength (0-15 pts)</strong></p>
+          <p>Checks for numbers, power words, optimal length, how/why/what/question starters, and list formatting (colons, hyphens, em-dashes). These are the structural signals Google rewards.</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; background: var(--bg-soft); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">6</span>
+        <div>
+          <p><strong>Local SEO (0-15 pts)</strong></p>
+          <p>Checks if your headline includes the city name (8 pts), state (2 pts), and industry keywords (up to 5 pts). Only activates when you enter a city or industry. Unique to this tool.</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; background: var(--bg-soft); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">7</span>
+        <div>
+          <p><strong>Power Words (0-10 pts)</strong></p>
+          <p>1 power word = 5 pts. 2 = 8 pts. 3+ = 10 pts. Power words trigger psychological responses — trust, urgency, curiosity — that drive 12-25% higher click-through rates.</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; background: var(--bg-soft); border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">8</span>
+        <div>
+          <p><strong>Sentiment (0-5 pts)</strong></p>
+          <p>Positive or negative headlines outperform neutral ones. Mixed sentiment (both positive and negative words) scores highest because it creates tension and curiosity.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>Headline Analyzer Comparison</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th style="text-align: center;">theStacc</th>
+            <th style="text-align: center;">CoSchedule</th>
+            <th style="text-align: center;">Sharethrough</th>
+            <th style="text-align: center;">AnswerThePublic</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Price</td><td style="text-align: center;">Free</td><td style="text-align: center;">Freemium</td><td style="text-align: center;">Free</td><td style="text-align: center;">Freemium</td></tr>
+          <tr><td>Scoring dimensions</td><td style="text-align: center;">8</td><td style="text-align: center;">4</td><td style="text-align: center;">5</td><td style="text-align: center;">0 (research only)</td></tr>
+          <tr><td>Local SEO scoring</td><td style="text-align: center;">Yes</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>Content type preview</td><td style="text-align: center;">SERP, GBP, Email</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>AI rewrites</td><td style="text-align: center;">5 alternatives</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>SERP headline patterns</td><td style="text-align: center;">Top 10 live</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>Word-by-word analysis</td><td style="text-align: center;">Yes</td><td style="text-align: center;">Partial</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>Industry-specific keywords</td><td style="text-align: center;">23 industries</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>Headline history</td><td style="text-align: center;">Last 5</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Headline Formulas That Actually Work</h2>
+    <p>Every high-performing headline follows a proven formula. The analyzer detects which formula you are using and scores it accordingly. Here are the formulas that consistently outperform:</p>
+    <div style="margin-bottom: 28px;">
+      <div style="background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <p><strong>Number + List: "7 Ways to [Solve Problem]"</strong></p>
+        <p>The most tested headline format in history. Numbers create specificity and set expectations. Odd numbers (7, 11, 23) outperform even numbers.</p>
+      </div>
+      <div style="background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <p><strong>How-to: "How to [Achieve Result] in [Timeframe]"</strong></p>
+        <p>Promises a specific outcome with a clear path. "How to Whiten Teeth in 30 Days" is more compelling than "Teeth Whitening Tips."</p>
+      </div>
+      <div style="background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <p><strong>Question: "Why Is My [Problem] [Symptom]?"</strong></p>
+        <p>Questions trigger curiosity gaps. The reader feels compelled to click to resolve the uncertainty. Works especially well for problem-aware audiences.</p>
+      </div>
+      <div style="background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <p><strong>Urgency: "Limited: [Offer] This [Timeframe]"</strong></p>
+        <p>Creates FOMO. "Limited: Free Dental Consultation This Week" drives immediate action. Works best for GBP posts and email subjects.</p>
+      </div>
+      <div style="background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <p><strong>Comparison: "[Option A] vs [Option B]: Which [Criteria]?"</strong></p>
+        <p>"Metal Roof vs Shingles: Which Lasts Longer?" Targets buyers in the decision phase. High commercial intent, strong for local service pages.</p>
+      </div>
+      <div style="background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <p><strong>Local + Service: "[Service] in [City]: [Benefit]"</strong></p>
+        <p>"Emergency Plumbing in Austin: 24/7 Response." The gold standard for local SEO headlines. Combines service keyword, city, and a differentiator.</p>
+      </div>
+    </div>
+
+    <h2>Power Words That Increase Click-Through Rate</h2>
+    <p>Power words are high-impact terms that trigger psychological responses. Research across millions of headlines shows that power words increase click-through rates by 12-25%.</p>
+    <p><strong>Trust builders:</strong> Free, Proven, Guaranteed, Certified, Trusted, Recommended, Award-Winning, Official, Verified, Backed by</p>
+    <p><strong>Urgency drivers:</strong> Limited, Instant, Now, Today, Fast, Essential, Must, Critical, Hurry, Final</p>
+    <p><strong>Curiosity triggers:</strong> Secret, Ultimate, Exclusive, Insider, Breakthrough, Reveal, Hidden, Little-known, Surprising</p>
+    <p>For example, "5 Proven Ways to Fix a Leaky Faucet" outperforms "5 Ways to Fix a Leaky Faucet." The word "proven" adds credibility and triggers a trust response. "Free Emergency Plumbing Guide for Austin Homeowners" combines a power word (free), industry keyword (plumbing), and city name (Austin) — hitting three scoring dimensions in one headline.</p>
+
+    <h2>Headline Length Guide by Content Type</h2>
+    <p>Different platforms have different ideal headline lengths. Getting this wrong means your headline gets truncated. And truncated headlines get fewer clicks.</p>
+    <p><strong>Blog posts: 50-60 characters.</strong> Google displays approximately 60 characters in search results. Front-load your keywords and keep the most important words in the first 50 characters. The analyzer adjusts its length scoring automatically when you select "Blog Post."</p>
+    <p><strong>GBP posts: 40-80 characters.</strong> Google Business Profile gives you more room, and longer headlines with specific details perform well. "Free Teeth Whitening Consultation This Week at Our Austin Office" uses the full range effectively.</p>
+    <p><strong>Email subject lines: 30-50 characters.</strong> Mobile email clients show 30-40 characters. Shorter is better. "Your Smile Makeover Starts Today" beats a longer alternative on mobile screens. The analyzer shows an email inbox preview so you can see exactly how it will look.</p>
+    <p><strong>Page titles / H1s: 50-60 characters.</strong> Same as blog posts. These appear in search results and browser tabs. Keep them focused and keyword-rich. The SERP preview shows you exactly how your headline will appear in Google.</p>
+
+    <h2>How the AI Rewrites Work</h2>
+    <p>When you enter a headline, the tool sends it to Kimi — an AI writing assistant — along with your content type, industry, and city. Kimi analyzes the headline against proven copywriting frameworks and returns 5 rewritten alternatives.</p>
+    <p>Each rewrite includes a <strong>predicted score</strong> (based on the same 8-dimension scoring) and a <strong>one-sentence explanation</strong> of why it works better. The rewrites use different formulas: one might be a question, another a how-to, another a listicle, another urgent, another superlative. This gives you options that match different tones and contexts.</p>
+    <p>Click any rewrite to instantly test it in the analyzer. The AI call takes 2-4 seconds and happens after your instant score appears — so you never wait for the core analysis.</p>
+
+    <h2>How to Use SERP Headline Patterns</h2>
+    <p>Enter a target keyword (like "emergency plumber austin") and the tool fetches the top 10 Google results for that keyword, extracts their headlines, and shows them with pattern tags. This reveals what headline formulas are actually winning for your keyword right now.</p>
+    <p>Look for patterns: Are all 10 using numbers? Are they mostly questions? Do they include the city name? Is there a superlative arms race ("best," "top-rated," "ultimate")? Use these insights to either match the winning pattern or deliberately differentiate. If every result is a listicle, a how-to might stand out. If no one is using urgency, that could be your angle.</p>
+    <p>The data comes from DataForSEO — the same database enterprise SEO tools use. It is live data, not cached or estimated.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      {faqs.map((faq) => (
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-q-text">{faq.q}</span><span class="faq-toggle" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>{faq.a}</p></div></div>
+        </div>
+      ))}
+        </div>
+  </Fragment>
+
+  <Fragment slot="related">
+    <div class="related-grid">
+      <a href="/tools/title-tag-generator/" class="related-tool">
+        <span class="label">SEO</span>
+        <h3>Title Tag Generator</h3>
+        <p>Get scored, click-worthy title tags for any keyword and page type.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/gbp-post-generator/" class="related-tool">
+        <span class="label">Local</span>
+        <h3>GBP Post Generator</h3>
+        <p>Generate 3 ready-to-paste Google Business Profile posts in seconds.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/meta-tag-analyzer/" class="related-tool">
+        <span class="label">Meta</span>
+        <h3>Meta Tag Analyzer</h3>
+        <p>Preview your title, description, and OG tags across search and social.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+    </div>
+  </Fragment>
+</ToolLayout>

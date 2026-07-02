@@ -1,0 +1,656 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free SEO Audit Tool — Real DR + Backlinks + 11 Categories | theStacc';
+const pageDescription = 'Run a comprehensive SEO audit in 10 seconds. Real Domain Rating, live backlink count, organic traffic estimate, and 55+ checks across 11 categories. Free preview — no signup required.';
+const pageUrl = 'https://thestacc.com/tools/seo-audit/';
+const lastUpdated = '2026-05-11';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free SEO Audit Tool',
+  description: 'Comprehensive SEO audit analyzing technical SEO, on-page optimization, content quality, performance, authority/backlinks, schema markup, AI readiness, GEO/AIO, images, security, and analytics. Pulls real DR, backlink, and organic traffic data from live SEO databases.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What does this SEO audit tool check?', a: 'This tool runs 55+ checks across 11 categories: Technical SEO (HTTPS, robots.txt, sitemap, viewport, canonical, redirects, mixed content, soft 404s, hreflang), On-Page SEO (title tags, meta descriptions, H1 structure, headings, internal links, Open Graph, Twitter Cards), Content Quality (word count, readability, duplication, blog presence, passage structure), Performance (LCP, CLS, INP, TTFB via Google PageSpeed API), Authority & Backlinks (real DR, backlink count, referring domains, organic traffic, top keywords from DataForSEO), Schema Markup (JSON-LD, LocalBusiness, BreadcrumbList, WebSite, Person, VideoObject), AI Search Readiness (FAQ structure, AI crawler access, Q&A patterns), GEO/AIO (llms.txt, passage structure, freshness), Images (alt text, optimization), Security (headers, HTTPS), and Analytics (GA4, GTM, Meta Pixel, LinkedIn).' },
+  { q: 'How is this different from other free SEO audit tools?', a: 'Most free tools run 10-15 basic checks client-side using unreliable CORS proxies. Our audit runs server-side for reliable results, covers 55+ checks across 11 categories, crawls up to 50 pages, pulls real Domain Rating and backlink data from a live SEO database (same data source enterprise tools use), calls the Google PageSpeed Insights API for real Core Web Vitals including INP, audits GEO/AIO readiness for AI search engines, and uses AI analysis to assess content quality and generate personalized recommendations. The authority data alone — DR, backlinks, referring domains, organic traffic — is something no other free audit tool provides.' },
+  { q: 'What is a good SEO audit score?', a: 'A score of 90-100 is excellent (Grade A) with strong SEO fundamentals across all categories. 75-89 is good (Grade B) — solid foundation with specific quick wins remaining. 60-74 is average (Grade C) — focused work in several categories could move you up significantly. 40-59 is poor (Grade D) — multiple critical gaps are likely holding your rankings back. Below 40 is failing (Grade F) — fundamental problems may be making your site nearly invisible in search. Most small business websites score 35-55 on their first audit.' },
+  { q: 'What is Domain Rating (DR) and why does it matter?', a: 'Domain Rating is a 0-100 score that measures the strength of your backlink profile. It is calculated from the number of unique referring domains linking to your site, the authority of those domains, and the topical relevance of the links. Sites with DR 60+ can rank for competitive head terms. DR 40-60 typically ranks for medium-competition keywords. DR 20-40 ranks for long-tail keywords. Below DR 20, you are in the building phase. DR is not a Google metric — it is an industry-standard proxy used by Ahrefs, Semrush, and DataForSEO. Building DR takes months of consistent link-building through guest posts, PR, partnerships, and creating link-worthy content.' },
+  { q: 'How do I improve my SEO audit score?', a: 'Start with the Top Priorities section — they are ranked by impact-to-effort ratio. Common quick wins (under 30 minutes): fix title tag length, write a meta description, add LocalBusiness schema, enable HTTPS, add a viewport meta tag, fix broken pages. Medium-effort fixes (1-3 hours): add FAQ schema, create an llms.txt file, add heading structure (exactly 1 H1 per page, 3+ H2s), improve internal linking, add alt text to images. High-effort (ongoing): build quality backlinks to improve DR, publish 800+ word service pages, optimize Core Web Vitals, create consistent blog content. The authority category (DR + backlinks) usually has the biggest long-term impact on rankings.' },
+  { q: 'How accurate is the backlink and traffic data?', a: 'The Domain Rating, backlink count, referring domains, and organic traffic estimates are pulled live from DataForSEO — the same type of database used by enterprise SEO platforms. The DR uses a 0-100 scale that aligns with industry-standard metrics. Traffic estimates are based on observed rankings multiplied by keyword volume multiplied by position-specific CTR curves. Actual traffic varies by season, competition, and SERP feature changes, but the relative magnitude and competitive comparison are reliable. Very new sites (under 6 months) or sites with minimal crawl footprint may show limited data.' },
+  { q: 'Is this SEO audit tool really free?', a: 'Yes. The audit preview is 100% free — you get your overall score, grade, top 2 priority issues, summary metrics, and a preview of all 11 category scores instantly. No credit card required. To unlock the full detailed report with all category breakdowns, step-by-step fix instructions, real DR/backlink data, top ranking keywords, and personalized recommendations, you enter your name, email, and phone. We never sell or share contact information.' },
+  { q: 'How does theStacc help after the audit?', a: 'Every issue identified in your audit maps directly to a Stacc feature. Missing or weak title tags? Stacc auto-optimizes every title for search. No meta descriptions? Stacc writes click-worthy descriptions for every page. Thin content? Stacc publishes 30+ in-depth articles monthly in your brand voice. Low DR? Stacc places you in relevant articles and builds contextual links. Missing schema markup? Stacc auto-generates LocalBusiness and FAQ schema. No blog section? Stacc builds your entire content calendar from keyword research through publishing. Slow page speed? Stacc optimizes images and content delivery. No GBP activity? Stacc posts to your Google Business Profile daily.' },
+  { q: 'How often should I run an SEO audit?', a: 'Run a comprehensive audit monthly if you are actively working on SEO, or quarterly for maintenance monitoring. Run an audit immediately after any major site change: redesign, CMS migration, URL restructuring, or bulk content publishing. Track your score over time — a 10-point improvement typically correlates with 15-25% organic traffic growth within 3-6 months. Set a baseline, fix the top 3 priorities, re-audit in 30 days, and repeat.' },
+  { q: 'What is AI search readiness and why is it in my audit?', a: 'AI search readiness measures how well your website is structured to be cited by AI-powered search engines: ChatGPT, Perplexity, Google AI Overviews, Gemini, and Claude. We check four signals: FAQ schema or question-format H2 headings (AI Overviews pull from these first), whether your robots.txt blocks AI crawlers (GPTBot, ClaudeBot, PerplexityBot), the presence of an /llms.txt file (emerging standard for AI guidance), and whether content is structured with clear question-and-answer formatting that AI can extract. AI search is the fastest-growing discovery channel — sites optimized for it gain visibility as traditional search evolves.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free SEO Audit Tool"
+  toolDescription="Comprehensive 11-category SEO audit with real Domain Rating, backlink data, and organic traffic estimates. 55+ checks, AI-powered analysis, free preview."
+  hideHero={true}
+  bleed={true}
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <!-- ── HERO ── -->
+    <div class="relative overflow-hidden" style="background: #0d1117;">
+      <!-- Animated gradient orbs -->
+      <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        <div class="absolute -top-40 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full opacity-20 blur-3xl" style="background: radial-gradient(circle, #4f39f6 0%, transparent 70%);"></div>
+        <div class="absolute top-20 -right-20 h-60 w-60 rounded-full opacity-10 blur-3xl" style="background: radial-gradient(circle, #818cf8 0%, transparent 70%);"></div>
+        <div class="absolute -bottom-20 -left-20 h-60 w-60 rounded-full opacity-10 blur-3xl" style="background: radial-gradient(circle, #c4b5fd 0%, transparent 70%);"></div>
+      </div>
+      <!-- Grid overlay -->
+      <div class="pointer-events-none absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+      <div class="relative z-10 px-6 pt-10 pb-8 md:pt-14 md:pb-10">
+        <div class="mx-auto max-w-2xl text-center">
+          <!-- Eyebrow -->
+          <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm">
+            <span class="inline-block h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-white/60">Free Instant Audit</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="font-sans text-[2rem] font-bold leading-[1.1] tracking-[-0.03em] text-white md:text-[2.75rem] lg:text-[3.25rem]">
+            What's hurting your
+            <span class="bg-gradient-to-r from-[#818cf8] via-[#a78bfa] to-[#c4b5fd] bg-clip-text text-transparent">Google rankings?</span>
+          </h1>
+          <p class="mx-auto mt-4 max-w-lg font-sans text-[15px] leading-[1.7] text-white/50 md:text-[16px]">
+            Run a comprehensive 11-category SEO audit in seconds. Get your score, real Domain Rating, backlink data, and see exactly how to fix it.
+          </p>
+
+          <!-- Stats -->
+          <div class="mt-6 flex items-center justify-center gap-6 md:gap-8">
+            {[
+              { num: '11', label: 'Categories' },
+              { num: '55+', label: 'Checks' },
+              { num: '10s', label: 'To complete' },
+            ].map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[18px] font-bold text-white md:text-[20px]">{s.num}</p>
+                <p class="font-mono text-[10px] uppercase tracking-[0.12em] text-white/40">{s.label}</p>
+              </div>
+            ))}
+          </div>
+
+          <!-- Trust badges -->
+          <div class="mt-5 flex flex-wrap items-center justify-center gap-2">
+            {['Free forever', 'No signup', 'Real DR data', 'AI-powered'].map(b => (
+              <span class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.1em] text-white/50">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                {b}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- ── URL INPUT ── -->
+      <div class="relative z-10 px-6 pb-10">
+        <div class="mx-auto max-w-2xl">
+          <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-2 backdrop-blur-sm">
+            <div class="flex items-center gap-2 rounded-xl bg-[#0d1117] px-4 py-3 ring-1 ring-white/10 transition-shadow focus-within:ring-[#4f39f6]/50" id="input-wrapper">
+              <svg class="shrink-0 text-white/30" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+              <input
+                type="url"
+                id="url-input"
+                required
+                placeholder="yourwebsite.com"
+                class="min-w-0 flex-1 bg-transparent font-sans text-[16px] text-white placeholder:text-white/30 outline-none"
+              />
+              <button
+                id="audit-btn"
+                class="inline-flex shrink-0 items-center gap-2 rounded-lg bg-[#4f39f6] px-5 py-2.5 font-sans text-[14px] font-semibold text-white transition-all hover:bg-[#615fff] hover:shadow-[0_0_20px_rgba(79,57,246,0.4)] active:scale-[0.98]"
+              >
+                Run Audit
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+          <p id="url-error" class="mt-2 hidden text-center text-[13px] text-red-400"></p>
+
+          <!-- Quick examples -->
+          <div class="mt-3 flex flex-wrap items-center justify-center gap-2">
+            <span class="font-mono text-[10px] uppercase tracking-[0.12em] text-white/30">Try:</span>
+            {['example.com', 'dentist.com', 'plumber.com'].map(ex => (
+              <button class="quick-audit-example rounded-full border border-white/10 bg-white/5 px-3 py-1 font-mono text-[11px] text-white/50 transition-all hover:border-[#4f39f6]/50 hover:text-white/80 hover:bg-[#4f39f6]/10" data-url={ex}>
+                {ex}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LOADING STATE ── -->
+    <div id="loading-section" class="hidden px-6 py-10">
+      <div class="mx-auto max-w-xl">
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-8">
+          <!-- Scanning header -->
+          <div class="mb-6 flex items-center gap-3">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#f5f3ff]">
+              <svg class="animate-pulse text-[#4f39f6]" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div>
+              <p class="font-sans text-[15px] font-semibold text-[#292524]">Scanning <span id="scanning-domain" class="text-[#4f39f6]">...</span></p>
+              <p class="font-mono text-[11px] text-[#a8a29e]">This takes about 5-10 seconds</p>
+            </div>
+          </div>
+
+          <!-- Progress steps -->
+          <div class="relative flex items-start justify-between">
+            <!-- Connecting line -->
+            <div class="absolute left-0 right-0 top-[18px] h-px bg-[#e7e5e4]"></div>
+            <div id="progress-line-fill" class="absolute left-0 top-[18px] h-px bg-[#4f39f6] transition-all duration-700" style="width: 0%"></div>
+
+            {[
+              { step: 'fetch', label: 'Fetch', desc: 'Homepage + sitemap' },
+              { step: 'analyze', label: 'Analyze', desc: 'SEO + authority data' },
+              { step: 'score', label: 'Score', desc: '11 categories' },
+            ].map((s, i) => (
+              <div class="step-item relative z-10 flex flex-col items-center" data-step={s.step}>
+                <div class={`step-circle flex h-9 w-9 items-center justify-center rounded-full border-2 bg-white transition-all duration-500 ${i === 0 ? 'border-[#4f39f6] text-[#4f39f6]' : 'border-[#e7e5e4] text-[#a8a29e]'}`}>
+                  {i === 0 ? (
+                    <svg class="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                  ) : (
+                    <span class="font-mono text-[11px] font-bold">{i + 1}</span>
+                  )}
+                </div>
+                <p class="mt-2 font-sans text-[12px] font-semibold text-[#292524]">{s.label}</p>
+                <p class="font-mono text-[10px] text-[#a8a29e]">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ERROR STATE ── -->
+    <div id="error-section" class="hidden px-6 py-10">
+      <div class="mx-auto max-w-xl">
+        <div class="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
+          <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-100">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+          </div>
+          <p class="font-sans text-[16px] font-semibold text-red-700">Couldn't analyze that website</p>
+          <p id="error-message" class="mt-1 font-sans text-[14px] text-red-600">Check the URL and try again. Make sure the website is publicly accessible.</p>
+          <button onclick="document.getElementById('url-input')?.focus(); document.getElementById('error-section')?.classList.add('hidden');" class="mt-4 inline-flex h-10 items-center gap-2 rounded-lg bg-red-600 px-5 font-sans text-[14px] font-semibold text-white hover:bg-red-700 transition-colors">
+            Try Again
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RESULTS SECTION ── -->
+    <div id="results-section" class="hidden px-6 py-10">
+      <div class="mx-auto max-w-3xl space-y-6">
+        <!-- Score Card -->
+        <div id="score-card" class="overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white shadow-sm">
+          <div class="p-6 md:p-8">
+            <div id="score-gauge"></div>
+          </div>
+        </div>
+
+        <!-- Partial Preview -->
+        <div id="partial-preview"></div>
+
+        <!-- Lead Capture Gate -->
+        <div id="lead-gate-section" class="hidden overflow-hidden rounded-2xl">
+          <div class="relative bg-gradient-to-br from-[#4f39f6] via-[#5b4bff] to-[#615fff] p-8 md:p-10">
+            <!-- Background pattern -->
+            <div class="pointer-events-none absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;"></div>
+
+            <div class="relative z-10">
+              <div class="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              </div>
+              <h3 class="text-center font-sans text-[22px] font-bold text-white md:text-[26px]">Unlock Your Full Report</h3>
+              <p class="mx-auto mt-2 max-w-md text-center font-sans text-[15px] text-white/70">See all 11 category scores, detailed fixes, live DR + backlink data, top keywords, and personalized recommendations for your site.</p>
+
+              <!-- Benefits -->
+              <div class="mx-auto mt-6 flex max-w-lg flex-wrap justify-center gap-3">
+                {['Full 11 category breakdown', 'Live DR + backlink data', 'Priority fix list', 'Stacc recommendations', 'Shareable report link'].map(b => (
+                  <span class="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 font-sans text-[12px] text-white/90 backdrop-blur-sm">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    {b}
+                  </span>
+                ))}
+              </div>
+
+              <!-- Form -->
+              <form id="lead-form" class="mx-auto mt-8 max-w-md">
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="mb-1 block font-sans text-[12px] font-medium text-white/80">First name</label>
+                    <input name="first_name" type="text" required class="h-11 w-full rounded-xl border border-white/20 bg-white/10 px-4 font-sans text-[14px] text-white placeholder:text-white/40 outline-none backdrop-blur-sm transition-all focus:border-white/40 focus:bg-white/15" placeholder="Jane" />
+                  </div>
+                  <div>
+                    <label class="mb-1 block font-sans text-[12px] font-medium text-white/80">Last name</label>
+                    <input name="last_name" type="text" required class="h-11 w-full rounded-xl border border-white/20 bg-white/10 px-4 font-sans text-[14px] text-white placeholder:text-white/40 outline-none backdrop-blur-sm transition-all focus:border-white/40 focus:bg-white/15" placeholder="Smith" />
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <label class="mb-1 block font-sans text-[12px] font-medium text-white/80">Work email</label>
+                  <input name="email" type="email" required class="h-11 w-full rounded-xl border border-white/20 bg-white/10 px-4 font-sans text-[14px] text-white placeholder:text-white/40 outline-none backdrop-blur-sm transition-all focus:border-white/40 focus:bg-white/15" placeholder="jane@company.com" />
+                </div>
+                <div class="mt-3">
+                  <label class="mb-1 block font-sans text-[12px] font-medium text-white/80">Phone</label>
+                  <input name="phone" type="tel" required class="h-11 w-full rounded-xl border border-white/20 bg-white/10 px-4 font-sans text-[14px] text-white placeholder:text-white/40 outline-none backdrop-blur-sm transition-all focus:border-white/40 focus:bg-white/15" placeholder="+1 (555) 000-0000" />
+                </div>
+                <button type="submit" id="lead-submit" class="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-white font-sans text-[15px] font-semibold text-[#4f39f6] transition-all hover:bg-white/90 hover:shadow-lg active:scale-[0.98]">
+                  Unlock Full Report
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+                <p class="mt-3 text-center font-mono text-[10px] text-white/50">No spam. Unsubscribe anytime.</p>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary Bar (always shown) -->
+        <div id="summary-bar" class="hidden"></div>
+
+        <!-- Full Report (post-unlock) -->
+        <div id="full-report-section" class="hidden space-y-6">
+          <div id="priorities-section" class="hidden"></div>
+          <div id="categories-section" class="space-y-3"></div>
+          <div id="authority-section" class="hidden"></div>
+          <div id="technical-section" class="hidden"></div>
+          <div id="pagespeed-section" class="hidden"></div>
+          <div id="social-tags-section" class="hidden"></div>
+          <div id="geo-aio-section" class="hidden"></div>
+          <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+            <h3 class="mb-4 font-sans text-[17px] font-semibold text-[#292524]">Google Search Preview</h3>
+            <div id="serp-preview"></div>
+          </div>
+          <div id="stacc-recommendations" class="hidden"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Share Link -->
+    <div class="px-6">
+      <div id="share-link" class="mx-auto max-w-3xl"></div>
+    </div>
+
+    <!-- WebPage with speakable schema -->
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-banner" class="hidden relative overflow-hidden" style="background: linear-gradient(135deg, #0d1117 0%, #1a103c 50%, #0d1117 100%);">
+      <div class="pointer-events-none absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;"></div>
+      <div class="pointer-events-none absolute -top-20 left-1/2 h-60 w-60 -translate-x-1/2 rounded-full opacity-20 blur-3xl" style="background: radial-gradient(circle, #4f39f6 0%, transparent 70%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <div class="mx-auto max-w-lg">
+          <p id="cta-headline" class="font-sans text-[22px] font-bold leading-tight text-white"></p>
+          <p id="cta-subtext" class="mt-3 font-sans text-[15px] leading-relaxed text-white/60"></p>
+          <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a href="https://cal.com/sid-gangal-zfdhkv/30min" target="_blank" rel="noopener" class="inline-flex h-[48px] items-center gap-2 rounded-xl bg-[#4f39f6] px-8 font-sans text-[15px] font-semibold text-white transition-all hover:bg-[#615fff] hover:shadow-[0_0_30px_rgba(79,57,246,0.3)]">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Book a Free Strategy Call
+            </a>
+            <a href="/demo/" class="inline-flex h-[48px] items-center gap-2 rounded-xl border border-white/20 px-6 font-sans text-[15px] font-semibold text-white transition-all hover:bg-white/10">
+              See How It Works
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+          <p class="mt-3 font-mono text-[11px] text-white/30">30 min · No obligation · Live audit walkthrough</p>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / Speakable -->
+    <div class="speakable rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5 mb-8">
+      <p class="font-sans text-[15px] leading-[1.7] text-[#57534e]">
+        <strong class="text-[#292524]">The theStacc SEO audit tool</strong> analyzes any website across 11 categories and 55+ checks in under 10 seconds. It pulls <strong>real Domain Rating, backlink count, referring domains, organic traffic estimates, and top ranking keywords</strong> from a live SEO database — data most free tools charge for. The audit covers technical SEO, on-page optimization, content quality, Core Web Vitals, schema markup, AI search readiness, and authority metrics. Run it free above. Best for small business owners, marketing managers, and SEO professionals who want actionable fixes ranked by impact.
+      </p>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">What Does This SEO Audit Check?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">This comprehensive audit evaluates your website across <strong class="text-[#292524]">11 categories</strong> with over <strong class="text-[#292524]">55 individual checks</strong>. Each check is scored and weighted by impact, giving you an overall SEO Health Score from 0 to 100.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Technical SEO (25%)</strong> checks your HTTPS setup, robots.txt, XML sitemap, mobile viewport, canonical tags, redirect chains, mixed content, soft 404s, and hreflang tags. These are foundational signals that tell search engines whether they can crawl and index your site properly.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">On-Page SEO (20%)</strong> evaluates your title tags, meta descriptions, H1 structure, heading hierarchy, internal links, Open Graph tags, and Twitter Cards. These elements directly influence how your pages appear in search results and how users interact with them.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Content Quality (22%)</strong> analyzes word count, readability, placeholder text detection, blog presence, content duplication, and passage structure for AI extractability. Content is the #1 ranking factor — thin pages with under 300 words rarely rank for competitive terms.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Performance (15%)</strong> uses the Google PageSpeed Insights API to measure your real Core Web Vitals: Largest Contentful Paint (LCP, threshold: 2.0s), Cumulative Layout Shift (CLS), Interaction to Next Paint (INP), Time to First Byte (TTFB), and overall Performance Score. Speed directly impacts rankings and user experience.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Authority & Backlinks (10%)</strong> pulls live data from a professional SEO database to show your Domain Rating (0-100), total backlinks, referring domains, referring IPs, broken backlinks, total ranking keywords, position distribution, and estimated monthly organic traffic. This is the same caliber of data enterprise SEO platforms use. Most free audit tools skip authority entirely.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Schema Markup (12%)</strong> checks for JSON-LD structured data, LocalBusiness or Organization schema, BreadcrumbList, WebSite with SearchAction, Person/Author, VideoObject, and FAQ schema. Schema helps Google understand your business and enables rich snippets in search results.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">AI Search Readiness (5%)</strong> evaluates whether your content is structured for AI-powered search engines like ChatGPT, Perplexity, and Google AI Overviews. FAQ sections, Q&A patterns, and indexability all factor in.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">GEO / AIO (5%)</strong> checks llms.txt compliance, passage structure scoring (150-300 word chunks), direct answer formatting, question-based headings, and content freshness per-platform. AI search is the fastest-growing channel — optimize for it now.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Images (5%)</strong> checks alt text coverage and image optimization signals. Images without alt text hurt accessibility and SEO, while unoptimized images slow down your pages.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Analytics (5%)</strong> detects your tracking stack — Google Analytics 4, Google Tag Manager, Meta Pixel, LinkedIn Insight, Hotjar, and Microsoft Clarity. Proper tracking is essential for measuring SEO ROI.</p>
+
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Security (5%)</strong> checks HTTPS enforcement, HSTS, Content Security Policy, X-Frame-Options, and X-Content-Type-Options headers. Security is a ranking signal and builds user trust.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How the Scoring Works</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Your overall score is a weighted average across all 11 categories. Technical SEO and On-Page SEO carry the most weight because they are the foundational signals Google evaluates first. Performance and Content Quality are next, followed by the new Authority & Backlinks category, Schema Markup, AI Readiness, GEO/AIO, Images, Analytics, and Security.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">A (90-100):</strong> Your site has excellent SEO fundamentals. Focus on content velocity and review generation. <strong class="text-[#292524]">B (75-89):</strong> Good foundation with specific areas to improve. Check the Top Priorities. <strong class="text-[#292524]">C (60-74):</strong> Several important checks are failing and likely costing you rankings. <strong class="text-[#292524]">D (40-59):</strong> Multiple fundamental issues need attention. <strong class="text-[#292524]">F (below 40):</strong> Critical problems that may be making your site invisible in search.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How Is This Different From Other Free Audit Tools?</h2>
+    <div class="overflow-x-auto mb-5">
+      <table class="w-full text-[14px]">
+        <thead>
+          <tr class="border-b-2 border-[#e7e5e4]">
+            <th class="py-3 pr-4 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">Sitechecker</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">Seobility</th>
+            <th class="py-3 pl-4 text-center font-semibold text-[#57534e]">Ahrefs</th>
+          </tr>
+        </thead>
+        <tbody class="text-[#57534e]">
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Price</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Free</td>
+            <td class="py-2.5 px-4 text-center">Freemium</td>
+            <td class="py-2.5 px-4 text-center">Freemium</td>
+            <td class="py-2.5 pl-4 text-center">$99+/mo</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Checks</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">55+ across 11 categories</td>
+            <td class="py-2.5 px-4 text-center">~30</td>
+            <td class="py-2.5 px-4 text-center">~40</td>
+            <td class="py-2.5 pl-4 text-center">200+</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Real Domain Rating</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">Yes</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Live backlink data</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">Yes</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Organic traffic estimate</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">Yes</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Core Web Vitals (real)</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — Google API</td>
+            <td class="py-2.5 px-4 text-center">Estimated</td>
+            <td class="py-2.5 px-4 text-center">Basic</td>
+            <td class="py-2.5 pl-4 text-center">Yes</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">AI search readiness</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">GEO / AIO scoring</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 pr-4">AI-generated action plan</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Who Should Use This Audit Tool?</h2>
+    <div class="space-y-4 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <p class="font-sans text-[15px] font-semibold text-[#292524]">Small Business Owners</p>
+        <p class="font-sans text-[14px] text-[#57534e] mt-1 leading-relaxed">Run a quick audit before hiring an SEO agency. Know exactly what is wrong before you pay anyone. The score gives you a baseline to measure progress against.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <p class="font-sans text-[15px] font-semibold text-[#292524]">Marketing Managers</p>
+        <p class="font-sans text-[14px] text-[#57534e] mt-1 leading-relaxed">Monthly competitive audits. Track your DR, backlink growth, and keyword rankings over time. Compare against competitors to find content and link gaps.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <p class="font-sans text-[15px] font-semibold text-[#292524]">SEO Professionals</p>
+        <p class="font-sans text-[14px] text-[#57534e] mt-1 leading-relaxed">Fast pre-client audits. Get the full technical picture plus real authority data in under 10 seconds. Use the AI-generated recommendations as a starting point for your strategy deck.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <p class="font-sans text-[15px] font-semibold text-[#292524]">Web Developers</p>
+        <p class="font-sans text-[14px] text-[#57534e] mt-1 leading-relaxed">Post-launch verification. Check that redirects, canonicals, schema, and Core Web Vitals are all correct before handing off to the client.</p>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How theStacc Helps After Your Audit</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Every issue in your audit maps directly to a Stacc feature. Missing or weak title tags? Stacc auto-optimizes every title for search. No meta descriptions? Stacc writes click-worthy descriptions for every page. Thin content? Stacc publishes 30+ in-depth articles monthly in your brand voice.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Low Domain Rating? Stacc places you in relevant articles and builds contextual backlinks through its partner network. Missing schema markup? Stacc auto-generates LocalBusiness and FAQ schema. No blog section? Stacc builds your entire content calendar from keyword research through publishing. Slow page speed? Stacc optimizes images and content delivery. No GBP activity? Stacc posts to your Google Business Profile daily.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The audit tells you what is wrong. Stacc fixes it automatically — publishing content, optimizing pages, building authority, managing your local presence, and handling social media while you run your business.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm mt-4">
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What does this SEO audit tool check?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">This tool runs 55+ checks across 11 categories: Technical SEO, On-Page SEO, Content Quality, Performance, Authority & Backlinks, Schema Markup, AI Search Readiness, GEO/AIO, Images, Analytics, and Security. It pulls real Domain Rating, backlink data, and organic traffic estimates from a live SEO database.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How is this different from other free audit tools?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Most free tools run basic checks client-side using unreliable CORS proxies. Our audit runs server-side for reliable results, covers 55+ checks across 11 categories, pulls real DR and backlink data from a live SEO database, calls Google PageSpeed Insights for real Core Web Vitals including INP, audits GEO/AIO readiness for AI search engines, and uses AI analysis to assess content quality.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What is a good SEO audit score?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">A score of 90-100 is excellent (Grade A). 75-89 is good (Grade B). 60-74 is average (Grade C). 40-59 is poor (Grade D). Below 40 is failing (Grade F). Most small business websites score 35-55 on their first audit.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What is Domain Rating and why does it matter?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Domain Rating is a 0-100 score measuring your backlink profile strength. Sites with DR 60+ rank for competitive head terms. DR 40-60 ranks for medium-competition keywords. DR 20-40 ranks for long-tail. Below 20, you are in the building phase. It is an industry-standard proxy used by Ahrefs, Semrush, and DataForSEO.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Is this audit tool free?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Yes, the audit preview is 100% free. You get your overall score, grade, and top 2 priority issues instantly. To unlock the full detailed report with all category breakdowns, real DR/backlink data, top keywords, and personalized recommendations, simply enter your name, email, and phone.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How accurate is the backlink and traffic data?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">The DR, backlink count, referring domains, and traffic estimates are pulled live from DataForSEO — the same type of database used by enterprise SEO platforms. The relative magnitude and competitive comparison are reliable. Very new sites may show limited data.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How can I improve my SEO score?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Start with the Top Priorities section — ranked by impact-to-effort ratio. Quick wins: fix title tags, add meta descriptions, add LocalBusiness schema, enable HTTPS. Medium effort: add FAQ schema, create llms.txt, improve heading structure. High effort: build backlinks to improve DR, publish 800+ word pages, optimize Core Web Vitals.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How often should I run an SEO audit?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Monthly if actively working on SEO, quarterly for maintenance. Run immediately after any major site change: redesign, CMS migration, URL restructuring, or bulk content publishing. A 10-point score improvement typically correlates with 15-25% organic traffic growth within 3-6 months.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What is AI search readiness?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">AI search readiness measures how well your site is set up to be cited by AI-powered search: ChatGPT, Perplexity, Google AI Overviews, Gemini, and Claude. We check FAQ schema, AI crawler access in robots.txt, llms.txt presence, and question-answer content structure. AI search is the fastest-growing discovery channel.</p>
+        </div>
+      </div>
+      <div>
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How does theStacc help after the audit?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Every issue maps to a Stacc feature. Missing title tags? Stacc auto-optimizes them. Thin content? Stacc publishes 30+ articles monthly. Low DR? Stacc builds contextual links. No schema? Stacc generates LocalBusiness markup. No GBP activity? Stacc posts daily. The audit shows what is wrong; Stacc fixes it automatically.</p>
+        </div>
+      </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/website-seo-score/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Website SEO Score</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Real DR + traffic + 8 dimensions</p>
+          </a>
+          <a href="/tools/on-page-seo-checker/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">On-Page SEO Checker</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">15-point keyword optimization</p>
+          </a>
+          <a href="/tools/seo-roi-calculator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO ROI Calculator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Calculate projected SEO return</p>
+          </a>
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score + AI rewrite suggestions</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">JSON-LD for LocalBusiness, FAQ</p>
+          </a>
+          <a href="/tools/meta-tag-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Meta Tag Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Title + description optimization</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script is:inline src="/js/audit-engine.js"></script>
+    <script>
+      (function() {
+        const urlInput = document.getElementById('url-input');
+        const auditBtn = document.getElementById('audit-btn');
+        const urlError = document.getElementById('url-error');
+
+        // Quick example buttons
+        document.querySelectorAll('.quick-audit-example').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const url = this.dataset.url;
+            if (urlInput) urlInput.value = url;
+            if (window.auditEngine) window.auditEngine.start(url);
+          });
+        });
+
+        // Check for ?url= query param and auto-start
+        const params = new URLSearchParams(window.location.search);
+        const prefillUrl = params.get('url');
+        if (prefillUrl && urlInput) {
+          urlInput.value = prefillUrl;
+          if (window.auditEngine) {
+            window.auditEngine.start(prefillUrl);
+          }
+        }
+
+        if (auditBtn) {
+          auditBtn.addEventListener('click', function() {
+            const url = urlInput?.value.trim();
+            if (!url) {
+              urlInput?.focus();
+              return;
+            }
+            urlError?.classList.add('hidden');
+            if (window.auditEngine) {
+              window.auditEngine.start(url);
+            }
+          });
+        }
+
+        if (urlInput) {
+          urlInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); auditBtn?.click(); }
+          });
+        }
+      })();
+    </script>
+  </Fragment>
+</ToolLayout>

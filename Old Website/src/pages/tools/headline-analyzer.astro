@@ -1,0 +1,499 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free Headline Analyzer — AI Rewrites + SERP Patterns | theStacc';
+const pageDescription = 'Score headlines on 8 dimensions instantly. Get 5 AI-rewritten alternatives, top 10 SERP headline patterns for your keyword, and a qualitative critique. Free, no signup.';
+const pageUrl = 'https://thestacc.com/tools/headline-analyzer/';
+const lastUpdated = '2026-05-11';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Headline Analyzer',
+  description: 'Score blog titles, GBP post headlines, page titles, and email subjects on 8 dimensions including Local SEO scoring. Get 5 AI-rewritten alternatives and top 10 SERP headline patterns for any keyword.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What does a headline analyzer do?', a: 'A headline analyzer scores your headline across 8 dimensions: word balance, emotional appeal, SEO strength, length, clarity, power words, sentiment, and local SEO. It gives you a 0-100 score, word-by-word analysis, content previews, specific suggestions, 5 AI-rewritten alternatives, and — if you enter a target keyword — the top 10 headline patterns actually ranking in Google right now.' },
+  { q: 'How is this headline analyzer different from CoSchedule or Sharethrough?', a: 'CoSchedule and Sharethrough score headlines on 4-5 dimensions using word-list matching. This tool scores on 8 dimensions including local SEO (city + industry keywords), shows content-type-specific previews (SERP, GBP, email inbox), provides 5 AI-rewritten alternatives with explanations, and extracts real headline patterns from the top 10 Google results for any keyword you enter. The AI critique explains why your headline works or does not work in plain English.' },
+  { q: 'How long should a blog post headline be?', a: 'Blog post headlines should be 50-60 characters for optimal SEO. Google truncates titles longer than ~60 characters in search results. GBP posts work well at 40-80 characters, while email subject lines perform best at 30-50 characters. The analyzer adjusts its scoring based on the content type you select.' },
+  { q: 'What are power words in headlines?', a: 'Power words are psychologically compelling words that trigger emotion or action. Trust builders like "proven," "guaranteed," and "certified." Urgency drivers like "limited," "instant," and "now." Curiosity triggers like "secret," "exclusive," and "breakthrough." Headlines with power words consistently get 12-25% higher click-through rates.' },
+  { q: 'Why does local SEO matter for headlines?', a: 'Including your city name and industry keywords in headlines signals geographic relevance to Google. A headline like "Best Dentist in Austin TX" ranks better for local searches than "Best Dentist" alone. This is critical for service businesses that serve a specific area. GBP posts that include city names and service keywords get more views, clicks, and calls.' },
+  { q: 'What are the best headline formulas that actually work?', a: 'Number + list: "7 Ways to Fix a Leaky Faucet." How-to: "How to Whiten Teeth in 30 Days." Question: "Why Is My AC Blowing Hot Air?" Superlative: "The Ultimate Guide to Roof Maintenance." Urgency: "Limited: Free Dental Consultation This Week." Comparison: "Metal Roof vs Shingles: Which Lasts Longer?" The analyzer detects which formula your headline uses and scores it accordingly.' },
+  { q: 'How do the AI rewrites work?', a: 'When you enter a headline, the tool sends it to Kimi (an AI writing assistant) along with your content type, industry, and city. Kimi analyzes the headline and returns 5 rewritten alternatives, each with a predicted score and explanation of why it works better. Click any rewrite to instantly test it in the analyzer. The AI call takes 2-4 seconds and happens after your instant score appears.' },
+  { q: 'What are SERP headline patterns?', a: 'When you enter a target keyword (like "emergency plumber austin"), the tool fetches the top 10 Google results for that keyword, extracts their headlines, and shows them to you with pattern tags (Number, Question, How-to, Listicle, etc.). This reveals what headline formulas are actually winning for your keyword right now — so you can match or beat them.' },
+  { q: 'Is this headline analyzer free?', a: 'Yes, 100% free. No signup, no email gate, no limits. The instant scoring, word-by-word analysis, content previews, and suggestions are all free. The AI rewrites and SERP patterns are also free — they are powered by API calls that happen asynchronously after your score renders.' },
+  { q: 'How can I use this for my business?', a: 'Before publishing any blog post, GBP update, email campaign, or page title — paste it into the analyzer. Check the score, review the suggestions, enter your target keyword to see what is ranking, then click one of the AI rewrites if it is stronger. Test 3-5 variations and pick the highest scorer. Over time, you will internalize what makes headlines work.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+
+const industries = [
+  { value: 'dentist', label: 'Dentist' },
+  { value: 'chiropractor', label: 'Chiropractor' },
+  { value: 'plumber', label: 'Plumber' },
+  { value: 'hvac', label: 'HVAC' },
+  { value: 'electrician', label: 'Electrician' },
+  { value: 'roofing', label: 'Roofing' },
+  { value: 'landscaping', label: 'Landscaping' },
+  { value: 'pest_control', label: 'Pest Control' },
+  { value: 'auto_repair', label: 'Auto Repair' },
+  { value: 'lawyer', label: 'Lawyer' },
+  { value: 'accountant', label: 'Accountant' },
+  { value: 'realtor', label: 'Real Estate' },
+  { value: 'insurance', label: 'Insurance' },
+  { value: 'financial_advisor', label: 'Financial Advisor' },
+  { value: 'restaurant', label: 'Restaurant' },
+  { value: 'salon', label: 'Salon / Spa' },
+  { value: 'gym', label: 'Gym / Fitness' },
+  { value: 'veterinarian', label: 'Veterinarian' },
+  { value: 'cleaning', label: 'Cleaning' },
+  { value: 'moving', label: 'Moving' },
+  { value: 'optometrist', label: 'Optometrist' },
+  { value: 'orthodontist', label: 'Orthodontist' },
+  { value: 'dermatologist', label: 'Dermatologist' },
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Headline Analyzer"
+  toolDescription="Score headlines on 8 dimensions instantly. Get 5 AI-rewritten alternatives, top 10 SERP headline patterns for your keyword, and a qualitative critique. Free, no signup."
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <!-- Headline Input + Options Card -->
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <!-- Headline textarea -->
+      <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2" for="headline-input">Your Headline</label>
+      <div class="relative">
+        <textarea
+          id="headline-input"
+          rows="2"
+          maxlength="200"
+          placeholder="Enter your headline, blog title, or subject line..."
+          class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 font-sans text-[16px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-none"
+        ></textarea>
+        <span id="char-counter" class="absolute bottom-2 right-3 font-mono text-[11px] text-[#79716b]">0/200</span>
+      </div>
+
+      <!-- Target Keyword (for SERP patterns) -->
+      <div class="mt-4">
+        <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2" for="target-keyword">Target Keyword <span class="normal-case font-normal">(optional — shows top 10 headline patterns)</span></label>
+        <input
+          type="text"
+          id="target-keyword"
+          maxlength="100"
+          placeholder="e.g., emergency plumber austin"
+          class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+        />
+      </div>
+
+      <!-- Content Type Pills -->
+      <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mt-5 mb-2">Content Type</label>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" class="content-type-pill cursor-pointer rounded-lg border-2 border-[#4f39f6] bg-[#f5f3ff] px-4 py-2 text-[13px] font-medium text-[#4f39f6] transition-all" data-type="blog">Blog Post</button>
+        <button type="button" class="content-type-pill cursor-pointer rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all" data-type="gbp">GBP Post</button>
+        <button type="button" class="content-type-pill cursor-pointer rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all" data-type="page">Page Title / H1</button>
+        <button type="button" class="content-type-pill cursor-pointer rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all" data-type="email">Email Subject</button>
+      </div>
+
+      <!-- Industry + City (side by side) -->
+      <div class="grid gap-4 mt-5 md:grid-cols-2">
+        <div>
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2" for="industry-select">Industry <span class="normal-case font-normal">(optional)</span></label>
+          <select id="industry-select" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[14px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors">
+            <option value="">Select industry...</option>
+            {industries.map(ind => (
+              <option value={ind.value}>{ind.label}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2" for="city-input">Target City <span class="normal-case font-normal">(optional)</span></label>
+          <input
+            type="text"
+            id="city-input"
+            maxlength="60"
+            placeholder="e.g., Austin, TX"
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== RESULTS ==================== -->
+    <div id="results-section" class="hidden mt-6 space-y-6">
+
+      <!-- Score Gauge + Dimension Bars -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="flex flex-col items-center gap-8 md:flex-row md:items-start">
+          <!-- Gauge -->
+          <div class="flex flex-col items-center shrink-0">
+            <svg width="160" height="160" viewBox="0 0 160 160" class="transform -rotate-90">
+              <circle cx="80" cy="80" r="70" fill="none" stroke="#f5f5f4" stroke-width="10" />
+              <circle id="gauge-arc" cx="80" cy="80" r="70" fill="none" stroke="#22C55E" stroke-width="10" stroke-linecap="round" style="stroke-dasharray:439.82;stroke-dashoffset:439.82;transition:stroke-dashoffset 0.6s ease,stroke 0.3s ease" />
+            </svg>
+            <div class="relative -mt-[108px] flex flex-col items-center mb-[48px]">
+              <svg width="160" height="60" viewBox="0 0 160 60">
+                <text id="gauge-score" x="80" y="32" text-anchor="middle" font-family="ui-monospace,monospace" font-size="36" font-weight="700" fill="#22C55E">0</text>
+                <text id="gauge-grade" x="80" y="52" text-anchor="middle" font-family="ui-monospace,monospace" font-size="16" font-weight="600" fill="#22C55E">F</text>
+              </svg>
+            </div>
+          </div>
+          <!-- Dimension Bars -->
+          <div id="dimension-bars" class="flex-1 w-full"></div>
+        </div>
+      </div>
+
+      <!-- Content Preview -->
+      <div id="preview-box"></div>
+
+      <!-- Word-by-Word Analysis -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-3">Word-by-Word Analysis</p>
+        <div id="word-analysis"></div>
+      </div>
+
+      <!-- AI Critique -->
+      <div id="ai-critique-section" class="hidden rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="flex items-center gap-2 mb-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2z"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#4f39f6]">AI Analysis</p>
+        </div>
+        <div id="ai-critique-content"></div>
+      </div>
+
+      <!-- AI Rewrites -->
+      <div id="ai-rewrites-section" class="hidden rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#4f39f6]">AI Rewritten Alternatives</p>
+          </div>
+          <span class="font-mono text-[10px] text-[#a8a29e]">Powered by Kimi</span>
+        </div>
+        <div id="ai-rewrites-content" class="space-y-3"></div>
+      </div>
+
+      <!-- SERP Headline Patterns -->
+      <div id="serp-patterns-section" class="hidden rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#4f39f6]">Top 10 SERP Headline Patterns</p>
+          </div>
+          <span class="font-mono text-[10px] text-[#a8a29e]">Live data</span>
+        </div>
+        <p class="font-sans text-[13px] text-[#79716b] mb-3">What headlines are actually ranking for this keyword right now:</p>
+        <div id="serp-patterns-content" class="space-y-2"></div>
+      </div>
+
+      <!-- Improvement Suggestions -->
+      <div id="suggestions-box" class="hidden rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-6">
+        <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#7c3aed] mb-3">Improvement Suggestions</p>
+      </div>
+
+      <!-- Headline History -->
+      <div id="history-section" class="hidden">
+        <div class="flex items-center justify-between mb-3">
+          <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Headline History</p>
+          <button type="button" id="test-another-btn" class="cursor-pointer rounded-lg border border-[#e7e5e4] px-3 py-1.5 font-mono text-[11px] font-medium uppercase text-[#57534e] transition-colors hover:border-[#c4b5fd] hover:text-[#4f39f6]">Test Another</button>
+        </div>
+        <div id="history-list" class="space-y-2"></div>
+      </div>
+
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p id="cta-headline" class="font-sans text-[22px] font-bold leading-tight text-white">Writing 1 headline took 5 minutes.<br/>Stacc writes 30 optimized articles/month.</p>
+        <p id="cta-subtext" class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Every article is SEO-optimized and designed to rank. Starting at $99/mo.</p>
+        <a id="cta-link" href="/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start Your $1 Trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days · Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / Speakable -->
+    <div class="speakable rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5 mb-8">
+      <p class="font-sans text-[15px] leading-[1.7] text-[#57534e]">
+        <strong class="text-[#292524]">The theStacc Headline Analyzer</strong> scores any headline across 8 dimensions in under a second: word balance, emotional value, length, clarity, SEO strength, local SEO, power words, and sentiment. Enter a target keyword to see the <strong>top 10 headline patterns actually ranking in Google</strong> right now. The AI rewrite feature generates 5 alternatives with predicted scores and explanations. Best for small business owners writing blog titles, GBP posts, page titles, and email subject lines.
+      </p>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">How to Write Headlines That Get Clicks</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A headline is the first thing people see. In search results, in their inbox, on your Google Business Profile. Research shows that 80% of people read headlines but only 20% read the full content. That means your headline does most of the selling.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">This analyzer scores your headline across <strong class="text-[#292524]">8 dimensions</strong> that determine whether people click or scroll past. <strong class="text-[#292524]">Word Balance</strong> measures the mix of common, uncommon, power, and emotional words. The best headlines blend all four. <strong class="text-[#292524]">Emotional Value</strong> checks for words that trigger curiosity, fear, excitement, or urgency. <strong class="text-[#292524]">Length</strong> ensures your headline fits the medium — the analyzer adjusts scoring based on whether you are writing a blog title, GBP post, page H1, or email subject.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Clarity</strong> uses a Flesch reading ease calculation to ensure your headline is understandable at a glance. <strong class="text-[#292524]">SEO Strength</strong> evaluates structure — numbers, question formats, and keyword placement all improve click-through rates. <strong class="text-[#292524]">Power Words</strong> checks for psychologically compelling terms. <strong class="text-[#292524]">Sentiment</strong> measures whether your headline has a clear positive or negative angle. Both outperform neutral headlines.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The eighth dimension is what makes this tool unique: <strong class="text-[#292524]">Local SEO</strong>. For service businesses, including your city name and industry keywords in headlines signals geographic relevance to Google. No other headline analyzer scores this. Enter your city and industry to see your Local SEO score.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How the 8 Dimensions Work</h2>
+    <div class="space-y-3 mb-5">
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">1</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Word Balance (0-15 pts)</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">The best headlines blend common words (20-40%), uncommon words (10-30%), power words (at least one), and emotional words (at least one). Too many common words = boring. Too many uncommon = confusing.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">2</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Emotional Value (0-15 pts)</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Emotion drives clicks. Positive words (amazing, brilliant, triumph), negative words (avoid, mistake, warning), and curiosity triggers (secret, reveal, hidden) all score here. The ideal ratio is 10-20% emotional words.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">3</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Length (0-15 pts)</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Blog/page titles: 50-60 chars. GBP posts: 40-80. Email subjects: 30-50. The analyzer scores based on your selected content type and penalizes truncation risk.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">4</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Clarity (0-10 pts)</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Uses Flesch reading ease. Headlines should be scannable in under 2 seconds. Simple words, short phrases, no jargon. A score of 80+ means anyone can understand it instantly.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">5</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">SEO Strength (0-15 pts)</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Checks for numbers, power words, optimal length, how/why/what/question starters, and list formatting (colons, hyphens, em-dashes). These are the structural signals Google rewards.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">6</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Local SEO (0-15 pts)</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Checks if your headline includes the city name (8 pts), state (2 pts), and industry keywords (up to 5 pts). Only activates when you enter a city or industry. Unique to this tool.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">7</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Power Words (0-10 pts)</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">1 power word = 5 pts. 2 = 8 pts. 3+ = 10 pts. Power words trigger psychological responses — trust, urgency, curiosity — that drive 12-25% higher click-through rates.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">8</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Sentiment (0-5 pts)</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Positive or negative headlines outperform neutral ones. Mixed sentiment (both positive and negative words) scores highest because it creates tension and curiosity.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Headline Analyzer Comparison</h2>
+    <div class="overflow-x-auto mb-5">
+      <table class="w-full text-[14px]">
+        <thead>
+          <tr class="border-b-2 border-[#e7e5e4]">
+            <th class="py-3 pr-4 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">CoSchedule</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">Sharethrough</th>
+            <th class="py-3 pl-4 text-center font-semibold text-[#57534e]">AnswerThePublic</th>
+          </tr>
+        </thead>
+        <tbody class="text-[#57534e]">
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Price</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Free</td>
+            <td class="py-2.5 px-4 text-center">Freemium</td>
+            <td class="py-2.5 px-4 text-center">Free</td>
+            <td class="py-2.5 pl-4 text-center">Freemium</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Scoring dimensions</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">8</td>
+            <td class="py-2.5 px-4 text-center">4</td>
+            <td class="py-2.5 px-4 text-center">5</td>
+            <td class="py-2.5 pl-4 text-center">0 (research only)</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Local SEO scoring</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Content type preview</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">SERP, GBP, Email</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">AI rewrites</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">5 alternatives</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">SERP headline patterns</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Top 10 live</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Word-by-word analysis</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">Partial</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Industry-specific keywords</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">23 industries</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 pr-4">Headline history</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Last 5</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Headline Formulas That Actually Work</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Every high-performing headline follows a proven formula. The analyzer detects which formula you are using and scores it accordingly. Here are the formulas that consistently outperform:</p>
+    <div class="space-y-3 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Number + List: "7 Ways to [Solve Problem]"</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">The most tested headline format in history. Numbers create specificity and set expectations. Odd numbers (7, 11, 23) outperform even numbers.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">How-to: "How to [Achieve Result] in [Timeframe]"</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Promises a specific outcome with a clear path. "How to Whiten Teeth in 30 Days" is more compelling than "Teeth Whitening Tips."</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Question: "Why Is My [Problem] [Symptom]?"</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Questions trigger curiosity gaps. The reader feels compelled to click to resolve the uncertainty. Works especially well for problem-aware audiences.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Urgency: "Limited: [Offer] This [Timeframe]"</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Creates FOMO. "Limited: Free Dental Consultation This Week" drives immediate action. Works best for GBP posts and email subjects.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Comparison: "[Option A] vs [Option B]: Which [Criteria]?"</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">"Metal Roof vs Shingles: Which Lasts Longer?" Targets buyers in the decision phase. High commercial intent, strong for local service pages.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Local + Service: "[Service] in [City]: [Benefit]"</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">"Emergency Plumbing in Austin: 24/7 Response." The gold standard for local SEO headlines. Combines service keyword, city, and a differentiator.</p>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Power Words That Increase Click-Through Rate</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Power words are high-impact terms that trigger psychological responses. Research across millions of headlines shows that power words increase click-through rates by 12-25%.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Trust builders:</strong> Free, Proven, Guaranteed, Certified, Trusted, Recommended, Award-Winning, Official, Verified, Backed by</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Urgency drivers:</strong> Limited, Instant, Now, Today, Fast, Essential, Must, Critical, Hurry, Final</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Curiosity triggers:</strong> Secret, Ultimate, Exclusive, Insider, Breakthrough, Reveal, Hidden, Little-known, Surprising</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">For example, "5 Proven Ways to Fix a Leaky Faucet" outperforms "5 Ways to Fix a Leaky Faucet." The word "proven" adds credibility and triggers a trust response. "Free Emergency Plumbing Guide for Austin Homeowners" combines a power word (free), industry keyword (plumbing), and city name (Austin) — hitting three scoring dimensions in one headline.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Headline Length Guide by Content Type</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Different platforms have different ideal headline lengths. Getting this wrong means your headline gets truncated. And truncated headlines get fewer clicks.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Blog posts: 50-60 characters.</strong> Google displays approximately 60 characters in search results. Front-load your keywords and keep the most important words in the first 50 characters. The analyzer adjusts its length scoring automatically when you select "Blog Post."</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">GBP posts: 40-80 characters.</strong> Google Business Profile gives you more room, and longer headlines with specific details perform well. "Free Teeth Whitening Consultation This Week at Our Austin Office" uses the full range effectively.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Email subject lines: 30-50 characters.</strong> Mobile email clients show 30-40 characters. Shorter is better. "Your Smile Makeover Starts Today" beats a longer alternative on mobile screens. The analyzer shows an email inbox preview so you can see exactly how it will look.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Page titles / H1s: 50-60 characters.</strong> Same as blog posts. These appear in search results and browser tabs. Keep them focused and keyword-rich. The SERP preview shows you exactly how your headline will appear in Google.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How the AI Rewrites Work</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">When you enter a headline, the tool sends it to Kimi — an AI writing assistant — along with your content type, industry, and city. Kimi analyzes the headline against proven copywriting frameworks and returns 5 rewritten alternatives.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Each rewrite includes a <strong class="text-[#292524]">predicted score</strong> (based on the same 8-dimension scoring) and a <strong class="text-[#292524]">one-sentence explanation</strong> of why it works better. The rewrites use different formulas: one might be a question, another a how-to, another a listicle, another urgent, another superlative. This gives you options that match different tones and contexts.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Click any rewrite to instantly test it in the analyzer. The AI call takes 2-4 seconds and happens after your instant score appears — so you never wait for the core analysis.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How to Use SERP Headline Patterns</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Enter a target keyword (like "emergency plumber austin") and the tool fetches the top 10 Google results for that keyword, extracts their headlines, and shows them with pattern tags. This reveals what headline formulas are actually winning for your keyword right now.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Look for patterns: Are all 10 using numbers? Are they mostly questions? Do they include the city name? Is there a superlative arms race ("best," "top-rated," "ultimate")? Use these insights to either match the winning pattern or deliberately differentiate. If every result is a listicle, a how-to might stand out. If no one is using urgency, that could be your angle.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The data comes from DataForSEO — the same database enterprise SEO tools use. It is live data, not cached or estimated.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm mt-4">
+      {faqs.map((f, i) => (
+        <div class={i < faqs.length - 1 ? 'border-b border-[#f3f4f6]' : ''}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[15px] font-semibold text-[#111827]">{f.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">{f.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/seo-audit/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO Audit Tool</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">55+ checks, real DR + backlink data</p>
+          </a>
+          <a href="/tools/gbp-post-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">GBP Post Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">AI-generated GBP updates with headlines</p>
+          </a>
+          <a href="/tools/on-page-seo-checker/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">On-Page SEO Checker</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">15-point keyword optimization</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">JSON-LD for rich snippets</p>
+          </a>
+          <a href="/tools/meta-tag-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Meta Tag Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Title + description optimization</p>
+          </a>
+          <a href="/tools/website-seo-score/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Website SEO Score</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Real DR + traffic + 8 dimensions</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script is:inline src="/js/headline-analyzer-engine.js"></script>
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+  </Fragment>
+</ToolLayout>

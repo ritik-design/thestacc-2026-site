@@ -55,8 +55,7 @@ const seo = {
     .field textarea { resize: vertical; min-height: 80px; }
     .generate-btn {
       width: 100%; padding: 14px 20px; background: var(--text-1); color: white;
-      font-size: 15px; font-weight: 600; border: none;
-      border-radius: 100px !important; cursor: pointer;
+      font-size: 15px; font-weight: 600; border: none; cursor: pointer;
       transition: all 0.2s; font-family: inherit;
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     }
@@ -76,7 +75,6 @@ const seo = {
       padding: 8px 14px; background: var(--bg-soft); color: var(--text-1);
       border: 1px solid var(--border-strong); font-size: 13px; font-weight: 500;
       cursor: pointer; transition: all 0.15s; font-family: inherit;
-      border-radius: 100px !important;
     }
     .copy-btn:hover { background: var(--brand); color: white; border-color: var(--brand); }
     .copy-btn.copied { background: var(--accent-emerald); color: white; border-color: var(--accent-emerald); }
@@ -293,7 +291,9 @@ const seo = {
               <button class="copy-btn" data-copy="${i}">Copy to clipboard</button>
             </div>
           `;
-          card.querySelector('.post-body').textContent = text;
+          const bodyEl = card.querySelector('.post-body');
+          bodyEl.innerHTML = text.split(/\n\s*\n/).filter(Boolean).map((para) => `<p>${para.replace(/</g, '&lt;')}</p>`).join('');
+          bodyEl.style.whiteSpace = 'normal';
           resultsPanel.appendChild(card);
         });
 

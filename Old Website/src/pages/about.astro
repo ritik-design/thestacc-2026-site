@@ -1,0 +1,277 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+import CtaBanner from '../components/sections/CtaBanner.astro';
+import { SITE_URL, LOGO_URL, buildBreadcrumbs } from '../utils/schema';
+
+const aboutSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'theStacc',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: LOGO_URL, width: 512, height: 512 },
+      description: 'theStacc is building the operating system for organic growth — bringing together blog SEO, local SEO, and distribution into a single automated engine.',
+      founder: { '@id': `${SITE_URL}/about/#founder` },
+      sameAs: [
+        'https://www.linkedin.com/company/thestacc',
+        'https://x.com/thestacc',
+      ],
+      knowsAbout: ['SEO Automation', 'AI Content Generation', 'Local SEO', 'Google Business Profile Management'],
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/about/#founder`,
+      name: 'Siddharth Gangal',
+      url: `${SITE_URL}/about/`,
+      jobTitle: 'Founder',
+      worksFor: { '@id': `${SITE_URL}/#organization` },
+      description: 'Ex-IITian and founder of Arka360. Building theStacc — the operating system for organic growth.',
+      knowsAbout: ['SEO', 'AI', 'SaaS', 'Content Marketing'],
+    },
+    {
+      '@type': 'AboutPage',
+      '@id': `${SITE_URL}/about/`,
+      name: 'About theStacc',
+      url: `${SITE_URL}/about/`,
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      mainEntity: { '@id': `${SITE_URL}/#organization` },
+    },
+    buildBreadcrumbs(`${SITE_URL}/about/`, [
+      { name: 'Home', url: SITE_URL },
+      { name: 'About', url: `${SITE_URL}/about/` },
+    ]),
+  ],
+};
+---
+
+<BaseLayout
+  title="About theStacc - The Operating System for Organic Growth"
+  description="theStacc brings together blog SEO, local SEO, and distribution into a single automated engine. Founded by Siddharth Gangal, ex-IITian and founder of Arka360."
+>
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(aboutSchema)} />
+    <!-- Hero -->
+    <section class="border-b border-[#e7e5e4] bg-white px-6 py-16 md:py-24">
+      <div class="mx-auto max-w-[680px] text-center">
+        <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#4f39f6]">About theStacc</p>
+        <h1 class="mt-5 font-sans text-[32px] leading-[40px] md:text-[42px] md:leading-[52px] font-normal text-[#292524]">
+          Growth should be driven by systems, not effort.
+        </h1>
+        <p class="mt-6 font-sans text-[17px] leading-[28px] text-[#57534e]">
+          theStacc is building the next generation of organic growth — one where businesses don't need teams, agencies, or endless manual effort to win on Google and beyond.
+        </p>
+      </div>
+    </section>
+
+    <!-- The Problem / The Fix -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <!-- The Problem -->
+        <div class="px-6 py-10 md:py-14 md:border-r border-b md:border-b-0 border-[#e7e5e4]">
+          <div class="mx-auto max-w-[480px]">
+            <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#79716b]">The Problem</p>
+            <h2 class="mt-4 font-sans text-[24px] leading-[32px] font-normal text-[#292524]">
+              Growth is fragmented.
+            </h2>
+            <p class="mt-4 font-sans text-[16px] leading-[26px] text-[#57534e]">
+              SEO lives in one tool, content in another, local presence somewhere else, and social media is managed separately. Teams spend more time managing workflows than actually growing.
+            </p>
+          </div>
+        </div>
+        <!-- The Fix -->
+        <div class="px-6 py-10 md:py-14">
+          <div class="mx-auto max-w-[480px]">
+            <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#4f39f6]">theStacc Changes That</p>
+            <h2 class="mt-4 font-sans text-[24px] leading-[32px] font-normal text-[#292524]">
+              One engine. Everything connected.
+            </h2>
+            <p class="mt-4 font-sans text-[16px] leading-[26px] text-[#57534e]">
+              We bring together blog SEO, local SEO, and distribution into a single automated engine that researches, creates, and publishes high-performing content — continuously.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Statement -->
+    <section class="border-b border-[#e7e5e4] bg-white px-6 py-14 md:py-20">
+      <div class="mx-auto max-w-[640px] text-center">
+        <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#fafaf9]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <p class="mt-6 font-sans text-[22px] leading-[32px] md:text-[26px] md:leading-[38px] font-normal text-[#292524]">
+          The system doesn't just tell you what to do — it does it for you.
+        </p>
+        <p class="mt-4 font-sans text-[16px] leading-[26px] text-[#57534e]">
+          Instead of dashboards and recommendations, we focus on execution. From long-form content to local visibility and social distribution, everything works as one connected system.
+        </p>
+      </div>
+    </section>
+
+    <!-- Our Vision -->
+    <section class="border-b border-[#e7e5e4] bg-white px-6 py-14 md:py-20">
+      <div class="mx-auto max-w-[680px]">
+        <div class="text-center">
+          <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#4f39f6]">Our Vision</p>
+          <h2 class="mt-4 font-sans text-[28px] leading-[36px] md:text-[32px] md:leading-[42px] font-normal text-[#292524]">
+            The operating system for organic growth.
+          </h2>
+          <p class="mt-4 font-sans text-[16px] leading-[26px] text-[#57534e]">
+            We are building an AI-native growth stack where every part of the marketing workflow — from data to content to distribution — is automated, connected, and continuously improving.
+          </p>
+        </div>
+
+        <!-- Vision Pillars -->
+        <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-0 rounded-xl border border-[#e7e5e4] overflow-hidden">
+          <div class="px-5 py-6 border-b sm:border-b-0 sm:border-r border-[#e7e5e4] bg-[#fafaf9]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg border border-[#e7e5e4] bg-white">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <p class="mt-4 font-mono text-[13px] font-semibold uppercase tracking-[0.56px] text-[#292524]">Content Generation</p>
+            <p class="mt-1.5 font-sans text-[14px] leading-[20px] text-[#79716b]">SEO-optimized blog posts and local content, created automatically.</p>
+          </div>
+          <div class="px-5 py-6 border-b sm:border-b-0 sm:border-r border-[#e7e5e4] bg-[#fafaf9]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg border border-[#e7e5e4] bg-white">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/>
+              </svg>
+            </div>
+            <p class="mt-4 font-mono text-[13px] font-semibold uppercase tracking-[0.56px] text-[#292524]">Local Optimization</p>
+            <p class="mt-1.5 font-sans text-[14px] leading-[20px] text-[#79716b]">Google Business Profile and local search presence, always active.</p>
+          </div>
+          <div class="px-5 py-6 bg-[#fafaf9]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg border border-[#e7e5e4] bg-white">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+              </svg>
+            </div>
+            <p class="mt-4 font-mono text-[13px] font-semibold uppercase tracking-[0.56px] text-[#292524]">Multi-Channel Distribution</p>
+            <p class="mt-1.5 font-sans text-[14px] leading-[20px] text-[#79716b]">Social platforms, email, and beyond — all from one system.</p>
+          </div>
+        </div>
+
+        <p class="mt-8 text-center font-sans text-[16px] leading-[26px] text-[#57534e]">
+          The goal is not to give businesses more tools, but to eliminate the need for fragmented marketing processes entirely. Businesses plug in once and scale without adding overhead.
+        </p>
+      </div>
+    </section>
+
+    <!-- Founder -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9] px-6 py-14 md:py-20">
+      <div class="mx-auto max-w-[680px]">
+        <div class="text-center">
+          <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#4f39f6]">Founder</p>
+        </div>
+
+        <div class="mt-8 rounded-xl border border-[#e7e5e4] bg-white p-6 md:p-10">
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+            <!-- Avatar placeholder -->
+            <div class="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#615fff] to-[#4f39f6]">
+              <span class="font-mono text-[24px] font-bold text-white">SG</span>
+            </div>
+            <div>
+              <h3 class="font-sans text-[22px] leading-[30px] font-normal text-[#292524] text-center sm:text-left">Siddharth Gangal</h3>
+              <p class="mt-1 font-mono text-[13px] font-medium uppercase tracking-[0.56px] text-[#79716b] text-center sm:text-left">Founder, theStacc</p>
+
+              <div class="mt-4 flex flex-wrap justify-center sm:justify-start gap-2">
+                <span class="inline-flex items-center rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1 font-mono text-[12px] font-medium tracking-[0.3px] text-[#57534e]">IIT Mandi</span>
+                <span class="inline-flex items-center rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1 font-mono text-[12px] font-medium tracking-[0.3px] text-[#57534e]">Founder, Arka360 (Solar Labs)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4">
+            <p class="font-sans text-[16px] leading-[26px] text-[#57534e]">
+              With deep experience building and scaling technology-driven products in the solar and SaaS ecosystem, Siddharth has consistently focused on solving complex, real-world problems through automation and systems thinking.
+            </p>
+            <p class="font-sans text-[16px] leading-[26px] text-[#57534e]">
+              His journey across engineering, product, and growth led to a clear insight:
+            </p>
+          </div>
+
+          <!-- Founder Quote -->
+          <div class="mt-6 rounded-lg border-l-[3px] border-[#4f39f6] bg-[#fafaf9] px-5 py-4">
+            <p class="font-sans text-[17px] leading-[28px] font-normal text-[#292524]">
+              Most businesses don't fail at marketing because of strategy — they fail because execution is slow, manual, and fragmented.
+            </p>
+          </div>
+
+          <p class="mt-6 font-sans text-[16px] leading-[26px] text-[#57534e]">
+            theStacc is built to solve exactly that.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why We Exist -->
+    <section class="border-b border-[#e7e5e4] bg-white px-6 py-14 md:py-20">
+      <div class="mx-auto max-w-[680px] text-center">
+        <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#4f39f6]">Why We Exist</p>
+        <h2 class="mt-4 font-sans text-[28px] leading-[36px] md:text-[32px] md:leading-[42px] font-normal text-[#292524]">
+          We're not here to be another SEO tool.
+        </h2>
+        <p class="mt-5 font-sans text-[16px] leading-[26px] text-[#57534e]">
+          We're building a system that compounds growth over time — without requiring teams, agencies, or constant manual effort.
+        </p>
+
+        <!-- Three pillars -->
+        <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-0 border border-[#e7e5e4] rounded-xl overflow-hidden">
+          <div class="px-5 py-8 border-b sm:border-b-0 sm:border-r border-[#e7e5e4] text-center">
+            <span class="font-mono text-[32px] font-bold text-[#e7e5e4]">01</span>
+            <p class="mt-3 font-mono text-[13px] font-semibold uppercase tracking-[0.56px] text-[#292524]">Generates Content</p>
+            <p class="mt-2 font-sans text-[14px] leading-[20px] text-[#79716b]">Blog posts, local content, and social media — written and optimized automatically.</p>
+          </div>
+          <div class="px-5 py-8 border-b sm:border-b-0 sm:border-r border-[#e7e5e4] text-center">
+            <span class="font-mono text-[32px] font-bold text-[#e7e5e4]">02</span>
+            <p class="mt-3 font-mono text-[13px] font-semibold uppercase tracking-[0.56px] text-[#292524]">Distributes It</p>
+            <p class="mt-2 font-sans text-[14px] leading-[20px] text-[#79716b]">Publishes across your website, Google Business Profile, and social channels.</p>
+          </div>
+          <div class="px-5 py-8 text-center">
+            <span class="font-mono text-[32px] font-bold text-[#e7e5e4]">03</span>
+            <p class="mt-3 font-mono text-[13px] font-semibold uppercase tracking-[0.56px] text-[#292524]">Compounds Growth</p>
+            <p class="mt-2 font-sans text-[14px] leading-[20px] text-[#79716b]">Every article stacks on the last. Rankings build. Traffic compounds over time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Company Information -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9] px-6 py-14 md:py-20">
+      <div class="mx-auto max-w-[680px] text-center">
+        <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#4f39f6]">Company Information</p>
+        <h2 class="mt-4 font-sans text-[24px] leading-[32px] font-normal text-[#292524]">Legal Details</h2>
+        <div class="mt-6 rounded-xl border border-[#e7e5e4] bg-white p-6 md:p-8 text-left">
+          <div class="space-y-3">
+            <div class="flex flex-col sm:flex-row sm:gap-3">
+              <span class="font-sans text-[13px] font-semibold text-[#292524] sm:w-28 shrink-0">Legal Name</span>
+              <span class="font-sans text-[14px] text-[#57534e]">SOLARTREK VENTURES LLP</span>
+            </div>
+            <div class="border-t border-[#e7e5e4]"></div>
+            <div class="flex flex-col sm:flex-row sm:gap-3">
+              <span class="font-sans text-[13px] font-semibold text-[#292524] sm:w-28 shrink-0">Registered Address</span>
+              <span class="font-sans text-[14px] text-[#57534e]">Ground Floor, Flat No. 05, Vatika Infotech City, Bauhinia Street, Urbanwoods, Near GVK Toll Plaza, Thikariya Ajmer Road, Jaipur, Rajasthan – 302026, India</span>
+            </div>
+            <div class="border-t border-[#e7e5e4]"></div>
+            <div class="flex flex-col sm:flex-row sm:gap-3">
+              <span class="font-sans text-[13px] font-semibold text-[#292524] sm:w-28 shrink-0">Contact Email</span>
+              <a href="mailto:hello@thestacc.com" class="font-sans text-[14px] text-[#4f39f6] hover:underline">hello@thestacc.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <CtaBanner />
+  </main>
+  <Footer />
+</BaseLayout>

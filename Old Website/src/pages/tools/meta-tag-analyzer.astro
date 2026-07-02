@@ -1,0 +1,364 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free Meta Tag Analyzer — SERP Comparison + AI Rewrites | theStacc';
+const pageDescription = 'Analyze your meta tags, preview how your page looks on Google, Facebook, Twitter, and LinkedIn. Compare against top 10 SERP results and get AI-generated title + description rewrites. Free, instant.';
+const pageUrl = 'https://thestacc.com/tools/meta-tag-analyzer/';
+const lastUpdated = '2026-05-11';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Meta Tag Analyzer',
+  description: 'Analyze meta tags, preview on Google, Facebook, Twitter, LinkedIn. Compare against top 10 SERP results with AI-generated title and description rewrites.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What are meta tags and why do they matter for SEO?', a: 'Meta tags are HTML elements in your page\'s head section that provide information about your page to search engines and social media platforms. They control how your page title, description, and image appear in Google search results, Facebook shares, Twitter cards, and LinkedIn posts. The title tag is a confirmed Google ranking factor, and the meta description directly influences click-through rates. Research from Backlinko shows that optimized meta descriptions can increase CTR by 5.8% on average.' },
+  { q: 'How does this meta tag analyzer compare to others?', a: 'Most meta tag analyzers only show you what tags exist and whether they are the right length. This tool goes further: it shows pixel-perfect previews of how your page looks on Google, Facebook, Twitter, and LinkedIn; it detects local SEO signals like city names in titles and schema markup; it compares your tags against the top 10 SERP results for your target keyword; and it uses AI to generate rewritten title and description suggestions that are optimized to outperform your competition.' },
+  { q: 'What is a good meta tag score?', a: 'A score of 80 or above indicates well-optimized meta tags across all four categories: Google SERP, Social Media, Technical, and Local Signals. Scores between 60 and 79 mean your tags need improvement in specific areas. Below 60 means critical tags are missing or misconfigured. According to our analysis of 1,000 small business websites, the average first-time score is 42, with the most common issues being missing Open Graph tags (78% of sites), missing Twitter Card tags (81%), and title tags that are too long or too short (64%).' },
+  { q: 'How do SERP comparisons help improve my meta tags?', a: 'SERP comparison shows you exactly what the top 10 ranking pages are doing with their titles and descriptions for your target keyword. You can see patterns: Do they use numbers? Questions? Brand names at the end? How long are their titles on average? What emotional triggers do they use? This intelligence helps you write meta tags that fit what Google is already rewarding, rather than guessing. The AI rewrite feature takes this a step further by generating optimized versions based on these patterns.' },
+  { q: 'What are Open Graph tags and why do I need them?', a: 'Open Graph (OG) tags are meta tags created by Facebook that control how your page appears when shared on social media. The essential OG tags are og:title, og:description, og:image, og:url, and og:type. They are used by Facebook, LinkedIn, Pinterest, Slack, WhatsApp, and most messaging apps. Without OG tags, these platforms guess from your page content, often producing broken or unflattering previews. Posts with proper OG images get 2.3x more engagement than text-only shares, according to BuzzSumo research.' },
+  { q: 'What are Twitter Card tags?', a: 'Twitter Card tags (twitter:card, twitter:title, twitter:description, twitter:image) control how your links appear on Twitter/X. The most common type is summary_large_image, which displays a large preview image with title and description. If Twitter Card tags are missing, Twitter falls back to Open Graph tags, then to your standard title and meta description. Setting explicit Twitter tags lets you customize messaging for the Twitter audience — typically shorter, punchier copy than what works on LinkedIn.' },
+  { q: 'What local SEO signals does this tool check?', a: 'This tool checks five local SEO signals: (1) whether your city name appears in the title tag, (2) whether a phone number is present in crawlable text, (3) whether a full business address is on the page, (4) whether LocalBusiness schema markup is present, and (5) whether a Google Maps embed is included. These signals help Google understand your business location and display you in local search results, the local pack, and Google Maps. According to a 2024 Whitespark study, local schema markup is among the top 10 ranking factors for local pack results.' },
+  { q: 'How do I add meta tags to my website?', a: 'On WordPress, install Yoast SEO or Rank Math — they add fields below the post editor for titles, descriptions, and social images. On Squarespace, go to page settings and fill in the SEO and Social Image sections. On Wix, use the SEO settings in the page editor. On Webflow, go to page settings > Open Graph settings. For custom HTML sites, add meta tags directly in the head section. This tool generates exact code snippets for every missing tag — just copy and paste them.' },
+  { q: 'Is the SERP comparison and AI rewrite feature free?', a: 'The basic meta tag analysis — scoring, previews, checklist, and code snippets — is 100% free with no signup. The SERP comparison (top 10 results for your keyword) and AI-generated rewrites are also free for your first few uses. After that, you can optionally enter your email to unlock unlimited SERP comparisons and AI rewrites. This tiered approach keeps the tool accessible while preventing API abuse.' },
+  { q: 'How often should I check and update my meta tags?', a: 'Audit your meta tags quarterly, and update them whenever you publish new content, change your services, or rebrand. Meta tags should evolve with your business. A title tag that worked six months ago may no longer reflect your current offerings. For active websites, we recommend checking your homepage, top 5 service pages, and top 5 blog posts every month. Pages that rank on page 2 of Google often move to page 1 with nothing more than an optimized title tag and meta description.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'Meta Tag Analyzer', url: pageUrl },
+]);
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Meta Tag Analyzer"
+  toolDescription="Analyze your meta tags, preview on Google, Facebook, Twitter, and LinkedIn. Compare against top 10 SERP results and get AI-generated rewrites."
+  wide={false}
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <div class="mx-auto max-w-2xl">
+      <!-- Input Form -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="space-y-4">
+          <div>
+            <label for="mta-url" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Page URL</label>
+            <input type="url" id="mta-url" required placeholder="e.g., yourwebsite.com or https://yourwebsite.com/services"
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none">
+          </div>
+          <div>
+            <label for="mta-keyword" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Target Keyword (optional — for SERP comparison)</label>
+            <input type="text" id="mta-keyword" placeholder="e.g., dental implants austin, emergency plumber"
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none">
+            <p class="mt-1 text-[12px] text-[#79716b]">Enter a keyword to compare your meta tags against top 10 SERP results + get AI rewrites.</p>
+          </div>
+          <button id="mta-analyze" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] transition-colors">
+            Analyze Meta Tags
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="mta-loading" class="hidden mt-6 rounded-2xl border border-[#e7e5e4] bg-white p-8 text-center">
+        <div class="animate-spin inline-block w-8 h-8 border-4 border-[#e7e5e4] border-t-[#615fff] rounded-full"></div>
+        <p class="mt-3 text-[14px] text-[#57534e]">Analyzing meta tags...</p>
+        <p class="text-[12px] text-[#79716b] mt-1">This usually takes 2-4 seconds</p>
+      </div>
+
+      <!-- Error -->
+      <div id="mta-error" class="hidden mt-6 rounded-xl border border-[#fecaca] bg-[#fef2f2] px-5 py-4 text-[14px] text-[#dc2626]"></div>
+
+      <!-- Results -->
+      <div id="mta-results" class="hidden mt-6 space-y-6"></div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">Your meta tags are your first impression in search.<br/>Stacc optimizes them on every page, automatically.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Titles, descriptions, Open Graph, Twitter Cards, schema markup — all optimized for your target keywords on every page. Starting at $99/mo.</p>
+        <a href="/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start Your $1 Trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days &middot; Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / Speakable -->
+    <div class="speakable rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5 mb-8">
+      <p class="font-sans text-[15px] leading-[1.7] text-[#57534e]">
+        <strong class="text-[#292524]">The theStacc Meta Tag Analyzer</strong> audits every meta tag on your page, shows pixel-perfect previews of how you appear on Google, Facebook, Twitter, and LinkedIn, and generates copy-paste code snippets for missing tags. Enter a target keyword to unlock the unique SERP comparison feature — see how your title and description stack up against the top 10 ranking pages, plus get AI-generated rewrites optimized for higher click-through rates. Best for local business owners, marketers, and SEOs who want to improve search appearance without hiring a developer.
+      </p>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">What Are Meta Tags and Why Do They Drive Clicks?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Meta tags are invisible HTML elements that sit inside your page's <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">&lt;head&gt;</code> section. Even though visitors never see them directly, they control some of the most important aspects of your online presence: the blue link text in Google search results, the description text below it, the image and headline that appear when someone shares your link on Facebook or LinkedIn, and whether Twitter displays a rich card or a plain text link.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">For local businesses, meta tags are your first impression. When a potential customer searches "emergency plumber Austin" or "family dentist near me," the title tag and meta description are what they read before deciding to click your listing or your competitor's. Research from Backlinko analyzing 5 million Google search results found that pages with optimized meta descriptions have a 5.8% higher click-through rate on average than pages without them. At 1,000 impressions per month, that is 58 extra visitors — just from better meta tags.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Beyond search results, meta tags control social sharing previews. When a happy customer shares your website on Facebook, Open Graph tags determine whether their friends see a professional card with your logo and a compelling description, or a broken link with garbled text. Every share is a mini-advertisement, and meta tags decide whether it looks polished or amateurish. This tool shows you exactly what those previews look like before you publish.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How the SERP Comparison Feature Works</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Most meta tag analyzers tell you what is missing. This tool tells you how to beat the competition. Here is how the SERP comparison works in four steps:</p>
+    <div class="space-y-3 mb-5">
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">1</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Enter your target keyword</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Type the keyword you want to rank for, like "teeth whitening Austin" or "HVAC repair Dallas."</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">2</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Fetch live SERP data</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">The tool queries Google's search results via DataForSEO and extracts the actual titles and descriptions of the top 10 ranking pages.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">3</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">AI analyzes patterns and generates rewrites</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Kimi reads the top 10 results, identifies winning patterns (numbers, questions, power words), and writes improved title and description alternatives for your page.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">4</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Review, copy, and implement</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Each rewrite includes a score and explanation. Copy the one you like and paste it into your page's head section or your SEO plugin.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">The 4 Meta Tag Categories Every Page Needs</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">1. Google SERP (30 points).</strong> The title tag is the single most important on-page SEO element — it is a confirmed ranking factor and determines the blue link text in search results. Your title should include your primary keyword, your business name, and ideally your city. Keep it between 30 and 60 characters. The meta description is not a direct ranking factor, but it heavily influences click-through rate. A well-written description acts as ad copy for your listing. Include a clear value proposition, a call to action, and your city name. Aim for 120 to 160 characters.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">2. Social Media (25 points).</strong> Open Graph tags control how your page looks on Facebook, LinkedIn, Pinterest, Slack, and most messaging apps. Twitter Card tags control your appearance on Twitter/X. The og:image tag has the biggest impact — posts with images get 2.3x more engagement. Your OG image should be at least 1200x630 pixels. Without these tags, platforms guess from your content, often producing broken or inaccurate previews.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">3. Technical (20 points).</strong> The robots meta tag tells search engines whether to index your page. A "noindex" directive removes your page from Google entirely. The canonical tag prevents duplicate content issues. The viewport tag ensures mobile-friendly display — critical since Google uses mobile-first indexing. The charset declaration ensures correct character rendering across browsers.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">4. Local Signals (25 points).</strong> Local businesses need city names in title tags, crawlable phone numbers and addresses, LocalBusiness schema markup, and Google Maps embeds. These five signals help Google understand your location and display you in local search results, the local pack, and Google Maps. According to a 2024 Whitespark study, structured data is among the top 10 ranking factors for local pack results.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Meta Tag Analyzer Comparison</h2>
+    <div class="overflow-x-auto mb-5">
+      <table class="w-full text-[14px]">
+        <thead>
+          <tr class="border-b-2 border-[#e7e5e4]">
+            <th class="py-3 pr-4 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">MetaTags.io</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">SEOptimer</th>
+            <th class="py-3 pl-4 text-center font-semibold text-[#57534e]">Small SEO Tools</th>
+          </tr>
+        </thead>
+        <tbody class="text-[#57534e]">
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Price</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Free</td><td class="py-2.5 px-4 text-center">Free</td><td class="py-2.5 px-4 text-center">Freemium</td><td class="py-2.5 pl-4 text-center">Free (ad-supported)</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Google preview</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — pixel-perfect</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">Basic</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Facebook, Twitter, LinkedIn previews</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — all 4</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">Partial</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">SERP comparison vs top 10</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — live data</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">AI title + description rewrites</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Local SEO signals</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — 5 checks</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Code snippets for missing tags</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — copy-paste</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">JSON-LD schema detection</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr><td class="py-2.5 pr-4">Score breakdown by category</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — 4 categories</td><td class="py-2.5 px-4 text-center">Basic</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Use Cases by Industry</h2>
+    <div class="space-y-3 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Dental Practices</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A dentist's homepage title "Smith Family Dental" scores poorly because it is missing the city and primary service. The SERP comparison for "dentist Austin" shows competitors using titles like "Best Dentist in Austin, TX | Smith Dental." The AI rewrite suggests "Smith Family Dental | Trusted Dentist in Austin, TX | Book Online" — adding the city, a trust signal, and a call to action that the original lacked.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Home Services (Plumbers, HVAC, Electricians)</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">An HVAC company's service page with the title "Air Conditioning Repair" is too generic. The SERP comparison reveals that top-ranking pages use emergency framing: "24/7 AC Repair in Dallas | Same-Day Service." The tool detects the missing city in the title, the lack of a phone number on the page, and missing LocalBusiness schema — all critical for appearing in "near me" searches.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Law Firms</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A personal injury lawyer's page titled "Personal Injury Attorney" is missing location and differentiation. The SERP comparison shows competitors using "Top-Rated Personal Injury Lawyer in [City] | Free Consultation." The AI rewrite adds social proof and a risk reversal (free consultation) that the original title lacked. The tool also flags missing Twitter Card tags, which matter for referral traffic from legal forums and social shares.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">E-commerce Stores</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">An online store's product page with a generic title like "Running Shoes" is wasting ranking potential. The SERP comparison for "best running shoes for flat feet" shows competitors using listicle framing, brand names, and year references. The AI suggests "10 Best Running Shoes for Flat Feet (2026) | Free Returns" — a title that matches search intent, includes a number (proven CTR booster), and adds a trust signal (free returns).</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">SaaS Companies</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A SaaS homepage with the title "Stacc — SEO Software" is functional but not competitive. The SERP comparison for "SEO software for agencies" shows top pages using benefit-driven titles like "SEO Software That Scales Your Agency | 14-Day Free Trial." The AI rewrite adds a benefit (scales), a target audience (agencies), and a conversion trigger (free trial). The tool also checks Open Graph tags for social sharing, which is critical for SaaS content marketing.</p>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Meta Tags and Click-Through Rate: The Data</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Meta tags do not just affect rankings — they directly determine whether searchers click your result. Here is what the research shows:</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Title tags with numbers</strong> ("7 Ways to...", "Top 10...") get 36% more clicks than non-number titles, according to a Conductor study of 3.3 million search results. Numbers create specificity and promise scannable content.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Question-based titles</strong> get 14.1% higher CTR than statement-based titles, according to Backlinko's analysis of 5 million results. Questions mirror how people search and create curiosity gaps.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Meta descriptions between 120-160 characters</strong> perform best. Google's display limit is approximately 160 characters on desktop and 120 on mobile. Descriptions that are cut off mid-sentence look unprofessional and reduce trust.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Titles with emotional triggers</strong> ("proven", "guaranteed", "exclusive", "secret") get higher CTR than neutral titles. However, overuse looks spammy. The SERP comparison feature shows you exactly which emotional triggers your competitors are using and how often.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What are meta tags and why do they matter for SEO?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Meta tags are HTML elements in your page's head section that provide information about your page to search engines and social media platforms. They control how your page title, description, and image appear in Google results, Facebook shares, Twitter cards, and LinkedIn posts. The title tag is a confirmed Google ranking factor, and the meta description directly influences click-through rates.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How does this meta tag analyzer compare to others?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Most meta tag analyzers only show you what tags exist and whether they are the right length. This tool goes further with pixel-perfect previews, local SEO signal detection, SERP comparison against top 10 ranking pages, and AI-generated title and description rewrites optimized to outperform your competition.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What is a good meta tag score?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">A score of 80 or above is well-optimized across all four categories. Scores between 60 and 79 need improvement in specific areas. Below 60 means critical tags are missing. The average first-time score for small business websites is 42, with the most common issues being missing Open Graph tags (78%), missing Twitter Card tags (81%), and title length problems (64%).</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How do SERP comparisons help improve my meta tags?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">SERP comparison shows you exactly what the top 10 ranking pages are doing with their titles and descriptions for your target keyword. You can see patterns like number usage, question framing, brand placement, and emotional triggers. This intelligence helps you write meta tags that fit what Google is already rewarding, rather than guessing.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What are Open Graph tags and why do I need them?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Open Graph tags control how your page appears when shared on social media. They are used by Facebook, LinkedIn, Pinterest, Slack, and most messaging apps. Without OG tags, platforms guess from your content, often producing broken previews. Posts with proper OG images get 2.3x more engagement than text-only shares.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What are Twitter Card tags?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Twitter Card tags control how your links appear on Twitter/X. The most common type is summary_large_image. If missing, Twitter falls back to Open Graph tags, then to your standard title and meta description. Explicit Twitter tags let you customize messaging for the Twitter audience.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What local SEO signals does this tool check?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">The tool checks five local SEO signals: city name in title tag, phone number in crawlable text, business address on page, LocalBusiness schema markup, and Google Maps embed. These signals help Google display your business in local search results and the maps pack.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How do I add meta tags to my website?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">On WordPress, use Yoast SEO or Rank Math. On Squarespace, fill in the SEO and Social Image sections in page settings. On Wix, use the SEO settings in the page editor. On Webflow, go to page settings > Open Graph. For custom HTML, add meta tags directly in the head section. This tool generates exact code snippets for every missing tag.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Is the SERP comparison and AI rewrite feature free?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">The basic meta tag analysis — scoring, previews, checklist, and code snippets — is 100% free with no signup. The SERP comparison and AI-generated rewrites are also free for your first few uses. After that, you can optionally enter your email to unlock unlimited comparisons and rewrites.</p>
+        </div>
+      </div>
+      <div>
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How often should I check and update my meta tags?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Audit your meta tags quarterly, and update them whenever you publish new content, change services, or rebrand. For active websites, check your homepage, top 5 service pages, and top 5 blog posts every month. Pages on page 2 of Google often move to page 1 with nothing more than an optimized title tag and meta description.</p>
+        </div>
+      </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score headlines on 8 dimensions</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Generate JSON-LD with real PAA data</p>
+          </a>
+          <a href="/tools/on-page-seo-checker/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">On-Page SEO Checker</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Analyze page content + SERP gaps</p>
+          </a>
+          <a href="/tools/website-seo-score/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Website SEO Score</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">6-category score with authority data</p>
+          </a>
+          <a href="/tools/seo-audit/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO Audit</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Full audit with authority data</p>
+          </a>
+          <a href="/tools/internal-link-suggester/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Internal Link Suggester</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Find link opportunities on any page</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script is:inline src="/js/meta-tag-engine.js"></script>
+  </Fragment>
+</ToolLayout>

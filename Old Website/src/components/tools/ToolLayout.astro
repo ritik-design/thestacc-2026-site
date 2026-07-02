@@ -1,0 +1,213 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../common/Header.astro';
+import Footer from '../common/Footer.astro';
+import { SITE_URL, buildBreadcrumbs } from '../../utils/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  toolName: string;
+  toolDescription: string;
+  trustCount?: string;
+  wide?: boolean;
+  hideHero?: boolean;
+  bleed?: boolean;
+  schema?: Record<string, unknown>;
+  faqSchema?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description,
+  toolName,
+  toolDescription,
+  trustCount = '',
+  wide = false,
+  hideHero = false,
+  bleed = false,
+  schema,
+  faqSchema,
+} = Astro.props;
+
+const toolSlug = Astro.url.pathname.replace(/\/$/, '');
+const toolUrl = `${SITE_URL}${toolSlug}/`;
+const breadcrumbSchema = buildBreadcrumbs(toolUrl, [
+  { name: 'Home', url: SITE_URL },
+  { name: 'Free SEO Tools', url: `${SITE_URL}/tools/` },
+  { name: toolName, url: toolUrl },
+]);
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+
+  <main class="flex-1">
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', ...breadcrumbSchema })} />
+
+    {!hideHero && (
+      <!-- ░░ HERO ░░ -->
+      <section class="relative overflow-hidden" style="background:#0d1117;">
+        <!-- Grid overlay -->
+        <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+        <!-- Purple glow -->
+        <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+
+        <div class="container-x relative z-10 pt-8 pb-12">
+          <!-- Breadcrumb -->
+          <nav aria-label="Breadcrumb">
+            <ol class="flex items-center gap-1.5 font-mono text-[11px] text-white/30">
+              <li><a href="/" class="hover:text-white/60 transition-colors">Home</a></li>
+              <li class="before:content-['/'] before:mx-1.5">
+                <a href="/tools/" class="hover:text-white/60 transition-colors">Tools</a>
+              </li>
+              <li class="before:content-['/'] before:mx-1.5 text-white/50">{toolName}</li>
+            </ol>
+          </nav>
+
+          <!-- Tool identity -->
+          <div class="mt-6 max-w-[600px]">
+            <p class="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#818cf8]">Free Tool</p>
+            <h1 class="mt-3 font-sans text-[32px] font-bold leading-[1.15] tracking-[-0.03em] text-white md:text-[40px]">
+              {toolName}
+            </h1>
+            <p class="mt-3 font-sans text-[16px] leading-[1.7] text-[#94a3b8]">
+              {toolDescription}
+            </p>
+            <!-- Trust badges -->
+            <div class="mt-5 flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-white/60">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                100% Free
+              </span>
+              <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-white/60">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                No Signup
+              </span>
+              {trustCount && (
+                <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-white/60">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  Used by {trustCount} businesses
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
+    {bleed ? (
+      <slot name="tool" />
+    ) : (
+      <!-- ░░ TOOL INTERFACE ░░ -->
+      <section class="border-b border-stone-200 bg-stone-50 px-6 py-10">
+        <div class:list={["mx-auto", wide ? "max-w-6xl" : "max-w-3xl"]}>
+          <slot name="tool" />
+        </div>
+      </section>
+    )}
+
+    <!-- ░░ CTA SLOT (per-tool) ░░ -->
+    <slot name="cta" />
+
+    <!-- ░░ SEO CONTENT ░░ -->
+    <section class="border-t border-stone-200 bg-white px-6 py-12">
+      <div class="mx-auto max-w-2xl">
+        <slot name="content" />
+      </div>
+    </section>
+
+    <!-- ░░ RELATED TOOLS SLOT (per-tool) ░░ -->
+    <slot name="related" />
+
+    <!-- ░░ INTERNAL LINKS ░░ -->
+    <section class="border-t border-stone-200 bg-white px-6 py-12">
+      <div class="mx-auto max-w-3xl">
+        <h3 class="font-sans text-[17px] font-semibold text-[#292524] mb-4">Explore More from theStacc</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a href="/modules/content-seo/" class="group rounded-xl border border-[#e7e5e4] px-4 py-3 transition-all hover:border-[#c4b5fd] hover:bg-[#fafaf9]">
+            <span class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#79716b]">Module</span>
+            <span class="block font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6] transition-colors mt-0.5">Blog SEO — AI Content Writing</span>
+          </a>
+          <a href="/modules/local-seo/" class="group rounded-xl border border-[#e7e5e4] px-4 py-3 transition-all hover:border-[#c4b5fd] hover:bg-[#fafaf9]">
+            <span class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#79716b]">Module</span>
+            <span class="block font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6] transition-colors mt-0.5">Local SEO Automation</span>
+          </a>
+          <a href="/best/ai-seo-tools/" class="group rounded-xl border border-[#e7e5e4] px-4 py-3 transition-all hover:border-[#c4b5fd] hover:bg-[#fafaf9]">
+            <span class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#79716b]">Best List</span>
+            <span class="block font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6] transition-colors mt-0.5">Best AI SEO Tools</span>
+          </a>
+          <a href="/" class="group rounded-xl border border-[#4f39f6]/20 bg-[#4f39f6]/5 px-4 py-3 transition-all hover:bg-[#4f39f6]/10">
+            <span class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">Platform</span>
+            <span class="block font-sans text-[14px] font-semibold text-[#4f39f6] mt-0.5">AI SEO Automation Platform →</span>
+          </a>
+        </div>
+        <div class="mt-5 flex flex-wrap items-center gap-5 text-[13px]">
+          <a href="/pricing/" class="font-sans font-medium text-[#4f39f6] hover:underline">See Pricing →</a>
+          <a href="/tools/" class="font-sans text-[#57534e] hover:text-[#4f39f6] transition-colors">All Free Tools</a>
+          <a href="/blog/" class="font-sans text-[#57534e] hover:text-[#4f39f6] transition-colors">SEO Blog</a>
+          <a href="/glossary/" class="font-sans text-[#57534e] hover:text-[#4f39f6] transition-colors">SEO Glossary</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ FOOTER CTA ░░ -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.4) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <h3 class="font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-white">
+          Ready to automate your local SEO?
+        </h3>
+        <p class="mx-auto mt-3 max-w-[400px] font-sans text-[15px] leading-[1.7] text-[#94a3b8]">
+          30 GBP posts, 30 blog articles, social media — all on autopilot.
+        </p>
+        <a
+          href="/demo/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+        >
+          Start Your $1 Trial
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#4b5563]">$1 for 3 days · Cancel anytime</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+
+  <script>
+    // FAQ accordion — shared across all tool pages
+    document.querySelectorAll<HTMLButtonElement>('.tool-faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector<HTMLElement>('.tool-faq-answer');
+        const iconPlus  = btn.querySelector('.tool-faq-plus');
+        const iconMinus = btn.querySelector('.tool-faq-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+
+        // Close all
+        document.querySelectorAll('.tool-faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.tool-faq-plus').forEach(i  => i.classList.remove('hidden'));
+        document.querySelectorAll('.tool-faq-minus').forEach(i => i.classList.add('hidden'));
+        document.querySelectorAll('.tool-faq-btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  </script>
+
+  {schema && (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  )}
+  {faqSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  )}
+</BaseLayout>

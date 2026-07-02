@@ -1,0 +1,443 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/fr/HeaderFr.astro';
+import Footer from '../../../components/fr/FooterFr.astro';
+
+const faqs = [
+  {
+    q: "Combien d'établissements puis-je gérer dans Stacc ?",
+    a: "Il n'y a pas de limite technique au nombre d'établissements. Les plans sont tarifés selon le nombre d'établissements actifs — consultez la page tarifs pour les paliers. Des entreprises avec 200+ établissements utilisent Stacc en production.",
+  },
+  {
+    q: "Puis-je donner accès à des gérants d'établissements individuels ?",
+    a: "Oui. Vous créez des accès avec des permissions basées sur les établissements. Le gérant du site de Lyon voit les données de Lyon uniquement. La direction voit le portefeuille complet. Chaque utilisateur voit exactement ce dont il a besoin, rien de plus.",
+  },
+  {
+    q: "Les rapports multi-établissements peuvent-ils être envoyés automatiquement ?",
+    a: "Oui. Vous pouvez configurer des rapports automatisés qui agrègent les données de tous vos établissements ou d'un sous-ensemble. Envoyés hebdomadairement ou mensuellement selon votre préférence. Avec votre marque si vous le souhaitez.",
+  },
+  {
+    q: "Puis-je comparer les performances entre villes ?",
+    a: "Oui. La vue comparative montre les métriques clés côte à côte pour tous vos établissements. Triez par position moyenne, note d'avis, ou progression mois sur mois. Identifiez immédiatement vos établissements sur-performeurs et sous-performeurs.",
+  },
+  {
+    q: "Que faire si certains établissements ont des marchés très différents ?",
+    a: "Chaque établissement a ses propres mots-clés configurés selon son marché local. Un établissement à Paris suit des termes différents d'un établissement à Bordeaux. La vue portefeuille consolide les données tout en respectant les spécificités locales de chaque marché.",
+  },
+  {
+    q: "Les données historiques sont-elles disponibles pour tous les établissements ?",
+    a: "Oui. Stacc conserve l'historique complet depuis le début pour chaque établissement. Vous pouvez comparer les performances de n'importe quel établissement sur n'importe quelle période depuis le début de l'abonnement.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Rapports Multi-Établissements",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "fr",
+      "description": "Un seul tableau de bord pour suivre les positions, avis et performances GBP de chacun de vos établissements. Comparez, identifiez les sites en retard, et agissez avec des données consolidées.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://thestacc.com/fr/" },
+        { "@type": "ListItem", "position": 2, "name": "Fonctionnalités", "item": "https://thestacc.com/fr/fonctionnalites/" },
+        { "@type": "ListItem", "position": 3, "name": "Rapports Multi-Établissements", "item": "https://thestacc.com/fr/fonctionnalites/rapports-multi-sites/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "fr",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+
+const trustStats = [
+  { value: "500+", label: "Établissements gérables dans un tableau de bord" },
+  { value: "1 seul", label: "Tableau de bord pour tous vos sites" },
+  { value: "Quotidien", label: "Mise à jour des données" },
+  { value: "4,9★", label: "Note moyenne Stacc" },
+];
+
+const painPoints = [
+  {
+    title: "Gérer 10 tableurs SEO séparés n'est pas une stratégie, c'est du chaos.",
+    body: "Pour chaque établissement : un tableau bord de positions, un suivi d'avis, un rapport GBP. Multiplié par le nombre d'établissements. Vous passez plus de temps à naviguer entre les outils qu'à analyser les données et prendre des décisions.",
+  },
+  {
+    title: "Vous ne savez jamais quel établissement a besoin d'attention urgente.",
+    body: "Sans vue consolidée, les problèmes se cachent. Un établissement perd des positions depuis 3 semaines. Un autre a reçu 5 avis négatifs ce mois. Un troisième n'a pas eu de publications GBP depuis 2 semaines. Vous ne le découvrez qu'en faisant le tour de chaque profil un par un.",
+  },
+  {
+    title: "Prouver les résultats globaux à la direction est impossible sans données consolidées.",
+    body: "Vous savez que le SEO local fonctionne dans l'ensemble, mais montrer le ROI à la direction nécessite des données agrégées sur tous les établissements. Sans consolidation automatique, vous passez des heures à assembler des rapports qui auraient dû prendre des minutes.",
+  },
+];
+
+const steps = [
+  {
+    num: "01",
+    title: "Ajoutez tous vos établissements une fois",
+    body: "Connectez chaque Google Business Profile, définissez les mots-clés locaux pour chaque ville, configurez vos préférences d'alerte. Une fois configuré, le tableau de bord consolidé se remplit automatiquement.",
+  },
+  {
+    num: "02",
+    title: "Vue portefeuille en temps réel",
+    body: "Un seul écran montre tous vos établissements avec leurs métriques clés : position moyenne, note d'avis, publications GBP actives, score de cohérence des citations. Les établissements qui ont besoin d'attention sont signalés automatiquement.",
+  },
+  {
+    num: "03",
+    title: "Forez dans chaque établissement en un clic",
+    body: "Cliquez sur n'importe quel établissement pour voir ses données détaillées. Puis revenez à la vue portefeuille. Comparez les performances entre villes, identifiez les meilleures pratiques de vos établissements les plus performants, reproduisez-les sur les autres.",
+  },
+];
+
+const capabilities = [
+  {
+    title: "Vue portefeuille consolidée",
+    body: "Toutes vos métriques clés pour tous vos établissements sur un seul écran. Positions, avis, GBP et citations — agrégés et comparables.",
+    icon: "M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z",
+  },
+  {
+    title: "Alertes par établissement",
+    body: "Quand un établissement perd des positions, reçoit un avis négatif ou que son profil GBP devient inactif, vous êtes alerté immédiatement — pour cet établissement spécifique.",
+    icon: "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9",
+  },
+  {
+    title: "Comparaison inter-établissements",
+    body: "Comparez les performances de vos établissements entre eux. Identifiez pourquoi votre site de Lyon surperforme celui de Marseille et reproduisez la stratégie.",
+    icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
+  },
+  {
+    title: "Rapports consolidés automatisés",
+    body: "Générez des rapports qui agrègent les données de tous vos établissements dans un seul document. Parfait pour les comités de direction ou les réunions de franchise.",
+    icon: "M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
+  },
+  {
+    title: "Accès multi-utilisateurs",
+    body: "Donnez accès à votre équipe avec des permissions granulaires. Le responsable de Lyon voit les données de Lyon. La direction voit tout.",
+    icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
+  },
+  {
+    title: "Export des données globales",
+    body: "Exportez toutes vos données multi-établissements en CSV ou PDF pour des analyses personnalisées ou des présentations externes.",
+    icon: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4",
+  },
+];
+
+const metrics = [
+  { value: "10×", label: "Temps économisé par rapport à la gestion individuelle", sub: "de chaque établissement dans des outils séparés" },
+  { value: "2h", label: "Pour configurer 20 établissements dans Stacc", sub: "puis tout est automatisé" },
+  { value: "4,9★", label: "Note moyenne Stacc", sub: "parmi les gestionnaires multi-établissements" },
+];
+---
+
+<BaseLayout
+  title="Rapports Multi-Établissements — Vue Consolidée de Tous Vos Sites | theStacc"
+  description="Un seul tableau de bord pour suivre les positions, avis et performances GBP de chacun de vos établissements. Comparez, identifiez les sites en retard, et agissez avec des données consolidées."
+  lang="fr"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[760px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Rapports Multi-Établissements · Module SEO Local</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Gérer 10 établissements ne devrait pas prendre<br class="hidden md:block" />
+            <span style="color:#4f39f6;">10 fois plus de temps qu'en gérer 1.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[560px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Stacc consolide toutes vos métriques SEO locales — positions, avis, statistiques GBP, citations — dans un seul tableau de bord multi-établissements. Voyez d'un coup d'œil quels sites performent et lesquels ont besoin d'attention. Sans ouvrir 10 tableaux bords séparés.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/fr/demo/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Centraliser mes établissements
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/fr/tarifs/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]"
+            >
+              Voir les tarifs
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            30 jours de garantie · Sans carte bancaire · Annulez quand vous voulez
+          </p>
+
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {trustStats.map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]">{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PROBLEM ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Le problème</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Plus d'établissements = plus de chaos.<br />Jusqu'à ce que vous centralisez.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Chaque établissement supplémentaire multiplie la complexité opérationnelle. Sans vue consolidée, vous êtes toujours en train de rattraper les problèmes plutôt que de les prévenir.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {painPoints.map(p => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{p.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section id="how-it-works" class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Comment ça fonctionne</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Un tableau de bord.<br />Tous vos établissements. En temps réel.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Configurez une fois, gérez depuis un seul endroit. Stacc agrège toutes vos données SEO locales et vous alerte quand un établissement a besoin d'attention.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl">
+          <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+            {steps.map(s => (
+              <div class="bg-white px-8 py-10">
+                <div class="mb-6 flex items-center justify-between">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  </div>
+                  <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.num}</span>
+                </div>
+                <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+                <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CAPABILITY GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Tout inclus</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Chaque outil pour gérer votre réseau<br />d'établissements efficacement.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {capabilities.map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d={f.icon}/>
+                </svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="relative overflow-hidden border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.06) 0%, transparent 70%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20">
+        <div class="mx-auto max-w-5xl">
+          <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white/5 sm:grid-cols-3">
+            {metrics.map(m => (
+              <div class="px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+                <p class="font-sans text-[3rem] font-bold leading-none text-[#292524]">{m.value}</p>
+                <p class="mt-3 font-mono text-[12px] font-semibold uppercase tracking-[0.1em]" style="color:#818cf8;">{m.label}</p>
+                <p class="mt-2 font-sans text-[13px]" style="color:#4b5563;">{m.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#f5f3ff]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-[#c7c0fc] bg-white px-10 py-12 shadow-sm">
+            <div class="flex gap-1 mb-6">
+              {[1,2,3,4,5].map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <blockquote class="font-sans text-[1.2rem] leading-[1.65] text-[#111827] font-medium">
+              "On avait 8 restaurants et chacun géré dans un tableau bord séparé. Avec Stacc on voit tout en un coup d'œil. On a découvert que notre site de Nantes avait perdu 12 positions en 3 semaines — quelque chose qu'on n'aurait jamais détecté avant dans le bruit. On a agi en 24h. Les positions sont revenues en 3 semaines."
+            </blockquote>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="h-11 w-11 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                <span class="font-mono text-[14px] font-bold text-white">TB</span>
+              </div>
+              <div>
+                <p class="font-sans text-[14px] font-semibold text-[#111827]">Thomas B.</p>
+                <p class="font-mono text-[11px] text-[#79716b]">Directeur Marketing, Chaîne Restauration · France</p>
+              </div>
+              <div class="ml-auto flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1.5">
+                <span class="font-mono text-[11px] font-semibold text-[#059669]">12 positions récupérées en 3 semaines</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Questions fréquentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Les questions que tout le monde pose avant de commencer
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button
+                class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
+                aria-expanded={i === 0 ? 'true' : 'false'}
+              >
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0 transition-transform" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Commencez aujourd'hui</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Plus d'établissements ne devrait pas signifier
+            <span style="color:#818cf8;"> plus de chaos.</span>
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Stacc centralise toutes vos données SEO locales dans un seul tableau de bord. Vous gérez le portefeuille, pas les outils. Chaque établissement est suivi, comparé et optimisé — depuis un seul endroit.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/fr/demo/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]"
+            >
+              Centraliser mes établissements
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/fr/tarifs/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5"
+            >
+              Voir les tarifs
+            </a>
+          </div>
+
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">Sans contrat · RGPD conforme</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

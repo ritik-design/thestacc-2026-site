@@ -1,0 +1,159 @@
+---
+import LegalLayout from '../../layouts/LegalLayout.astro';
+
+const toc = [
+  { id: 'intro',    label: 'Sobre' },
+  { id: 'frontend', label: 'Tecnologias Frontend' },
+  { id: 'fonts',    label: 'Fontes' },
+  { id: 'devtools', label: 'Ferramentas de Desenvolvimento' },
+];
+
+const frontendLibraries = [
+  { name: 'Astro',        licence: 'MIT License',           url: 'https://astro.build' },
+  { name: 'Tailwind CSS', licence: 'MIT License',           url: 'https://tailwindcss.com' },
+  { name: 'Three.js',     licence: 'MIT License',           url: 'https://threejs.org' },
+];
+
+const fonts = [
+  { name: 'Geist Sans',  licence: 'SIL Open Font License', url: 'https://fonts.google.com/specimen/Geist' },
+  { name: 'Geist Mono',  licence: 'SIL Open Font License', url: 'https://fonts.google.com/specimen/Geist+Mono' },
+];
+
+const devTools = [
+  { name: 'TypeScript',  licence: 'Apache License 2.0',    url: 'https://typescriptlang.org' },
+];
+---
+
+<LegalLayout
+  title="Licenças"
+  description="Licenças de software de código aberto e fontes utilizadas no theStacc. Atribuição completa e detalhes de licença de todos os componentes de terceiros."
+  lastUpdated="Abril 2026"
+  badge="Jurídico · Atribuição"
+  tocItems={toc}
+  currentPath="/pt-br/licencas/"
+>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "name": "Licenças | theStacc",
+        "url": "https://thestacc.com/pt-br/licencas/",
+        "inLanguage": "pt-BR",
+        "description": "Licenças de software de código aberto e fontes utilizadas no theStacc."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://thestacc.com/pt-br/" },
+          { "@type": "ListItem", "position": 2, "name": "Licenças", "item": "https://thestacc.com/pt-br/licencas/" }
+        ]
+      }
+    ]
+  })} />
+
+  <div class="flex flex-col gap-10">
+
+    <section id="intro" class="scroll-mt-6">
+      <p class="font-sans text-[15px] leading-[1.75] text-[#57534e]">
+        O theStacc é construído com uma variedade de softwares e fontes de código aberto. Somos gratos aos desenvolvedores e às comunidades que disponibilizaram seus trabalhos. Abaixo está uma lista das principais bibliotecas e recursos de código aberto que utilizamos, juntamente com suas respectivas licenças.
+      </p>
+    </section>
+
+    <div class="border-t border-[#e7e5e4]"></div>
+
+    <section id="frontend" class="scroll-mt-6">
+      <div class="flex items-center gap-3 mb-5">
+        <h2 class="font-sans text-[18px] font-semibold text-[#111827]">Tecnologias Frontend</h2>
+      </div>
+      <div class="overflow-hidden rounded-xl border border-[#e7e5e4]">
+        <div class="flex items-center justify-between border-b border-[#e7e5e4] bg-[#fafaf9] px-5 py-3">
+          <span class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Biblioteca</span>
+          <span class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Licença</span>
+        </div>
+        {frontendLibraries.map((item, i) => (
+          <div class={`flex items-center justify-between px-5 py-4 bg-white transition-colors hover:bg-[#fafaf9] ${i < frontendLibraries.length - 1 ? 'border-b border-[#e7e5e4]' : ''}`}>
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 font-sans text-[15px] font-medium text-[#111827] transition-colors hover:text-[#4f39f6]"
+            >
+              {item.name}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <span class="rounded-full border border-[#e7e5e4] px-3 py-1 font-mono text-[11px] text-[#79716b]">{item.licence}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="border-t border-[#e7e5e4]"></div>
+
+    <section id="fonts" class="scroll-mt-6">
+      <div class="flex items-center gap-3 mb-5">
+        <h2 class="font-sans text-[18px] font-semibold text-[#111827]">Fontes</h2>
+      </div>
+      <div class="overflow-hidden rounded-xl border border-[#e7e5e4]">
+        <div class="flex items-center justify-between border-b border-[#e7e5e4] bg-[#fafaf9] px-5 py-3">
+          <span class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Fonte</span>
+          <span class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Licença</span>
+        </div>
+        {fonts.map((item, i) => (
+          <div class={`flex items-center justify-between px-5 py-4 bg-white transition-colors hover:bg-[#fafaf9] ${i < fonts.length - 1 ? 'border-b border-[#e7e5e4]' : ''}`}>
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 font-sans text-[15px] font-medium text-[#111827] transition-colors hover:text-[#4f39f6]"
+            >
+              {item.name}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <span class="rounded-full border border-[#e7e5e4] px-3 py-1 font-mono text-[11px] text-[#79716b]">{item.licence}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="border-t border-[#e7e5e4]"></div>
+
+    <section id="devtools" class="scroll-mt-6">
+      <div class="flex items-center gap-3 mb-5">
+        <h2 class="font-sans text-[18px] font-semibold text-[#111827]">Ferramentas de Desenvolvimento</h2>
+      </div>
+      <div class="overflow-hidden rounded-xl border border-[#e7e5e4]">
+        <div class="flex items-center justify-between border-b border-[#e7e5e4] bg-[#fafaf9] px-5 py-3">
+          <span class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Ferramenta</span>
+          <span class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Licença</span>
+        </div>
+        {devTools.map((item, i) => (
+          <div class={`flex items-center justify-between px-5 py-4 bg-white transition-colors hover:bg-[#fafaf9] ${i < devTools.length - 1 ? 'border-b border-[#e7e5e4]' : ''}`}>
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 font-sans text-[15px] font-medium text-[#111827] transition-colors hover:text-[#4f39f6]"
+            >
+              {item.name}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+            <span class="rounded-full border border-[#e7e5e4] px-3 py-1 font-mono text-[11px] text-[#79716b]">{item.licence}</span>
+          </div>
+        ))}
+      </div>
+      <p class="mt-5 font-sans text-[13px] text-[#79716b]">
+        Para a lista completa de dependências e suas licenças, consulte nosso <code class="rounded bg-[#f5f3ff] px-1.5 py-0.5 font-mono text-[12px] text-[#4f39f6]">package.json</code> ou entre em contato conosco em <a href="mailto:hello@thestacc.com" class="text-[#4f39f6] hover:underline">hello@thestacc.com</a>.
+      </p>
+      <div class="mt-4 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] px-4 py-4">
+        <p class="font-sans text-[13px] font-semibold text-[#111827] mb-1">Razão Social</p>
+        <p class="font-sans text-[13px] leading-[1.65] text-[#79716b] mb-3">SOLARTREK VENTURES LLP</p>
+        <p class="font-sans text-[13px] font-semibold text-[#111827] mb-1">Endereço</p>
+        <p class="font-sans text-[13px] leading-[1.65] text-[#79716b]">Ground Floor, Flat No. 05, Vatika Infotech City, Bauhinia Street, Urbanwoods, Near GVK Toll Plaza, Thikariya Ajmer Road, Jaipur, Rajasthan – 302026, India</p>
+      </div>
+      <p class="mt-5 font-sans text-[13px] text-[#79716b]">
+      </p>
+    </section>
+
+  </div>
+</LegalLayout>

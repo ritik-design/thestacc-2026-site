@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE_URL, organizationSchema, publisherRef, authorRef, websiteSchema, buildBreadcrumbs, buildSpeakable, resolveImage } from '../../../utils/schema';
+
+export async function getStaticPaths() {
+  const langReviews = await getCollection('reviews_ptbr');
+  return langReviews.map((review) => ({
+    params: { slug: review.data.slug },
+    props: { review },
+  }));
+}
+
+const { review } = Astro.props;
+const { Content } = await render(review);
+
+const wordCount = (review.body ?? '').split(/\s+/).filter(Boolean).length;
+const readTime = Math.max(1, Math.round(wordCount / 200));
+
+const ptBrUrl = `${SITE_URL}/pt-br/avaliacoes/${review.data.slug}/`;
+const enUrl = `${SITE_URL}/reviews/${review.data.slug}/`;
+
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Review',
+      '@id': `${ptBrUrl}#review`,
+      name: review.data.title,
+      description: review.data.description,
+      url: ptBrUrl,
+      datePublished: review.data.date,
+      dateModified: review.data.date,
+      author: authorRef,
+      publisher: publisherRef,
+      image: resolveImage(review.data.image),
+      mainEntityOfPage: { '@type': 'WebPage', '@id': ptBrUrl },
+      inLanguage: 'pt-BR',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    buildBreadcrumbs(ptBrUrl, [
+      { name: 'Início', url: `${SITE_URL}/pt-br/` },
+      { name: 'Avaliações', url: `${SITE_URL}/pt-br/avaliacoes/` },
+      { name: review.data.title, url: ptBrUrl },
+    ]),
+    organizationSchema,
+    websiteSchema,
+  ],
+};
+---
+
+<BaseLayout
+  title={review.data.title}
+  description={review.data.description}
+  ogImage={review.data.image}
+  lang="pt-BR"
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <div id="reading-progress" class="pointer-events-none fixed left-0 top-0 z-[200] h-[3px]" style="width:0%;background:linear-gradient(to right,#4f39f6,#818cf8);transition:width 80ms linear;"></div>
+
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+    <article>
+
+      <!-- Hero -->
+      <div class="border-b border-[#e7e5e4] bg-white">
+        <div class="mx-auto max-w-[1320px] px-6 pt-8 pb-8">
+          <div class="max-w-[820px]">
+
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5" aria-label="Breadcrumb">
+                <a href="/pt-br/avaliacoes/" class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#79716b] transition-colors hover:text-[#4f39f6]">Avaliações</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#d6d3d1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#4f39f6]">Análise</span>
+              </nav>
+
+              <div class="mt-3.5 flex flex-wrap items-center gap-2">
+                <span class="rounded-md bg-[#f5f3ff] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[#4f39f6]">Avaliação</span>
+                <span class="flex items-center gap-1.5 font-mono text-[11px] text-[#79716b]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {readTime} min de leitura
+                </span>
+              </div>
+
+              <h1 class="mt-4 font-sans text-[28px] font-bold leading-[1.18] tracking-[-0.025em] text-[#111827] md:text-[36px]">{review.data.title}</h1>
+              <p class="mt-4 font-sans text-[17px] leading-[1.65] text-[#57534e]">{review.data.description}</p>
+
+              <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[#f5f5f4] pt-4">
+                <span class="font-mono text-[11px] text-[#79716b]">{review.data.date}</span>
+                <span class="text-[#d6d3d1]">·</span>
+                <a href="/author/siddharth-gangal/" class="font-sans text-[13px] font-medium text-[#292524] transition-colors hover:text-[#4f39f6]">Siddharth Gangal</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Content + Sidebar -->
+      <div class="mx-auto max-w-[1320px] px-6 py-10 lg:flex lg:items-start lg:gap-12">
+        <div class="min-w-0 flex-1">
+          <div class="review-content overflow-x-hidden">
+            <Content />
+          </div>
+
+          <!-- CTA Box -->
+          <div class="mt-10 overflow-hidden rounded-2xl relative" style="background:#0d1117;border:1px solid rgba(79,57,246,0.25);">
+            <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.4) 0%, transparent 65%);"></div>
+            <div class="relative z-10 px-6 py-10 text-center">
+              <p class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#818cf8]">theStacc</p>
+              <h3 class="mt-3 font-sans text-[22px] font-bold leading-[1.25] tracking-[-0.02em] text-white md:text-[24px]">Pule a pesquisa. Ganhe o tráfego.</h3>
+              <p class="mx-auto mt-3 max-w-[440px] font-sans text-[14px] leading-[1.65] text-[#94a3b8]">30 artigos de blog, 30 posts GBP e conteúdo para redes sociais. Publicados todo mês. Automaticamente.</p>
+              <a href="/pt-br/demo/" class="mt-6 inline-flex h-[44px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-7 font-mono text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">
+                Comece por $1
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+              <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#4b5563]">$1 por 30 dias · Cancele quando quiser</p>
+            </div>
+          </div>
+
+          <!-- Author Box -->
+          <div class="mt-8 flex items-start gap-5 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+            <img src="/images/siddharth-gangal.webp" alt="Siddharth Gangal" width="80" height="80" class="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-white" loading="lazy" />
+            <div class="min-w-0">
+              <p class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Escrito por</p>
+              <a href="/author/siddharth-gangal/" class="mt-0.5 block font-sans text-[15px] font-bold text-[#111827] transition-colors hover:text-[#4f39f6]">Siddharth Gangal</a>
+              <p class="mt-1.5 font-sans text-[13px] leading-[1.65] text-[#57534e]">Siddharth é o fundador da theStacc e Arka360, formado pelo IIT Mandi. Escreve sobre SEO, conteúdo em escala e as táticas que realmente movem rankings.</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hidden lg:block w-[272px] shrink-0 self-stretch">
+          <div class="flex flex-col gap-4 sticky top-[80px]">
+            <div class="overflow-hidden rounded-2xl" style="background:#0d1117;border:1px solid rgba(79,57,246,0.25);">
+              <div class="p-5" style="background:linear-gradient(135deg,rgba(79,57,246,0.18) 0%,transparent 65%);">
+                <h4 class="font-sans text-[14px] font-bold leading-[1.3] text-white">Procurando uma alternativa que funciona?</h4>
+                <p class="mt-2 font-sans text-[12px] leading-[1.6] text-[#94a3b8]">O theStacc publica 30 artigos de SEO no seu site todo mês. Automaticamente.</p>
+              </div>
+              <div class="px-5 pb-5 pt-4" style="border-top:1px solid rgba(255,255,255,0.07);">
+                <a href="/pt-br/demo/" class="block rounded-xl py-3 text-center font-mono text-[12px] font-bold uppercase tracking-[0.08em] text-white transition-colors hover:opacity-90" style="background:#4f39f6;">
+                  Começar por R$1 →
+                </a>
+                <p class="mt-2 text-center font-mono text-[10px] text-[#4b5563]">30 dias de teste · Cancele quando quiser</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Footer CTA -->
+      <section class="relative overflow-hidden" style="background:#ffffff;">
+        <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.06) 0%, transparent 65%);"></div>
+        <div class="container-x relative z-10 py-14 text-center">
+          <h3 class="font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-[#292524]">Pare de escrever conteúdo SEO manualmente</h3>
+          <p class="mx-auto mt-3 max-w-[420px] font-sans text-[15px] leading-[1.7] text-[#57534e]">30 artigos de blog, 30 posts no GMN e conteúdo para redes sociais. Publicados todo mês. Automaticamente.</p>
+          <a href="/pt-br/demo/" class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">
+            Começar por R$1
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#79716b]">R$1 por 30 dias · Cancele quando quiser</p>
+        </div>
+      </section>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const progressBar = document.getElementById('reading-progress') as HTMLElement | null;
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (progressBar && docH > 0) progressBar.style.width = ((scrollTop / docH) * 100).toFixed(1) + '%';
+  }, { passive: true });
+
+  document.querySelectorAll('.review-content table').forEach((table) => {
+    if (table.parentElement?.classList.contains('table-scroll-wrapper')) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-scroll-wrapper';
+    table.parentNode?.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+    const colCount = table.querySelectorAll('thead th, thead td').length || table.querySelector('tr')?.children.length || 0;
+    if (colCount >= 6) { (table as HTMLElement).style.minWidth = '600px'; }
+    else if (colCount >= 4) { (table as HTMLElement).style.minWidth = '480px'; }
+  });
+</script>

@@ -1,0 +1,13 @@
+---
+import FaqItem from './FaqItem.astro';
+export interface Props {
+  title?: string;
+  id?: string;
+  items: { question: string; answer: string }[];
+}
+const { title = 'Frequently asked questions', id = 'faq', items = [] } = Astro.props;
+---
+{title && <h2 id={id}>{title}</h2>}
+<div class="faq-list">
+  {items.map(item => <FaqItem question={item.question} answer={item.answer} />)}
+</div>

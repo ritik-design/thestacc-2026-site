@@ -1,0 +1,231 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+import { SITE_URL, LOGO_URL, buildBreadcrumbs } from '../utils/schema';
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/demo/`,
+      name: 'Book a Strategy Call | theStacc',
+      description: 'Book a free 30-minute strategy call. See how theStacc helps you cut SEO costs by 70-90% with AI-powered tools — software or fully managed.',
+      url: `${SITE_URL}/demo/`,
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    buildBreadcrumbs(`${SITE_URL}/demo/`, [
+      { name: 'Home', url: SITE_URL },
+      { name: 'Book a Demo', url: `${SITE_URL}/demo/` },
+    ]),
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'theStacc',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: LOGO_URL },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Book a Strategy Call | theStacc"
+  description="Book a free 30-minute strategy call. See how theStacc helps you cut SEO costs by 70-90% with AI-powered tools — run it yourself, or let us handle everything."
+>
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+    <!-- ─── HERO + FORM ─── -->
+    <section class="relative overflow-hidden bg-white">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.045) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.045) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 88%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 88%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[420px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.3) 0%, transparent 58%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-16 md:py-24">
+        <div class="mx-auto max-w-6xl grid grid-cols-1 gap-12 md:grid-cols-2 md:items-start">
+
+          <!-- Left: value props -->
+          <div class="flex flex-col gap-8 md:pt-4">
+            <div>
+              <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-[#4ade80]"></span>
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Free 30-minute strategy call</span>
+              </div>
+
+              <h1 class="font-sans text-[2.25rem] font-semibold leading-[1.1] tracking-[-0.04em] text-[#292524] md:text-[2.75rem]">
+                Learn How Businesses Are Reducing<br class="hidden sm:block" />
+                <span style="color:#4f39f6;">SEO Costs by 70–90%</span>
+              </h1>
+
+              <p class="mt-5 max-w-[480px] font-sans text-[1rem] leading-[1.75] text-[#57534e]">
+                We'll show you exactly how theStacc ranks your website on Google and AI search automatically — no agency, no writers, no ad spend.
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-6">
+              <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">What you'll walk away with</span>
+
+              <div class="flex flex-col gap-5">
+                {[
+                  {
+                    icon: '<path d="M12 2v20M2 12h20"/>',
+                    title: 'Reduce SEO and content costs by 70–90%',
+                    body: 'Replace expensive agencies and freelance writers with AI-powered automation that runs 24/7.',
+                  },
+                  {
+                    icon: '<path d="M23 6l-9.5 9.5-5-5L1 18"/>',
+                    title: 'Increase organic traffic by 50–150% over time',
+                    body: 'Consistent content creation and optimization compounds into sustained ranking growth.',
+                  },
+                  {
+                    icon: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>',
+                    title: 'Stay visible across Google and AI-driven search',
+                    body: 'Rank on traditional search and get cited by ChatGPT, Perplexity, and Google AI Overviews.',
+                  },
+                  {
+                    icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+                    title: 'Generate more inbound leads organically',
+                    body: 'High-intent prospects find you through search instead of you chasing them with paid ads.',
+                  },
+                ].map(item => (
+                  <div class="flex items-start gap-4">
+                    <div class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#4f39f6]/10">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={item.icon} />
+                    </div>
+                    <div>
+                      <p class="font-sans text-[14px] font-semibold text-[#292524]">{item.title}</p>
+                      <p class="mt-0.5 font-sans text-[13px] leading-relaxed text-[#79716b]">{item.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div class="rounded-xl border border-[#e7e5e4] bg-white px-5 py-4">
+              <p class="font-sans text-[13px] leading-[1.7] text-[#79716b]">
+                Every month you wait, a competitor is publishing content you're not. The gap compounds. A 30-minute call costs you nothing. Staying invisible costs you every month.
+              </p>
+            </div>
+
+            <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-[#a8a29e]">No commitment · No credit card · 30 minutes</p>
+          </div>
+
+          <!-- Right: form -->
+          <div class="rounded-2xl border border-[#e7e5e4] bg-white p-7 md:p-8">
+            <p class="font-sans text-[16px] font-semibold text-[#292524]">Book your free strategy call</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">We'll confirm within 1 business day.</p>
+
+            <form id="demo-form" class="mt-6 flex flex-col gap-4" novalidate>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="flex flex-col gap-1.5">
+                  <label for="demo-fname" class="font-sans text-[12px] font-semibold text-[#374151]">First name <span class="text-[#ef4444]">*</span></label>
+                  <input id="demo-fname" name="first_name" type="text" required autocomplete="given-name" placeholder="Jane"
+                    class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#292524] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10" />
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label for="demo-lname" class="font-sans text-[12px] font-semibold text-[#374151]">Last name <span class="text-[#ef4444]">*</span></label>
+                  <input id="demo-lname" name="last_name" type="text" required autocomplete="family-name" placeholder="Smith"
+                    class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#292524] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10" />
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label for="demo-email" class="font-sans text-[12px] font-semibold text-[#374151]">Work email <span class="text-[#ef4444]">*</span></label>
+                <input id="demo-email" name="email" type="email" required autocomplete="email" placeholder="jane@yourbusiness.com"
+                  class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#292524] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10" />
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label for="demo-phone" class="font-sans text-[12px] font-semibold text-[#374151]">Phone <span class="text-[#ef4444]">*</span></label>
+                <input id="demo-phone" name="phone" type="tel" required autocomplete="tel" placeholder="+1 (555) 000-0000"
+                  class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#292524] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10" />
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label for="demo-company" class="font-sans text-[12px] font-semibold text-[#374151]">Company name</label>
+                <input id="demo-company" name="business" type="text" autocomplete="organization" placeholder="Acme Inc."
+                  class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#292524] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10" />
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label for="demo-website" class="font-sans text-[12px] font-semibold text-[#374151]">Website URL</label>
+                <input id="demo-website" name="website" type="url" autocomplete="url" placeholder="https://yourbusiness.com"
+                  class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#292524] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10" />
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label for="demo-goal" class="font-sans text-[12px] font-semibold text-[#374151]">What's your biggest marketing challenge?</label>
+                <textarea id="demo-goal" name="goal" rows="3"
+                  placeholder="e.g. We don't rank for our target keywords, our blog is years out of date..."
+                  class="rounded-xl border border-[#e7e5e4] bg-white px-4 py-3 font-sans text-[14px] text-[#292524] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10 resize-none leading-relaxed"></textarea>
+              </div>
+
+              <button type="submit" id="demo-submit"
+                class="mt-1 flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#4f39f6] font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+                Book my free strategy call
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <div id="demo-success" class="hidden rounded-xl border border-[#bbf7d0] bg-[#f0fdf4] px-5 py-4 text-center">
+                <p class="font-sans text-[14px] font-semibold text-[#15803d]">Request received.</p>
+                <p class="mt-1 font-sans text-[13px] text-[#166534]">We'll confirm your call slot within 1 business day.</p>
+              </div>
+            </form>
+
+            <p class="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-[#a8a29e]">No commitment · Free · 30 minutes</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    const form = document.getElementById('demo-form') as HTMLFormElement | null;
+    const submitBtn = document.getElementById('demo-submit') as HTMLButtonElement | null;
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!submitBtn) return;
+
+      const originalHTML = submitBtn.innerHTML;
+      submitBtn.textContent = 'Sending...';
+      submitBtn.disabled = true;
+
+      try {
+        const fd = new FormData(form);
+        const data = {
+          first_name: (fd.get('first_name') as string)?.trim(),
+          last_name: (fd.get('last_name') as string)?.trim(),
+          email: (fd.get('email') as string)?.trim(),
+          phone: (fd.get('phone') as string)?.trim(),
+          business: (fd.get('business') as string)?.trim() || undefined,
+          website: (fd.get('website') as string)?.trim() || undefined,
+          goal: (fd.get('goal') as string)?.trim() || undefined,
+        };
+
+        const res = await fetch('/api/demo/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          window.location.href = '/thank-you/';
+        } else {
+          const result = await res.json().catch(() => ({}));
+          throw new Error(result.error || 'Network error');
+        }
+      } catch (err) {
+        submitBtn.innerHTML = originalHTML;
+        submitBtn.disabled = false;
+        const msg = err instanceof Error ? err.message : 'Something went wrong.';
+        alert(`${msg} Email us directly at sidgangal@gmail.com`);
+      }
+    });
+  </script>
+</BaseLayout>

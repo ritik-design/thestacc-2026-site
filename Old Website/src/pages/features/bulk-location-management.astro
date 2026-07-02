@@ -1,0 +1,381 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "How many locations can I manage at once?",
+    a: "There's no practical limit. Stacc is built to handle enterprise-scale portfolios — customers manage 500+ locations from a single account. Bulk operations work the same whether you have 10 locations or 500.",
+  },
+  {
+    q: "What can I update in bulk across locations?",
+    a: "Business hours, holiday hours, phone numbers, addresses, website URLs, business descriptions, and categories. For Google Business Profile specifically: you can also bulk-update attributes, service menus, and photo cover images across all locations simultaneously.",
+  },
+  {
+    q: "How long does it take to add a new location?",
+    a: "Approximately 2 minutes. You enter the core business information once, connect the GBP listing and other platforms, and Stacc propagates the setup across your citation network automatically. There's no manual directory-by-directory entry.",
+  },
+  {
+    q: "Can I make different updates to different subsets of locations?",
+    a: "Yes. You can group locations by region, brand, franchise owner, or any custom tag. Bulk updates can be applied to the full portfolio, a specific group, or selected individual locations. You have complete control over scope.",
+  },
+  {
+    q: "What happens if one location has a unique address or phone number?",
+    a: "Bulk updates handle shared fields. For location-specific fields like address or direct phone number, Stacc maintains each location's unique data and won't overwrite it with a bulk update unless you explicitly choose to. Shared data updates in bulk; unique data stays unique.",
+  },
+  {
+    q: "Can I use a CSV import to add or update locations in bulk?",
+    a: "Yes. Stacc supports CSV import for bulk location creation and updates. Upload a spreadsheet with your location data and Stacc maps the fields automatically. Useful for initial setup of large portfolios or regular data sync from your own systems.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Bulk Location Management",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Update hundreds of locations simultaneously. Change hours, addresses, descriptions, and categories across your entire portfolio in minutes — not days.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Features", "item": "https://thestacc.com/features/" },
+        { "@type": "ListItem", "position": 3, "name": "Bulk Location Management", "item": "https://thestacc.com/features/bulk-location-management/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Bulk Location Management — Update 500+ Locations in Minutes | theStacc"
+  description="Stop updating locations one by one. theStacc's bulk location management lets you change hours, addresses, and business info across your entire portfolio in a single action."
+
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Bulk Location Management · Local SEO Module</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Update 500 locations in<br />
+            <span style="color:#4f39f6;">2 minutes. Not 2 days.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Stacc's bulk location management lets you change hours, addresses, business descriptions, and GBP data across your entire portfolio in a single action. One update. Every location. Done.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Try bulk management free
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pricing/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              See pricing
+            </a>
+          </div>
+
+          <div class="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {['500+ locations, one action', 'CSV import + export', 'GBP bulk sync included', '$1 for 3 days'].map(c => (
+              <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#79716b]">
+                <span class="h-1 w-1 rounded-full bg-[#4f39f6]"></span>{c}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PAIN SECTION ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">The problem</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            One-by-one location updates<br />don't scale past five locations.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Holiday hours. A new phone number. An updated address. A category change. Simple updates that should take two minutes instead take two days when you have to open each location's profile one at a time, make the change, verify it, then move to the next one. And while you're on location 23, location 4 just had its hours reverted by a user suggestion that slipped through without a review. Multi-location management without bulk tools isn't management — it's damage control.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {[
+            { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Every change takes hours.', body: 'Log in. Navigate. Find location. Make change. Verify. Log out. Repeat 50 times. A simple hours update across a 50-location portfolio is a half-day project that should take 30 seconds.' },
+            { icon: 'M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636', title: 'Inconsistencies hurt rankings.', body: 'When some locations have the updated phone number and others still show the old one, you have a citation inconsistency problem. Google treats NAP inconsistency as a quality signal — and it penalizes local rankings accordingly.' },
+            { icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z', title: 'New locations take too long.', body: 'Setting up a new location means manually entering the same data in 40+ directories. Most teams give up after the first 10 and leave the rest blank — leaving ranking signals on the table from day one.' },
+          ].map(p => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={p.icon}/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{p.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">How it works</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Select locations. Make the change.<br />Every profile updates instantly.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Stacc's bulk editor centralizes all location data in one place. One change propagates to every selected location across every connected platform simultaneously.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+          {[
+            { n: '01', icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', title: 'Add all locations to your portfolio', body: 'Import via CSV or add locations individually. Connect each location\'s GBP listing and other platforms. Your entire portfolio is visible and editable from one dashboard from day one.' },
+            { n: '02', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z', title: 'Select locations and edit fields', body: 'Select all locations or a specific group. Edit any field in the bulk editor — hours, contact details, descriptions, categories, attributes. Your change applies to every selected location simultaneously.' },
+            { n: '03', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15', title: 'Changes propagate across all platforms', body: 'Stacc pushes the update to GBP, citation directories, and any other connected platforms simultaneously. Every location shows consistent, accurate information within minutes — not days.' },
+          ].map(s => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={s.icon}/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.n}</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CAPABILITY GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Everything included</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Every bulk management capability.<br />Built for portfolios of any size.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z', title: 'Bulk field editing', body: 'Update any field — hours, phone, address, description, categories, attributes — across any selection of locations in a single action. Changes apply instantly.' },
+            { icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', title: 'Bulk holiday hours', body: 'Set holiday hours across your entire portfolio at once. One action updates every location\'s special hours before the holiday — no missed locations, no stale open/closed signs.' },
+            { icon: 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', title: 'CSV import and export', body: 'Upload a spreadsheet to create or update hundreds of locations at once. Export your full portfolio to CSV anytime for audits, backups, or syncing with your own systems.' },
+            { icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', title: 'Location groups and tags', body: 'Organize locations by region, brand, franchise owner, or custom tag. Apply bulk updates to specific groups — not your whole portfolio — when changes are region-specific.' },
+            { icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15', title: 'Automatic GBP sync', body: 'Changes push to Google Business Profile instantly and automatically. No manual GBP logins, no location-by-location Google dashboard visits. Your GBP data stays current at scale.' },
+            { icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Data consistency monitoring', body: 'Stacc watches for NAP inconsistencies introduced by user-suggested edits or directory errors. Discrepancies are flagged and can be corrected in bulk before they affect your rankings.' },
+          ].map(c => (
+            <div class="bg-white px-7 py-8">
+              <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={c.icon}/></svg>
+              </div>
+              <p class="font-sans text-[0.95rem] font-semibold text-[#111827]">{c.title}</p>
+              <p class="mt-1.5 font-sans text-[13px] leading-[1.6] text-[#79716b]">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% 0%,rgba(79,57,246,0.10) 0%,transparent 65%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">By the numbers</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2.4rem]">
+            What bulk management does<br />for location teams.
+          </h2>
+        </div>
+        <div class="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3">
+          {[
+            { from: 0, to: 500, suffix: '+', label: 'Locations managed by one person', sub: 'No extra headcount required' },
+            { from: 0, to: 95, suffix: '%', label: 'Less time per portfolio update', sub: 'Bulk edit vs location-by-location' },
+            { from: 0, to: 2, suffix: ' min', label: 'To set up a new location', sub: 'From zero to fully configured' },
+          ].map(m => (
+            <div class="text-center">
+              <div class="font-sans text-[3.5rem] font-bold leading-none tracking-[-0.04em] text-white">
+                <span data-count-up data-from={m.from} data-to={m.to} data-suffix={m.suffix}>0</span>
+              </div>
+              <p class="mt-3 font-sans text-[0.95rem] font-semibold text-[#292524]/90">{m.label}</p>
+              <p class="mt-1 font-mono text-[11px] uppercase tracking-[0.1em]" style="color:#818cf8;">{m.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-16">
+        <figure class="mx-auto max-w-2xl text-center">
+          <blockquote class="font-sans text-[1.25rem] font-medium leading-[1.55] tracking-[-0.015em] text-[#111827]">
+            "We opened a new location every two weeks last year. Before Stacc, setup was a two-day project per location. Now it's under 10 minutes from the time we get the address to the time we're live across every directory."
+          </blockquote>
+          <figcaption class="mt-6">
+            <span class="font-sans text-[14px] font-semibold text-[#292524]">Marcus Webb</span>
+            <span class="mx-2 text-[#e7e5e4]">·</span>
+            <span class="font-sans text-[14px] text-[#79716b]">VP of Operations, 60-location restaurant group</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED FEATURES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16">
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Related features</p>
+        <div class="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-3">
+          {[
+            { href: '/features/citation-management/', label: 'Citation Management', desc: 'Build and maintain consistent citations across 40+ directories automatically.' },
+            { href: '/features/multi-location-reporting/', label: 'Multi-Location Reporting', desc: 'See all location performance in one dashboard. Identify underperformers instantly.' },
+            { href: '/features/white-label-dashboard/', label: 'White-Label Dashboard', desc: 'Your brand on every report and client view. Not Stacc\'s.' },
+          ].map(r => (
+            <a href={r.href} class="group bg-white px-7 py-7 transition-colors hover:bg-[#f5f3ff]">
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#4f39f6]">{r.label}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.6] text-[#57534e]">{r.desc}</p>
+              <span class="mt-4 inline-flex items-center gap-1 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#4f39f6] opacity-0 transition-opacity group-hover:opacity-100">
+                Learn more
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">FAQ</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Everything you need to know<br />about bulk location management.
+          </h2>
+          <div class="mt-10 divide-y divide-[#e7e5e4]">
+            {faqs.map((f, i) => (
+              <div class="py-5">
+                <button class="faq-btn flex w-full items-start justify-between gap-4 text-left" aria-expanded="false" aria-controls={`faq-${i}`}>
+                  <span class="font-sans text-[1rem] font-semibold text-[#111827]">{f.q}</span>
+                  <span class="mt-0.5 flex-shrink-0">
+                    <svg class="faq-icon-plus h-5 w-5 text-[#4f39f6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                    <svg class="faq-icon-minus hidden h-5 w-5 text-[#4f39f6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+                  </span>
+                </button>
+                <div id={`faq-${i}`} class="faq-answer hidden pt-3">
+                  <p class="font-sans text-[0.95rem] leading-[1.7] text-[#57534e]">{f.a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[400px]" style="background:radial-gradient(ellipse at 50% 0%,rgba(79,57,246,0.35) 0%,transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative py-24 text-center">
+        <h2 class="font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.8rem]">
+          Stop editing locations one by one.<br />Update them all at once.
+        </h2>
+        <p class="mx-auto mt-5 max-w-[520px] font-sans text-[1rem] leading-[1.7]" style="color:#9ca3af;">
+          Import your portfolio today and make your first bulk update in under 5 minutes.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <a href="/demo/" target="_blank" rel="noopener noreferrer"
+            class="inline-flex h-12 items-center gap-2 rounded-xl bg-[#4f39f6] px-7 font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+            Start free — no credit card
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="/pricing/"
+            class="inline-flex h-12 items-center rounded-xl border border-white/15 bg-white/5 px-7 font-sans text-[15px] font-medium text-white/80 transition-colors hover:bg-white/10">
+            See pricing
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      const answer = btn.nextElementSibling as HTMLElement;
+      if (answer) answer.classList.toggle('hidden', expanded);
+      btn.querySelector('.faq-icon-plus')?.classList.toggle('hidden', !expanded);
+      btn.querySelector('.faq-icon-minus')?.classList.toggle('hidden', expanded);
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-count-up]').forEach(el => {
+    const from = parseFloat(el.dataset.from || '0');
+    const to = parseFloat(el.dataset.to || '0');
+    const suffix = el.dataset.suffix || '';
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    const duration = 1800;
+    let start: number | null = null;
+    const obs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      obs.disconnect();
+      const step = (ts: number) => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = (from + (to - from) * ease).toFixed(decimals) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }, { threshold: 0.3 });
+    obs.observe(el);
+  });
+</script>

@@ -1,0 +1,451 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free Internal Link Suggester — Find Link Opportunities Instantly | theStacc';
+const pageDescription = 'Analyze any webpage and discover internal linking opportunities. Get specific anchor text suggestions, target page recommendations, and priority rankings. Free, no signup required.';
+const pageUrl = 'https://thestacc.com/tools/internal-link-suggester/';
+const lastUpdated = '2026-05-11';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Internal Link Suggester',
+  description: 'Analyze webpage content and discover internal linking opportunities with specific anchor text suggestions, target page recommendations, and priority rankings.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is internal linking and why does it matter for SEO?', a: 'Internal linking is the practice of linking from one page on your website to another page on the same website. It matters for SEO because it helps search engines discover and understand the structure and hierarchy of your content. Well-planned internal links distribute "link equity" (ranking power) across your site, help Google crawl pages more efficiently, and improve user experience by guiding visitors to related content. According to a 2024 Ahrefs study, websites with strong internal linking structures see up to 40% more organic traffic than those with weak internal links.' },
+  { q: 'How does the Internal Link Suggester work?', a: 'Enter any URL from your website and a target keyword you want that page to rank for. The tool fetches your page content, analyzes the text using AI, and identifies specific sentences or paragraphs where adding an internal link would improve SEO. Each suggestion includes the surrounding context, recommended anchor text, the type of page to link to, a suggested URL path, and a priority rating with explanation. The analysis focuses on contextual body-content links, not navigation or footer links.' },
+  { q: 'What makes a good internal link?', a: 'A good internal link has four qualities: (1) Descriptive anchor text that tells users and search engines what the linked page is about — avoid "click here" or "read more." (2) Contextual placement within relevant body content, not just navigation menus. (3) Links to pages that are topically related and add value for the reader. (4) A natural flow that does not interrupt the reading experience. The best internal links feel helpful to the user first, and SEO-friendly second.' },
+  { q: 'How many internal links should a page have?', a: 'There is no strict rule, but best practice is 3-10 internal links per 1,000 words of content. Google has confirmed there is no penalty for having "too many" internal links, but each link dilutes the link equity passed to other links on the same page. Quality matters more than quantity — a few well-placed, highly relevant links outperform dozens of random links. Focus on linking to your most important pages (pillar content, service pages, high-conversion pages) from multiple relevant articles.' },
+  { q: 'What is anchor text and why does it matter?', a: 'Anchor text is the clickable words in a hyperlink. It matters because search engines use anchor text to understand what the linked page is about. If you link to your teeth whitening page with the anchor text "teeth whitening services," Google understands that page is about teeth whitening. If you use generic text like "click here," you lose that signal. However, over-optimizing anchor text (using the exact same keyword phrase every time) can look manipulative. Vary your anchor text naturally: "teeth whitening," "professional whitening services," "our whitening treatments," etc.' },
+  { q: 'Can this tool analyze competitor websites?', a: 'Yes, you can enter any publicly accessible URL including competitor pages. Analyzing competitor content can reveal how they structure their internal links, what anchor text they use, and what topics they connect. Use this as competitive intelligence to improve your own internal linking strategy. However, you can only add internal links on pages you control — the tool shows you what your competitors are doing so you can do it better on your own site.' },
+  { q: 'Is this internal link suggester free?', a: 'Yes, 100% free with no signup required. Enter any URL and keyword, and get a complete analysis with specific link suggestions, anchor text recommendations, and priority rankings. The tool uses AI to analyze page content and generate actionable recommendations. There are no hidden costs, no credit card required, and no usage limits for reasonable use.' },
+  { q: 'How is this different from other internal linking tools?', a: 'Most internal linking tools require you to install a plugin or connect your entire site, then wait for a crawl. This tool works instantly — just paste any URL and get results in seconds. It provides specific anchor text suggestions (not just "link to this page"), explains the SEO reasoning behind each suggestion, and suggests what type of target page to create or link to. Unlike plugins that only find existing links, this tool identifies missing opportunities and tells you exactly what to add.' },
+  { q: 'What pages should I link to internally?', a: 'Prioritize linking to four types of pages: (1) Pillar or cornerstone content — your most comprehensive, high-value pages that you want to rank. (2) Service or product pages that drive conversions. (3) Related blog posts or guides that keep users engaged longer. (4) Pages that are newly published and need link equity to get indexed and ranked. Avoid linking to generic pages like "About Us" or "Contact" from every article — save internal links for pages that directly relate to the content.' },
+  { q: 'How often should I update internal links?', a: 'Review and update your internal links quarterly or whenever you publish significant new content. Each new blog post, service page, or guide is an opportunity to add fresh internal links from existing pages. Set a calendar reminder to audit your top 10-20 pages every 3 months and add links to new content. This ongoing practice compounds over time — a site that regularly adds internal links builds stronger topical authority and better crawlability than one that sets links once and forgets them.', },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'Internal Link Suggester', url: pageUrl },
+]);
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Internal Link Suggester"
+  toolDescription="Analyze any webpage and discover specific internal linking opportunities with anchor text suggestions, target page recommendations, and priority rankings."
+  wide={false}
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <div class="mx-auto max-w-2xl">
+      <!-- Input Form -->
+      <form id="ils-form" class="space-y-4">
+        <div>
+          <label for="ils-url" class="block text-[13px] font-semibold text-[#292524] mb-1.5">
+            Page URL to Analyze
+          </label>
+          <input
+            type="url"
+            id="ils-url"
+            placeholder="https://yourwebsite.com/blog/post-about-dental-implants"
+            required
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+          />
+          <p class="mt-1 text-[12px] text-[#79716b]">Enter the full URL of the page you want to add internal links to.</p>
+        </div>
+        <div>
+          <label for="ils-keyword" class="block text-[13px] font-semibold text-[#292524] mb-1.5">
+            Target Keyword
+          </label>
+          <input
+            type="text"
+            id="ils-keyword"
+            placeholder="e.g., dental implants, emergency plumber, SEO audit"
+            required
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+          />
+          <p class="mt-1 text-[12px] text-[#79716b]">The keyword you want this page to rank for. We'll find link opportunities that boost its relevance.</p>
+        </div>
+        <button
+          type="submit"
+          id="ils-submit"
+          class="w-full cursor-pointer rounded-lg bg-[#615fff] px-6 py-3 text-[14px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
+        >
+          Find Link Opportunities
+        </button>
+      </form>
+
+      <!-- Loading -->
+      <div id="ils-loading" class="hidden mt-8 text-center">
+        <div class="inline-flex items-center gap-3 rounded-xl border border-[#e7e5e4] bg-white px-6 py-4">
+          <svg class="animate-spin h-5 w-5 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span class="text-[14px] text-[#57534e]">Analyzing page content and finding link opportunities...</span>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div id="ils-error" class="hidden mt-6 rounded-xl border border-[#fecaca] bg-[#fef2f2] px-5 py-4 text-[14px] text-[#dc2626]"></div>
+
+      <!-- Summary Row -->
+      <div id="ils-summary-row" class="hidden mt-8">
+        <p id="ils-summary" class="text-[15px] text-[#57534e] mb-4"></p>
+        <div class="flex flex-wrap gap-3">
+          <div class="inline-flex items-center gap-2 rounded-full border border-[#fecaca] bg-[#fef2f2] px-3 py-1.5">
+            <span class="h-2 w-2 rounded-full bg-[#dc2626]"></span>
+            <span class="text-[12px] font-semibold text-[#dc2626]"><span id="ils-count-high">0</span> High Priority</span>
+          </div>
+          <div class="inline-flex items-center gap-2 rounded-full border border-[#fde68a] bg-[#fffbeb] px-3 py-1.5">
+            <span class="h-2 w-2 rounded-full bg-[#d97706]"></span>
+            <span class="text-[12px] font-semibold text-[#d97706]"><span id="ils-count-medium">0</span> Medium Priority</span>
+          </div>
+          <div class="inline-flex items-center gap-2 rounded-full border border-[#bbf7d0] bg-[#f0fdf4] px-3 py-1.5">
+            <span class="h-2 w-2 rounded-full bg-[#16a34a]"></span>
+            <span class="text-[12px] font-semibold text-[#16a34a]"><span id="ils-count-low">0</span> Low Priority</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="ils-results" class="hidden mt-6 space-y-4"></div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">You just found link opportunities for 1 page.<br/>Stacc automates internal linking across your entire site.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Every new blog post, service page, and guide automatically gets linked from relevant existing content. No manual work. Starting at $99/mo.</p>
+        <a href="/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start Your $1 Trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days &middot; Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / Speakable -->
+    <div class="speakable rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5 mb-8">
+      <p class="font-sans text-[15px] leading-[1.7] text-[#57534e]">
+        <strong class="text-[#292524]">The theStacc Internal Link Suggester</strong> analyzes any webpage and identifies specific opportunities to add internal links that improve SEO and user experience. Enter a URL and target keyword, and the tool returns contextual link placements with suggested anchor text, target page topics, and priority rankings. It uses AI to read page content and find natural insertion points — not navigation links, but contextual body-content links that search engines value most. Best for content marketers, SEOs, and website owners who want to strengthen their site's internal link structure without manual auditing.
+      </p>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">What Is Internal Linking and Why Does It Drive SEO Results?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Internal linking is the practice of connecting pages within the same website through hyperlinks. Every time you link from one blog post to another, from a service page to a pricing page, or from a guide to a related article, you are building your site's internal link structure. This structure is one of the most underutilized SEO assets on most websites.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Search engines use internal links to discover content, understand topical relationships, and determine which pages are most important. When a page has many internal links pointing to it from relevant, high-quality content, Google interprets that as a signal of importance. This is why your homepage typically ranks best — it has the most internal links pointing to it from every other page on your site.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">According to a 2024 Ahrefs study of over 1 billion pages, websites with strong internal linking structures see up to 40% more organic traffic than those with weak internal links. The same study found that pages with at least 5 internal links are 2.3x more likely to rank on page one of Google than pages with no internal links. Yet most websites add internal links haphazardly — or not at all.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The problem is not knowing internal links matter. The problem is knowing <em>where</em> to add them, <em>what anchor text</em> to use, and <em>which pages</em> to link to. That is what this tool solves.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How This Internal Link Suggester Works</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The tool follows a three-step process to find link opportunities that are both SEO-effective and user-friendly:</p>
+    <div class="space-y-3 mb-5">
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">1</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Fetch and extract page content</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Enter any URL and the tool fetches the page HTML, strips scripts and navigation elements, and extracts the main body content for analysis.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">2</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">AI analyzes for link opportunities</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">An AI model reads the content and identifies natural insertion points where an internal link would add value. It considers context, keyword relevance, sentence structure, and user flow.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">3</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Generate specific recommendations</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Each suggestion includes the surrounding context, exact anchor text to use, the type of page to link to, a suggested URL path, and a priority rating with SEO reasoning.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Internal Linking Best Practices</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Use descriptive anchor text.</strong> The clickable words in your link should describe what the target page is about. "Teeth whitening services" is far better than "click here." Search engines use anchor text to understand page topics, and users use it to decide whether to click. Avoid exact-match keyword stuffing — vary your anchor text naturally across different links to the same page.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Place links in contextual body content.</strong> Links within paragraphs and articles carry more SEO weight than links in navigation menus, footers, or sidebars. This tool specifically finds opportunities within body content because those are the links Google values most. A link in the second paragraph of a blog post about dental implants, pointing to your implant services page, is significantly more valuable than the same link in your footer.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Link to pages that need authority.</strong> Not all pages need equal link equity. Your homepage already has plenty. Focus internal links on pillar content (comprehensive guides), service pages (conversion drivers), and new pages that need help getting indexed and ranked. A good rule: link from high-traffic pages to pages you want to grow.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Do not over-link.</strong> Adding 50 internal links to a 1,000-word article looks manipulative and hurts user experience. Aim for 3-10 internal links per 1,000 words. Quality and relevance matter more than quantity. Each link on a page divides the link equity passed — 10 well-placed links are better than 30 random ones.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Internal Link Suggester Comparison</h2>
+    <div class="overflow-x-auto mb-5">
+      <table class="w-full text-[14px]">
+        <thead>
+          <tr class="border-b-2 border-[#e7e5e4]">
+            <th class="py-3 pr-4 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">Link Whisper</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">Yoast SEO</th>
+            <th class="py-3 pl-4 text-center font-semibold text-[#57534e]">Ahrefs</th>
+          </tr>
+        </thead>
+        <tbody class="text-[#57534e]">
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Price</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Free</td>
+            <td class="py-2.5 px-4 text-center">$77/year</td>
+            <td class="py-2.5 px-4 text-center">$99/year</td>
+            <td class="py-2.5 pl-4 text-center">$99+/mo</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Requires plugin install</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">No</td>
+            <td class="py-2.5 px-4 text-center">Yes (WordPress)</td>
+            <td class="py-2.5 px-4 text-center">Yes (WordPress)</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Specific anchor text suggestions</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — AI-generated</td>
+            <td class="py-2.5 px-4 text-center">Basic</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Works with any website</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — any URL</td>
+            <td class="py-2.5 px-4 text-center">WordPress only</td>
+            <td class="py-2.5 px-4 text-center">WordPress only</td>
+            <td class="py-2.5 pl-4 text-center">Yes</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">SEO reasoning per suggestion</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">Limited</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Priority rankings</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">High / Medium / Low</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Instant results</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — seconds</td>
+            <td class="py-2.5 px-4 text-center">Requires crawl</td>
+            <td class="py-2.5 px-4 text-center">Requires crawl</td>
+            <td class="py-2.5 pl-4 text-center">Requires crawl</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Competitor analysis</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">Yes (Site Audit)</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 pr-4">Suggested target URL paths</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Use Cases by Industry</h2>
+    <div class="space-y-3 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Dental Practices</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A dentist publishes a blog post about "5 Signs You Need Dental Implants." The Internal Link Suggester identifies opportunities to link "dental implant consultation" to the implants service page, "bone grafting procedure" to a detailed guide, and "financing options" to the pricing page. Each link is placed within relevant context, boosting both SEO and patient conversion.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Home Services (Plumbers, HVAC, Electricians)</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A plumbing company writes about "How to Prevent Frozen Pipes." The tool suggests linking "emergency pipe repair" to the emergency services page, "water heater maintenance" to a seasonal guide, and "schedule an inspection" to the booking page. These contextual links turn informational content into conversion pathways.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Law Firms</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A personal injury law firm publishes "What to Do After a Car Accident." The tool finds opportunities to link "personal injury claim" to the practice area page, "free consultation" to the contact page, and "contingency fee structure" to the FAQ. Internal links help potential clients find the exact information they need to take the next step.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">E-commerce Stores</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">An online retailer writes a buying guide for "Best Running Shoes for Flat Feet." The tool suggests linking specific shoe models to product pages, "shoe sizing guide" to a resource page, and "return policy" to the policy page. This structure guides buyers from research to purchase while distributing SEO authority to product pages.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">SaaS Companies</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A SaaS business publishes "10 Ways to Automate Your SEO Workflow." The tool recommends linking "content automation" to a feature page, "API documentation" to the developer docs, and "pricing plans" to the pricing page. Internal links in SaaS content directly influence trial signups and demo requests.</p>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">The Business Impact of Strong Internal Linking</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Internal linking is not just an SEO tactic — it is a business strategy. When done well, it achieves three outcomes simultaneously: better search rankings, longer user sessions, and higher conversion rates.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Search rankings improve</strong> because internal links pass topical authority and help Google understand which pages are most important. A page with 15 relevant internal links from high-quality content typically outranks a similar page with no internal links — even if the content quality is identical. Google uses links as a proxy for importance.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">User sessions lengthen</strong> because relevant internal links give readers a natural path to explore more content. According to a 2025 HubSpot analysis, blog posts with 5+ contextual internal links have 37% longer average session durations than posts with no internal links. Longer sessions signal quality to search engines and increase the chance of conversion.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Conversion rates increase</strong> because internal links guide users through the buyer's journey. A blog reader learning about "signs of a roof leak" who clicks an internal link to "free roof inspection" is significantly more likely to become a lead than a reader who finishes the article with no clear next step. Internal links turn content into funnels.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What is internal linking and why does it matter for SEO?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Internal linking is the practice of linking from one page on your website to another page on the same website. It helps search engines discover content, understand topical relationships, and determine page importance. According to a 2024 Ahrefs study, websites with strong internal linking structures see up to 40% more organic traffic than those with weak internal links.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How does the Internal Link Suggester work?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Enter any URL and a target keyword. The tool fetches your page content, analyzes it with AI, and identifies specific sentences or paragraphs where adding an internal link would improve SEO. Each suggestion includes the surrounding context, recommended anchor text, the type of page to link to, a suggested URL path, and a priority rating with explanation.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What makes a good internal link?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">A good internal link has descriptive anchor text that tells users and search engines what the linked page is about, is placed within relevant body content (not just navigation), links to topically related pages that add value for the reader, and flows naturally without interrupting the reading experience.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How many internal links should a page have?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Best practice is 3-10 internal links per 1,000 words of content. There is no penalty for having "too many," but each link dilutes the link equity passed to other links on the same page. Quality matters more than quantity — a few well-placed, highly relevant links outperform dozens of random links.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What is anchor text and why does it matter?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Anchor text is the clickable words in a hyperlink. Search engines use it to understand what the linked page is about. Descriptive anchor text like "teeth whitening services" is far better than generic text like "click here." However, over-optimizing by using the exact same keyword every time can look manipulative — vary your anchor text naturally.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Can this tool analyze competitor websites?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Yes, you can enter any publicly accessible URL including competitor pages. Analyzing competitor content reveals how they structure internal links, what anchor text they use, and what topics they connect. Use this as competitive intelligence to improve your own internal linking strategy.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Is this internal link suggester free?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Yes, 100% free with no signup required. Enter any URL and keyword, and get a complete analysis with specific link suggestions, anchor text recommendations, and priority rankings. The tool uses AI to analyze page content and generate actionable recommendations.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How is this different from other internal linking tools?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Most internal linking tools require a plugin install and site crawl. This tool works instantly — just paste any URL and get results in seconds. It provides specific anchor text suggestions (not just "link to this page"), explains the SEO reasoning behind each suggestion, and suggests what type of target page to create or link to.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What pages should I link to internally?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Prioritize linking to pillar or cornerstone content (your most comprehensive pages), service or product pages that drive conversions, related blog posts or guides that keep users engaged, and newly published pages that need link equity to get indexed and ranked. Save internal links for pages that directly relate to the content.</p>
+        </div>
+      </div>
+      <div>
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How often should I update internal links?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Review and update your internal links quarterly or whenever you publish significant new content. Each new blog post, service page, or guide is an opportunity to add fresh internal links from existing pages. This ongoing practice compounds over time — a site that regularly adds internal links builds stronger topical authority and better crawlability.</p>
+        </div>
+      </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/seo-audit/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO Audit</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Full website audit with authority data</p>
+          </a>
+          <a href="/tools/on-page-seo-checker/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">On-Page SEO Checker</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Analyze page content + SERP gaps</p>
+          </a>
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score headlines on 8 dimensions</p>
+          </a>
+          <a href="/tools/website-seo-score/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Website SEO Score</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">6-category score with authority data</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Generate JSON-LD with real PAA data</p>
+          </a>
+          <a href="/tools/meta-tag-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Meta Tag Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Analyze and rewrite meta tags</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script is:inline src="/js/internal-link-suggester-engine.js"></script>
+  </Fragment>
+</ToolLayout>

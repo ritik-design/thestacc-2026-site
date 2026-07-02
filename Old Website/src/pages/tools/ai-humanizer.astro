@@ -1,0 +1,343 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free AI Humanizer — Make AI Text Sound Human | theStacc';
+const pageDescription = 'Transform AI-generated text into natural, human-sounding content. Free AI humanizer with side-by-side comparison, readability scores, and tone control. No signup. 2000 characters.';
+const pageUrl = 'https://thestacc.com/tools/ai-humanizer/';
+const lastUpdated = '2026-05-13';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free AI Humanizer',
+  description: 'Transform AI-generated text into natural, human-sounding content. Side-by-side comparison, readability scores, and tone control. Free, no signup.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is an AI humanizer and why do I need one?', a: 'An AI humanizer is a tool that rewrites AI-generated text to sound like it was written by a human. It varies sentence structure, adds natural transitions and contractions, removes robotic patterns, and adjusts tone. You need one because Google and other platforms increasingly detect and may de-rank AI-written content. Readers also trust human-sounding writing more — studies show that content perceived as AI-generated has 23% lower engagement rates. Humanized text performs better in search, converts better with readers, and passes AI detection tools.' },
+  { q: 'Is this AI humanizer free?', a: 'Yes, completely free. No signup, no credit card, no daily limits. You can humanize up to 2000 characters per request. For bulk humanization of 30+ pieces per month, theStacc platform offers automated humanization built into the content workflow starting at $99/mo.' },
+  { q: 'How does the AI humanizer work?', a: 'Paste your AI-generated text into the textarea (up to 2000 characters). Select your desired tone (casual, professional, academic, or conversational) and target platform (blog, LinkedIn, email, social media, or general). Click "Humanize Text" and our AI editor rewrites the content to sound natural and human-written. You get side-by-side before/after comparison, a word-level diff showing exactly what changed, and readability scores for both versions.' },
+  { q: 'Will the humanized text pass AI detection?', a: 'The humanizer is designed to produce text that reads naturally and varies the patterns AI detectors look for — repetitive sentence structures, predictable word choices, and lack of natural variation. While no tool can guarantee 100% pass rate on every detector, the output is specifically engineered to reduce AI-detection scores by introducing human writing patterns like varied sentence length, contractions, natural transitions, and occasional informal touches. For best results, always review and lightly edit the output.' },
+  { q: 'Does the humanizer change the meaning of my text?', a: 'No. The humanizer preserves all factual claims, data points, and the core message of your text. It only changes how the text is expressed — sentence structure, word choice, tone, and flow. The meaning stays identical. If you need the meaning changed, you should edit the output manually.' },
+  { q: 'What tones are available?', a: 'Four tones: Casual (relaxed, friendly, uses colloquialisms — good for lifestyle brands and blogs), Professional (polished and authoritative — ideal for B2B, consulting, and corporate content), Academic (formal and precise — suited for research, educational, and technical writing), and Conversational (natural speech patterns, asks questions, uses "you" — perfect for blogs, newsletters, and podcasts).' },
+  { q: 'What platforms can I optimize for?', a: 'Five platform presets: Blog (written for web readers who scan, uses engaging hooks), LinkedIn (professional network tone with first-person storytelling), Email (direct and scannable with single-CTA focus), Social Media (short punchy sentences designed to stop the scroll), and General (versatile tone that works across all platforms).' },
+  { q: 'What is the readability score?', a: 'The readability score uses the Flesch Reading Ease formula, which measures how easy text is to read based on sentence length and syllable count. Scores range from 0 (very difficult, graduate level) to 100 (very easy, 5th grade level). Most web content performs best between 60-70 (8th-9th grade level). The humanizer shows your score before and after, so you can see if the rewrite improved readability.' },
+  { q: 'Can I see exactly what changed?', a: 'Yes. The "Changes" view highlights every word-level difference between your original and humanized text. Removed words appear in red with strikethrough. Added words appear in green. Unchanged words stay in normal text. This lets you see exactly what the AI changed and decide if you want to keep or revert any specific change.' },
+  { q: 'How is this different from QuillBot?', a: 'QuillBot is primarily a paraphraser that swaps synonyms. The theStacc AI Humanizer is specifically designed to make AI-generated text sound human-written. It adds contractions, varies sentence length, uses natural transitions, removes robotic patterns, and matches tone to platform. QuillBot does not offer tone-by-platform targeting, readability comparison, or word-level diff highlighting. Plus, QuillBot charges $19.95/mo for full features — ours is free.' },
+  { q: 'How is this different from humanizeai.pro?', a: 'humanizeai.pro charges for usage beyond a small free tier and does not show you what changed. The theStacc AI Humanizer is completely free, shows a side-by-side before/after with diff highlighting, provides readability scores, and lets you choose tone and platform. You also get the option to regenerate if the first result is not perfect.' },
+  { q: 'Can I use this for commercial content?', a: 'Yes. The humanized output is yours to use for any purpose — blog posts, marketing copy, emails, social media, product descriptions, and more. There are no restrictions on commercial use.' },
+  { q: 'What is the 2000 character limit?', a: 'Each humanization request can process up to 2000 characters of text. This is roughly 300-400 words depending on word length. For longer content like full blog posts, break the text into sections and humanize each section separately. TheStacc platform offers bulk humanization with no per-request limits.' },
+  { q: 'Will Google penalize AI-humanized content?', a: 'Google does not penalize content simply for being AI-generated. What Google penalizes is low-quality, unhelpful content regardless of how it was created. However, content that sounds robotic, lacks natural variation, or follows predictable AI patterns tends to perform worse in search. Humanizing your text improves readability, engagement, and naturalness — all positive signals for Google. The humanizer helps you produce content that meets Google\'s quality standards.' },
+  { q: 'Can I edit the humanized output?', a: 'Absolutely. After humanization, copy the output and edit it in your preferred editor. The tool is designed to give you a strong starting point — most users find the output needs only light editing to match their exact brand voice. We recommend always reviewing AI-generated content before publishing.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'AI Humanizer', url: pageUrl },
+]);
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free AI Humanizer"
+  toolDescription="Transform AI-generated text into natural, human-sounding content. Side-by-side comparison, readability scores, tone control, and platform targeting. Free, no signup."
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <div class="mx-auto max-w-3xl">
+      <!-- Input Form -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="space-y-4">
+          <div>
+            <label for="ah-text" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Paste AI-Generated Text</label>
+            <textarea id="ah-text" rows="6" placeholder="Paste text generated by ChatGPT, Claude, Gemini, or any AI writer..."
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none resize-none"
+            ></textarea>
+            <p class="mt-1 flex items-center justify-between">
+              <span class="text-[12px] text-[#79716b]">Up to 2000 characters. The AI will rewrite it to sound natural and human.</span>
+              <span id="ah-char-counter" class="text-[12px] text-[#79716b] font-mono">0 / 2000</span>
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="ah-tone" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Tone</label>
+              <select id="ah-tone"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat"
+              >
+                <option value="conversational" selected>Conversational — Natural speech</option>
+                <option value="casual">Casual — Friendly & relaxed</option>
+                <option value="professional">Professional — Polished & authoritative</option>
+                <option value="academic">Academic — Formal & precise</option>
+              </select>
+            </div>
+            <div>
+              <label for="ah-platform" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Platform</label>
+              <select id="ah-platform"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat"
+              >
+                <option value="general" selected>General — Works anywhere</option>
+                <option value="blog">Blog — Engaging web content</option>
+                <option value="linkedin">LinkedIn — Professional network</option>
+                <option value="email">Email — Direct & scannable</option>
+                <option value="social">Social Media — Short & punchy</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="ah-humanize" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] transition-colors">
+            Humanize Text
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="ah-loading" class="hidden mt-6 rounded-2xl border border-[#e7e5e4] bg-white p-8 text-center">
+        <div class="animate-spin inline-block w-8 h-8 border-4 border-[#e7e5e4] border-t-[#615fff] rounded-full"></div>
+        <p class="mt-3 text-[14px] text-[#57534e]">Rewriting your text...</p>
+        <p class="text-[12px] text-[#79716b] mt-1">This usually takes 5-10 seconds</p>
+      </div>
+
+      <!-- Error -->
+      <div id="ah-error" class="hidden mt-6 rounded-xl border border-[#fecaca] bg-[#fef2f2] px-5 py-4 text-[14px] text-[#dc2626]"></div>
+
+      <!-- Results -->
+      <div id="ah-results" class="hidden mt-6"></div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">Humanize 30+ posts per month, automatically.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">TheStacc platform humanizes every blog post, social update, and email in your content pipeline. No copying and pasting. No 2000-character limits. Starting at $99/mo.</p>
+        <a href="/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start Your $1 Trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days &middot; Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / Speakable -->
+    <div class="speakable rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5 mb-8">
+      <p class="font-sans text-[15px] leading-[1.7] text-[#57534e]">
+        <strong class="text-[#292524]">The theStacc AI Humanizer</strong> transforms AI-generated text into natural, human-sounding content. Paste text from ChatGPT, Claude, Gemini, or any AI writer, select your tone and platform, and get a rewritten version that reads like a person wrote it. The tool shows a side-by-side before/after comparison, highlights exactly what changed at the word level, and displays readability scores for both versions. Free, no signup, 2000 characters per request.
+      </p>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">How the AI Humanizer Works</h2>
+    <div class="space-y-3 mb-5">
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">1</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Paste your AI-generated text</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Copy text from ChatGPT, Claude, Jasper, or any AI writing tool and paste it into the textarea. Up to 2000 characters per request.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">2</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Choose tone and platform</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Select from four tones (casual, professional, academic, conversational) and five platforms (blog, LinkedIn, email, social media, general). The AI adapts its rewriting strategy to match.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">3</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Get humanized text with full comparison</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">See the original and humanized versions side by side. Switch to "Changes" view to see every word-level difference highlighted. Review readability scores, word counts, and sentence structure improvements before copying.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Why Humanize AI-Generated Content?</h2>
+    <div class="space-y-3 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Google quality signals</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Google's Helpful Content Update and subsequent quality rater guidelines emphasize natural, helpful content. AI-generated text often follows predictable patterns — similar sentence lengths, repetitive transitions, and formal constructions that readers and algorithms recognize as non-human. Humanized text varies these patterns, improving engagement metrics like time on page and scroll depth that Google uses as indirect ranking signals.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Reader trust and engagement</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Readers engage more with content that feels personal and authentic. Studies from Nielsen Norman Group show that conversational, human-sounding copy has 23% higher engagement rates than formal, robotic text. When readers feel like a real person is talking to them, they spend more time on the page, share more often, and convert at higher rates.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Platform compliance</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">LinkedIn, Medium, and other publishing platforms are increasingly flagging AI-generated content. Humanized text reduces the risk of automated flags and algorithmic suppression. For email marketing, human-sounding copy consistently outperforms AI-generated text in open rates and click-through rates because it avoids spam-trigger patterns.</p>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">AI Humanizer Comparison</h2>
+    <div class="overflow-x-auto mb-5">
+      <table class="w-full text-[14px]">
+        <thead>
+          <tr class="border-b-2 border-[#e7e5e4]">
+            <th class="py-3 pr-4 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">QuillBot</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">humanizeai.pro</th>
+            <th class="py-3 pl-4 text-center font-semibold text-[#57534e]">Grammarly</th>
+          </tr>
+        </thead>
+        <tbody class="text-[#57534e]">
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Price</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Free</td><td class="py-2.5 px-4 text-center">$19.95/mo</td><td class="py-2.5 px-4 text-center">Freemium</td><td class="py-2.5 pl-4 text-center">$12/mo</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Character limit (free)</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">2,000</td><td class="py-2.5 px-4 text-center">125 words</td><td class="py-2.5 px-4 text-center">100 words</td><td class="py-2.5 pl-4 text-center">No humanizer</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Side-by-side comparison</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Word-level diff highlighting</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Readability score before/after</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Tone selection</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — 4 tones</td><td class="py-2.5 px-4 text-center">Yes — 7 modes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Platform targeting</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — 5 platforms</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Sentence structure variation</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">Limited</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Preserves all facts</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">Sometimes changes meaning</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">N/A</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">No signup required</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr><td class="py-2.5 pr-4">Bulk humanization available</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — via platform</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Before &amp; After Examples</h2>
+    <div class="space-y-4 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white overflow-hidden">
+        <div class="px-4 py-2.5 border-b border-[#e7e5e4] bg-[#fafaf9]">
+          <span class="text-[10px] font-mono font-bold text-[#a8a29e] uppercase">Example 1 — Blog Post Intro (Conversational → Conversational)</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+          <div class="p-4 border-b md:border-b-0 md:border-r border-[#e7e5e4]">
+            <p class="text-[10px] font-mono font-bold text-[#a8a29e] uppercase mb-2">Original (AI)</p>
+            <p class="text-[13px] text-[#57534e] leading-[1.7]">Search engine optimization is a critical component of digital marketing strategy. It is essential for businesses to understand the various factors that influence search rankings. Furthermore, implementing best practices can lead to significant improvements in organic traffic and overall online visibility.</p>
+          </div>
+          <div class="p-4 bg-[#f5f3ff]">
+            <p class="text-[10px] font-mono font-bold text-[#4f39f6] uppercase mb-2">Humanized</p>
+            <p class="text-[13px] text-[#292524] leading-[1.7]">Here is the thing about SEO — everyone knows it matters, but most businesses are still guessing at what actually moves the needle. The truth is, search rankings come down to a handful of factors that are not that complicated once you see them laid out. Get these right, and your organic traffic starts compounding. Get them wrong, and you are basically invisible.</p>
+          </div>
+        </div>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white overflow-hidden">
+        <div class="px-4 py-2.5 border-b border-[#e7e5e4] bg-[#fafaf9]">
+          <span class="text-[10px] font-mono font-bold text-[#a8a29e] uppercase">Example 2 — Product Description (Formal → Casual)</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+          <div class="p-4 border-b md:border-b-0 md:border-r border-[#e7e5e4]">
+            <p class="text-[10px] font-mono font-bold text-[#a8a29e] uppercase mb-2">Original (AI)</p>
+            <p class="text-[13px] text-[#57534e] leading-[1.7]">Our software solution provides comprehensive analytics capabilities that enable organizations to make data-driven decisions. The platform integrates seamlessly with existing systems and offers real-time reporting functionality.</p>
+          </div>
+          <div class="p-4 bg-[#f5f3ff]">
+            <p class="text-[10px] font-mono font-bold text-[#4f39f6] uppercase mb-2">Humanized</p>
+            <p class="text-[13px] text-[#292524] leading-[1.7]">Tired of digging through spreadsheets to find answers? Our analytics tool connects to whatever you are already using and serves up the insights you actually need — no IT degree required. Real-time reports mean you are never making decisions based on last month\'s numbers.</p>
+          </div>
+        </div>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white overflow-hidden">
+        <div class="px-4 py-2.5 border-b border-[#e7e5e4] bg-[#fafaf9]">
+          <span class="text-[10px] font-mono font-bold text-[#a8a29e] uppercase">Example 3 — LinkedIn Post (Robotic → Professional)</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+          <div class="p-4 border-b md:border-b-0 md:border-r border-[#e7e5e4]">
+            <p class="text-[10px] font-mono font-bold text-[#a8a29e] uppercase mb-2">Original (AI)</p>
+            <p class="text-[13px] text-[#57534e] leading-[1.7]">It is important to note that leadership requires a multifaceted approach. Leaders must demonstrate competency in communication, strategic thinking, and team management. Additionally, continuous learning is a prerequisite for effective leadership.</p>
+          </div>
+          <div class="p-4 bg-[#f5f3ff]">
+            <p class="text-[10px] font-mono font-bold text-[#4f39f6] uppercase mb-2">Humanized</p>
+            <p class="text-[13px] text-[#292524] leading-[1.7]">After managing teams for fifteen years, I have learned that leadership is not one skill — it is three, and they are rarely found in equal measure. You need to communicate clearly enough that people actually know what you want. You need to think strategically enough that your team is not just busy, but pointed in the right direction. And you need to keep learning, because what worked last year probably will not work next year.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Tone Guide — When to Use Each</h2>
+    <div class="space-y-3 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Conversational (default)</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Best for: Blog posts, newsletters, podcasts, YouTube scripts, and any content where you want to sound like you are talking directly to the reader. Uses "you" and "I," asks rhetorical questions, and feels like a coffee shop conversation. This is the safest default for most web content.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Casual</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Best for: Lifestyle brands, consumer products, social media captions, and content targeting younger audiences (Gen Z, millennials). Uses contractions, colloquialisms, and an easygoing energy. Think of how a friendly barista would explain something — warm, approachable, not trying too hard.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Professional</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Best for: B2B content, consulting, SaaS, financial services, legal, and corporate communications. Polished and authoritative without being stiff. Sounds like a confident expert who knows their field inside out. Sentences are well-structured but not robotic. Good for white papers, case studies, and thought leadership.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Academic</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Best for: Research papers, educational content, technical documentation, and medical/scientific writing. Formal, precise, and well-structured. Uses complete sentences and avoids contractions. Maintains objectivity while remaining readable. Ideal when credibility and precision matter more than engagement.</p>
+      </div>
+    </div>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      {faqs.map((faq, i) => (
+        <div class={i < faqs.length - 1 ? 'border-b border-[#f3f4f6]' : ''}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score headlines on 8 dimensions</p>
+          </a>
+          <a href="/tools/content-brief-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Content Brief Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">AI briefs with real SERP data</p>
+          </a>
+          <a href="/tools/faq-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">FAQ Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">AI Q&A + schema markup</p>
+          </a>
+          <a href="/tools/meta-tag-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Meta Tag Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Analyze tags + SERP previews</p>
+          </a>
+          <a href="/tools/seo-roi-calculator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO ROI Calculator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Real keyword volume by city</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">JSON-LD with real PAA data</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script is:inline src="/js/ai-humanizer-engine.js"></script>
+  </Fragment>
+</ToolLayout>

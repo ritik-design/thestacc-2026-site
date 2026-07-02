@@ -1,0 +1,618 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+
+const seo = {
+  title: "How to Connect GSC to Claude via MCP: Step-by-Step Guide",
+  description: "Connect Google Search Console to Claude via MCP in 15 minutes. OAuth and service account setup, 20 built-in tools, and real queries you can run today.",
+  canonical: "https://thestacc.com/blog/connect-gsc-claude-mcp/",
+  ogImage: "/og/blog-connect-gsc-claude-mcp.webp",
+  schemaData: [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://thestacc.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://thestacc.com/blog/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "How to Connect GSC to Claude via MCP: Step-by-Step Guide",
+        "item": "https://thestacc.com/blog/connect-gsc-claude-mcp/"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Connect GSC to Claude via MCP: Step-by-Step Guide",
+    "description": "Connect Google Search Console to Claude via MCP in 15 minutes. OAuth and service account setup, 20 built-in tools, and real queries you can run today.",
+    "image": "https://thestacc.com/og/blog-connect-gsc-claude-mcp.webp",
+    "datePublished": "2026-05-18",
+    "dateModified": "2026-07-02",
+    "author": {
+      "@type": "Person",
+      "name": "Sarah Chen"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "theStacc"
+    }
+  }
+]
+};
+---
+<BaseLayout seo={seo}>
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog/">Blog</a><span class="sep">/</span>
+      <span class="current">How to Connect GSC to Claude via MCP: Step-by-Step Guide</span>
+    </div>
+    <span class="post-cat">Content Strategy</span>
+    <h1>How to Connect GSC to Claude via MCP: Step-by-Step Guide</h1>
+    <p class="description">Connect Google Search Console to Claude via MCP in 15 minutes. OAuth and service account setup, 20 built-in tools, and real queries you can run today.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">SG</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/siddharth-gangal/">Sarah Chen</a></span>
+          <span class="meta-author-role">Founder · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">May 18, 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">20 min</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+<h1>How to Connect GSC to Claude via MCP: Step-by-Step Guide</h1>
+<p>Connecting Google Search Console to Claude via MCP takes 15 minutes and replaces hours of manual data pulling. Once connected, you can ask Claude questions like "Which pages lost the most traffic last month?" or "What keywords have CTR below 2%?" and get answers drawn from live GSC data in seconds.</p>
+<p>This guide covers the complete setup process for both OAuth and service account authentication. It works with Claude Desktop, Claude Code, and any MCP-compatible client. You do not need a paid Claude subscription for the basic integration, though some advanced features require Claude Pro or Team.</p>
+<p>Stacc publishes 30+ articles per month on content strategy and search optimization. The workflow below is the same process our editorial team uses to monitor keyword movement, identify content gaps, and flag indexing issues without opening the GSC dashboard.</p>
+<p>Here is what you will learn:</p>
+<ul>
+<li>What MCP is and why it matters for SEO workflows</li>
+<li>How to choose between OAuth and service account authentication</li>
+<li>The exact step-by-step setup for both methods</li>
+<li>How to configure Claude Desktop and Claude Code</li>
+<li>Twenty built-in tools you can use immediately</li>
+<li>Real prompts that save hours every week</li>
+<li>How to troubleshoot the five most common setup errors</li>
+</ul>
+<h2>What You Need Before Starting</h2>
+<p>The setup requires four things. Most SEO professionals already have the first two.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Purpose</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Google account with GSC access</td>
+<td>Authenticate and pull data</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Claude Desktop or Claude Code</td>
+<td>MCP client that connects to the server</td>
+<td>Free plan works</td>
+</tr>
+<tr>
+<td>Node.js 18+ installed</td>
+<td>Run the MCP server package</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Google Cloud project</td>
+<td>Create OAuth or service account credentials</td>
+<td>Free</td>
+</tr>
+</tbody>
+</table></div>
+<p>If you do not have Node.js installed, download the LTS version from <a href="https://nodejs.org">nodejs.org</a>. Verify the installation by opening a terminal and running <code>node --version</code>. You should see a version number of 18.0.0 or higher.</p>
+<p>Claude Desktop is the graphical application from Anthropic. Claude Code is the command-line version. Both support MCP. This guide covers both clients.</p>
+<h2>Step 1: Choose Your Authentication Method</h2>
+<p>You have two options for connecting GSC to Claude via MCP: OAuth or service account. The right choice depends on your use case.</p>
+<p><strong>OAuth</strong> is best for individual users who manage one or a few properties. It uses your personal Google account credentials. You authenticate once through a browser popup, and the MCP server stores a refresh token locally. This is the fastest setup and requires no Google Cloud billing.</p>
+<p><strong>Service account</strong> is best for teams, agencies, and automation workflows. It uses a machine identity rather than a personal account. You create a service account in Google Cloud, download a JSON key file, and add that account as a user in Google Search Console. Multiple team members can share the same service account credentials, and the connection does not depend on any individual's Google session.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Factor</th>
+<th>OAuth</th>
+<th>Service Account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Setup time</td>
+<td>5 minutes</td>
+<td>10 minutes</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Individual users</td>
+<td>Teams and agencies</td>
+</tr>
+<tr>
+<td>Shared access</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Automation friendly</td>
+<td>Limited</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Token expiration</td>
+<td>Refreshs automatically</td>
+<td>Never expires</td>
+</tr>
+<tr>
+<td>Google Cloud billing</td>
+<td>Not required</td>
+<td>Not required</td>
+</tr>
+</tbody>
+</table></div>
+<p>If you are setting this up for the first time, start with OAuth. You can always switch to a service account later without losing data or configuration.</p>
+<h2>Step 2: Create a Google Cloud Project</h2>
+<p>Whether you choose OAuth or service account, you need a Google Cloud project. This is where API access is managed.</p>
+<ol>
+<li>Go to <a href="https://console.cloud.google.com">console.cloud.google.com</a></li>
+<li>Click the project selector at the top of the page</li>
+<li>Click "New Project"</li>
+<li>Name it "GSC MCP" or any descriptive name</li>
+<li>Click "Create"</li>
+</ol>
+<p>Wait for the project to finish creating. The page will refresh automatically. Make sure the new project is selected in the project selector before proceeding to the next step.</p>
+<h2>Step 3: Enable the Google Search Console API</h2>
+<p>With your project selected, enable the API that the MCP server will use to pull data.</p>
+<ol>
+<li>In the Google Cloud console, click the hamburger menu (three lines) in the top left</li>
+<li>Work through to "APIs &amp; Services" → "Library"</li>
+<li>Search for "Google Search Console API"</li>
+<li>Click on "Google Search Console API" in the results</li>
+<li>Click the "Enable" button</li>
+</ol>
+<p>The API is now active for your project. You do not need to enable billing for this API at standard usage levels.</p>
+<p>Optionally, you can also enable the "Web Search Indexing API" if you want to submit URLs for indexing through Claude. This is not required for data analysis but is useful for active SEO management.</p>
+<h2>Step 4A: Set Up OAuth Authentication</h2>
+<p>This section is for individual users. If you are setting up a service account, skip to Step 4B.</p>
+<h3>4A.1: Configure the OAuth Consent Screen</h3>
+<ol>
+<li>In Google Cloud, go to "APIs &amp; Services" → "OAuth consent screen"</li>
+<li>Select "External" as the user type</li>
+<li>Click "Create"</li>
+<li>Fill in the app name: "GSC MCP"</li>
+<li>Add your email address as the user support email and developer contact email</li>
+<li>Click "Save and Continue" three times to skip the optional scopes and test user screens</li>
+<li>Click "Back to Dashboard"</li>
+</ol>
+<h3>4A.2: Create OAuth Credentials</h3>
+<ol>
+<li>Go to "APIs &amp; Services" → "Credentials"</li>
+<li>Click "Create Credentials" → "OAuth client ID"</li>
+<li>For application type, select "Desktop app"</li>
+<li>Name it "GSC MCP Desktop"</li>
+<li>Click "Create"</li>
+<li>Click "Download JSON" and save the file to a secure location on your computer</li>
+<li>Note the file path. You will need it in Step 5</li>
+</ol>
+<p>The downloaded file contains your client ID and client secret. Do not share it or commit it to version control.</p>
+<h3>4A.3: Install the MCP Server</h3>
+<p>Open a terminal and run:</p>
+<pre><code class="language-bash">npx -y suganthan-gsc-mcp
+</code></pre>
+<p>This downloads and runs the MCP server package. The first run may take 30 to 60 seconds because npx downloads the package. Subsequent runs are instant.</p>
+<p>If you see an error about <code>npx</code> not being found, verify that Node.js is installed correctly and that <code>npx</code> is in your system PATH.</p>
+<h2>Step 4B: Set Up Service Account Authentication</h2>
+<p>This section is for teams and agencies. If you already completed OAuth setup, skip to Step 5.</p>
+<h3>4B.1: Create a Service Account</h3>
+<ol>
+<li>In Google Cloud, go to "IAM &amp; Admin" → "Service Accounts"</li>
+<li>Click "Create Service Account"</li>
+<li>Name it "gsc-mcp-service"</li>
+<li>Click "Create and Continue"</li>
+<li>Skip the role assignment by clicking "Continue"</li>
+<li>Click "Done"</li>
+</ol>
+<h3>4B.2: Create and Download a JSON Key</h3>
+<ol>
+<li>Find your new service account in the list and click on it</li>
+<li>Go to the "Keys" tab</li>
+<li>Click "Add Key" → "Create new key"</li>
+<li>Select "JSON" as the key type</li>
+<li>Click "Create"</li>
+<li>The JSON key file downloads automatically. Save it to a secure location</li>
+<li>Note the file path. You will need it in Step 5</li>
+</ol>
+<h3>4B.3: Add the Service Account to Google Search Console</h3>
+<p>This is the critical step many people miss. The service account must have explicit permission to access your GSC data.</p>
+<ol>
+<li>Open the downloaded JSON key file in a text editor</li>
+<li>Copy the <code>client_email</code> value. It looks like <code>gsc-mcp-service@your-project.iam.gserviceaccount.com</code></li>
+<li>Go to <a href="https://search.google.com/search-console">search.google.com/search-console</a></li>
+<li>Select the property you want to connect</li>
+<li>Click the gear icon → "Users and permissions"</li>
+<li>Click "Add user"</li>
+<li>Paste the service account email address</li>
+<li>Set permission level to "Full"</li>
+<li>Click "Add"</li>
+</ol>
+<p>Repeat steps 4 through 9 for every GSC property you want Claude to access.</p>
+<h3>4B.4: Install the MCP Server</h3>
+<p>Open a terminal and run:</p>
+<pre><code class="language-bash">npx -y suganthan-gsc-mcp
+</code></pre>
+<h2>Step 5: Configure Claude Desktop</h2>
+<p>With authentication credentials ready, you now tell Claude Desktop how to connect to the MCP server.</p>
+<h3>5.1: Open the Configuration File</h3>
+<ol>
+<li>Open Claude Desktop</li>
+<li>Click "Claude" in the menu bar (Mac) or the hamburger menu (Windows)</li>
+<li>Select "Settings" → "Developer"</li>
+<li>Click "Edit Config"</li>
+</ol>
+<p>This opens the <code>claude_desktop_config.json</code> file in your default text editor.</p>
+<h3>5.2: Add the MCP Server Configuration</h3>
+<p>For <strong>OAuth</strong> authentication, paste this configuration into the JSON file. Replace the placeholder paths with your actual file locations:</p>
+<pre><code class="language-json">&#123;
+  &quot;mcpServers&quot;: &#123;
+    &quot;gsc&quot;: &#123;
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;suganthan-gsc-mcp&quot;],
+      &quot;env&quot;: &#123;
+        &quot;GSC_AUTH_MODE&quot;: &quot;oauth&quot;,
+        &quot;GSC_OAUTH_SECRETS_FILE&quot;: &quot;/Users/yourname/gsc-oauth-secrets.json&quot;,
+        &quot;GSC_SITE_URL&quot;: &quot;sc-domain:yourdomain.com&quot;
+      &#125;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<p>For <strong>service account</strong> authentication, use this configuration instead:</p>
+<pre><code class="language-json">&#123;
+  &quot;mcpServers&quot;: &#123;
+    &quot;gsc&quot;: &#123;
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;suganthan-gsc-mcp&quot;],
+      &quot;env&quot;: &#123;
+        &quot;GSC_AUTH_MODE&quot;: &quot;service_account&quot;,
+        &quot;GSC_KEY_FILE&quot;: &quot;/Users/yourname/gsc-service-key.json&quot;,
+        &quot;GSC_SITE_URL&quot;: &quot;sc-domain:yourdomain.com&quot;
+      &#125;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h3>Critical Formatting Notes</h3>
+<p>The <code>GSC_SITE_URL</code> value must match exactly how your property is registered in Google Search Console:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Property Type</th>
+<th>Correct Format</th>
+<th>Incorrect Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Domain property</td>
+<td><code>sc-domain:yourdomain.com</code></td>
+<td><code>https://yourdomain.com</code></td>
+</tr>
+<tr>
+<td>URL-prefix property</td>
+<td><code>https://www.yourdomain.com/</code></td>
+<td><code>yourdomain.com</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>For <strong>multiple properties</strong>, add the <code>GSC_SITE_URLS</code> environment variable as a comma-separated list:</p>
+<pre><code class="language-json">&quot;GSC_SITE_URLS&quot;: &quot;sc-domain:site1.com,sc-domain:site2.com,https://www.site3.com/&quot;
+</code></pre>
+<h3>5.3: Save and Restart Claude Desktop</h3>
+<p>Save the configuration file. Then <strong>fully quit</strong> Claude Desktop. On Mac, press Cmd+Q. On Windows, right-click the Claude icon in the system tray and select "Quit." Do not just close the window. The configuration only loads on a full restart.</p>
+<p>Reopen Claude Desktop. Go to Settings → Developer. You should see "gsc" listed under MCP servers with a green "Running" indicator.</p>
+<h2>Step 6: Configure Claude Code</h2>
+<p>If you use Claude Code (the command-line version), the setup is similar but uses a different configuration file.</p>
+<h3>6.1: Add the MCP Server</h3>
+<p>Run this command in your terminal:</p>
+<pre><code class="language-bash">claude mcp add gsc -- npx -y suganthan-gsc-mcp
+</code></pre>
+<p>Then set the required environment variables:</p>
+<p>For <strong>OAuth</strong>:</p>
+<pre><code class="language-bash">claude mcp env gsc GSC_AUTH_MODE=oauth
+claude mcp env gsc GSC_OAUTH_SECRETS_FILE=/Users/yourname/gsc-oauth-secrets.json
+claude mcp env gsc GSC_SITE_URL=sc-domain:yourdomain.com
+</code></pre>
+<p>For <strong>service account</strong>:</p>
+<pre><code class="language-bash">claude mcp env gsc GSC_AUTH_MODE=service_account
+claude mcp env gsc GSC_KEY_FILE=/Users/yourname/gsc-service-key.json
+claude mcp env gsc GSC_SITE_URL=sc-domain:yourdomain.com
+</code></pre>
+<h3>6.2: Verify the Connection</h3>
+<p>Start a new Claude Code session and type:</p>
+<pre><code>/mcp
+</code></pre>
+<p>You should see "gsc" listed with a "connected" status. If you see "error" or "disconnected," check the troubleshooting section below.</p>
+<h2>Step 7: Authenticate and Test</h2>
+<p>The first time you use the MCP server, it needs to authenticate with Google.</p>
+<h3>For OAuth Users</h3>
+<ol>
+<li>Start a new conversation in Claude Desktop</li>
+<li>Type: "List all my Search Console properties"</li>
+<li>Claude will call the GSC MCP tool</li>
+<li>A browser window opens asking you to sign in to Google</li>
+<li>Sign in with the Google account that has GSC access</li>
+<li>Grant permission for the app to access Search Console data</li>
+<li>Return to Claude. The response will list your properties</li>
+</ol>
+<p>The authentication token is stored locally and refreshes automatically. You only need to complete this flow once.</p>
+<h3>For Service Account Users</h3>
+<p>No additional authentication step is required. The service account JSON key contains all the credentials needed. Start a new conversation and ask:</p>
+<pre><code>Show me a site snapshot for the last 28 days
+</code></pre>
+<p>If the service account was added to GSC correctly, Claude will return a summary of clicks, impressions, CTR, and position data.</p>
+<h2>What You Can Do With GSC Connected to Claude</h2>
+<p>The suganthan-gsc-mcp package includes 20 built-in tools organized into four categories. Here is the complete list:</p>
+<h3>Analysis Tools (11)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Site snapshot</td>
+<td>Summary of clicks, impressions, CTR, and position for any date range</td>
+</tr>
+<tr>
+<td>Quick wins</td>
+<td>Keywords ranking on page 2 with high impressions but low CTR</td>
+</tr>
+<tr>
+<td>Content gaps</td>
+<td>Queries where you appear but do not have dedicated content</td>
+</tr>
+<tr>
+<td>Traffic drops</td>
+<td>Pages or queries with significant impression or click declines</td>
+</tr>
+<tr>
+<td>CTR opportunities</td>
+<td>Keywords with below-average CTR for their position</td>
+</tr>
+<tr>
+<td>Cannibalization check</td>
+<td>Multiple pages competing for the same query</td>
+</tr>
+<tr>
+<td>Content decay</td>
+<td>Pages that ranked well but are losing traffic over time</td>
+</tr>
+<tr>
+<td>URL inspection</td>
+<td>Live index status, last crawl, and any issues for a specific URL</td>
+</tr>
+<tr>
+<td>Topic clusters</td>
+<td>Group related queries into thematic clusters</td>
+</tr>
+<tr>
+<td>CTR vs benchmarks</td>
+<td>Compare your CTR to industry averages by position</td>
+</tr>
+<tr>
+<td>Advanced search analytics</td>
+<td>Custom filtering by query, page, country, device, and date</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Monitoring Tools (2)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Check alerts</td>
+<td>Any manual actions, security issues, or coverage problems</td>
+</tr>
+<tr>
+<td>Verify claim</td>
+<td>Confirm that a specific claim is supported by your GSC data</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Reporting Tools (3)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content recommendations</td>
+<td>Suggest content updates based on performance data</td>
+</tr>
+<tr>
+<td>Generate report</td>
+<td>Create a formatted performance report for any date range</td>
+</tr>
+<tr>
+<td>Multi-site dashboard</td>
+<td>Aggregate data across multiple GSC properties</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Indexing Tools (4)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Submit URL</td>
+<td>Request indexing for a single URL</td>
+</tr>
+<tr>
+<td>Batch submit</td>
+<td>Request indexing for multiple URLs at once</td>
+</tr>
+<tr>
+<td>Submit sitemap</td>
+<td>Submit or resubmit a sitemap URL</td>
+</tr>
+<tr>
+<td>List sitemaps</td>
+<td>Show all submitted sitemaps and their status</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Real Prompts That Save Hours Every Week</h2>
+<p>Here are prompts you can use immediately after setup. Each replaces a manual task that typically takes 15 to 60 minutes.</p>
+<p><strong>Prompt 1: Find quick-win keywords</strong></p>
+<pre><code>Show me keywords ranking on page 2 with more than 1,000 impressions in the last 28 days but CTR below 2%. Sort by impression volume descending.
+</code></pre>
+<p>This replaces 20 minutes of manual filtering in the GSC Performance tab.</p>
+<p><strong>Prompt 2: Detect traffic drops</strong></p>
+<pre><code>Compare the last 28 days to the previous 28 days. Which pages lost more than 20% of clicks? Show the page URL, previous clicks, current clicks, and percentage change.
+</code></pre>
+<p>This replaces 30 minutes of date-range comparison and spreadsheet work.</p>
+<p><strong>Prompt 3: Find content gaps</strong></p>
+<pre><code>What queries am I showing up for where I do not have a dedicated page? Filter for queries with more than 500 impressions and average position worse than 15.
+</code></pre>
+<p>This replaces 45 minutes of query-by-query analysis and cross-referencing with your content inventory.</p>
+<p><strong>Prompt 4: Check for cannibalization</strong></p>
+<pre><code>Are multiple pages on my site competing for the same query? Show any query where more than 2 pages received impressions, along with each page's average position.
+</code></pre>
+<p>This replaces 60 minutes of manual cross-referencing across multiple GSC exports.</p>
+<p><strong>Prompt 5: Monitor indexing health</strong></p>
+<pre><code>Check the index coverage for my site. How many pages are excluded, and what are the top reasons? Compare to the previous month.
+</code></pre>
+<p>This replaces the need to open the GSC Index Coverage report and manually count categories.</p>
+<h2>Troubleshooting Common Setup Errors</h2>
+<p>Even with clear instructions, five errors come up repeatedly. Here is how to fix each one.</p>
+<h3>Error 1: "spawn npx ENOENT" (Windows)</h3>
+<p><strong>Symptom:</strong> Claude shows an error about not finding <code>npx</code> when trying to start the MCP server.</p>
+<p><strong>Cause:</strong> On Windows, the <code>npx</code> command is <code>npx.cmd</code>, and Claude cannot resolve it directly.</p>
+<p><strong>Fix:</strong> Change your configuration to use the <code>cmd /c</code> wrapper:</p>
+<pre><code class="language-json">&#123;
+  &quot;mcpServers&quot;: &#123;
+    &quot;gsc&quot;: &#123;
+      &quot;command&quot;: &quot;cmd&quot;,
+      &quot;args&quot;: [&quot;/c&quot;, &quot;npx&quot;, &quot;-y&quot;, &quot;suganthan-gsc-mcp&quot;],
+      &quot;env&quot;: &#123;
+        &quot;GSC_AUTH_MODE&quot;: &quot;oauth&quot;,
+        &quot;GSC_OAUTH_SECRETS_FILE&quot;: &quot;C:\\Users\\YourName\\gsc-oauth-secrets.json&quot;,
+        &quot;GSC_SITE_URL&quot;: &quot;sc-domain:yourdomain.com&quot;
+      &#125;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<h3>Error 2: "Property not found" or "User does not have permission"</h3>
+<p><strong>Symptom:</strong> Claude returns an error saying the site URL is not found or the user lacks permission.</p>
+<p><strong>Cause:</strong> The <code>GSC_SITE_URL</code> format does not match how the property is registered in Search Console, or the service account was not added as a user.</p>
+<p><strong>Fix:</strong>
+- For domain properties, use <code>sc-domain:yourdomain.com</code> with no protocol
+- For URL-prefix properties, use the exact URL including <code>https://</code> and trailing slash
+- For service accounts, verify the client_email was added to GSC with "Full" permission</p>
+<h3>Error 3: MCP Server Shows "Error" After Restart</h3>
+<p><strong>Symptom:</strong> The GSC server shows a red "Error" status in Claude Desktop settings.</p>
+<p><strong>Cause:</strong> The JSON configuration has a syntax error, or the credential file path is incorrect.</p>
+<p><strong>Fix:</strong>
+- Validate your JSON at <a href="https://jsonlint.com">jsonlint.com</a>
+- Ensure all paths are absolute, not relative
+- Verify the credential file exists at the specified path
+- Check that there are no trailing commas in the JSON</p>
+<h3>Error 4: OAuth Token Expires or Prompts Repeatedly</h3>
+<p><strong>Symptom:</strong> You have to re-authenticate through Google every time you start Claude.</p>
+<p><strong>Cause:</strong> The OAuth refresh token is not being stored or read correctly.</p>
+<p><strong>Fix:</strong> Update to <code>suganthan-gsc-mcp</code> version 2.2.1 or later. Earlier versions had a bug where concurrent tool calls triggered duplicate authentication flows, causing token storage to fail. The latest version reuses active auth sessions.</p>
+<h3>Error 5: "Rate limit exceeded"</h3>
+<p><strong>Symptom:</strong> Claude returns an error about exceeding API quotas after running several queries.</p>
+<p><strong>Cause:</strong> Google Search Console API has quota limits. The default is 200 queries per 100 seconds per user.</p>
+<p><strong>Fix:</strong> Space out your queries. If you are running batch analysis across multiple date ranges, break the work into smaller chunks. For high-volume use, request a quota increase in the Google Cloud console under APIs &amp; Services → Quotas.</p>
+<h2>What About Hallucinations?</h2>
+<p>A common concern with AI-driven data analysis is hallucination, where the AI makes up data or draws incorrect conclusions. The suganthan-gsc-mcp server includes three guardrails against this:</p>
+<ol>
+<li>
+<p><strong>Data provenance metadata:</strong> Every tool response includes a <code>_meta</code> field showing the exact GSC API endpoint called, the parameters used, and the timestamp of the request. You can verify any number by checking the raw API response.</p>
+</li>
+<li>
+<p><strong>Verify claim tool:</strong> A dedicated tool that cross-checks a specific claim against your live GSC data. If Claude says "Your CTR improved 15%," you can ask it to verify that claim, and it will re-query the data to confirm.</p>
+</li>
+<li>
+<p><strong>Structured output:</strong> The tools return structured JSON rather than free text, which reduces the opportunity for the AI to embellish or misinterpret.</p>
+</li>
+</ol>
+<p>These measures do not eliminate the need for human review, but they reduce the risk of acting on fabricated data.</p>
+<h2>Frequently Asked Questions</h2>
+<p><strong>What is MCP?</strong></p>
+<p>MCP stands for Model Context Protocol. It is an open standard created by Anthropic that lets AI assistants connect to external tools and data sources. Think of it as a USB-C port for AI applications. One protocol, many devices. For a deeper explanation, see our <a href="/blog/what-is-mcp/">guide to what MCP is</a>.</p>
+<p><strong>Do I need a paid Claude subscription?</strong></p>
+<p>No. The MCP integration works on Claude's free plan. However, Claude Pro and Team plans offer higher usage limits and longer context windows, which are helpful when analyzing large GSC datasets.</p>
+<p><strong>Is my GSC data secure?</strong></p>
+<p>With OAuth, your data flows directly from Google's API to Claude on your local machine. The MCP server does not send data to third-party servers. With service accounts, the same direct API connection applies. The credential files are stored locally. Do not share them or commit them to version control.</p>
+<p><strong>Can I connect multiple GSC properties?</strong></p>
+<p>Yes. Use the <code>GSC_SITE_URLS</code> environment variable with a comma-separated list of properties. Claude can then query any property in the list and even compare data across properties.</p>
+<p><strong>Does this work with other AI assistants?</strong></p>
+<p>The suganthan-gsc-mcp package works with any MCP-compatible client, including Claude Desktop, Claude Code, Cursor, and VS Code with the appropriate extensions. The configuration syntax may vary slightly by client.</p>
+<p><strong>What is the difference between this and just exporting GSC data to CSV?</strong></p>
+<p>Exporting to CSV is a one-time snapshot. The MCP connection gives Claude live access to your data. You can ask follow-up questions, compare date ranges dynamically, and get recommendations based on the full dataset without manual exports or spreadsheet work.</p>
+<p><strong>Can I use this to modify my GSC data?</strong></p>
+<p>No. The MCP server has read-only access to your search analytics data. The only write operations available are URL indexing requests and sitemap submissions, which are standard GSC functions.</p>
+<p><strong>What if I already use a paid SEO tool?</strong></p>
+<p>Paid SEO tools like Ahrefs, Semrush, and Screaming Frog offer broader data sources and competitive analysis. The GSC MCP connection does not replace them. It complements them by giving you instant, conversational access to your own first-party search data without opening another dashboard.</p>
+<h2>Key Takeaways</h2>
+<ul>
+<li>Connecting GSC to Claude via MCP takes 15 minutes and replaces hours of manual data work each week</li>
+<li>OAuth is fastest for individuals. Service accounts are best for teams and automation</li>
+<li>The <code>GSC_SITE_URL</code> format must exactly match your property type in Search Console</li>
+<li>Twenty built-in tools cover analysis, monitoring, reporting, and indexing</li>
+<li>Common errors involve path formatting, JSON syntax, and Windows command resolution</li>
+<li>Hallucination guardrails include data provenance metadata, a verify claim tool, and structured output</li>
+<li>The integration is read-only and does not replace dedicated SEO tools, but it dramatically speeds up first-party data analysis</li>
+</ul>
+<p>If you have not connected GSC to Claude yet, the 15-minute setup is one of the highest-ROI technical tasks you can complete this week. The ability to ask questions in plain English and get answers from live search data changes how you approach SEO analysis.</p>
+<blockquote>
+<p><strong>Get more from your search data.</strong> Stacc helps brands turn GSC insights into content strategies that rank. From quick-win keyword identification to full content gap analysis, we build the editorial calendar from your actual search performance. <a href="/blog/mcp-content-marketing/">See how we use GSC data →</a></p>
+</blockquote>
+      </article>
+    </div>
+  </div>
+
+</BaseLayout>

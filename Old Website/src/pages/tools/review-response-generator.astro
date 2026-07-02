@@ -1,0 +1,441 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free Google Review Response Generator (3 Replies in 8s) | theStacc';
+const pageDescription = 'Generate 3 ready-to-post Google review responses in 8 seconds. Industry-aware (HIPAA + legal-safe). Reads the actual review text. No signup, no email gate.';
+const pageUrl = 'https://thestacc.com/tools/review-response-generator/';
+const lastUpdated = '2026-05-10';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Google Review Response Generator',
+  description: 'Generates 3 ready-to-post responses to any Google review in 8 seconds. Reads your actual review text. Industry-aware safety rules for dental, medical, legal, and financial services. Includes a 100-point quality scorer.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'How should I respond to a negative Google review?', a: 'Acknowledge the specific experience the reviewer described, take quiet ownership ("we should have done better") without admitting legal fault, and move the conversation off-platform — give a phone number or ask them to email the manager. Never argue, list excuses, or contradict the review publicly. Keep it under 150 words. Always respond within 4 hours of a 1-2 star review.' },
+  { q: 'Do Google review responses help with local SEO?', a: 'Yes. Google has confirmed that response rate is a local ranking factor. Businesses that respond to reviews regularly rank higher in the Google Map Pack than those that don\'t. Responses are also indexed text — naturally including your business name and city in replies adds local-relevance signals.' },
+  { q: 'How quickly should I respond to Google reviews?', a: 'Within 4 hours for 1-2 star reviews — every hour after a negative review publishes, your response carries less weight because more potential customers have already read it. Within 24 hours for 3-4 star reviews. Within 48 hours for 5-star reviews. Speed itself is a ranking signal.' },
+  { q: 'Should I respond to every Google review?', a: 'Yes. Aim for a 100% response rate. Positive reviews get a 2-3 sentence thank-you. Negative reviews get a 100-150 word acknowledgement with an offline path. The act of responding signals to Google that your business is active, and signals to potential customers that you actually care. Businesses that respond consistently to reviews tend to outperform those that ignore them on both rankings and conversion.' },
+  { q: 'Can I use AI to write Google review responses?', a: 'Yes — but only if the AI reads the actual review and references specific details. Generic AI responses (the "we appreciate your business" template kind) hurt more than they help — readers can spot them in seconds and the keyword stuffing patterns can violate Google\'s spam policies. This tool reads the review text and references concrete details from it, so each response feels genuinely written.' },
+  { q: 'What should I never say in a Google review response?', a: 'Never admit legal fault ("you\'re right, we were negligent"). Never reference specific medical treatments (HIPAA violation). Never confirm someone is a client of your law firm (privilege violation). Never promise compensation publicly. Never argue with the reviewer or "but actually" their account. Never respond when emotional — wait at least an hour after reading a tough review before drafting a reply.' },
+  { q: 'How long should a Google review response be?', a: '40-80 words for positive reviews. 100-150 words for negative or mixed reviews. Long enough to acknowledge specifics. Short enough that mobile users will read it (the "Read more" cutoff on Google mobile is around 80 characters). Skip padding phrases like "thank you for taking the time to leave us your valuable feedback" — that\'s 14 wasted words.' },
+  { q: 'Is responding to fake or unfair reviews worth it?', a: 'Yes — but for the next 100 readers, not for the reviewer. Stay calm, present your side neutrally without arguing, mention you\'ve also flagged the review with Google for verification, and offer a path to discuss off-platform. If the review violates Google\'s policies (hate speech, conflict of interest, off-topic), report it to Google through the Business Profile manager — they remove a meaningful percentage of reported reviews.' },
+  { q: 'Can responding to reviews actually win new customers?', a: 'Yes. The majority of consumers read business responses before deciding where to spend money. A thoughtful, accountable response to a 1-star review can convert more new customers than three 5-star reviews — it shows future customers exactly how you handle problems, which is what they actually need to know. Quick, empathetic responses to negatives consistently lift review-page conversion rates.' },
+  { q: 'Is this Google review response generator really free?', a: 'Yes. No credit card. No email required to use the tool. We make money when local businesses upgrade to Stacc, our automated SEO platform that handles review responses, GBP posts, and blog content on autopilot — but the tool itself is free forever. Daily limit: 15 responses per IP, which resets every 24 hours.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+
+const industries = [
+  'Dental / Orthodontics','Legal / Law Firm','Plumbing / HVAC','Electrical',
+  'Roofing / Construction','Real Estate','Accounting / Tax','Restaurant / Cafe',
+  'Salon / Spa / Beauty','Auto Repair / Detailing','Cleaning Services','Landscaping / Lawn Care',
+  'Veterinary / Pet Services','Chiropractic / Physical Therapy','IT Services / Consulting',
+  'Fitness / Gym / Yoga','Photography / Videography','Insurance / Financial Services',
+  'Home Staging / Interior Design','Tutoring / Education','Pet Grooming / Boarding',
+  'Moving / Storage','Pest Control','Medical Practice','Mental Health / Therapy',
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Google Review Response Generator"
+  toolDescription="Generate 3 ready-to-post responses in 8 seconds. Industry-aware (HIPAA + legal-safe). Reads the actual review text. No signup, no email gate."
+  trustCount=""
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <!-- Review Text -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="review-text">The Review <span class="text-red-500">*</span></label>
+          <textarea id="review-text" required minlength="10" maxlength="2000" rows="5" placeholder="Paste the Google review here, exactly as it appears..." class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] leading-[1.6] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-y"></textarea>
+          <div class="mt-1 flex items-center justify-between">
+            <p class="hidden text-xs text-red-500" id="err-review-text">Paste the review text (at least 10 characters)</p>
+            <p class="ml-auto font-mono text-xs text-[#79716b]"><span id="char-count">0</span> / 2,000</p>
+          </div>
+        </div>
+
+        <!-- Star Rating -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Star Rating <span class="text-red-500">*</span></label>
+          <input type="hidden" id="rating-val" value="" />
+          <div class="flex gap-1.5">
+            {[1,2,3,4,5].map(star => (
+              <button type="button" class="star-btn cursor-pointer p-1 transition-transform hover:scale-110" data-star={star} aria-label={`${star} star${star > 1 ? 's' : ''}`}>
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#d6d3d1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+              </button>
+            ))}
+          </div>
+          <p class="mt-1.5 hidden text-[13px] font-medium" id="rating-hint"></p>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-rating">Please select a star rating</p>
+        </div>
+
+        <!-- Business + Industry side-by-side on md+ -->
+        <div class="mb-5 grid gap-5 md:grid-cols-2">
+          <div>
+            <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz">Business Name <span class="text-red-500">*</span></label>
+            <input type="text" id="biz" required maxlength="100" placeholder="e.g., Smith Family Dental" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            <p class="mt-1 hidden text-xs text-red-500" id="err-biz">Please enter your business name</p>
+          </div>
+          <div>
+            <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="city">City / Location <span class="text-red-500">*</span></label>
+            <input type="text" id="city" required maxlength="80" placeholder="e.g., Austin, TX" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            <p class="mt-1 hidden text-xs text-red-500" id="err-city">Please enter your city</p>
+          </div>
+        </div>
+
+        <!-- Industry -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ind">Industry <span class="text-red-500">*</span></label>
+          <select id="ind" required class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+            <option value="" disabled selected>Select your industry</option>
+            {industries.map(ind => <option>{ind}</option>)}
+            <option value="__other__">Other (type your own)</option>
+          </select>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-ind">Please select your industry</p>
+          <input type="text" id="ind-other" placeholder="e.g., Wedding planning, Pool cleaning, Tattoo studio" maxlength="60" class="mt-1.5 hidden w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1.5 font-mono text-[11px] text-[#79716b]">Why we ask: certain industries (medical, legal, financial) need extra response rules — we apply them automatically.</p>
+        </div>
+
+        <!-- Reviewer Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="reviewer-name">Reviewer's First Name <span class="font-normal normal-case tracking-normal text-[#79716b]">. Optional</span></label>
+          <input type="text" id="reviewer-name" maxlength="50" placeholder="e.g., Sarah (leave blank if anonymous)" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Response Tone -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Response Tone</label>
+          <div class="grid grid-cols-2 gap-2 md:grid-cols-4">
+            {[
+              { val: 'professional', label: 'Professional', desc: 'Restrained, polished' },
+              { val: 'friendly', label: 'Friendly', desc: 'Warm, conversational' },
+              { val: 'empathetic', label: 'Empathetic', desc: 'Validating, accountable' },
+              { val: 'brief', label: 'Brief', desc: 'Direct, no padding' },
+            ].map((t, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="tone" value={t.val} checked={i === 0} class="peer sr-only" />
+                <span class="block rounded-[10px] border border-[#e7e5e4] p-3 text-center transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff]">
+                  <span class="block text-[14px] font-semibold text-[#292524]">{t.label}</span>
+                  <span class="mt-0.5 block text-[11px] text-[#79716b]">{t.desc}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Compliance Note -->
+        <div class="mb-5 flex items-start gap-2 rounded-lg bg-[#fffbeb] border border-[#fde68a] p-3">
+          <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <p class="text-[13px] text-[#92400e] leading-relaxed"><strong>Industry-safe by default.</strong> We never reference specific treatments (HIPAA), case details (privilege), or financial specifics — even if the reviewer mentioned them. Each response is screened for compliance before you see it.</p>
+        </div>
+
+        <button type="submit" id="gen-btn" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase tracking-wide text-white transition-all hover:bg-[#4f39f6] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+          Generate 3 Response Variations
+        </button>
+
+        <p class="mt-2.5 text-center font-mono text-[11px] text-[#79716b]">Free · No signup · 15 generations per day</p>
+      </form>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="mt-8 hidden">
+      <div class="mb-4 flex items-center justify-center gap-3 rounded-lg bg-[#fafaf9] border border-[#e7e5e4] px-4 py-2 font-mono text-xs text-[#79716b]">
+        <span>Generated this session: <strong class="text-[#6d28d9]" id="gen-count">0</strong></span>
+        <span class="hidden sm:inline">·</span>
+        <span id="avg-score" class="hidden sm:inline"></span>
+      </div>
+
+      <!-- Top-level flag banner (HIPAA / legal warnings) -->
+      <div id="flag-banner" class="hidden mb-4 rounded-lg border border-[#fca5a5] bg-[#fef2f2] p-3"></div>
+
+      <!-- Industry safety notes -->
+      <div id="safety-notes" class="hidden mb-4 rounded-xl border border-[#fecaca] bg-[#fef2f2] p-4"></div>
+
+      <!-- Variation 1 — Concise -->
+      <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6 mb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]" id="lbl1">Concise</span>
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs" id="st1"></span>
+            <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3" id="pt1"></div>
+        <div id="seo1" class="mt-3 hidden inline-flex items-center gap-1.5 rounded-md bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1 font-mono text-[11px] font-medium text-[#16a34a]"></div>
+        <div id="tip1" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+      </div>
+
+      <!-- Variation 2 — Balanced -->
+      <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6 mb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]" id="lbl2">Balanced</span>
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs" id="st2"></span>
+            <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="2">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3" id="pt2"></div>
+        <div id="seo2" class="mt-3 hidden inline-flex items-center gap-1.5 rounded-md bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1 font-mono text-[11px] font-medium text-[#16a34a]"></div>
+        <div id="tip2" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+      </div>
+
+      <!-- Variation 3 — Detailed -->
+      <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6 mb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]" id="lbl3">Detailed</span>
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs" id="st3"></span>
+            <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="3">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3" id="pt3"></div>
+        <div id="seo3" class="mt-3 hidden inline-flex items-center gap-1.5 rounded-md bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1 font-mono text-[11px] font-medium text-[#16a34a]"></div>
+        <div id="tip3" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+      </div>
+
+      <!-- Google Response Preview -->
+      <div class="mt-6">
+        <p class="mb-2 font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Preview on Google (Concise variation)</p>
+        <div class="rounded-xl border border-[#dadce0] bg-white p-4 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4f39f6]">
+              <span id="pav" class="font-sans text-sm font-bold text-white">Y</span>
+            </div>
+            <div>
+              <p class="font-sans text-[13px] font-medium text-[#202124]">Response from the owner</p>
+              <p class="font-sans text-[12px] text-[#70757a]">Just now</p>
+            </div>
+          </div>
+          <p id="pbd" class="font-sans text-[14px] leading-[1.6] text-[#3c4043]"><span class="text-[#79716b] italic">Your response preview will appear here...</span></p>
+        </div>
+      </div>
+
+      <!-- Response time hint -->
+      <div id="response-time" class="hidden mt-4 rounded-lg border border-[#e7e5e4] bg-[#fafaf9] px-4 py-3 font-mono text-xs text-[#57534e]"></div>
+
+      <!-- Actions -->
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="regen" class="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Generate Different Variations
+        </button>
+        <a href="https://business.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          Open Google Business Profile <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">You wrote 3 replies in 8 seconds.<br/>Stacc replies to every review for you — automatically.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Hands-off review responses, GBP posts, and blog content. The 100% response rate Google rewards, without the hour every Monday.</p>
+        <a href="/demo/?source=review-response-tool-results" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start your $1 trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days · Cancel anytime · Rank higher in the Map Pack on autopilot</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- ░░ TL;DR / SPEAKABLE ░░ -->
+    <div class="speakable mb-8 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-5">
+      <p class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#4f39f6] mb-2">Summary · Last updated {lastUpdated}</p>
+      <p class="font-sans text-[16px] leading-[1.8] text-[#292524]">
+        The Free Google Review Response Generator drafts 3 ready-to-post replies to any Google review in under 8 seconds. Paste the review, pick the star rating and tone, and get one concise reply (40-80 words), one balanced reply (90-150 words), and one detailed reply (160-220 words). The tool reads the actual review text and references specific details from it, so each response sounds genuinely written — not template-copied. Industry safety rules protect dental, medical, legal, and financial businesses from HIPAA and privilege violations. Best for local service businesses managing 10-200 reviews per month. Free, no signup, no email gate.
+      </p>
+    </div>
+
+    <!-- ░░ STAT LEAD (AI Overview bait) ░░ -->
+    <div class="mb-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">88%</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Of consumers would use a business that replies to reviews</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">100%</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Target response rate Google rewards</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">24h</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Recommended window for negative reviews</p>
+      </div>
+    </div>
+
+    <!-- ░░ HOW IT WORKS ░░ -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mb-3">How does the review response generator work?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3"><strong>Three steps. Eight seconds. Zero guesswork.</strong></p>
+    <ol class="list-decimal pl-5 mb-6 space-y-2 text-[16px] text-[#57534e] leading-[1.75]">
+      <li><strong class="text-[#292524]">Paste the review.</strong> The actual text — not a summary. Our AI reads it word-for-word and identifies what the reviewer specifically praised or criticized. That detail is what makes responses feel real.</li>
+      <li><strong class="text-[#292524]">Tell us the basics.</strong> Star rating, your business name, city, industry, and tone. Industry triggers compliance rules — dental and medical get HIPAA-safe wording; legal gets privilege-safe wording; financial gets account-detail-safe wording. You don&apos;t have to think about it.</li>
+      <li><strong class="text-[#292524]">Click Generate.</strong> You get 3 distinct responses: <strong>concise</strong> (40-80 words, fast reply), <strong>balanced</strong> (90-150 words, typical reply), and <strong>detailed</strong> (160-220 words, full acknowledgment for tough reviews). Each one is scored on a 100-point scale, screened for HIPAA / legal violations, and checked against a 25-phrase blocklist of AI-sounding language.</li>
+    </ol>
+
+    <!-- ░░ NEGATIVE REVIEW SECTION ░░ -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">How should I respond to a negative Google review?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong>Lead with empathy. Acknowledge the specific complaint. Take ownership without admitting legal fault. Move the conversation off-platform. Sign off as the team or manager.</strong>
+    </p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      The single most important shift: stop writing for the angry reviewer. Write for the next 100 readers. Most won&apos;t leave a review themselves — they&apos;ll read your response and decide whether to call you. A defensive reply costs you those 100 next customers. A measured one wins them.
+    </p>
+    <ol class="list-decimal pl-5 mb-6 space-y-2 text-[16px] text-[#57534e] leading-[1.75]">
+      <li><strong class="text-[#292524]">Acknowledge the specific experience.</strong> &quot;The 6-hour wait you described&quot; beats &quot;your concern.&quot; Specifics signal that you read the review.</li>
+      <li><strong class="text-[#292524]">Take ownership without legal admission.</strong> &quot;We should have done better&quot; is a legal-safe phrase. &quot;You&apos;re right, we were negligent&quot; is not.</li>
+      <li><strong class="text-[#292524]">Don&apos;t argue or contradict publicly.</strong> If the reviewer got a fact wrong, address it offline. Public corrections look defensive even when correct.</li>
+      <li><strong class="text-[#292524]">Offer a real off-platform path.</strong> A phone number. An email. A specific person to ask for. &quot;Reach out to us&quot; is too vague to convert.</li>
+      <li><strong class="text-[#292524]">Don&apos;t promise compensation publicly.</strong> Anything you offer in writing on Google becomes the floor for every future complaint.</li>
+      <li><strong class="text-[#292524]">Wait an hour before responding.</strong> Tough reviews trigger emotional replies. The hour rule has saved more businesses than any single tactic.</li>
+      <li><strong class="text-[#292524]">Sign off as &quot;the team at [Biz]&quot; or with a real first name (manager).</strong> Don&apos;t fake an identity. The tool above never invents a person&apos;s name.</li>
+    </ol>
+
+    <!-- ░░ POSITIVE REVIEW SECTION ░░ -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">How should I respond to a positive Google review?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3"><strong>Reference one specific thing they praised. Skip the generic thank-you. Vary your wording across responses so your profile doesn&apos;t look templated.</strong></p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">A common mistake: copy-pasting &quot;Thank you for your feedback! We appreciate your business&quot; under every 5-star review. Google flags this as a low-effort signal. Customers reading your profile pages spot it instantly. The 5-star reviewer doesn&apos;t feel seen.</p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">A better approach: pick one detail from their review and acknowledge it specifically. &quot;Glad the deep-clean appointment felt comfortable — that&apos;s exactly what Dr. Chen and the hygienists work toward&quot; is 14 words and feels real. The boilerplate thank-you is 8 words and feels fake. Specificity isn&apos;t about length.</p>
+
+    <!-- ░░ INDUSTRY-SPECIFIC SECTION ░░ -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">Industry-specific review response rules</h2>
+
+    <h3 class="text-[18px] leading-[1.4] font-semibold text-[#292524] mt-6 mb-2">Dental, medical, mental health, veterinary (HIPAA-affected)</h3>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">Even when the reviewer mentioned a specific procedure, condition, or appointment detail, your response must NOT confirm or repeat it. Saying &quot;thanks for trusting us with your root canal&quot; is a documented HIPAA violation that has cost practices five-figure fines. Responses must use general language: &quot;anyone who visits our practice&quot; not &quot;your visit,&quot; &quot;the care our patients receive&quot; not &quot;your treatment.&quot; The tool above applies these rules automatically when you select a HIPAA-affected industry.</p>
+
+    <h3 class="text-[18px] leading-[1.4] font-semibold text-[#292524] mt-6 mb-2">Law firms, attorneys</h3>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">Attorney-client privilege means you cannot confirm someone is your client publicly — even if they say so themselves in a review. Saying &quot;we&apos;re glad we won your custody case&quot; is a privilege violation regardless of intent. Responses must use phrases like &quot;our firm&quot; and &quot;anyone who works with us.&quot; Bar associations have disciplined attorneys for review responses; this is not theoretical.</p>
+
+    <h3 class="text-[18px] leading-[1.4] font-semibold text-[#292524] mt-6 mb-2">Financial advisors, accountants, CPAs, insurance</h3>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">Don&apos;t reference specific financial outcomes, returns, advice given, or account details. Your professional liability insurer will thank you. The tool defaults to general language: &quot;our firm&apos;s approach&quot; not &quot;your portfolio.&quot;</p>
+
+    <h3 class="text-[18px] leading-[1.4] font-semibold text-[#292524] mt-6 mb-2">Restaurants, salons, retail (low-regulation)</h3>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">Specifics are encouraged. Reference the dish, the service, the visit. The risks are reputational, not regulatory — argue or get defensive in public and you lose. The hospitality industry is where empathetic, specific replies win the most new customers; consumers consistently report they're more likely to choose a business that responds thoughtfully to negative reviews.</p>
+
+    <!-- ░░ WHY IT MATTERS SECTION ░░ -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">Do Google review responses help with local SEO?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3"><strong>Yes — review response rate is a confirmed local ranking factor.</strong> Google&apos;s Local Search Quality Guidelines list response rate as a relevance signal, and businesses that maintain a high response rate consistently rank higher in the Map Pack than those that don&apos;t reply.</p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">Three SEO benefits stack at once:</p>
+    <ul class="list-disc pl-5 mb-6 space-y-2 text-[16px] text-[#57534e] leading-[1.75]">
+      <li><strong>Direct ranking signal.</strong> Higher response rate = better Map Pack position.</li>
+      <li><strong>Indexed text.</strong> Your responses are crawled by Google. Naturally including your business name and city in replies adds local-relevance signals without keyword stuffing.</li>
+      <li><strong>Conversion lift.</strong> Most consumers read responses before deciding. The same Map Pack visit converts at a higher rate when responses are visible.</li>
+    </ul>
+
+    <!-- ░░ COMPARISON TABLE ░░ -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">How this tool differs from Birdeye, Reputation.com, and ChatGPT</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-4">We built this because every existing option had at least one of three problems: paid-only ($300+/mo), email-gated, or didn&apos;t apply industry compliance rules. Here&apos;s how we compare:</p>
+    <div class="overflow-x-auto rounded-xl border border-[#e7e5e4] bg-white">
+      <table class="w-full text-[14px]">
+        <thead class="bg-[#fafaf9]">
+          <tr>
+            <th class="px-4 py-3 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">Birdeye / Reputation</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">ChatGPT prompt</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e7e5e4]">
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Free, no signup</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">$300+ per month</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (with paid prompt)</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Variations per generation</td><td class="px-4 py-2.5 text-[#292524] font-semibold">3 (concise / balanced / detailed)</td><td class="px-4 py-2.5 text-[#79716b]">1</td><td class="px-4 py-2.5 text-[#79716b]">1</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Reads actual review text</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">HIPAA-safe (medical)</td><td class="px-4 py-2.5 text-[#292524] font-semibold">Auto-applied</td><td class="px-4 py-2.5 text-[#79716b]">Manual review needed</td><td class="px-4 py-2.5 text-[#dc2626]">No safety rails</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Privilege-safe (legal)</td><td class="px-4 py-2.5 text-[#292524] font-semibold">Auto-applied</td><td class="px-4 py-2.5 text-[#79716b]">Manual review needed</td><td class="px-4 py-2.5 text-[#dc2626]">No safety rails</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Tone options</td><td class="px-4 py-2.5 text-[#292524] font-semibold">4 (incl. brief)</td><td class="px-4 py-2.5 text-[#79716b]">2-3</td><td class="px-4 py-2.5 text-[#79716b]">User-prompted</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Quality score (0-100)</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">✗</td><td class="px-4 py-2.5 text-[#dc2626]">✗</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Anti-AI-pattern blocklist</td><td class="px-4 py-2.5 text-[#292524] font-semibold">25 phrases scrubbed</td><td class="px-4 py-2.5 text-[#79716b]">Generic AI</td><td class="px-4 py-2.5 text-[#79716b]">Generic AI</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Live Google preview</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">✗</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">AI engine</td><td class="px-4 py-2.5 text-[#292524] font-semibold">AI + 100-point scorer gate</td><td class="px-4 py-2.5 text-[#79716b]">GPT-4 wrapper</td><td class="px-4 py-2.5 text-[#79716b]">GPT-4 raw</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ░░ FAQ (10 Qs from frontmatter array) ░░ -->
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently asked questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      {faqs.map((faq, idx) => (
+        <div class:list={[idx < faqs.length - 1 && 'border-b border-[#f3f4f6]']}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[16px] font-semibold text-[#111827]">{faq.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[15px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More free local SEO tools</h2>
+        <p class="mt-1 font-sans text-[13px] text-[#79716b]">Built for the same local-business owners using this generator.</p>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <a href="/tools/gbp-post-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">GBP Post Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">3 ready-to-publish GBP posts in 8 seconds</p>
+          </a>
+          <a href="/tools/review-request-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Review Request Templates</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Email, SMS, and in-person scripts</p>
+          </a>
+          <a href="/tools/review-qr-code-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Review QR Code Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Get more reviews with printable QR codes</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">LocalBusiness schema for 23 industries</p>
+          </a>
+          <a href="/tools/seo-audit/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Free SEO Audit</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Full site SEO score in 30 seconds</p>
+          </a>
+          <a href="/tools/website-seo-score/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Website SEO Score</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Check your site's SEO health</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script is:inline src="/js/review-response-engine.js"></script>
+  </Fragment>
+</ToolLayout>

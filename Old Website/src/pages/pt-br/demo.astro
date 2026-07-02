@@ -1,0 +1,612 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+import { SITE_URL, LOGO_URL, buildBreadcrumbs } from '../../utils/schema';
+
+const plans = [
+  {
+    name: 'Crescimento Local',
+    tagline: 'Blog + SEO Local, completamente gerenciado.',
+    price: 749,
+    annualPrice: 625,
+    popular: false,
+    features: [
+      '30 artigos publicados/mês',
+      '30 publicações no Google Meu Negócio/mês',
+      'Monitoramento diário de avaliações e respostas',
+      'Relatórios de desempenho semanais',
+      'Videochamada estratégica mensal',
+      '1 localidade incluída (+$150/localidade extra)',
+    ],
+  },
+  {
+    name: 'Crescimento Pro',
+    tagline: 'Blog + SEO Local + Redes Sociais.',
+    price: 999,
+    annualPrice: 835,
+    popular: true,
+    features: [
+      'Tudo do Crescimento Local',
+      '60 publicações em redes/mês em 6 plataformas',
+      'Conteúdo e hashtags específicos por plataforma',
+      'Calendário de publicação otimizado',
+      'Monitoramento diário de interações',
+      'Analytics mensal + chamada estratégica',
+    ],
+  },
+  {
+    name: 'Crescimento Completo',
+    tagline: 'Tudo: blog, local, social e site.',
+    price: 1299,
+    annualPrice: 999,
+    popular: false,
+    features: [
+      'Tudo do Crescimento Pro',
+      'Site com IA, hospedado e gerenciado',
+      'Atualizações mensais e ajustes de SEO',
+      'Monitoramento de velocidade e correções de segurança',
+      'Relatórios semanais + chamada estratégica mensal',
+      'Equipe de operações nos EUA',
+    ],
+  },
+];
+
+const steps = [
+  {
+    n: '01',
+    title: 'Agende uma chamada de 30 minutos',
+    body: 'Conte-nos sobre seu setor, objetivos e onde você está travado. Sem pressão, sem apresentações. Apenas uma conversa real.',
+  },
+  {
+    n: '02',
+    title: 'Criamos seu plano de 90 dias',
+    body: 'Nossa equipe define os objetivos de palavras-chave, melhorias no Google Meu Negócio e estratégia de redes sociais específica para o seu negócio e localização.',
+  },
+  {
+    n: '03',
+    title: 'Cuidamos de tudo',
+    body: 'O conteúdo é publicado, as avaliações são respondidas, os posts saem diariamente. Você revisa mensalmente. Só isso.',
+  },
+];
+
+const callDeliverables = [
+  'Um plano personalizado de conteúdo + SEO local de 90 dias',
+  'Análise de lacunas de palavras-chave para o seu setor e localização',
+  'Avaliação honesta do seu Google Meu Negócio atual',
+  'Uma recomendação clara de plano sem preços surpresa',
+];
+
+const objections = [
+  {
+    q: "Por que falar com alguém se é com IA?",
+    a: "A IA cuida da execução: escrita, agendamento e respostas. Nossa equipe cuida da estratégia: quais palavras-chave atacar, como deve soar a voz da sua marca e o que corrigir primeiro. A chamada é onde mapeamos o seu negócio para um plano que realmente funcione. O resultado genérico de IA é fácil. O resultado preciso, com marca e local, requer um brief humano.",
+  },
+  {
+    q: "Como isso é diferente de uma agência comum?",
+    a: "Uma agência típica cobra $3.000–$10.000/mês porque fatura horas humanas. Nós cobramos $749–$1.299/mês porque a IA cuida da produção. Você ainda tem um gerente dedicado, uma chamada estratégica e relatórios semanais. Só sem o sobrepreço da agência. Os mesmos resultados. Uma fração do custo.",
+  },
+  {
+    q: "E se eu não estiver satisfeito depois de 30 dias?",
+    a: "Escreva para nós e devolvemos tudo. Sem entrevista de saída, sem taxas de cancelamento. O conteúdo que publicamos permanece no seu site e continua ranqueando. Você fica com tudo o que construímos, mesmo que saia.",
+  },
+];
+
+const testimonials = [
+  {
+    quote: "Saímos de 0 para 47 leads mensais em 4 meses. O Stacc substituiu nossa agência de $3.000/mês e os resultados são ainda melhores.",
+    role: "Proprietário, Clínica Odontológica · São Paulo",
+    metric: "47 leads/mês",
+    init: "CS",
+  },
+  {
+    quote: "Top 3 no Maps para 'encanador perto de mim' em 90 dias. As publicações no Google Meu Negócio saem todo dia sem eu tocar em nada. Por $749 por mês, nada chega perto.",
+    role: "Proprietário, Empresa de Encanamento · Curitiba",
+    metric: "Top 3 no Maps em 90 dias",
+    init: "RS",
+  },
+];
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/pt-br/demo/`,
+      name: 'Agende uma Chamada de Estratégia | theStacc Serviços Gerenciados',
+      description: 'Agende uma chamada de estratégia gratuita de 30 minutos. Criaremos um plano de SEO e redes sociais de 90 dias para o seu negócio. Serviços gerenciados a partir de $749/mês.',
+      url: `${SITE_URL}/pt-br/demo/`,
+      inLanguage: 'pt-BR',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    buildBreadcrumbs(`${SITE_URL}/pt-br/demo/`, [
+      { name: 'Início', url: `${SITE_URL}/pt-br/` },
+      { name: 'Agendar Demo', url: `${SITE_URL}/pt-br/demo/` },
+    ]),
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'theStacc',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: LOGO_URL },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Agende uma Chamada de Estratégia | theStacc Serviços Gerenciados"
+  description="Agende uma chamada de estratégia gratuita de 30 minutos. Criaremos um plano de SEO e redes sociais de 90 dias para o seu negócio. Serviços gerenciados a partir de $749/mês."
+  lang="pt-BR"
+>
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.4) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[680px] text-center">
+
+          <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4ade80]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Chamada de estratégia gratuita de 30 minutos</span>
+          </div>
+
+          <h1 class="font-sans text-[2.6rem] font-semibold leading-[1.1] tracking-[-0.04em] text-[#292524] md:text-[3.25rem]">
+            Resultados de agência.<br />
+            <span style="color:#4f39f6;">Sem o retainer de agência.</span>
+          </h1>
+
+          <p class="mx-auto mt-5 max-w-[520px] font-sans text-[1.05rem] leading-[1.7]" style="color:#9ca3af;">
+            Gerenciamos seu SEO, busca local e redes sociais. Completamente. A IA executa. Nossa equipe faz a estratégia. Você revisa os resultados mensalmente.
+          </p>
+
+          <div class="mt-4 flex items-center justify-center gap-2">
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-[#e7e5e4] bg-white px-3 py-1 font-mono text-[11px] text-[#79716b]">
+              A partir de $749/mês
+            </span>
+            <span class="font-mono text-[11px] text-[#79716b]">vs.</span>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-[#e7e5e4] bg-white px-3 py-1 font-mono text-[11px] text-[#79716b] line-through decoration-white/30">
+              $3.000–$10.000/mês agência
+            </span>
+          </div>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="#book"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-[#4f39f6] px-7 font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Agendar minha chamada de estratégia gratuita
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            Sem compromisso · 30 minutos · Viemos preparados
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHAT YOU GET FROM THE CALL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-16 md:py-20">
+        <div class="mx-auto max-w-5xl">
+          <div class="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
+
+            <div>
+              <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">O que acontece na chamada</span>
+              <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2rem]">
+                Você sai com um plano, não com uma proposta.
+              </h2>
+              <p class="mt-4 font-sans text-[15px] leading-[1.7] text-[#57534e]">
+                A maioria das agências usa a primeira chamada para fazer o pitch. Nós usamos para auditar. Em 30 minutos, você saberá exatamente o que falta na sua presença online e o que fazer a respeito.
+              </p>
+              <div class="mt-7 flex flex-col gap-4">
+                {callDeliverables.map(d => (
+                  <div class="flex items-start gap-3">
+                    <div class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#4f39f6]">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                    </div>
+                    <span class="font-sans text-[15px] text-[#374151]">{d}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div class="rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-8">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-[#4f39f6]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <div>
+                  <p class="font-sans text-[14px] font-semibold text-[#111827]">Chamada de Estratégia Gratuita</p>
+                  <p class="font-mono text-[11px] text-[#79716b]">30 minutos · Vídeo ou telefone</p>
+                </div>
+              </div>
+              <div class="space-y-4">
+                {[
+                  { icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>', label: 'Sem compromisso' },
+                  { icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>', label: 'Nos preparamos antes da chamada' },
+                  { icon: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>', label: 'Você fala com um estrategista real' },
+                  { icon: '<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.82 19.79 19.79 0 01.02 1.22 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.27 7.11a16 16 0 006.61 6.61l.97-.97a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>', label: 'Equipe nos EUA, disponível esta semana' },
+                ].map(item => (
+                  <div class="flex items-center gap-3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={item.icon} />
+                    <span class="font-sans text-[14px] text-[#374151]">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+              <a href="#book" class="mt-7 flex h-11 w-full items-center justify-center rounded-xl bg-[#4f39f6] font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+                Agendar minha chamada gratuita →
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16 md:py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Como funciona</span>
+          <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2rem]">
+            Do zero ao totalmente gerenciado em uma semana.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-4xl grid grid-cols-1 gap-6 md:grid-cols-3">
+          {steps.map((step) => (
+            <div class="relative rounded-2xl border border-[#e7e5e4] bg-white p-8">
+              <span class="font-mono text-[2.5rem] font-bold leading-none text-[#f0effe]">{step.n}</span>
+              <h3 class="mt-3 font-sans text-[16px] font-semibold text-[#111827]">{step.title}</h3>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{step.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PLANS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-16 md:py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Serviços Gerenciados</span>
+          <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2rem]">
+            Cuidamos de todo o seu marketing.
+          </h2>
+          <p class="mx-auto mt-4 font-sans text-[15px] leading-relaxed text-[#57534e]">
+            A IA faz o trabalho. Um gerente dedicado cuida do controle de qualidade, estratégia e sua revisão mensal. Você aparece e revisa os resultados.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-5 md:grid-cols-3">
+          {plans.map((plan) => (
+            <div class={`relative flex flex-col rounded-2xl border p-8 ${plan.popular ? 'border-[#4f39f6]/40 shadow-[0_8px_40px_rgba(79,57,246,0.1)]' : 'border-[#e7e5e4]'} bg-white`}>
+              {plan.popular && (
+                <span class="absolute -top-3.5 left-6 inline-flex items-center rounded-full bg-[#4f39f6] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+                  Mais Popular
+                </span>
+              )}
+              <h3 class="font-sans text-[17px] font-semibold text-[#111827]">{plan.name}</h3>
+              <p class="mt-1 font-sans text-[13px] text-[#79716b]">{plan.tagline}</p>
+              <div class="mt-5 flex items-baseline gap-1">
+                <span class="font-sans text-[2.6rem] font-bold tracking-tight text-[#111827]">${plan.price}</span>
+                <span class="font-sans text-[13px] text-[#9ca3af]">/mês</span>
+              </div>
+              <p class="mt-1 font-sans text-[12px] text-[#79716b]">ou ${plan.annualPrice}/mês cobrado anualmente</p>
+              <div class="mt-6 flex flex-1 flex-col gap-3 border-t border-[#e7e5e4] pt-6">
+                {plan.features.map(f => (
+                  <div class="flex items-start gap-2.5">
+                    <svg class="mt-0.5 shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                    <span class="font-sans text-[13px] text-[#374151]">{f}</span>
+                  </div>
+                ))}
+              </div>
+              <a href="#book" class="mt-6 flex h-11 w-full items-center justify-center rounded-xl border border-[#4f39f6] bg-[#4f39f6] font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+                Falar com Nossa Equipe
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <p class="mt-8 text-center font-sans text-[13px] text-[#79716b]">
+          Comparação: um funcionário de marketing meio período custa <strong class="text-[#57534e]">$2.500–$4.000/mês</strong>. Uma agência cobra <strong class="text-[#57534e]">$3.000–$10.000/mês</strong>.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIALS ─── -->
+    <section class="border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="container-x py-16 md:py-20">
+        <div class="mx-auto max-w-2xl text-center mb-12">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Resultados reais</span>
+          <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2rem]">
+            O que dizem nossos clientes gerenciados.
+          </h2>
+        </div>
+
+        <div class="mx-auto max-w-4xl grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {testimonials.map(t => (
+            <div class="flex flex-col rounded-2xl border border-[#e7e5e4] bg-white/5 p-8">
+              <div class="flex gap-0.5 mb-5">
+                {[1,2,3,4,5].map(() => (
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                ))}
+              </div>
+              <blockquote class="flex-1 font-sans text-[15px] leading-[1.7] text-white/85">"{t.quote}"</blockquote>
+              <div class="mt-6 flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#4f39f6]">
+                  <span class="font-mono text-[11px] font-bold text-white">{t.init}</span>
+                </div>
+                <div>
+                  <p class="font-mono text-[11px]" style="color:#6b7280;">{t.role}</p>
+                </div>
+                <div class="ml-auto rounded-full border border-[#e7e5e4] bg-white/5 px-3 py-1">
+                  <span class="font-mono text-[10px] font-semibold text-[#4ade80]">{t.metric}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── OBJECTIONS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16 md:py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Antes de agendar</span>
+          <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2rem]">
+            Respostas honestas para as perguntas óbvias.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-3xl flex flex-col gap-4">
+          {objections.map((item, i) => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white">
+              <button class="faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-7 py-5 text-left" type="button" aria-expanded={i === 0 ? 'true' : 'false'}>
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{item.q}</span>
+                <svg class="faq-icon-plus mt-0.5 shrink-0 transition-transform" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus mt-0.5 shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.7] text-[#57534e]">{item.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── BOOKING FORM ─── -->
+    <section class="bg-white" id="book">
+      <div class="container-x py-16 md:py-24">
+        <div class="mx-auto max-w-5xl grid grid-cols-1 gap-12 md:grid-cols-2 md:items-start">
+
+          <!-- Left: copy -->
+          <div class="md:pt-4">
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Agende sua chamada gratuita</span>
+            <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2rem]">
+              Conte-nos sobre seu negócio. Viemos preparados.
+            </h2>
+            <p class="mt-4 font-sans text-[15px] leading-[1.7] text-[#57534e]">
+              Preencha o formulário e entraremos em contato em um dia útil para confirmar o horário. Revisaremos seu site, seu Google Meu Negócio e suas posições atuais antes da chamada. Para você não começar do zero.
+            </p>
+
+            <div class="mt-8 flex flex-col gap-5">
+              {[
+                { icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>', title: 'Garantia de reembolso de 30 dias', body: 'Se você começar um plano e não estiver satisfeito, devolvemos tudo. Sem perguntas.' },
+                { icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>', title: 'Resposta em 1 dia útil', body: 'Confirmaremos seu horário e enviaremos um questionário de preparação.' },
+                { icon: '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>', title: 'Equipe de estratégia nos EUA', body: 'Você fala com alguém que analisou seu negócio, não com um vendedor genérico.' },
+              ].map(item => (
+                <div class="flex items-start gap-4">
+                  <div class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f5f3ff]">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={item.icon} />
+                  </div>
+                  <div>
+                    <p class="font-sans text-[14px] font-semibold text-[#111827]">{item.title}</p>
+                    <p class="mt-0.5 font-sans text-[13px] leading-relaxed text-[#79716b]">{item.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Right: form -->
+          <div class="rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-8">
+            <p class="font-sans text-[15px] font-semibold text-[#111827]">Agende sua chamada de estratégia gratuita</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Confirmaremos em 1 dia útil.</p>
+
+            <form
+              id="demo-form"
+              class="mt-6 flex flex-col gap-4"
+              novalidate
+            >
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="flex flex-col gap-1.5">
+                  <label for="demo-fname" class="font-sans text-[12px] font-semibold text-[#374151]">Nome <span class="text-[#ef4444]">*</span></label>
+                  <input
+                    id="demo-fname" name="first_name" type="text" required autocomplete="given-name"
+                    placeholder="Ana"
+                    class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#111827] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10"
+                  />
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label for="demo-lname" class="font-sans text-[12px] font-semibold text-[#374151]">Sobrenome <span class="text-[#ef4444]">*</span></label>
+                  <input
+                    id="demo-lname" name="last_name" type="text" required autocomplete="family-name"
+                    placeholder="Silva"
+                    class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#111827] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="flex flex-col gap-1.5">
+                  <label for="demo-email" class="font-sans text-[12px] font-semibold text-[#374151]">E-mail profissional <span class="text-[#ef4444]">*</span></label>
+                  <input
+                    id="demo-email" name="email" type="email" required autocomplete="email"
+                    placeholder="ana@seunegocio.com.br"
+                    class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#111827] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10"
+                  />
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <label for="demo-phone" class="font-sans text-[12px] font-semibold text-[#374151]">Telefone <span class="text-[#ef4444]">*</span></label>
+                  <input
+                    id="demo-phone" name="phone" type="tel" required autocomplete="tel"
+                    placeholder="+55 (11) 99999-0000"
+                    class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#111827] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10"
+                  />
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label for="demo-website" class="font-sans text-[12px] font-semibold text-[#374151]">URL do site</label>
+                <input
+                  id="demo-website" name="website" type="url" autocomplete="url"
+                  placeholder="https://seunegocio.com.br"
+                  class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#111827] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10"
+                />
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label for="demo-business" class="font-sans text-[12px] font-semibold text-[#374151]">Nome e setor do negócio</label>
+                <input
+                  id="demo-business" name="business" type="text" required
+                  placeholder="Clínica Silva · Odontologia"
+                  class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#111827] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10"
+                />
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label for="demo-plan" class="font-sans text-[12px] font-semibold text-[#374151]">Qual plano te interessa?</label>
+                <select
+                  id="demo-plan" name="plan"
+                  class="h-11 rounded-xl border border-[#e7e5e4] bg-white px-4 font-sans text-[14px] text-[#374151] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10 cursor-pointer"
+                >
+                  <option value="">Ainda não sei</option>
+                  <option value="local-growth">Crescimento Local · $749/mês</option>
+                  <option value="growth-pro">Crescimento Pro · $999/mês</option>
+                  <option value="growth-complete">Crescimento Completo · $1.299/mês</option>
+                </select>
+              </div>
+
+              <div class="flex flex-col gap-1.5">
+                <label for="demo-goal" class="font-sans text-[12px] font-semibold text-[#374151]">Qual é seu maior desafio de marketing agora?</label>
+                <textarea
+                  id="demo-goal" name="goal" rows="3"
+                  placeholder="ex. Não aparecemos no Google Maps, nosso blog não é atualizado há 2 anos..."
+                  class="rounded-xl border border-[#e7e5e4] bg-white px-4 py-3 font-sans text-[14px] text-[#111827] placeholder:text-[#d1d5db] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10 resize-none leading-relaxed"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                id="demo-submit"
+                class="mt-2 flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#4f39f6] font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+              >
+                Agendar minha chamada de estratégia gratuita
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+
+              <!-- Success state -->
+              <div id="demo-success" class="hidden rounded-xl border border-[#bbf7d0] bg-[#f0fdf4] px-5 py-4 text-center">
+                <p class="font-sans text-[14px] font-semibold text-[#15803d]">Solicitação recebida!</p>
+                <p class="mt-1 font-sans text-[13px] text-[#166534]">Confirmaremos seu horário em 1 dia útil.</p>
+              </div>
+            </form>
+
+            <p class="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-[#79716b]">
+              Sem compromisso · Gratuita · 30 minutos
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    // ─── FAQ ACCORDION ───
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+
+    // ─── FORM SUBMISSION ───
+    const form = document.getElementById('demo-form') as HTMLFormElement | null;
+    const submitBtn = document.getElementById('demo-submit') as HTMLButtonElement | null;
+    const successEl = document.getElementById('demo-success');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!submitBtn || !successEl) return;
+
+      const originalText = submitBtn.textContent ?? '';
+      submitBtn.textContent = 'Enviando...';
+      submitBtn.disabled = true;
+
+      try {
+        const fd = new FormData(form);
+        const data = {
+          first_name: (fd.get('first_name') as string)?.trim(),
+          last_name: (fd.get('last_name') as string)?.trim(),
+          email: (fd.get('email') as string)?.trim(),
+          phone: (fd.get('phone') as string)?.trim(),
+          website: (fd.get('website') as string)?.trim() || undefined,
+          business: (fd.get('business') as string)?.trim() || undefined,
+          plan: (fd.get('plan') as string) || undefined,
+          goal: (fd.get('goal') as string)?.trim() || undefined,
+        };
+
+        const res = await fetch('/api/demo/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (res.ok) {
+          form.reset();
+          successEl.classList.remove('hidden');
+          submitBtn.classList.add('hidden');
+        } else {
+          const result = await res.json().catch(() => ({}));
+          throw new Error(result.error || 'Network error');
+        }
+      } catch (err) {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        const msg = err instanceof Error ? err.message : 'Algo deu errado.';
+        alert(`${msg} Envie um e-mail para sidgangal@gmail.com`);
+      }
+    });
+  </script>
+</BaseLayout>

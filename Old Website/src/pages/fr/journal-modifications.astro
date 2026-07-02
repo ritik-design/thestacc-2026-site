@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/fr/HeaderFr.astro';
+import Footer from '../../components/fr/FooterFr.astro';
+
+const changelog = [
+  {
+    date: "Avril 2026",
+    tag: "Dernière mise à jour",
+    entries: [
+      { title: "Synchronisation du plan en direct", body: "Votre plan de contenu reste désormais synchronisé avec votre activité. Vous avez changé votre audience cible ou ajouté un nouvel établissement ? Stacc détecte ce qui est obsolète et vous permet de rafraîchir des plans individuels ou le mois entier en un clic." },
+      { title: "Publication à l'avance", body: "Planifiez à l'avance. Vous pouvez désormais générer le plan de contenu du mois suivant pendant que les posts de ce mois sont encore en cours de publication." },
+      { title: "Éditeur d'image en vedette", body: "Les images en vedette, c'est géré. Choisissez, changez ou supprimez des images hero directement dans l'éditeur de blog. Elles se synchronisent automatiquement avec WordPress et Webflow." },
+      { title: "Édition de slug en direct", body: "Modifiez vos slugs de blog directement depuis la barre latérale. Les changements sont poussés en direct vers WordPress, Webflow et WordPress.com instantanément." },
+      { title: "Intégration Ghost CMS", body: "Publiez directement sur Ghost CMS avec vérification automatique des identifiants." },
+      { title: "Paramètres de modules indépendants", body: "Vous gérez plusieurs projets ? Chacun dispose désormais de paramètres de modules entièrement indépendants. Activer Blog SEO pour un site ne touchera pas un autre." },
+      { title: "Régénération en masse 5× plus rapide", body: "La régénération en masse des plans est désormais 5× plus rapide. Ce qui prenait 90 secondes se termine en moins de 18." },
+    ],
+  },
+  {
+    date: "Mars 2026",
+    tag: null,
+    entries: [
+      { title: "Module Réseaux Sociaux lancé", body: "Stacc écrit, crée et planifie désormais des posts sur Instagram, LinkedIn, X et Facebook. Définissez votre voix de marque une fois et laissez-la tourner en automatique." },
+      { title: "Refonte complète de l'interface", body: "Nous avons reconstruit toute l'interface depuis zéro. Nouveau système de design, nouvelles icônes, navigation plus rapide. Tout paraît plus net et plus intentionnel." },
+      { title: "Révision du plan de contenu", body: "Révisez votre plan de contenu avant que quoi que ce soit ne soit écrit. Modifiez les titres, changez les mots-clés, changez les types de blog. Tout en ligne, avant qu'un seul article ne soit généré." },
+      { title: "API Blog publique", body: "Pour les développeurs : obtenez une clé API, configurez des hooks de déploiement et récupérez votre contenu publié dans n'importe quel frontend ou site statique." },
+      { title: "Meilleure collaboration d'équipe", body: "Renvoyez des invitations, suivez l'expiration et contrôlez exactement ce que les viewers peuvent accéder dans les projets partagés." },
+      { title: "Intégration Shopify", body: "Votre contenu blog SEO se publie désormais directement sur votre boutique Shopify." },
+    ],
+  },
+  {
+    date: "Février 2026",
+    tag: null,
+    entries: [
+      { title: "Intégration Webflow", body: "Connectez votre site Webflow via OAuth et chaque article se publie directement dans votre CMS avec synchronisation en direct." },
+      { title: "Abonnements modulaires", body: "Abonnez-vous exactement à ce dont vous avez besoin. Choisissez Blog SEO, SEO Local ou Réseaux Sociaux individuellement. Chaque module a son propre plan et facturation." },
+      { title: "Contrôles de voix de marque et style", body: "Définissez des préférences de style de rédaction, des directives d'image et des règles de liens qui s'appliquent à chaque article généré par Stacc." },
+      { title: "Onboarding plus intelligent", body: "Stacc lit désormais votre sitemap et comprend votre contenu existant avant de construire votre stratégie de mots-clés." },
+    ],
+  },
+  {
+    date: "Janvier 2026",
+    tag: null,
+    entries: [
+      { title: "Module SEO Local lancé", body: "Automatisez les posts Google Business Profile, surveillez les avis avec des réponses rédigées par IA, suivez les mots-clés locaux et gérez plusieurs établissements depuis un seul tableau de bord." },
+      { title: "Intégration WordPress", body: "Publication en un clic via OAuth ou Mot de passe d'application. Catégories, tags et images en vedette gérés automatiquement." },
+      { title: "Support multi-projets", body: "Gérez plusieurs sites web depuis un seul compte. Chaque projet dispose de ses propres paramètres, membres d'équipe et pipeline de contenu." },
+      { title: "Score SEO en direct", body: "Chaque blog obtient un score d'optimisation en temps réel avec des suggestions concrètes pour améliorer la densité de mots-clés, la structure et la lisibilité." },
+      { title: "Ciblage géographique", body: "Ciblez n'importe quel endroit sur terre. Cherchez votre ville et Stacc découvre les zones proches pour élargir votre portée de mots-clés." },
+    ],
+  },
+  {
+    date: "Décembre 2025",
+    tag: "Lancement",
+    entries: [
+      { title: "theStacc lancé", body: "Plans de contenu alimentés par IA, recherche de mots-clés, rédaction de blog et publication automatique. Tout depuis une seule plateforme." },
+      { title: "Onboarding intelligent", body: "Saisissez votre URL et Stacc extrait vos services, trouve vos concurrents et cartographie vos 30 premiers sujets de blog." },
+      { title: "Calendrier de contenu visuel", body: "Visualisez tout votre mois d'un coup d'œil. Suivez ce qui est planifié, en cours de génération, publié ou nécessite attention." },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Journal des Modifications — theStacc"
+  description="Suivez toutes les mises à jour, nouvelles fonctionnalités et améliorations de theStacc. Mis à jour à chaque release."
+  lang="fr"
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <Header />
+  <main>
+    <!-- HERO -->
+    <section class="relative overflow-hidden border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.18) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-14">
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Journal des Modifications</p>
+        <h1 class="mt-3 font-sans text-[30px] font-bold leading-[1.15] tracking-[-0.025em] text-[#292524] md:text-[40px]">
+          Ce que nous livrons. Quand nous le livrons.
+        </h1>
+        <p class="mt-3 max-w-[500px] font-sans text-[15px] leading-[1.7] text-[#94a3b8]">
+          Chaque nouvelle fonctionnalité, amélioration et correction. En texte clair, rédigé comme un bénéfice — pas comme une liste de tâches techniques.
+        </p>
+      </div>
+    </section>
+
+    <!-- ENTRÉES CHANGELOG -->
+    <section class="bg-[#fafaf9] py-12">
+      <div class="container-x">
+        <div class="mx-auto max-w-3xl">
+          {changelog.map((release) => (
+            <div class="mb-14">
+              <div class="mb-6 flex items-center gap-4">
+                <h2 class="font-mono text-[14px] font-bold uppercase tracking-[0.12em] text-[#292524]">{release.date}</h2>
+                {release.tag && (
+                  <span class="rounded-full bg-[#4f39f6] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white">
+                    {release.tag}
+                  </span>
+                )}
+                <div class="h-px flex-1 bg-[#e7e5e4]"></div>
+              </div>
+              <div class="space-y-4">
+                {release.entries.map(entry => (
+                  <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+                    <h3 class="font-sans text-[15px] font-semibold text-[#292524]">{entry.title}</h3>
+                    <p class="mt-2 font-sans text-[13px] leading-[1.7] text-[#79716b]">{entry.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.06) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <h3 class="font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-[#292524]">Prêt à essayer les dernières fonctionnalités ?</h3>
+        <p class="mx-auto mt-3 max-w-[420px] font-sans text-[15px] leading-[1.7] text-[#57534e]">
+          Chaque mise à jour améliore automatiquement votre expérience. Aucune migration requise.
+        </p>
+        <a
+          href="/fr/demo/"
+          class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+        >
+          Essayer pour 1 $
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#79716b]">1 $ pour 30 jours · Annulez quand vous voulez</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

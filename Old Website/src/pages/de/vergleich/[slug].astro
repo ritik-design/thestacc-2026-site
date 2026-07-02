@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/de/HeaderDe.astro';
+import Footer from '../../../components/de/FooterDe.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE_URL, organizationSchema, publisherRef, authorRef, websiteSchema, buildBreadcrumbs, resolveImage } from '../../../utils/schema';
+
+export async function getStaticPaths() {
+  const langPosts = await getCollection('compare_de');
+  return langPosts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const wordCount = (post.body ?? '').split(/\s+/).filter(Boolean).length;
+const readTime = Math.max(1, Math.round(wordCount / 200));
+
+const deUrl = `${SITE_URL}/de/vergleich/${post.data.slug}/`;
+const enUrl = `${SITE_URL}/compare/${post.data.slug}/`;
+
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      '@id': `${deUrl}#article`,
+      headline: post.data.title,
+      description: post.data.description,
+      url: deUrl,
+      datePublished: post.data.date,
+      dateModified: post.data.date,
+      author: authorRef,
+      publisher: publisherRef,
+      image: resolveImage(post.data.image),
+      mainEntityOfPage: { '@type': 'WebPage', '@id': deUrl },
+      articleSection: 'Vergleiche',
+      inLanguage: 'de',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    buildBreadcrumbs(deUrl, [
+      { name: 'Home', url: `${SITE_URL}/de/` },
+      { name: 'Vergleich', url: `${SITE_URL}/de/vergleich/` },
+      { name: post.data.title, url: deUrl },
+    ]),
+    organizationSchema,
+    websiteSchema,
+  ],
+};
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.image}
+  lang="de"
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <div id="reading-progress" class="pointer-events-none fixed left-0 top-0 z-[200] h-[3px]" style="width:0%;background:linear-gradient(to right,#4f39f6,#818cf8);transition:width 80ms linear;"></div>
+
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+    <article>
+
+      <!-- Hero (light) -->
+      <div class="mx-auto max-w-[1320px] px-6 pt-12 pb-8">
+        <div class="max-w-[820px]">
+
+          <div class="min-w-0">
+            <a href="/de/vergleich/" class="inline-flex items-center gap-1.5 rounded-[8px] border border-[#e7e5e4] px-3 py-1 font-mono text-sm font-semibold uppercase text-[#292524] transition-colors hover:bg-[#fafaf9]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+              Vergleiche
+            </a>
+
+            <h1 class="mt-6 font-sans text-[28px] leading-[36px] md:text-[36px] md:leading-[44px] lg:text-[40px] lg:leading-[48px] font-semibold text-[#292524]">
+              {post.data.title}
+            </h1>
+            <p class="mt-4 font-sans text-[16px] leading-[26px] text-[#79716b] max-w-xl">{post.data.description}</p>
+            <div class="mt-4 flex flex-wrap items-center gap-3">
+              <span class="font-mono text-[12px] uppercase text-[#79716b]">{post.data.author}</span>
+              <span class="text-[#e7e5e4]">·</span>
+              <span class="font-mono text-[12px] uppercase text-[#79716b]">{post.data.date}</span>
+              <span class="text-[#e7e5e4]">·</span>
+              <span class="flex items-center gap-1 font-mono text-[12px] uppercase text-[#79716b]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                {readTime} Min.
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="border-t border-[#e7e5e4]"></div>
+
+      <!-- Content + Sidebar -->
+      <div class="mx-auto max-w-[1320px] px-6 py-12">
+        <div class="flex flex-col gap-10 lg:flex-row lg:gap-12">
+
+          <div class="min-w-0 flex-1">
+            <div class="review-content overflow-x-hidden">
+              <Content />
+            </div>
+          </div>
+
+          <aside class="w-full lg:w-[260px] shrink-0 space-y-6">
+            <div class="sticky top-20 space-y-5">
+
+              <div class="rounded-xl border border-[#4f39f6] bg-[#f5f3ff] p-5">
+                <p class="font-sans text-[14px] font-semibold text-[#292524]">Sehen Sie den Unterschied selbst</p>
+                <p class="mt-1.5 font-sans text-[13px] leading-[1.6] text-[#57534e]">Buchen Sie eine Demo und erfahren Sie, warum Agenturen und lokale Unternehmen zu theStacc wechseln.</p>
+                <a href="/de/demo/" class="mt-4 flex h-9 items-center justify-center rounded-lg bg-[#4f39f6] font-sans text-[13px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">Demo buchen</a>
+              </div>
+
+              <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+                <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-[#79716b]">Redaktioneller Hinweis</p>
+                <p class="mt-1.5 font-sans text-[12px] leading-[1.6] text-[#79716b]">Dieser Vergleich wurde unabhängig erstellt. Die Informationen basieren auf öffentlich zugänglichen Daten.</p>
+              </div>
+
+              <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+                <p class="font-sans text-[12px] text-[#79716b]">Auf Englisch lesen:</p>
+                <a href={enUrl} class="mt-1 block font-sans text-[13px] font-medium text-[#4f39f6] hover:underline">Read in English →</a>
+              </div>
+
+            </div>
+          </aside>
+        </div>
+      </div>
+
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const bar = document.getElementById('reading-progress');
+  if (bar) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = docHeight > 0 ? `${(scrollTop / docHeight) * 100}%` : '0%';
+    }, { passive: true });
+  }
+</script>

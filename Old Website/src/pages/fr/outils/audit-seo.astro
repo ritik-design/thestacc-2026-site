@@ -1,0 +1,133 @@
+---
+import ToolLayoutFr from '../../../components/tools/ToolLayoutFr.astro';
+---
+
+<ToolLayoutFr
+  title="Outil d'audit SEO gratuit — Rapport de 10 points | theStacc"
+  description="Obtenez un bilan SEO rapide de votre site web. 10 vérifications critiques avec notation par lettre et instructions de correction en français. Gratuit, instantané, sans inscription."
+  toolName="Audit SEO gratuit — Bilan en 10 points"
+  toolDescription="Vérifiez les 10 éléments qui comptent vraiment pour vos positions. Obtenez une note, des corrections spécifiques, et voyez comment votre page apparaît dans Google."
+  enUrl="https://thestacc.com/tools/seo-audit/"
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <div class="space-y-4">
+        <div>
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">URL du site <span class="text-red-500">*</span></label>
+          <input
+            type="url"
+            id="url-input"
+            required
+            placeholder="ex. : monentreprise.fr"
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+          />
+        </div>
+        <details>
+          <summary class="cursor-pointer text-[13px] font-medium text-[#615fff]">+ Ajouter un mot-clé cible (facultatif)</summary>
+          <div class="mt-2">
+            <input type="text" id="keyword-input" maxlength="100" placeholder="ex. : dentiste à Paris, plombier urgent" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            <p class="mt-1 text-[11px] text-[#79716b]">L'ajout d'un mot-clé vérifie s'il apparaît dans le titre, la description et le H1</p>
+          </div>
+        </details>
+        <button id="audit-btn" class="w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+          Lancer l'audit SEO
+        </button>
+      </div>
+      <p id="url-error" class="mt-2 hidden text-xs text-red-500"></p>
+    </div>
+
+    <div id="loading-section" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+      <div class="space-y-3">
+        <div class="flex items-center gap-3 step" data-step="fetch">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Récupération de votre site&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="audit">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Audit des 10 points en cours&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="report">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Génération de votre rapport&hellip;</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="error-section" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+      <svg class="mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      <p class="text-[15px] text-red-700 font-medium">Une erreur s'est produite</p>
+      <p id="error-message" class="mt-1 text-[13px] text-red-600">Vérifiez l'URL et réessayez. Assurez-vous que le site est accessible publiquement.</p>
+    </div>
+
+    <div id="results-section" class="mt-6 hidden space-y-6">
+      <div id="grade-hero" class="rounded-2xl border border-[#e7e5e4] bg-white p-8 flex flex-col items-center text-center"></div>
+      <div id="priorities-section" class="hidden rounded-2xl border-2 border-[#615fff] bg-[#f5f3ff] p-6">
+        <h3 class="font-sans text-[17px] font-semibold text-[#292524] mb-4">Corrigez ces 3 points en priorité</h3>
+        <div id="priorities-list" class="space-y-4"></div>
+      </div>
+      <div id="keyword-section" class="hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <h3 class="font-sans text-[17px] font-semibold text-[#292524] mb-4">Analyse du mot-clé</h3>
+        <div id="keyword-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+      </div>
+      <div id="checks-section" class="space-y-3"></div>
+      <div id="serp-section" class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <h3 class="font-sans text-[17px] font-semibold text-[#292524] mb-4">Aperçu dans les résultats Google</h3>
+        <div id="serp-preview" class="max-w-xl"></div>
+      </div>
+    </div>
+
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Cet outil nécessite JavaScript. Veuillez l'activer dans votre navigateur.</p></div></noscript>
+    <script is:inline src="/js/seo-audit-engine.js"></script>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Que vérifie cet audit SEO ?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Cet outil évalue les 10 éléments SEO les plus importants d'une page web. Chaque vérification est notée individuellement et combinée en une note de A à F.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Balise titre</strong> : le lien bleu dans Google. <strong class="text-[#292524]">Meta description</strong> : l'extrait sous ce lien. <strong class="text-[#292524]">Balise H1</strong> : votre titre principal. <strong class="text-[#292524]">Vitesse de page</strong> : impact direct sur les positions. <strong class="text-[#292524]">Mobile</strong> : 60 % des recherches se font sur téléphone. <strong class="text-[#292524]">HTTPS</strong> : exigence de sécurité de base.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Texte alternatif des images</strong>, <strong class="text-[#292524]">liens internes</strong>, <strong class="text-[#292524]">balisage Schema</strong> et <strong class="text-[#292524]">longueur du contenu</strong> complètent les 10 points. Chaque point qui échoue inclut une instruction de correction claire.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Foire aux questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      {[
+        { q: "Que vérifie cet audit SEO ?", a: "Cet outil effectue 10 vérifications SEO critiques : balise titre, meta description, balise H1, vitesse de page, compatibilité mobile, sécurité HTTPS, texte alternatif des images, liens internes, balisage Schema et longueur du contenu." },
+        { q: "Pourquoi seulement 10 vérifications ?", a: "La plupart des outils d'audit SEO vous submergent de centaines d'avertissements techniques qui ont peu d'impact sur les positions. Ces 10 points couvrent les fondamentaux qui font vraiment la différence pour les entreprises locales." },
+        { q: "Que signifient les notes par lettres ?", a: "A (90-100) : vos fondamentaux SEO sont excellents. B (75-89) : bonne base avec quelques améliorations mineures. C (60-74) : votre site nécessite du travail. D (40-59) : mauvaise santé SEO. F (moins de 40) : problèmes critiques." },
+        { q: "Cet outil est-il vraiment gratuit ?", a: "Oui, 100% gratuit. Aucune inscription, aucun e-mail requis, aucune limite. Entrez votre URL, obtenez votre rapport en quelques secondes. Tout s'exécute dans votre navigateur." },
+      ].map((faq, i) => (
+        <div class={i < 3 ? "border-b border-[#f3f4f6]" : ""}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] bg-[#fafaf9] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <p class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#79716b] mb-4">Autres outils gratuits</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            { href: '/fr/outils/score-seo-site/', title: 'Score SEO de votre site', desc: 'Analyse approfondie en 30+ points' },
+            { href: '/fr/outils/verification-seo-on-page/', title: 'Vérificateur SEO on-page', desc: 'Optimisation de mots-clés en 15 points' },
+            { href: '/fr/outils/analyseur-meta-tags/', title: 'Analyseur de meta tags', desc: 'Prévisualisez Google, Facebook, Twitter' },
+          ].map(t => (
+            <a href={t.href} class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+              <p class="font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">{t.title}</p>
+              <p class="mt-1 font-sans text-[13px] text-[#79716b]">{t.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </Fragment>
+</ToolLayoutFr>

@@ -1,0 +1,466 @@
+---
+const blogTiers = [
+  { label: '30 articles', count: 30, price: 99 },
+  { label: '50 articles', count: 50, price: 149 },
+  { label: '80 articles', count: 80, price: 199 },
+];
+const localTiers = [
+  { label: '30 posts', count: 30, price: 49 },
+  { label: '60 posts', count: 60, price: 79 },
+  { label: '80 posts', count: 80, price: 99 },
+];
+const socialTiers = [
+  { label: '30 posts', count: 30, price: 49 },
+  { label: '60 posts', count: 60, price: 79 },
+  { label: '120 posts', count: 120, price: 129 },
+];
+
+const blogFeatures = [
+  'Keyword research & competitor analysis',
+  'Auto-publishing to your site',
+  'WordPress, Webflow, Ghost & more',
+  'SEO-optimized & in your brand voice',
+];
+const localFeatures = [
+  'Automated GBP posts',
+  'AI review responses',
+  'Local keyword tracking',
+  'Multi-location support',
+];
+const socialFeatures = [
+  'Auto-posting & scheduling',
+  'Multi-platform analytics',
+  'On-brand content creation',
+  '4 platforms included',
+];
+
+const managedPlans = [
+  {
+    name: 'Local Growth',
+    tagline: 'Content + Local SEO, fully managed.',
+    price: 749,
+    annualPrice: 625,
+    indiaPrice: 70000,
+    indiaAnnualPrice: 58000,
+    checkoutUrl: 'https://checkout.dodopayments.com/buy/pdt_0Ne7bfBCWxsjJSL9qDof2?session=sess_eUmNn1nWCN',
+    features: [
+      '30 blog articles published/month',
+      '30 GBP posts/month',
+      'Daily review monitoring & responses',
+      'Weekly performance reports',
+      'Monthly strategy video call',
+      '1 location included (+$150/ea extra)',
+    ],
+    popular: false,
+    comparison: null as string | null,
+  },
+  {
+    name: 'Growth Pro',
+    tagline: 'Content + Local SEO + Social Media.',
+    price: 999,
+    annualPrice: 835,
+    indiaPrice: 90000,
+    indiaAnnualPrice: 75000,
+    checkoutUrl: 'https://checkout.dodopayments.com/buy/pdt_0Ne7d3qb3knM7IaZVZyvz?session=sess_dDyOKQwf5k',
+    features: [
+      'Everything in Local Growth',
+      '60 social posts/month across 6 platforms',
+      'Platform-specific content & hashtags',
+      'Optimized posting schedule',
+      'Daily engagement monitoring',
+      'Monthly analytics + strategy call',
+    ],
+    popular: true,
+    comparison: null as string | null,
+  },
+  {
+    name: 'Growth Complete',
+    tagline: 'Everything. Blog, local, social, website.',
+    price: 1299,
+    annualPrice: 999,
+    indiaPrice: 110000,
+    indiaAnnualPrice: 85000,
+    checkoutUrl: 'https://checkout.dodopayments.com/buy/pdt_0Ne7eMpmlcwTPqx0qeZeR?quantity=1',
+    features: [
+      'Everything in Growth Pro',
+      'AI-built website, hosted & managed',
+      'Monthly site updates & SEO tuning',
+      'Speed monitoring & security patches',
+      'Weekly reports + monthly strategy call',
+      'US-based operations team',
+    ],
+    popular: false,
+    comparison: 'Compare: a part-time marketing hire costs <strong>$2,500–$4,000/mo</strong>. An agency retainer runs <strong>$3,000–$10,000/mo</strong>.',
+  },
+];
+---
+
+<section class="bg-white" id="pricing-modules">
+  <!-- Toolbar: Path toggle + Billing toggle -->
+  <div class="mx-auto flex flex-wrap items-center justify-between gap-4 px-6 pt-8 pb-6">
+    <!-- Path toggle with label -->
+    <div class="flex flex-col items-start gap-3">
+      <span class="select-none text-[15px] text-[#615fff]" style="font-family:'Doto',monospace;font-weight:800;letter-spacing:0.5px;">
+        SELECT YOUR PATH
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#615fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="ml-1 inline-block animate-bounce"><path d="m7 10 5 5 5-5"/></svg>
+      </span>
+      <div class="inline-flex overflow-hidden rounded-full bg-[#292524] p-1" role="group" aria-label="Pricing path">
+        <button id="path-software" class="path-btn cursor-pointer rounded-full px-6 py-2 font-sans text-[14px] font-bold transition-all duration-200 bg-white text-[#292524] shadow-sm" type="button" aria-pressed="true">
+          Software
+        </button>
+        <button id="path-services" class="path-btn cursor-pointer rounded-full px-6 py-2 font-sans text-[14px] font-bold transition-all duration-200 bg-transparent text-[#79716b] hover:text-white" type="button" aria-pressed="false">
+          Services
+        </button>
+      </div>
+    </div>
+
+    <!-- Billing toggle -->
+    <div id="billing-controls" class="flex items-center gap-3 transition-opacity duration-200" role="group" aria-label="Billing period">
+      <span id="mod-billing-label" class="cursor-pointer font-sans text-sm font-semibold text-[#292524] transition-colors">Billed yearly</span>
+      <button id="mod-billing-toggle" class="relative h-[24px] w-[44px] shrink-0 cursor-pointer rounded-full bg-[#615fff] transition-colors" aria-label="Toggle annual billing" type="button">
+        <div id="mod-billing-dot" class="absolute top-[3px] left-[3px] h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform" style="transform:translateX(20px)"></div>
+      </button>
+      <span id="mod-save-badge" class="rounded-md bg-[#615fff]/10 px-2 py-0.5 font-mono text-xs font-semibold text-[#615fff]">Save 17%</span>
+    </div>
+  </div>
+
+  <!-- ==================== SOFTWARE TAB (default, visible) ==================== -->
+  <div id="panel-software">
+    <!-- Section label -->
+    <div class="px-6 pb-4">
+      <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#615fff]">Software Pricing</p>
+    </div>
+
+    <!-- Module cards grid -->
+    <div class="mx-auto grid grid-cols-1 gap-4 px-6 md:grid-cols-3" id="modules-grid">
+
+      <!-- Blog SEO Card -->
+      <div class="mod-card relative flex flex-col rounded-xl border border-[#e7e5e4] bg-white p-7 transition-all" id="mod-blog" data-module="blog">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#615fff]/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#615fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3 class="font-sans text-xl font-semibold text-[#292524]">Blog SEO</h3>
+        <p class="mt-1 font-sans text-sm text-[#79716b]">SEO articles researched, written, and published daily.</p>
+        <div class="mt-5">
+          <div class="flex items-baseline gap-1">
+            <span class="currency-symbol font-sans text-[42px] font-bold tracking-tight text-[#292524]">$</span><span class="font-sans text-[42px] font-bold tracking-tight text-[#292524]" id="mod-blog-price">82</span>
+            <span class="period-suffix font-sans text-sm text-[#79716b]">/mo</span>
+          </div>
+          <p id="mod-blog-saving" class="mt-1 font-sans text-sm font-medium text-[#615fff]">You're saving <span class="currency-symbol">$</span><span id="mod-blog-saving-amt">204</span>/yr</p>
+        </div>
+        <div class="mt-5 flex flex-wrap gap-2" role="radiogroup" aria-label="Blog SEO article count">
+          {blogTiers.map((tier, i) => (
+            <button data-mod-tier="blog" data-tier-idx={i} class={`blog-tier-btn cursor-pointer rounded-lg border px-4 py-2 font-mono text-[14px] font-semibold transition-colors ${i === 0 ? 'border-[#615fff] bg-[#615fff]/5 text-[#615fff]' : 'border-[#e7e5e4] text-[#292524] hover:border-[#d6d3d1]'}`} role="radio" aria-checked={i === 0 ? 'true' : 'false'}>{tier.label}</button>
+          ))}
+        </div>
+        <div class="mt-6 flex flex-1 flex-col gap-2.5 border-t border-[#e7e5e4] pt-5">
+          {blogFeatures.map(f => (
+            <div class="flex items-start gap-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#615fff" class="mt-0.5 shrink-0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              <span class="font-sans text-[14px] text-[#292524]">{f}</span>
+            </div>
+          ))}
+        </div>
+        <a href="/demo/" class="mt-6 flex h-[44px] w-full items-center justify-center rounded-xl border border-[#615fff] bg-[#615fff] font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#4f39f6]">Book a Demo</a>
+      </div>
+
+      <!-- Local SEO Card -->
+      <div class="mod-card relative flex flex-col rounded-xl border border-[#e7e5e4] bg-white p-7 transition-all" id="mod-local" data-module="local">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#22c55e]/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3 class="font-sans text-xl font-semibold text-[#292524]">Local SEO</h3>
+        <p class="mt-1 font-sans text-sm text-[#79716b]">Google Business Profile posts, reviews, and local tracking.</p>
+        <div class="mt-5">
+          <div class="flex items-baseline gap-1">
+            <span class="currency-symbol font-sans text-[42px] font-bold tracking-tight text-[#292524]">$</span><span class="font-sans text-[42px] font-bold tracking-tight text-[#292524]" id="mod-local-price">41</span>
+            <span class="period-suffix font-sans text-sm text-[#79716b]">/mo</span>
+          </div>
+          <p id="mod-local-saving" class="mt-1 font-sans text-sm font-medium text-[#615fff]">You're saving <span class="currency-symbol">$</span><span id="mod-local-saving-amt">96</span>/yr</p>
+        </div>
+        <div class="mt-5 flex flex-wrap gap-2" role="radiogroup" aria-label="Local SEO post count">
+          {localTiers.map((tier, i) => (
+            <button data-mod-tier="local" data-tier-idx={i} class={`local-tier-btn cursor-pointer rounded-lg border px-4 py-2 font-mono text-[14px] font-semibold transition-colors ${i === 0 ? 'border-[#615fff] bg-[#615fff]/5 text-[#615fff]' : 'border-[#e7e5e4] text-[#292524] hover:border-[#d6d3d1]'}`} role="radio" aria-checked={i === 0 ? 'true' : 'false'}>{tier.label}</button>
+          ))}
+        </div>
+        <div class="mt-6 flex flex-1 flex-col gap-2.5 border-t border-[#e7e5e4] pt-5">
+          {localFeatures.map(f => (
+            <div class="flex items-start gap-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#615fff" class="mt-0.5 shrink-0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              <span class="font-sans text-[14px] text-[#292524]">{f}</span>
+            </div>
+          ))}
+        </div>
+        <a href="/demo/" class="mt-6 flex h-[44px] w-full items-center justify-center rounded-xl border border-[#615fff] bg-[#615fff] font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#4f39f6]">Book a Demo</a>
+      </div>
+
+      <!-- Social Media Card -->
+      <div class="mod-card relative flex flex-col rounded-xl border border-[#e7e5e4] bg-white p-7 transition-all" id="mod-social" data-module="social">
+        <span class="absolute -top-3 left-6 inline-flex items-center rounded-md bg-[#615fff] px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wide text-white">New</span>
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#f59e0b]/10">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </div>
+        <h3 class="font-sans text-xl font-semibold text-[#292524]">Social Media</h3>
+        <p class="mt-1 font-sans text-sm text-[#79716b]">AI posts across Facebook, Instagram, LinkedIn, and X.</p>
+        <div class="mt-5">
+          <div class="flex items-baseline gap-1">
+            <span class="currency-symbol font-sans text-[42px] font-bold tracking-tight text-[#292524]">$</span><span class="font-sans text-[42px] font-bold tracking-tight text-[#292524]" id="mod-social-price">41</span>
+            <span class="period-suffix font-sans text-sm text-[#79716b]">/mo</span>
+          </div>
+          <p id="mod-social-saving" class="mt-1 font-sans text-sm font-medium text-[#615fff]">You're saving <span class="currency-symbol">$</span><span id="mod-social-saving-amt">96</span>/yr</p>
+        </div>
+        <div class="mt-5 flex flex-wrap gap-2" role="radiogroup" aria-label="Social Media post count">
+          {socialTiers.map((tier, i) => (
+            <button data-mod-tier="social" data-tier-idx={i} class={`social-tier-btn cursor-pointer rounded-lg border px-4 py-2 font-mono text-[14px] font-semibold transition-colors ${i === 0 ? 'border-[#615fff] bg-[#615fff]/5 text-[#615fff]' : 'border-[#e7e5e4] text-[#292524] hover:border-[#d6d3d1]'}`} role="radio" aria-checked={i === 0 ? 'true' : 'false'}>{tier.label}</button>
+          ))}
+        </div>
+        <div class="mt-6 flex flex-1 flex-col gap-2.5 border-t border-[#e7e5e4] pt-5">
+          {socialFeatures.map(f => (
+            <div class="flex items-start gap-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#615fff" class="mt-0.5 shrink-0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              <span class="font-sans text-[14px] text-[#292524]">{f}</span>
+            </div>
+          ))}
+        </div>
+        <a href="/demo/" class="mt-6 flex h-[44px] w-full items-center justify-center rounded-xl border border-[#615fff] bg-[#615fff] font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#4f39f6]">Book a Demo</a>
+      </div>
+    </div>
+
+    <!-- Bundle hint -->
+    <div class="mx-auto mt-4 px-6 pb-10">
+      <div class="flex items-center justify-center rounded-xl border border-dashed border-[#615fff]/20 bg-[#615fff]/[0.03] px-7 py-4 text-center">
+        <p class="font-sans text-[14px] text-[#79716b]">
+          Pick 2 or more modules and get <span class="font-semibold text-[#615fff]">15% off your total</span>. All modules work together out of the box.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SERVICES SECTION (always visible below software) ==================== -->
+  <div id="panel-services" class="border-t border-[#e7e5e4] pt-16 mt-4">
+    <!-- Managed Services header -->
+    <div class="px-6 pb-6 text-center">
+      <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#615fff]">Managed Services</p>
+      <h3 class="mt-4 font-sans text-[24px] leading-[32px] md:text-[36px] md:leading-[44px] font-normal text-[#292524]">
+        We handle your entire marketing.
+      </h3>
+      <p class="mx-auto mt-3 max-w-[540px] font-sans text-[16px] leading-[24px] text-[#79716b]">
+        AI does the work. A dedicated manager handles QA, strategy, and your monthly check-in. You show up and review results.
+      </p>
+    </div>
+
+    <!-- Managed Services cards -->
+    <div class="mx-auto grid grid-cols-1 gap-4 px-6 pb-10 md:grid-cols-3">
+      {managedPlans.map((plan) => (
+        <div class={`relative rounded-xl border p-7 flex flex-col ${plan.popular ? 'border-[#615fff]/30 bg-white' : 'border-[#e7e5e4] bg-white'}`}>
+          {plan.popular && (
+            <span class="absolute -top-3 left-6 inline-flex items-center rounded-md bg-[#615fff] px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wide text-white">
+              Most Popular
+            </span>
+          )}
+          <h3 class="font-sans text-xl font-semibold text-[#292524]">{plan.name}</h3>
+          <p class="mt-1 font-sans text-sm text-[#79716b]">{plan.tagline}</p>
+          <div class="mt-5 flex items-baseline gap-1">
+            <span class="managed-currency-symbol font-sans text-[42px] font-bold tracking-tight text-[#292524]">$</span><span class="managed-price font-sans text-[42px] font-bold tracking-tight text-[#292524]" data-usd={plan.price} data-inr={plan.indiaPrice}>{plan.price}</span>
+            <span class="font-sans text-sm text-[#79716b]">/mo</span>
+          </div>
+          <p class="managed-annual-line mt-1 font-sans text-sm font-medium text-[#79716b]">or <span class="managed-annual-currency">$</span><span class="managed-annual-price" data-usd={plan.annualPrice} data-inr={plan.indiaAnnualPrice}>{plan.annualPrice}</span>/mo billed annually</p>
+          <div class="mt-7 flex flex-col gap-3 flex-1">
+            {plan.features.map((feature) => (
+              <div class="flex items-start gap-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#615fff" class="mt-0.5 shrink-0">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span class="font-sans text-[14px] text-[#292524]">{feature}</span>
+              </div>
+            ))}
+          </div>
+          {plan.comparison && (
+            <div class="mt-6 rounded-lg border border-[#e7e5e4] bg-[#fafaf9] px-4 py-3">
+              <p class="font-sans text-[13px] leading-[20px] text-[#79716b]" set:html={plan.comparison} />
+            </div>
+          )}
+          <a href={plan.checkoutUrl} class="cursor-pointer mt-6 inline-flex h-[44px] w-full items-center justify-center rounded-xl border border-[#615fff] bg-[#615fff] font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#4f39f6]">
+            Subscribe Now
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // ─── USD pricing (source of truth for all countries) ───
+  const blogTiers = [{ price: 99 }, { price: 149 }, { price: 199 }];
+  const localTiers = [{ price: 49 }, { price: 79 }, { price: 99 }];
+  const socialTiers = [{ price: 49 }, { price: 79 }, { price: 129 }];
+
+  type ModKey = 'blog' | 'local' | 'social';
+  const tiers: Record<ModKey, { price: number }[]> = {
+    blog: blogTiers,
+    local: localTiers,
+    social: socialTiers,
+  };
+
+  let selectedIdx: Record<ModKey, number> = { blog: 0, local: 0, social: 0 };
+  let isAnnual = true;
+  let currencySymbol = '$';
+  let isIndia = false;
+
+  function round(n: number) { return Math.round(n); }
+
+  /** Indian number format: 1,00,000 */
+  function formatIndianNumber(n: number): string {
+    const s = String(Math.round(n));
+    if (s.length <= 3) return s;
+    let lastThree = s.substring(s.length - 3);
+    const otherNumbers = s.substring(0, s.length - 3);
+    const formatted = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+    return formatted + ',' + lastThree;
+  }
+
+  function getPrice(mod: ModKey) {
+    const base = tiers[mod][selectedIdx[mod]].price;
+    if (isIndia) {
+      // Monthly: USD base × 95  |  Yearly: USD base × 87 × 12 (total)
+      const raw = isAnnual ? base * 87 * 12 : base * 95;
+      return Math.round(raw / 1000) * 1000; // round to nearest 1,000
+    }
+    return isAnnual ? round(base * 0.83) : base;
+  }
+
+  function getSaving(mod: ModKey) {
+    const base = tiers[mod][selectedIdx[mod]].price;
+    if (isIndia) {
+      const monthlyTotal = Math.round(base * 95 / 1000) * 1000 * 12;
+      const yearlyTotal = Math.round(base * 87 * 12 / 1000) * 1000;
+      return monthlyTotal - yearlyTotal;
+    }
+    return round(base * 12 - round(base * 0.83) * 12);
+  }
+
+  function updateCurrencySymbols() {
+    document.querySelectorAll('.currency-symbol').forEach(el => {
+      el.textContent = currencySymbol;
+    });
+  }
+
+  function updatePeriodSuffixes() {
+    document.querySelectorAll('.period-suffix').forEach(el => {
+      (el as HTMLElement).textContent = (isIndia && isAnnual) ? '/yr' : '/mo';
+    });
+  }
+
+  function updateAll() {
+    (['blog', 'local', 'social'] as ModKey[]).forEach(mod => {
+      const priceEl = document.getElementById(`mod-${mod}-price`);
+      const savingEl = document.getElementById(`mod-${mod}-saving`);
+      const savingAmtEl = document.getElementById(`mod-${mod}-saving-amt`);
+      if (priceEl) priceEl.textContent = isIndia ? formatIndianNumber(getPrice(mod)) : String(getPrice(mod));
+      if (savingAmtEl) savingAmtEl.textContent = isIndia ? formatIndianNumber(getSaving(mod)) : String(getSaving(mod));
+      if (savingEl) {
+        if (isAnnual) {
+          savingEl.classList.remove('hidden');
+        } else {
+          savingEl.classList.add('hidden');
+        }
+      }
+    });
+
+    // Update managed services prices for India
+    document.querySelectorAll('.managed-price').forEach(el => {
+      const usd = el.getAttribute('data-usd');
+      const inr = el.getAttribute('data-inr');
+      if (usd && inr) el.textContent = isIndia ? formatIndianNumber(Number(inr)) : usd;
+    });
+    document.querySelectorAll('.managed-annual-price').forEach(el => {
+      const usd = el.getAttribute('data-usd');
+      const inr = el.getAttribute('data-inr');
+      if (usd && inr) el.textContent = isIndia ? formatIndianNumber(Number(inr)) : usd;
+    });
+    document.querySelectorAll('.managed-currency-symbol').forEach(el => {
+      el.textContent = isIndia ? '₹' : '$';
+    });
+    document.querySelectorAll('.managed-annual-currency').forEach(el => {
+      el.textContent = isIndia ? '₹' : '$';
+    });
+    document.querySelectorAll('.managed-annual-line').forEach(el => {
+      (el as HTMLElement).style.display = isIndia ? 'none' : '';
+    });
+
+    updateCurrencySymbols();
+    updatePeriodSuffixes();
+
+    const dot = document.getElementById('mod-billing-dot');
+    const toggle = document.getElementById('mod-billing-toggle');
+    const label = document.getElementById('mod-billing-label');
+    const badge = document.getElementById('mod-save-badge');
+    if (dot) dot.style.transform = isAnnual ? 'translateX(20px)' : 'translateX(0)';
+    if (toggle) toggle.style.backgroundColor = isAnnual ? '#615fff' : '#d6d3d1';
+    if (label) label.textContent = isAnnual ? 'Billed yearly' : 'Billed monthly';
+    if (badge) badge.style.display = isAnnual ? '' : 'none';
+  }
+
+  function switchPath(path: 'software' | 'services') {
+    const softwareBtn = document.getElementById('path-software')!;
+    const servicesBtn = document.getElementById('path-services')!;
+    if (path === 'software') {
+      softwareBtn.classList.add('bg-white', 'text-[#292524]', 'shadow-sm');
+      softwareBtn.classList.remove('bg-transparent', 'text-[#79716b]');
+      softwareBtn.setAttribute('aria-pressed', 'true');
+      servicesBtn.classList.remove('bg-white', 'text-[#292524]', 'shadow-sm');
+      servicesBtn.classList.add('bg-transparent', 'text-[#79716b]');
+      servicesBtn.setAttribute('aria-pressed', 'false');
+      document.getElementById('pricing-modules')?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      servicesBtn.classList.add('bg-white', 'text-[#292524]', 'shadow-sm');
+      servicesBtn.classList.remove('bg-transparent', 'text-[#79716b]');
+      servicesBtn.setAttribute('aria-pressed', 'true');
+      softwareBtn.classList.remove('bg-white', 'text-[#292524]', 'shadow-sm');
+      softwareBtn.classList.add('bg-transparent', 'text-[#79716b]');
+      softwareBtn.setAttribute('aria-pressed', 'false');
+      document.getElementById('panel-services')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // ─── IP-based country detection for India pricing ───
+  async function detectCountry() {
+    try {
+      const res = await fetch('https://ipinfo.io/json');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.country === 'IN') {
+        isIndia = true;
+        currencySymbol = '₹';
+        updateAll();
+      }
+    } catch {
+      // Silently fail — keep USD pricing
+    }
+  }
+
+  document.getElementById('path-software')?.addEventListener('click', () => switchPath('software'));
+  document.getElementById('path-services')?.addEventListener('click', () => switchPath('services'));
+  document.getElementById('mod-billing-toggle')?.addEventListener('click', () => { isAnnual = !isAnnual; updateAll(); });
+  document.getElementById('mod-billing-label')?.addEventListener('click', () => { isAnnual = !isAnnual; updateAll(); });
+
+  (['blog', 'local', 'social'] as const).forEach(mod => {
+    document.querySelectorAll<HTMLButtonElement>(`[data-mod-tier="${mod}"]`).forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedIdx[mod] = parseInt(btn.getAttribute('data-tier-idx') || '0');
+        document.querySelectorAll(`[data-mod-tier="${mod}"]`).forEach((b, i) => {
+          const isActive = i === selectedIdx[mod];
+          b.classList.toggle('border-[#615fff]', isActive);
+          b.classList.toggle('bg-[#615fff]/5', isActive);
+          b.classList.toggle('text-[#615fff]', isActive);
+          b.classList.toggle('border-[#e7e5e4]', !isActive);
+          b.classList.toggle('text-[#292524]', !isActive);
+        });
+        updateAll();
+      });
+    });
+  });
+
+  updateAll();
+  detectCountry();
+</script>

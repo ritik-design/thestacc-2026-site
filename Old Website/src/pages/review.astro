@@ -1,0 +1,438 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+---
+
+<BaseLayout
+  title="Review Your Plan | theStacc"
+  description="Review your selected modules before starting your $1 trial. See what you're getting and what you could add."
+  noindex={true}
+>
+  <Header />
+  <main>
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="px-6 pt-10 pb-10">
+        <!-- Back link -->
+        <a href="/pricing/" class="inline-flex items-center gap-1.5 font-sans text-[14px] font-medium text-[#79716b] transition-colors hover:text-[#292524]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Edit plan
+        </a>
+
+        <!-- Step indicator -->
+        <div class="mt-6 flex items-center gap-3">
+          <div class="flex items-center gap-2">
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-[#615fff] font-mono text-[11px] font-bold text-white">✓</span>
+            <span class="font-sans text-[13px] font-semibold text-[#615fff]">Choose plan</span>
+          </div>
+          <div class="h-px w-8 bg-[#615fff]"></div>
+          <div class="flex items-center gap-2">
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-[#615fff] font-mono text-[11px] font-bold text-white">2</span>
+            <span class="font-sans text-[13px] font-semibold text-[#615fff]">Review plan</span>
+          </div>
+          <div class="h-px w-8 bg-[#e7e5e4]"></div>
+          <div class="flex items-center gap-2">
+            <span class="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[#e7e5e4] bg-white font-mono text-[11px] font-bold text-[#79716b]">3</span>
+            <span class="font-sans text-[13px] font-medium text-[#79716b]">Book your call</span>
+          </div>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="mt-8 font-sans text-[24px] leading-[32px] md:text-[32px] md:leading-[40px] font-normal text-[#292524]">
+          Review your plan
+        </h1>
+        <p class="mt-2 font-sans text-[16px] leading-[24px] text-[#79716b]">
+          Here's what you selected. Make any changes before continuing.
+        </p>
+
+        <!-- Two-column layout -->
+        <div class="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
+
+          <!-- Left column -->
+          <div class="flex flex-col gap-6">
+
+            <!-- Selected modules -->
+            <div>
+              <h2 class="font-sans text-[16px] font-semibold text-[#292524]">Your modules</h2>
+              <div id="selected-modules" class="mt-3 flex flex-col gap-3"></div>
+              <div id="no-modules" class="hidden mt-3 rounded-xl border border-dashed border-[#e7e5e4] bg-[#fafaf9] px-6 py-8 text-center">
+                <p class="font-sans text-[15px] text-[#79716b]">No modules selected yet.</p>
+                <a href="/pricing/" class="mt-2 inline-block font-sans text-[14px] font-medium text-[#615fff] hover:underline">Go back and choose</a>
+              </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-t border-[#e7e5e4]"></div>
+
+            <!-- What you're not getting yet (upsell) -->
+            <div id="upsell-section">
+              <h2 class="font-sans text-[16px] font-semibold text-[#292524]">Results you're leaving on the table</h2>
+              <p class="mt-1 font-sans text-[14px] text-[#79716b]">No pressure. Just the numbers on what each module delivers.</p>
+
+              <div id="upsell-cards" class="mt-4 flex flex-col gap-3"></div>
+
+              <!-- Bundle savings callout -->
+              <div id="bundle-callout" class="hidden mt-5 overflow-hidden rounded-xl border-l-4 border-[#615fff] bg-gradient-to-r from-[#615fff]/[0.08] to-[#615fff]/[0.02] px-5 py-5">
+                <div class="flex items-center gap-4">
+                  <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#615fff]/15">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#615fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[15px] font-bold text-[#292524]" id="bundle-callout-text">Add 1 more module and unlock 15% off everything.</p>
+                    <p class="mt-0.5 font-mono text-[13px] font-semibold text-[#615fff]" id="bundle-callout-savings"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right column: sticky summary -->
+          <div class="lg:sticky lg:top-24 self-start">
+            <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+              <h2 class="font-sans text-[16px] font-semibold text-[#292524]">Order summary</h2>
+
+              <div class="mt-4 flex flex-col gap-2" id="summary-line-items"></div>
+
+              <div class="mt-3 border-t border-[#e7e5e4] pt-3">
+                <div id="summary-discount-row" class="hidden mb-2 flex items-center justify-between">
+                  <span class="font-sans text-[14px] text-[#79716b]">Bundle discount (15%)</span>
+                  <span class="font-mono text-[14px] font-semibold text-[#615fff]" id="summary-discount-val"></span>
+                </div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-sans text-[14px] text-[#79716b]">Billing</span>
+                  <span class="font-sans text-[14px] font-medium text-[#292524]" id="summary-billing">Annual</span>
+                </div>
+              </div>
+
+              <!-- Total -->
+              <div class="mt-3 rounded-lg border border-[#615fff]/15 bg-[#615fff]/[0.03] px-4 py-3">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-sans text-[13px] text-[#79716b]">Due today</p>
+                    <p class="font-sans text-[24px] font-bold text-[#292524]">$1.00</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-sans text-[13px] text-[#79716b]">Then</p>
+                    <p class="font-sans text-[20px] font-bold text-[#292524]">$<span id="summary-total">0</span><span class="text-[14px] font-normal text-[#79716b]">/mo</span></p>
+                  </div>
+                </div>
+                <p class="mt-2 font-sans text-[12px] text-[#79716b]">3-day trial. Cancel before it ends and pay nothing more.</p>
+              </div>
+
+              <!-- CTA -->
+              <a id="checkout-cta" href="/demo" class="cursor-pointer mt-5 flex h-[48px] w-full items-center justify-center gap-2 rounded-xl border border-[#615fff] bg-[#615fff] font-sans text-[16px] font-semibold text-white transition-colors hover:bg-[#4f39f6]">
+                Book a strategy call
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+
+              <!-- Trust -->
+              <div class="mt-4 flex flex-col gap-1.5">
+                <div class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  <span class="font-sans text-[12px] text-[#79716b]">Secure checkout · Cancel anytime</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  // ---- Tier data ----
+  const blogTiers = [
+    { label: '30 articles', count: 30, price: 99 },
+    { label: '50 articles', count: 50, price: 149 },
+    { label: '80 articles', count: 80, price: 199 },
+  ];
+  const localTiers = [
+    { label: '30 posts', count: 30, price: 49 },
+    { label: '60 posts', count: 60, price: 79 },
+    { label: '80 posts', count: 80, price: 99 },
+  ];
+  const socialTiers = [
+    { label: '30 posts', count: 30, price: 49 },
+    { label: '60 posts', count: 60, price: 79 },
+    { label: '120 posts', count: 120, price: 129 },
+  ];
+
+  type ModKey = 'blog' | 'local' | 'social';
+  const allTiers: Record<ModKey, typeof blogTiers> = { blog: blogTiers, local: localTiers, social: socialTiers };
+
+  const modMeta: Record<ModKey, {
+    name: string;
+    icon: string;
+    iconColor: string;
+    iconBg: string;
+    metrics: { number: string; label: string }[];
+    oneLiner: string;
+  }> = {
+    blog: {
+      name: 'Blog SEO',
+      icon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>',
+      iconColor: '#615fff',
+      iconBg: 'bg-[#615fff]/10',
+      metrics: [
+        { number: '30', label: 'articles published/month' },
+        { number: '90%', label: 'cheaper than freelance writers' },
+        { number: '180%', label: 'avg. traffic increase by month 6' },
+      ],
+      oneLiner: 'Businesses using Blog SEO publish 10x more content and rank for 3x more keywords within 6 months.',
+    },
+    local: {
+      name: 'Local SEO',
+      icon: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>',
+      iconColor: '#22c55e',
+      iconBg: 'bg-[#22c55e]/10',
+      metrics: [
+        { number: '30', label: 'GBP posts auto-published/month' },
+        { number: '<1hr', label: 'avg. review response time' },
+        { number: '40%', label: 'avg. increase in local pack visibility' },
+      ],
+      oneLiner: 'Businesses with active GBP profiles get 70% more location visits and 50% more calls than inactive ones.',
+    },
+    social: {
+      name: 'Social Media',
+      icon: '<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>',
+      iconColor: '#f59e0b',
+      iconBg: 'bg-[#f59e0b]/10',
+      metrics: [
+        { number: '120', label: 'posts/month across platforms' },
+        { number: '15+', label: 'hours saved per week' },
+        { number: '3x', label: 'more engagement vs. manual posting' },
+      ],
+      oneLiner: 'Brands posting daily on social see 3x more engagement than those posting weekly.',
+    },
+  };
+
+  // ---- Read URL params ----
+  const params = new URLSearchParams(window.location.search);
+  let isAnnual = params.get('billing') !== 'monthly';
+
+  // Parse selected modules into a mutable map
+  const selected = new Map<ModKey, number>();
+  (['blog', 'local', 'social'] as ModKey[]).forEach(mod => {
+    const val = params.get(mod);
+    if (val !== null) {
+      const idx = parseInt(val);
+      if (!isNaN(idx) && idx >= 0 && idx < allTiers[mod].length) {
+        selected.set(mod, idx);
+      }
+    }
+  });
+
+  function round(n: number) { return Math.round(n); }
+  function getPrice(mod: ModKey, tierIdx: number) {
+    const base = allTiers[mod][tierIdx].price;
+    return isAnnual ? round(base * 0.83) : base;
+  }
+
+  function buildParams(): URLSearchParams {
+    const p = new URLSearchParams();
+    p.set('billing', isAnnual ? 'annual' : 'monthly');
+    selected.forEach((tierIdx, mod) => p.set(mod, String(tierIdx)));
+    return p;
+  }
+
+  // ---- Render ----
+  function render() {
+    const selectedArr = Array.from(selected.entries());
+    const unselected = (['blog', 'local', 'social'] as ModKey[]).filter(m => !selected.has(m));
+
+    // -- Selected modules --
+    const selEl = document.getElementById('selected-modules')!;
+    const noEl = document.getElementById('no-modules')!;
+
+    if (selectedArr.length === 0) {
+      selEl.classList.add('hidden');
+      noEl.classList.remove('hidden');
+    } else {
+      selEl.classList.remove('hidden');
+      noEl.classList.add('hidden');
+
+      selEl.innerHTML = selectedArr.map(([mod, tierIdx]) => {
+        const meta = modMeta[mod];
+        const tiers = allTiers[mod];
+        const price = getPrice(mod, tierIdx);
+
+        return `
+          <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${meta.iconBg}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="${meta.iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">${meta.icon}</svg>
+                </div>
+                <div>
+                  <p class="font-sans text-[16px] font-semibold text-[#292524]">${meta.name}</p>
+                  <p class="font-sans text-[13px] text-[#79716b]">${tiers[tierIdx].label}/month</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="font-sans text-[18px] font-bold text-[#292524]">$${price}<span class="text-[13px] font-normal text-[#79716b]">/mo</span></p>
+                ${isAnnual ? `<p class="font-sans text-[12px] text-[#79716b]">$${tiers[tierIdx].price}/mo if monthly</p>` : ''}
+              </div>
+            </div>
+
+            <!-- Tier selector inline -->
+            <div class="mt-4 flex flex-wrap items-center gap-2">
+              <span class="font-sans text-[13px] text-[#79716b]">Plan:</span>
+              ${tiers.map((t, i) => `
+                <button
+                  class="review-tier-btn cursor-pointer rounded-lg border px-3 py-1.5 font-mono text-[13px] font-semibold transition-colors ${i === tierIdx ? 'border-[#615fff] bg-[#615fff]/5 text-[#615fff]' : 'border-[#e7e5e4] text-[#292524] hover:border-[#d6d3d1]'}"
+                  data-mod="${mod}" data-idx="${i}"
+                >${t.label}</button>
+              `).join('')}
+              <button class="review-remove-btn cursor-pointer ml-auto rounded-lg border border-[#e7e5e4] px-3 py-1.5 font-sans text-[13px] font-medium text-[#79716b] transition-colors hover:border-[#ef4444]/30 hover:text-[#ef4444]" data-mod="${mod}">Remove</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Bind tier change buttons
+      selEl.querySelectorAll<HTMLButtonElement>('.review-tier-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mod = btn.dataset.mod as ModKey;
+          const idx = parseInt(btn.dataset.idx || '0');
+          selected.set(mod, idx);
+          render();
+        });
+      });
+
+      // Bind remove buttons
+      selEl.querySelectorAll<HTMLButtonElement>('.review-remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mod = btn.dataset.mod as ModKey;
+          selected.delete(mod);
+          render();
+        });
+      });
+    }
+
+    // -- Upsell cards --
+    const upsellSection = document.getElementById('upsell-section')!;
+    const upsellCards = document.getElementById('upsell-cards')!;
+    const bundleCallout = document.getElementById('bundle-callout')!;
+
+    if (unselected.length === 0) {
+      upsellSection.classList.add('hidden');
+    } else {
+      upsellSection.classList.remove('hidden');
+      upsellCards.innerHTML = unselected.map(mod => {
+        const meta = modMeta[mod];
+        const startPrice = getPrice(mod, 0);
+
+        return `
+          <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5">
+            <div class="flex items-start gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${meta.iconBg}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="${meta.iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">${meta.icon}</svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="min-w-0">
+                    <p class="font-sans text-[15px] font-semibold text-[#292524]">${meta.name}</p>
+                    <p class="font-sans text-[13px] text-[#79716b]">from $${startPrice}/mo</p>
+                  </div>
+                  <button class="upsell-add-btn cursor-pointer shrink-0 inline-flex items-center gap-1.5 rounded-lg border border-[#615fff]/30 bg-[#615fff]/5 px-4 py-2 font-sans text-[13px] font-semibold text-[#615fff] transition-colors hover:bg-[#615fff]/10" data-mod="${mod}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Add to plan
+                  </button>
+                </div>
+                <p class="mt-2 font-sans text-[13px] leading-[20px] text-[#79716b]">${meta.oneLiner}</p>
+
+                <!-- Metrics -->
+                <div class="mt-3 grid grid-cols-3 gap-3">
+                  ${meta.metrics.map(m => `
+                    <div class="rounded-lg border border-[#e7e5e4] bg-white px-3 py-2 text-center">
+                      <p class="font-mono text-[16px] font-bold text-[#292524]">${m.number}</p>
+                      <p class="font-sans text-[11px] leading-[14px] text-[#79716b]">${m.label}</p>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Bind add buttons
+      upsellCards.querySelectorAll<HTMLButtonElement>('.upsell-add-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mod = btn.dataset.mod as ModKey;
+          selected.set(mod, 0);
+          render();
+        });
+      });
+    }
+
+    // -- Bundle callout --
+    const selCount = selected.size;
+    if (selCount === 1 && unselected.length > 0) {
+      bundleCallout.classList.remove('hidden');
+      const currentTotal = Array.from(selected.entries()).reduce((s, [m, t]) => s + getPrice(m, t), 0);
+      const cheapestExtra = Math.min(...unselected.map(m => getPrice(m, 0)));
+      const withExtra = currentTotal + cheapestExtra;
+      const bundledTotal = round(withExtra * 0.85);
+      const savings = withExtra - bundledTotal;
+      document.getElementById('bundle-callout-text')!.textContent = `Add 1 more module and unlock 15% off everything.`;
+      document.getElementById('bundle-callout-savings')!.textContent = `That's $${savings}/mo saved. The bundle pays for itself.`;
+    } else if (selCount >= 2) {
+      bundleCallout.classList.remove('hidden');
+      const raw = Array.from(selected.entries()).reduce((s, [m, t]) => s + getPrice(m, t), 0);
+      const bundled = round(raw * 0.85);
+      const savings = raw - bundled;
+      document.getElementById('bundle-callout-text')!.textContent = `Bundle discount active: 15% off your total.`;
+      document.getElementById('bundle-callout-savings')!.textContent = `You're saving $${savings}/mo ($${savings * 12}/yr).`;
+    } else {
+      bundleCallout.classList.add('hidden');
+    }
+
+    // -- Right sidebar summary --
+    const lineItems = document.getElementById('summary-line-items')!;
+    const discountRow = document.getElementById('summary-discount-row')!;
+    const discountVal = document.getElementById('summary-discount-val')!;
+    const billingEl = document.getElementById('summary-billing')!;
+    const totalEl = document.getElementById('summary-total')!;
+    const ctaEl = document.getElementById('checkout-cta') as HTMLAnchorElement;
+
+    lineItems.innerHTML = selectedArr.map(([mod, tierIdx]) => {
+      const price = getPrice(mod, tierIdx);
+      return `
+        <div class="flex items-center justify-between">
+          <span class="font-sans text-[14px] text-[#79716b]">${modMeta[mod].name} (${allTiers[mod][tierIdx].label})</span>
+          <span class="font-mono text-[14px] font-medium text-[#292524]">$${price}</span>
+        </div>
+      `;
+    }).join('');
+
+    let rawTotal = selectedArr.reduce((s, [m, t]) => s + getPrice(m, t), 0);
+    const hasBundle = selCount >= 2;
+
+    if (hasBundle) {
+      const discountAmount = rawTotal - round(rawTotal * 0.85);
+      discountRow.classList.remove('hidden');
+      discountRow.classList.add('flex');
+      discountVal.textContent = `-$${discountAmount}`;
+      rawTotal = round(rawTotal * 0.85);
+    } else {
+      discountRow.classList.add('hidden');
+      discountRow.classList.remove('flex');
+    }
+
+    billingEl.textContent = isAnnual ? 'Annual (save 17%)' : 'Monthly';
+    totalEl.textContent = String(rawTotal);
+    ctaEl.href = '/demo?' + buildParams().toString();
+
+    // Update browser URL without reload
+    const newUrl = '/review?' + buildParams().toString();
+    window.history.replaceState(null, '', newUrl);
+  }
+
+  // Initial render
+  render();
+</script>

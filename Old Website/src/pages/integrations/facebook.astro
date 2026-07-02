@@ -1,0 +1,363 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "Which Facebook account types does Stacc connect with?",
+    a: "Stacc connects with Facebook Business Pages — the pages tied to your business locations. Personal profiles are not supported. You can connect one page per location, and manage all connected pages from a single Stacc dashboard.",
+  },
+  {
+    q: "Can I publish the same post to all location pages at once?",
+    a: "Yes. Write one post and publish it to a single page or every connected page simultaneously. Bulk publishing is available on all plans. You can also add location-specific details to each post before sending if needed.",
+  },
+  {
+    q: "Does Stacc monitor Facebook reviews?",
+    a: "Yes. Facebook recommendations (the 5-star review equivalent) are pulled into Stacc's review dashboard in real time. You'll get an instant alert when a new recommendation lands, with the reviewer name, rating, and content visible without logging into Facebook.",
+  },
+  {
+    q: "Can I respond to Facebook reviews from Stacc?",
+    a: "Response templates are available in Stacc for review drafting. For final publishing of responses, Facebook's API requires direct confirmation. Stacc prepares the response and links you directly to the review so you can publish in one click.",
+  },
+  {
+    q: "How many Facebook pages can I connect?",
+    a: "You can connect as many pages as you have locations. There's no hard limit on connected pages within Stacc. If you manage 50 locations, connect all 50 pages and manage them from one place.",
+  },
+  {
+    q: "Is the Facebook connection secure?",
+    a: "Stacc uses Facebook's official OAuth flow. You authenticate through Facebook — Stacc never stores your password. You can revoke access at any time from your Facebook Business settings.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Facebook Integration",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Connect Facebook Business Pages to theStacc. Manage posts, monitor reviews, and track engagement across all location pages from one dashboard.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Integrations", "item": "https://thestacc.com/integrations/" },
+        { "@type": "ListItem", "position": 3, "name": "Facebook", "item": "https://thestacc.com/integrations/facebook/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Facebook Integration — Manage Business Pages & Post Across All Locations | theStacc"
+  description="Connect every location's Facebook Business page to theStacc. Schedule posts, monitor reviews, and track engagement across all pages from one unified dashboard."
+
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Integration · Facebook</span>
+          </div>
+
+          <!-- Dual logo bridge -->
+          <div class="mb-8 flex items-center justify-center gap-5">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-label="theStacc" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="4" fill="#4f39f6"/>
+                <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+            </div>
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="#1877F2" aria-label="Facebook" aria-hidden="true">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </div>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Stacc + Facebook.<br />
+            <span style="color:#4f39f6;">Every page, one place.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Connect every location's Facebook Business page to Stacc. Schedule posts across all pages at once, monitor reviews in real time, and track engagement without logging into a single Facebook account.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Connect Facebook free
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#how-to-connect"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              See how it works
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            OAuth secured · Setup in 2 minutes · Works for 1 or 100 pages
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHAT THIS DOES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">What you get</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Connect once. All location pages<br />managed from here.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z', title: 'Bulk post to all pages at once', body: 'Write one post and publish it to one page or every connected location page simultaneously. No logging in, no copy-paste, no missed locations.' },
+            { icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z', title: 'Real-time review monitoring', body: 'New Facebook recommendations appear in Stacc within minutes. Instant alerts include reviewer name, star rating, and full text — no Facebook login required.' },
+            { icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', title: 'Content scheduling calendar', body: 'Plan posts weeks in advance. Set a posting schedule per page or across all locations. Stacc publishes automatically at your specified times.' },
+            { icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', title: 'Engagement tracking dashboard', body: 'Page reach, post engagement, and follower trends across all connected pages in one view. See which locations are gaining traction and which need attention.' },
+            { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Review response templates', body: 'Stacc prepares response templates for every new review. Edit and send in one click, or let Stacc draft and route for approval before publishing.' },
+            { icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', title: 'Multi-page management', body: 'Manage every location page under one login. Add new pages as you open locations. Remove or pause pages without affecting others.' },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SETUP STEPS ─── -->
+    <section id="how-to-connect" class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">How to connect</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Three steps. Under five minutes.<br />All pages connected.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-3xl space-y-4">
+          {[
+            { step: '01', title: 'Connect via Facebook OAuth', body: 'Click "Connect Facebook" in Stacc settings. You\'ll be redirected to Facebook\'s login — no passwords stored in Stacc. Select the pages you want to connect and authorize access.' },
+            { step: '02', title: 'Select your location pages', body: 'Stacc shows every Facebook Business Page your account manages. Check the ones you want to track and post to. You can add or remove pages anytime from the integrations settings.' },
+            { step: '03', title: 'Start posting and monitoring', body: 'Your connected pages appear in the Stacc social dashboard immediately. Schedule your first post, check pending reviews, and see engagement data — all without opening Facebook.' },
+          ].map(s => (
+            <div class="flex gap-6 rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <span class="font-mono text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[#4f39f6]/20 shrink-0">{s.step}</span>
+              <div>
+                <p class="font-sans text-[15px] font-semibold text-[#111827]">{s.title}</p>
+                <p class="mt-1.5 font-sans text-[14px] leading-relaxed text-[#57534e]">{s.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── BEFORE / AFTER ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Before vs. after</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            What changes when Facebook<br />runs through Stacc.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-[#e7e5e4]">
+          <div class="grid grid-cols-3 bg-[#f5f3ff] border-b border-[#e7e5e4]">
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Task</div>
+            <div class="border-x border-[#e7e5e4] px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Without Stacc</div>
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4f39f6]">With Stacc</div>
+          </div>
+          {[
+            ['Post to 10 location pages', 'Log in 10 times, copy-paste, 40 min', 'One post, bulk publish, 2 min'],
+            ['Check for new reviews', 'Log into each page separately', 'Instant alert in Stacc dashboard'],
+            ['See cross-location engagement', 'Download CSV from each page, merge', 'One unified view, always live'],
+            ['Respond to a bad review', 'Find it, log in, type response, publish', 'Template ready, one click'],
+            ['Schedule a holiday post', 'Set reminders, log in on the day', 'Scheduled once, publishes automatically'],
+          ].map(([task, before, after]) => (
+            <div class="grid grid-cols-3 border-b border-[#e7e5e4] last:border-0">
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#292524]">{task}</div>
+              <div class="border-x border-[#e7e5e4] px-6 py-4 font-sans text-[13px] text-[#79716b]">{before}</div>
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#4f39f6]">{after}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── USE CASES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Who uses this</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Three workflows this<br />integration unlocks immediately.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-5 md:grid-cols-3">
+          {[
+            { label: 'Multi-location businesses', title: 'Consistent social presence across every site', body: 'Keep every location active on Facebook without a dedicated social media manager. One post, published everywhere, on schedule — automatically.' },
+            { label: 'SEO agencies', title: 'Manage every client page from one dashboard', body: 'No more client Facebook logins. Connect all client pages to Stacc and manage posting, review monitoring, and reporting from a single login.' },
+            { label: 'Franchise systems', title: 'Brand-consistent posts to every franchisee page', body: 'HQ approves content once. Stacc pushes it to every franchisee page simultaneously. Local execution, brand-controlled content.' },
+          ].map(c => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4f39f6]">{c.label}</span>
+              <p class="mt-3 font-sans text-[15px] font-semibold leading-snug text-[#111827]">{c.title}</p>
+              <p class="mt-2.5 font-sans text-[13px] leading-relaxed text-[#57534e]">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED INTEGRATIONS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Often connected together</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Facebook connects best with<br />the rest of your stack.
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-3">
+          {[
+            { title: 'Google Business Profile', desc: 'Publish posts to GBP and Facebook simultaneously. One action covers both channels for every location.', href: '/integrations/google-business-profile/' },
+            { title: 'Instagram', desc: 'Extend your bulk-publishing workflow to Instagram. Same post, all three platforms, one click.', href: '/integrations/instagram/' },
+            { title: 'Review Monitoring', desc: 'Facebook reviews feed directly into Stacc\'s unified review dashboard alongside Google and Yelp.', href: '/features/review-monitoring/' },
+          ].map(r => (
+            <a href={r.href} class="group rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6 transition-colors hover:border-[#4f39f6]/30 hover:bg-[#f5f3ff]/40">
+              <p class="font-sans text-[14px] font-semibold text-[#111827] group-hover:text-[#4f39f6]">{r.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-relaxed text-[#57534e]">{r.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">FAQ</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Questions about the<br />Facebook integration
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq) => (
+            <div class="faq-item">
+              <button class="faq-btn w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <span class="faq-icon-plus shrink-0 text-[#4f39f6]">+</span>
+                <span class="faq-icon-minus hidden shrink-0 text-[#4f39f6]">−</span>
+              </button>
+              <div class="faq-answer hidden px-6 pb-5">
+                <p class="font-sans text-[14px] leading-relaxed text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-24" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.06) 0%, transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Connect in minutes</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-[#292524] md:text-[2.75rem]">
+            All location pages.<br />One place to manage them.
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Stop logging into a dozen Facebook accounts to manage your business pages. Connect them all to Stacc and run everything — posting, review monitoring, engagement tracking — from one dashboard.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Connect Facebook free
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pricing/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              View pricing
+            </a>
+          </div>
+          <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#292524]/20">$1 for 3 days · No credit card · Cancel anytime</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const answer = item?.querySelector('.faq-answer');
+      const plus = btn.querySelector('.faq-icon-plus');
+      const minus = btn.querySelector('.faq-icon-minus');
+      if (!answer) return;
+      const isOpen = !answer.classList.contains('hidden');
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+      document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+      document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+      if (!isOpen) {
+        answer.classList.remove('hidden');
+        plus?.classList.add('hidden');
+        minus?.classList.remove('hidden');
+      }
+    });
+  });
+</script>

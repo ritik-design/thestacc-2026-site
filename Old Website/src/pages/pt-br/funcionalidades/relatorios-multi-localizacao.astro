@@ -1,0 +1,383 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "Quantas localizações posso acompanhar em um único relatório?",
+    a: "Sem limite. Os relatórios multi-localização do Stacc são projetados para portfólios de escala empresarial: há clientes que gerenciam mais de 500 localizações em um único painel. Os relatórios agregam todas as localizações simultaneamente sem perda de velocidade.",
+  },
+  {
+    q: "Posso ver quais localizações melhoram versus as que pioram?",
+    a: "Sim. O painel de comparação classifica todas as localizações por qualquer métrica: posição de palavras-chave, precisão de citações, pontuação de avaliações, atividade no GBP. Ordene do maior para o menor ou vice-versa para identificar instantaneamente suas melhores e piores localizações. Sem análise manual.",
+  },
+  {
+    q: "Posso gerar relatórios separados por localização?",
+    a: "Sim. Você pode ver os dados agregados de todo o portfólio ou aprofundar em qualquer localização individual para obter um relatório dedicado. Os relatórios de localização individual incluem o mesmo conjunto de dados completo — posições, citações, avaliações, atividade GBP — limitado àquela localização.",
+  },
+  {
+    q: "Posso compartilhar relatórios com clientes ou partes interessadas?",
+    a: "Sim. Os relatórios podem ser exportados como PDF ou compartilhados por meio de um link ao vivo. Se você usa o painel de marca branca, os relatórios exibem a marca da sua agência, não do Stacc. Os clientes veem seu logo, seu domínio, seu relatório.",
+  },
+  {
+    q: "Com que frequência os dados são atualizados?",
+    a: "Os dados de posicionamento são atualizados diariamente. Os dados de citações são atualizados continuamente à medida que mudanças são detectadas na rede de diretórios. Os dados de avaliações são sincronizados quase em tempo real a partir das plataformas conectadas. Seus relatórios sempre refletem o estado atual, não o instantâneo da semana passada.",
+  },
+  {
+    q: "Posso configurar a entrega automática de relatórios?",
+    a: "Sim. Configure envios de relatórios semanais ou mensais para qualquer grupo de localizações. O Stacc os gera e entrega automaticamente. Sem exportação manual, sem formatação manual, sem esquecer nenhum cliente. Cada parte interessada recebe as informações corretas no momento certo.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Relatórios Multi-Localização",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "pt-BR",
+      "description": "Veja o desempenho de SEO de cada localização em um único painel. Identifique instantaneamente as localizações com pior desempenho, gere relatórios automáticos entre localizações e pare de gerenciar 30 abas ao mesmo tempo.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://thestacc.com/pt-br/" },
+        { "@type": "ListItem", "position": 2, "name": "Funcionalidades", "item": "https://thestacc.com/pt-br/funcionalidades/" },
+        { "@type": "ListItem", "position": 3, "name": "Relatórios Multi-Localização", "item": "https://thestacc.com/pt-br/funcionalidades/relatorios-multi-localizacao/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "pt-BR",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Relatórios SEO Multi-Localização — Um Painel para Cada Localização | theStacc"
+  description="Pare de abrir 30 abas para revisar suas localizações. O painel de relatórios multi-localização do theStacc agrega posições, citações e avaliações de cada localização em uma única visualização."
+  lang="pt-BR"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Relatórios Multi-Localização · Módulo SEO Local</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            O desempenho de cada localização.<br />
+            <span style="color:#4f39f6;">Um painel. Zero abas.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            O Stacc agrega posições, citações, avaliações e atividade no GBP de cada localização em uma única visualização de relatórios. Veja quais localizações crescem, quais estagnam e exatamente o que faz a diferença.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/pt-br/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Ver o painel
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pt-br/precos/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              Ver preços
+            </a>
+          </div>
+
+          <div class="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {['Visualizações agregadas e individuais', 'Classificação melhor/pior desempenho', 'Entrega automática de relatórios', 'Teste gratuito 14 dias'].map((c: string) => (
+              <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#79716b]">
+                <span class="h-1 w-1 rounded-full bg-[#4f39f6]"></span>{c}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PAIN SECTION ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">O problema</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            30 abas para revisar 30 localizações<br />não é um fluxo de trabalho de relatórios.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Quando cada localização vive em um login diferente, você não tem relatórios: tem uma escavação arqueológica. Você abre aba após aba, copia números para uma planilha e tenta decifrar quais localizações melhoram e quais pioram silenciosamente. Quando termina de "revisar" tudo, já é quinta-feira e os dados estão desatualizados. Você não consegue agir sobre o que não vê com clareza.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {[
+            { icon: 'M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2', title: 'Os piores desempenhos se escondem no ruído.', body: 'Quando você revisa as localizações uma a uma, os retardatários permanecem invisíveis até que estejam meses atrasados. A essa altura, a perda de posições é real e a recuperação leva 3 vezes mais tempo do que teria levado se você tivesse detectado na segunda semana.' },
+            { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'A agregação manual sempre tem erros.', body: 'Copiar e colar dados entre localizações em planilhas introduz falhas a cada vez. Sua "visão de portfólio" é um instantâneo de números desatualizados e coletados manualmente que exigiu duas horas de trabalho e estará errado novamente na segunda-feira.' },
+            { icon: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Atrasos em relatórios custam posições.', body: 'Uma localização que cai da posição 3 para a posição 7 perde mais de 50% da taxa de cliques da noite para o dia. Se seu ciclo de relatórios detecta isso no segundo mês em vez da primeira semana, seis semanas de tráfego perdido se acumulam em um acúmulo que leva meses para se recuperar.' },
+          ].map(p => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={p.icon}/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{p.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Como funciona</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Todas as suas localizações. Uma visualização.<br />Os retardatários, detectados automaticamente.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Conecte suas localizações uma vez. O Stacc coleta dados de posicionamento, citações, avaliações e GBP de cada localização diariamente e faz as comparações por você.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+          {[
+            { n: '01', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101', title: 'Conecte todas as suas localizações', body: 'Adicione todas as suas localizações ao Stacc. Cada uma conecta sua ficha do GBP, fontes de citações e plataformas de avaliações. Leva minutos por localização, e todo o seu portfólio é agregado automaticamente desde o primeiro dia.' },
+            { n: '02', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', title: 'Veja o desempenho agregado e individual', body: 'O painel de portfólio mostra todas as localizações classificadas lado a lado. Alterne entre a visualização de portfólio agregada e a análise detalhada de cada localização com um único clique. Ordene por qualquer métrica para ver exatamente quem está ganhando e quem precisa de atenção.' },
+            { n: '03', icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9', title: 'Relatórios automáticos conforme seu calendário', body: 'Defina sua cadência de relatórios: semanal, mensal ou personalizada. O Stacc os gera e entrega automaticamente. Sem exportação, sem formatação manual, sem esquecimentos. Cada parte interessada recebe as informações corretas no momento certo.' },
+          ].map(s => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={s.icon}/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.n}</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CAPABILITY GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Tudo incluído</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Todas as capacidades de relatórios.<br />Criadas para multi-localização em escala.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z', title: 'Painel de comparação de localizações', body: 'Veja todas as localizações classificadas lado a lado em cada métrica principal. Identifique instantaneamente quem está ganhando, quem está estagnado e onde concentrar a atenção.' },
+            { icon: 'M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z', title: 'Análise de tendências por localização', body: 'Acompanhe tendências de desempenho em janelas de 30, 60 ou 90 dias para qualquer localização. Detecte trajetórias ascendentes ou descendentes antes que se tornem problemas custosos.' },
+            { icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10', title: 'Relatórios por grupo de localizações', body: 'Agrupe localizações por região, proprietário de franquia ou mercado. Gere relatórios para grupos individuais sem extrair todo o portfólio. Útil para compartilhar com clientes específicos ou gerentes regionais.' },
+            { icon: 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', title: 'Exportação em PDF e link ao vivo', body: 'Exporte qualquer relatório como PDF limpo ou compartilhe por meio de um link ao vivo que se atualiza com dados frescos. Sem formatação manual. Os relatórios estão prontos para enviar quando você precisar.' },
+            { icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9', title: 'Entrega programada de relatórios', body: 'Configure a entrega automática semanal ou mensal para qualquer relatório. O Stacc os gera e envia por e-mail conforme o calendário definido. Sem lembretes, sem exportações manuais, sem esquecer nenhum cliente.' },
+            { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Alertas de baixo desempenho', body: 'Receba notificações quando a posição, a pontuação de avaliações ou a precisão de citações de qualquer localização cair abaixo do seu limite. Detecte os problemas em dias, não em meses.' },
+          ].map(c => (
+            <div class="bg-white px-7 py-8">
+              <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={c.icon}/></svg>
+              </div>
+              <p class="font-sans text-[0.95rem] font-semibold text-[#111827]">{c.title}</p>
+              <p class="mt-1.5 font-sans text-[13px] leading-[1.6] text-[#79716b]">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% 0%,rgba(79,57,246,0.10) 0%,transparent 65%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Os números</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2.4rem]">
+            O que os relatórios multi-localização<br />fazem com o seu fluxo de trabalho.
+          </h2>
+        </div>
+        <div class="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3">
+          {[
+            { from: 0, to: 30, suffix: '+', label: 'Localizações gerenciadas por uma pessoa', sub: 'Um painel, sem trocar de abas' },
+            { from: 0, to: 90, suffix: '%', label: 'Menos tempo em relatórios entre localizações', sub: 'A agregação automática substitui o trabalho manual' },
+            { from: 0, to: 5, suffix: '×', label: 'Mais rápido para identificar baixo desempenho', sub: 'Ranking ordenado vs revisão aba por aba' },
+          ].map(m => (
+            <div class="text-center">
+              <div class="font-sans text-[3.5rem] font-bold leading-none tracking-[-0.04em] text-white">
+                <span data-count-up data-from={m.from} data-to={m.to} data-suffix={m.suffix}>0</span>
+              </div>
+              <p class="mt-3 font-sans text-[0.95rem] font-semibold text-[#292524]/90">{m.label}</p>
+              <p class="mt-1 font-mono text-[11px] uppercase tracking-[0.1em]" style="color:#818cf8;">{m.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-16">
+        <figure class="mx-auto max-w-2xl text-center">
+          <blockquote class="font-sans text-[1.25rem] font-medium leading-[1.55] tracking-[-0.015em] text-[#111827]">
+            "Abria 18 abas toda segunda-feira de manhã para revisar cada localização. Agora abro o Stacc, vejo todo o portfólio em dois segundos e sei exatamente quais duas localizações precisam de atenção. Todo o resto está verde: sigo em frente."
+          </blockquote>
+          <figcaption class="mt-6">
+            <span class="font-sans text-[14px] font-semibold text-[#292524]">Elena Suárez</span>
+            <span class="mx-2 text-[#e7e5e4]">·</span>
+            <span class="font-sans text-[14px] text-[#79716b]">Diretora de Marketing Local, grupo de franquias de 24 localizações</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED FEATURES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16">
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Funcionalidades relacionadas</p>
+        <div class="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-3">
+          {[
+            { href: '/pt-br/funcionalidades/rastreamento-de-posicoes/', label: 'Rastreamento de Posições', desc: 'Atualizações diárias de ranking para cada palavra-chave em cada localização.' },
+            { href: '/pt-br/funcionalidades/relatorios-de-clientes/', label: 'Relatórios para Clientes', desc: 'Relatórios gerados automaticamente e entregues aos seus clientes conforme seu calendário.' },
+            { href: '/pt-br/funcionalidades/gestao-de-multiplas-localizacoes/', label: 'Gestão Multi-Localização', desc: 'Atualize mais de 500 localizações simultaneamente. Sem edição uma a uma.' },
+          ].map(r => (
+            <a href={r.href} class="group bg-white px-7 py-7 transition-colors hover:bg-[#f5f3ff]">
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#4f39f6]">{r.label}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.6] text-[#57534e]">{r.desc}</p>
+              <span class="mt-4 inline-flex items-center gap-1 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#4f39f6] opacity-0 transition-opacity group-hover:opacity-100">
+                Saiba mais
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Perguntas frequentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Tudo o que você precisa saber<br />sobre relatórios multi-localização.
+          </h2>
+          <div class="mt-10 divide-y divide-[#e7e5e4]">
+            {faqs.map((f, i) => (
+              <div class="py-5">
+                <button class="faq-btn flex w-full items-start justify-between gap-4 text-left" aria-expanded="false" aria-controls={`faq-${i}`}>
+                  <span class="font-sans text-[1rem] font-semibold text-[#111827]">{f.q}</span>
+                  <span class="mt-0.5 flex-shrink-0">
+                    <svg class="faq-icon-plus h-5 w-5 text-[#4f39f6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                    <svg class="faq-icon-minus hidden h-5 w-5 text-[#4f39f6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+                  </span>
+                </button>
+                <div id={`faq-${i}`} class="faq-answer hidden pt-3">
+                  <p class="font-sans text-[0.95rem] leading-[1.7] text-[#57534e]">{f.a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[400px]" style="background:radial-gradient(ellipse at 50% 0%,rgba(79,57,246,0.35) 0%,transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative py-24 text-center">
+        <h2 class="font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.8rem]">
+          Pare de revisar 30 abas.<br />Veja cada localização em um único lugar.
+        </h2>
+        <p class="mx-auto mt-5 max-w-[520px] font-sans text-[1rem] leading-[1.7]" style="color:#9ca3af;">
+          Conecte suas localizações hoje e obtenha seu primeiro relatório de portfólio completo em menos de 10 minutos.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <a href="/pt-br/demo/" target="_blank" rel="noopener noreferrer"
+            class="inline-flex h-12 items-center gap-2 rounded-xl bg-[#4f39f6] px-7 font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+            Comece grátis — sem cartão de crédito
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="/pt-br/precos/"
+            class="inline-flex h-12 items-center rounded-xl border border-white/15 bg-white/5 px-7 font-sans text-[15px] font-medium text-white/80 transition-colors hover:bg-white/10">
+            Ver preços
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      const answer = btn.nextElementSibling as HTMLElement;
+      if (answer) answer.classList.toggle('hidden', expanded);
+      btn.querySelector('.faq-icon-plus')?.classList.toggle('hidden', !expanded);
+      btn.querySelector('.faq-icon-minus')?.classList.toggle('hidden', expanded);
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-count-up]').forEach(el => {
+    const from = parseFloat(el.dataset.from || '0');
+    const to = parseFloat(el.dataset.to || '0');
+    const suffix = el.dataset.suffix || '';
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    const duration = 1800;
+    let start: number | null = null;
+    const obs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      obs.disconnect();
+      const step = (ts: number) => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = (from + (to - from) * ease).toFixed(decimals) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }, { threshold: 0.3 });
+    obs.observe(el);
+  });
+</script>

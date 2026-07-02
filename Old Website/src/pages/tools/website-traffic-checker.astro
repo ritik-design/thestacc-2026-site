@@ -1,0 +1,279 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free Website Traffic Checker — Organic + Keyword Data | theStacc';
+const pageDescription = 'Check any website\'s estimated traffic, organic keywords, and ranking positions in seconds. Real Google data. See top 5 keywords free — unlock full keyword table with difficulty, CPC, and top pages.';
+const pageUrl = 'https://thestacc.com/tools/website-traffic-checker/';
+const lastUpdated = '2026-05-13';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Website Traffic Checker',
+  description: 'Check any domain\'s estimated organic traffic, total ranking keywords, position distribution, and top keywords. Pulls live data from Google search databases. Free preview shows traffic stats + top 5 keywords. Full report unlocks 20+ keywords with difficulty scores, CPC data, difficulty breakdown chart, and top-performing pages.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is a website traffic checker?', a: 'A website traffic checker estimates how many visitors a domain gets from organic search each month, plus how many keywords it ranks for and where those rankings sit (positions 1-3, 4-10, 11-20, etc.). It pulls data from search engine databases that track billions of keywords and their rankings across millions of domains. This tool shows estimated monthly visits, total organic keywords, a position distribution breakdown, keyword movement (new/gained/dropped/lost), and the top keywords a domain ranks for.' },
+  { q: 'Is the traffic data accurate?', a: 'The data comes from the same SEO database used by enterprise platforms and is updated weekly. Estimated traffic is calculated from observed keyword rankings multiplied by search volume and position-based CTR curves. It is not exact server-side analytics — no third-party tool has that — but the relative magnitude is reliable for benchmarking, competitor analysis, and spotting trends. For your own site, Google Search Console and Google Analytics 4 remain the ground truth.' },
+  { q: 'What do I get for free vs. what is gated?', a: 'The free preview shows: estimated monthly organic visits, total ranking keywords, traffic value (what it would cost to buy that traffic via ads), a position distribution bar chart (top 3, 4-10, 11-20, 21-50, 51-100), keyword movement summary (new, gained, dropped, lost), and your top 5 ranking keywords with position and volume. The full report — unlocked with a brief lead form — adds: a sortable table of top 20 keywords with difficulty scores and CPC, a keyword difficulty breakdown chart, and your top-performing pages by keyword count and volume. No credit card required for either tier.' },
+  { q: 'How is this different from Similarweb or Semrush?', a: 'Similarweb\'s free tier shows overall traffic estimates and engagement metrics but does not show which keywords drive that traffic or where the domain ranks. Semrush requires a paid plan for any meaningful traffic data. This tool sits in the middle: free preview with keyword-level visibility (positions, volumes) that no other free tool provides, plus a full report with difficulty scores and CPC data that would cost $140+/mo on Semrush. We do not show bounce rate or session duration — those require site access. We focus on what you can see from the outside: search visibility.' },
+  { q: 'Can I check competitor traffic?', a: 'Yes — enter any publicly accessible domain. The tool works for competitors, partners, industry benchmarks, or your own sites. There is no verification requirement. Note that very new sites (under 6 months) or sites with no measurable search presence may return limited or no data. Personal blogs, local businesses with weak SEO, and brand-new startups often fall into this category.' },
+  { q: 'What does "traffic value" mean?', a: 'Traffic value is the estimated monthly cost of buying the same amount of traffic through Google Ads. If a domain gets 10,000 estimated organic visits and the keywords it ranks for have an average CPC of $2.50, the traffic value is approximately $25,000/mo. This metric helps you understand the dollar value of organic SEO efforts — organic traffic that would otherwise require paid spend to acquire.' },
+  { q: 'What is keyword difficulty (KD)?', a: 'Keyword Difficulty is a 0-100 score estimating how hard it would be to rank on page one for a given keyword. Under 30 is relatively easy (newer or lower-authority sites can compete). 31-60 is moderate (requires decent content and some authority). 61+ is hard (needs strong backlinks, comprehensive content, and established domain authority). KD is based on the backlink profiles and content quality of the current top 10 results.' },
+  { q: 'How often is the data updated?', a: 'The underlying database updates weekly. Cached results on this tool are stored for 24 hours, so if you check the same domain twice in one day, you\'ll get instant results from cache. After 24 hours, the tool fetches fresh data again. This balances speed with freshness.' },
+  { q: 'Why do some domains show no data?', a: 'Three common reasons: (1) The domain is too new and has not been crawled yet. (2) The domain has no measurable organic search presence — it may rely entirely on direct traffic, social media, or paid ads. (3) The domain blocks SEO crawlers or uses techniques that make it invisible to third-party databases. Very small personal sites, single-page landing pages, and brand-new startups often return limited data.' },
+  { q: 'Is there a usage limit?', a: 'Yes — 5 free checks per day per IP address. This is a Tier 1 tool that makes API calls to a live SEO database, so we cap usage to keep it free. Cached results do not count against your limit. If you hit the cap, the tool tells you when it resets (midnight UTC). For unlimited checks, theStacc platform includes traffic monitoring across all your competitor domains.' },
+  { q: 'What are "new," "gained," "dropped," and "lost" keywords?', a: 'These track keyword movement between database updates. New = keywords the domain started ranking for that it did not rank for in the previous period. Gained = keywords that improved in position. Dropped = keywords that fell in position. Lost = keywords the domain no longer ranks for (fell out of top 100). This gives you a quick pulse on whether a domain\'s SEO is trending up, down, or stable.' },
+  { q: 'Can I export the keyword data?', a: 'Yes — the full report includes a CSV export button that downloads all unlocked keywords with their position, volume, difficulty, and CPC. This is useful for building competitor keyword lists, briefing content teams, or importing into your own SEO tools.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Website Traffic Checker"
+  toolDescription="Check any website's estimated organic traffic, ranking keywords, and position distribution. Real Google data. Free preview — no signup."
+  trustCount=""
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="tc-form" novalidate>
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="tc-domain">Domain <span class="text-red-500">*</span></label>
+          <div class="flex gap-2">
+            <input type="text" id="tc-domain" required placeholder="e.g., example.com"
+              class="flex-1 rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            <button id="tc-check-btn" type="submit" class="shrink-0 rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+              Check Traffic
+            </button>
+          </div>
+          <p class="mt-1.5 text-[11px] text-[#79716b]">Enter any domain — competitor, partner, or your own. No verification needed.</p>
+          <p id="tc-form-error" class="mt-2 hidden text-xs text-red-500"></p>
+        </div>
+      </form>
+    </div>
+
+    <div id="tc-loading" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+      <div class="flex items-center gap-3">
+        <span><svg class="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4f39f6" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="#4f39f6" stroke-width="3" stroke-linecap="round"/></svg></span>
+        <span data-step class="font-sans text-[14px] text-[#57534e]">Fetching domain data from Google...</span>
+      </div>
+      <p class="mt-2 font-mono text-[11px] text-[#79716b]">First check: 8-12 seconds. Cached results return instantly.</p>
+    </div>
+
+    <div id="tc-error" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-5 flex items-start gap-3">
+      <svg class="mt-0.5 shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      <div>
+        <p class="text-[15px] text-red-700 font-semibold">Couldn't fetch traffic data</p>
+        <p class="tc-error-msg mt-1 text-[13px] text-red-600">Check the domain and try again. Very new sites or sites with no search presence may not have data.</p>
+      </div>
+    </div>
+
+    <div id="tc-results" class="mt-6 hidden"></div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="tc-cta" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">Want traffic data on autopilot?</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Track competitors, monitor keyword movements, and get alerts when rankings shift — all without manual checks. Starting at $99/mo.</p>
+        <a href="/demo/?source=traffic-checker-results" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start your $1 trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days &middot; Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / SPEAKABLE -->
+    <div class="speakable mb-8 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-5">
+      <p class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#4f39f6] mb-2">Summary &middot; Last updated {lastUpdated}</p>
+      <p class="font-sans text-[16px] leading-[1.8] text-[#292524]">
+        The Free Website Traffic Checker estimates any domain's organic search traffic, total ranking keywords, position distribution, and top keywords in seconds. Data comes from a live Google search database updated weekly. The free preview shows: estimated monthly visits, keyword count, traffic value, a position distribution chart (top 3, 4-10, 11-20, 21-50, 51-100), keyword movement (new/gained/dropped/lost), and the top 5 ranking keywords with position and volume. Unlock the full report for 20+ keywords with difficulty scores, CPC data, a difficulty breakdown chart, and top-performing pages. No signup for the preview. 5 checks per day per IP. Best for competitor research, SEO benchmarking, client prospecting, and content planning.
+      </p>
+    </div>
+
+    <!-- How it works -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mb-3">How the traffic checker works</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><span class="font-mono text-[14px] font-bold text-[#4f39f6]">1</span></div>
+        <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524]">Enter any domain</p>
+        <p class="mt-1 font-sans text-[13px] text-[#57534e] leading-[1.6]">Type a competitor, partner, or your own domain. No verification needed — we query public search databases.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><span class="font-mono text-[14px] font-bold text-[#4f39f6]">2</span></div>
+        <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524]">Get live data in seconds</p>
+        <p class="mt-1 font-sans text-[13px] text-[#57534e] leading-[1.6]">We pull estimated traffic, keyword counts, position distribution, and movement trends from a database tracking billions of keywords.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><span class="font-mono text-[14px] font-bold text-[#4f39f6]">3</span></div>
+        <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524]">Unlock the full report</p>
+        <p class="mt-1 font-sans text-[13px] text-[#57534e] leading-[1.6]">See all 20+ keywords with KD and CPC, a difficulty breakdown chart, your top pages, and export everything to CSV.</p>
+      </div>
+    </div>
+
+    <!-- Stat block -->
+    <div class="mb-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">Live</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Google keyword database</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">20+</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Keywords in full report</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">8s</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Average check time</p>
+      </div>
+    </div>
+
+    <!-- What you get -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mb-3">What the free preview shows</h2>
+    <ul class="list-disc pl-5 mb-6 space-y-2 text-[16px] text-[#57534e] leading-[1.75]">
+      <li><strong class="text-[#292524]">Estimated monthly organic visits</strong> — calculated from keyword rankings &times; search volume &times; position CTR curves</li>
+      <li><strong class="text-[#292524]">Total organic keywords</strong> — how many unique search terms the domain ranks for in the top 100</li>
+      <li><strong class="text-[#292524]">Traffic value</strong> — what it would cost to buy the same traffic through Google Ads</li>
+      <li><strong class="text-[#292524]">Position distribution chart</strong> — visual breakdown of how many keywords rank in each position band</li>
+      <li><strong class="text-[#292524]">Keyword movement</strong> — new, gained, dropped, and lost keywords since the last database update</li>
+      <li><strong class="text-[#292524]">Top 5 ranking keywords</strong> — the highest-value keywords with current position and monthly search volume</li>
+    </ul>
+
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">What the full report unlocks</h2>
+    <ul class="list-disc pl-5 mb-6 space-y-2 text-[16px] text-[#57534e] leading-[1.75]">
+      <li><strong class="text-[#292524]">Full keyword table (top 20)</strong> — sortable by position, volume, difficulty, or CPC</li>
+      <li><strong class="text-[#292524]">Keyword Difficulty scores</strong> — 0-100 scale estimating how hard it is to rank for each term</li>
+      <li><strong class="text-[#292524]">CPC data</strong> — what advertisers pay per click for each keyword</li>
+      <li><strong class="text-[#292524]">Difficulty breakdown chart</strong> — stacked bar showing easy vs. medium vs. hard keywords</li>
+      <li><strong class="text-[#292524]">Top-performing pages</strong> — which URLs rank for the most keywords and drive the most volume</li>
+      <li><strong class="text-[#292524]">CSV export</strong> — download all keyword data for your own analysis or content planning</li>
+    </ul>
+
+    <!-- Comparison table -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">How this tool compares to Similarweb, Semrush, and SerpDino</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-4">Free traffic checkers fall into two camps: engagement-focused (bounce rate, session duration) or keyword-focused (rankings, difficulty). This tool is keyword-focused because that is what drives traffic — and what you can act on.</p>
+    <div class="overflow-x-auto rounded-xl border border-[#e7e5e4] bg-white mb-6">
+      <table class="w-full text-[14px]">
+        <thead class="bg-[#fafaf9]">
+          <tr>
+            <th class="px-4 py-3 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">Similarweb (free)</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">Semrush</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">SerpDino</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e7e5e4]">
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Free, no signup for preview</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓ Limited</td><td class="px-4 py-2.5 text-[#dc2626]">$140/mo</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Organic traffic estimate</td><td class="px-4 py-2.5 text-[#16a34a]">✓ Live</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Ranking keywords with positions</td><td class="px-4 py-2.5 text-[#292524] font-semibold">✓ Top 5 free, 20+ gated</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Keyword Difficulty scores</td><td class="px-4 py-2.5 text-[#292524] font-semibold">✓ Full report</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">CPC data per keyword</td><td class="px-4 py-2.5 text-[#292524] font-semibold">✓ Full report</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Position distribution chart</td><td class="px-4 py-2.5 text-[#292524] font-semibold">✓ Free</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#79716b]">Partial</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Keyword movement (new/up/down/lost)</td><td class="px-4 py-2.5 text-[#292524] font-semibold">✓ Free</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Top-performing pages</td><td class="px-4 py-2.5 text-[#292524] font-semibold">✓ Full report</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">CSV export</td><td class="px-4 py-2.5 text-[#292524] font-semibold">✓ Full report</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Bounce rate, session duration</td><td class="px-4 py-2.5 text-[#79716b]">Not shown</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- When to use -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">When to use this traffic checker</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Competitor research</p>
+        <p class="mt-1 text-[13px] text-[#57534e] leading-[1.6]">See which keywords drive your competitors' traffic and how hard those keywords are to rank for. Spot gaps they are not covering.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Client prospecting</p>
+        <p class="mt-1 text-[13px] text-[#57534e] leading-[1.6]">Audit a prospect's domain before a sales call. Know their traffic, keyword gaps, and opportunities before you pitch.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Content planning</p>
+        <p class="mt-1 text-[13px] text-[#57534e] leading-[1.6]">Export competitor keywords to CSV and build a content calendar around the easy-to-rank terms they are already winning with.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Benchmarking</p>
+        <p class="mt-1 text-[13px] text-[#57534e] leading-[1.6]">Track your own domain monthly to see if your SEO efforts are moving the needle on traffic and keyword count.</p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently asked questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      {faqs.map((faq, idx) => (
+        <div class:list={[idx < faqs.length - 1 && 'border-b border-[#f3f4f6]']}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[16px] font-semibold text-[#111827]">{faq.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[15px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More free SEO tools</h2>
+        <p class="mt-1 font-sans text-[13px] text-[#79716b]">Use these to dig deeper into the traffic data you just uncovered.</p>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <a href="/tools/website-seo-score/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Website SEO Score</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">8-dimension SEO score with DR + traffic</p>
+          </a>
+          <a href="/tools/on-page-seo-checker/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">On-Page SEO Checker</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">15-point page-level analysis vs SERP top 10</p>
+          </a>
+          <a href="/tools/seo-audit/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Free SEO Audit</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Whole-site audit across 50+ checks</p>
+          </a>
+          <a href="/tools/serp-checker/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SERP Checker</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Check where you rank for any keyword</p>
+          </a>
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score titles on 8 dimensions</p>
+          </a>
+          <a href="/tools/ai-humanizer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">AI Humanizer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Make AI text sound human-written</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script is:inline src="/js/website-traffic-checker-engine.js"></script>
+  </Fragment>
+</ToolLayout>

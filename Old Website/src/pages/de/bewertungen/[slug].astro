@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/de/HeaderDe.astro';
+import Footer from '../../../components/de/FooterDe.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE_URL, organizationSchema, publisherRef, authorRef, websiteSchema, buildBreadcrumbs, buildSpeakable, resolveImage } from '../../../utils/schema';
+
+export async function getStaticPaths() {
+  const langReviews = await getCollection('reviews_de');
+  return langReviews.map((review) => ({
+    params: { slug: review.data.slug },
+    props: { review },
+  }));
+}
+
+const { review } = Astro.props;
+const { Content } = await render(review);
+
+const wordCount = (review.body ?? '').split(/\s+/).filter(Boolean).length;
+const readTime = Math.max(1, Math.round(wordCount / 200));
+
+const productName = review.data.title.split(' Review')[0].split(':')[0].trim();
+
+const deUrl = `${SITE_URL}/de/bewertungen/${review.data.slug}/`;
+const enUrl = `${SITE_URL}/reviews/${review.data.slug}/`;
+
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Review',
+      '@id': `${deUrl}#review`,
+      itemReviewed: { '@type': 'SoftwareApplication', name: productName, applicationCategory: 'BusinessApplication' },
+      reviewBody: review.data.description,
+      author: authorRef,
+      publisher: publisherRef,
+      datePublished: review.data.date,
+      url: deUrl,
+    },
+    {
+      '@type': 'Article',
+      '@id': `${deUrl}#article`,
+      headline: review.data.title,
+      description: review.data.description,
+      url: deUrl,
+      datePublished: review.data.date,
+      dateModified: review.data.date,
+      author: authorRef,
+      publisher: publisherRef,
+      image: resolveImage(review.data.image),
+      mainEntityOfPage: { '@type': 'WebPage', '@id': deUrl },
+      articleSection: 'Software-Rezensionen',
+      inLanguage: 'de',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      speakable: buildSpeakable(['.review-content > p:first-of-type', 'h1']),
+    },
+    buildBreadcrumbs(deUrl, [
+      { name: 'Home', url: `${SITE_URL}/de/` },
+      { name: 'Rezensionen', url: `${SITE_URL}/de/bewertungen/` },
+      { name: review.data.title, url: deUrl },
+    ]),
+    organizationSchema,
+    websiteSchema,
+  ],
+};
+---
+
+<BaseLayout
+  title={review.data.title}
+  description={review.data.description}
+  ogImage={review.data.image}
+  lang="de"
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <div id="reading-progress" class="pointer-events-none fixed left-0 top-0 z-[200] h-[3px]" style="width:0%;background:linear-gradient(to right,#4f39f6,#818cf8);transition:width 80ms linear;"></div>
+
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+    <article>
+
+      <!-- Hero (dark) -->
+      <div class="relative overflow-hidden" style="background:#0d1117;">
+        <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+        <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.35) 0%, transparent 60%);"></div>
+        <div class="relative z-10 mx-auto max-w-[1320px] px-6 pt-8 pb-10">
+          <div class="max-w-[820px]">
+
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5" aria-label="Breadcrumb">
+                <a href="/de/bewertungen/" class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6b7280] transition-colors hover:text-[#818cf8]">Rezensionen</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#818cf8]">Testbericht</span>
+              </nav>
+
+              <div class="mt-3.5 flex flex-wrap items-center gap-2">
+                <span class="rounded-md px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[#818cf8]" style="background:rgba(79,57,246,0.15);">Rezension</span>
+                <span class="flex items-center gap-1.5 font-mono text-[11px] text-[#6b7280]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {readTime} Min. Lesezeit
+                </span>
+              </div>
+
+              <h1 class="mt-4 font-sans text-[26px] leading-[34px] md:text-[34px] md:leading-[42px] lg:text-[40px] lg:leading-[50px] font-bold tracking-[-0.02em] text-white">
+                {review.data.title}
+              </h1>
+              <p class="mt-4 font-sans text-[16px] leading-[26px] text-[#9ca3af] max-w-xl">{review.data.description}</p>
+              <p class="mt-4 font-mono text-sm uppercase text-[#4b5563]">{review.data.author} &bull; {review.data.date}</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Content + Sidebar -->
+      <div class="mx-auto max-w-[1320px] px-6 py-12">
+        <div class="flex flex-col gap-10 lg:flex-row lg:gap-12">
+
+          <div class="min-w-0 flex-1">
+            <div class="review-content overflow-x-hidden">
+              <Content />
+            </div>
+
+            <!-- ░░ CTA Box (below content) ░░ -->
+            <div class="mt-10 overflow-hidden rounded-2xl" style="background:#0d1117;border:1px solid rgba(79,57,246,0.25);">
+              <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.4) 0%, transparent 65%);"></div>
+              <div class="relative z-10 px-6 py-10 text-center">
+                <p class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#818cf8]">theStacc</p>
+                <h3 class="mt-3 font-sans text-[22px] font-bold leading-[1.25] tracking-[-0.02em] text-white md:text-[24px]">Recherche überspringen. Traffic gewinnen.</h3>
+                <p class="mx-auto mt-3 max-w-[440px] font-sans text-[14px] leading-[1.65] text-[#94a3b8]">30 Blogartikel, 30 GBP-Posts und Social-Media-Content. Jeden Monat veröffentlicht. Automatisch.</p>
+                <a href="/de/demo/" class="mt-6 inline-flex h-[44px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-7 font-mono text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">
+                  Für $1 starten
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+                <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#4b5563]">$1 für 30 Tage · Jederzeit kündbar</p>
+              </div>
+            </div>
+
+            <!-- ░░ Author Box ░░ -->
+            <div class="mt-8 flex items-start gap-5 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+              <img src="/images/siddharth-gangal.webp" alt="Siddharth Gangal" width="80" height="80" class="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-white" loading="lazy" />
+              <div class="min-w-0">
+                <p class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Verfasst von</p>
+                <a href="/author/siddharth-gangal/" class="mt-0.5 block font-sans text-[15px] font-bold text-[#111827] transition-colors hover:text-[#4f39f6]">Siddharth Gangal</a>
+                <p class="mt-1.5 font-sans text-[13px] leading-[1.65] text-[#57534e]">Siddharth ist Gründer von theStacc und Arka360 und Absolvent des IIT Mandi. Er schreibt über SEO, Content im großen Maßstab und die Taktiken, die Rankings tatsächlich bewegen.</p>
+              </div>
+            </div>
+          </div>
+
+          <aside class="w-full lg:w-[280px] shrink-0 space-y-6">
+            <div class="sticky top-20 space-y-5">
+              <div class="rounded-xl border border-[#e7e5e4] bg-white p-5 shadow-sm">
+                <p class="font-sans text-[14px] font-semibold text-[#292524]">Suchen Sie nach einer Alternative?</p>
+                <p class="mt-1.5 font-sans text-[13px] leading-[1.6] text-[#57534e]">theStacc bietet alle Kernfunktionen — automatisiert, skalierbar und mit White-Label-Option.</p>
+                <ul class="mt-3 space-y-1.5">
+                  {['Lokales SEO', 'GBP-Automatisierung', 'White-Label', 'Agentur-Ready'].map(f => (
+                    <li class="flex items-center gap-2 font-sans text-[12px] text-[#57534e]">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <a href="/de/demo/" class="mt-4 flex h-9 items-center justify-center rounded-lg bg-[#4f39f6] font-sans text-[13px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">Demo buchen</a>
+              </div>
+
+              <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+                <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-[#79716b]">Redaktioneller Hinweis</p>
+                <p class="mt-1.5 font-sans text-[12px] leading-[1.6] text-[#79716b]">Diese Rezension wurde unabhängig erstellt. theStacc kann als empfohlene Alternative erwähnt werden.</p>
+              </div>
+
+              <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+                <p class="font-sans text-[12px] text-[#79716b]">Auf Englisch lesen:</p>
+                <a href={enUrl} class="mt-1 block font-sans text-[13px] font-medium text-[#4f39f6] hover:underline">Zum englischen Artikel →</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const bar = document.getElementById('reading-progress');
+  if (bar) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = docHeight > 0 ? `${(scrollTop / docHeight) * 100}%` : '0%';
+    }, { passive: true });
+  }
+
+  // ░░ TABLE WRAPPING (horizontal scroll on overflow) ░░
+  document.querySelectorAll('.review-content table').forEach((table) => {
+    if (table.parentElement?.classList.contains('table-scroll-wrapper')) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-scroll-wrapper';
+    table.parentNode?.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+    const colCount = table.querySelectorAll('thead th, thead td').length || table.querySelector('tr')?.children.length || 0;
+    if (colCount >= 6) { (table as HTMLElement).style.minWidth = '600px'; }
+    else if (colCount >= 4) { (table as HTMLElement).style.minWidth = '480px'; }
+  });
+</script>

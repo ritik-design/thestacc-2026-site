@@ -1,0 +1,614 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "O que é software de gestão de avaliações?",
+    a: "Software de gestão de avaliações monitora as avaliações do seu negócio em plataformas como Google, Facebook e Yelp — alertando você instantaneamente quando novas avaliações aparecem, acompanhando as tendências de nota ao longo do tempo e ajudando você a responder mais rápido. O Stacc centraliza todas as avaliações em um único painel para que você nunca perca nenhuma.",
+  },
+  {
+    q: "Como o Stacc monitora as avaliações?",
+    a: "O Stacc se conecta diretamente ao seu Google Business Profile, página do Facebook e listagem do Yelp. Quando uma nova avaliação é postada em qualquer plataforma, o Stacc a detecta em minutos e envia um alerta imediato. Você vê a avaliação no seu painel central sem precisar fazer login em cada plataforma separadamente.",
+  },
+  {
+    q: "O Stacc pode me ajudar a conseguir mais avaliações?",
+    a: "Sim. O Stacc inclui automação de solicitação de avaliações — você pode configurar sequências de acompanhamento automatizadas que pedem a clientes satisfeitos que deixem uma avaliação. O timing e as mensagens são personalizáveis. Negócios que usam o recurso de solicitação de avaliações do Stacc têm, em média, 0,4 estrelas a mais na nota em 90 dias.",
+  },
+  {
+    q: "Qual a importância das avaliações para o posicionamento no SEO local?",
+    a: "As avaliações são o 2º fator de posicionamento para o pacote local do Google — ficando atrás apenas da relevância do GBP. Quantidade, recência e nota média das avaliações influenciam diretamente onde você aparece no Maps e nos resultados de pesquisa local. Um negócio com 200 avaliações recentes de 4,8 estrelas consistentemente supera um com 20 avaliações mais antigas.",
+  },
+  {
+    q: "O Stacc funciona para negócios com várias unidades?",
+    a: "Sim. Cada unidade tem seu próprio painel de monitoramento de avaliações. Você pode ver avaliações por unidade, comparar notas entre unidades e receber alertas específicos para cada uma. Para franquias e negócios com múltiplas unidades, isso é essencial — você sabe o que está acontecendo em cada local sem precisar fazer login separadamente.",
+  },
+  {
+    q: "Com que rapidez o Stacc me alerta sobre avaliações negativas?",
+    a: "O Stacc detecta novas avaliações em minutos após a publicação e envia um alerta imediato. Para avaliações negativas (abaixo do limite de nota configurado), você pode definir alertas prioritários via e-mail ou SMS para ser sempre o primeiro a saber — não o último.",
+  },
+  {
+    q: "Agências podem usar o Stacc para gerenciar avaliações de clientes?",
+    a: "Sim. Agências gerenciam todos os perfis de avaliações dos clientes em um único painel. Os dados de avaliações são incluídos nos relatórios mensais white-label do Stacc — entregues com a sua marca automaticamente. Seus clientes recebem um relatório de avaliações profissional. Você não gasta tempo nenhum construindo-o.",
+  },
+  {
+    q: "O Stacc rastreia tendências de avaliações ao longo do tempo?",
+    a: "Sim. O Stacc rastreia o histórico de notas, a velocidade das avaliações e a taxa de resposta ao longo do tempo. Você pode ver se sua reputação está melhorando ou piorando, com que rapidez está respondendo às avaliações e como o volume de avaliações se compara a períodos anteriores — tudo em um único painel.",
+  },
+  {
+    q: "Quais plataformas o Stacc monitora para avaliações?",
+    a: "O Stacc monitora Google Business Profile, Facebook e Yelp — cobrindo a grande maioria das avaliações locais que influenciam os posicionamentos de pesquisa local. Diretórios específicos do setor também são suportados para categorias de negócios relevantes.",
+  },
+  {
+    q: "Quanto custa a gestão de avaliações com o Stacc?",
+    a: "O monitoramento de avaliações está incluído no módulo de SEO Local por $49/mês. Você também obtém rastreamento de posicionamento, gerenciamento de citações, publicação no GBP e relatórios automatizados — tudo pelo mesmo $49. Sem taxas por plataforma, sem cobranças adicionais por unidade.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Software de Gestão de Avaliações",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "pt-BR",
+      "description": "Monitore avaliações no Google, Facebook e Yelp em um único painel. Receba alertas instantâneos, responda mais rápido e acompanhe tendências de reputação automaticamente.",
+      "offers": {
+        "@type": "Offer",
+        "price": "49",
+        "priceCurrency": "USD",
+        "description": "Módulo de SEO Local incluindo gestão de avaliações — teste grátis de 14 dias"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://thestacc.com/pt-br/" },
+        { "@type": "ListItem", "position": 2, "name": "Software de Gestão de Avaliações", "item": "https://thestacc.com/pt-br/software-gestao-avaliacoes/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "pt-BR",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Software de Gestão de Avaliações para SEO Local | theStacc"
+  description="Monitore avaliações no Google, Facebook e Yelp em um único painel. Receba alertas instantâneos, responda mais rápido e acompanhe tendências de reputação automaticamente."
+  lang="pt-BR"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[800px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Software de Gestão de Avaliações · A partir de $49/mês</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Pare de descobrir avaliações negativas<br />
+            <span style="color:#4f39f6;">pelo cliente que já foi embora.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[600px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            As avaliações são o 2º fator de posicionamento local. A maioria dos negócios descobre as negativas dias depois. O Stacc monitora Google, Facebook e Yelp em tempo real — um painel, alertas instantâneos, zero verificação manual.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/pt-br/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Comece a monitorar avaliações grátis
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pt-br/precos/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              Ver preços
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            Teste grátis de 14 dias · Sem cartão de crédito · Cancele quando quiser
+          </p>
+
+          <div class="mx-auto mt-10 inline-flex flex-wrap items-center justify-center gap-6 rounded-2xl border border-[#e7e5e4] bg-white px-8 py-4">
+            <span class="font-mono text-[11px] text-[#79716b]">Google, Facebook, Yelp monitorados</span>
+            <div class="h-4 w-px bg-[#f5f3ff]"></div>
+            <span class="font-mono text-[11px] text-[#79716b]">Alertas em minutos</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PAIN NARRATIVE ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">O problema de avaliações que a maioria dos negócios ignora</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Você não está respondendo avaliações.<br />Está reagindo a elas — dias depois.
+          </h2>
+          <div class="mt-6 space-y-5 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            <p>
+              Você é a pessoa que faz login no Google Business Profile uma vez por semana — talvez uma vez por mês — e descobre uma avaliação de 2 estrelas de três dias atrás que você não sabia que estava lá. Quando você responde, o cliente já foi embora. O estrago está feito. As próximas 20 pessoas que pesquisaram pelo seu negócio viram aquela avaliação sem resposta, sinalizando que você não se importa.
+            </p>
+            <p>
+              As avaliações são o 2º fator de posicionamento para o pacote local. Quantidade, recência, velocidade e sua taxa de resposta alimentam diretamente onde o Google te coloca nos resultados do Maps. Os negócios que dominam a pesquisa local não estão apenas conseguindo mais avaliações — estão respondendo a elas em horas, o que sinaliza engajamento ao Google e confiança para potenciais clientes.
+            </p>
+            <p>
+              A matemática é simples. Um negócio que responde avaliações em 2 horas parece um negócio que está prestando atenção. Um que responde em 3 dias — se é que responde — parece um que não está. Sua reputação está sendo decidida agora mesmo em avaliações que você ainda não leu. O Stacc garante que você seja sempre o primeiro a saber.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PLATFORM OVERVIEW ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">O que o Stacc faz pelas avaliações</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Monitorar. Alertar. Rastrear. Reportar.<br />Um painel para todas as plataformas.
+          </h2>
+        </div>
+        <div class="mx-auto mt-12 grid max-w-4xl grid-cols-1 gap-5 md:grid-cols-3">
+          {[
+            {
+              title: 'Monitoramento em Tempo Real',
+              icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9',
+              features: ['Google, Facebook, Yelp monitorados', 'Alertas em minutos após a publicação', 'Alertas prioritários para avaliações negativas', 'Monitoramento multi-unidade em uma visão'],
+              href: '/modulos/seo-local/',
+            },
+            {
+              title: 'Rastreamento de Reputação',
+              icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+              features: ['Histórico de tendência de notas', 'Rastreamento de velocidade de avaliações', 'Medição de taxa de resposta', 'Comparativo de notas com concorrentes'],
+              href: '/pt-br/funcionalidades/rastreamento-posicao/',
+            },
+            {
+              title: 'Relatórios Automatizados',
+              icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+              features: ['Relatório mensal de avaliações incluído', 'Entrega white-label para agências', 'Tendências de notas nos relatórios do cliente', 'Zero construção manual de relatórios'],
+              href: '/pt-br/solucoes/agencias/',
+            },
+          ].map(m => (
+            <a href={m.href} class="group rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-7 transition-all hover:border-[#c7c0fc] hover:bg-white hover:shadow-[0_4px_24px_rgba(79,57,246,0.08)]">
+              <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={m.icon}/></svg>
+              </div>
+              <p class="font-sans text-[16px] font-semibold text-[#111827]">{m.title}</p>
+              <ul class="mt-4 space-y-2">
+                {m.features.map(f => (
+                  <li class="flex items-start gap-2">
+                    <svg class="mt-0.5 shrink-0" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                    <span class="font-sans text-[13px] text-[#57534e]">{f}</span>
+                  </li>
+                ))}
+              </ul>
+              <div class="mt-5 flex items-center gap-2">
+                <span class="font-mono text-[12px] font-semibold text-[#4f39f6]">Saiba mais</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FEATURE SHOWCASE ─── -->
+    <section id="features" class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center mb-14">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Como o Stacc gerencia avaliações</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Toda avaliação vista. Toda tendência rastreada.<br />Todo relatório de cliente automatizado.
+          </h2>
+        </div>
+
+        <div class="mx-auto max-w-6xl space-y-16">
+
+          <!-- Alert -->
+          <div class="grid grid-cols-1 items-center gap-14 md:grid-cols-2 md:gap-20">
+            <div>
+              <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Alertas Instantâneos de Avaliações</span>
+              <h3 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827]">
+                Saiba sobre cada avaliação em minutos — não em dias.
+              </h3>
+              <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+                O Stacc monitora seus perfis no Google, Facebook e Yelp continuamente. No momento em que uma nova avaliação aparece, você recebe um alerta. Para avaliações negativas abaixo do seu limite de nota, você recebe um alerta prioritário — por e-mail ou SMS — para que possa responder antes que a situação se agrave. Negócios que usam o Stacc respondem 73% mais rápido em média do que os que verificam manualmente.
+              </p>
+              <a href="/modulos/seo-local/" class="mt-6 inline-flex items-center gap-2 font-mono text-[12px] font-semibold text-[#4f39f6] hover:underline">
+                Ver o módulo de SEO Local
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-8 shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524] mb-4">Alertas recentes de avaliações</p>
+              {[
+                { platform: 'Google', rating: '⭐⭐⭐⭐⭐', preview: '"Serviço incrível, recomendo muito"', time: 'há 12 min', type: 'positive' },
+                { platform: 'Yelp', rating: '⭐⭐', preview: '"O tempo de espera foi longo demais"', time: 'há 2 hrs', type: 'negative' },
+                { platform: 'Facebook', rating: '⭐⭐⭐⭐⭐', preview: '"O melhor da cidade, voltarei com certeza"', time: 'há 5 hrs', type: 'positive' },
+              ].map(r => (
+                <div class={`rounded-xl p-3 mb-3 border ${r.type === 'negative' ? 'border-[#fecaca] bg-[#fef2f2]' : 'border-[#e7e5e4] bg-[#fafaf9]'}`}>
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="font-mono text-[11px] font-semibold text-[#374151]">{r.platform}</span>
+                    <span class="font-mono text-[10px] text-[#79716b]">{r.time}</span>
+                  </div>
+                  <p class="font-sans text-[11px] text-[#57534e]">{r.rating} {r.preview}</p>
+                  {r.type === 'negative' && <p class="mt-1 font-mono text-[10px] font-semibold text-[#dc2626]">⚠ Alerta prioritário enviado</p>}
+                </div>
+              ))}
+              <p class="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#79716b]">Todas as plataformas · Monitoramento em tempo real</p>
+            </div>
+          </div>
+
+          <!-- Tracking -->
+          <div class="grid grid-cols-1 items-center gap-14 md:grid-cols-2 md:gap-20">
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-8 shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524] mb-4">Pontuação de reputação — 90 dias</p>
+              <div class="flex items-end gap-1 h-24 mb-4">
+                {[3.8, 3.9, 4.0, 4.1, 4.0, 4.1, 4.2, 4.3, 4.4, 4.4, 4.5, 4.6].map((v, i) => (
+                  <div class="flex-1 rounded-t" style={`height:${((v-3.5)/1.5)*100}%;background:${i >= 9 ? '#4f39f6' : '#e7e5e4'}`}></div>
+                ))}
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="font-sans text-[13px] text-[#57534e]">90 dias atrás: 3,8 ★</span>
+                <span class="font-sans text-[13px] font-semibold text-[#4f39f6]">Hoje: 4,6 ★</span>
+              </div>
+              <p class="mt-3 font-mono text-[10px] uppercase tracking-[0.12em] text-[#79716b]">+0,8 estrelas em 90 dias · Google Business Profile</p>
+            </div>
+            <div>
+              <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Rastreamento de Tendência de Notas</span>
+              <h3 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827]">
+                Veja se sua reputação está melhorando ou piorando — automaticamente.
+              </h3>
+              <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+                O Stacc rastreia sua nota, contagem de avaliações e taxa de resposta ao longo do tempo em todas as plataformas. Você pode ver de relance se está em tendência de alta ou baixa, quais plataformas precisam de atenção e com que rapidez sua equipe está respondendo. Para agências, esses dados se consolidam automaticamente nos relatórios dos clientes — mostrando o valor que você está entregando sem montar um único slide.
+              </p>
+              <a href="/pt-br/funcionalidades/rastreamento-posicao/" class="mt-6 inline-flex items-center gap-2 font-mono text-[12px] font-semibold text-[#4f39f6] hover:underline">
+                Ver todos os recursos de rastreamento
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Reporting -->
+          <div class="grid grid-cols-1 items-center gap-14 md:grid-cols-2 md:gap-20">
+            <div>
+              <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Relatórios de Avaliações para Agências</span>
+              <h3 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827]">
+                Dados de avaliações nos relatórios dos seus clientes. Entregues automaticamente. Com a sua marca.
+              </h3>
+              <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+                Os relatórios mensais white-label do Stacc incluem dados de avaliações automaticamente — novas avaliações recebidas, tendências de notas, taxa de resposta e distribuição por plataforma. Seus clientes veem exatamente como a reputação deles está se saindo sem você gastar tempo com isso. Configure o template uma vez. Os relatórios se entregam sozinhos todo mês, com a sua marca.
+              </p>
+              <a href="/pt-br/solucoes/agencias/" class="mt-6 inline-flex items-center gap-2 font-mono text-[12px] font-semibold text-[#4f39f6] hover:underline">
+                Ver Stacc para agências
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-8 shadow-[0_8px_40px_rgba(0,0,0,0.06)]">
+              <div class="flex items-center gap-3 mb-5">
+                <div class="h-8 w-8 rounded-lg bg-[#4f39f6] flex items-center justify-center">
+                  <span class="font-mono text-[10px] font-bold text-white">A</span>
+                </div>
+                <div>
+                  <p class="font-sans text-[13px] font-semibold text-[#111827]">Sua Agência</p>
+                  <p class="font-mono text-[10px] text-[#79716b]">Relatório Mensal de Reputação</p>
+                </div>
+                <span class="ml-auto font-mono text-[10px] font-semibold text-[#059669]">✓ Enviado</span>
+              </div>
+              {[
+                { label: 'Novas avaliações este mês', val: '14 avaliações' },
+                { label: 'Nota média', val: '4,6 ★ (+0,2)' },
+                { label: 'Taxa de resposta', val: '94%' },
+                { label: 'Plataformas monitoradas', val: 'Google · Facebook · Yelp' },
+              ].map(row => (
+                <div class="flex items-center justify-between border-t border-[#f5f3ff] py-3">
+                  <span class="font-sans text-[13px] text-[#57534e]">{row.label}</span>
+                  <span class="font-sans text-[13px] font-semibold text-[#111827]">{row.val}</span>
+                </div>
+              ))}
+              <p class="mt-3 font-mono text-[10px] uppercase tracking-[0.12em] text-[#79716b]">Gerado automaticamente · Entregue com a sua marca</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── METRICS ─── -->
+    <section class="border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Resultados da gestão de avaliações</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2.4rem]">
+            O que o monitoramento de avaliações<br />em tempo real faz pelo seu negócio.
+          </h2>
+        </div>
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px overflow-hidden rounded-2xl bg-white/5 md:grid-cols-3" style="border:1px solid rgba(255,255,255,0.08);">
+          {[
+            { value: '73%', num: 73, prefix: '', suffix: '%', decimals: 0, from: 0, label: 'Mais rápido no tempo de resposta', sub: 'vs. negócios que verificam manualmente uma vez por semana' },
+            { value: '0,4★', num: 0.4, prefix: '', suffix: '★', decimals: 1, from: 0, label: 'Melhoria média na nota', sub: 'em 90 dias usando a gestão de avaliações do Stacc' },
+            { value: '4,2hrs', num: 4.2, prefix: '', suffix: 'hrs', decimals: 1, from: 0, label: 'Economizadas por semana por unidade', sub: 'em verificação manual de avaliações em plataformas' },
+          ].map(s => (
+            <div class="flex flex-col items-center justify-center px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+              <p class="font-sans text-[3rem] font-semibold tracking-[-0.04em] text-[#292524]"
+                 data-count-up data-target={s.num} data-from={s.from} data-prefix={s.prefix} data-suffix={s.suffix} data-decimals={s.decimals}>{s.value}</p>
+              <p class="mt-2 font-sans text-[14px] font-semibold text-[#292524]/70">{s.label}</p>
+              <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.12em]" style="color:#4b5563;">{s.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIALS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center mb-10">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">O que os clientes dizem</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Resultados reais de negócios que usam o Stacc<br />para gestão de avaliações.
+          </h2>
+        </div>
+        <div class="mx-auto max-w-5xl grid grid-cols-1 gap-5 md:grid-cols-2">
+          {[
+            { quote: "Descobri uma avaliação de 1 estrela no Yelp três semanas depois de ter sido postada. Ninguém na minha equipe viu. Perdemos quem sabe quantos leads por causa disso. Agora o Stacc me alerta em minutos. Só isso já vale cada centavo.", name: "Chen W.", role: "Dono de restaurante · 3 unidades", result: "Minutos vs. semanas para responder" },
+            { quote: "Gerenciar avaliações de 18 clientes costumava ser uma tarefa de dia inteiro. Agora o Stacc monitora tudo e eu só cuido das respostas. Os relatórios se escrevem sozinhos. Assumi 6 clientes a mais sem contratar ninguém.", name: "Rachel M.", role: "Agência de marketing digital · 18 clientes", result: "6 clientes a mais, sem nova equipe" },
+            { quote: "Nossa nota no Google foi de 4,1 para 4,6 em três meses. Parte disso é responder mais rápido às avaliações negativas antes que se agravem. O Stacc garante que sempre respondemos em até uma hora.", name: "Tom B.", role: "Dono de empresa de climatização · Phoenix", result: "De 4,1 para 4,6 estrelas em 3 meses" },
+          ].map(t => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-7">
+              <div class="flex gap-1 mb-4">
+                {[1,2,3,4,5].map(() => <svg width="13" height="13" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>)}
+              </div>
+              <blockquote class="font-sans text-[14px] leading-[1.75] text-[#292524]">"{t.quote}"</blockquote>
+              <div class="mt-5 flex items-center gap-3">
+                <div class="h-9 w-9 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                  <span class="font-mono text-[11px] font-bold text-white">{t.name.split(' ').map((n: string) => n[0]).join('')}</span>
+                </div>
+                <div>
+                  <p class="font-sans text-[13px] font-semibold text-[#111827]">{t.name}</p>
+                  <p class="font-mono text-[10px] text-[#79716b]">{t.role}</p>
+                </div>
+                <span class="ml-auto rounded-full bg-[#dcfce7] px-2.5 py-1 font-mono text-[10px] font-semibold text-[#059669] shrink-0 hidden sm:inline-flex">{t.result}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── COMPARISON TABLE ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Como o Stacc se compara</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Verificação manual vs. ferramenta de reputação<br />vs. a abordagem completa do Stacc.
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-5xl overflow-hidden rounded-2xl border border-[#e7e5e4]">
+          <div class="grid grid-cols-3 bg-[#f5f3ff] border-b border-[#e7e5e4]">
+            <div class="px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-[#79716b]"></div>
+            <div class="border-l border-[#e7e5e4] px-6 py-4 text-center font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-[#6b7280]">Manual / Outras Ferramentas</div>
+            <div class="border-l border-[#4f39f6] bg-[#4f39f6] px-6 py-4 text-center font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-white">Stacc</div>
+          </div>
+          {[
+            { label: 'Velocidade do alerta', manual: 'Verificação manual — horas ou dias', stacc: 'Em minutos após a publicação' },
+            { label: 'Plataformas cobertas', manual: '1–2 plataformas manualmente', stacc: 'Google, Facebook, Yelp — todos monitorados' },
+            { label: 'Múltiplas unidades', manual: 'Login em cada uma separadamente', stacc: 'Todas as unidades em um painel' },
+            { label: 'Alertas de avaliações negativas', manual: '❌ Sem alerta prioritário', stacc: '✓ Alerta prioritário via e-mail ou SMS' },
+            { label: 'Relatórios para clientes', manual: 'Exportação e formatação manual', stacc: 'Gerado automaticamente, entregue com white-label' },
+            { label: 'Custo por unidade', manual: '$150–$500/mês por ferramentas de avaliação', stacc: 'Incluído nos $49/mês totais' },
+          ].map((row, i) => (
+            <div class={`grid grid-cols-3 border-t border-[#e7e5e4] ${i % 2 === 0 ? 'bg-white' : 'bg-[#fafaf9]'}`}>
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#374151]">{row.label}</div>
+              <div class="border-l border-[#e7e5e4] px-6 py-4 text-center font-sans text-[13px] text-[#6b7280]">{row.manual}</div>
+              <div class="border-l border-[#c7c0fc] bg-[#f5f3ff] px-6 py-4 text-center font-sans text-[13px] font-semibold text-[#4f39f6]">{row.stacc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PRICING ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Preços</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Gestão de avaliações mais tudo o mais.<br />$49/mês no total.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            O monitoramento de avaliações está incluído no módulo de SEO Local — junto com rastreamento de posicionamento, gestão de citações, publicação no GBP e relatórios automatizados. Um preço para tudo.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-lg rounded-2xl border-2 border-[#4f39f6] bg-white shadow-[0_8px_40px_rgba(79,57,246,0.12)] overflow-hidden">
+          <div class="bg-[#4f39f6] px-8 py-6">
+            <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">Módulo de SEO Local — inclui Avaliações</p>
+            <div class="mt-2 flex items-baseline gap-1">
+              <span class="font-sans text-[3rem] font-bold text-white leading-none">$49</span>
+              <span class="font-sans text-[16px] text-white/60">/mês</span>
+            </div>
+            <p class="mt-2 font-sans text-[14px] text-white/70">Monitoramento de avaliações em todas as principais plataformas. Alertas em tempo real.</p>
+          </div>
+          <div class="px-8 py-7">
+            <ul class="space-y-4">
+              {[
+                'Monitoramento de avaliações — Google, Facebook, Yelp',
+                'Alertas instantâneos — opções de e-mail e SMS',
+                'Alertas prioritários para avaliações negativas',
+                'Rastreamento de tendência e histórico de notas',
+                'Painel de avaliações multi-unidade',
+                'Dados de avaliações nos relatórios mensais automatizados',
+                'Relatórios white-label para clientes de agências',
+                'Rastreamento diário de posição, citações e publicação no GBP incluídos',
+              ].map(item => (
+                <li class="flex items-start gap-3">
+                  <svg class="mt-0.5 shrink-0" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span class="font-sans text-[14px] text-[#374151]">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <div class="mt-8 space-y-3">
+              <a href="/pt-br/demo/" target="_blank" rel="noopener noreferrer"
+                class="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#4f39f6] font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+                Comece a monitorar avaliações grátis
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <div class="flex flex-wrap items-center justify-center gap-4 pt-1">
+                {['Teste grátis de 14 dias', 'Sem cartão de crédito', 'Cancele quando quiser', 'Todas as plataformas incluídas'].map(t => (
+                  <span class="font-mono text-[10px] uppercase tracking-[0.12em] text-[#79716b]">{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 text-center">
+          <a href="/pt-br/precos/" class="font-mono text-[12px] font-semibold text-[#4f39f6] hover:underline">Comparar todos os planos →</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── INTERNAL LINKS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16">
+        <div class="mx-auto max-w-5xl">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6] text-center">Explore mais do Stacc</p>
+          <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            {[
+              { label: 'Software de SEO Local', href: '/local-seo-software/' },
+              { label: 'Construção de Citações', href: '/citation-building-software/' },
+              { label: 'Posicionamento no Google Maps', href: '/pt-br/posicionamento-google-maps/' },
+              { label: 'Relatórios White-Label', href: '/white-label-reporting/' },
+              { label: 'Gestão GBP', href: '/modulos/seo-local/' },
+              { label: 'Rastreamento de Posição', href: '/pt-br/funcionalidades/rastreamento-posicao/' },
+              { label: 'Para Agências', href: '/pt-br/solucoes/agencias/' },
+              { label: 'Preços', href: '/pt-br/precos/' },
+            ].map(l => (
+              <a href={l.href} class="flex items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-4 py-3 text-[13px] font-medium text-[#374151] transition-all hover:border-[#c7c0fc] hover:text-[#4f39f6]">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a8a29e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                {l.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Perguntas Frequentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Tudo que você precisa saber<br />sobre software de gestão de avaliações
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#fafaf9]">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left" aria-expanded={i === 0 ? 'true' : 'false'}>
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Nunca mais perca uma avaliação.</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Sua próxima avaliação de 1 estrela já está postada.<br />Você vai ver a tempo?
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Comece a monitorar todas as avaliações no Google, Facebook e Yelp em tempo real. Receba alertas instantâneos. Responda mais rápido. Veja sua nota melhorar. $49/mês inclui tudo.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/pt-br/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Comece o monitoramento grátis
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pt-br/precos/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5">
+              Ver preços
+            </a>
+          </div>
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">Teste grátis de 14 dias · Sem cartão de crédito · Cancele quando quiser</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

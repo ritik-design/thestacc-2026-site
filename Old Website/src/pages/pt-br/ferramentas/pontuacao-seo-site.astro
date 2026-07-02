@@ -1,0 +1,310 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Verificador de Pontuação SEO do Site Gratuito para Negócios Locais | theStacc';
+const pageDescription = 'Verifique a pontuação SEO do seu site em 6 categorias: on-page, técnico, conteúdo, SEO local, avaliações e prontidão para IA. Desenvolvido para dentistas, encanadores, advogados. Gratuito, resultados instantâneos.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Verificador de Pontuação SEO do Site Gratuito',
+  description: 'Verifique a saúde SEO do seu site em 6 categorias com 30 verificações individuais. Pontuação de SEO on-page, técnico, conteúdo, SEO local, avaliações e prontidão para IA para negócios locais.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'O que é uma pontuação SEO?', acceptedAnswer: { '@type': 'Answer', text: 'Uma pontuação SEO é uma avaliação de 0 a 100 que mede quão bem seu site está otimizado para os mecanismos de busca. Avalia elementos on-page como title tags e meta descrições, fatores técnicos como velocidade de página e HTTPS, qualidade do conteúdo, sinais de SEO local, presença de avaliações e prontidão para IA. Uma pontuação mais alta significa que os mecanismos de busca podem entender e posicionar melhor seu site.' } },
+    { '@type': 'Question', name: 'Qual é uma boa pontuação SEO para um negócio local?', acceptedAnswer: { '@type': 'Answer', text: 'Uma pontuação de 75+ (nota B) é boa para a maioria dos negócios locais. Pontuações acima de 90 (nota A) são excelentes. A maioria dos sites de pequenas empresas obtém entre 30-50 na primeira verificação. O importante não é a perfeição. É corrigir os problemas de maior impacto primeiro, como title tags ausentes, sem schema LocalBusiness ou velocidade de página lenta.' } },
+    { '@type': 'Question', name: 'Como funciona este verificador de SEO?', acceptedAnswer: { '@type': 'Answer', text: 'Esta ferramenta realiza 30 verificações em 6 categorias completamente no seu navegador. Busca o HTML do seu site, consulta a API do Google PageSpeed Insights para dados de desempenho, verifica seus arquivos robots.txt e llms.txt, e analisa sua página em busca de elementos SEO como title tags, schema markup, estrutura de cabeçalhos e mais. Nenhum dado é armazenado em nossos servidores.' } },
+    { '@type': 'Question', name: 'Este verificador de pontuação SEO é gratuito?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, 100% gratuito. Sem cadastro, sem barreira de e-mail, sem limites. Insira sua URL e obtenha um relatório SEO detalhado com recomendações de correção específicas em menos de 15 segundos. Tudo roda no seu navegador.' } },
+    { '@type': 'Question', name: 'O que é prontidão para IA em SEO?', acceptedAnswer: { '@type': 'Answer', text: 'Prontidão para IA mede quão bem preparado está seu site para os mecanismos de busca alimentados por IA como ChatGPT, Perplexity e Google AI Overviews. Verifica dados estruturados, schema FAQ, se seu robots.txt bloqueia os rastreadores de IA, a presença de um arquivo llms.txt e se seu conteúdo está estruturado em um formato de perguntas e respostas que a IA pode extrair facilmente.' } },
+    { '@type': 'Question', name: 'Como posso melhorar minha pontuação SEO?', acceptedAnswer: { '@type': 'Answer', text: 'Comece com as 3 prioridades principais identificadas pela ferramenta. Estas são as correções de maior impacto. Vitórias rápidas comuns incluem adicionar uma meta descrição, corrigir o comprimento do seu title tag, adicionar schema markup LocalBusiness, habilitar HTTPS e criar um arquivo llms.txt. Para melhoria contínua, publique conteúdo de blog regular, mantenha seu Perfil de Negócio no Google ativo e colete avaliações de clientes.' } },
+  ],
+};
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Verificador de Pontuação SEO do Site Gratuito"
+  toolDescription="Obtenha sua pontuação SEO em 6 categorias. On-page, técnico, conteúdo, SEO local, avaliações e prontidão para IA. Resultados em linguagem simples. Sem cadastro."
+  lang="pt-BR"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <!-- URL Input -->
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">URL do Site</label>
+      <div class="flex gap-3">
+        <input
+          type="url"
+          id="url-input"
+          required
+          placeholder="ex., familiadental.com.br"
+          class="flex-1 rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+        />
+        <button
+          id="check-btn"
+          class="shrink-0 rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors"
+        >
+          Verificar Pontuação
+        </button>
+      </div>
+
+      <!-- Optional fields -->
+      <details class="mt-4">
+        <summary class="cursor-pointer text-[13px] font-medium text-[#615fff]">+ Adicionar nome do negócio e cidade para a pontuação de SEO local</summary>
+        <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <input type="text" id="biz-name" maxlength="100" placeholder="ex., Dental Família Garcia" class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <input type="text" id="city-input" maxlength="60" placeholder="ex., São Paulo, Brasil" class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+      </details>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading-section" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+      <div class="space-y-3">
+        <div class="flex items-center gap-3 step" data-step="fetch">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Buscando seu site&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="onpage">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Analisando SEO on-page&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="technical">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Verificando saúde técnica&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="content">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Avaliando sinais de conteúdo&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="local">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Pontuando SEO local&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="ai">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Verificando prontidão para IA&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="scoring">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Calculando pontuação final&hellip;</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-section" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+      <svg class="mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      <p class="text-[15px] text-red-700 font-medium">Algo deu errado</p>
+      <p class="mt-1 text-[13px] text-red-600">Verifique a URL e tente novamente. Certifique-se de que o site seja publicamente acessível.</p>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results-section" class="mt-6 hidden space-y-6">
+      <!-- Score Gauge -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8 flex flex-col md:flex-row items-center gap-8">
+        <div class="flex flex-col items-center shrink-0">
+          <svg viewBox="0 0 200 200" class="w-48 h-48" id="score-gauge">
+            <circle cx="100" cy="100" r="85" fill="none" stroke="#e7e5e4" stroke-width="12"/>
+            <circle cx="100" cy="100" r="85" fill="none" stroke="#22C55E" stroke-width="12" stroke-linecap="round"
+              stroke-dasharray="534" stroke-dashoffset="534" transform="rotate(-90 100 100)"
+              id="gauge-arc" style="transition:stroke-dashoffset 1.5s ease-out,stroke 0.3s"/>
+            <text x="100" y="90" text-anchor="middle" font-size="48" font-weight="bold" fill="#292524" id="gauge-score">0</text>
+            <text x="100" y="115" text-anchor="middle" font-size="14" fill="#79716b">/100</text>
+            <text x="100" y="140" text-anchor="middle" font-size="20" font-weight="bold" id="gauge-grade" fill="#22C55E">&mdash;</text>
+          </svg>
+        </div>
+        <div class="flex-1 w-full" id="grade-summary">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- Top 3 Priorities -->
+      <div id="priorities-section" class="hidden border-l-4 border-[#615fff] bg-[#f5f3ff] rounded-r-xl p-5">
+        <h3 class="font-semibold text-[#292524] mb-3">Corrija Estas 3 Coisas Primeiro</h3>
+        <ol id="priorities-list" class="space-y-3"></ol>
+      </div>
+
+      <!-- 6 Category Accordions -->
+      <div id="categories-section" class="space-y-3"></div>
+
+      <!-- Download Report -->
+      <div class="text-center">
+        <button id="dl-report" class="inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-6 py-3 font-semibold text-[#292524] hover:bg-[#fafaf9] cursor-pointer transition-colors">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Baixar Relatório Completo
+        </button>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p id="cta-headline" class="font-sans text-[22px] font-bold leading-tight text-white">Você acabou de encontrar os problemas.<br/>O Stacc os corrige automaticamente.</p>
+        <p id="cta-subtext" class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">30 posts de blog, 30 atualizações de GBP, schema markup, otimização para IA &mdash; tudo no piloto automático. A partir de $49/mês.</p>
+        <a href="/pt-br/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Inicie seu Teste por $1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 por 30 dias · Cancele quando quiser</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">O que É uma Pontuação SEO e Por que Importa?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Uma pontuação SEO é um número único que diz quão bem seu site está configurado para os mecanismos de busca. Pense nisso como um check-up de saúde para sua presença online. Assim como um médico verifica sua pressão arterial, colesterol e frequência cardíaca, uma pontuação SEO verifica seus title tags, velocidade de página, qualidade do conteúdo e dezenas de outros fatores de posicionamento.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Para negócios locais, sua pontuação SEO se correlaciona diretamente com se os clientes te encontram ou encontram seu concorrente. Quando alguém pesquisa "dentista perto de mim" ou "encanador de emergência em São Paulo", o Google avalia centenas de sinais para decidir quem aparece primeiro. Os sinais que verificamos nesta ferramenta são os que você pode controlar e corrigir.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">O site médio de uma pequena empresa obtém entre <strong class="text-[#292524]">30-50 de 100</strong> na primeira verificação. Isso não é um fracasso. É uma oportunidade. Cada ponto que você ganha representa melhorias reais que ajudam o Google a entender, confiar e posicionar melhor seu site. A maioria dos negócios pode subir 20-30 pontos em uma única tarde corrigindo as três principais prioridades identificadas por esta ferramenta.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Ao contrário das ferramentas genéricas de auditoria SEO que te sobrecarregam com 200 avisos técnicos, este verificador foca nas <strong class="text-[#292524]">30 verificações que realmente importam para negócios locais</strong>. Cada resultado é explicado em linguagem simples com uma ação específica que você pode tomar hoje.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">As 6 Categorias que Determinam sua Pontuação de SEO Local</h2>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">SEO On-Page (20 pontos)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">O SEO on-page cobre o conteúdo e os elementos HTML que o Google lê diretamente da sua página. Isso inclui seu title tag (o link azul nos resultados do Google), meta descrição (o trecho abaixo dele), estrutura de cabeçalhos (tags H1, H2, H3), texto alternativo de imagens, links internos, estrutura de URL e tags Open Graph para compartilhamento em redes sociais. Estes são os elementos mais fáceis de corrigir e frequentemente oferecem as melhoras de posicionamento mais rápidas.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Saúde Técnica (15 pontos)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">O SEO técnico garante que os mecanismos de busca possam acessar e renderizar corretamente seu site. A criptografia HTTPS é agora um requisito básico. O Google penaliza sites inseguros. A compatibilidade móvel importa porque mais de 60% das pesquisas locais ocorrem em celulares. A velocidade de página afeta tanto os rankings quanto a experiência do usuário. Sites lentos perdem visitantes antes que a página carregue. Também verificamos problemas de conteúdo misto e a configuração do robots.txt.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Sinais de Conteúdo (15 pontos)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">O conteúdo é o que o Google lê para entender o que seu negócio faz. Páginas finas com menos de 100 palavras indicam baixa qualidade. Ter um blog ou seção de conteúdo mostra ao Google que seu site está ativo e tem autoridade. Os sinais de frescor do conteúdo (datas de publicação, datas de atualização) dizem aos mecanismos de busca que sua informação está atualizada. Também verificamos se você tem múltiplas páginas de serviço vinculadas entre si, construindo autoridade temática.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">SEO Local (20 pontos)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">O SEO local é a categoria mais importante para negócios de serviços. O Google precisa saber onde você está, qual área você atende e que você é um negócio real. Verificamos o NAP (Nome, Endereço, Telefone) na sua página, o schema markup LocalBusiness que diz ao Google seu tipo exato de negócio, a integração com o Google Maps e as páginas de área de atendimento para cada cidade que você atende. O status do seu Perfil de Negócio no Google também é avaliado quando você fornece o nome do seu negócio.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Saúde das Avaliações (15 pontos)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">As avaliações são um fator de posicionamento local entre os 3 primeiros. O Google quer ver um fluxo constante de avaliações recentes e positivas. Verificamos os depoimentos e o conteúdo de avaliações no seu site, além do schema markup de avaliações que pode mostrar classificações por estrelas diretamente nos resultados de busca. Para uma análise completa de avaliações (classificação, quantidade, recência), forneça o nome do seu negócio para que possamos verificar o status do seu Perfil de Negócio no Google.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Prontidão para IA (15 pontos)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A busca por IA é a próxima fronteira. ChatGPT, Perplexity e Google AI Overviews agora respondem perguntas diretamente, extraindo de sites com conteúdo estruturado e bem organizado. Verificamos dados estruturados JSON-LD, schema FAQ que os mecanismos de IA adoram citar, se seu robots.txt bloqueia os rastreadores de IA e se você tem um arquivo llms.txt — o novo padrão para informar aos mecanismos de IA sobre seu negócio. A estrutura do conteúdo também importa: cabeçalhos claros com parágrafos em formato de resposta são o que a IA procura.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Como Melhorar sua Pontuação SEO</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Não tente corrigir tudo de uma vez. Concentre-se nas <strong class="text-[#292524]">3 prioridades principais</strong> identificadas por esta ferramenta. Elas são classificadas por impacto, portanto corrigi-las primeiro oferece a maior melhoria de posicionamento por hora de esforço.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Vitórias rápidas (menos de 30 minutos):</strong> Adicione ou corrija seu title tag, escreva uma meta descrição, adicione uma tag meta viewport, corrija o texto alternativo de imagens e garanta que o HTTPS esteja habilitado. Essas mudanças sozinhas podem aumentar sua pontuação em 10-15 pontos.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Esforço médio (1-3 horas):</strong> Adicione schema markup LocalBusiness, crie um arquivo llms.txt, adicione schema FAQ, incorpore o Google Maps e adicione tags Open Graph para compartilhamento em redes sociais.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Esforço contínuo:</strong> Publique conteúdo de blog regularmente, mantenha seu Perfil de Negócio no Google com postagens semanais, colete avaliações de clientes de forma consistente e crie páginas separadas para cada serviço e cidade que você atende. É aqui que o crescimento composto do SEO acontece.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Referências de Pontuação SEO por Setor</h2>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Consultórios Odontológicos</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A maioria dos sites odontológicos obtém entre 35-55 na primeira verificação. Problemas comuns: schema LocalBusiness faltante com o tipo específico "Dentist", sem conteúdo FAQ sobre procedimentos comuns, páginas de serviços finas com menos de 200 palavras e sem blog. Os sites odontológicos de melhor desempenho obtêm 75+ ao ter páginas individuais para cada serviço (limpezas, implantes, estética), um blog que responde perguntas dos pacientes e gerenciamento ativo de avaliações.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Escritórios de Advocacia</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Os sites jurídicos ficam em média entre 40-60, frequentemente com conteúdo sólido mas pontuações técnicas e de prontidão para IA fracas. Os advogados tendem a ter mais texto em suas páginas (aumentando as pontuações de conteúdo), mas omitem dados estruturados, arquivos llms.txt e schema de avaliações. A correção de maior ROI para escritórios de advocacia geralmente é o schema LocalBusiness com o tipo "Attorney" mais o schema FAQ que cobre perguntas jurídicas comuns.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Serviços Residenciais (Encanadores, Ar-Condicionado, Eletricistas)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Os negócios de serviços residenciais tipicamente obtêm entre 25-45, os mais baixos de qualquer setor. O problema mais comum é um site de uma única página ou um template simples com conteúdo mínimo. A solução é simples: criar páginas de serviço individuais (reparo de aquecedor, limpeza de canos, instalação de AC), adicionar um blog com conteúdo sazonal e construir páginas de área de atendimento para cada cidade atendida.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Restaurantes</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Os sites de restaurantes ficam em média entre 30-50, com desafios únicos. Muitos dependem fortemente de plataformas de terceiros (iFood, Rappi) em vez do próprio site. Lacunas comuns: sem conteúdo de cardápio que o Google possa rastrear (os cardápios geralmente são PDFs ou imagens), schema markup de restaurante faltante, sem integração de avaliações no site e velocidade móvel ruim por galerias de imagens pesadas. A correção de maior impacto para restaurantes é adicionar dados de cardápio estruturados e schema de avaliações.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Perguntas Frequentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">O que é uma pontuação SEO?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Uma pontuação SEO é uma avaliação de 0 a 100 que mede quão bem seu site está otimizado para os mecanismos de busca. Avalia elementos on-page, saúde técnica, qualidade do conteúdo, sinais de SEO local, presença de avaliações e prontidão para IA. Uma pontuação mais alta significa melhores chances de se posicionar nos resultados de busca.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Qual é uma boa pontuação SEO para um negócio local?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Uma pontuação de 75+ (nota B) é boa para a maioria dos negócios locais. Pontuações acima de 90 são excelentes. A maioria dos sites de pequenas empresas obtém entre 30-50 na primeira verificação. Concentre-se em corrigir os problemas de maior impacto primeiro em vez de buscar a perfeição.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Como funciona este verificador de SEO?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Esta ferramenta realiza 30 verificações em 6 categorias completamente no seu navegador. Busca seu site, consulta a API do Google PageSpeed para dados de desempenho, verifica os arquivos robots.txt e llms.txt, e analisa sua página em busca de elementos SEO. Nenhum dado é armazenado em nossos servidores.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Este verificador de pontuação SEO é gratuito?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sim, 100% gratuito. Sem cadastro, sem barreira de e-mail, sem limites. Insira sua URL e obtenha um relatório SEO detalhado com recomendações de correção específicas em menos de 15 segundos.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">O que é prontidão para IA em SEO?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Prontidão para IA mede quão bem preparado está seu site para os mecanismos de busca de IA como ChatGPT, Perplexity e Google AI Overviews. Verifica dados estruturados, schema FAQ, acesso de rastreadores de IA no robots.txt, arquivos llms.txt e estrutura de conteúdo de perguntas e respostas.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Como posso melhorar minha pontuação SEO?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt.0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Comece com as 3 prioridades principais identificadas por esta ferramenta. Vitórias rápidas comuns incluem corrigir seu title tag, adicionar uma meta descrição, habilitar HTTPS e adicionar schema LocalBusiness. Para melhoria contínua, publique conteúdo de blog, mantenha seu Perfil de Negócio no Google e colete avaliações de clientes.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Mais Ferramentas Gratuitas de SEO Local</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/pt-br/ferramentas/auditoria-seo/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Auditoria SEO</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Relatório de 10 pontos rápido e acionável</p>
+          </a>
+          <a href="/pt-br/ferramentas/verificador-seo-on-page/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Verificador SEO On-Page</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Gere schema LocalBusiness e FAQ</p>
+          </a>
+          <a href="/pt-br/ferramentas/gerador-post-gbp/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de Publicações GBP</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Gere atualizações GBP prontas para publicar</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta ferramenta requer JavaScript. Por favor, ative-o no seu navegador.</p></div></noscript>
+    <script is:inline src="/js/seo-score-engine.js"></script>
+  </Fragment>
+</ToolLayout>

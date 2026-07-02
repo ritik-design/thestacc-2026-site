@@ -1,0 +1,323 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE_URL, organizationSchema, publisherRef, authorRef, websiteSchema, buildBreadcrumbs, buildSpeakable, buildFAQSchema, resolveImage } from '../../../utils/schema';
+import CrossLinks from '../../../components/common/CrossLinks.astro';
+import ExitIntent from '../../../components/common/ExitIntent.astro';
+import { categoryToModule, categoryToTools, allModules } from '../../../data/internal-links';
+
+export async function getStaticPaths() {
+  const langPosts = await getCollection('blog_ptbr');
+  return langPosts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const wordCount = (post.body ?? '').split(/\s+/).filter(Boolean).length;
+const readTime = Math.max(1, Math.round(wordCount / 200));
+
+function extractFAQs(body: string): { question: string; answer: string }[] {
+  const faqs: { question: string; answer: string }[] = [];
+  const faqMatch = body.match(/\n## (?:FAQ|Frequently Asked Questions?|Häufig gestellte Fragen|Questions [Ff]réquentes|Preguntas [Ff]recuentes|Domande [Ff]requenti|Perguntas [Ff]requentes)\s*\n([\s\S]*?)(?=\n## [^#]|\n---\s*$|$)/i);
+  if (!faqMatch) return faqs;
+  const faqSection = faqMatch[0];
+  const h3Pattern = /### (.+?)\n+([\s\S]*?)(?=\n### |\n## |$)/g;
+  let match;
+  while ((match = h3Pattern.exec(faqSection)) !== null) {
+    const question = match[1].trim();
+    const answer = match[2].trim().replace(/\n+/g, ' ').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*([^*]+)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1');
+    if (question && answer) faqs.push({ question, answer });
+  }
+  if (faqs.length === 0) {
+    const boldPattern = /\*\*(.+?\??)\*\*\n+([\s\S]*?)(?=\n\*\*|\n## |\n---\s*$|$)/g;
+    while ((match = boldPattern.exec(faqSection)) !== null) {
+      const question = match[1].trim();
+      const answer = match[2].trim().replace(/\n+/g, ' ').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*([^*]+)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1');
+      if (question && answer) faqs.push({ question, answer });
+    }
+  }
+  return faqs.slice(0, 10);
+}
+
+const faqs = extractFAQs(post.body || '');
+const faqSchema = buildFAQSchema(faqs);
+
+const category = post.data.category || 'SEO Tips';
+const moduleLink = categoryToModule[category];
+const relatedTools = categoryToTools[category] || [];
+
+const ptBrUrl = `${SITE_URL}/pt-br/blog/${post.data.slug}/`;
+const enUrl = `${SITE_URL}/blog/${post.data.slug}/`;
+
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      '@id': `${ptBrUrl}#article`,
+      headline: post.data.title,
+      description: post.data.description,
+      url: ptBrUrl,
+      datePublished: post.data.date,
+      dateModified: post.data.lastUpdated || post.data.date,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': ptBrUrl },
+      author: authorRef,
+      publisher: publisherRef,
+      image: resolveImage(post.data.image),
+      articleSection: post.data.category,
+      inLanguage: 'pt-BR',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      speakable: buildSpeakable(['.blog-content > p:first-of-type', 'h1']),
+    },
+    buildBreadcrumbs(ptBrUrl, [
+      { name: 'Início', url: `${SITE_URL}/pt-br/` },
+      { name: 'Blog', url: `${SITE_URL}/pt-br/blog/` },
+      { name: post.data.title, url: ptBrUrl },
+    ]),
+    organizationSchema,
+    websiteSchema,
+    ...(faqSchema ? [faqSchema] : []),
+  ],
+};
+
+const allPosts = await getCollection('blog_ptbr');
+let relatedPosts = allPosts
+  .filter(p => p.data.slug !== post.data.slug && p.data.category === category && p.data.image)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+
+if (relatedPosts.length < 3) {
+  const existing = new Set([post.data.slug, ...relatedPosts.map(p => p.data.slug)]);
+  const fallback = allPosts
+    .filter(p => !existing.has(p.data.slug) && p.data.image)
+    .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+    .slice(0, 3 - relatedPosts.length);
+  relatedPosts = [...relatedPosts, ...fallback];
+}
+---
+
+<BaseLayout
+  title={`${post.data.title} | theStacc`}
+  description={post.data.description}
+  ogImage={post.data.image}
+  lang="pt-BR"
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <div id="reading-progress" class="pointer-events-none fixed left-0 top-0 z-[200] h-[3px]" style="width:0%;background:linear-gradient(to right,#4f39f6,#818cf8);transition:width 80ms linear;"></div>
+
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+    <article>
+
+      <!-- ░░ HERO ░░ -->
+      <div class="border-b border-[#e7e5e4] bg-white">
+        <div class="mx-auto max-w-[1320px] px-6 pt-8 pb-8">
+          <div class="max-w-[820px]">
+
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5" aria-label="Breadcrumb">
+                <a href="/pt-br/blog/" class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#79716b] transition-colors hover:text-[#4f39f6]">Blog</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#d6d3d1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#4f39f6]">{post.data.category}</span>
+              </nav>
+
+              <div class="mt-3.5 flex flex-wrap items-center gap-2">
+                <span class="rounded-md bg-[#f5f3ff] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[#4f39f6]">{post.data.category}</span>
+                <span class="flex items-center gap-1.5 font-mono text-[11px] text-[#79716b]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {readTime} min de leitura
+                </span>
+              </div>
+
+              <h1 class="mt-4 font-sans text-[28px] font-bold leading-[1.18] tracking-[-0.025em] text-[#111827] md:text-[36px]">
+                {post.data.title}
+              </h1>
+              <p class="mt-4 font-sans text-[17px] leading-[1.65] text-[#57534e]">{post.data.description}</p>
+
+              <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[#f5f5f4] pt-4">
+                <div class="flex items-center gap-2.5">
+                  <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#4f39f6] font-mono text-[10px] font-bold text-white">SG</div>
+                  <a href="/author/siddharth-gangal/" class="font-sans text-[13px] font-medium text-[#292524] transition-colors hover:text-[#4f39f6]">Siddharth Gangal</a>
+                </div>
+                <span class="text-[#d6d3d1]">·</span>
+                <span class="font-mono text-[11px] text-[#79716b]">{post.data.date}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ░░ MOBILE TOC TOGGLE ░░ -->
+      <div class="border-b border-[#e7e5e4] bg-white lg:hidden">
+        <div class="mx-auto max-w-[1320px] px-6">
+          <button id="mobile-toc-toggle" aria-expanded="false" class="flex w-full cursor-pointer items-center justify-between py-3.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#57534e]">
+            <span class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Neste Artigo
+            </span>
+            <svg id="toc-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div id="mobile-toc-panel" class="hidden pb-4">
+            <nav id="blog-toc-mobile" class="review-toc flex flex-col"></nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- ░░ TWO COLUMN ░░ -->
+      <div class="mx-auto max-w-[1320px] px-6 py-10 lg:flex lg:items-start lg:gap-12">
+
+        <div class="min-w-0 flex-1">
+          <div class="review-content blog-content overflow-x-hidden">
+            <Content />
+          </div>
+
+          <div class="mt-10 flex items-start gap-5 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+            <img
+              src="/images/siddharth-gangal.webp"
+              alt="Siddharth Gangal"
+              width="80"
+              height="80"
+              class="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-white"
+              loading="lazy"
+            />
+            <div class="min-w-0">
+              <p class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Escrito por</p>
+              <a href="/author/siddharth-gangal/" class="mt-0.5 block font-sans text-[15px] font-bold text-[#111827] transition-colors hover:text-[#4f39f6]">Siddharth Gangal</a>
+              <p class="mt-1.5 font-sans text-[13px] leading-[1.65] text-[#57534e]">Siddharth é o fundador do theStacc e Arka360, e graduado pelo IIT Mandi. Ele escreve sobre SEO, conteúdo em escala e as táticas que realmente movem rankings.</p>
+            </div>
+          </div>
+
+          <CrossLinks
+            heading="Explore Mais do theStacc"
+            moduleLinks={moduleLink ? [{ url: moduleLink.url, label: moduleLink.label }] : allModules.map(m => ({ url: m.url, label: m.label }))}
+            toolLinks={relatedTools.slice(0, 2)}
+            bestLinks={[{ url: '/pt-br/melhores/', label: 'Melhores Ferramentas de SEO' }]}
+            homepageAnchor={moduleLink ? moduleLink.anchor : 'Plataforma de automação de SEO com IA'}
+          />
+
+          {relatedPosts.length > 0 && (
+            <div class="mt-10 border-t border-[#e7e5e4] pt-8">
+              <h3 class="font-sans text-[18px] font-bold text-[#111827]">Continue Lendo</h3>
+              <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {relatedPosts.map(rp => (
+                  <a
+                    href={`/pt-br/blog/${rp.data.slug}/`}
+                    class="group relative flex flex-col overflow-hidden rounded-xl border border-[#e7e5e4] bg-[#fafaf9] transition-all hover:border-[#c4b5fd] hover:shadow-sm"
+                  >
+                    <div class="h-[3px] w-full bg-gradient-to-r from-[#4f39f6] via-[#818cf8] to-[#c4b5fd]"></div>
+                    <div class="flex flex-1 flex-col p-4">
+                      <span class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#4f39f6]">{rp.data.category}</span>
+                      <h4 class="mt-1.5 flex-1 font-sans text-[13px] font-semibold leading-[1.4] text-[#292524] line-clamp-2 transition-colors group-hover:text-[#4f39f6]">{rp.data.title}</h4>
+                      <span class="mt-3 font-mono text-[10px] text-[#79716b]">{rp.data.date}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <!-- Sidebar (desktop) -->
+        <aside class="hidden lg:block w-[272px] shrink-0 self-stretch">
+          <div id="blog-sidebar-inner" class="flex flex-col gap-4 pt-2">
+            <div class="overflow-hidden rounded-2xl" style="background:#0d1117;border:1px solid rgba(79,57,246,0.25);">
+              <div class="p-5" style="background:linear-gradient(135deg,rgba(79,57,246,0.18) 0%,transparent 65%);">
+                <h4 class="font-sans text-[15px] font-bold leading-[1.3] text-white">30 artigos de SEO publicados no seu site todo mês</h4>
+                <p class="mt-1.5 font-sans text-[12px] leading-[1.6] text-[#94a3b8]">Otimizados por palavras-chave, estruturados e publicados automaticamente.</p>
+              </div>
+              <div class="px-5 pb-5 pt-4" style="border-top:1px solid rgba(255,255,255,0.07);">
+                <a
+                  href="/pt-br/demo/"
+                  class="block rounded-xl py-3 text-center font-mono text-[12px] font-bold uppercase tracking-[0.08em] text-white transition-colors hover:opacity-90"
+                  style="background:#4f39f6;"
+                >
+                  Começar por R$1 →
+                </a>
+                <p class="mt-2 text-center font-mono text-[10px] text-[#4b5563]">30 dias de teste · Cancele quando quiser</p>
+              </div>
+            </div>
+
+            <div class="review-toc-card">
+              <h4>Neste Artigo</h4>
+              <nav id="blog-toc" class="review-toc"></nav>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- ░░ DARK FOOTER CTA ░░ -->
+      <section class="relative overflow-hidden" style="background:#ffffff;">
+        <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+        <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.06) 0%, transparent 65%);"></div>
+        <div class="container-x relative z-10 py-14 text-center">
+          <h3 class="mt-3 font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-[#292524]">
+            Pare de escrever conteúdo SEO manualmente
+          </h3>
+          <p class="mx-auto mt-3 max-w-[420px] font-sans text-[15px] leading-[1.7] text-[#57534e]">
+            30 artigos de blog, 30 posts no GMN e conteúdo para redes sociais. Publicados todo mês. Automaticamente.
+          </p>
+          <a
+            href="/pt-br/demo/"
+            class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+          >
+            Começar por R$1
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#79716b]">R$1 por 30 dias · Cancele quando quiser</p>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <Footer />
+  <ExitIntent />
+</BaseLayout>
+
+<script>
+  const progressBar = document.getElementById('reading-progress') as HTMLElement | null;
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (progressBar && docH > 0) progressBar.style.width = ((scrollTop / docH) * 100).toFixed(1) + '%';
+  }, { passive: true });
+
+  document.querySelectorAll('.blog-content a').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    if (href.startsWith('http')) { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener noreferrer'); }
+  });
+
+  const toc = document.getElementById('blog-toc');
+  const tocMobile = document.getElementById('blog-toc-mobile');
+  const h2s = document.querySelectorAll('.blog-content h2');
+  h2s.forEach((h2, i) => {
+    const id = 'section-' + i;
+    h2.id = id;
+    [toc, tocMobile].forEach((t) => {
+      if (!t) return;
+      const a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h2.textContent || '';
+      t.appendChild(a);
+    });
+  });
+
+  const mobileToggle = document.getElementById('mobile-toc-toggle');
+  const mobileTocPanel = document.getElementById('mobile-toc-panel');
+  const tocChevron = document.getElementById('toc-chevron');
+  mobileToggle?.addEventListener('click', () => {
+    const open = mobileTocPanel?.classList.toggle('hidden') === false;
+    mobileToggle.setAttribute('aria-expanded', String(open));
+    tocChevron?.style.setProperty('transform', open ? 'rotate(180deg)' : '');
+  });
+</script>

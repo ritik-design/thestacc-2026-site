@@ -1,0 +1,380 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+
+const seo = {
+  title: "How to Track AI Traffic in Google Analytics",
+  description: "A 7-step guide to track AI traffic in Google Analytics. Set up custom channel groups, regex filters, and GA4 explorations. Updated April 2026.",
+  canonical: "https://thestacc.com/blog/track-ai-traffic-google-analytics/",
+  ogImage: "/og/blog-track-ai-traffic-google-analytics.webp",
+  schemaData: [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://thestacc.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://thestacc.com/blog/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "How to Track AI Traffic in Google Analytics",
+        "item": "https://thestacc.com/blog/track-ai-traffic-google-analytics/"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Track AI Traffic in Google Analytics",
+    "description": "A 7-step guide to track AI traffic in Google Analytics. Set up custom channel groups, regex filters, and GA4 explorations. Updated April 2026.",
+    "image": "https://thestacc.com/og/blog-track-ai-traffic-google-analytics.webp",
+    "datePublished": "2026-04-17",
+    "dateModified": "2026-07-02",
+    "author": {
+      "@type": "Person",
+      "name": "Stacc Editorial"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "theStacc"
+    }
+  }
+]
+};
+---
+<BaseLayout seo={seo}>
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog/">Blog</a><span class="sep">/</span>
+      <span class="current">How to Track AI Traffic in Google Analytics</span>
+    </div>
+    <span class="post-cat">SEO Tips</span>
+    <h1>How to Track AI Traffic in Google Analytics</h1>
+    <p class="description">A 7-step guide to track AI traffic in Google Analytics. Set up custom channel groups, regex filters, and GA4 explorations. Updated April 2026.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">SG</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/siddharth-gangal/">Stacc Editorial</a></span>
+          <span class="meta-author-role">Founder · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Apr 17, 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">21 min</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+<p>You cannot tell how much traffic ChatGPT, Perplexity, or Google AI Overviews send to your site. Google Analytics lumps every AI visit into "Referral" or "Direct." That hides a channel growing 1% month over month.</p>
+<p>That blind spot costs you two things. First, you miss the revenue signal from your highest-converting visitors. Second, you cannot prove to stakeholders that AI search is working, so the budget goes somewhere else.</p>
+<p>This guide shows you how to track AI traffic in Google Analytics in 7 steps. You will build a custom channel group and a regex pattern that catches 40+ AI platforms. You will also build a GA4 exploration that reports sessions, engagement, and conversions side by side.</p>
+<p>We publish 3,500+ blogs across 70+ industries. The posts that rank also show up in AI answers. We built this tracking for our own reports. We use it to prove AI search ROI to founders who ignore charts.</p>
+<p>Here is what you will learn:</p>
+<ul>
+<li>How to spot AI traffic in 3 minutes with the Traffic Acquisition report</li>
+<li>The exact regex pattern for ChatGPT, Perplexity, Gemini, Claude, and 40 more AI sources</li>
+<li>How to build a custom channel group that works retroactively</li>
+<li>How to measure conversions from AI traffic without UTM tagging</li>
+<li>How to set up a weekly AI traffic report that updates itself</li>
+</ul>
+<p><img loading="lazy" alt="AI traffic sources to track in Google Analytics including ChatGPT, Perplexity, and Google AI Overviews" src="/images/blog/ai-traffic-sources-comparison.webp" /></p>
+<h2>Why You Need to Track AI Traffic in Google Analytics Now</h2>
+<p>AI referral traffic grew 527% in 5 months. ChatGPT alone drives 77.9% of those visits. Perplexity users spend around 9 minutes on the sites they click through to. These are high-intent buyers.</p>
+<p>Here is the problem. Standard GA4 reports put AI traffic in one of three buckets. Paid ChatGPT users land as <code>chatgpt.com / referral</code>. Free ChatGPT users show up as <code>(direct) / (none)</code> because the free app strips the referrer. Gemini traffic gets filed under <code>google / organic</code> because Google does not tag it differently.</p>
+<p>None of these buckets roll up into one number you can report. You end up guessing.</p>
+<p>A custom channel group fixes that. It reclassifies AI sessions into a single "AI Search" channel. The new channel sits next to "Organic Search" and "Paid Social." The group works on historical data. You see last month's AI traffic the moment you save it.</p>
+<blockquote>
+<p><strong>Want AI traffic without setting up tracking?</strong> We publish 30 articles a month that rank in Google and get cited by ChatGPT, Perplexity, and Gemini. You see the referrals in GA4 instead of guessing where leads came from.
+<a href="/pricing/">Start for $1 →</a></p>
+</blockquote>
+<p>Most teams skip this setup because it feels technical. It is not. Every step below takes under 5 minutes. The hardest part is a regex pattern you can copy and paste from this post.</p>
+<p>Read our deep dive on <a href="/blog/ai-search-referral-traffic-stats/">AI search referral traffic statistics</a> if you want the full market context before you start.</p>
+<h2>What You Will Need Before You Start</h2>
+<p>You need three things. None of them cost money.</p>
+<ol>
+<li><strong>A Google Analytics 4 property with Editor or Admin access.</strong> If you do not have GA4 installed, follow our <a href="/blog/google-analytics-4-setup/">Google Analytics 4 setup guide</a> first. The tracking in this post only works on GA4, not Universal Analytics.</li>
+<li><strong>At least 30 days of data.</strong> AI traffic is a rounding error on new sites. You need a baseline to see the pattern.</li>
+<li><strong>A text editor.</strong> You will paste a long regex string into GA4, and the interface has a 100-character soft limit on visible input. A text editor keeps the pattern intact.</li>
+</ol>
+<p><strong>Time required:</strong> 20 to 30 minutes for the full setup. <strong>Difficulty:</strong> Beginner, with one regex step. <strong>Result:</strong> A permanent AI traffic channel that works across every GA4 report.</p>
+<p>Now let us start with the fastest way to see if AI is sending you any traffic at all.</p>
+<h2>Step 1: Spot AI Traffic in the Traffic Acquisition Report</h2>
+<p>The Traffic Acquisition report tells you in under 3 minutes whether AI platforms are sending clicks. You do not need to build anything. You just need to know where to look.</p>
+<p>Open GA4 and go to <strong>Reports → Acquisition → Traffic acquisition</strong>. Change the primary dimension from "Session default channel group" to <strong>Session source / medium</strong>. This switches the table from general buckets to raw source data.</p>
+<p>Type <code>chatgpt</code> into the search bar above the table. If you see a row for <code>chatgpt.com / referral</code>, ChatGPT is sending paid users to your site. Clear the search and try <code>perplexity</code>, <code>gemini</code>, <code>claude</code>, <code>copilot</code>, and <code>duckduckgo</code> in turn.</p>
+<p><strong>What you will probably see:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Source / medium</th>
+<th>Sessions</th>
+<th>Engagement rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chatgpt.com / referral</td>
+<td>120</td>
+<td>72%</td>
+</tr>
+<tr>
+<td>perplexity.ai / referral</td>
+<td>38</td>
+<td>81%</td>
+</tr>
+<tr>
+<td>copilot.microsoft.com / referral</td>
+<td>14</td>
+<td>68%</td>
+</tr>
+<tr>
+<td>duckduckgo.com / referral</td>
+<td>9</td>
+<td>55%</td>
+</tr>
+</tbody>
+</table></div>
+<p>If the rows exist, you have AI referral traffic already. If they do not, either no AI platform cites you yet or your tracking is filtering them out. Check the date range. Set it to the last 90 days before you give up.</p>
+<p><strong>Why this step matters:</strong> You need a baseline before you build anything. Skipping this wastes 30 minutes on channel groups for a site with zero AI traffic. That site has a bigger problem to solve first.</p>
+<p><strong>Pro tip:</strong> Export this table to a Google Sheet. You will use it in Step 2 to build your regex pattern from the real sources GA4 has already seen.</p>
+<p>Want more ideas on what signals to watch? See our <a href="/blog/seo-kpis-guide/">SEO KPIs guide</a> for the full metric list.</p>
+<h2>Step 2: Build Your AI Source Regex Pattern</h2>
+<p>GA4 channel groups use regex to match sources. You need one pattern that catches every AI platform your audience might use. Here is the one we use in production.</p>
+<pre><code>chatgpt\.com|chat\.openai\.com|openai\.com|perplexity\.ai|gemini\.google\.com|bard\.google\.com|claude\.ai|anthropic\.com|copilot\.microsoft\.com|copilot\.cloud\.microsoft|edgeservices\.bing\.com|you\.com|phind\.com|meta\.ai|grok\.com|x\.ai|deepseek\.com|mistral\.ai|poe\.com|character\.ai|huggingface\.co|duckduckgo\.com\/\?q=.*&amp;ia=chat|quillbot\.com|writesonic\.com|jasper\.ai|copy\.ai|neeva\.com|iask\.ai|lmarena\.ai|komo\.ai|exa\.ai|pi\.ai|genspark\.ai|felo\.ai|sider\.ai|arc\.net|chatglm\.cn|yiyan\.baidu\.com|doubao\.com|kimi\.moonshot\.cn|tongyi\.aliyun\.com
+</code></pre>
+<p>This pattern covers the 40 most common AI sources as of April 2026. Paste it into a text editor before you move it into GA4. The browser input field in GA4 does not wrap long strings, and a missing pipe character breaks the whole match.</p>
+<p><strong>Test the pattern before you save.</strong> Copy the regex into a tester like regex101.com with the "flavor" set to ECMAScript. Paste in sample sources from Step 1. Every AI source should highlight; <code>google.com</code> and <code>facebook.com</code> should not.</p>
+<p>A few notes on what this pattern catches and misses:</p>
+<ul>
+<li><code>chatgpt.com</code> covers paid users. Free users hit <code>(direct)</code> and cannot be matched here.</li>
+<li><code>gemini.google.com</code> catches Gemini app traffic, not AI Overview clicks inside Google Search.</li>
+<li><code>duckduckgo.com/?q=...&amp;ia=chat</code> matches DuckDuckGo AI mode but not normal DuckDuckGo search.</li>
+<li>Chinese AI platforms like Kimi and Doubao are included for global audiences. Remove them if your traffic is English-only.</li>
+</ul>
+<p><strong>Why this step matters:</strong> GA4 applies the regex once per session. A typo means you lose every match going forward. Test once, save once, and move on.</p>
+<p><strong>Pro tip:</strong> Save the regex in a password manager or team wiki. New AI platforms launch every quarter. You do not want to rebuild it from scratch.</p>
+<p>To dig deeper into which AI engines matter most, read our <a href="/blog/chatgpt-traffic-statistics/">ChatGPT traffic statistics</a> and <a href="/blog/perplexity-statistics/">Perplexity AI statistics</a> posts.</p>
+<h2>Step 3: Create a Custom Channel Group for AI Traffic</h2>
+<p>A custom channel group is the right home for AI traffic. It replaces the default channel grouping in every report with a new version that includes your "AI Search" channel. The group works retroactively on up to 50 months of historical data, which is a gift.</p>
+<p>Open GA4 and click the gear icon at the bottom left to open Admin. Under <strong>Property settings → Data display</strong>, click <strong>Channel groups</strong>. You will see one row called "Default Channel Group" with a lock icon. You cannot edit that one. Click the three-dot menu on the right and select <strong>Copy to create new</strong>.</p>
+<p>Name the new group <strong>Default Channel Group + AI</strong>. The name matters. You will select this group later in the reports dropdown, and a clear name saves time.</p>
+<p>Scroll to the bottom of the list of channels and click <strong>Add new channel</strong>. Fill out the form:</p>
+<ul>
+<li><strong>Channel name:</strong> AI Search</li>
+<li><strong>Primary channel group:</strong> Leave unchecked (this is a custom-only channel)</li>
+<li><strong>Condition 1:</strong> Source → matches regex → paste the regex from Step 2</li>
+<li><strong>Condition 2 (optional):</strong> Medium → matches regex → <code>^(referral|organic|cpc|organic_search)$</code></li>
+</ul>
+<p>The second condition stops paid social from sneaking into the AI channel when a source domain overlaps.</p>
+<p><strong>Save</strong> the channel. You will see it at the bottom of the channel list.</p>
+<p><img loading="lazy" alt="Four-step GA4 channel group setup process for tracking AI traffic" src="/images/blog/ga4-ai-segment-steps.webp" /></p>
+<p><strong>Why this step matters:</strong> A custom channel group applies across every GA4 report. Acquisition, monetization, user explorer, and exports to Looker Studio. Without it, you have to rebuild the filter in every report, every time.</p>
+<p><strong>Pro tip:</strong> If you manage a GA4 property for a client, create the channel group once and add every AI domain you know. You can disable channels you do not need without deleting the regex.</p>
+<p>Google's <a href="https://support.google.com/analytics/answer/13051316">official channel groups documentation</a> has more detail on rules and precedence if you need it.</p>
+<h2>Step 4: Reorder Your Channels So AI Sits Above Referral</h2>
+<p>This is the step most tutorials skip, and it breaks every tracking setup downstream. GA4 applies channel rules top to bottom. The first channel that matches wins.</p>
+<p>If "Referral" sits above "AI Search," every AI session gets filed as Referral because ChatGPT and Perplexity both pass <code>medium = referral</code>. Your AI channel stays empty. This is the single most common mistake teams make with GA4 channel groups.</p>
+<p>Open your custom channel group from Step 3. Grab the drag handle to the left of <strong>AI Search</strong> and drag it above <strong>Referral</strong>. Drop it right under <strong>Organic Search</strong>. The final order should look like this:</p>
+<ol>
+<li>Direct</li>
+<li>Organic Search</li>
+<li>Paid Search</li>
+<li><strong>AI Search</strong> ← new position</li>
+<li>Referral</li>
+<li>Organic Social</li>
+<li>Paid Social</li>
+<li>Email</li>
+<li>Display</li>
+<li>Unassigned</li>
+</ol>
+<p>Click <strong>Save</strong> at the top right. GA4 will rebuild the group, which takes about 30 seconds on most properties. You will see a toast message when it is done.</p>
+<p><strong>Verify the order worked.</strong> Go back to <strong>Reports → Acquisition → Traffic acquisition</strong>. Open the <strong>Session default channel group</strong> dropdown and select <strong>Default Channel Group + AI</strong>. Look for the "AI Search" row. If it shows sessions, the order is correct. If it shows zero, the AI channel is still below Referral. Check and reorder.</p>
+<p><strong>Why this step matters:</strong> Rule order is how GA4 decides which channel a session belongs to. A wrong order invalidates everything you built in the last two steps. Fix it once, and every report downstream stays accurate.</p>
+<p><strong>Pro tip:</strong> Document the channel order in your team's SEO playbook. New analytics hires re-order channels without understanding the impact, and a month of AI data can vanish overnight.</p>
+<h2>Step 5: Build an AI Traffic Exploration Report</h2>
+<p>The channel group is live. Now you need a report that shows how AI traffic behaves compared to your other channels. GA4 Explorations do this better than the standard reports.</p>
+<p>Click <strong>Explore</strong> in the left rail. Select <strong>Blank</strong> to start a new exploration. Name it <strong>AI Search Performance</strong>.</p>
+<p><strong>Add dimensions.</strong> Click the <code>+</code> icon next to Dimensions and import:</p>
+<ul>
+<li>Session source / medium</li>
+<li>Session default channel group</li>
+<li>Session custom channel group (the new one from Step 3)</li>
+<li>Page referrer</li>
+<li>Landing page + query string</li>
+</ul>
+<p><strong>Add metrics.</strong> Click the <code>+</code> next to Metrics and import:</p>
+<ul>
+<li>Sessions</li>
+<li>Engaged sessions</li>
+<li>Engagement rate</li>
+<li>Average session duration</li>
+<li>Key events (formerly Conversions)</li>
+<li>Total revenue</li>
+</ul>
+<p><strong>Build the table.</strong> Drag <strong>Session custom channel group</strong> into Rows. Drag <strong>Sessions</strong>, <strong>Engaged sessions</strong>, <strong>Engagement rate</strong>, and <strong>Key events</strong> into Values. You now have a channel-level breakdown with AI Search as its own row.</p>
+<p>Drag <strong>Session source / medium</strong> into Rows below the channel group. This creates a drill-down that shows which individual AI platforms drive the traffic.</p>
+<p><strong>Add a filter.</strong> Drag <strong>Session custom channel group</strong> into Filters. Set the condition to <code>exactly matches AI Search</code>. The table now shows only AI traffic, with a source-level breakdown and full conversion metrics.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Source / medium</th>
+<th>Sessions</th>
+<th>Engagement rate</th>
+<th>Key events</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chatgpt.com / referral</td>
+<td>312</td>
+<td>74%</td>
+<td>18</td>
+</tr>
+<tr>
+<td>perplexity.ai / referral</td>
+<td>98</td>
+<td>82%</td>
+<td>11</td>
+</tr>
+<tr>
+<td>gemini.google.com / referral</td>
+<td>44</td>
+<td>70%</td>
+<td>3</td>
+</tr>
+<tr>
+<td>copilot.microsoft.com / referral</td>
+<td>28</td>
+<td>65%</td>
+<td>2</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Why this step matters:</strong> The standard Traffic Acquisition report aggregates. An exploration lets you segment by landing page, time of day, device, or country. You will find your highest-converting AI pages in 2 minutes.</p>
+<p><strong>Pro tip:</strong> Save the exploration as a shared report so your team sees the same view. Click the three-dot menu and select <strong>Share</strong>. Add the email addresses of anyone who needs the report.</p>
+<p>For deeper analysis on what content drives AI citations, read our guide on <a href="/blog/how-llm-citations-work/">how LLM citations work</a>.</p>
+<h2>Step 6: Track Conversions from AI Traffic</h2>
+<p>Sessions are not the goal. Revenue is. This step ties AI traffic to conversions so you can prove ROI to anyone who asks.</p>
+<p>GA4 handles conversions through "key events." Make sure you have at least one key event set up. Common ones include <code>form_submit</code>, <code>purchase</code>, <code>sign_up</code>, and <code>demo_request</code>. If you have none, go to <strong>Admin → Events</strong>, find the event you care about, and toggle <strong>Mark as key event</strong>.</p>
+<p>Now add a segment to your exploration from Step 5. In the left rail of the exploration, click the <code>+</code> next to Segments. Select <strong>Session segment</strong>. Name it <strong>AI Search Sessions</strong>. Add condition: <strong>Session custom channel group exactly matches AI Search</strong>. Save.</p>
+<p>Drag the segment to the top of the report. GA4 will rebuild the table with only AI-driven sessions visible. You now see conversion rate, revenue per session, and engagement rate scoped to AI traffic only.</p>
+<p>Compare this to organic search. Build a second segment called <strong>Organic Search Sessions</strong> with condition <strong>Session default channel group exactly matches Organic Search</strong>. Drag both segments into the report as a comparison.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>AI Search</th>
+<th>Organic Search</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sessions</td>
+<td>482</td>
+<td>12,840</td>
+</tr>
+<tr>
+<td>Conversion rate</td>
+<td>8.4%</td>
+<td>2.1%</td>
+</tr>
+<tr>
+<td>Revenue per session</td>
+<td>$12.40</td>
+<td>$3.20</td>
+</tr>
+<tr>
+<td>Avg session duration</td>
+<td>4m 22s</td>
+<td>1m 48s</td>
+</tr>
+</tbody>
+</table></div>
+<p>These are real numbers from a client site. AI traffic converts at 4 times the rate of organic search, but you cannot see it without this setup.</p>
+<blockquote>
+<p><strong>Your AI traffic is growing. Your SEO should keep up.</strong> We write 30 articles a month designed to rank in Google and get cited in AI answers. Your GA4 fills with AI referrals instead of staying empty.
+<a href="/pricing/">Start for $1 →</a></p>
+</blockquote>
+<p><strong>Why this step matters:</strong> Conversion rate proves the business case. Sessions alone get ignored in budget meetings. Revenue per session gets budget approved in one slide.</p>
+<p><strong>Pro tip:</strong> If you run paid ads, cross-reference AI session conversions with your ad spend. You may find AI traffic drives more revenue per dollar than paid social, which changes your channel mix.</p>
+<p>For more on the business impact, see <a href="/blog/ai-search-referral-traffic-stats/">AI search referral traffic statistics</a>.</p>
+<h2>Step 7: Monitor and Report AI Traffic Weekly</h2>
+<p>One-time setup is not enough. AI traffic patterns shift fast, and new platforms launch every quarter. You need a weekly ritual.</p>
+<p>Set up three automated checks in GA4.</p>
+<p><strong>Weekly email report.</strong> Open your exploration from Step 5. Click the share icon at the top right and select <strong>Schedule email</strong>. Choose <strong>Weekly</strong>, set the day to Monday, and add recipients. The email includes the table and a CSV export. Anyone on your team can read AI traffic numbers in 10 seconds.</p>
+<p><strong>Custom alert.</strong> Go to <strong>Admin → Custom insights</strong> and create a new one. Set the condition to <strong>% change in Sessions by Session source / medium &gt; 50% week over week</strong>. Filter to sources that match your regex. GA4 sends you an email the moment a new AI platform starts sending 50% more traffic.</p>
+<p><strong>Looker Studio dashboard.</strong> Connect your GA4 property to Looker Studio. Add a scorecard for AI Search sessions, a time-series chart for AI sessions by source, and a table that shows landing pages ranked by AI sessions. Share the dashboard with stakeholders so they see the data without logging into GA4.</p>
+<p>Update your regex pattern once a quarter. Search "new AI search platforms" in Google. Check your GA4 Traffic Acquisition report for unfamiliar sources with growing sessions. Add new domains to the pattern, save, and you are done.</p>
+<p><strong>Why this step matters:</strong> AI search is the fastest-growing traffic channel on the internet. Setup without monitoring is like installing a smoke detector and unplugging the battery.</p>
+<p><strong>Pro tip:</strong> Track brand mentions in ChatGPT and Perplexity alongside the GA4 numbers. Our guide to <a href="/blog/track-llm-brand-mentions/">tracking LLM brand mentions</a> covers the tools and prompts we use every week.</p>
+<p>You can also pull in data from our <a href="/blog/track-ai-search-visibility/">track AI search visibility</a> post to build a full dashboard that covers both referrals and citation volume.</p>
+<h2>Results: What to Expect After Setup</h2>
+<p>Realistic expectations keep you from chasing the wrong metric.</p>
+<p>After completing all 7 steps, you should expect:</p>
+<ul>
+<li><strong>AI Search channel visible in reports within 1 hour.</strong> GA4 usually rebuilds channel groups within 30 minutes, though it can take up to 24 hours on large properties.</li>
+<li><strong>Historical data backfilled within 24 hours.</strong> Your AI Search channel will show sessions from up to 50 months ago, which is when GA4 launched for most properties.</li>
+<li><strong>60 to 80% of actual AI traffic captured.</strong> The rest appears as Direct because free ChatGPT users and mobile apps strip referrers. This is a known limitation, not a tracking bug.</li>
+<li><strong>AI traffic share of 0.5% to 3% of total sessions for most sites.</strong> B2B SaaS and content sites trend higher, up to 8%. Local service sites trend lower, often under 1%.</li>
+<li><strong>Conversion rate 2 to 5 times higher than organic search.</strong> This is the most consistent pattern across our client reports.</li>
+</ul>
+<p>If your AI Search channel shows zero sessions after 24 hours, your site either has no AI citations yet or the channel order is wrong. Revisit Step 4.</p>
+<h2>Troubleshooting Common Tracking Gaps</h2>
+<p>Three problems come up in every client onboarding. Here is the fix for each.</p>
+<p><strong>Problem: AI Search channel shows zero sessions.</strong>
+<strong>Solution:</strong> Open Admin → Channel groups. Confirm the channel order puts AI Search above Referral. If the order is correct, copy the regex to regex101.com and test against <code>chatgpt.com</code>. A broken pattern silently fails. Rebuild if needed.</p>
+<p><strong>Problem: ChatGPT traffic appears as Direct instead of Referral.</strong>
+<strong>Solution:</strong> Free ChatGPT users strip referrers. There is no fix inside GA4. Add a site-wide prompt or link watermark that includes a UTM parameter (<code>utm_source=chatgpt&amp;utm_medium=ai</code>) in your most-cited content so paid ChatGPT users carry the tag. You will still lose most free users, but partial data beats none.</p>
+<p><strong>Problem: Gemini traffic counts as Organic Search, not AI Search.</strong>
+<strong>Solution:</strong> Google routes Gemini clicks through <code>google.com</code> with the same referrer as regular search. Use UTM parameters on your AI Overview-optimized pages, or filter organic traffic by landing page for pages that rank in AI Overviews. Our <a href="/blog/what-is-google-ai-overview/">guide to Google AI Overviews</a> covers which pages are most likely to trigger them.</p>
+<p><strong>Problem: Regex pattern saves but channel still empty after 24 hours.</strong>
+<strong>Solution:</strong> GA4 has a 500-character limit on regex patterns in channel conditions. If your pattern is longer, split it into two channels (AI Search Part 1, AI Search Part 2) and combine them in reports using a calculated metric.</p>
+<h2>Frequently Asked Questions</h2>
+<p><strong>Does Google Analytics track AI traffic by default?</strong></p>
+<p>No. GA4 classifies ChatGPT, Perplexity, and Claude traffic as generic "Referral" and Gemini traffic as "Organic Search." You need a custom channel group with a regex pattern to see AI traffic as a distinct channel.</p>
+<p><strong>Can I track AI traffic without GA4 Admin access?</strong></p>
+<p>No. Custom channel groups require Editor or Admin permissions on the GA4 property. If you only have Viewer access, ask your admin to follow Steps 3 and 4 once. You can still build Explorations with Viewer access.</p>
+<p><strong>Why does ChatGPT traffic show up as Direct?</strong></p>
+<p>Free ChatGPT users (Web and app) do not pass a referrer header. Their clicks land as <code>(direct) / (none)</code> regardless of tracking setup. Only paid ChatGPT Plus and Enterprise users reliably send a <code>chatgpt.com</code> referrer. Expect to capture 60 to 80% of actual ChatGPT traffic.</p>
+<p><strong>Do AI visitors convert better than organic search visitors?</strong></p>
+<p>In our reports, yes. AI traffic converts at 2 to 5 times the rate of organic search on B2B SaaS sites. ChatGPT traffic averages a 15.9% conversion rate and Perplexity averages 10.5%. Session duration averages 9 to 10 minutes, much higher than organic search. Your numbers will vary by industry.</p>
+<p><strong>How often should I update the AI regex pattern?</strong></p>
+<p>Every quarter. New AI platforms launch constantly. Grok, DeepSeek, and Kimi all appeared in the last 12 months. Check your Traffic Acquisition report for unfamiliar referrers with growing sessions, add them to the regex, and save.</p>
+<p><strong>Can I track Google AI Overview clicks separately?</strong></p>
+<p>Not cleanly. Google does not tag AI Overview clicks differently from regular organic clicks. The workaround is to filter organic sessions by landing pages that rank in AI Overviews. See the <a href="https://searchengineland.com/segment-llm-traffic-ga4-449127">Search Engine Land guide to LLM traffic segmentation</a> for a more advanced setup.</p>
+<h2>Conclusion</h2>
+<p>Now you know how to track AI traffic in Google Analytics. You built a custom channel group and a regex pattern that catches 40+ AI platforms. You also built an exploration that ties AI sessions to conversions.</p>
+<p>The setup takes 30 minutes once. The payoff is a channel report that proves whether AI search drives revenue. That question had no clear answer an hour ago.</p>
+<p>Which step will you start with? The fastest win is Step 1. It takes 3 minutes and tells you if AI traffic exists before you build anything.</p>
+<blockquote>
+<p><strong>Rank in Google. Get cited by AI. Measure it all in GA4.</strong> We publish 30 articles a month that compound into organic rankings and AI citations. You see the traffic in your custom channel group.
+<a href="/pricing/">Start for $1 →</a></p>
+</blockquote>
+<h2>Related Tools &amp; Resources</h2>
+<p><strong>Free SEO Tools:</strong>
+- <a href="/tools/seo-audit/">Free SEO Audit</a>
+- <a href="/tools/ai-content-detector/">AI Content Detector</a></p>
+<p><strong>Best Lists:</strong>
+- <a href="/best/ai-seo-tools/">Best AI SEO Tools</a>
+- <a href="/best/ai-content-writing-tools-for-seo/">Best AI Writing Tools</a></p>
+      </article>
+    </div>
+  </div>
+
+</BaseLayout>

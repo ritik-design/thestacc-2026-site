@@ -1,0 +1,306 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/fr/HeaderFr.astro';
+import Footer from '../../../components/fr/FooterFr.astro';
+
+const faqs = [
+  { q: "Stacc est-il compatible avec toutes les versions de Ghost ?", a: "Stacc se connecte à Ghost via l'API Content Admin officielle, disponible sur Ghost 3.0 et versions ultérieures. Compatible avec Ghost hébergé sur Ghost.io et les instances Ghost auto-hébergées. La connexion utilise une clé API Admin — aucun plugin à installer." },
+  { q: "Le contenu publié sera-t-il de qualité suffisante ?", a: "Stacc génère du contenu structuré pour le SEO avec intention de recherche claire, balisage H correct et méta-données optimisées. La plupart des clients activent l'approbation manuelle les premières semaines pour calibrer le ton, puis passent en automatique." },
+  { q: "Puis-je choisir les sujets des articles ?", a: "Oui. Vous pouvez définir des thèmes prioritaires, des services spécifiques ou des mots-clés cibles. Stacc s'assure que le contenu couvre vos priorités tout en identifiant aussi des opportunités de mots-clés que vous n'avez pas nécessairement demandées." },
+  { q: "La connexion Ghost affecte-t-elle mon site en production ?", a: "Non. Stacc publie des articles via l'API Admin — exactement comme si vous le faisiez manuellement dans le back-office Ghost. Les articles sont en brouillon par défaut jusqu'à validation si vous avez activé l'approbation." },
+  { q: "Quelle cadence de publication recommandez-vous ?", a: "Pour les résultats SEO, un minimum d'un article par semaine est recommandé. La plupart des clients commencent avec 4 articles par mois et augmentent une fois qu'ils voient les résultats. La cohérence est plus importante que la fréquence." },
+  { q: "Puis-je voir les articles avant qu'ils soient publiés ?", a: "Oui. Activez l'approbation manuelle dans les paramètres et chaque article vous sera soumis pour révision avant publication. Vous pouvez modifier, rejeter ou approuver directement depuis votre tableau de bord Stacc." },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Intégration Ghost",
+      "inLanguage": "fr",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Connectez Ghost à theStacc et publiez automatiquement du contenu SEO optimisé sur votre blog Ghost chaque mois.",
+      "offers": { "@type": "Offer", "price": "99", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://thestacc.com/fr/" },
+        { "@type": "ListItem", "position": 2, "name": "Intégrations", "item": "https://thestacc.com/fr/integrations/" },
+        { "@type": "ListItem", "position": 3, "name": "Ghost", "item": "https://thestacc.com/fr/integrations/ghost/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "fr",
+      "mainEntity": faqs.map(f => ({ "@type": "Question", "name": f.q, "acceptedAnswer": { "@type": "Answer", "text": f.a } }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Intégration Ghost — Publiez du Contenu SEO sur Ghost Automatiquement | theStacc"
+  description="Connectez Ghost à theStacc et publiez automatiquement du contenu SEO optimisé sur votre blog Ghost chaque mois. Augmentez le trafic organique sans effort manuel."
+  lang="fr"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Intégration Ghost · Module Blog SEO</span>
+          </div>
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Ghost + Stacc : du contenu SEO<br />
+            <span style="color:#4f39f6;">publié automatiquement chaque mois.</span>
+          </h1>
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Connectez votre site Ghost à Stacc et recevez du contenu SEO ciblé publié directement sur votre blog chaque mois. Rédigé pour se classer. Publié automatiquement. Aucune intervention de votre part.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/fr/demo/" class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Commencer gratuitement
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/fr/tarifs/" class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              Voir les tarifs
+            </a>
+          </div>
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            99 $/mois · Essai gratuit 14 jours · Sans carte bancaire
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PROBLEM ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Le problème</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Un blog Ghost sans contenu régulier<br />ne génère pas de trafic organique.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Ghost est une plateforme de publication puissante. Mais la plateforme ne rédige pas le contenu pour vous. Sans un flux régulier d'articles SEO optimisés, votre blog Ghost reste invisible dans les résultats de recherche.
+          </p>
+        </div>
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {[
+            { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'La rédaction régulière prend un temps considérable.', body: 'Un article SEO bien documenté prend 4 à 6 heures à produire. Pour maintenir la cadence nécessaire au référencement — un article par semaine — c\'est une ressource à temps partiel. La plupart des entreprises s\'essoufflent après 3 semaines.' },
+            { icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', title: 'La recherche de mots-clés est chronophage.', body: 'Identifier les mots-clés à fort potentiel, analyser l\'intention de recherche, évaluer la concurrence — toute cette recherche doit précéder la rédaction. Sans expertise SEO, la plupart des articles ratent leur cible et ne génèrent jamais de trafic.' },
+            { icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z', title: 'Les articles non optimisés n\'attirent pas de lecteurs.', body: 'Écrire pour son audience et écrire pour Google sont deux compétences différentes. Un article sans balisage H approprié, sans densité de mots-clés calibrée, sans structure de contenu optimisée a très peu de chances d\'apparaître en première page.' },
+          ].map(p => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={p.icon}/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{p.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Comment ça fonctionne</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Connectez Ghost. Recevez du contenu SEO. C'est tout.
+          </h2>
+        </div>
+        <div class="mx-auto mt-14 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+          {[
+            { n: '01', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1', title: 'Connectez votre site Ghost à Stacc', body: 'Liez votre instance Ghost à Stacc via l\'API Content. La connexion prend moins de 5 minutes. Stacc peut ensuite publier directement sur votre blog Ghost sans que vous ayez à intervenir manuellement.' },
+            { n: '02', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z', title: 'Stacc identifie les mots-clés à fort potentiel', body: 'Basé sur votre secteur, votre localisation et vos services, Stacc identifie les mots-clés à fort volume et faible concurrence sur lesquels votre site peut se classer. Un plan de contenu mensuel est généré automatiquement.' },
+            { n: '03', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Du contenu optimisé est publié directement sur Ghost', body: 'Chaque article est rédigé pour se classer — structure SEO correcte, balises d\'en-tête, méta-description, liens internes. Publié directement sur votre Ghost. Visible dans Google. Aucune intervention de votre part.' },
+          ].map(s => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={s.icon}/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.n}</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CAPABILITY GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Tout inclus</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Tout ce dont vous avez besoin<br />pour faire croître votre blog Ghost.
+          </h2>
+        </div>
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1', title: 'Publication directe sur Ghost', body: 'Stacc publie directement sur votre instance Ghost via l\'API officielle. Pas d\'export/import manuel. Le contenu apparaît directement dans votre back-office Ghost.' },
+            { icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z', title: 'Recherche de mots-clés automatisée', body: 'Stacc identifie les mots-clés à fort potentiel pour votre secteur chaque mois. Votre plan de contenu est basé sur des données de recherche réelles — pas des suppositions.' },
+            { icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z', title: 'Contenu rédigé pour se classer', body: 'Chaque article suit les meilleures pratiques SEO — structure H1/H2/H3 correcte, densité de mots-clés calibrée, méta-description optimisée, liens internes et externes pertinents.' },
+            { icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', title: 'Calendrier de publication automatique', body: 'Définissez votre cadence de publication — hebdomadaire, bimensuelle, mensuelle — et Stacc maintient le calendrier automatiquement. Jamais de semaine sans contenu.' },
+            { icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', title: 'Suivi de performance', body: 'Suivez les classements de vos articles publiés sur Ghost, le trafic organique généré et les positions dans les résultats de recherche — tout dans votre tableau de bord Stacc.' },
+            { icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Approbation avant publication', body: 'Activez l\'approbation manuelle pour revoir chaque article avant publication sur Ghost. Ou passez en publication automatique complète pour un fonctionnement entièrement autonome.' },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="container-x py-20">
+        <div class="mx-auto mt-0 grid max-w-5xl grid-cols-1 gap-px overflow-hidden rounded-2xl bg-white/5 md:grid-cols-3" style="border:1px solid rgba(255,255,255,0.08);">
+          {[
+            { value: '4/mois', label: 'Articles publiés automatiquement sur Ghost', sub: 'En moyenne par client actif' },
+            { value: '6h', label: 'Économisées par article', sub: 'Par rapport à la rédaction manuelle' },
+            { value: '3×', label: 'Trafic organique moyen après 90 jours', sub: 'Pour les clients actifs depuis 3 mois' },
+          ].map(s => (
+            <div class="flex flex-col items-center justify-center px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+              <p class="font-sans text-[3rem] font-semibold tracking-[-0.04em] text-[#292524]">{s.value}</p>
+              <p class="mt-2 font-sans text-[14px] font-semibold text-[#292524]/70">{s.label}</p>
+              <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.12em]" style="color:#4b5563;">{s.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#f5f3ff]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-[#c7c0fc] bg-white px-10 py-12 shadow-sm">
+            <div class="flex gap-1 mb-6">
+              {[1,2,3,4,5].map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <blockquote class="font-sans text-[1.2rem] leading-[1.65] text-[#111827] font-medium">
+              "On avait Ghost depuis 2 ans mais on ne publiait presque jamais. Avec Stacc, on a eu 4 articles par mois publiés automatiquement. En 90 jours notre trafic organique a triplé."
+            </blockquote>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="h-11 w-11 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                <span class="font-mono text-[14px] font-bold text-white">JD</span>
+              </div>
+              <div>
+                <p class="font-sans text-[14px] font-semibold text-[#111827]">Julien D.</p>
+                <p class="font-mono text-[11px] text-[#79716b]">Fondateur · Cabinet de conseil</p>
+              </div>
+              <div class="ml-auto hidden sm:flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1.5">
+                <span class="font-mono text-[11px] font-semibold text-[#059669]">×3 trafic organique en 90 jours</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Questions fréquentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Questions sur l'intégration Ghost
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left" aria-expanded={i === 0 ? 'true' : 'false'}>
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Votre blog Ghost mérite d'être lu</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Stacc s'occupe du contenu.
+            <span style="color:#818cf8;"> Vous vous occupez de votre activité.</span>
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Connectez Ghost aujourd'hui et recevez votre premier article SEO en moins d'une semaine.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/fr/demo/" class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Commencer gratuitement
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/fr/tarifs/" class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5">
+              Voir les tarifs
+            </a>
+          </div>
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">Essai gratuit 14 jours · Sans carte bancaire · Annulez quand vous voulez</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

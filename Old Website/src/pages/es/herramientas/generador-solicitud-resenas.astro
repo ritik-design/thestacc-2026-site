@@ -1,0 +1,304 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Generador de Plantillas de Solicitud de Reseñas Gratuito | theStacc';
+const pageDescription = 'Genera plantillas personalizadas de solicitud de reseñas para email, SMS y en persona en 10 segundos. Multicanal, específico por sector, con tu enlace de reseñas de Google incluido. Gratis, sin registro.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Generador de Plantillas de Solicitud de Reseñas Gratuito',
+  description: 'Genera plantillas personalizadas de solicitud de reseñas para email, SMS, en persona y seguimiento. Específico por sector, multicanal, con el enlace de reseñas de Google incluido.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: '¿Cómo le pido a un cliente una reseña de Google?', acceptedAnswer: { '@type': 'Answer', text: 'La mejor forma de pedir es inmediatamente después de una experiencia positiva. En persona, por mensaje o por email. Sé breve, personalízalo (usa su nombre y menciona el servicio) e incluye un enlace directo a tu página de reseñas de Google para que no tengan que buscarte.' } },
+    { '@type': 'Question', name: '¿Cuándo es el mejor momento para enviar una solicitud de reseña?', acceptedAnswer: { '@type': 'Answer', text: 'Para SMS: dentro de la primera hora tras el servicio. Para email: dentro de las 2 horas. En persona: en la caja mientras el cliente aún está satisfecho. Cuanto más cerca de la experiencia, mayor es la tasa de respuesta. Haz un seguimiento 3-5 días después si no han respondido.' } },
+    { '@type': 'Question', name: '¿Debo pedir reseñas por email o por mensaje de texto?', acceptedAnswer: { '@type': 'Answer', text: 'Los mensajes de texto tienen tasas de respuesta 3-5 veces superiores al email para solicitudes de reseñas. Sin embargo, el email funciona mejor para peticiones más largas y profesionales. Usa ambos: mensaje de texto para la solicitud inicial, email para un recordatorio de seguimiento.' } },
+    { '@type': 'Question', name: '¿Va contra las normas de Google pedir reseñas?', acceptedAnswer: { '@type': 'Answer', text: 'No. Google anima explícitamente a los negocios a pedir reseñas a los clientes. Lo que no puedes hacer es ofrecer incentivos (descuentos, regalos) a cambio de reseñas, ni pedir reseñas solo a los clientes satisfechos (filtrado de reseñas). Pedir a todos los clientes por igual es perfectamente válido.' } },
+    { '@type': 'Question', name: '¿Es gratuito este generador de solicitud de reseñas?', acceptedAnswer: { '@type': 'Answer', text: 'Sí, 100% gratuito. Sin registro ni tarjeta de crédito requeridos. Introduce los datos de tu negocio, selecciona tus canales y obtén plantillas personalizadas para email, SMS, scripts en persona y recordatorios de seguimiento al instante.' } },
+  ],
+};
+
+const industries = [
+  'Dental / Ortodoncia','Legal / Bufete de abogados','Fontanería / HVAC','Electricidad',
+  'Tejados / Construcción','Inmobiliaria','Contabilidad / Impuestos','Restaurante / Cafetería',
+  'Salón / Spa / Belleza','Reparación / Detallado de Autos','Servicios de Limpieza','Paisajismo / Jardinería',
+  'Veterinaria / Mascotas','Quiropráctica / Fisioterapia','Servicios IT / Consultoría',
+  'Fitness / Gimnasio / Yoga','Fotografía / Videografía','Seguros / Servicios Financieros',
+  'Decoración de Interiores','Tutorías / Educación','Peluquería Canina / Guardería',
+  'Mudanzas / Almacenamiento','Control de Plagas',
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Generador de Plantillas de Solicitud de Reseñas Gratuito"
+  toolDescription="Obtén scripts personalizados de email, SMS, en persona y seguimiento con tu enlace de reseñas de Google incluido. Multicanal, específico por sector. Sin registro."
+  lang="es"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <!-- Business Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz">Nombre del Negocio <span class="text-red-500">*</span></label>
+          <input type="text" id="biz" required maxlength="100" placeholder="ej., Clínica Dental Familia García" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-biz">Por favor, introduce el nombre de tu negocio</p>
+        </div>
+
+        <!-- Industry -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ind">Sector <span class="text-red-500">*</span></label>
+          <select id="ind" required class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+            <option value="" disabled selected>Selecciona tu sector</option>
+            {industries.map(ind => <option>{ind}</option>)}
+            <option value="__other__">Otro (escribe el tuyo)</option>
+          </select>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-ind">Por favor, selecciona tu sector</p>
+          <input type="text" id="ind-other" placeholder="ej., Organización de bodas, Limpieza de piscinas" maxlength="60" class="mt-1.5 hidden w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Customer First Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="cname">Nombre del Cliente <span class="font-normal normal-case tracking-normal text-[#79716b]">. Opcional</span></label>
+          <input type="text" id="cname" maxlength="30" placeholder="ej., Juan (déjalo en blanco para genérico)" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Service Provided -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="svc">Servicio Prestado <span class="font-normal normal-case tracking-normal text-[#79716b]">. Opcional</span></label>
+          <input type="text" id="svc" maxlength="80" placeholder="ej., tu servicio o cita reciente" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Google Review Link -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="rlink">Enlace de Reseñas de Google <span class="font-normal normal-case tracking-normal text-[#79716b]">. Opcional</span></label>
+          <input type="url" id="rlink" placeholder="Pega tu enlace de reseñas de Google (o añadiremos un marcador de posición)" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 text-[11px] text-[#79716b]">¿No lo tienes? <a href="/es/herramientas/generador-qr-resenas/" class="text-[#6d28d9] underline">Encuéntralo con nuestro Generador de QR</a></p>
+        </div>
+
+        <!-- Tone -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Tono</label>
+          <div class="flex flex-wrap gap-2">
+            {[
+              { val: 'friendly', label: 'Amigable' },
+              { val: 'professional', label: 'Profesional' },
+              { val: 'brief', label: 'Breve' },
+            ].map((t, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="tone" value={t.val} checked={i === 0} class="peer sr-only" />
+                <span class="inline-block rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff] peer-checked:text-[#4f39f6]">{t.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Channels -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Canales <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-2 gap-2">
+            {[
+              { id: 'ch-email', label: 'Email', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>` },
+              { id: 'ch-sms', label: 'SMS / Texto', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>` },
+              { id: 'ch-inperson', label: 'Script en Persona', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>` },
+              { id: 'ch-followup', label: 'Recordatorio de Seguimiento', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>` },
+            ].map(ch => (
+              <label class="flex items-center gap-2.5 rounded-lg border border-[#e7e5e4] px-3 py-2.5 cursor-pointer transition-colors has-[:checked]:border-[#4f39f6] has-[:checked]:bg-[#f5f3ff]">
+                <input type="checkbox" id={ch.id} checked class="accent-[#615fff] w-4 h-4" />
+                <span class="flex h-5 w-5 shrink-0 items-center justify-center" set:html={ch.icon}></span>
+                <span class="text-[13px] font-medium text-[#292524]">{ch.label}</span>
+              </label>
+            ))}
+          </div>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-channels">Por favor, selecciona al menos un canal</p>
+        </div>
+
+        <!-- Info box -->
+        <div class="mb-5 flex items-start gap-2 rounded-lg bg-[#f5f3ff] border border-[#ddd6fe] p-3">
+          <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+          <p class="text-[13px] text-[#57534e] leading-relaxed"><strong class="text-[#292524]">Herramienta única en su tipo.</strong> Ninguna otra herramienta gratuita genera plantillas personalizadas y multicanal de solicitud de reseñas con tu enlace de reseña incluido. Las plantillas de blog requieren buscar y reemplazar manualmente. Esta lo hace por ti.</p>
+        </div>
+
+        <button type="submit" id="gen-btn" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase tracking-wide text-white transition-all hover:bg-[#4f39f6] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+          Generar Kit de Solicitud de Reseñas
+        </button>
+      </form>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="mt-8 hidden">
+      <div class="mb-4 flex items-center justify-center gap-1.5 rounded-lg bg-[#fafaf9] border border-[#e7e5e4] px-4 py-2 font-mono text-xs text-[#79716b]">
+        Plantillas generadas esta sesión: <strong class="text-[#6d28d9]" id="gen-count">0</strong>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="mb-4 flex border-b border-[#e7e5e4]">
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-[#4f39f6] text-[#4f39f6] cursor-pointer transition-colors" data-tab="email">Email</button>
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-transparent text-[#79716b] cursor-pointer transition-colors" data-tab="sms">SMS</button>
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-transparent text-[#79716b] cursor-pointer transition-colors" data-tab="inperson">En Persona</button>
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-transparent text-[#79716b] cursor-pointer transition-colors" data-tab="followup">Seguimiento</button>
+      </div>
+
+      <!-- Tab Panels -->
+      <div id="panel-email" class="tab-panel"></div>
+      <div id="panel-sms" class="tab-panel hidden"></div>
+      <div id="panel-inperson" class="tab-panel hidden"></div>
+      <div id="panel-followup" class="tab-panel hidden"></div>
+
+      <!-- Review Link Section -->
+      <div id="link-section" class="mt-4"></div>
+
+      <!-- Actions -->
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="regen" class="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Generar Otra
+        </button>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">Acabas de crear plantillas para 1 cliente.<br/>Stacc las envía a todos tus clientes, automáticamente.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Solicitudes de reseñas personalizadas por email y SMS. En piloto automático. Desde $49/mes.</p>
+        <a href="/es/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Empieza tu Prueba por $1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 durante 30 días &middot; Cancela cuando quieras</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Cómo Pedir Reseñas de Google (Sin Que Sea Incómodo)</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La razón principal por la que los negocios no obtienen reseñas no es el mal servicio. Es que nunca preguntan. Y cuando lo hacen, la solicitud suele ser demasiado genérica, demasiado tarde o demasiado difícil para que el cliente actúe.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Hazlo personal.</strong> Usa el nombre del cliente y menciona el servicio específico. "Hola Sara, gracias por venir hoy a tu limpieza" convierte 3 veces más que "Estimado cliente".</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Hazlo fácil.</strong> Incluye un enlace directo a tu página de reseñas de Google. Si el cliente tiene que buscarte en Google, navegar hasta las reseñas y hacer clic en "Escribir una reseña", lo has perdido. Un clic debería ser todo lo necesario.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Hazlo oportuno.</strong> Pregunta dentro de 1-2 horas tras el servicio, mientras la experiencia aún está fresca. Cuanto más esperes, más cae la tasa de respuesta. Un mensaje de texto enviado 30 minutos después de su cita obtiene 5 veces más respuestas que un email enviado al día siguiente.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Hazlo sin presión.</strong> "Si tienes 30 segundos" es mejor que "Por favor, tómate el tiempo para dejar una reseña detallada." Nadie quiere tareas. Preséntalo como algo rápido y fácil. Porque lo es.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Haz un seguimiento una vez.</strong> Si no responden a la primera solicitud, envía un seguimiento cortés 3-5 días después. Después de eso, déjalo estar. A nadie le gusta que le insistan.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Cuándo Enviar una Solicitud de Reseña</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">SMS / Texto:</strong> Dentro de la primera hora tras el servicio. Lo mejor entre las 10:00 y las 18:00. Los mensajes de texto tienen una tasa de apertura del 98%, lo que los convierte en el canal más efectivo para solicitudes de reseñas.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Email:</strong> Dentro de las 2 horas del servicio, o el mismo día laborable. Envía entre las 9-11 o las 13-15 para mejores tasas de apertura. Incluye el enlace de reseña de forma prominente. No lo entierres en el texto del párrafo.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">En Persona:</strong> En el momento de mayor satisfacción. Justo después de completar el servicio, mientras el cliente está pagando o preparándose para irse. No esperes a que ya estén fuera. Ten un código QR expuesto en la caja.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Seguimiento:</strong> 3-5 días después de la solicitud inicial. Más corto que el primer email. Reconoce que están ocupados. Incluye el enlace de nuevo.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Consejos de Solicitud de Reseñas por Sector</h2>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Dentistas y Clínicas Dentales</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Pregunta justo después de la cita, antes de que el paciente salga de la consulta. El personal de recepción debe tener un script preparado. Mencionar el tratamiento específico: "Gracias por venir a tu limpieza" resulta más personal que "Gracias por tu visita." Los mensajes de texto funcionan especialmente bien para los pacientes más jóvenes.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Fontaneros y HVAC</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Pide al técnico que pregunte en persona al terminar el trabajo, y luego haz seguimiento con un mensaje de texto en la hora siguiente. El cliente está más satisfecho cuando el problema está resuelto. Esa es tu ventana. "Tu desagüe fluye perfectamente ahora. ¿Te importaría dejarnos una reseña rápida en Google?"</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Abogados y Despachos de Abogados</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">El momento lo es todo en el sector legal. No preguntes durante un caso activo. Pregunta después de una resolución exitosa. Usa un tono profesional. Los abogados deben ser especialmente cuidadosos de no hacer referencia a los detalles del caso en las solicitudes de reseñas.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Restaurantes y Cafeterías</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Los códigos QR en la mesa o el ticket son la solicitud más natural en un restaurante. Enseña a los camareros a mencionarlo al dejar la cuenta: "Si ha disfrutado de su comida, nos encantaría una reseña rápida. Hay un código QR en la mesa." No envíes texto o email a menos que recojas información de contacto a través de reservas.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Preguntas Frecuentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Cómo le pido a un cliente una reseña de Google?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Pregunta inmediatamente después de una experiencia positiva. En persona, por mensaje o por email. Usa su nombre, menciona el servicio específico e incluye un enlace directo a tus reseñas de Google. Sé breve y sin presión. "Si tienes 30 segundos" funciona mejor que una solicitud larga y formal.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Cuándo es el mejor momento para enviar una solicitud de reseña?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Para SMS: dentro de la primera hora tras el servicio. Para email: dentro de las 2 horas. En persona: en la caja. Cuanto más cerca de la experiencia, mayor la tasa de respuesta. Haz un seguimiento 3-5 días después si es necesario.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Debo pedir reseñas por email o por mensaje de texto?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Los mensajes de texto tienen tasas de respuesta 3-5 veces superiores al email. Usa ambos: mensaje de texto para la solicitud inicial (rápido, alta tasa de apertura), email para un recordatorio de seguimiento (más espacio para personalización). Las solicitudes en persona con códigos QR también funcionan muy bien.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Va contra las normas de Google pedir reseñas?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">No. Google anima a los negocios a pedir reseñas. Lo que no puedes hacer es ofrecer incentivos (descuentos, regalos) por reseñas, ni pedir reseñas solo a los clientes satisfechos (filtrado de reseñas). Pedir a todos los clientes por igual está bien y es recomendable.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Es gratuito este generador de solicitud de reseñas?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sí, 100% gratuito. Sin registro ni tarjeta de crédito requeridos. Introduce los datos de tu negocio, elige tus canales y obtén plantillas personalizadas para email, SMS, en persona y seguimiento al instante.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Más Herramientas SEO Local Gratuitas</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/es/herramientas/generador-qr-resenas/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Generador de QR para Reseñas</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Códigos QR listos para imprimir para reseñas de Google</p>
+          </a>
+          <a href="/es/herramientas/generador-respuesta-resenas/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Generador de Respuesta a Reseñas</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Responde a reseñas de Google en segundos</p>
+          </a>
+          <a href="/es/herramientas/generador-post-gbp/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Generador de Post GBP</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Genera publicaciones GBP listas para publicar</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta herramienta requiere JavaScript. Por favor, actívalo en tu navegador.</p></div></noscript>
+    <script is:inline src="/js/review-request-engine.js"></script>
+  </Fragment>
+</ToolLayout>

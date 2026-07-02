@@ -1,0 +1,469 @@
+---
+import ToolLayout from '../../../layouts/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../../lib/schema-builders';
+
+const pageTitle = 'Free Google Review QR Code Generator | theStacc';
+const pageDescription = 'Generate print-ready Google review QR codes in 10 seconds. Table tents, counter cards, posters, business cards. PNG download, no signup. Free.';
+const pageUrl = 'https://thestacc.com/tools/review-qr-code-generator/';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Google Review QR Code Generator',
+  description: 'Generate print-ready Google review QR codes with customizable templates. Table tents, counter cards, posters, business cards. Download as PNG or SVG.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'How do I find my Google review link?', a: 'Search for your business on Google, click your business listing, click "Ask for reviews" in the Google Business Profile dashboard, and copy the link. You can also go to business.google.com, select your business, and find the review link under "Get more reviews."' },
+  { q: 'What size should a review QR code be for printing?', a: 'For table tents and counter cards, a QR code should be at least 1 inch (2.5 cm) square. For wall posters, 2-3 inches works well. The QR code must be large enough for phone cameras to scan from the expected viewing distance. Roughly 10x the scanning distance in inches.' },
+  { q: 'Do Google review QR codes expire?', a: 'No. Google review QR codes point to your Google review URL, which is permanent as long as your Google Business Profile exists. The QR code itself is just an encoding of that URL and never expires.' },
+  { q: 'Can I customize the color of my review QR code?', a: 'Yes. This tool lets you choose from 6 color themes (purple, blue, green, red, orange, black) that apply to both the QR code and the surrounding print template. Dark colors on white backgrounds scan most reliably.' },
+  { q: 'Is this QR code generator free?', a: 'Yes, 100% free. No signup required. Generate unlimited QR codes, choose from 6 print templates, customize colors, and download as PNG or SVG. Everything runs in your browser. No data is sent to any server.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+
+const templates = [
+  { id: 'tableTent', label: 'Table Tent', size: '4.25" x 5.5"', w: 340, h: 440 },
+  { id: 'counterCard', label: 'Counter Card', size: '4" x 6"', w: 320, h: 480 },
+  { id: 'wallPoster', label: 'Wall Poster', size: '8.5" x 11"', w: 340, h: 440 },
+  { id: 'businessCard', label: 'Business Card', size: '3.5" x 2"', w: 420, h: 240 },
+  { id: 'receiptInsert', label: 'Receipt Insert', size: '3" x 5"', w: 300, h: 500 },
+  { id: 'windowSticker', label: 'Window Sticker', size: '4" x 4"', w: 400, h: 400 },
+];
+
+const colors = [
+  { id: '#615fff', label: 'Purple' },
+  { id: '#2563eb', label: 'Blue' },
+  { id: '#16a34a', label: 'Green' },
+  { id: '#dc2626', label: 'Red' },
+  { id: '#ea580c', label: 'Orange' },
+  { id: '#171717', label: 'Black' },
+];
+---
+
+<ToolLayout
+  seo={{ title: pageTitle, description: pageDescription, canonical: pageUrl, ogImage: '/og/tools-review-qr-code-generator.webp' }}
+  toolName="Free Google Review QR Code Generator"
+  toolDescription="Paste your Google review link, choose a template, and download a print-ready QR code. Table tents, counter cards, posters, and more. No signup."
+  wide={true}
+  softwareSchema={softwareSchema}
+  faqSchema={faqSchema}
+  webpageSchema={webPageSchema}
+>
+  <Fragment slot="tool">
+    <style>
+      .qr-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 28px; align-items: start; }
+      @media (max-width: 900px) { .qr-wrap { grid-template-columns: 1fr; } }
+      .qr-card { background: white; border: 1px solid var(--border); padding: 28px; }
+      .qr-card h2 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+      .qr-card .sub { font-size: 13px; color: var(--text-3); margin-bottom: 24px; }
+      .qr-field { margin-bottom: 18px; }
+      .qr-field label { display: block; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; color: var(--text-1); }
+      .qr-field label .opt { font-weight: 400; text-transform: none; letter-spacing: 0; font-family: inherit; font-size: 12px; color: var(--text-3); }
+      .qr-field input { width: 100%; padding: 12px 14px; font-size: 15px; color: var(--text-1); background: white; border: 1px solid var(--border-strong); font-family: inherit; transition: border-color 0.15s; }
+      .qr-field input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-glow); }
+      .qr-hint { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); margin-top: 6px; }
+      .qr-helper { margin-bottom: 20px; padding: 16px; background: var(--brand-softer); border: 1px solid #ddd6fe; }
+      .qr-helper summary { cursor: pointer; font-size: 13px; font-weight: 600; color: #6d28d9; }
+      .qr-helper ol { margin: 12px 0 0 18px; padding: 0; font-size: 13px; line-height: 1.7; color: var(--text-2); }
+      .qr-helper li { margin-bottom: 6px; }
+      .qr-helper a { color: var(--brand); text-decoration: underline; }
+      .qr-helper code { background: white; padding: 2px 5px; font-family: 'Geist Mono', monospace; font-size: 11px; }
+      .qr-status { display: none; font-size: 12px; margin-top: 6px; }
+      .qr-status.show { display: block; }
+      .qr-status.ok { color: #16a34a; }
+      .qr-status.err { color: #dc2626; }
+
+      .qr-templates { margin-bottom: 18px; }
+      .qr-templates > label { margin-bottom: 10px; }
+      .qr-tpl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      @media (max-width: 520px) { .qr-tpl-grid { grid-template-columns: repeat(2, 1fr); } }
+      .qr-tpl { cursor: pointer; border: 1px solid var(--border); padding: 12px; text-align: center; transition: all 0.15s; }
+      .qr-tpl input { position: absolute; opacity: 0; }
+      .qr-tpl-icon { margin: 0 auto 8px; border: 1px solid var(--border-strong); background: var(--bg-soft); }
+      .qr-tpl-name { display: block; font-size: 13px; font-weight: 600; color: var(--text-1); }
+      .qr-tpl-size { display: block; font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); margin-top: 2px; }
+      .qr-tpl:has(input:checked) { border-color: var(--brand); background: var(--brand-softer); }
+      .qr-tpl:has(input:checked) .qr-tpl-name { color: var(--brand); }
+
+      .qr-colors { display: flex; gap: 10px; flex-wrap: wrap; }
+      .qr-color { cursor: pointer; width: 32px; height: 32px; border: 2px solid transparent; transition: all 0.15s; }
+      .qr-color input { position: absolute; opacity: 0; }
+      .qr-color:has(input:checked) { border-color: var(--text-1); box-shadow: 0 0 0 2px white, 0 0 0 4px var(--brand); }
+
+      .qr-preview { background: white; border: 1px solid var(--border); padding: 28px; }
+      .qr-preview-label { display: block; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 16px; }
+      .qr-preview-inner { display: flex; justify-content: center; }
+      .qr-preview canvas { max-width: 100%; border: 1px solid var(--border); }
+      .qr-download { display: none; margin-top: 20px; }
+      .qr-download.show { display: block; }
+      .qr-download-btns { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+      .qr-download-btns button { display: inline-flex; align-items: center; gap: 6px; padding: 12px 18px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-strong); font-family: inherit; }
+      .qr-download-btns .primary { background: var(--brand); color: white; border-color: var(--brand); }
+      .qr-download-btns .primary:hover { background: var(--text-1); border-color: var(--text-1); }
+      .qr-download-btns .secondary { background: white; color: var(--text-1); }
+      .qr-download-btns .secondary:hover { background: var(--bg-soft); }
+      .qr-download-tip { text-align: center; font-size: 12px; color: var(--text-3); margin-top: 12px; }
+      .qr-empty { background: var(--bg-soft); border: 1px dashed var(--border-strong); padding: 48px 32px; text-align: center; color: var(--text-3); font-size: 14px; }
+    </style>
+
+    <div class="qr-wrap">
+      <div>
+        <div class="qr-card">
+          <h2>Your review link</h2>
+          <p class="sub">Paste your direct Google review URL. Everything renders in your browser.</p>
+
+          <details class="qr-helper">
+            <summary>How do I find my Google review link?</summary>
+            <ol>
+              <li>Go to <a href="https://business.google.com" target="_blank" rel="noopener noreferrer">business.google.com</a> and sign in.</li>
+              <li>Select your business, then click <strong>"Ask for reviews"</strong> (or "Get more reviews").</li>
+              <li>Copy the link. It will look like <code>https://g.page/r/...</code> or contain <code>search.google.com/local/writereview</code>.</li>
+            </ol>
+          </details>
+
+          <div class="qr-field">
+            <label for="qr-url">Google Review Link <span class="text-red-500">*</span></label>
+            <input type="url" id="qr-url" required placeholder="Paste your Google review link" value="https://search.google.com/local/writereview?placeid=DEMO" />
+            <p class="qr-status" id="qr-status"></p>
+          </div>
+
+          <div class="qr-field">
+            <label for="qr-biz">Business Name <span class="text-red-500">*</span></label>
+            <input type="text" id="qr-biz" required maxlength="60" placeholder="Your business name" value="Your Business" />
+            <p class="qr-hint" style="text-align:right;"><span id="qr-biz-count">13</span> / 60</p>
+          </div>
+
+          <div class="qr-field">
+            <label for="qr-headline">Headline Text <span class="opt">Optional</span></label>
+            <input type="text" id="qr-headline" maxlength="40" value="Love our service? Leave a review!" placeholder="Custom headline text" />
+            <p class="qr-hint" style="text-align:right;"><span id="qr-hl-count">33</span> / 40</p>
+          </div>
+        </div>
+
+        <div class="qr-card" style="margin-top:20px;">
+          <div class="qr-templates">
+            <label>Template Style</label>
+            <div class="qr-tpl-grid">
+              {templates.map((tpl, i) => (
+                <label class="qr-tpl">
+                  <input type="radio" name="qr-tpl" value={tpl.id} checked={i === 0} />
+                  <div class="qr-tpl-icon" style={`width:${tpl.id === 'businessCard' ? 44 : 34}px;height:${tpl.id === 'businessCard' ? 25 : tpl.id === 'windowSticker' ? 36 : 44}px;`}></div>
+                  <span class="qr-tpl-name">{tpl.label}</span>
+                  <span class="qr-tpl-size">{tpl.size}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div class="qr-field" style="margin-bottom:0;">
+            <label>Color Theme</label>
+            <div class="qr-colors">
+              {colors.map((c, i) => (
+                <label class="qr-color" style={`background-color:${c.id};`} title={c.label}>
+                  <input type="radio" name="qr-color" value={c.id} checked={i === 0} />
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-preview">
+        <span class="qr-preview-label">Live Preview</span>
+        <div class="qr-preview-inner">
+          <div class="qr-empty" id="qr-empty">Enter your details and the preview will appear here.</div>
+          <canvas id="qr-canvas" style="display:none;"></canvas>
+        </div>
+        <div class="qr-download" id="qr-download">
+          <div class="qr-download-btns">
+            <button id="qr-png" class="primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PNG
+            </button>
+            <button id="qr-svg" class="secondary">Download SVG</button>
+            <button id="qr-copy" class="secondary">Copy Review Link</button>
+          </div>
+          <p class="qr-download-tip">Tip: PNG is print-ready. Use SVG for further editing in Canva or Illustrator.</p>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script is:inline>
+      (function () {
+        const urlEl = document.getElementById('qr-url');
+        const bizEl = document.getElementById('qr-biz');
+        const hlEl = document.getElementById('qr-headline');
+        const statusEl = document.getElementById('qr-status');
+        const canvas = document.getElementById('qr-canvas');
+        const empty = document.getElementById('qr-empty');
+        const download = document.getElementById('qr-download');
+        const bizCount = document.getElementById('qr-biz-count');
+        const hlCount = document.getElementById('qr-hl-count');
+
+        const templates = {
+          tableTent: { label: 'Table Tent', w: 340, h: 440 },
+          counterCard: { label: 'Counter Card', w: 320, h: 480 },
+          wallPoster: { label: 'Wall Poster', w: 340, h: 440 },
+          businessCard: { label: 'Business Card', w: 420, h: 240 },
+          receiptInsert: { label: 'Receipt Insert', w: 300, h: 500 },
+          windowSticker: { label: 'Window Sticker', w: 400, h: 400 },
+        };
+
+        function getInputs() {
+          return {
+            url: urlEl.value.trim() || 'https://thestacc.com',
+            biz: bizEl.value.trim() || 'Your Business',
+            headline: hlEl.value.trim() || 'Leave us a review',
+            tpl: document.querySelector('input[name="qr-tpl"]:checked').value,
+            color: document.querySelector('input[name="qr-color"]:checked').value,
+          };
+        }
+
+        function isLikelyReviewUrl(url) {
+          return /g\.page\/r|search\.google\.com\/local\/writereview|google\.com\/maps.*review|business\.google\.com/i.test(url);
+        }
+
+        function makeQR(url) {
+          const qr = qrcode(0, 'M');
+          qr.addData(url);
+          qr.make();
+          return qr;
+        }
+
+        function wrapText(ctx, text, maxWidth) {
+          const words = text.split(' ');
+          const lines = [];
+          let line = '';
+          words.forEach((w) => {
+            const test = line ? line + ' ' + w : w;
+            if (ctx.measureText(test).width > maxWidth) {
+              if (line) lines.push(line);
+              line = w;
+            } else {
+              line = test;
+            }
+          });
+          if (line) lines.push(line);
+          return lines;
+        }
+
+        function drawTemplate(ctx, cfg, qr, scale) {
+          const tpl = templates[cfg.tpl];
+          const w = tpl.w;
+          const h = tpl.h;
+          canvas.width = w;
+          canvas.height = h;
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, w, h);
+
+          const margin = 24;
+          const qrSize = Math.min(w - margin * 2, h - margin * 2 - 90);
+          const cell = qrSize / qr.getModuleCount();
+          const qrX = (w - qrSize) / 2;
+          const qrY = h - margin - qrSize - (tpl.h > tpl.w ? 60 : 40);
+
+          // Header background bar
+          ctx.fillStyle = cfg.color;
+          ctx.fillRect(0, 0, w, 56);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 18px system-ui, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          const headlineLines = wrapText(ctx, cfg.headline, w - margin * 2);
+          headlineLines.slice(0, 2).forEach((line, i) => {
+            ctx.fillText(line, w / 2, 28 + i * 22);
+          });
+
+          // Business name
+          ctx.fillStyle = '#292524';
+          ctx.font = 'bold 16px system-ui, sans-serif';
+          const bizLines = wrapText(ctx, cfg.biz, w - margin * 2);
+          let y = qrY - 40;
+          bizLines.slice(0, 2).forEach((line) => {
+            ctx.fillText(line, w / 2, y);
+            y += 20;
+          });
+
+          // Draw QR
+          ctx.fillStyle = cfg.color;
+          for (let r = 0; r < qr.getModuleCount(); r++) {
+            for (let c = 0; c < qr.getModuleCount(); c++) {
+              if (qr.isDark(r, c)) {
+                ctx.fillRect(qrX + c * cell, qrY + r * cell, cell, cell);
+              }
+            }
+          }
+
+          // Footer hint
+          ctx.fillStyle = '#79716b';
+          ctx.font = '12px system-ui, sans-serif';
+          ctx.fillText('Scan to leave a Google review', w / 2, h - margin + 20);
+
+          return { w, h };
+        }
+
+        function render() {
+          const cfg = getInputs();
+          if (!cfg.url) return;
+
+          const qr = makeQR(cfg.url);
+          const ctx = canvas.getContext('2d');
+          drawTemplate(ctx, cfg, qr, 1);
+
+          empty.style.display = 'none';
+          canvas.style.display = 'block';
+          download.classList.add('show');
+
+          if (isLikelyReviewUrl(cfg.url)) {
+            statusEl.textContent = '✓ Valid Google review link format';
+            statusEl.className = 'qr-status show ok';
+          } else {
+            statusEl.textContent = 'This does not look like a Google review link, but the QR code will still work.';
+            statusEl.className = 'qr-status show err';
+          }
+        }
+
+        function downloadPNG() {
+          const cfg = getInputs();
+          const link = document.createElement('a');
+          link.download = `${cfg.biz.replace(/\s+/g, '-').toLowerCase()}-review-qr.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        }
+
+        function downloadSVG() {
+          const cfg = getInputs();
+          const qr = makeQR(cfg.url);
+          const tpl = templates[cfg.tpl];
+          const w = tpl.w;
+          const h = tpl.h;
+          const margin = 24;
+          const qrSize = Math.min(w - margin * 2, h - margin * 2 - 90);
+          const cell = qrSize / qr.getModuleCount();
+          const qrX = (w - qrSize) / 2;
+          const qrY = h - margin - qrSize - (tpl.h > tpl.w ? 60 : 40);
+
+          let paths = '';
+          for (let r = 0; r < qr.getModuleCount(); r++) {
+            for (let c = 0; c < qr.getModuleCount(); c++) {
+              if (qr.isDark(r, c)) {
+                paths += `M${qrX + c * cell},${qrY + r * cell}h${cell}v${cell}h-${cell}z`;
+              }
+            }
+          }
+
+          const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+            <rect width="${w}" height="${h}" fill="white"/>
+            <rect width="${w}" height="56" fill="${cfg.color}"/>
+            <text x="${w/2}" y="28" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="18" font-weight="bold" font-family="system-ui,sans-serif">${cfg.headline.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</text>
+            <text x="${w/2}" y="${qrY - 30}" text-anchor="middle" fill="#292524" font-size="16" font-weight="bold" font-family="system-ui,sans-serif">${cfg.biz.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</text>
+            <path d="${paths}" fill="${cfg.color}"/>
+            <text x="${w/2}" y="${h - margin + 20}" text-anchor="middle" fill="#79716b" font-size="12" font-family="system-ui,sans-serif">Scan to leave a Google review</text>
+          </svg>`;
+
+          const blob = new Blob([svg], { type: 'image/svg+xml' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.download = `${cfg.biz.replace(/\s+/g, '-').toLowerCase()}-review-qr.svg`;
+          link.href = url;
+          link.click();
+          URL.revokeObjectURL(url);
+        }
+
+        function copyLink() {
+          navigator.clipboard.writeText(urlEl.value.trim()).then(() => {
+            const btn = document.getElementById('qr-copy');
+            btn.textContent = 'Copied ✓';
+            setTimeout(() => btn.textContent = 'Copy Review Link', 1500);
+          });
+        }
+
+        function updateCounts() {
+          bizCount.textContent = bizEl.value.length;
+          hlCount.textContent = hlEl.value.length;
+        }
+
+        [urlEl, bizEl, hlEl].forEach((el) => el.addEventListener('input', () => { updateCounts(); render(); }));
+        document.querySelectorAll('input[name="qr-tpl"], input[name="qr-color"]').forEach((el) => {
+          el.addEventListener('change', render);
+        });
+        document.getElementById('qr-png').addEventListener('click', downloadPNG);
+        document.getElementById('qr-svg').addEventListener('click', downloadSVG);
+        document.getElementById('qr-copy').addEventListener('click', copyLink);
+
+        // Initial render
+        updateCounts();
+        render();
+      })();
+    </script>
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="speakable">
+      <h2>How to Get More Google Reviews with QR Codes</h2>
+      <p>Google reviews are the single most influential factor for local search rankings and customer trust. Businesses with 50+ reviews consistently outrank competitors in the Google Map Pack, and 93% of consumers say online reviews influence their purchasing decisions. The problem is not that customers are unwilling to leave reviews. It is that the process has too much friction.</p>
+      <p>A QR code eliminates every step between the customer's intent and the review form. Instead of asking someone to search for your business on Google, find the right listing, navigate to reviews, and click "Write a review," you hand them a single scan. Phone camera opens, tap the link, and they are on your Google review page in under 3 seconds.</p>
+      <p>The businesses that collect the most reviews are the ones that make it physically unavoidable. Place QR codes at the point of maximum satisfaction. The checkout counter after a successful purchase, the reception desk after a good appointment, the table after a great meal. Physical placement converts 3-5x better than follow-up emails because the experience is still fresh.</p>
+      <p>This tool generates print-ready QR code materials in 6 template formats. Each template is designed for a specific placement: table tents for restaurants and waiting rooms, counter cards for checkout areas, wall posters for lobbies, business cards for technicians and field staff, receipt inserts for retail, and window stickers for storefronts. Choose the format that matches where your customers experience the most value.</p>
+
+      <h2>Where to Place Your Review QR Code</h2>
+      <p>Placement matters more than design. The best position is wherever customers feel the most satisfied. Right after you have delivered value.</p>
+      <p><strong>Dental offices and healthcare:</strong> Reception desk at checkout, treatment room wall (patients stare at the ceiling for 30 minutes — give them something to scan), and appointment reminder cards. Table tent on the waiting room side table works well too.</p>
+      <p><strong>Restaurants and cafes:</strong> Table tent at every table (customers scan while waiting for the check), counter card at the register, and window sticker on the entrance door. Receipt inserts work for takeout orders.</p>
+      <p><strong>Plumbers, HVAC, and home services:</strong> Business card handed to the homeowner after the job is done, receipt insert stapled to the invoice, and a follow-up text with the review link. Field technicians should carry cards in their truck.</p>
+      <p><strong>Salons and spas:</strong> Counter card at the checkout mirror, business card tucked into the appointment reminder, and wall poster near the styling stations. Clients have their phones out. Make it easy.</p>
+
+      <h2>How to Find Your Google Review Link</h2>
+      <p>Your Google review link is a direct URL that opens the "Write a review" dialog for your business on Google. There are three ways to find it:</p>
+      <p><strong>Method 1. Google Business Profile dashboard:</strong> Go to <a href="https://business.google.com" target="_blank" rel="noopener noreferrer">business.google.com</a>, select your business, and click "Ask for reviews" or "Get more reviews." Copy the short link provided.</p>
+      <p><strong>Method 2. Google Search:</strong> Search for your exact business name on Google. In your Knowledge Panel (the card on the right), click "Ask for reviews." This generates the same review URL.</p>
+      <p><strong>Method 3. Google Maps:</strong> Open Google Maps, find your business listing, click it, scroll to the reviews section, and copy the URL from "Write a review." The URL will contain your Place ID.</p>
+      <p>All three methods produce a valid Google review link. The link typically starts with <code style="background:var(--bg-soft);padding:2px 6px;font-family:'Geist Mono',monospace;font-size:13px;">https://g.page/r/</code> or contains <code style="background:var(--bg-soft);padding:2px 6px;font-family:'Geist Mono',monospace;font-size:13px;">search.google.com/local/writereview</code>. Paste it into this tool and the QR code is generated instantly.</p>
+
+      <h2>Print Specifications for Review QR Codes</h2>
+      <p>For reliable scanning, follow these print guidelines. The QR code itself should be at least <strong>1 inch (2.5 cm) square</strong> at a minimum. Larger is always better — 1.5 to 2 inches is ideal for table tents and counter cards. Wall posters should use 2.5 to 3 inch QR codes for scanning from a few feet away.</p>
+      <p>Use a <strong>high-contrast color combination</strong>. Dark modules on a white background. This tool generates QR codes with your chosen accent color on white, which provides maximum scan reliability. Avoid printing on glossy surfaces that create glare, and leave a quiet zone (white border) of at least 4 modules around the QR code.</p>
+      <p>The PNG download from this tool is rendered at high resolution, making it suitable for professional printing. For further customization, download the SVG version and edit it in Canva, Adobe Illustrator, or Figma.</p>
+    </div>
+
+    <h2>Frequently asked questions</h2>
+    <div class="faq-list">
+      {faqs.map((faq) => (
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-q-text">{faq.q}</span><span class="faq-toggle" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>{faq.a}</p></div></div>
+        </div>
+      ))}
+        </div>
+  </Fragment>
+
+  <Fragment slot="related">
+    <div class="related-grid">
+      <a href="/tools/review-request-generator/" class="related-tool">
+        <span class="label">Reviews</span>
+        <h3>Review Request Generator</h3>
+        <p>Get personalized email, SMS, and in-person review request templates.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/review-response-generator/" class="related-tool">
+        <span class="label">Reviews</span>
+        <h3>Review Response Generator</h3>
+        <p>Reply to any Google review — 5 stars or 1 star — in your brand voice.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/gbp-post-generator/" class="related-tool">
+        <span class="label">Local SEO</span>
+        <h3>GBP Post Generator</h3>
+        <p>Generate 3 ready-to-publish Google Business Profile posts in 10 seconds.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+    </div>
+  </Fragment>
+</ToolLayout>

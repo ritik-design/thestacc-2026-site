@@ -1,0 +1,612 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+
+const seo = {
+  title: "Build an MCP Server for Marketing in 7 Steps",
+  description: "Learn how to build an MCP server for marketing. Connect your ad platforms, CRM, and analytics to AI assistants like Claude in 7 clear steps.",
+  canonical: "https://thestacc.com/blog/build-mcp-server-marketing/",
+  ogImage: "/og/blog-build-mcp-server-marketing.webp",
+  schemaData: [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://thestacc.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://thestacc.com/blog/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Build an MCP Server for Marketing in 7 Steps",
+        "item": "https://thestacc.com/blog/build-mcp-server-marketing/"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Build an MCP Server for Marketing in 7 Steps",
+    "description": "Learn how to build an MCP server for marketing. Connect your ad platforms, CRM, and analytics to AI assistants like Claude in 7 clear steps.",
+    "image": "https://thestacc.com/og/blog-build-mcp-server-marketing.webp",
+    "datePublished": "2026-04-04",
+    "dateModified": "2026-07-02",
+    "author": {
+      "@type": "Person",
+      "name": "Stacc Editorial"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "theStacc"
+    }
+  }
+]
+};
+---
+<BaseLayout seo={seo}>
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog/">Blog</a><span class="sep">/</span>
+      <span class="current">Build an MCP Server for Marketing in 7 Steps</span>
+    </div>
+    <span class="post-cat">SEO Tools</span>
+    <h1>Build an MCP Server for Marketing in 7 Steps</h1>
+    <p class="description">Learn how to build an MCP server for marketing. Connect your ad platforms, CRM, and analytics to AI assistants like Claude in 7 clear steps.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">SG</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/siddharth-gangal/">Stacc Editorial</a></span>
+          <span class="meta-author-role">Founder · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Apr 04, 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">22 min</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+<p>Marketing teams drown in disconnected data. Google Ads sits in one tab. HubSpot lives in another. Google Analytics runs in a third. Every question about campaign performance means switching between 4 or 5 tools, exporting CSVs, and stitching numbers together by hand.</p>
+<p>That manual process costs 5 to 10 hours per week for the average marketing analyst. Over a full year, that is more than 300 hours lost to tab-switching and spreadsheet wrangling.</p>
+<p>This guide shows you how to build an MCP server for marketing. You will connect your ad platforms, CRM data, and analytics tools to AI assistants like Claude or ChatGPT through one structured protocol.</p>
+<p>We publish 3,500+ blogs across 70+ industries. We have seen firsthand how protocol-driven automation changes marketing workflows. The Model Context Protocol is the next step in that direction.</p>
+<p>Here is what you will learn:</p>
+<ul>
+<li>What MCP is and why it matters for marketing teams</li>
+<li>How to plan your marketing data sources before writing code</li>
+<li>How to set up a TypeScript project and install the MCP SDK</li>
+<li>How to define marketing-specific tools and resources</li>
+<li>How to connect your server to Claude Desktop or Cursor</li>
+<li>How to test, secure, and deploy for production use</li>
+</ul>
+<h2>What Is an MCP Server (and Why Should Marketers Care)?</h2>
+<p>The Model Context Protocol (MCP) is an open standard created by Anthropic in November 2024. It gives AI assistants structured access to external tools and data sources. Think of MCP as a USB port for AI. One standard protocol connects any data source to any AI client.</p>
+<p>An MCP server is the connector that sits between your marketing tools and your AI assistant. It translates API calls from Google Ads, HubSpot, or GA4 into a format that Claude or ChatGPT can read and act on.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Role</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCP Client</td>
+<td>The AI assistant asking questions</td>
+<td>Claude Desktop, Cursor, ChatGPT</td>
+</tr>
+<tr>
+<td>MCP Server</td>
+<td>The connector translating requests</td>
+<td>Your custom server</td>
+</tr>
+<tr>
+<td>Resource</td>
+<td>The data source being accessed</td>
+<td>Google Ads API, HubSpot CRM</td>
+</tr>
+</tbody>
+</table></div>
+<p>By early 2026, more than 10,000 MCP servers exist across every category. The <a href="https://github.com/modelcontextprotocol/typescript-sdk">MCP SDK</a> has reached 97 million monthly downloads. OpenAI, Google, Microsoft, and AWS all support the protocol. Anthropic donated MCP to the Linux Foundation in December 2025, making it a true industry standard.</p>
+<p>For marketers, this means one thing. You can ask your AI assistant plain-language questions like "What is our Google Ads CPA this week?" and get real answers from live data. No dashboards. No exports. No SQL.</p>
+<p>An <a href="https://improvado.io/blog/mcp-server">Improvado study</a> found that marketing teams using MCP servers report 80% time savings on reporting workflows. That matches what we see across the industry. Teams that automate their <a href="/blog/ai-marketing-automation/">AI marketing workflows</a> move faster than those still toggling between tabs.</p>
+<p>The exception: not every team needs a custom MCP server. If you only use HubSpot, their official MCP server already exists. Custom builds make sense when you need to combine multiple data sources or add business logic that off-the-shelf servers do not support.</p>
+<p><img loading="lazy" alt="What is an MCP server for marketing" src="/images/blog/mcp-server-architecture-marketing.webp" /></p>
+<h2>What You Need Before You Build an MCP Server for Marketing</h2>
+<p><strong>Time required:</strong> 2 to 4 hours for a basic server. 1 to 2 days for production-ready deployment.</p>
+<p><strong>Difficulty:</strong> Intermediate. You need basic TypeScript or JavaScript knowledge.</p>
+<p><strong>What you will need:</strong></p>
+<ul>
+<li>[ ] Node.js 18+ installed on your machine</li>
+<li>[ ] A code editor (VS Code or Cursor recommended)</li>
+<li>[ ] TypeScript basics (variables, functions, async/await)</li>
+<li>[ ] API keys for your marketing tools (Google Ads, HubSpot, GA4, or similar)</li>
+<li>[ ] Claude Desktop, Cursor, or another MCP-compatible client</li>
+<li>[ ] A terminal or command line interface</li>
+</ul>
+<p>You do not need to be a senior engineer. If you can write a basic API call in JavaScript, you can build an MCP server. The SDK handles most of the heavy lifting.</p>
+<p>One prerequisite that trips people up: API access. Google Ads requires a developer token. HubSpot needs a private app token. GA4 uses a service account. Get these credentials set up before you start coding. Each platform has its own approval process, and some take 24 to 48 hours.</p>
+<blockquote>
+<p><strong>Skip the build entirely.</strong> Stacc handles content publishing, SEO optimization, and reporting on autopilot. No code required.
+<a href="/pricing/">Start for $1 →</a></p>
+</blockquote>
+<h2>Step 1: Choose Your Marketing Data Sources</h2>
+<p>Before writing a single line of code, map out exactly which marketing tools you want to connect. This step determines the scope of your MCP server and prevents scope creep later.</p>
+<p>Start with the tools your team queries most often. For most marketing teams, that list includes 3 categories.</p>
+<p><strong>Ad platforms:</strong></p>
+<ul>
+<li>Google Ads (campaign spend, CPA, ROAS, conversion data)</li>
+<li>Meta Ads (ad set performance, audience insights)</li>
+<li>LinkedIn Ads (B2B campaign metrics)</li>
+</ul>
+<p><strong>CRM and pipeline:</strong></p>
+<ul>
+<li>HubSpot (contacts, deals, lifecycle stages, attribution)</li>
+<li>Salesforce (opportunities, pipeline data)</li>
+</ul>
+<p><strong>Analytics:</strong></p>
+<ul>
+<li>Google Analytics 4 (traffic, events, conversions)</li>
+<li>Google Search Console (keyword rankings, click data)</li>
+<li><a href="/blog/seo-reporting-guide/">SEO reporting tools</a> (position tracking, backlink data)</li>
+</ul>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Data Source</th>
+<th>MCP Tool Type</th>
+<th>Example Query</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Google Ads</td>
+<td>Tool (callable function)</td>
+<td>"What is our CPA for the last 7 days?"</td>
+</tr>
+<tr>
+<td>HubSpot CRM</td>
+<td>Tool + Resource</td>
+<td>"Show me all deals closing this month"</td>
+</tr>
+<tr>
+<td>GA4</td>
+<td>Tool</td>
+<td>"How much organic traffic did we get last week?"</td>
+</tr>
+<tr>
+<td>Search Console</td>
+<td>Resource (browsable)</td>
+<td>"List our top 20 keywords by clicks"</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>The distinction matters.</strong> MCP supports 2 types of integrations. Tools are functions the AI can call with parameters. Resources are data the AI can browse through URI patterns. Ad spend queries work best as tools. Keyword ranking lists work best as resources.</p>
+<p>Pick 2 to 3 data sources for your first build. You can always add more later. Trying to connect everything at once is the number one reason custom MCP projects stall.</p>
+<p>For each source, document the API endpoint, authentication method, and the specific metrics you want to expose. This becomes your build blueprint.</p>
+<p><img loading="lazy" alt="Marketing data sources for MCP server" src="/images/blog/mcp-marketing-data-sources.webp" /></p>
+<h2>Step 2: Set Up Your Development Environment</h2>
+<p>Open your terminal and create a new project directory. The MCP TypeScript SDK is the fastest path to a working server.</p>
+<p>Run these commands:</p>
+<pre><code class="language-bash">mkdir marketing-mcp-server
+cd marketing-mcp-server
+npm init -y
+npm install @modelcontextprotocol/sdk zod express
+npm install -D typescript @types/node @types/express
+npx tsc --init
+</code></pre>
+<p>This installs 3 core dependencies:</p>
+<ul>
+<li><strong>@modelcontextprotocol/sdk</strong>. The official MCP SDK from Anthropic</li>
+<li><strong>zod</strong>. Schema validation for tool inputs (required by MCP)</li>
+<li><strong>express</strong>. HTTP server for production deployment</li>
+</ul>
+<p>Update your <code>tsconfig.json</code> with these settings:</p>
+<pre><code class="language-json">&#123;
+  &quot;compilerOptions&quot;: &#123;
+    &quot;target&quot;: &quot;ES2022&quot;,
+    &quot;module&quot;: &quot;Node16&quot;,
+    &quot;moduleResolution&quot;: &quot;Node16&quot;,
+    &quot;outDir&quot;: &quot;./dist&quot;,
+    &quot;strict&quot;: true,
+    &quot;esModuleInterop&quot;: true
+  &#125;
+&#125;
+</code></pre>
+<p>Create your project structure:</p>
+<pre><code>marketing-mcp-server/
+├── src/
+│   ├── index.ts          (server entry point)
+│   ├── tools/            (marketing tool definitions)
+│   │   ├── google-ads.ts
+│   │   ├── hubspot.ts
+│   │   └── ga4.ts
+│   └── resources/        (browsable data resources)
+│       └── keywords.ts
+├── tsconfig.json
+├── package.json
+└── .env                  (API keys. Never commit this)
+</code></pre>
+<p>Store your API keys in the <code>.env</code> file:</p>
+<pre><code>GOOGLE_ADS_TOKEN=your-developer-token
+HUBSPOT_TOKEN=your-private-app-token
+GA4_PROPERTY_ID=your-property-id
+</code></pre>
+<p><strong>Why this step matters:</strong> A clean project structure makes debugging easier and lets you add new marketing integrations without rewriting existing code. Teams that skip this organization step end up with a tangled monolith by week 2.</p>
+<p><strong>Pro tip:</strong> Use <a href="https://cursor.sh">Cursor</a> as your editor. It has native MCP client support, so you can test your server without switching applications.</p>
+<h2>Step 3: Create the MCP Server Skeleton</h2>
+<p>Now build the core server. This is the foundation that every marketing tool and resource plugs into.</p>
+<p>Create <code>src/index.ts</code>:</p>
+<pre><code class="language-typescript">import &#123; McpServer &#125; from &quot;@modelcontextprotocol/sdk/server/mcp.js&quot;;
+import &#123; StdioServerTransport &#125; from &quot;@modelcontextprotocol/sdk/server/stdio.js&quot;;
+
+const server = new McpServer(&#123;
+  name: &quot;marketing-mcp-server&quot;,
+  version: &quot;1.0.0&quot;,
+  capabilities: &#123;
+    tools: &#123;&#125;,
+    resources: &#123;&#125;
+  &#125;
+&#125;);
+
+// Tools and resources will be registered here
+
+const transport = new StdioServerTransport();
+await server.connect(transport);
+
+console.error(&quot;Marketing MCP server running on stdio&quot;);
+</code></pre>
+<p>This skeleton does 3 things:</p>
+<ol>
+<li>Creates an MCP server instance with a name and version</li>
+<li>Declares that it supports both tools and resources</li>
+<li>Connects via stdio transport (for local development)</li>
+</ol>
+<p>The <code>McpServer</code> class from the SDK handles all protocol negotiation. Your AI client sends a request, the SDK routes it to the right tool or resource, and returns the response. You never touch the protocol layer directly.</p>
+<p><strong>Key concept: tools vs. resources.</strong> Tools are actions the AI calls with specific inputs. "Get Google Ads spend for campaign X between date A and date B." Resources are data the AI browses. "Show me all active campaigns." The MCP specification treats them differently, and your server needs to register them separately.</p>
+<p>The skeleton above uses stdio transport. This works for local testing with Claude Desktop. For production, you will switch to HTTP transport with Express in Step 6.</p>
+<p><strong>Why this step matters:</strong> Every MCP server starts with this exact pattern. The skeleton is deceptively simple, but it handles connection lifecycle, error propagation, and session management automatically. Skipping the SDK and building from raw HTTP calls adds weeks of debugging.</p>
+<p>If you are building <a href="/blog/autonomous-seo-guide/">autonomous SEO workflows</a>, this same server pattern applies. The MCP protocol works identically for SEO data, ad data, or CRM data. Only the tool definitions change.</p>
+<p><img loading="lazy" alt="MCP server skeleton code structure" src="/images/blog/mcp-server-skeleton-structure.webp" /></p>
+<blockquote>
+<p><strong>Want automated SEO content without writing code?</strong> Stacc publishes 30+ articles per month and handles the entire pipeline.
+<a href="/pricing/">Start for $1 →</a></p>
+</blockquote>
+<h2>Step 4: Define Marketing Tools With Zod Schemas</h2>
+<p>Tools are the core of your marketing MCP server. Each tool is a function your AI assistant can call. Every tool needs 3 things: a name, a Zod input schema, and a handler function.</p>
+<p>Here is a Google Ads spend tool:</p>
+<pre><code class="language-typescript">import &#123; z &#125; from &quot;zod&quot;;
+
+server.tool(
+  &quot;get-google-ads-spend&quot;,
+  &quot;Get Google Ads spend and conversions for a date range&quot;,
+  &#123;
+    campaignId: z.string().describe(&quot;Google Ads campaign ID&quot;),
+    startDate: z.string().describe(&quot;Start date in YYYY-MM-DD format&quot;),
+    endDate: z.string().describe(&quot;End date in YYYY-MM-DD format&quot;)
+  &#125;,
+  async (&#123; campaignId, startDate, endDate &#125;) =&gt; &#123;
+    const data = await fetchGoogleAdsData(campaignId, startDate, endDate);
+    return &#123;
+      content: [&#123;
+        type: &quot;text&quot;,
+        text: JSON.stringify(data, null, 2)
+      &#125;]
+    &#125;;
+  &#125;
+);
+</code></pre>
+<p>The Zod schema does 2 things. It validates inputs so the AI cannot pass malformed data. It also describes each parameter so the AI knows what to send. Good descriptions are critical. The AI reads them to decide when and how to use each tool.</p>
+<p>Here is a HubSpot deals tool:</p>
+<pre><code class="language-typescript">server.tool(
+  &quot;get-hubspot-deals&quot;,
+  &quot;Get HubSpot deals by stage and date range for pipeline reporting&quot;,
+  &#123;
+    stage: z.enum([&quot;qualified&quot;, &quot;proposal&quot;, &quot;negotiation&quot;, &quot;closed-won&quot;, &quot;closed-lost&quot;])
+      .describe(&quot;Deal pipeline stage&quot;),
+    minAmount: z.number().optional().describe(&quot;Minimum deal amount in USD&quot;)
+  &#125;,
+  async (&#123; stage, minAmount &#125;) =&gt; &#123;
+    const deals = await fetchHubSpotDeals(stage, minAmount);
+    return &#123;
+      content: [&#123;
+        type: &quot;text&quot;,
+        text: JSON.stringify(deals, null, 2)
+      &#125;]
+    &#125;;
+  &#125;
+);
+</code></pre>
+<p>And a GA4 traffic tool:</p>
+<pre><code class="language-typescript">server.tool(
+  &quot;get-ga4-traffic&quot;,
+  &quot;Get Google Analytics 4 traffic data by source and date range&quot;,
+  &#123;
+    startDate: z.string().describe(&quot;Start date YYYY-MM-DD&quot;),
+    endDate: z.string().describe(&quot;End date YYYY-MM-DD&quot;),
+    dimension: z.enum([&quot;source&quot;, &quot;medium&quot;, &quot;campaign&quot;, &quot;page&quot;])
+      .describe(&quot;Traffic dimension to break down by&quot;)
+  &#125;,
+  async (&#123; startDate, endDate, dimension &#125;) =&gt; &#123;
+    const traffic = await fetchGA4Data(startDate, endDate, dimension);
+    return &#123;
+      content: [&#123;
+        type: &quot;text&quot;,
+        text: JSON.stringify(traffic, null, 2)
+      &#125;]
+    &#125;;
+  &#125;
+);
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Tool Name</th>
+<th>Use Case</th>
+<th>Key Input</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>get-google-ads-spend</td>
+<td>Campaign performance reporting</td>
+<td>Campaign ID + date range</td>
+</tr>
+<tr>
+<td>get-hubspot-deals</td>
+<td>Pipeline and revenue tracking</td>
+<td>Deal stage + amount filter</td>
+</tr>
+<tr>
+<td>get-ga4-traffic</td>
+<td>Organic and paid traffic analysis</td>
+<td>Date range + dimension</td>
+</tr>
+<tr>
+<td>get-search-rankings</td>
+<td>SEO keyword position tracking</td>
+<td>Domain + keyword list</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Why this step matters:</strong> Tool descriptions directly affect how well your AI assistant uses the server. Vague descriptions like "get data" cause the AI to misuse tools. Specific descriptions like "Get Google Ads spend and conversions for a date range" tell the AI exactly when this tool applies.</p>
+<p>Write each tool description as if you were explaining it to a new team member. Be specific about what data comes back and what inputs are required. Teams that invest 10 extra minutes in descriptions save hours of debugging later.</p>
+<p>For content-focused tools, consider adding one that pulls <a href="/blog/seo-statistics/">SEO statistics</a> or keyword rankings. This lets your AI assistant answer questions like "Which blog posts drove the most organic traffic this month?"</p>
+<p><img loading="lazy" alt="Marketing MCP tools with Zod schemas" src="/images/blog/mcp-marketing-tools-zod.webp" /></p>
+<h2>Step 5: Expose Marketing Resources via URIs</h2>
+<p>Resources complement tools. While tools are functions the AI calls with parameters, resources are structured data the AI can browse. Resources use URI patterns and work well for reference data that does not change frequently.</p>
+<p>Register a campaigns resource:</p>
+<pre><code class="language-typescript">server.resource(
+  &quot;active-campaigns&quot;,
+  &quot;marketing://campaigns/active&quot;,
+  &quot;List of all active marketing campaigns across platforms&quot;,
+  async () =&gt; &#123;
+    const campaigns = await getAllActiveCampaigns();
+    return &#123;
+      contents: [&#123;
+        uri: &quot;marketing://campaigns/active&quot;,
+        text: JSON.stringify(campaigns, null, 2),
+        mimeType: &quot;application/json&quot;
+      &#125;]
+    &#125;;
+  &#125;
+);
+</code></pre>
+<p>You can also create dynamic resources with URI templates:</p>
+<pre><code class="language-typescript">server.resource(
+  &quot;campaign-detail&quot;,
+  &quot;marketing://campaigns/&#123;campaignId&#125;&quot;,
+  &quot;Detailed metrics for a specific campaign&quot;,
+  async (uri) =&gt; &#123;
+    const campaignId = extractIdFromUri(uri);
+    const detail = await getCampaignDetail(campaignId);
+    return &#123;
+      contents: [&#123;
+        uri: uri.href,
+        text: JSON.stringify(detail, null, 2),
+        mimeType: &quot;application/json&quot;
+      &#125;]
+    &#125;;
+  &#125;
+);
+</code></pre>
+<p>Good resource candidates for marketing teams:</p>
+<ul>
+<li><strong>Active campaigns list</strong>. All running campaigns across Google, Meta, and LinkedIn</li>
+<li><strong>Keyword rankings</strong>. Current <a href="/blog/seo-competitor-analysis/">SEO keyword positions</a> for tracked terms</li>
+<li><strong>Content calendar</strong>. Upcoming blog posts and their target keywords</li>
+<li><strong>Audience segments</strong>. HubSpot or CRM audience definitions</li>
+<li><strong>Budget allocations</strong>. Monthly spend distribution by channel</li>
+</ul>
+<p>Resources shine when the AI needs context before making a tool call. If someone asks "Which campaign should I pause?", the AI first browses the active campaigns resource, then calls the spend tool for specific performance data.</p>
+<p><strong>Why this step matters:</strong> Resources give your AI assistant context without requiring exact query parameters. Without resources, the AI must guess campaign IDs and date ranges. With resources, it browses available data first and makes smarter tool calls.</p>
+<p>This pattern mirrors how effective <a href="/blog/what-is-content-cluster/">content clusters</a> work in SEO. Resources provide the hub of reference data. Tools provide the spoke-level detail.</p>
+<h2>Step 6: Add Transport and Connect to an AI Client</h2>
+<p>Your server needs a transport layer to communicate with AI clients. MCP supports 2 transport types: stdio for local development and HTTP with SSE (Server-Sent Events) for production.</p>
+<p><strong>For local testing with Claude Desktop (stdio):</strong></p>
+<p>Your skeleton already includes stdio transport. To connect it to Claude Desktop, add this to your Claude Desktop config file:</p>
+<p>On macOS: <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></p>
+<pre><code class="language-json">&#123;
+  &quot;mcpServers&quot;: &#123;
+    &quot;marketing&quot;: &#123;
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;tsx&quot;, &quot;/path/to/marketing-mcp-server/src/index.ts&quot;],
+      &quot;env&quot;: &#123;
+        &quot;GOOGLE_ADS_TOKEN&quot;: &quot;your-token&quot;,
+        &quot;HUBSPOT_TOKEN&quot;: &quot;your-token&quot;
+      &#125;
+    &#125;
+  &#125;
+&#125;
+</code></pre>
+<p>Restart Claude Desktop. You should see a hammer icon indicating your marketing tools are available.</p>
+<p><strong>For production deployment (HTTP + SSE):</strong></p>
+<p>Replace the stdio transport with an Express server:</p>
+<pre><code class="language-typescript">import express from &quot;express&quot;;
+import &#123; SSEServerTransport &#125; from &quot;@modelcontextprotocol/sdk/server/sse.js&quot;;
+
+const app = express();
+
+app.get(&quot;/sse&quot;, async (req, res) =&gt; &#123;
+  const transport = new SSEServerTransport(&quot;/messages&quot;, res);
+  await server.connect(transport);
+&#125;);
+
+app.post(&quot;/messages&quot;, async (req, res) =&gt; &#123;
+  // Handle incoming messages
+&#125;);
+
+app.listen(3001, () =&gt; &#123;
+  console.log(&quot;Marketing MCP server running on port 3001&quot;);
+&#125;);
+</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Transport</th>
+<th>Best For</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stdio</td>
+<td>Local testing, single user</td>
+<td>Simple setup, no network config</td>
+<td>Single user only</td>
+</tr>
+<tr>
+<td>HTTP + SSE</td>
+<td>Production, team access</td>
+<td>Multi-user, remote access</td>
+<td>Requires hosting, auth setup</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Why this step matters:</strong> Choosing the wrong transport wastes time. Start with stdio for development. Switch to HTTP only when you need team-wide access or remote deployment. Many teams over-engineer the transport layer before validating that their tools work correctly.</p>
+<p><strong>Pro tip:</strong> Test every tool individually before connecting to an AI client. Call each handler function directly with sample inputs. Fix data formatting issues at this stage. Debugging through the AI client is 5 times slower than direct function testing.</p>
+<p>If your marketing team also needs <a href="/best/content-automation-platforms/">automated content publishing</a>, consider running your MCP server alongside a content pipeline. The server handles data queries while a service like Stacc handles content creation and publishing.</p>
+<blockquote>
+<p><strong>Automate your entire content pipeline.</strong> Stacc publishes SEO-optimized blog posts, GBP updates, and social media posts every month.
+<a href="/pricing/">Start for $1 →</a></p>
+</blockquote>
+<h2>Step 7: Test, Harden, and Deploy</h2>
+<p>Testing an MCP server requires 3 layers: unit tests for individual tools, integration tests for data accuracy, and security hardening for production.</p>
+<p><strong>Unit testing each tool:</strong></p>
+<p>Call each tool handler with known inputs and verify the output format:</p>
+<pre><code class="language-typescript">// Test Google Ads tool
+const result = await getGoogleAdsSpend(&#123;
+  campaignId: &quot;123456789&quot;,
+  startDate: &quot;2026-03-01&quot;,
+  endDate: &quot;2026-03-31&quot;
+&#125;);
+assert(result.content[0].text.includes(&quot;spend&quot;));
+</code></pre>
+<p><strong>Integration testing with Claude Desktop:</strong></p>
+<p>Open Claude Desktop and test real queries:</p>
+<ul>
+<li>"What was our Google Ads spend last month?"</li>
+<li>"Show me all deals in the proposal stage"</li>
+<li>"Which landing pages drove the most organic traffic?"</li>
+</ul>
+<p>Verify that responses match the actual data in your marketing platforms. Off-by-one date errors and timezone mismatches are the most common bugs.</p>
+<p><strong>Security hardening checklist:</strong></p>
+<ul>
+<li>[ ] Store all API keys in environment variables, never in code</li>
+<li>[ ] Add rate limiting to prevent excessive API calls</li>
+<li>[ ] Implement OAuth 2.0 authentication for HTTP transport</li>
+<li>[ ] Log all tool invocations for audit trails</li>
+<li>[ ] Set read-only permissions where possible (do not let the AI modify campaign settings)</li>
+<li>[ ] Add input sanitization beyond Zod validation</li>
+</ul>
+<p><strong>Deployment options:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Cost</th>
+<th>Complexity</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local machine</td>
+<td>Free</td>
+<td>Low</td>
+<td>Solo marketer or developer</td>
+</tr>
+<tr>
+<td>Docker container</td>
+<td>Low</td>
+<td>Medium</td>
+<td>Small teams with shared access</td>
+</tr>
+<tr>
+<td>Cloud (AWS/GCP)</td>
+<td>$10-50/month</td>
+<td>High</td>
+<td>Enterprise deployment</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Why this step matters:</strong> An MCP server with production marketing data is a security surface. Read-only access prevents accidental campaign changes. Rate limiting prevents runaway API costs. Logging creates accountability for every query.</p>
+<p>Gartner predicts that 40% of enterprise applications will include AI agents by end of 2026. Getting security right now prevents painful retrofits later.</p>
+<p><img loading="lazy" alt="MCP server deployment and security checklist" src="/images/blog/mcp-server-deployment-checklist.webp" /></p>
+<h2>Results: What to Expect</h2>
+<p>After completing these 7 steps, here is what your marketing team gains:</p>
+<ul>
+<li><strong>Immediate:</strong> Ask plain-language questions about campaign performance and get live data in seconds</li>
+<li><strong>Within 1 week:</strong> Reduce reporting time by 50% to 80% as your team adopts conversational data queries</li>
+<li><strong>Within 1 month:</strong> Build custom analysis workflows that combine data across Google Ads, HubSpot, and GA4 in a single conversation</li>
+</ul>
+<p>Realistic expectations matter. Your first MCP server will handle 3 to 5 data sources well. It will not replace your entire analytics stack. It will eliminate the repetitive tab-switching and CSV exports that consume hours every week.</p>
+<p>The real compounding effect kicks in when you add more tools over time. Each new integration makes the AI assistant more useful. This mirrors the <a href="/blog/increase-organic-traffic/">Content Compound Effect</a> in SEO. Consistent, incremental additions build something far more valuable than the sum of individual parts.</p>
+<h2>Troubleshooting</h2>
+<p><strong>Problem:</strong> Claude Desktop does not show the hammer icon after configuration.
+<strong>Fix:</strong> Check your <code>claude_desktop_config.json</code> for syntax errors. Verify the file path to your server is absolute, not relative. Restart Claude Desktop completely (not just the conversation).</p>
+<p><strong>Problem:</strong> Tools return empty or malformed data.
+<strong>Fix:</strong> Test each API call independently with a tool like Postman or curl. Confirm your API tokens have the correct permissions. Google Ads requires a developer token with "Test Account" or "Basic Access" approval.</p>
+<p><strong>Problem:</strong> The AI calls the wrong tool for a query.
+<strong>Fix:</strong> Improve your tool descriptions. If the AI confuses "get-google-ads-spend" with "get-ga4-traffic," the descriptions are too similar. Add specific use cases to each description string.</p>
+<p><strong>Problem:</strong> Server crashes under concurrent requests.
+<strong>Fix:</strong> Add session management with unique IDs for each client connection. The MCP SDK supports this natively. Also check your API rate limits. Google Ads allows 15,000 requests per day by default.</p>
+<h2>Frequently Asked Questions</h2>
+<p><strong>Do I need to know TypeScript to build an MCP server for marketing?</strong></p>
+<p>TypeScript is the fastest path because the official MCP SDK is built for it. Python support exists through the FastMCP library, and it works well for teams already using Python. If your marketing team has Python skills from data analysis work, that is a valid alternative. The core concepts (tools, resources, transports) are identical in both languages.</p>
+<p><strong>How long does it take to build a marketing MCP server from scratch?</strong></p>
+<p>A basic server with 2 to 3 tools takes 2 to 4 hours for someone with intermediate JavaScript skills. A production-ready server with authentication, logging, and multiple data sources takes 1 to 2 full days. The API credential setup (especially Google Ads developer token approval) often takes longer than the actual coding.</p>
+<p><strong>Can I use existing MCP servers instead of building one?</strong></p>
+<p>Yes. HubSpot, Google Analytics, and Google Search Console all have official or well-maintained community MCP servers. Check <a href="https://www.pulsemcp.com/servers">PulseMCP</a> or the <a href="https://mcpmarket.com/">MCP Market</a> for existing options. Build custom only when you need to combine multiple sources, add business logic, or connect to platforms without existing servers.</p>
+<p><strong>Is an MCP server secure enough for production marketing data?</strong></p>
+<p>The protocol itself supports OAuth 2.0, TLS encryption, and scoped permissions. Security depends on your implementation. Use read-only API tokens where possible. Store credentials in environment variables. Add rate limiting and audit logging. The <a href="https://zuplo.com/mcp-report">Zuplo MCP Report</a> covers security best practices in detail.</p>
+<p><strong>What AI clients support MCP servers?</strong></p>
+<p>Claude Desktop, Cursor, VS Code (with GitHub Copilot), Windsurf, and several other IDE-based clients support MCP natively as of early 2026. OpenAI added MCP support in March 2025. The protocol is client-agnostic, so any application implementing the MCP client specification can connect to your server.</p>
+<p><strong>How does building an MCP server compare to using Zapier or Make?</strong></p>
+<p>Zapier and Make handle workflow automation (trigger X, then do Y). MCP servers handle conversational data access (ask a question, get an answer from live data). They solve different problems. Many teams use both. Zapier automates repetitive actions. MCP gives AI assistants real-time access to query and analyze marketing data on demand.</p>
+<h2>Start Building</h2>
+<p>You now have a complete blueprint to build an MCP server for marketing. The 7 steps take your team from disconnected data silos to conversational marketing intelligence driven by AI.</p>
+<p>Start with Step 1. Pick your 2 most-queried data sources. Build a working prototype this week. Add more tools as your team discovers new use cases.</p>
+<p>For the content and SEO side of marketing, <a href="/pricing/">Stacc handles publishing automatically</a>. Pair an MCP server for data queries with automated content publishing, and your marketing engine runs on autopilot.</p>
+      </article>
+    </div>
+  </div>
+
+</BaseLayout>

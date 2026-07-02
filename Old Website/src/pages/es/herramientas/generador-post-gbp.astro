@@ -1,0 +1,371 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Generador Gratuito de Publicaciones para Google Business Profile | theStacc';
+const pageDescription = 'Genera publicaciones listas para Google Business Profile en 10 segundos. Elige tu sector, tipo de publicación y llamada a la acción. Gratis, sin registro.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Generador Gratuito de Publicaciones para Google Business Profile',
+  description: 'Genera actualizaciones de GBP listas para publicar para cualquier negocio local. Elige sector, tipo de publicación y botón de llamada a la acción.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: '¿Con qué frecuencia debo publicar en Google Business Profile?', acceptedAnswer: { '@type': 'Answer', text: 'Publica al menos una vez por semana. Los negocios que publican semanalmente en GBP ven hasta 2 veces más búsquedas de descubrimiento. Las publicaciones permanecen visibles durante 6 meses, pero Google premia la frescura.' } },
+    { '@type': 'Question', name: '¿Qué tipo de publicación GBP obtiene más interacción?', acceptedAnswer: { '@type': 'Answer', text: 'Las publicaciones de oferta con un descuento claro y fecha de vencimiento obtienen más clics. Los consejos educativos e historias de clientes obtienen más vistas. Incluye siempre un botón de llamada a la acción y una foto real.' } },
+    { '@type': 'Question', name: '¿Las publicaciones de Google Business Profile ayudan al SEO local?', acceptedAnswer: { '@type': 'Answer', text: 'Sí. Las publicaciones de GBP son una señal de posicionamiento local confirmada. Los perfiles activos con publicaciones regulares, fotos y respuestas a reseñas se posicionan más alto en el Google Map Pack.' } },
+    { '@type': 'Question', name: '¿Este generador de publicaciones GBP es gratuito?', acceptedAnswer: { '@type': 'Answer', text: 'Sí, 100% gratuito. No necesitas registrarte ni tarjeta de crédito. Obtienes 1 publicación al instante. Introduce tu correo para desbloquear las 3 variaciones.' } },
+  ],
+};
+
+const industries = [
+  'Dental / Ortodoncia','Legal / Bufete de abogados','Fontanería / HVAC','Electricidad',
+  'Tejados / Construcción','Inmobiliaria','Contabilidad / Impuestos','Restaurante / Cafetería',
+  'Salón / Spa / Belleza','Reparación de autos / Detailing','Servicios de limpieza','Jardinería / Paisajismo',
+  'Veterinaria / Mascotas','Quiropráctica / Fisioterapia','Servicios TI / Consultoría',
+  'Fitness / Gimnasio / Yoga','Fotografía / Videografía','Seguros / Servicios financieros',
+  'Decoración de interiores','Tutoría / Educación','Peluquería canina / Hospedaje de mascotas',
+  'Mudanzas / Almacenamiento','Control de plagas',
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Generador Gratuito de Publicaciones para Google Business Profile"
+  toolDescription="Genera 3 actualizaciones de GBP listas para publicar con vocabulario específico del sector, palabras clave locales y la llamada a la acción correcta. Sin registro."
+  lang="es"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <!-- Business Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz">Nombre del negocio <span class="text-red-500">*</span></label>
+          <input type="text" id="biz" required maxlength="100" placeholder="ej., Dental Familia García" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-biz">Por favor ingresa el nombre de tu negocio</p>
+        </div>
+
+        <!-- City -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="city">Ciudad / Ubicación <span class="text-red-500">*</span></label>
+          <input type="text" id="city" required maxlength="60" placeholder="ej., Madrid, España" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-city">Por favor ingresa tu ciudad o ubicación</p>
+        </div>
+
+        <!-- Industry -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ind">Sector <span class="text-red-500">*</span></label>
+          <select id="ind" required class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+            <option value="" disabled selected>Selecciona tu sector</option>
+            {industries.map(ind => <option>{ind}</option>)}
+            <option value="__other__">Otro (escribe el tuyo)</option>
+          </select>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-ind">Por favor selecciona tu sector</p>
+          <input type="text" id="ind-other" placeholder="ej., Organización de bodas, Limpieza de piscinas, Estudio de tatuajes" maxlength="60" class="mt-1.5 hidden w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Post Angle -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Tipo de publicación <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-3 gap-2 sm:grid-cols-3">
+            {[
+              { val: 'tip', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>`, label: 'Consejo / Guía' },
+              { val: 'seasonal', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`, label: 'Estacional' },
+              { val: 'story', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`, label: 'Historia de cliente' },
+              { val: 'offer', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`, label: 'Oferta / Promo' },
+              { val: 'bts', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`, label: 'Detrás de cámaras' },
+              { val: 'faq', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`, label: 'FAQ / Mito' },
+            ].map((a, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="angle" value={a.val} checked={i === 0} class="peer sr-only" />
+                <span class="flex flex-col items-center gap-1 rounded-[10px] border border-[#e7e5e4] p-3 text-center transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff]">
+                  <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-[#f5f3ff]" set:html={a.icon}></span>
+                  <span class="text-[12px] font-semibold text-[#57534e] peer-checked:text-[#4f39f6]">{a.label}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Tone -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Tono</label>
+          <div class="flex gap-2">
+            {[
+              { val: 'professional', label: 'Profesional' },
+              { val: 'friendly', label: 'Amigable' },
+              { val: 'casual', label: 'Casual' },
+            ].map((t, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="tone" value={t.val} checked={i === 0} class="peer sr-only" />
+                <span class="inline-block rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff] peer-checked:text-[#4f39f6]">{t.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Offer Fields (conditional) -->
+        <div id="offer-f" class="mb-5 hidden rounded-xl border border-dashed border-[#ddd6fe] bg-[#faf5ff]/50 p-4 space-y-4">
+          <div>
+            <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="offer-t">Título de la oferta <span class="text-red-500">*</span></label>
+            <input type="text" id="offer-t" placeholder="ej., 20% de descuento en revisión de primavera" maxlength="80" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="coupon">Código de cupón</label>
+              <input type="text" id="coupon" placeholder="ej., PRIMAVERA20" maxlength="20" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="terms">Condiciones de la oferta</label>
+              <input type="text" id="terms" placeholder="ej., Válido hasta el 30 de abril" maxlength="100" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Message -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="topic">Mensaje clave <span class="font-normal normal-case tracking-normal text-[#79716b]">. Opcional</span></label>
+          <textarea id="topic" maxlength="300" rows="2" placeholder="ej., Oferta para nuevos pacientes, horario de fin de semana, contratamos nuevo técnico" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-none"></textarea>
+          <p class="mt-1 text-right font-mono text-xs text-[#79716b]"><span id="tc">0</span> / 300</p>
+          <div id="idea-chips" class="mt-2 hidden flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- No-Hashtag Note -->
+        <div class="mb-5 flex items-start gap-2 rounded-lg bg-[#fffbeb] border border-[#fde68a] p-3">
+          <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
+          <p class="text-[13px] text-[#92400e] leading-relaxed"><strong>GBP no es Instagram.</strong> Los hashtags no sirven en Google Business Profile. Generamos publicaciones limpias, sin hashtags, con palabras clave locales que realmente ayudan a tu posicionamiento.</p>
+        </div>
+
+        <!-- CTA Button -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="cta">Botón de llamada a la acción</label>
+          <select id="cta" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+            <option value="Book">Reservar</option>
+            <option value="Order online">Pedir en línea</option>
+            <option value="Learn more" selected>Más información</option>
+            <option value="Call now">Llamar ahora</option>
+            <option value="Sign up">Registrarse</option>
+            <option value="Get offer">Obtener oferta</option>
+          </select>
+        </div>
+
+        <button type="submit" id="gen-btn" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase tracking-wide text-white transition-all hover:bg-[#4f39f6] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+          Generar 3 variaciones de publicación
+        </button>
+      </form>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="mt-8 hidden">
+      <div class="mb-4 flex items-center justify-center gap-1.5 rounded-lg bg-[#fafaf9] border border-[#e7e5e4] px-4 py-2 font-mono text-xs text-[#79716b]">
+        Publicaciones generadas esta sesión: <strong class="text-[#6d28d9]" id="gen-count">0</strong> &middot; Regenera en cualquier momento para obtener resultados diferentes
+      </div>
+
+      <!-- Post 1 -->
+      <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6 mb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]">Corta &middot; Directa</span>
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs text-[#79716b]" id="st1"></span>
+            <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <span>Copiar</span>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3 whitespace-pre-wrap font-sans text-[15px] leading-[1.7] text-[#292524]" id="pt1"></div>
+        <div id="tr1" class="mt-3 hidden"><hr class="border-t border-dashed border-[#c4b5fd]" /><p class="mt-1 font-mono text-[10px] text-[#8b5cf6]">↑ Visible antes de "Ver más" en móvil</p></div>
+        <div id="hs1" class="mt-2 inline-flex items-center gap-1 rounded-md px-2.5 py-1 font-mono text-[11px] font-semibold"></div>
+        <div id="tip1" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+      </div>
+
+      <!-- Email Gate -->
+      <div id="gate" class="mb-4 rounded-2xl border border-[#e7e5e4] bg-gradient-to-b from-[#fafaf9] to-white p-6 text-center">
+        <p class="font-sans text-[17px] font-semibold text-[#292524]">Desbloquea 2 variaciones más</p>
+        <p class="mt-1 font-sans text-sm text-[#79716b]">Obtén las versiones media y detallada. Más un calendario de publicaciones GBP de 30 días.</p>
+        <div class="mt-4 flex gap-2 max-w-[400px] mx-auto">
+          <input type="email" id="gate-em" placeholder="tu@empresa.com" class="flex-1 rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <button id="unlock-btn" class="cursor-pointer rounded-lg bg-[#615fff] px-5 py-2.5 font-mono text-sm font-semibold uppercase text-white whitespace-nowrap hover:bg-[#4f39f6] transition-colors">Desbloquear</button>
+        </div>
+        <p id="gate-err" class="mt-1.5 hidden text-xs text-red-500">Por favor ingresa un correo válido</p>
+        <p class="mt-2 text-[11px] text-[#79716b]">Sin spam. Cancela en cualquier momento.</p>
+      </div>
+
+      <!-- Gated Posts 2 & 3 -->
+      <div id="gated" class="hidden space-y-4">
+        <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]">Media &middot; Detallada</span>
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#79716b]" id="st2"></span>
+              <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span>Copiar</span></button>
+            </div>
+          </div>
+          <div class="mt-3 whitespace-pre-wrap font-sans text-[15px] leading-[1.7] text-[#292524]" id="pt2"></div>
+          <div id="tip2" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+        </div>
+        <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]">Larga &middot; Narrativa</span>
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#79716b]" id="st3"></span>
+              <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="3"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span>Copiar</span></button>
+            </div>
+          </div>
+          <div class="mt-3 whitespace-pre-wrap font-sans text-[15px] leading-[1.7] text-[#292524]" id="pt3"></div>
+          <div id="tip3" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+        </div>
+      </div>
+
+      <!-- GBP Preview -->
+      <div class="mt-6">
+        <p class="mb-2 font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Vista previa en Google</p>
+        <div class="rounded-xl border border-[#dadce0] bg-white p-4 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4f39f6]"><span id="pav" class="font-sans text-sm font-bold text-white">S</span></div>
+            <div><p id="pnm" class="font-sans text-[14px] font-semibold text-[#1f1f1f]">Tu negocio</p><p class="font-sans text-[12px] text-[#70757a]">Ahora mismo</p></div>
+          </div>
+          <p id="pbd" class="mt-3 font-sans text-[14px] leading-[1.5] text-[#3c4043]"><span class="text-[#79716b] italic">La vista previa de tu publicación aparecerá aquí...</span></p>
+          <div id="pcta-w" class="mt-3 hidden"><span class="inline-block rounded-full border border-[#1a73e8] px-4 py-1.5 font-sans text-[13px] font-medium text-[#1a73e8]" id="pcta-l">Más información</span></div>
+          <div class="mt-3 flex items-center gap-2 rounded-lg border border-dashed border-[#dadce0] bg-[#f8f9fa] px-3 py-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#70757a" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span class="font-sans text-[12px] text-[#70757a]">Añade una foto para 2x más interacción (1200 x 900px)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="regen" class="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Generar otra
+        </button>
+        <a href="https://business.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          Publicar en GBP <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">Acabas de escribir 1 publicación.<br/>Tus competidores publican 4 veces por semana.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Stacc publica 30 publicaciones de GBP cada mes. Automáticamente, por $49/mes.</p>
+        <a href="/es/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Inicia tu prueba por $1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">Posiciona más alto en el Map Pack. Sin esfuerzo.</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Cómo usar este Generador de Publicaciones GBP</h2>
+    <ol class="list-decimal pl-5 mb-6 space-y-2 text-[15px] text-[#57534e] leading-relaxed">
+      <li><strong class="text-[#292524]">Ingresa los datos de tu negocio</strong>. Nombre, ciudad y sector. Esto carga el vocabulario y los escenarios específicos de tu campo.</li>
+      <li><strong class="text-[#292524]">Elige el tipo de publicación</strong>. Consejo, Estacional, Historia de cliente, Oferta, Detrás de cámaras o FAQ. Cada opción genera un estilo de publicación completamente diferente.</li>
+      <li><strong class="text-[#292524]">Pulsa Generar</strong>. Obtén 3 variaciones (corta, media, larga) con conteo de caracteres, puntuación del gancho y consejos de escritura. Copia tu favorita en Google Business Profile.</li>
+    </ol>
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Por qué son importantes las publicaciones de Google Business Profile</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Los negocios que publican semanalmente en GBP ven hasta 2 veces más búsquedas de descubrimiento. Eso significa más personas que te encuentran cuando buscan "dentista cerca de mí" o "fontanero en Madrid".</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Las publicaciones de GBP son una señal de posicionamiento local confirmada. Google premia los perfiles activos. Las publicaciones regulares, las fotos nuevas y las respuestas a reseñas te posicionan más alto en el Map Pack.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La mayoría de los negocios locales publican 0 veces al mes. Incluso 1 publicación por semana te pone por delante del 80% de tus competidores.</p>
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">¿Qué hace una gran publicación de GBP?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Empieza con un gancho.</strong> Solo los primeros 75-100 caracteres se muestran antes de "Ver más". Empieza con un número específico, un dato sorprendente o una pregunta directa.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Sé específico.</strong> "Reparamos una fuga en una casa de 1962 por 1.200€" supera a "Ofrecemos servicios de fontanería económicos". Los números, nombres y detalles locales generan confianza.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Sin hashtags.</strong> GBP no es Instagram. Los hashtags no sirven aquí. Usa emojis con moderación, máximo 1-2 por publicación.</p>
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">¿Con qué frecuencia deberías publicar en GBP?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Mínimo: 1 vez por semana. Ideal: 4-7 veces por semana. Las publicaciones permanecen visibles durante 6 meses, pero Google premia la frescura.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Publicar 4 veces por semana significa 16 publicaciones al mes. Stacc publica 30 por ti. En piloto automático, por $49/mes.</p>
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Preguntas frecuentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Con qué frecuencia debo publicar en Google Business Profile?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Publica al menos una vez por semana. Los negocios que publican semanalmente ven hasta 2 veces más búsquedas de descubrimiento. Las publicaciones permanecen visibles durante 6 meses, pero Google premia los perfiles que publican con consistencia.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Qué tipo de publicación GBP obtiene más interacción?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Las publicaciones de oferta con un descuento claro y fecha de vencimiento obtienen más clics. Los consejos educativos e historias de clientes obtienen más vistas. Incluye siempre un botón de llamada a la acción y una foto real.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Las publicaciones de Google Business Profile ayudan al SEO local?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sí. Las publicaciones de GBP son una señal de posicionamiento local confirmada. Los perfiles activos con publicaciones regulares, fotos y respuestas a reseñas se posicionan más alto en el Google Map Pack.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Este generador de publicaciones GBP es gratuito?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sí, 100% gratuito. Sin registro ni tarjeta de crédito. Obtienes 1 publicación al instante. Introduce tu correo para desbloquear las 3 variaciones.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Más herramientas gratuitas de SEO local</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/es/herramientas/generador-respuesta-resenas/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Generador de respuestas a reseñas</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Responde a las reseñas de Google en segundos</p>
+          </a>
+          <a href="/es/herramientas/generador-qr-resenas/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Generador de QR para reseñas</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Consigue más reseñas con códigos QR imprimibles</p>
+          </a>
+          <a href="/es/herramientas/puntuacion-seo-sitio/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Puntuación SEO del sitio web</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Comprueba la salud SEO de tu sitio en segundos</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta herramienta requiere JavaScript. Por favor, actívalo en tu navegador.</p></div></noscript>
+    <script is:inline src="/js/gbp-post-engine.js"></script>
+  </Fragment>
+</ToolLayout>

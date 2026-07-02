@@ -1,0 +1,443 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/fr/HeaderFr.astro';
+import Footer from '../../../components/fr/FooterFr.astro';
+
+const faqs = [
+  {
+    q: "Les rapports sont-ils vraiment envoyés sous ma marque ?",
+    a: "Oui. L'email provient de votre domaine (ex: rapports@votre-agence.fr), porte votre logo en en-tête, vos couleurs dans le design, et le nom de votre agence dans la signature. Les clients ne voient jamais Stacc mentionné. Pour eux, c'est votre système de reporting interne.",
+  },
+  {
+    q: "Puis-je personnaliser le contenu de chaque rapport ?",
+    a: "Oui. Vous choisissez les modules à inclure (positions, avis, GBP, citations), la période de comparaison, et vous pouvez ajouter un commentaire stratégique en introduction pour contextualiser les données. Les rapports sont automatisés, pas génériques.",
+  },
+  {
+    q: "À quelle fréquence puis-je envoyer des rapports ?",
+    a: "Hebdomadaire, bimensuel ou mensuel — selon ce que votre client préfère. Vous pouvez configurer une fréquence différente pour chaque client. Les clients qui paient plus apprécient souvent un reporting hebdomadaire. Les petits clients sont satisfaits d'un mensuel.",
+  },
+  {
+    q: "Les clients peuvent-ils voir leurs données en temps réel ?",
+    a: "Oui. En plus des rapports automatisés, vos clients peuvent accéder à un portail personnalisé avec leurs données en temps réel. Vous contrôlez quelles données ils voient et avec quel niveau de détail.",
+  },
+  {
+    q: "Puis-je exporter les rapports en PDF ?",
+    a: "Oui. Chaque rapport peut être exporté en PDF ou partagé via un lien web. Parfait pour les réunions clients où vous voulez projeter les résultats ou envoyer un document formel.",
+  },
+  {
+    q: "Que se passe-t-il si un client veut voir des données historiques ?",
+    a: "Stacc conserve l'historique complet de toutes les métriques depuis le début de l'abonnement. Les clients et votre équipe peuvent accéder aux données historiques à tout moment via le portail, pas seulement les données du dernier rapport.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Rapports Clients SEO Local",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "fr",
+      "description": "Générez des rapports SEO locaux professionnels pour vos clients en quelques clics. Positions, avis, GBP et performance — tout dans un rapport clair, automatiquement envoyé selon votre calendrier.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://thestacc.com/fr/" },
+        { "@type": "ListItem", "position": 2, "name": "Fonctionnalités", "item": "https://thestacc.com/fr/fonctionnalites/" },
+        { "@type": "ListItem", "position": 3, "name": "Rapports Clients", "item": "https://thestacc.com/fr/fonctionnalites/rapports-clients/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "fr",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+
+const trustStats = [
+  { value: "Automatique", label: "Envoi selon votre calendrier" },
+  { value: "Marque blanche", label: "Votre logo, vos couleurs" },
+  { value: "Hebdo/Mensuel", label: "Fréquence au choix" },
+  { value: "4,9★", label: "Note moyenne Stacc" },
+];
+
+const painPoints = [
+  {
+    title: "Préparer un rapport client prend 3 heures. Chaque mois. Pour chaque client.",
+    body: "Exporter les données de position depuis un outil, les avis depuis un autre, les statistiques GBP depuis un troisième. Assembler dans un PDF ou une présentation PowerPoint. Le formater pour qu'il ait l'air professionnel. Multiplié par 20 clients. C'est une semaine entière de travail qui n'apporte aucune valeur ajoutée.",
+  },
+  {
+    title: "Un rapport vague ne justifie pas votre retainer.",
+    body: "Quand un client demande 'est-ce que le SEO fonctionne ?' et que votre réponse est 'oui je pense, les choses s'améliorent', vous avez déjà perdu. Les données concrètes — position exacte pour chaque mot-clé, nombre d'avis ce mois, vues GBP — sont ce qui justifie votre honoraire et prévient le churn.",
+  },
+  {
+    title: "Les données dans des silos rendent l'histoire impossible à raconter.",
+    body: "Position dans un outil. Avis dans un autre. Statistiques GBP dans un troisième. Quand vos données sont fragmentées, vous ne pouvez pas montrer comment vos actions produisent des résultats. Les clients voient des chiffres isolés, pas une narration de progrès.",
+  },
+];
+
+const steps = [
+  {
+    num: "01",
+    title: "Configurez le rapport une fois par client",
+    body: "Connectez les outils du client, sélectionnez les métriques à inclure, définissez la fréquence d'envoi et ajoutez votre logo. Configuration initiale en moins de 15 minutes par client.",
+  },
+  {
+    num: "02",
+    title: "Stacc collecte et agrège les données automatiquement",
+    body: "Chaque période de rapport, Stacc récupère les positions, les données d'avis, les statistiques GBP et les métriques de citations. Les données sont agrégées dans un rapport clair avec les tendances et les comparaisons mois sur mois.",
+  },
+  {
+    num: "03",
+    title: "Le rapport est envoyé à vos clients au bon moment",
+    body: "Les rapports arrivent dans la boîte mail de vos clients selon votre calendrier — hebdomadaire, bimensuel ou mensuel. Avec votre nom d'expéditeur, votre logo et vos couleurs. Le client interagit avec votre marque à chaque point de contact.",
+  },
+];
+
+const capabilities = [
+  {
+    title: "Rapports automatisés planifiés",
+    body: "Hebdomadaire, bimensuel ou mensuel. Les rapports arrivent dans les boîtes mail de vos clients sans que vous leviez le petit doigt.",
+    icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+  {
+    title: "Personnalisation marque blanche",
+    body: "Votre logo, vos couleurs, votre domaine d'envoi. Les clients ne voient jamais Stacc — seulement votre marque.",
+    icon: "M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01",
+  },
+  {
+    title: "Données multi-modules consolidées",
+    body: "Positions, avis, statistiques GBP et citations dans un seul rapport cohérent. Fini les exports séparés et les tableaux bords dispersés.",
+    icon: "M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
+  },
+  {
+    title: "Comparaisons mois sur mois",
+    body: "Chaque rapport montre le delta — ce qui a monté, ce qui a baissé, et ce qui a été fait pour y arriver. La narration de progrès que vos clients attendent.",
+    icon: "M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z",
+  },
+  {
+    title: "Portails clients dédiés",
+    body: "Les clients peuvent accéder à leurs données en temps réel via un portail personnalisé. Pas seulement le rapport mensuel — les données live quand ils en ont besoin.",
+    icon: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+  },
+  {
+    title: "Contrôle de visibilité par client",
+    body: "Choisissez exactement quelles données et fonctionnalités chaque client peut voir. Certains clients veulent toutes les données. D'autres veulent un résumé simple. Vous décidez.",
+    icon: "M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z",
+  },
+];
+
+const metrics = [
+  { value: "3h", label: "Économisées par client par mois", sub: "sur la préparation manuelle des rapports" },
+  { value: "60+", label: "Clients gérables dans un seul tableau de bord", sub: "par agence avec les plans Growth et Scale" },
+  { value: "4,9★", label: "Note moyenne Stacc", sub: "parmi les agences utilisant les rapports automatisés" },
+];
+---
+
+<BaseLayout
+  title="Rapports Clients SEO Local — Rapports Automatisés avec Votre Marque | theStacc"
+  description="Générez des rapports SEO locaux professionnels pour vos clients en quelques clics. Positions, avis, GBP et performance — tout dans un rapport clair, automatiquement envoyé selon votre calendrier."
+  lang="fr"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[760px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Rapports Clients · Module SEO Local</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Vos clients ne voient pas vos résultats.<br class="hidden md:block" />
+            <span style="color:#4f39f6;">C'est pour ça qu'ils s'en vont.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[560px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Des rapports flous érodent la confiance des clients. Des données claires la construisent. Stacc génère des rapports SEO locaux professionnels — positions, avis, GBP, citations — envoyés automatiquement à vos clients au moment que vous choisissez. Avec votre logo et votre marque.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/fr/demo/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Automatiser mes rapports clients
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/fr/tarifs/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]"
+            >
+              Voir les tarifs
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            30 jours de garantie · Sans carte bancaire · Annulez quand vous voulez
+          </p>
+
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {trustStats.map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]">{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PROBLEM ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Le problème</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Les rapports manuels tuent votre rentabilité<br />et votre rétention client.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Chaque heure passée à préparer des rapports est une heure non facturée. Chaque rapport flou est une opportunité pour votre client de remettre en question votre valeur. Les deux problèmes ont la même solution.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {painPoints.map(p => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{p.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section id="how-it-works" class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Comment ça fonctionne</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Configurez une fois.<br />Stacc envoie à votre place pour toujours.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Moins de 15 minutes par client pour la configuration initiale. Ensuite, les rapports se génèrent et s'envoient automatiquement — sans aucune intervention de votre part.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl">
+          <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+            {steps.map(s => (
+              <div class="bg-white px-8 py-10">
+                <div class="mb-6 flex items-center justify-between">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                  </div>
+                  <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.num}</span>
+                </div>
+                <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+                <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CAPABILITY GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Tout inclus</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Chaque fonctionnalité pour des rapports<br />qui retiennent vos clients.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {capabilities.map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d={f.icon}/>
+                </svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="relative overflow-hidden border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.06) 0%, transparent 70%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20">
+        <div class="mx-auto max-w-5xl">
+          <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white/5 sm:grid-cols-3">
+            {metrics.map(m => (
+              <div class="px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+                <p class="font-sans text-[3rem] font-bold leading-none text-[#292524]">{m.value}</p>
+                <p class="mt-3 font-mono text-[12px] font-semibold uppercase tracking-[0.1em]" style="color:#818cf8;">{m.label}</p>
+                <p class="mt-2 font-sans text-[13px]" style="color:#4b5563;">{m.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#f5f3ff]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-[#c7c0fc] bg-white px-10 py-12 shadow-sm">
+            <div class="flex gap-1 mb-6">
+              {[1,2,3,4,5].map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <blockquote class="font-sans text-[1.2rem] leading-[1.65] text-[#111827] font-medium">
+              "On avait 22 clients et on passait 2 jours entiers par mois à préparer des rapports. Maintenant Stacc les génère et les envoie automatiquement. On a récupéré 16 heures par mois qu'on réinvestit dans du travail facturable. Et les clients adorent le nouveau format — plus clair que ce qu'on faisait à la main."
+            </blockquote>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="h-11 w-11 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                <span class="font-mono text-[14px] font-bold text-white">SL</span>
+              </div>
+              <div>
+                <p class="font-sans text-[14px] font-semibold text-[#111827]">Sophie L.</p>
+                <p class="font-mono text-[11px] text-[#79716b]">Directrice, Agence SEO · Paris</p>
+              </div>
+              <div class="ml-auto flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1.5">
+                <span class="font-mono text-[11px] font-semibold text-[#059669]">16h/mois récupérées</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Questions fréquentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Les questions que tout le monde pose avant de commencer
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button
+                class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
+                aria-expanded={i === 0 ? 'true' : 'false'}
+              >
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0 transition-transform" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Commencez aujourd'hui</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Des rapports clairs transforment des clients satisfaits
+            <span style="color:#818cf8;"> en clients qui restent.</span>
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            La rétention client commence par la visibilité sur les résultats. Stacc automatise les rapports pour que vos clients voient leur progrès chaque mois — sans que vous passiez des heures à les préparer.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/fr/demo/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]"
+            >
+              Automatiser mes rapports clients
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/fr/tarifs/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5"
+            >
+              Voir les tarifs
+            </a>
+          </div>
+
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">Sans contrat · RGPD conforme</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

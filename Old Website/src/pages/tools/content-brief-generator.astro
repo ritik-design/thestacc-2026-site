@@ -1,0 +1,263 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free AI Content Brief Generator — SERP Data + Outline | theStacc';
+const pageDescription = 'Generate complete content briefs from any keyword. AI analyzes top 10 SERP competitors and writes titles, outline, target word count, keywords, and questions. Free outline + keywords; unlock full brief with email.';
+const pageUrl = 'https://thestacc.com/tools/content-brief-generator/';
+const lastUpdated = '2026-05-13';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free AI Content Brief Generator',
+  description: 'Generate complete content briefs from any keyword using AI and real SERP data. Includes title suggestions, outline, target word count, keywords, questions, and competitor analysis.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is a content brief and why do I need one?', a: 'A content brief is a document that tells a writer exactly what to create. It includes the target keyword, suggested title, content outline with headings, target word count, keywords to include, questions to answer, and competitor analysis. Without a brief, writers guess at structure and intent. With a brief, they write content that ranks faster and requires fewer revisions. Studies from Content Marketing Institute show that content created from a brief performs 35% better in search rankings than content written without one.' },
+  { q: 'How does this content brief generator work?', a: 'Enter your target keyword and select your content type (blog post, landing page, or product page). The tool fetches the top 10 SERP results, keyword volume data, and People Also Ask questions from DataForSEO. It then uses Kimi AI to analyze the competition and generate a complete brief: title suggestions optimized for CTR, a detailed outline with H1/H2/H3 headings, a target word count based on competitor length, a keyword list with volume and difficulty, questions your content should answer, and a recommended content angle that differentiates you from existing rankings.' },
+  { q: 'What do I get for free vs what is email-gated?', a: 'The free version includes: title suggestions, full content outline, target word count recommendation, and the top 5 keywords with volume and difficulty. Entering your email unlocks: all keywords (up to 15), questions to answer, top 10 competitor analysis table, content angle recommendation, and export as Markdown or plain text. The email gate exists to prevent API abuse while keeping the core brief accessible.' },
+  { q: 'How accurate is the competitor word count?', a: 'Word count is estimated based on the SERP snippet text length, which is an approximation. For precise word counts, visit the competitor pages directly. However, the target word count recommendation also factors in content type and industry benchmarks, so it is accurate enough for planning purposes. The primary value is understanding whether you need a 1,000-word overview or a 3,000-word comprehensive guide to compete.' },
+  { q: 'Can I use the brief for any type of content?', a: 'Yes. Select blog post for long-form articles, landing page for service or product pages, or product page for e-commerce. The AI tailors the outline structure, word count, and keyword strategy to each content type. Blog posts get more informational headings and question-based sections. Landing pages get conversion-focused headings and feature-benefit structures. Product pages get specification tables and comparison sections.' },
+  { q: 'Where does the SERP data come from?', a: 'The tool uses DataForSEO, the same data provider used by Ahrefs, SEMrush, and other enterprise SEO platforms. SERP data is fetched live for the United States (location code 2840). This means the competitor analysis reflects the actual rankings at the time of generation, not cached or estimated data.' },
+  { q: 'How is this different from Surfer SEO or Clearscope?', a: 'Surfer SEO and Clearscope are paid tools ($50-100+/month) that generate content briefs based on NLP analysis of top-ranking pages. They are excellent but expensive. This tool is free and generates comparable briefs using live SERP data + AI analysis. The key differences: (1) it is free, (2) it includes a content angle recommendation based on gap analysis, (3) it shows the actual competitor titles and domains, and (4) it exports in Markdown for easy sharing with writers.' },
+  { q: 'How do I share the brief with my writer?', a: 'After unlocking the full brief, click "Export as Markdown" to copy a complete Markdown document with all sections. Paste it into Google Docs, Notion, or your project management tool. Alternatively, click "Export as Text" for a plain text version. The Markdown format preserves heading structure and tables, making it easy for writers to follow.' },
+  { q: 'What makes a good content angle?', a: 'A good content angle is what differentiates your piece from the 10 results already ranking. If every competitor has a generic "how-to" guide, your angle might be "how-to with common mistakes to avoid" or "how-to for beginners vs advanced users." The AI analyzes competitor titles, outlines, and content structure to identify what is missing — then recommends an angle that fills that gap while still matching search intent.' },
+  { q: 'How often should I generate a new brief?', a: 'Generate a fresh brief for every new piece of content. SERP competition changes over time, and a brief from six months ago may no longer reflect the current landscape. For high-value pages (homepage, top service pages, pillar content), regenerate the brief quarterly to stay competitive. For blog posts, generate once before writing and refresh if rankings stall after 3-6 months.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'Content Brief Generator', url: pageUrl },
+]);
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free AI Content Brief Generator"
+  toolDescription="Generate complete content briefs from any keyword. AI analyzes top 10 SERP competitors and writes titles, outline, target word count, keywords, and questions."
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <div class="mx-auto max-w-2xl">
+      <!-- Input Form -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="space-y-4">
+          <div>
+            <label for="cb-keyword" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Target Keyword</label>
+            <input type="text" id="cb-keyword" required placeholder="e.g., dental implants austin, best crm for small business"
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none">
+            <p class="mt-1 text-[12px] text-[#79716b]">Enter the keyword you want to rank for.</p>
+          </div>
+          <div>
+            <label for="cb-type" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Content Type</label>
+            <select id="cb-type"
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+              <option value="blog">Blog Post</option>
+              <option value="landing">Landing Page</option>
+              <option value="product">Product Page</option>
+            </select>
+          </div>
+          <button id="cb-generate" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] transition-colors">
+            Generate Content Brief
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="cb-loading" class="hidden mt-6 rounded-2xl border border-[#e7e5e4] bg-white p-8 text-center">
+        <div class="animate-spin inline-block w-8 h-8 border-4 border-[#e7e5e4] border-t-[#615fff] rounded-full"></div>
+        <p class="mt-3 text-[14px] text-[#57534e]">Analyzing SERP competition and generating brief...</p>
+        <p class="text-[12px] text-[#79716b] mt-1">This usually takes 8-12 seconds</p>
+      </div>
+
+      <!-- Error -->
+      <div id="cb-error" class="hidden mt-6 rounded-xl border border-[#fecaca] bg-[#fef2f2] px-5 py-4 text-[14px] text-[#dc2626]"></div>
+
+      <!-- Results -->
+      <div id="cb-results" class="hidden mt-6"></div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">Every piece of content deserves a strategy.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Stacc generates content briefs for every blog post, service page, and product page — automatically. Starting at $99/mo.</p>
+        <a href="/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start Your $1 Trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days &middot; Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / Speakable -->
+    <div class="speakable rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5 mb-8">
+      <p class="font-sans text-[15px] leading-[1.7] text-[#57534e]">
+        <strong class="text-[#292524]">The theStacc Content Brief Generator</strong> creates complete content briefs from any target keyword. It fetches live SERP data, analyzes the top 10 ranking pages, and uses AI to generate title suggestions, a detailed content outline with H1/H2/H3 headings, a target word count based on competitor analysis, a keyword list with search volume and difficulty, and questions your content should answer. The free version includes titles, outline, word count, and top 5 keywords. Unlock the full brief with your email to get all keywords, competitor analysis, content angle recommendations, and export options. Best for content marketers, SEOs, and business owners who want writers to create ranking content without endless back-and-forth revisions.
+      </p>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">How to Create a Content Brief That Ranks</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A content brief is the single most important document in the content creation process. It is the bridge between keyword research and published content. Without a brief, writers make educated guesses about structure, depth, and intent. With a brief, they have a roadmap.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The best briefs include five components: <strong class="text-[#292524]">(1) Title suggestions</strong> that match search intent and include the target keyword. <strong class="text-[#292524]">(2) A detailed outline</strong> with H1, H2, and H3 headings that mirrors what Google is already rewarding. <strong class="text-[#292524]">(3) Target word count</strong> based on the top 25% of competitor lengths — too short and you will not compete; too long and you waste resources. <strong class="text-[#292524]">(4) Keywords to include</strong> — the main keyword plus related terms that signal topical depth. <strong class="text-[#292524]">(5) Questions to answer</strong> — pulled from People Also Ask and competitor gaps.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">This tool automates all five components. Enter your keyword, and it does the research in seconds that would take a human 30-60 minutes.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Content Brief Generator Comparison</h2>
+    <div class="overflow-x-auto mb-5">
+      <table class="w-full text-[14px]">
+        <thead>
+          <tr class="border-b-2 border-[#e7e5e4]">
+            <th class="py-3 pr-4 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">Surfer SEO</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">Clearscope</th>
+            <th class="py-3 pl-4 text-center font-semibold text-[#57534e]">Frase</th>
+          </tr>
+        </thead>
+        <tbody class="text-[#57534e]">
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Price</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Free / $99/mo</td><td class="py-2.5 px-4 text-center">$69-249/mo</td><td class="py-2.5 px-4 text-center">$170-1,200/mo</td><td class="py-2.5 pl-4 text-center">$15-115/mo</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">AI-generated outline</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">Yes</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Live SERP data</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — DataForSEO</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">Yes</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Competitor title analysis</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — top 10</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">Partial</td><td class="py-2.5 pl-4 text-center">Yes</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Content angle recommendation</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — AI gap analysis</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">People Also Ask integration</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — real PAA</td><td class="py-2.5 px-4 text-center">Partial</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">Yes</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Export as Markdown</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Keyword volume + KD data</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">Partial</td></tr>
+          <tr><td class="py-2.5 pr-4">No credit card to start</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How the Content Brief Generator Works</h2>
+    <div class="space-y-3 mb-5">
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">1</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Enter your target keyword</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Type the keyword you want to rank for and select your content type.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">2</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Fetch live SERP data</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">The tool queries DataForSEO for top 10 results, keyword volume, related keywords, and People Also Ask questions.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">3</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">AI analyzes and generates brief</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Kimi reads the competitor data, identifies gaps, and writes a complete brief with titles, outline, keywords, and questions.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">4</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Review, export, and assign</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Copy the brief as Markdown or text and share it with your writer. Every section is editable before export.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">What Makes a Great Content Brief</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Title suggestions that balance SEO and CTR.</strong> A title needs the target keyword for ranking, but it also needs emotional triggers, numbers, or curiosity gaps for clicks. This tool generates 5 options so you can A/B test or pick the one that fits your brand.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">An outline that matches search intent.</strong> If the top results for "dental implants" all have sections on "cost," "procedure," and "recovery time," your content needs those sections too. The AI analyzes competitor headings and generates an outline that covers all the expected topics while adding unique angles competitors miss.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Word count based on real data.</strong> The tool looks at the length of top-ranking pages and recommends a target range. For "best CRM software," the target might be 3,500 words because all top results are comprehensive guides. For "what is a CRM," it might be 1,200 words because the intent is definitional.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Keywords that signal topical depth.</strong> Including the main keyword is table stakes. The real value is the related keywords that show Google you have covered the topic thoroughly. This tool pulls related keywords with search volume so you know which ones are worth including.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Use Cases by Content Type</h2>
+    <div class="space-y-3 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Blog Posts</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A blog post brief for "SEO for dentists" includes an outline with sections on local SEO, GBP optimization, keyword research, content strategy, and link building. The questions section covers "how much does dental SEO cost?" and "how long does dental SEO take?" — questions patients (and practice owners) actually search.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Landing Pages</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A landing page brief for "emergency plumber Austin" includes headings on service areas, response time, pricing transparency, and testimonials. The keyword list includes location modifiers like "24/7 plumber Austin" and "emergency plumbing near me." The content angle differentiates on speed and availability.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Product Pages</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A product page brief for "HVAC system replacement" includes specifications, energy efficiency comparisons, warranty details, and financing options. The competitor analysis shows which competitors have comparison tables and which do not — giving you a clear path to outrank them.</p>
+      </div>
+    </div>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      {faqs.map((faq, i) => (
+        <div class={i < faqs.length - 1 ? 'border-b border-[#f3f4f6]' : ''}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score headlines on 8 dimensions</p>
+          </a>
+          <a href="/tools/meta-tag-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Meta Tag Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Analyze tags + SERP comparison</p>
+          </a>
+          <a href="/tools/faq-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">FAQ Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">AI FAQ schema + Q&A from topic</p>
+          </a>
+          <a href="/tools/seo-roi-calculator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO ROI Calculator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Real keyword volume by city</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Generate JSON-LD with real PAA</p>
+          </a>
+          <a href="/tools/on-page-seo-checker/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">On-Page SEO Checker</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Analyze page content + SERP gaps</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script is:inline src="/js/content-brief-engine.js"></script>
+  </Fragment>
+</ToolLayout>

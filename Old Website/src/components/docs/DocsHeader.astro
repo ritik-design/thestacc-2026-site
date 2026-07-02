@@ -1,0 +1,159 @@
+---
+import DocsSearch from './DocsSearch.astro';
+
+interface Props {
+  breadcrumbs?: { label: string; href?: string }[];
+  showCopyPage?: boolean;
+}
+
+const { breadcrumbs, showCopyPage = false } = Astro.props;
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 flex h-14 items-center border-b border-[#e7e5e4] bg-white">
+  <!-- Left: Logo + Docs + Search (matches sidebar width) -->
+  <div class="flex h-full w-[160px] shrink-0 items-center justify-between border-r border-[#e7e5e4] px-3 sm:w-[200px] sm:px-4 lg:w-[256px]">
+    <div class="flex items-center gap-3">
+      <a href="/" class="flex items-center text-[#96A47B]" aria-label="Go to homepage">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 11" fill="currentColor" class="h-[14px] w-auto"><path d="M6.26327 10.1224C5.37755 10.1224 4.58146 9.83776 3.875 9.26837C3.16854 8.69898 2.72041 7.97143 2.53061 7.08571L1.61327 2.84694L0.221429 2.94184L0 0.411225C1.6449 0.263605 3.05255 0.158163 4.22296 0.094898C5.39337 0.0316327 6.44252 0 7.37041 0C8.74116 0 9.8483 0.0632653 10.6918 0.189796C11.5354 0.316327 12.2946 0.537755 12.9694 0.854082C13.2646 1.0017 13.544 1.10714 13.8077 1.17041C14.0713 1.23367 14.319 1.26531 14.551 1.26531C14.783 1.26531 15.0097 1.23367 15.2311 1.17041C15.4526 1.10714 15.7109 1.01224 16.0061 0.885714C16.702 0.569388 17.5034 0.342687 18.4102 0.205612C19.317 0.0685374 20.519 0 22.0163 0C22.9864 0 24.0619 0.0316327 25.2429 0.094898C26.4238 0.158163 27.7102 0.253061 29.102 0.379592L28.8806 2.87857L27.5204 2.78367L26.5714 7.11735C26.3816 8.00306 25.9388 8.72534 25.2429 9.28418C24.5469 9.84303 23.7561 10.1224 22.8704 10.1224H20.0551C19.1694 10.1224 18.3891 9.85357 17.7143 9.31582C17.0395 8.77806 16.5966 8.08741 16.3857 7.24388L15.5316 3.85918H13.602L12.748 7.24388C12.516 8.1085 12.0626 8.80442 11.3878 9.33163C10.7129 9.85884 9.9432 10.1224 9.07857 10.1224H6.26327ZM4.99796 6.57959C5.06122 6.87483 5.20884 7.11735 5.44082 7.30714C5.67279 7.49694 5.9364 7.59184 6.23163 7.59184H9.04694C9.34218 7.59184 9.60578 7.50221 9.83776 7.32296C10.0697 7.14371 10.2173 6.91701 10.2806 6.64286L11.2612 2.81531C10.6918 2.70986 10.0486 2.64133 9.33163 2.60969C8.61463 2.57806 7.96089 2.56224 7.37041 2.56224C6.88538 2.56224 6.36344 2.56752 5.80459 2.57806C5.24575 2.58861 4.72381 2.61497 4.23878 2.65714L4.99796 6.57959ZM18.8214 6.64286C18.8847 6.91701 19.0323 7.14371 19.2643 7.32296C19.4963 7.50221 19.7599 7.59184 20.0551 7.59184H22.8704C23.1656 7.59184 23.4293 7.49694 23.6612 7.30714C23.8932 7.11735 24.0408 6.87483 24.1041 6.57959L24.9265 2.62551C24.5048 2.60442 24.0197 2.58861 23.4714 2.57806C22.9231 2.56752 22.4381 2.56224 22.0163 2.56224C21.3837 2.56224 20.6825 2.57806 19.9128 2.60969C19.143 2.64133 18.4524 2.70986 17.8408 2.81531L18.8214 6.64286Z"/></svg>
+      </a>
+      <div class="h-5 w-px bg-[#e7e5e4]"></div>
+      <a href="/docs/" class="font-sans text-[16px] font-semibold text-[#292524] hover:text-[#292524]/70 transition-colors">
+        Docs
+      </a>
+    </div>
+    <button
+      id="docs-search-btn"
+      class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-[#79716b] transition-colors hover:bg-[#fafaf9] hover:text-[#292524]"
+      aria-label="Search docs"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Center: Breadcrumbs -->
+  <div class="flex flex-1 items-center px-6">
+    {breadcrumbs && breadcrumbs.length > 0 ? (
+      <nav class="flex items-center gap-1.5 font-sans text-[14px] text-[#79716b]">
+        {breadcrumbs.map((crumb, i) => (
+          <>
+            {i > 0 && (
+              <span class="text-[#d6d3d1]">/</span>
+            )}
+            {crumb.href ? (
+              <a href={crumb.href} class="hover:text-[#292524] transition-colors">{crumb.label}</a>
+            ) : (
+              <span class="text-[#292524] font-medium">{crumb.label}</span>
+            )}
+          </>
+        ))}
+      </nav>
+    ) : (
+      <span class="font-sans text-[14px] font-medium text-[#292524]">Home</span>
+    )}
+  </div>
+
+  <!-- Right: Actions -->
+  <div class="flex items-center gap-2 pr-4">
+    {showCopyPage && (
+      <button
+        id="docs-copy-page-btn"
+        class="hidden cursor-pointer items-center gap-1.5 rounded-lg border border-[#e7e5e4] px-3 py-1.5 font-sans text-[13px] font-medium text-[#292524] transition-colors hover:bg-[#fafaf9] md:inline-flex"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+        </svg>
+        <span id="docs-copy-label">Copy page</span>
+      </button>
+    )}
+    <a
+      href="/demo/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center justify-center rounded-lg border border-[#4f39f6] bg-[#eef2ff] px-4 py-1.5 font-sans text-[13px] font-medium text-[#4f39f6] transition-colors hover:bg-[#ddd6fe]"
+    >
+      Open app
+    </a>
+  </div>
+</header>
+
+<DocsSearch />
+
+<script>
+  function htmlToMarkdown(el: Element): string {
+    const lines: string[] = [];
+
+    for (const node of el.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const t = node.textContent?.trim();
+        if (t) lines.push(t);
+        continue;
+      }
+      if (node.nodeType !== Node.ELEMENT_NODE) continue;
+      const tag = (node as Element).tagName.toLowerCase();
+
+      if (tag === 'h2') {
+        lines.push('', `## ${node.textContent?.trim()}`, '');
+      } else if (tag === 'h3') {
+        lines.push('', `### ${node.textContent?.trim()}`, '');
+      } else if (tag === 'p') {
+        lines.push(node.textContent?.trim() || '');
+      } else if (tag === 'ul') {
+        for (const li of (node as Element).querySelectorAll(':scope > li')) {
+          lines.push(`- ${li.textContent?.trim()}`);
+        }
+        lines.push('');
+      } else if (tag === 'ol') {
+        let i = 1;
+        for (const li of (node as Element).querySelectorAll(':scope > li')) {
+          lines.push(`${i}. ${li.textContent?.trim()}`);
+          i++;
+        }
+        lines.push('');
+      } else if (tag === 'blockquote') {
+        lines.push(`> ${node.textContent?.trim()}`, '');
+      } else if (tag === 'pre') {
+        lines.push('```', node.textContent?.trim() || '', '```', '');
+      } else if (tag === 'div' && (node as Element).classList.contains('docs-code')) {
+        const code = (node as Element).querySelector('pre code');
+        const lang = (node as Element).querySelector('.docs-code-lang')?.textContent?.trim().toLowerCase() || '';
+        lines.push('```' + (lang === 'code' ? '' : lang), code?.textContent?.replace(/\n$/, '') || '', '```', '');
+      } else if (tag === 'hr') {
+        lines.push('---', '');
+      }
+    }
+    return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  }
+
+  const copyBtn = document.getElementById('docs-copy-page-btn');
+  const copyLabel = document.getElementById('docs-copy-label');
+  copyBtn?.addEventListener('click', async () => {
+    const titleEl = document.querySelector('article h1');
+    const descEl = document.querySelector('article h1 + p');
+    const contentEl = document.querySelector('.docs-content');
+
+    let text = '';
+    if (titleEl) text += `# ${titleEl.textContent?.trim()}\n\n`;
+    if (descEl) text += `${descEl.textContent?.trim()}\n\n`;
+    if (contentEl) text += htmlToMarkdown(contentEl);
+    text += `\n\nSource: ${window.location.href}`;
+
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+    if (copyLabel) {
+      copyLabel.textContent = 'Copied!';
+      setTimeout(() => { copyLabel.textContent = 'Copy page'; }, 2000);
+    }
+  });
+</script>

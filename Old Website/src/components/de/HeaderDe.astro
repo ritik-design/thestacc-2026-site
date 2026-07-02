@@ -1,0 +1,702 @@
+---
+import { buildHreflangAlternates, getLangFromPath } from '../../utils/hreflang';
+
+const pathname = Astro.url.pathname;
+const lang = getLangFromPath(pathname);
+const hreflangAlts = buildHreflangAlternates(pathname);
+const langLinks = hreflangAlts.filter(a => a.lang !== 'x-default');
+const hasLangSwitch = langLinks.length > 1;
+const langMeta: Record<string, { flag: string; name: string; code: string }> = {
+  'en':    { flag: '🇬🇧', name: 'English',    code: 'EN' },
+  'de':    { flag: '🇩🇪', name: 'Deutsch',    code: 'DE' },
+  'fr':    { flag: '🇫🇷', name: 'Français',   code: 'FR' },
+  'es':    { flag: '🇪🇸', name: 'Español',    code: 'ES' },
+  'pt-BR': { flag: '🇧🇷', name: 'Português',  code: 'PT' },
+  'it':    { flag: '🇮🇹', name: 'Italiano',   code: 'IT' },
+};
+const currentMeta = langMeta[lang] || { flag: '🌐', name: lang.toUpperCase(), code: lang.toUpperCase() };
+
+const otherBlogs = [
+  { code: 'en', flag: '🇬🇧', name: 'English', url: '/blog/' },
+  { code: 'es', flag: '🇪🇸', name: 'Español', url: '/es/blog/' },
+  { code: 'it', flag: '🇮🇹', name: 'Italiano', url: '/it/blog/' },
+  { code: 'fr', flag: '🇫🇷', name: 'Français', url: '/fr/blog/' },
+  { code: 'pt-BR', flag: '🇧🇷', name: 'Português', url: '/pt-br/blog/' },
+];
+
+// Links with German pages ready
+// href="" = page not yet built in German (placeholder)
+---
+
+<header id="site-header" class="sticky top-0 z-50 transition-all duration-300 bg-white">
+  <div class="flex h-14 items-center justify-between px-6">
+
+    <!-- Logo -->
+    <a href="/de/" class="cursor-pointer flex items-center shrink-0">
+      <img src="/Logo_horizontal_light_cropped.webp" alt="theStacc" width="136" height="14" class="h-[14px] w-auto" style="filter: brightness(0) saturate(100%) invert(23%) sepia(96%) saturate(2700%) hue-rotate(240deg) brightness(95%) contrast(100%);" />
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden lg:flex items-center gap-0.5">
+
+      <!-- Module dropdown -->
+      <div class="relative" id="modules-nav">
+        <button
+          id="modules-btn"
+          class="cursor-pointer flex items-center gap-1.5 rounded-lg px-3 py-2 font-mono text-sm font-medium uppercase transition-colors text-[#292524] hover:text-[#292524]/70"
+        >
+          Module
+          <svg id="modules-chevron" class="h-2.5 w-2.5 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div id="modules-panel" class="absolute left-0 top-full pt-1 z-50 invisible opacity-0 transition-all duration-150">
+          <div class="w-[320px] overflow-hidden rounded-xl border border-[#e7e5e4] bg-white shadow-[0px_4px_16px_0px_rgba(0,0,0,0.08)]">
+            <div class="px-4 py-2.5 border-b border-[#e7e5e4]">
+              <p class="font-mono text-xs font-semibold uppercase tracking-[0.6px] text-[#79716b]">Module</p>
+            </div>
+            <div class="p-2 space-y-0.5">
+              <a href="/de/module/blog-seo/" class="flex items-center gap-3 rounded-lg px-3 py-3 hover:bg-[#fafaf9] transition-colors">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f5f4]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="font-sans text-[14px] font-semibold text-[#292524] leading-none">Blog SEO</p>
+                  <p class="mt-1 font-sans text-sm text-[#57534e] leading-none truncate">KI-Blogartikel täglich veröffentlicht</p>
+                </div>
+              </a>
+              <a href="/de/module/lokales-seo/" class="flex items-center gap-3 rounded-lg px-3 py-3 hover:bg-[#fafaf9] transition-colors">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f5f4]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="font-sans text-[14px] font-semibold text-[#292524] leading-none">Lokales SEO</p>
+                  <p class="mt-1 font-sans text-sm text-[#57534e] leading-none truncate">„In meiner Nähe"-Suchen dominieren</p>
+                </div>
+              </a>
+              <a href="/de/module/social-media/" class="flex items-center gap-3 rounded-lg px-3 py-3 hover:bg-[#fafaf9] transition-colors">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f5f4]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <p class="font-sans text-[14px] font-semibold text-[#292524] leading-none">Social Media</p>
+                  <p class="mt-1 font-sans text-sm text-[#57534e] leading-none truncate">KI-Posts auf allen Plattformen</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Funktionen mega menu -->
+      <div class="relative" id="features-nav">
+        <button
+          id="features-btn"
+          class="cursor-pointer flex items-center gap-1.5 rounded-lg px-3 py-2 font-mono text-sm font-medium uppercase transition-colors text-[#292524] hover:text-[#292524]/70"
+        >
+          Funktionen
+          <svg id="features-chevron" class="h-2.5 w-2.5 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+
+        <div id="features-panel" class="absolute left-1/2 -translate-x-1/2 top-full pt-1 z-50 invisible opacity-0 transition-all duration-150">
+          <div class="overflow-hidden rounded-xl border border-[#e7e5e4] bg-white shadow-[0px_8px_24px_0px_rgba(0,0,0,0.10)]" style="width:720px;">
+            <div class="flex">
+
+              <!-- Left: Features grid (2 cols) -->
+              <div class="flex-1 border-r border-[#e7e5e4]">
+                <div class="border-b border-[#e7e5e4] px-4 py-2.5">
+                  <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.6px] text-[#79716b]">Funktionen</p>
+                </div>
+                <div class="grid grid-cols-2 gap-0.5 p-2">
+
+                  <a href="/de/funktionen/rank-tracking/" class="flex items-start gap-2.5 rounded-lg px-2.5 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                    <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                    </div>
+                    <div>
+                      <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Rang-Verfolgung</p>
+                      <p class="font-sans text-[11px] text-[#79716b] leading-snug">Tägliche Ranking-Updates</p>
+                    </div>
+                  </a>
+
+                  <a href="/de/funktionen/keyword-recherche/" class="flex items-start gap-2.5 rounded-lg px-2.5 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                    <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </div>
+                    <div>
+                      <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Keyword-Recherche</p>
+                      <p class="font-sans text-[11px] text-[#79716b] leading-snug">Lücken im Wettbewerb finden</p>
+                    </div>
+                  </a>
+
+                  <a href="/de/funktionen/zitationsverwaltung/" class="flex items-start gap-2.5 rounded-lg px-2.5 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                    <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+                    </div>
+                    <div>
+                      <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Zitations-Management</p>
+                      <p class="font-sans text-[11px] text-[#79716b] leading-snug">50+ Verzeichnis-Einträge</p>
+                    </div>
+                  </a>
+
+                  <a href="/de/funktionen/bewertungsmonitoring/" class="flex items-start gap-2.5 rounded-lg px-2.5 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                    <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <div>
+                      <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Bewertungs-Monitoring</p>
+                      <p class="font-sans text-[11px] text-[#79716b] leading-snug">Sofortige Benachrichtigungen</p>
+                    </div>
+                  </a>
+
+                  <a href="/de/funktionen/social-scheduling/" class="flex items-start gap-2.5 rounded-lg px-2.5 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                    <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <div>
+                      <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Social-Planung</p>
+                      <p class="font-sans text-[11px] text-[#79716b] leading-snug">Auto-Post auf allen Plattformen</p>
+                    </div>
+                  </a>
+
+                  <a href="/de/funktionen/kunden-berichte/" class="flex items-start gap-2.5 rounded-lg px-2.5 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                    <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    </div>
+                    <div>
+                      <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Kunden-Reporting</p>
+                      <p class="font-sans text-[11px] text-[#79716b] leading-snug">PDF- &amp; CSV-Exporte mit Branding</p>
+                    </div>
+                  </a>
+
+                  <a href="/de/funktionen/multi-standort-berichte/" class="flex items-start gap-2.5 rounded-lg px-2.5 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                    <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                    </div>
+                    <div>
+                      <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Multi-Standort-Reporting</p>
+                      <p class="font-sans text-[11px] text-[#79716b] leading-snug">Portfolio-Ansicht für alle Standorte</p>
+                    </div>
+                  </a>
+
+                  <a href="/de/funktionen/massenstandort-verwaltung/" class="flex items-start gap-2.5 rounded-lg px-2.5 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                    <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                    </div>
+                    <div>
+                      <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Standort-Massenverwaltung</p>
+                      <p class="font-sans text-[11px] text-[#79716b] leading-snug">500+ gleichzeitig aktualisieren</p>
+                    </div>
+                  </a>
+
+                  <a href="/de/funktionen/white-label-dashboard/" class="flex items-start gap-2.5 rounded-lg px-2.5 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                    <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                    </div>
+                    <div>
+                      <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">White-Label-Dashboard</p>
+                      <p class="font-sans text-[11px] text-[#79716b] leading-snug">Ihr Branding, kein Stacc-Stempel</p>
+                    </div>
+                  </a>
+
+                </div>
+              </div>
+
+              <!-- Right: Integrations list -->
+              <div class="w-[215px] shrink-0">
+                <div class="border-b border-[#e7e5e4] px-4 py-2.5">
+                  <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.6px] text-[#79716b]">Integrationen</p>
+                </div>
+                <div class="space-y-0.5 p-2">
+
+                  <a href="/de/integrationen/google-business-profile/" class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-[#fafaf9] transition-colors">
+                    <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#dcfce7]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <span class="font-sans text-[12px] font-medium text-[#292524] leading-tight">Google Business Profile</span>
+                  </a>
+
+                  <a href="/de/integrationen/facebook/" class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-[#fafaf9] transition-colors">
+                    <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#dbeafe]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                    </div>
+                    <span class="font-sans text-[12px] font-medium text-[#292524] leading-tight">Facebook</span>
+                  </a>
+
+                  <a href="/de/integrationen/instagram/" class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-[#fafaf9] transition-colors">
+                    <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#fce7f3]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </div>
+                    <span class="font-sans text-[12px] font-medium text-[#292524] leading-tight">Instagram</span>
+                  </a>
+
+                  <a href="/de/integrationen/wordpress/" class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-[#fafaf9] transition-colors">
+                    <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f1f5f9]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h4M18 12h4M12 2v4M12 18v4"/></svg>
+                    </div>
+                    <span class="font-sans text-[12px] font-medium text-[#292524] leading-tight">WordPress</span>
+                  </a>
+
+                  <a href="/de/integrationen/ghost/" class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-[#fafaf9] transition-colors">
+                    <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 10h.01M15 10h.01M12 2a8 8 0 00-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 00-8-8z"/></svg>
+                    </div>
+                    <span class="font-sans text-[12px] font-medium text-[#292524] leading-tight">Ghost</span>
+                  </a>
+
+                  <a href="/de/integrationen/wix/" class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-[#fafaf9] transition-colors">
+                    <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#fef9c3]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a16207" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    </div>
+                    <span class="font-sans text-[12px] font-medium text-[#292524] leading-tight">Wix</span>
+                  </a>
+
+                  <a href="/de/integrationen/webflow/" class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-[#fafaf9] transition-colors">
+                    <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#ede9fe]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+                    </div>
+                    <span class="font-sans text-[12px] font-medium text-[#292524] leading-tight">Webflow</span>
+                  </a>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lösungen mega menu -->
+      <div class="relative" id="solutions-nav">
+        <button
+          id="solutions-btn"
+          class="cursor-pointer flex items-center gap-1.5 rounded-lg px-3 py-2 font-mono text-sm font-medium uppercase transition-colors text-[#292524] hover:text-[#292524]/70"
+        >
+          Lösungen
+          <svg id="solutions-chevron" class="h-2.5 w-2.5 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+
+        <div id="solutions-panel" class="absolute left-1/2 -translate-x-1/2 top-full pt-1 z-50 invisible opacity-0 transition-all duration-150">
+          <div class="overflow-hidden rounded-xl border border-[#e7e5e4] bg-white shadow-[0px_8px_24px_0px_rgba(0,0,0,0.10)]" style="width:720px;">
+
+            <!-- 3-column header row -->
+            <div class="grid grid-cols-3 border-b border-[#e7e5e4]">
+              <div class="px-4 py-2.5">
+                <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.7px] text-[#79716b]">Nach Unternehmenstyp</p>
+              </div>
+              <div class="border-l border-[#e7e5e4] px-4 py-2.5">
+                <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.7px] text-[#79716b]">Für Agenturen</p>
+              </div>
+              <div class="border-l border-[#e7e5e4] px-4 py-2.5">
+                <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.7px] text-[#79716b]">SEO-Software</p>
+              </div>
+            </div>
+
+            <!-- 3-column body -->
+            <div class="grid grid-cols-3 divide-x divide-[#e7e5e4]">
+
+              <!-- Col 1: Nach Unternehmenstyp -->
+              <div class="p-2 space-y-0.5">
+                <a href="/de/loesungen/agenturen/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f3ff]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Agenturen</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Kunden-SEO skalieren</p>
+                  </div>
+                </a>
+                <a href="/de/loesungen/multi-standort-unternehmen/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f3ff]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Multi-Standort</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">500+ Standorte verwalten</p>
+                  </div>
+                </a>
+                <a href="/de/loesungen/franchises/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f3ff]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Franchises</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Konsistentes SEO überall</p>
+                  </div>
+                </a>
+                <a href="/de/loesungen/kleine-unternehmen/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f3ff]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Kleinunternehmen</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Lokal ranken, keine Agentur</p>
+                  </div>
+                </a>
+              </div>
+
+              <!-- Col 2: Für Agenturen -->
+              <div class="p-2 space-y-0.5">
+                <a href="/de/white-label-seo/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f3ff]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">White-Label SEO</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Ihr Brand auf jedem Bericht</p>
+                  </div>
+                </a>
+                <a href="/de/white-label-lokales-seo/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f3ff]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">White-Label Local SEO</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Lokale Ergebnisse, Ihr Label</p>
+                  </div>
+                </a>
+                <a href="/de/white-label-berichte/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f3ff]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">White-Label Reporting</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Markierte PDFs, kein Aufwand</p>
+                  </div>
+                </a>
+                <a href="/de/seo-reseller/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f3ff]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">SEO-Reseller-Programm</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Stacc als eigenes Produkt verkaufen</p>
+                  </div>
+                </a>
+              </div>
+
+              <!-- Col 3: SEO-Software -->
+              <div class="p-2 space-y-0.5">
+                <a href="/de/lokales-seo-software/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Lokale SEO-Software</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Lokale Rankings automatisieren</p>
+                  </div>
+                </a>
+                <a href="/de/multi-standort-seo-software/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Multi-Standort-SEO</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Auf jeden Standort skalieren</p>
+                  </div>
+                </a>
+                <a href="/de/rank-tracking-software/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Ranking-Tracking-Software</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Tägliche Positions-Updates</p>
+                  </div>
+                </a>
+                <a href="/de/google-maps-ranking/" class="flex items-start gap-2.5 rounded-lg px-3 py-2.5 hover:bg-[#fafaf9] transition-colors">
+                  <div class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[#f5f5f4]">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                  </div>
+                  <div>
+                    <p class="font-sans text-[13px] font-semibold text-[#292524] leading-tight">Google Maps Ranking</p>
+                    <p class="font-sans text-[11px] text-[#79716b] leading-snug">Den Map Pack dominieren</p>
+                  </div>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preise -->
+      <a href="/de/preise/" class="cursor-pointer rounded-lg px-3 py-2 font-mono text-sm font-medium uppercase transition-colors text-[#292524] hover:text-[#292524]/70">
+        Preise
+      </a>
+
+      <!-- Ressourcen dropdown -->
+      <div class="relative" id="resources-nav">
+        <button
+          id="resources-btn"
+          class="cursor-pointer flex items-center gap-1.5 rounded-lg px-3 py-2 font-mono text-sm font-medium uppercase transition-colors text-[#292524] hover:text-[#292524]/70"
+        >
+          Ressourcen
+          <svg id="resources-chevron" class="h-2.5 w-2.5 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div id="resources-panel" class="absolute left-0 top-full pt-1 z-50 invisible opacity-0 transition-all duration-150">
+          <div class="w-[320px] overflow-hidden rounded-xl border border-[#e7e5e4] bg-white shadow-[0px_4px_16px_0px_rgba(0,0,0,0.08)]">
+            <div class="px-4 py-2.5 border-b border-[#e7e5e4]">
+              <p class="font-mono text-xs font-semibold uppercase tracking-[0.6px] text-[#79716b]">Ressourcen</p>
+            </div>
+            <div class="p-2 space-y-0.5">
+              <a href="/de/blog/" class="flex items-center gap-3 rounded-lg px-3 py-3 hover:bg-[#fafaf9] transition-colors">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f5f4]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+                <div class="min-w-0"><p class="font-sans text-[14px] font-semibold text-[#292524] leading-none">Blog</p><p class="mt-1 font-sans text-sm text-[#57534e] leading-none truncate">SEO-Anleitungen, Tipps und Strategien</p></div>
+              </a>
+              <a href="/de/tools/" class="flex items-center gap-3 rounded-lg px-3 py-3 hover:bg-[#fafaf9] transition-colors">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f5f4]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+                <div class="min-w-0"><p class="font-sans text-[14px] font-semibold text-[#292524] leading-none">Kostenlose Tools</p><p class="mt-1 font-sans text-sm text-[#57534e] leading-none truncate">SEO-Audit, Schema-Generator und mehr</p></div>
+              </a>
+              <a href="/de/glossar/" class="flex items-center gap-3 rounded-lg px-3 py-3 hover:bg-[#fafaf9] transition-colors">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f5f4]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+                <div class="min-w-0"><p class="font-sans text-[14px] font-semibold text-[#292524] leading-none">Glossar</p><p class="mt-1 font-sans text-sm text-[#57534e] leading-none truncate">690+ SEO-Begriffe erklärt</p></div>
+              </a>
+              <a href="/de/best/" class="flex items-center gap-3 rounded-lg px-3 py-3 hover:bg-[#fafaf9] transition-colors">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f5f4]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/><circle cx="12" cy="8" r="7"/></svg></div>
+                <div class="min-w-0"><p class="font-sans text-[14px] font-semibold text-[#292524] leading-none">Bestenlisten</p><p class="mt-1 font-sans text-sm text-[#57534e] leading-none truncate">Top-bewertete SEO-Tools</p></div>
+              </a>
+              <a href="/de/bewertungen/" class="flex items-center gap-3 rounded-lg px-3 py-3 hover:bg-[#fafaf9] transition-colors">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f5f4]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+                <div class="min-w-0"><p class="font-sans text-[14px] font-semibold text-[#292524] leading-none">Rezensionen</p><p class="mt-1 font-sans text-sm text-[#57534e] leading-none truncate">Ausführliche SEO-Tool-Bewertungen</p></div>
+              </a>
+              <a href="/de/alternativen/" class="flex items-center gap-3 rounded-lg px-3 py-3 hover:bg-[#fafaf9] transition-colors">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f5f4]"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                <div class="min-w-0"><p class="font-sans text-[14px] font-semibold text-[#292524] leading-none">Alternativen</p><p class="mt-1 font-sans text-sm text-[#57534e] leading-none truncate">Direkte Wettbewerber-Vergleiche</p></div>
+              </a>
+            </div>
+
+            {/* Blog in anderen Sprachen */}
+            <div class="border-t border-[#e7e5e4] px-4 py-2.5">
+              <p class="font-mono text-[9px] font-semibold uppercase tracking-[0.8px] text-[#79716b]">Blog auf anderer Sprache</p>
+            </div>
+            <div class="p-1.5 space-y-0.5 pb-3">
+              {otherBlogs.map(b => (
+                <a href={b.url} class="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-[#fafaf9] transition-colors">
+                  <span class="text-[16px] leading-none select-none">{b.flag}</span>
+                  <div class="flex-1 min-w-0">
+                    <p class="font-mono text-[11px] font-bold uppercase tracking-[0.06em] leading-tight text-[#292524]">{b.code}</p>
+                    <p class="mt-0.5 font-sans text-[11px] leading-tight text-[#79716b]">{b.name}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </nav>
+
+    <!-- Desktop Actions -->
+    <div class="hidden lg:flex items-center gap-3">
+      {hasLangSwitch && (
+        <div class="relative" id="lang-nav">
+          <button
+            id="lang-btn"
+            class="cursor-pointer flex items-center gap-1.5 rounded-lg border border-[#e7e5e4] bg-white px-2.5 py-1.5 transition-all hover:border-[#c4b5fd] hover:bg-[#faf5ff]"
+            aria-label="Sprache wechseln"
+          >
+            <span class="text-[14px] leading-none select-none">{currentMeta.flag}</span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.04em] text-[#57534e]">{currentMeta.code}</span>
+            <svg id="lang-chevron" class="h-2.5 w-2.5 text-[#79716b] transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div id="lang-panel" class="absolute right-0 top-full pt-2 z-50 invisible opacity-0 transition-all duration-200">
+            <div class="w-[210px] overflow-hidden rounded-xl border border-[#e7e5e4] bg-white shadow-[0px_8px_24px_0px_rgba(0,0,0,0.10)]">
+              <div class="border-b border-[#e7e5e4] px-3.5 py-2.5">
+                <p class="font-mono text-[9px] font-semibold uppercase tracking-[0.8px] text-[#79716b]">Language / Sprache</p>
+              </div>
+              <div class="p-1.5 space-y-0.5">
+                {langLinks.map(a => {
+                  const meta = langMeta[a.lang] || { flag: '🌐', name: a.lang, code: a.lang.toUpperCase() };
+                  const isActive = a.lang === lang;
+                  return (
+                    <a href={a.url} class={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 transition-colors ${isActive ? 'bg-[#f5f3ff]' : 'hover:bg-[#fafaf9]'}`}>
+                      <span class="text-[18px] leading-none select-none">{meta.flag}</span>
+                      <div class="flex-1 min-w-0">
+                        <p class={`font-mono text-[11px] font-bold uppercase tracking-[0.06em] leading-tight ${isActive ? 'text-[#4f39f6]' : 'text-[#292524]'}`}>{meta.code}</p>
+                        <p class={`mt-0.5 font-sans text-[11px] leading-tight ${isActive ? 'text-[#7c6fca]' : 'text-[#79716b]'}`}>{meta.name}</p>
+                      </div>
+                      {isActive && (
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                      )}
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      <a href="https://app.thestacc.com/login" target="_blank" rel="noopener noreferrer" class="cursor-pointer inline-flex items-center justify-center rounded-lg border border-[#e7e5e4] bg-white px-4 py-1.5 font-mono text-sm font-semibold uppercase text-[#292524] transition-colors hover:bg-[#292524]/5">
+        Anmelden
+      </a>
+      <a href="/de/demo/" class="cursor-pointer inline-flex items-center justify-center rounded-lg border border-[#4f39f6] bg-[#615fff] px-4 py-1.5 font-mono text-sm font-semibold uppercase text-[#fafaf9] transition-colors hover:bg-[#4f39f6]">
+        Demo buchen
+      </a>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button id="mobile-menu-btn" class="cursor-pointer lg:hidden" aria-label="Menü öffnen">
+      <svg id="menu-icon-open" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+      </svg>
+      <svg id="menu-icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#292524" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="hidden">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="lg:hidden hidden absolute left-0 right-0 top-14 z-40 bg-white border-b border-[#e7e5e4] shadow-[0px_8px_24px_0px_rgba(0,0,0,0.08)] max-h-[80vh] overflow-y-auto">
+    <nav class="flex flex-col border-t border-[#e7e5e4]">
+
+      <!-- Module -->
+      <a href="/de/module/blog-seo/" class="cursor-pointer border-b border-[#e7e5e4] px-6 py-4 text-left font-mono text-[14px] font-medium uppercase tracking-[0.56px] transition-colors hover:bg-[#fafaf9] text-[#292524]">Blog SEO</a>
+      <a href="/de/module/lokales-seo/" class="cursor-pointer border-b border-[#e7e5e4] px-6 py-4 text-left font-mono text-[14px] font-medium uppercase tracking-[0.56px] transition-colors hover:bg-[#fafaf9] text-[#292524]">Lokales SEO</a>
+      <a href="/de/module/social-media/" class="cursor-pointer border-b border-[#e7e5e4] px-6 py-4 text-left font-mono text-[14px] font-medium uppercase tracking-[0.56px] transition-colors hover:bg-[#fafaf9] text-[#292524]">Social Media</a>
+
+      <!-- Funktionen accordion -->
+      <button id="mobile-features-btn" class="cursor-pointer border-b border-[#e7e5e4] px-6 py-4 text-left font-mono text-[14px] font-medium uppercase tracking-[0.56px] transition-colors hover:bg-[#fafaf9] text-[#292524] flex items-center justify-between w-full">
+        Funktionen
+        <svg id="mobile-features-chevron" class="h-3 w-3 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div id="mobile-features-panel" class="hidden border-b border-[#e7e5e4] bg-[#fafaf9]">
+        <div class="px-8 py-3">
+          <p class="py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.6px] text-[#79716b]">Funktionen</p>
+          <a href="/de/funktionen/rank-tracking/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Rang-Verfolgung</a>
+          <a href="/de/funktionen/keyword-recherche/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Keyword-Recherche</a>
+          <a href="/de/funktionen/zitationsverwaltung/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Zitations-Management</a>
+          <a href="/de/funktionen/bewertungsmonitoring/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Bewertungs-Monitoring</a>
+          <a href="/de/funktionen/social-scheduling/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Social-Planung</a>
+          <a href="/de/funktionen/kunden-berichte/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Kunden-Reporting</a>
+          <a href="/de/funktionen/multi-standort-berichte/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Multi-Standort-Reporting</a>
+          <a href="/de/funktionen/massenstandort-verwaltung/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Standort-Massenverwaltung</a>
+          <a href="/de/funktionen/white-label-dashboard/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">White-Label-Dashboard</a>
+          <p class="mt-2 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.6px] text-[#79716b]">Integrationen</p>
+          <a href="/de/integrationen/google-business-profile/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Google Business Profile</a>
+          <a href="/de/integrationen/facebook/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Facebook</a>
+          <a href="/de/integrationen/instagram/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Instagram</a>
+          <a href="/de/integrationen/wordpress/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">WordPress</a>
+          <a href="/de/integrationen/ghost/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Ghost</a>
+          <a href="/de/integrationen/wix/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Wix</a>
+          <a href="/de/integrationen/webflow/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6]">Webflow</a>
+        </div>
+      </div>
+
+      <!-- Lösungen accordion -->
+      <button id="mobile-solutions-btn" class="cursor-pointer border-b border-[#e7e5e4] px-6 py-4 text-left font-mono text-[14px] font-medium uppercase tracking-[0.56px] transition-colors hover:bg-[#fafaf9] text-[#292524] flex items-center justify-between w-full">
+        Lösungen
+        <svg id="mobile-solutions-chevron" class="h-3 w-3 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div id="mobile-solutions-panel" class="hidden border-b border-[#e7e5e4] bg-[#fafaf9]">
+        <div class="px-8 py-3">
+          <p class="py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.6px] text-[#79716b]">Nach Unternehmenstyp</p>
+          <a href="/de/loesungen/agenturen/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Agenturen</a>
+          <a href="/de/loesungen/multi-standort-unternehmen/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Multi-Standort-Unternehmen</a>
+          <a href="/de/loesungen/franchises/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Franchises</a>
+          <a href="/de/loesungen/kleine-unternehmen/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Kleinunternehmen</a>
+          <p class="mt-2 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.6px] text-[#79716b]">Für Agenturen</p>
+          <a href="/de/white-label-seo/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">White-Label SEO</a>
+          <a href="/de/white-label-lokales-seo/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">White-Label Local SEO</a>
+          <a href="/de/white-label-berichte/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">White-Label Reporting</a>
+          <a href="/de/seo-reseller/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">SEO-Reseller-Programm</a>
+          <p class="mt-2 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.6px] text-[#79716b]">SEO-Software</p>
+          <a href="/de/lokales-seo-software/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Lokale SEO-Software</a>
+          <a href="/de/multi-standort-seo-software/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Multi-Standort-SEO-Software</a>
+          <a href="/de/rank-tracking-software/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Ranking-Tracking-Software</a>
+          <a href="/de/google-maps-ranking/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6]">Google Maps Ranking</a>
+        </div>
+      </div>
+
+      <a href="/de/preise/" class="cursor-pointer border-b border-[#e7e5e4] px-6 py-4 text-left font-mono text-[14px] font-medium uppercase tracking-[0.56px] transition-colors hover:bg-[#fafaf9] text-[#292524]">Preise</a>
+
+      <!-- Ressourcen accordion -->
+      <button id="mobile-resources-btn" class="cursor-pointer border-b border-[#e7e5e4] px-6 py-4 text-left font-mono text-[14px] font-medium uppercase tracking-[0.56px] transition-colors hover:bg-[#fafaf9] text-[#292524] flex items-center justify-between w-full">
+        Ressourcen
+        <svg id="mobile-resources-chevron" class="h-3 w-3 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div id="mobile-resources-panel" class="hidden border-b border-[#e7e5e4] bg-[#fafaf9]">
+        <div class="px-8 py-3">
+          <a href="/de/blog/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Blog</a>
+          <a href="/de/tools/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Kostenlose Tools</a>
+          <a href="/de/glossar/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Glossar</a>
+          <a href="/de/best/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Bestenlisten</a>
+          <a href="/de/bewertungen/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Rezensionen</a>
+          <a href="/de/alternativen/" class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60">Alternativen</a>
+          <p class="mt-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.6px] text-[#79716b]">Blog in anderen Sprachen</p>
+          {otherBlogs.map(b => (
+            <a href={b.url} class="block py-2.5 font-sans text-[13px] font-medium text-[#292524] hover:text-[#4f39f6] border-b border-[#e7e5e4]/60 flex items-center gap-2">
+              <span class="text-[14px]">{b.flag}</span> {b.name}
+            </a>
+          ))}
+        </div>
+      </div>
+
+
+    </nav>
+    <div class="flex flex-col gap-3 px-6 pt-6 pb-6">
+      <a href="https://app.thestacc.com/login" class="cursor-pointer inline-flex h-[40px] items-center justify-center rounded-[10px] border border-[#e7e5e4] bg-white font-mono text-sm font-semibold uppercase text-[#292524] transition-colors hover:bg-[#292524]/5">Anmelden</a>
+      <a href="/de/demo/" class="cursor-pointer inline-flex h-[40px] items-center justify-center rounded-[10px] border border-[#4f39f6] bg-[#615fff] font-mono text-sm font-semibold uppercase text-[#fafaf9] transition-colors hover:bg-[#4f39f6]">Demo buchen</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header?.classList.toggle('shadow-[0px_2px_8px_0px_rgba(0,0,0,0.08)]', window.scrollY > 10);
+  }, { passive: true });
+
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('menu-icon-open');
+  const iconClose = document.getElementById('menu-icon-close');
+  mobileBtn?.addEventListener('click', () => {
+    const isOpen = !mobileMenu?.classList.contains('hidden');
+    mobileMenu?.classList.toggle('hidden', isOpen);
+    iconOpen?.classList.toggle('hidden', !isOpen);
+    iconClose?.classList.toggle('hidden', isOpen);
+  });
+
+  function makeDropdown(navId: string, panelId: string, chevronId: string) {
+    const nav = document.getElementById(navId);
+    const panel = document.getElementById(panelId);
+    const chevron = document.getElementById(chevronId);
+    if (!nav || !panel) return;
+    let timer: ReturnType<typeof setTimeout>;
+    nav.addEventListener('mouseenter', () => {
+      clearTimeout(timer);
+      panel.classList.remove('invisible', 'opacity-0');
+      panel.classList.add('visible', 'opacity-100');
+      chevron?.classList.add('rotate-180');
+    });
+    nav.addEventListener('mouseleave', () => {
+      timer = setTimeout(() => {
+        panel.classList.add('invisible', 'opacity-0');
+        panel.classList.remove('visible', 'opacity-100');
+        chevron?.classList.remove('rotate-180');
+      }, 120);
+    });
+  }
+
+  makeDropdown('modules-nav', 'modules-panel', 'modules-chevron');
+  makeDropdown('features-nav', 'features-panel', 'features-chevron');
+  makeDropdown('solutions-nav', 'solutions-panel', 'solutions-chevron');
+  makeDropdown('resources-nav', 'resources-panel', 'resources-chevron');
+  makeDropdown('lang-nav', 'lang-panel', 'lang-chevron');
+
+  function makeMobileAccordion(btnId: string, panelId: string, chevronId: string) {
+    const btn = document.getElementById(btnId);
+    const panel = document.getElementById(panelId);
+    const chevron = document.getElementById(chevronId);
+    if (!btn || !panel) return;
+    btn.addEventListener('click', () => {
+      const isOpen = !panel.classList.contains('hidden');
+      panel.classList.toggle('hidden', isOpen);
+      chevron?.classList.toggle('rotate-180', !isOpen);
+    });
+  }
+
+  makeMobileAccordion('mobile-features-btn', 'mobile-features-panel', 'mobile-features-chevron');
+  makeMobileAccordion('mobile-solutions-btn', 'mobile-solutions-panel', 'mobile-solutions-chevron');
+  makeMobileAccordion('mobile-resources-btn', 'mobile-resources-panel', 'mobile-resources-chevron');
+</script>

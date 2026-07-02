@@ -1,0 +1,367 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "Quais tipos de conta do Instagram funcionam com o Stacc?",
+    a: "O Stacc se conecta com contas do Instagram Business e contas do Instagram Creator. Contas pessoais não são compatíveis. Sua conta do Instagram precisa estar vinculada a uma Página do Facebook Business para que a conexão via API funcione — este é um requisito do Instagram, não uma limitação do Stacc.",
+  },
+  {
+    q: "Posso publicar em várias contas do Instagram ao mesmo tempo?",
+    a: "Sim. Conecte uma conta do Instagram por localização de negócio e publique em todas elas simultaneamente. Redija uma publicação, selecione todas as contas e o Stacc publica em todas ao mesmo tempo, sem precisar entrar e sair de contas do Instagram separadamente.",
+  },
+  {
+    q: "Quais formatos de conteúdo posso agendar?",
+    a: "O Stacc suporta publicações no feed (imagem e vídeo) e Reels para o Instagram. Os Stories não estão disponíveis atualmente pela API do Instagram. Publicações em carrossel (várias imagens) são compatíveis para publicação no feed.",
+  },
+  {
+    q: "O Stacc rastreia métricas de engajamento do Instagram?",
+    a: "Sim. Alcance, impressões, curtidas, comentários, salvamentos e variações no número de seguidores são incorporados automaticamente ao seu painel do Stacc. Você pode comparar o engajamento entre todas as contas conectadas e ver quais localizações crescem e quais ficam para trás.",
+  },
+  {
+    q: "Posso agendar publicações do Instagram com antecedência?",
+    a: "Sim. Agende publicações com horas, dias ou semanas de antecedência. Defina um calendário de publicação recorrente e o Stacc publicará automaticamente na sua cadência. Você também pode carregar e agendar várias publicações de uma vez com o calendário de conteúdo.",
+  },
+  {
+    q: "A conexão com o Instagram é estável?",
+    a: "O Stacc usa a API oficial do Meta Business do Instagram. É a mesma API usada por ferramentas profissionais de redes sociais: estável e oficialmente suportada. O Instagram pode solicitar uma nova autenticação periodicamente por motivos de segurança; o Stacc avisará quando for necessário concluí-la.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Integração com Instagram",
+      "inLanguage": "pt-BR",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Conecte contas do Instagram Business ao theStacc. Agende publicações, rastreie o engajamento e gerencie várias contas de localização a partir de um único painel.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://thestacc.com/pt-br/" },
+        { "@type": "ListItem", "position": 2, "name": "Integrações", "item": "https://thestacc.com/pt-br/integracoes/" },
+        { "@type": "ListItem", "position": 3, "name": "Instagram", "item": "https://thestacc.com/pt-br/integracoes/instagram/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "pt-BR",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Integração com Instagram — Agende e Publique em Cada Instagram de Localização | theStacc"
+  description="Gerencie o conteúdo do Instagram de cada localização sem trocar de conta. Agende publicações, rastreie o engajamento e mantenha uma presença coerente em todas as localizações."
+  lang="pt-BR"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Integração · Instagram</span>
+          </div>
+
+          <div class="mb-8 flex items-center justify-center gap-5">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-label="theStacc" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="4" fill="#4f39f6"/>
+                <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+            </div>
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" aria-label="Instagram" aria-hidden="true">
+                <defs><linearGradient id="ig-pt-br" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="25%" style="stop-color:#e6683c"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="75%" style="stop-color:#cc2366"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs>
+                <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#ig-pt-br)"/>
+                <circle cx="12" cy="12" r="4" fill="none" stroke="white" stroke-width="1.5"/>
+                <circle cx="17.5" cy="6.5" r="1.2" fill="white"/>
+              </svg>
+            </div>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Stacc + Instagram.<br />
+            <span style="color:#4f39f6;">Todas as contas, um calendário.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Conecte o Instagram Business de cada localização ao Stacc. Agende publicações e Reels em todas as contas ao mesmo tempo, rastreie o engajamento em um único painel e nunca mais faça login em uma conta do Instagram separadamente.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/pt-br/demo/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Conecte o Instagram gratuitamente
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#como-conectar"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              Ver como funciona
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            Meta Business API · Configuração em 2 minutos · Para 1 ou 100 contas
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── O QUE VOCÊ OBTÉM ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">O que você obtém</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Conecte uma vez. Todas as contas<br />publicando no horário certo.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z', title: 'Publicação em massa em todas as contas', body: 'Uma publicação, todas as localizações publicadas simultaneamente. Suporta imagens, vídeos e Reels. Adicione legendas específicas por localização antes de publicar.' },
+            { icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', title: 'Agendamento no calendário de conteúdo', body: 'Planeje seu conteúdo do Instagram com semanas de antecedência. Defina calendários recorrentes e o Stacc publica automaticamente na sua cadência. Sem lembretes nem publicação manual.' },
+            { icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', title: 'Rastreamento de engajamento entre contas', body: 'Alcance, impressões, curtidas, salvamentos e crescimento de seguidores em todas as contas conectadas em uma única visualização. Identifique localizações com baixo desempenho antes que fiquem ainda mais para trás.' },
+            { icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', title: 'Personalização por localização', body: 'Adicione hashtags, marcações ou legendas específicas de cada localização antes de publicar em massa. O conteúdo central permanece coerente; os detalhes locais são personalizados por conta.' },
+            { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Publicação de Reels', body: 'Agende e publique Instagram Reels diretamente pelo Stacc. Suporta arquivos de vídeo com miniaturas personalizadas e legendas, agendados em massa em todas as contas.' },
+            { icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', title: 'Gestão de múltiplas contas', body: 'Todas as contas do Instagram conectadas visíveis em um único painel. Adicione novas contas conforme abre novas localizações. Alterne entre contas sem fazer login ou logout.' },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── COMO CONECTAR ─── -->
+    <section id="como-conectar" class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Como conectar</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Três passos. Menos de cinco minutos.<br />Todas as contas conectadas.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-3xl space-y-4">
+          {[
+            { step: '01', title: 'Conecte via OAuth do Meta Business', body: 'Clique em "Conectar Instagram" nas configurações do Stacc. Você se autenticará pelo login oficial do Meta. Certifique-se de que suas contas do Instagram estejam vinculadas a Páginas do Facebook Business primeiro: este é um requisito da API do Instagram.' },
+            { step: '02', title: 'Selecione suas contas do Instagram', body: 'O Stacc exibe todas as contas do Instagram Business vinculadas ao seu Meta Business Manager. Selecione as contas que deseja gerenciar. Você pode adicionar ou remover contas a qualquer momento.' },
+            { step: '03', title: 'Comece a agendar e rastrear', body: 'Suas contas aparecem imediatamente no painel social do Stacc. Agende sua primeira publicação, veja o engajamento em todas as contas e defina um calendário de publicação recorrente sem abrir o Instagram nem uma vez.' },
+          ].map(s => (
+            <div class="flex gap-6 rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <span class="font-mono text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[#4f39f6]/20 shrink-0">{s.step}</span>
+              <div>
+                <p class="font-sans text-[15px] font-semibold text-[#111827]">{s.title}</p>
+                <p class="mt-1.5 font-sans text-[14px] leading-relaxed text-[#57534e]">{s.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── ANTES / DEPOIS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Antes vs. depois</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            O que muda quando o Instagram<br />passa pelo Stacc.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-[#e7e5e4]">
+          <div class="grid grid-cols-3 bg-[#f5f3ff] border-b border-[#e7e5e4]">
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Tarefa</div>
+            <div class="border-x border-[#e7e5e4] px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Sem Stacc</div>
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4f39f6]">Com Stacc</div>
+          </div>
+          {[
+            ['Publicar em 10 contas de localização', '10 logins, 45 min por ciclo de publicação', 'Uma publicação, todas as contas, 2 min'],
+            ['Revisar engajamento entre localizações', 'Baixar exportações de cada conta', 'Painel unificado em tempo real, sempre atualizado'],
+            ['Manter consistência de publicação', 'Lembretes no celular, publicação manual todos os dias', 'Calendário recorrente, publicações automáticas'],
+            ['Agendar uma publicação de lançamento', 'Lembretes no calendário para 10 contas', 'Agende uma vez, publique em todas as contas'],
+            ['Rastrear crescimento de seguidores por localização', 'Planilha com entrada manual de dados', 'Rastreamento automático, tendências por conta'],
+          ].map(([task, before, after]) => (
+            <div class="grid grid-cols-3 border-b border-[#e7e5e4] last:border-0">
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#292524]">{task}</div>
+              <div class="border-x border-[#e7e5e4] px-6 py-4 font-sans text-[13px] text-[#79716b]">{before}</div>
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#4f39f6]">{after}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── QUEM USA ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Quem usa</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Três fluxos de trabalho que esta<br />integração ativa imediatamente.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-5 md:grid-cols-3">
+          {[
+            { label: 'Redes de varejo', title: 'Presença de marca coerente no Instagram em todas as lojas', body: 'Publique fotos de produto e promoções na conta de cada loja simultaneamente. Voz de marca coerente, cadência de publicação coerente: nenhuma loja fica para trás.' },
+            { label: 'Grupos de restaurantes', title: 'Publicações diárias em cada localização sem carga operacional', body: 'Fotos de comida, especiais e eventos publicados automaticamente no Instagram de cada restaurante. Sua presença nas redes sociais funciona sem um community manager em tempo integral.' },
+            { label: 'Agências de SEO', title: 'Gerencie o Instagram de cada cliente com um único acesso', body: 'Sem mais credenciais do Instagram de clientes. Conecte todas as contas de clientes ao Stacc e gerencie a publicação de conteúdo e os relatórios de cada cliente em um só lugar.' },
+          ].map(c => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4f39f6]">{c.label}</span>
+              <p class="mt-3 font-sans text-[15px] font-semibold leading-snug text-[#111827]">{c.title}</p>
+              <p class="mt-2.5 font-sans text-[13px] leading-relaxed text-[#57534e]">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── INTEGRAÇÕES RELACIONADAS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Usadas juntas com frequência</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            O Instagram funciona melhor<br />ao lado destas.
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-3">
+          {[
+            { title: 'Facebook', desc: 'Publique a mesma postagem no Instagram e no Facebook simultaneamente. Uma ação, ambos os canais cobertos.', href: '/pt-br/integracoes/facebook/' },
+            { title: 'Google Business Profile', desc: 'Complete sua presença social publicando no GBP, Facebook e Instagram a partir de um único fluxo de trabalho.', href: '/pt-br/integracoes/google-business-profile/' },
+            { title: 'Agendamento em Redes Sociais', desc: 'Defina um calendário de publicação uma vez e deixe o Stacc manter uma publicação coerente em todas as plataformas automaticamente.', href: '/pt-br/funcionalidades/agendamento-social/' },
+          ].map(r => (
+            <a href={r.href} class="group rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6 transition-colors hover:border-[#4f39f6]/30 hover:bg-[#f5f3ff]/40">
+              <p class="font-sans text-[14px] font-semibold text-[#111827] group-hover:text-[#4f39f6]">{r.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-relaxed text-[#57534e]">{r.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Perguntas frequentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Perguntas sobre a<br />integração com Instagram
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq) => (
+            <div class="faq-item">
+              <button class="faq-btn w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <span class="faq-icon-plus shrink-0 text-[#4f39f6]">+</span>
+                <span class="faq-icon-minus hidden shrink-0 text-[#4f39f6]">−</span>
+              </button>
+              <div class="faq-answer hidden px-6 pb-5">
+                <p class="font-sans text-[14px] leading-relaxed text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CTA FINAL ─── -->
+    <section class="relative overflow-hidden py-24" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.06) 0%, transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Conecte em minutos</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-[#292524] md:text-[2.75rem]">
+            Todos os Instagrams de cada localização.<br />Um único lugar para publicar.
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Pare de trocar de conta para manter cada localização ativa no Instagram. Conecte todas ao Stacc e gerencie a publicação, o agendamento e o rastreamento de engajamento em um único painel.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/pt-br/demo/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Conecte o Instagram gratuitamente
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pt-br/precos/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              Ver preços
+            </a>
+          </div>
+          <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#292524]/20">14 dias de teste gratuito · Sem cartão de crédito · Cancele quando quiser</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const answer = item?.querySelector('.faq-answer');
+      const plus = btn.querySelector('.faq-icon-plus');
+      const minus = btn.querySelector('.faq-icon-minus');
+      if (!answer) return;
+      const isOpen = !answer.classList.contains('hidden');
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+      document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+      document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+      if (!isOpen) {
+        answer.classList.remove('hidden');
+        plus?.classList.add('hidden');
+        minus?.classList.remove('hidden');
+      }
+    });
+  });
+</script>

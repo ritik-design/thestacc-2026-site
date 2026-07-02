@@ -1,0 +1,130 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+
+interface TocItem {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  lastUpdated: string;
+  badge: string;
+  tocItems: TocItem[];
+  currentPath: string;
+}
+
+const { title, description, lastUpdated, badge, tocItems, currentPath } = Astro.props;
+
+const legalPages = [
+  { label: 'Privacy Policy',      href: '/privacy/' },
+  { label: 'Terms & Conditions',  href: '/terms/' },
+  { label: 'Cookie Policy',       href: '/cookies/' },
+  { label: 'Data Processing',     href: '/data-processing/' },
+  { label: 'Licences',            href: '/licences/' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  <main class="min-h-screen bg-[#fafaf9]">
+
+    <!-- Page header -->
+    <div class="relative overflow-hidden border-b border-white/10" style="background:#0d1117;">
+      <!-- Grid overlay -->
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);" aria-hidden="true"></div>
+      <!-- Purple radial glow -->
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[400px]" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.5) 0%, transparent 62%);" aria-hidden="true"></div>
+      <div class="container-x relative py-10 md:py-14">
+        <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#818cf8]">{badge}</span>
+        <h1 class="mt-2 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.5rem]">{title}</h1>
+        <p class="mt-2 font-mono text-[12px] text-white/40">Last updated: {lastUpdated}</p>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="container-x py-12 md:py-16">
+      <div class="mx-auto max-w-5xl lg:grid lg:grid-cols-[220px_1fr] lg:gap-12 xl:grid-cols-[240px_1fr]">
+
+        <!-- Sidebar -->
+        <aside class="mb-10 lg:mb-0">
+          <div class="lg:sticky lg:top-8 flex flex-col gap-6">
+
+            <!-- TOC -->
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-5">
+              <p class="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#79716b]">On this page</p>
+              <nav class="flex flex-col gap-0.5">
+                {tocItems.map(item => (
+                  <a
+                    href={`#${item.id}`}
+                    class="toc-link rounded-lg px-3 py-2 font-sans text-[13px] text-[#79716b] transition-colors hover:bg-[#f5f3ff] hover:text-[#4f39f6]"
+                    data-toc={item.id}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            <!-- Legal nav -->
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-5">
+              <p class="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#79716b]">Legal docs</p>
+              <nav class="flex flex-col gap-0.5">
+                {legalPages.map(page => (
+                  <a
+                    href={page.href}
+                    class={`rounded-lg px-3 py-2 font-sans text-[13px] transition-colors ${currentPath === page.href ? 'bg-[#f5f3ff] font-semibold text-[#4f39f6]' : 'text-[#79716b] hover:bg-[#fafaf9] hover:text-[#374151]'}`}
+                  >
+                    {page.label}
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            <!-- Contact pill -->
+            <a
+              href="mailto:hello@thestacc.com"
+              class="flex items-center gap-2.5 rounded-2xl border border-[#e7e5e4] bg-white px-5 py-4 transition-colors hover:border-[#4f39f6]/30 hover:bg-[#f5f3ff]"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span class="font-sans text-[13px] text-[#4f39f6] font-medium">hello@thestacc.com</span>
+            </a>
+
+          </div>
+        </aside>
+
+        <!-- Content -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white px-8 py-10 md:px-12 md:py-12">
+          <slot />
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  // Highlight active TOC item on scroll
+  const links = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
+  const sections = Array.from(links).map(l => document.getElementById(l.dataset.toc || ''));
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => {
+          const isActive = l.dataset.toc === entry.target.id;
+          l.style.backgroundColor = isActive ? '#f5f3ff' : '';
+          l.style.color = isActive ? '#4f39f6' : '';
+          l.style.fontWeight = isActive ? '600' : '';
+        });
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+
+  sections.forEach(s => s && obs.observe(s));
+</script>

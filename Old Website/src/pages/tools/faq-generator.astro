@@ -1,0 +1,303 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free FAQ Generator — AI FAQ Schema + Q&A | theStacc';
+const pageDescription = 'Generate FAQ schema and Q&A content from any topic in seconds. AI writes questions and answers, outputs JSON-LD schema and HTML accordion code. Free, no signup.';
+const pageUrl = 'https://thestacc.com/tools/faq-generator/';
+const lastUpdated = '2026-05-13';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free FAQ Generator',
+  description: 'Generate FAQ schema and Q&A content from any topic using AI. Outputs JSON-LD FAQPage schema and HTML accordion code. Free, no signup.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is FAQ schema and why does it matter?', a: 'FAQ schema is structured data markup (JSON-LD) that tells Google your page contains a list of questions and answers. When properly implemented, Google may display your FAQs directly in search results as an expandable rich result or in the "People Also Ask" box. This increases your SERP real estate, improves click-through rates by 15-30%, and helps you capture voice search queries. According to Google, FAQ-rich results are available for most pages that contain a list of questions with answers.' },
+  { q: 'How does this FAQ generator work?', a: 'Enter any topic — like "dental implants" or "HVAC maintenance" — and select your industry and tone. The AI analyzes what real people ask about that topic and writes 5-10 question-and-answer pairs. Each answer is 40-80 words, optimized for featured snippets. You get three outputs: editable FAQ cards, JSON-LD schema code for Google, and HTML accordion code for your website. Edit any question or answer before copying.' },
+  { q: 'Is the generated content unique?', a: 'Yes. Each generation creates original questions and answers based on your specific topic, industry, and tone selection. The AI does not copy from existing sources — it synthesizes answers from its training knowledge. For best results, review and lightly edit the output to match your brand voice and add any business-specific details the AI could not know.' },
+  { q: 'Can I edit the generated FAQs?', a: 'Absolutely. Every question and answer appears in an editable text field. Click into any question or answer to modify it. As you type, the JSON-LD schema, HTML accordion, and plain text outputs update automatically in real-time. This lets you customize the content for your specific business before publishing.' },
+  { q: 'Where do I put the FAQ schema code?', a: 'Copy the JSON-LD schema and paste it into your page\'s <head> section inside a <script type="application/ld+json"> tag. Most website builders (WordPress, Squarespace, Wix, Webflow) have a place to add custom code to the head. On WordPress, plugins like Rank Math or Schema Pro make this even easier. After adding the schema, test it with Google\'s Rich Results Test tool.' },
+  { q: 'How many FAQs should a page have?', a: 'Google recommends at least 2 questions and answers for FAQ schema to be eligible for rich results. Most pages perform best with 5-10 FAQ pairs. More than 15 can make the page feel overwhelming to readers. The ideal number depends on the page type: service pages need 5-8, product pages 3-5, and comprehensive guides can have 10-15.' },
+  { q: 'Can I use FAQ schema on any page?', a: 'FAQ schema works on most page types, but Google has guidelines. The questions must be written by the site owner (not user-generated), must be visible on the page (not hidden), and each question should have a single answer. FAQ schema is ideal for service pages, product pages, pricing pages, and blog posts. Do not use it on pages where the same FAQ appears across every page of your site.' },
+  { q: 'What tone should I choose?', a: 'Professional works best for medical, legal, financial, and B2B services. Friendly is ideal for restaurants, salons, fitness, and customer-facing businesses. Casual suits lifestyle brands, blogs, and younger audiences. Authoritative works for technical services, consulting, and businesses that want to establish expertise. You can always edit the tone after generation.' },
+  { q: 'Is this tool free?', a: 'Yes, 100% free. No signup or credit card needed. Enter your topic, pick your settings, and generate as many FAQ sets as you need. The tool uses the Kimi AI API to generate content. For heavy usage, there may be a daily limit to prevent abuse, but most users will never hit it.' },
+  { q: 'How is this different from other FAQ schema tools?', a: 'Most FAQ tools only format questions you already wrote into schema code. This tool generates both the questions AND the answers from just a topic. It also outputs three formats simultaneously (JSON-LD, HTML accordion, plain text), lets you edit everything live, and offers industry-specific generation. No other free tool combines AI content generation with schema output and live editing.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'FAQ Generator', url: pageUrl },
+]);
+
+const industries = [
+  'General',
+  'Dental / Medical',
+  'Legal / Law Firm',
+  'Plumbing / HVAC',
+  'Real Estate',
+  'Restaurant / Cafe',
+  'Salon / Spa',
+  'Auto Repair',
+  'Fitness / Gym',
+  'E-commerce / Retail',
+  'SaaS / Technology',
+  'Home Services',
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free FAQ Generator"
+  toolDescription="Generate FAQ schema and Q&A content from any topic in seconds. AI writes questions and answers. Outputs JSON-LD schema + HTML accordion. Free."
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <div class="mx-auto max-w-2xl">
+      <!-- Input Form -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="space-y-4">
+          <div>
+            <label for="fg-topic" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Topic</label>
+            <textarea id="fg-topic" rows="2" placeholder="e.g., dental implants, HVAC maintenance, personal injury claims, wedding photography..."
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none resize-none"
+            ></textarea>
+            <p class="mt-1 text-[12px] text-[#79716b]">Enter any topic. The AI will generate questions real people ask about it.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label for="fg-industry" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Industry</label>
+              <select id="fg-industry"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat"
+              >
+                {industries.map(ind => (
+                  <option value={ind.toLowerCase().replace(/[^a-z]/g, '')}>{ind}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label for="fg-tone" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Tone</label>
+              <select id="fg-tone"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat"
+              >
+                <option value="professional">Professional</option>
+                <option value="friendly">Friendly</option>
+                <option value="casual">Casual</option>
+                <option value="authoritative">Authoritative</option>
+              </select>
+            </div>
+            <div>
+              <label for="fg-count" class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Number of FAQs</label>
+              <select id="fg-count"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat"
+              >
+                <option value="5">5 FAQs</option>
+                <option value="8" selected>8 FAQs</option>
+                <option value="10">10 FAQs</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="fg-generate" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] transition-colors">
+            Generate FAQs
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="fg-loading" class="hidden mt-6 rounded-2xl border border-[#e7e5e4] bg-white p-8 text-center">
+        <div class="animate-spin inline-block w-8 h-8 border-4 border-[#e7e5e4] border-t-[#615fff] rounded-full"></div>
+        <p class="mt-3 text-[14px] text-[#57534e]">Generating FAQs...</p>
+        <p class="text-[12px] text-[#79716b] mt-1">This usually takes 5-10 seconds</p>
+      </div>
+
+      <!-- Error -->
+      <div id="fg-error" class="hidden mt-6 rounded-xl border border-[#fecaca] bg-[#fef2f2] px-5 py-4 text-[14px] text-[#dc2626]"></div>
+
+      <!-- Results -->
+      <div id="fg-results" class="hidden mt-6"></div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">FAQ schema boosts your search visibility.<br/>Stacc generates it on every page, automatically.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Every blog post, service page, and product page gets AI-generated FAQ schema optimized for your target keywords. Starting at $99/mo.</p>
+        <a href="/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start Your $1 Trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days &middot; Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / Speakable -->
+    <div class="speakable rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5 mb-8">
+      <p class="font-sans text-[15px] leading-[1.7] text-[#57534e]">
+        <strong class="text-[#292524]">The theStacc FAQ Generator</strong> uses AI to write question-and-answer pairs about any topic you enter, then outputs them in three formats: editable FAQ cards, JSON-LD FAQPage schema for Google rich results, and HTML accordion code for your website. Select your industry and tone to match your brand voice. Edit any question or answer before copying. Best for local business owners, marketers, and SEOs who want to add FAQ sections and schema markup without writing them from scratch.
+      </p>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">How the FAQ Generator Works</h2>
+    <div class="space-y-3 mb-5">
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">1</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Enter your topic</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Type any topic — a service you offer, a product you sell, or a subject you write about.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">2</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">AI generates questions and answers</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Kimi analyzes what people actually ask about your topic and writes 5-10 FAQ pairs in your chosen tone.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">3</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Review and edit</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Every question and answer is editable. Customize them for your business before publishing.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">4</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Copy schema, HTML, or plain text</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Get JSON-LD schema for Google, HTML accordion code for your site, or plain text for any platform.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">FAQ Generator Comparison</h2>
+    <div class="overflow-x-auto mb-5">
+      <table class="w-full text-[14px]">
+        <thead>
+          <tr class="border-b-2 border-[#e7e5e4]">
+            <th class="py-3 pr-4 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">SchemaApp</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">TechnicalSEO.com</th>
+            <th class="py-3 pl-4 text-center font-semibold text-[#57534e]">Merkle</th>
+          </tr>
+        </thead>
+        <tbody class="text-[#57534e]">
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Price</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Free</td><td class="py-2.5 px-4 text-center">Paid</td><td class="py-2.5 px-4 text-center">Free (formatter only)</td><td class="py-2.5 pl-4 text-center">Free (formatter only)</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">AI-generated Q&A content</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — from any topic</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">JSON-LD schema output</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">Yes</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">HTML accordion code</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Live editing of Q&A</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">Partial</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Industry-specific generation</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — 11 industries</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Tone selection</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — 4 tones</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr><td class="py-2.5 pr-4">Plain text output</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Use Cases by Page Type</h2>
+    <div class="space-y-3 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Service Pages</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A dental implant page gets FAQs like "How long do dental implants last?" and "Are dental implants painful?" — questions patients actually search before booking. The FAQ schema helps the page appear in "People Also Ask" and voice search results.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Product Pages</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">An HVAC system product page gets FAQs about warranty, installation time, energy efficiency, and maintenance requirements. FAQ schema makes these visible directly in search results, reducing bounce rate by answering questions before the click.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Blog Posts</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A blog post about "SEO for dentists" gets an FAQ section covering "How much does dental SEO cost?" and "How long does dental SEO take?" This extends the post's keyword coverage and increases the chance of winning multiple featured snippets.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Local Business Sites</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">A plumber's homepage gets FAQs about emergency service hours, service areas, pricing, and guarantee policies. FAQ schema helps the business appear in local search results with expandable Q&A, building trust before the user even visits the site.</p>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Why FAQ Schema Boosts Your SEO</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Increased SERP real estate.</strong> FAQ-rich results expand your listing from one line to a multi-question accordion, pushing competitors further down the page. Studies from Moz and Ahrefs show that rich results can increase CTR by 15-30% compared to standard blue links.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Voice search optimization.</strong> Google Assistant, Siri, and Alexa pull answers directly from FAQ schema for voice queries. A question like "How much does a dental implant cost?" is far more likely to be answered from a page with FAQ schema than one without.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Featured snippet eligibility.</strong> FAQ schema is one of the most reliable paths to winning featured snippets. Google uses the structured data to understand that your page contains Q&A content, making it more likely to surface in position zero.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Internal linking opportunities.</strong> Each FAQ answer can naturally link to related pages on your site — service pages, blog posts, or contact forms. This distributes link equity and keeps users on your site longer, both of which are positive ranking signals.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      {faqs.map((faq, i) => (
+        <div class={i < faqs.length - 1 ? 'border-b border-[#f3f4f6]' : ''}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Generate JSON-LD with real PAA data</p>
+          </a>
+          <a href="/tools/meta-tag-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Meta Tag Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Analyze tags + SERP comparison</p>
+          </a>
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score headlines on 8 dimensions</p>
+          </a>
+          <a href="/tools/seo-roi-calculator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO ROI Calculator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Real keyword volume by city</p>
+          </a>
+          <a href="/tools/on-page-seo-checker/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">On-Page SEO Checker</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Analyze page content + SERP gaps</p>
+          </a>
+          <a href="/tools/review-response-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Review Response Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Respond to Google reviews instantly</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script is:inline src="/js/faq-generator-engine.js"></script>
+  </Fragment>
+</ToolLayout>

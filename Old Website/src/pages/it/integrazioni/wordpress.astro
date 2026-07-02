@@ -1,0 +1,396 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "Quali dati vengono sincronizzati tra Stacc e WordPress?",
+    a: "Il nome dell'attività, l'indirizzo, il numero di telefono, gli orari di apertura e le descrizioni dei servizi vengono sincronizzati automaticamente con i campi del tuo sito WordPress. Qualsiasi aggiornamento effettuato in Stacc — incluse le modifiche ottenute da Google Business Profile — viene propagato al sito WordPress senza intervento manuale.",
+  },
+  {
+    q: "Stacc inietta automaticamente lo schema markup LocalBusiness su WordPress?",
+    a: "Sì. Stacc invia automaticamente il markup schema LocalBusiness alle tue pagine WordPress. Questi dati strutturati indicano a Google esattamente cosa è la tua attività, dove si trova e quando è aperta — aiutando le tue pagine locali a posizionarsi meglio nelle ricerche locali.",
+  },
+  {
+    q: "Posso mostrare le recensioni Google sul mio sito WordPress?",
+    a: "Sì. Stacc fornisce un widget recensioni che puoi aggiungere alle pagine WordPress tramite shortcode o blocco Gutenberg. Recupera dinamicamente le tue ultime recensioni Google, in modo che il widget mostri sempre le prove sociali più aggiornate senza aggiornamenti manuali.",
+  },
+  {
+    q: "Funziona con page builder come Elementor o Divi?",
+    a: "Sì. Il widget recensioni di Stacc e i campi di dati locali funzionano con i principali page builder di WordPress, inclusi Elementor, Divi e Beaver Builder. Lo shortcode può essere inserito ovunque funzioni un shortcode WordPress standard.",
+  },
+  {
+    q: "È necessario un plugin WordPress?",
+    a: "Sì. Il plugin Stacc per WordPress è gratuito e disponibile nella directory dei plugin di WordPress. Installalo, inserisci la tua chiave API Stacc dalla pagina delle impostazioni e la connessione è attiva. La configurazione richiede meno di 3 minuti.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Integrazione WordPress",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "it",
+      "description": "Collega WordPress a Stacc. Sincronizza i dati dell'attività locale, inietta schema automaticamente e integra widget recensioni in tempo reale nel tuo sito.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/it/" },
+        { "@type": "ListItem", "position": 2, "name": "Integrazioni", "item": "https://thestacc.com/it/integrazioni/" },
+        { "@type": "ListItem", "position": 3, "name": "WordPress", "item": "https://thestacc.com/it/integrazioni/wordpress/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "it",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Integrazione WordPress — Sincronizza i Dati Locali con il Tuo Sito | theStacc"
+  description="Collega WordPress a Stacc. Sincronizza i dati dell'attività locale, inietta schema LocalBusiness automaticamente e mostra widget recensioni aggiornati sul tuo sito."
+  lang="it"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Integrazione · WordPress</span>
+          </div>
+
+          <!-- Logo pairing visual -->
+          <div class="mb-8 flex items-center justify-center gap-5">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-label="theStacc" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="4" fill="#4f39f6"/>
+                <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+            </div>
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="#21759B" aria-label="WordPress" aria-hidden="true">
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM3.5 12c0-1.232.254-2.406.706-3.474L7.942 19.25A8.507 8.507 0 013.5 12zm8.5 8.5a8.498 8.498 0 01-2.416-.35l2.565-7.453 2.629 7.198a.764.764 0 00.058.112A8.496 8.496 0 0112 20.5zm1.172-11.217c.512-.027.972-.08.972-.08.457-.054.403-.726-.054-.699 0 0-1.374.108-2.263.108-.833 0-2.234-.107-2.234-.107-.458-.027-.512.672-.054.699 0 0 .433.053.891.08l1.323 3.623-1.858 5.574-3.094-9.197c.512-.027.972-.08.972-.08.457-.054.403-.726-.054-.699 0 0-1.374.108-2.263.108-.159 0-.347-.004-.546-.01A8.5 8.5 0 0120.398 9.3c-.044.001-.087.005-.131.005-.833 0-1.585.726-1.585 1.504 0 .699.403 1.29.833 1.989.322.565.699 1.29.699 2.343 0 .726-.28 1.569-.646 2.747l-.847 2.829L15.45 9.283zm2.64 10.375l2.61-7.542c.487-1.219.648-2.194.648-3.063 0-.315-.021-.607-.059-.886A8.5 8.5 0 0120.5 12a8.5 8.5 0 01-4.688 7.658z"/>
+              </svg>
+            </div>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Stacc + WordPress.<br />
+            <span style="color:#4f39f6;">Il tuo sito, sempre sincronizzato.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Mantieni il tuo sito WordPress sincronizzato con Google Business Profile. Aggiorna orari, servizi e dati NAP in Stacc — le modifiche vengono propagate al sito automaticamente, con schema LocalBusiness iniettato sulle pagine pertinenti.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/it/demo/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Connetti WordPress
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/it/prezzi/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              Vedi i prezzi
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            Inizia per $1 · Nessuna carta di credito · Cancella quando vuoi
+          </p>
+
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {[
+              { value: 'Auto', label: 'Sincronizzazione dati NAP su WordPress' },
+              { value: 'Schema', label: 'LocalBusiness iniettato automaticamente' },
+              { value: 'Live', label: 'Widget recensioni sempre aggiornato' },
+              { value: '< 3min', label: 'Tempo di configurazione del plugin' },
+            ].map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]">{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PAIN SECTION ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Il problema</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Le informazioni sul tuo sito WordPress e su Google Business Profile non sono mai sincronizzate.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Cambi l'orario su GBP ma dimentichi di aggiornare il sito. Il numero di telefono sul sito è quello vecchio. L'indirizzo nella pagina contatti è diverso da quello su Google. Queste discrepanze penalizzano la fiducia di Google e confondono i clienti.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {[
+            {
+              icon: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+              title: 'Informazioni diverse sul sito e su GBP creano segnali contrastanti per Google.',
+              body: 'Google confronta le informazioni sul tuo sito web con quelle su Google Business Profile e sulle directory. Discrepanze in nome, indirizzo e telefono (NAP) riducono la fiducia di Google nella tua attività e abbassano il posizionamento locale. Il tuo sito WordPress deve essere coerente con tutte le altre fonti.',
+            },
+            {
+              icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+              title: 'Il tuo sito WordPress probabilmente non ha lo schema LocalBusiness corretto.',
+              body: 'Lo schema markup LocalBusiness dice a Google esattamente cosa sei, dove sei e quando sei aperto in un formato che i motori di ricerca capiscono direttamente. La maggior parte dei siti WordPress non lo ha configurato correttamente — un\'opportunità di ranking locale mancata.',
+            },
+            {
+              icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z',
+              title: 'Le recensioni sul tuo sito sono statiche e obsolete.',
+              body: 'Molti siti WordPress mostrano recensioni copiare e incollate manualmente — mesi o anni fa. Un widget recensioni dinamico che mostra le ultime recensioni Google è molto più credibile e converte meglio. Ma integrarlo manualmente richiede sviluppo.',
+            },
+          ].map(p => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={p.icon}/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{p.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Come funziona</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            WordPress e SEO locale sincronizzati.<br />Una configurazione, nessun aggiornamento manuale.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+          {[
+            { n: '01', icon: 'M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', title: 'Installa il plugin Stacc per WordPress', body: 'Scarica il plugin gratuito dalla directory di WordPress, attivalo e inserisci la tua chiave API Stacc. La connessione si stabilisce in meno di 3 minuti. Il plugin non rallenta il sito — non carica script aggiuntivi nel frontend.' },
+            { n: '02', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15', title: 'I dati si sincronizzano automaticamente', body: 'Una volta connesso, Stacc invia al tuo sito WordPress i dati NAP aggiornati e il markup schema LocalBusiness. Ogni modifica effettuata in Stacc — cambio di orari, nuovo numero di telefono — si propaga al sito automaticamente. Nessun aggiornamento manuale.' },
+            { n: '03', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z', title: 'Aggiungi il widget recensioni alle pagine', body: 'Inserisci lo shortcode [stacc_reviews] o il blocco Gutenberg nelle pagine dove vuoi mostrare le recensioni. Il widget recupera dinamicamente le tue ultime recensioni Google — sempre aggiornato, senza che tu debba fare nulla. Compatibile con Elementor, Divi e tutti i principali page builder.' },
+          ].map(s => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={s.icon}/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.n}</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CAPABILITY GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Tutto incluso</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Il tuo sito WordPress ottimizzato<br />per il SEO locale, automaticamente.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { title: 'Sincronizzazione NAP automatica', body: 'Nome, indirizzo e telefono sempre coerenti tra Stacc, GBP e il tuo sito WordPress. Una modifica in Stacc si propaga ovunque.', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15' },
+            { title: 'Schema LocalBusiness automatico', body: 'Stacc inietta automaticamente il markup schema LocalBusiness nelle pagine pertinenti del tuo sito WordPress. Nessuna configurazione manuale di JSON-LD.', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
+            { title: 'Widget recensioni dinamico', body: 'Mostra le ultime recensioni Google sul tuo sito tramite shortcode o blocco Gutenberg. Il widget si aggiorna automaticamente — sempre contenuto fresco, zero manutenzione.', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' },
+            { title: 'Compatibilità page builder', body: 'Funziona con Elementor, Divi, Beaver Builder e qualsiasi page builder WordPress standard. Nessun codice personalizzato richiesto.', icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' },
+            { title: 'Plugin gratuito e leggero', body: 'Il plugin Stacc per WordPress è gratuito, disponibile nella directory ufficiale e non rallenta il sito. Nessun JavaScript pesante nel frontend.', icon: 'M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+            { title: 'Supporto multi-sito', body: 'Puoi connettere un sito WordPress per ogni sede della tua attività. Le agenzie possono gestire più siti client da un unico account Stacc agency.', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z' },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Risultati</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2.4rem]">
+            Cosa cambia quando il tuo sito WordPress<br />e GBP parlano la stessa lingua.
+          </h2>
+        </div>
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px overflow-hidden rounded-2xl bg-white/5 md:grid-cols-3" style="border:1px solid rgba(255,255,255,0.08);">
+          {[
+            { value: '< 3min', label: 'Configurazione del plugin WordPress', sub: 'da installazione a connessione attiva' },
+            { value: '100%', label: 'Coerenza NAP tra sito e GBP', sub: 'aggiornamento automatico ad ogni modifica' },
+            { value: 'Auto', label: 'Schema LocalBusiness sul sito', sub: 'iniettato senza configurazione manuale' },
+          ].map(s => (
+            <div class="flex flex-col items-center justify-center px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+              <p class="font-sans text-[3rem] font-semibold tracking-[-0.04em] text-[#292524]">{s.value}</p>
+              <p class="mt-2 font-sans text-[14px] font-semibold text-[#292524]/70">{s.label}</p>
+              <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.12em]" style="color:#4b5563;">{s.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#f5f3ff]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-[#c7c0fc] bg-white px-10 py-12 shadow-sm">
+            <div class="flex gap-1 mb-6">
+              {[1,2,3,4,5].map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <blockquote class="font-sans text-[1.2rem] leading-[1.65] text-[#111827] font-medium">
+              "Il mio sviluppatore mi aveva chiesto 400 euro per installare lo schema markup locale sul sito. Con Stacc l'ho fatto in 3 minuti installando il plugin e inserendo la chiave API. Il widget delle recensioni ora mostra automaticamente le ultime recensioni Google — i clienti lo vedono subito appena arrivano sul sito."
+            </blockquote>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="h-11 w-11 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                <span class="font-mono text-[14px] font-bold text-white">GV</span>
+              </div>
+              <div>
+                <p class="font-sans text-[14px] font-semibold text-[#111827]">Giovanni V.</p>
+                <p class="font-mono text-[11px] text-[#79716b]">Titolare, Agenzia Immobiliare · Verona</p>
+              </div>
+              <div class="ml-auto hidden sm:flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1.5">
+                <span class="font-mono text-[11px] font-semibold text-[#059669]">Schema in 3 minuti, non 400€</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Domande frequenti</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Domande sull'integrazione WordPress
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left" aria-expanded={i === 0 ? 'true' : 'false'}>
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Il tuo sito WordPress e GBP devono raccontare la stessa storia</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Connetti WordPress a Stacc.<br />Tre minuti di configurazione, zero manutenzione.
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Schema LocalBusiness automatico, dati NAP sincronizzati, widget recensioni dinamico. Il tuo sito WordPress ottimizzato per il SEO locale — senza toccare il codice.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/it/demo/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Connetti WordPress
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/it/prezzi/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5">
+              Vedi i prezzi
+            </a>
+          </div>
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">Inizia per $1 · Garanzia 30 giorni · Cancella quando vuoi</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

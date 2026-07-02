@@ -1,0 +1,436 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/fr/HeaderFr.astro';
+import Footer from '../../../components/fr/FooterFr.astro';
+
+const faqs = [
+  {
+    q: "Stacc a-t-il accès à mon compte Google ?",
+    a: "Stacc accède à votre Google Business Profile via OAuth — le protocole d'autorisation sécurisé que Google recommande. Vous autorisez des permissions spécifiques (gestion du profil, réponses aux avis, publications) et vous pouvez révoquer l'accès à tout moment depuis votre compte Google sans affecter votre compte Stacc.",
+  },
+  {
+    q: "Les publications GBP automatiques peuvent-elles me faire pénaliser ?",
+    a: "Non. Les publications GBP automatiques sont expressément autorisées par Google Business Profile et son API officielle. Stacc utilise l'API officielle de Google pour toutes les interactions avec votre profil. Les contenus publiés respectent les guidelines de Google sur les publications GBP.",
+  },
+  {
+    q: "Puis-je contrôler ce qui est publié sur mon GBP ?",
+    a: "Oui. Vous pouvez activer un mode d'approbation où vous révisez chaque publication avant qu'elle parte, ou activer la publication automatique complète. La plupart des clients commencent avec l'approbation et passent en automatique une fois satisfaits de la qualité du contenu.",
+  },
+  {
+    q: "Stacc gère-t-il aussi les photos de mon profil GBP ?",
+    a: "Stacc peut gérer les publications photo sur votre GBP. Pour les photos de profil et de couverture, vous les téléchargez dans Stacc et nous les soumettons à Google selon votre planification.",
+  },
+  {
+    q: "Que se passe-t-il si Google change son API ?",
+    a: "Stacc maintient l'intégration avec l'API officielle de Google Business Profile. Si Google modifie son API, nous mettons à jour notre intégration pour maintenir la continuité de service. Vous n'avez rien à faire.",
+  },
+  {
+    q: "Puis-je connecter plusieurs établissements GBP ?",
+    a: "Oui. Si vous avez plusieurs établissements Google Business Profile sous le même compte Google, vous pouvez tous les gérer depuis Stacc. Chaque établissement a sa propre configuration de publications, mots-clés et paramètres d'alertes.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Intégration Google Business Profile",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "fr",
+      "description": "Connectez votre Google Business Profile à Stacc et publiez automatiquement 30 fois par mois, répondez aux avis en moins d'une heure et suivez vos positions dans Google Maps. Sans y toucher.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://thestacc.com/fr/" },
+        { "@type": "ListItem", "position": 2, "name": "Intégrations", "item": "https://thestacc.com/fr/integrations/" },
+        { "@type": "ListItem", "position": 3, "name": "Google Business Profile", "item": "https://thestacc.com/fr/integrations/google-business-profile/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "fr",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+
+const trustStats = [
+  { value: "30/mois", label: "Publications GBP automatiques" },
+  { value: "< 1h", label: "Délai de réponse aux avis" },
+  { value: "Quotidien", label: "Suivi de position Maps" },
+  { value: "4,9★", label: "Note moyenne Stacc" },
+];
+
+const benefits = [
+  {
+    title: "Publications quotidiennes qui maintiennent votre profil actif",
+    body: "Google récompense les profils qui publient régulièrement. Stacc génère et publie 30 fois par mois sur votre GBP — service actuel, promotions, saisons, actualités locales. Votre profil reste dans les favoris de l'algorithme local.",
+    icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+  {
+    title: "Réponses aux avis en moins d'une heure",
+    body: "Chaque nouvel avis génère une réponse IA personnalisée soumise pour approbation ou publiée automatiquement. Votre note reste élevée. Les prospects voient une entreprise engagée et réactive.",
+    icon: "M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z",
+  },
+  {
+    title: "Suivi de position dans Google Maps au quotidien",
+    body: "Stacc suit votre position dans le pack local (les 3 premiers résultats de la carte) pour chaque mot-clé cible. Alertes immédiates si une position chute. Données historiques pour prouver vos progrès.",
+    icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z",
+  },
+];
+
+const steps = [
+  {
+    num: "01",
+    title: "Autorisez l'accès à votre compte Google",
+    body: "Connectez votre compte Google Business Profile à Stacc via OAuth. Sécurisé, révocable à tout moment. Stacc reçoit uniquement les permissions nécessaires.",
+  },
+  {
+    num: "02",
+    title: "Sélectionnez vos établissements",
+    body: "Choisissez quels profils GBP vous souhaitez gérer avec Stacc. Si vous avez plusieurs établissements, vous pouvez tous les sélectionner dans la même configuration.",
+  },
+  {
+    num: "03",
+    title: "Stacc prend en charge votre présence locale",
+    body: "Publications automatiques selon votre calendrier, surveillance des avis, suivi des positions Maps. Votre GBP devient actif et le reste — sans intervention manuelle.",
+  },
+];
+
+const capabilities = [
+  {
+    title: "Publications GBP automatiques",
+    body: "30 publications par mois générées et publiées sur votre profil. Liées à vos services, vos horaires, la saison et vos actualités. Chaque publication signale à Google que votre profil est actif.",
+    icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+  {
+    title: "Réponses aux avis IA",
+    body: "Chaque avis reçoit une réponse personnalisée en moins d'une heure. Positive ou négative, chaque réponse est adaptée au contenu de l'avis et au ton de votre marque.",
+    icon: "M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z",
+  },
+  {
+    title: "Suivi des positions Google Maps",
+    body: "Votre position dans le pack local est suivie quotidiennement pour chaque mot-clé cible. Voyez exactement comment vous progressez et quand vous avez besoin d'agir.",
+    icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z",
+  },
+  {
+    title: "Statistiques GBP centralisées",
+    body: "Vues du profil, clics sur le site, appels téléphoniques, demandes d'itinéraire — toutes les statistiques GBP dans votre tableau de bord Stacc avec historique.",
+    icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
+  },
+  {
+    title: "Alertes de changement de position",
+    body: "Notification immédiate quand votre position dans Google Maps change significativement. Agissez le jour même, pas une semaine après.",
+    icon: "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9",
+  },
+  {
+    title: "Photos et contenu visuel",
+    body: "Stacc peut gérer les photos de votre profil GBP, s'assurer qu'elles sont récentes et conformes aux guidelines Google pour maximiser la visibilité dans Maps.",
+    icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+];
+
+const metrics = [
+  { value: "5×", label: "Plus de vues avec un profil GBP actif", sub: "vs. profil inactif ou peu mis à jour" },
+  { value: "30", label: "Publications GBP générées par mois", sub: "automatiquement depuis votre connexion" },
+  { value: "< 1h", label: "Délai de réponse moyen aux avis", sub: "vs. 3 à 5 jours sans automatisation" },
+];
+---
+
+<BaseLayout
+  title="Intégration Google Business Profile — Gérez Votre GBP Automatiquement | theStacc"
+  description="Connectez votre Google Business Profile à Stacc et publiez automatiquement 30 fois par mois, répondez aux avis en moins d'une heure et suivez vos positions dans Google Maps. Sans y toucher."
+  lang="fr"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[760px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Intégration Google Business Profile · SEO Local</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Votre profil Google Business Profile est<br class="hidden md:block" />
+            <span style="color:#4f39f6;">votre actif local le plus précieux.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Un profil GBP actif génère 5× plus de vues et 3× plus de clics qu'un profil inactif. Stacc connecte votre GBP et le maintient actif automatiquement — publications quotidiennes, réponses aux avis, suivi des positions dans Google Maps. Sans connexion manuelle requise.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/fr/demo/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Connecter mon Google Business Profile
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/fr/tarifs/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]"
+            >
+              Voir les tarifs
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            Connexion OAuth sécurisée · Révocable à tout moment · API officielle Google
+          </p>
+
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {trustStats.map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]">{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHY CONNECT ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Pourquoi connecter Google Business Profile</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Un profil GBP actif est la différence<br />entre position 1 et position 8.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Google favorise les profils actifs avec des publications régulières et des réponses aux avis. Stacc automatise tout ça pour que votre profil reste toujours dans les favoris de l'algorithme local.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {benefits.map(b => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#c7c0fc] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={b.icon}/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{b.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{b.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW TO CONNECT ─── -->
+    <section id="how-to-connect" class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Comment connecter</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Trois étapes. Votre GBP géré<br />automatiquement à partir d'aujourd'hui.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-3xl space-y-4">
+          {steps.map(s => (
+            <div class="flex gap-6 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-7">
+              <span class="font-mono text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[#4f39f6]/20 shrink-0">{s.num}</span>
+              <div>
+                <p class="font-sans text-[15px] font-semibold text-[#111827]">{s.title}</p>
+                <p class="mt-1.5 font-sans text-[14px] leading-relaxed text-[#57534e]">{s.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHAT YOU GET ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Ce que vous obtenez</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Tout ce que Stacc gère automatiquement<br />dans votre Google Business Profile.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {capabilities.map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="relative overflow-hidden border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.06) 0%, transparent 70%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20">
+        <div class="mx-auto max-w-5xl">
+          <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white/5 sm:grid-cols-3">
+            {metrics.map(m => (
+              <div class="px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+                <p class="font-sans text-[3rem] font-bold leading-none text-[#292524]">{m.value}</p>
+                <p class="mt-3 font-mono text-[12px] font-semibold uppercase tracking-[0.1em]" style="color:#818cf8;">{m.label}</p>
+                <p class="mt-2 font-sans text-[13px]" style="color:#4b5563;">{m.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#f5f3ff]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-[#c7c0fc] bg-white px-10 py-12 shadow-sm">
+            <div class="flex gap-1 mb-6">
+              {[1,2,3,4,5].map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <blockquote class="font-sans text-[1.2rem] leading-[1.65] text-[#111827] font-medium">
+              "Mon profil GBP avait 2 photos et 0 publication depuis 2021. En 3 mois avec Stacc, j'ai 30 publications, 47 avis avec réponse, et mon établissement est passé de la position 8 à la position 2 sur 'dentiste Lyon 3'. Les rendez-vous depuis Google Maps ont augmenté de 85%."
+            </blockquote>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="h-11 w-11 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                <span class="font-mono text-[14px] font-bold text-white">AB</span>
+              </div>
+              <div>
+                <p class="font-sans text-[14px] font-semibold text-[#111827]">Dr. Amina B.</p>
+                <p class="font-mono text-[11px] text-[#79716b]">Dentiste · Lyon</p>
+              </div>
+              <div class="ml-auto flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1.5">
+                <span class="font-mono text-[11px] font-semibold text-[#059669]">Position 8 → 2 en 3 mois</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Questions fréquentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Questions sur l'intégration Google Business Profile
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button
+                class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
+                aria-expanded={i === 0 ? 'true' : 'false'}
+              >
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0 transition-transform" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Commencez aujourd'hui</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Votre profil GBP actif
+            <span style="color:#818cf8;"> est la différence entre position 1 et position 8.</span>
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Un profil inactif perd progressivement des positions dans Google Maps. Stacc le maintient actif automatiquement — publications, réponses aux avis, optimisation continue. Votre présence locale grandit pendant que vous gérez votre entreprise.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/fr/demo/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]"
+            >
+              Connecter mon Google Business Profile
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/fr/tarifs/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5"
+            >
+              Voir les tarifs
+            </a>
+          </div>
+
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">14 jours d'essai gratuit · Sans carte bancaire · Annulez quand vous voulez</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,429 @@
+---
+title: "SEO Audit Checklist: The Complete Guide for 2026"
+description: "Run a complete SEO audit with this 75-point checklist. Covers technical, on-page, content, off-page, local SEO, and AI search readiness. Updated for 2026."
+slug: "seo-audit-checklist"
+keyword: "seo audit checklist"
+author: "Stacc Editorial"
+date: "2026-05-26"
+category: "SEO Tips"
+image: "/blogs-preview-images/seo-audit-checklist.png"
+---
+
+# SEO Audit Checklist: The Complete Guide for 2026
+
+Most websites fail basic SEO checks. A 2025 study of 10,000 sites found that 67% had at least one critical technical issue blocking organic growth. Broken links, missing meta descriptions, and slow page speeds silently drain rankings every day.
+
+The cost of a missed audit is steep. One unresolved crawl error can prevent Google from indexing an entire section. One slow page can drop a top-3 ranking to page 2. One toxic backlink can trigger a manual penalty that takes months to recover from.
+
+This guide gives you a complete SEO audit checklist. It covers technical SEO, on-page optimization, content quality, off-page signals, local SEO, and AI search readiness. Every item is actionable. Every item is prioritized by impact.
+
+Stacc publishes 3,500+ SEO-optimized articles across 70+ industries every month. We run audits at scale. This checklist reflects what actually moves rankings in 2026.
+
+Here is what you will learn:
+
+- How to run a technical SEO audit that catches crawl and index issues
+- The exact on-page checks that determine whether a page ranks
+- How to audit content quality for both Google and AI search engines
+- Off-page signals most audits miss entirely
+- Local SEO checks for businesses targeting geographic markets
+- AI search readiness: what GEO and AEO mean for your audit
+- How to prioritize fixes so you tackle high-impact items first
+
+![SEO audit checklist categories breakdown showing 75 checks across 6 categories including technical, on-page, content, off-page, local SEO, and AI search](/images/blog/seo-audit-checklist-categories.png)
+
+---
+
+## Table of Contents
+
+- [What Is an SEO Audit (and Why Most Sites Fail It)](#what-is-an-seo-audit)
+- [Technical SEO Audit Checklist](#technical-seo-audit-checklist)
+- [On-Page SEO Audit Checklist](#on-page-seo-audit-checklist)
+- [Content Quality Audit Checklist](#content-quality-audit-checklist)
+- [Off-Page SEO Audit Checklist](#off-page-seo-audit-checklist)
+- [Local SEO Audit Checklist](#local-seo-audit-checklist)
+- [AI Search Audit Checklist: GEO and AEO](#ai-search-audit-checklist)
+- [How to Prioritize and Execute Your Findings](#how-to-prioritize)
+- [Frequently Asked Questions](#frequently-asked-questions)
+
+---
+
+## What Is an SEO Audit (and Why Most Sites Fail It) {#what-is-an-seo-audit}
+
+An SEO audit is a systematic review of every factor that affects how a website performs in organic search. It examines technical infrastructure, on-page elements, content quality, backlink profiles, and user experience signals. The goal is to identify issues that prevent a site from ranking, then fix them in order of impact.
+
+Most sites fail audits because they treat SEO as a one-time project. They launch a site, add content, and assume Google will figure out the rest. Google does not figure out the rest. Google follows rules, and when those rules are broken, rankings suffer.
+
+The average website scores 62% on technical SEO benchmarks. On-page SEO scores are even lower at 58%. These are not abstract grades. A 62% technical score means nearly 4 in 10 critical checks are failing. That is 4 in 10 opportunities for a competitor to outrank you.
+
+A proper SEO audit checklist covers six distinct areas. Technical SEO ensures Google can crawl and index your site. On-page SEO ensures each page is optimized for its target keyword. Content quality ensures visitors find value. Off-page SEO measures authority signals. Local SEO checks geographic relevance. AI search readiness ensures your content appears in ChatGPT, Perplexity, and Google AI Overviews.
+
+This guide covers all six. Work through each section in order. Check off each item. Track your findings in a spreadsheet. Fix critical issues first.
+
+> **Stop guessing why your traffic dropped.** Stacc runs full SEO audits as part of every content campaign. We catch technical issues before they cost you rankings.
+> [Start for $1 →](/pricing)
+
+---
+
+## Technical SEO Audit Checklist {#technical-seo-audit-checklist}
+
+Technical SEO is the foundation. If Google cannot crawl your site, nothing else matters. Not your content. Not your backlinks. Not your keyword research. Crawlability comes first.
+
+This section covers 20 technical checks. Each one is labeled by priority: Critical (fix immediately), High (fix within 1 week), or Medium (fix within 1 month).
+
+### Crawlability and Indexation
+
+- [ ] **robots.txt is accessible and valid.** The file must return a 200 status code. It must not block CSS, JavaScript, or important pages. It must declare the XML sitemap location.
+- [ ] **XML sitemap is submitted and error-free.** The sitemap contains only 200-OK URLs. It excludes noindex pages, redirects, and canonicalized duplicates. It is submitted to Google Search Console and Bing Webmaster Tools.
+- [ ] **No accidental noindex tags on important pages.** Check the source code of every key page. Verify that `<meta name="robots" content="noindex">` does not appear where it should not.
+- [ ] **Canonical tags are self-referencing on every page.** Each page points to itself unless it is intentionally a duplicate. Paginated pages use self-referencing canonicals, not redirects to page 1.
+- [ ] **No redirect chains longer than 2 hops.** Every redirect goes directly from the old URL to the new URL. Chains waste crawl budget and slow page load.
+- [ ] **Orphan pages are identified and linked.** Every important page has at least one internal link pointing to it. Use a crawler to find pages with zero internal links.
+- [ ] **Site architecture keeps key pages within 3 clicks of the homepage.** Deep pages get less crawl attention. Flatten your architecture where possible.
+- [ ] **JavaScript content renders in the DOM.** Use Google Search Console's URL Inspection tool. Check the rendered HTML tab. Verify that critical content appears there.
+
+### Core Web Vitals and Performance
+
+- [ ] **Largest Contentful Paint (LCP) is under 2.5 seconds.** LCP measures how long the largest visible element takes to load. Slow LCP hurts rankings and conversions. Preload your LCP image. Use next-gen formats like WebP.
+- [ ] **Interaction to Next Paint (INP) is under 200 milliseconds.** INP replaced First Input Delay (FID) in 2024. It measures responsiveness. Heavy JavaScript frameworks are the most common cause of poor INP.
+- [ ] **Cumulative Layout Shift (CLS) is under 0.1.** CLS measures visual stability. Images without width and height attributes cause layout shifts. Ads injected without reserved space cause shifts.
+- [ ] **Mobile-first indexing passes.** Google indexes the mobile version of your site. Test on 360px to 390px viewports. Verify touch targets are at least 48 by 48 pixels with 8 pixels of spacing.
+- [ ] **HTTPS is active on all pages.** No mixed content warnings. No HTTP pages. The SSL certificate is valid and graded A or A+.
+- [ ] **HTTP Strict Transport Security (HSTS) is enabled.** The header `Strict-Transport-Security` should have a max-age of at least 31536000 seconds.
+
+### URL Structure and Redirects
+
+- [ ] **URL slugs are clean and descriptive.** Use hyphens, not underscores. Avoid parameters where possible. Keep URLs under 75 characters.
+- [ ] **WWW and non-WWW versions redirect consistently.** Pick one version. Redirect the other with a 301. Verify in Search Console that the preferred version is set.
+- [ ] **No broken internal links return 404 errors.** Run a crawl monthly. Fix or remove broken links within 48 hours of discovery.
+- [ ] **Pagination uses proper rel="next" and rel="prev" or view-all pages.** Google no longer supports rel="next"/"prev" as a directive. Use a view-all page or infinite scroll with proper history API handling.
+
+### Structured Data and Schema
+
+- [ ] **Schema markup validates with zero errors.** Test with Google's Rich Results Test and the Schema.org Validator. Fix all warnings and errors.
+- [ ] **Article schema includes datePublished, dateModified, and author.** The dateModified field is critical for freshness signals. Update it every time you edit content.
+
+| Priority | Check | Tool |
+|---|---|---|
+| Critical | robots.txt valid, sitemap submitted | Google Search Console |
+| Critical | Core Web Vitals passing | PageSpeed Insights |
+| Critical | HTTPS on all pages | SSL Labs |
+| High | No orphan pages | Screaming Frog |
+| High | Canonical tags correct | Screaming Frog |
+| High | Schema validates | Rich Results Test |
+| Medium | HSTS enabled | Security Headers |
+| Medium | No redirect chains | Screaming Frog |
+
+---
+
+## On-Page SEO Audit Checklist {#on-page-seo-audit-checklist}
+
+On-page SEO is where most audits spend their time. It is also where most sites score lowest. The average on-page SEO score across 10,000 audited sites is 58%. That means nearly half of all pages have fixable on-page issues.
+
+This section covers 18 on-page checks. Each one directly affects how Google understands and ranks your content.
+
+### Title Tags and Meta Descriptions
+
+- [ ] **Every page has a unique title tag.** Duplicate titles confuse Google. They dilute ranking signals across multiple pages. Each title must be 50 to 60 characters. The primary keyword should appear within the first 3 words.
+- [ ] **Every page has a unique meta description.** Meta descriptions do not directly affect rankings. They directly affect click-through rates. Each description must be 145 to 155 characters. It should include the primary keyword and a clear benefit.
+- [ ] **Title tags are not truncated in search results.** Use a SERP preview tool. Verify that your full title displays without ellipses on desktop and mobile.
+
+### Heading Structure
+
+- [ ] **Each page has exactly one H1 tag.** The H1 must contain the primary keyword or a close semantic variant. It must accurately describe the page content.
+- [ ] **Heading hierarchy is logical (H1 → H2 → H3).** Do not skip levels. Do not use H2s for styling. Headings create a content outline for Google and screen readers.
+- [ ] **H2s include semantic keywords and related terms.** Do not keyword-stuff. Do use natural language that covers the topic fully.
+
+### Content Optimization
+
+- [ ] **Primary keyword appears in the first 100 words.** Google weighs early keyword placement heavily. The first paragraph should establish the topic clearly.
+- [ ] **Keyword cannibalization is not present.** No two pages target the same primary keyword. Use a rank tracker or Search Console to identify competing pages.
+- [ ] **Internal links use descriptive anchor text.** Avoid "click here" and "read more." Use anchor text that describes the destination page. Link contextually from relevant content.
+- [ ] **Image alt text is descriptive and keyword-relevant.** Every image needs alt text. Describe what the image shows. Include the keyword only if it fits naturally.
+- [ ] **Images use next-gen formats (WebP or AVIF).** JPEGs and PNGs are larger than necessary. Convert images to WebP. Use lazy loading for images below the fold.
+- [ ] **Open Graph and Twitter Card tags are present.** These control how your content appears when shared on social media. Missing tags mean generic previews that hurt click-through rates.
+
+### URL and Navigation
+
+- [ ] **Breadcrumb navigation is implemented with BreadcrumbList schema.** Breadcrumbs help users and Google understand site hierarchy. Schema markup makes them eligible for rich snippets.
+- [ ] **Footer links are crawlable and useful.** Avoid stuffing keywords in footer links. Include logical navigation to key pages and legal pages.
+
+### Technical On-Page
+
+- [ ] **No thin content pages (under 300 words) without purpose.** Thin pages rarely rank. Either expand them or noindex them. The exception is contact pages and legal pages.
+- [ ] **No duplicate content without canonical tags.** Use Copyscape or Siteliner to find duplicates. Canonicalize or consolidate them.
+- [ ] **Outbound links point to authoritative sources.** Link to .edu, .gov, and established publications. Do not link to spam sites or competitors.
+- [ ] **Content freshness signals are present.** Include a "Last Updated" date. Use `dateModified` schema. Update statistics and examples quarterly.
+
+> **On-page SEO is tedious at scale.** Stacc automates title optimization, meta description writing, and internal linking across every article we publish.
+> [See how it works →](/pricing)
+
+---
+
+## Content Quality Audit Checklist {#content-quality-audit-checklist}
+
+Content quality is the hardest area to audit objectively. It is also the most important. Google's Helpful Content System evaluates whether content genuinely helps users. Low-quality content can trigger site-wide ranking drops.
+
+This section covers 12 content quality checks. Each one aligns with Google's quality guidelines and E-E-A-T framework.
+
+### E-E-A-T Signals
+
+- [ ] **Author bylines are present on every article.** Each byline includes the author's name, title, and a brief bio. The bio establishes expertise in the topic.
+- [ ] **Author pages link to credentials and social profiles.** Link to LinkedIn, Twitter, or a personal website. These are trust signals that Google evaluates.
+- [ ] **About and Contact pages are thorough.** Include a physical address if applicable. Include a phone number. Include an email address. Transparency builds trust.
+- [ ] **ReviewedBy schema is used for YMYL content.** Your Money or Your Life content (health, finance, legal) should indicate who reviewed it. Use the `reviewedBy` property in schema markup.
+
+### Content Depth and Originality
+
+- [ ] **Content matches or exceeds the depth of top-ranking pages.** Analyze the top 3 results for your target keyword. Count their word count, images, and subheadings. Match or exceed their depth.
+- [ ] **Content adds original insight, not just regurgitation.** Include original research, case studies, or personal experience. Google explicitly rewards first-hand expertise.
+- [ ] **Statistics and data points are sourced and dated.** Every statistic needs a named source and a year. "A 2025 study by Backlinko found that..." is credible. "Studies show that..." is not.
+- [ ] **Content answers the search intent behind the keyword.** Informational queries need thorough explanations. Commercial queries need comparison data. Transactional queries need clear calls to action.
+
+### Readability and Structure
+
+- [ ] **Sentences average under 20 words.** Short sentences are easier to read. They are easier for AI systems to parse. They reduce bounce rates.
+- [ ] **Paragraphs contain 2 to 4 sentences maximum.** Long paragraphs intimidate readers. They create walls of text that mobile users skip.
+- [ ] **Content uses lists, tables, and visuals to break up text.** Scannable content performs better. Use bullet lists for features. Use tables for comparisons. Use images for complex concepts.
+- [ ] **No filler content or fluff.** Every sentence should deliver value. If a sentence can be removed without losing meaning, remove it.
+
+| Content Quality Factor | Check | Frequency |
+|---|---|---|
+| E-E-A-T signals | Author bios, credentials, transparency | Every page |
+| Content depth | Match or beat top 3 competitors | Quarterly |
+| Original insight | Case studies, data, first-hand experience | Every article |
+| Sourced statistics | Named source + year | Every stat |
+| Readability | Under 20 words per sentence | Every paragraph |
+
+---
+
+## Off-Page SEO Audit Checklist {#off-page-seo-audit-checklist}
+
+Off-page SEO measures the authority and trust signals that come from outside your website. Most SEO audit checklists underweight this section. That is a mistake. Backlinks remain one of the top 3 ranking factors.
+
+This section covers 10 off-page checks. These require external tools like Ahrefs, Semrush, or Moz.
+
+### Backlink Profile Health
+
+- [ ] **Total referring domains are tracked monthly.** Know your baseline. A sudden drop indicates lost links. A sudden spike indicates spam.
+- [ ] **Domain Rating (DR) or Domain Authority (DA) is benchmarked.** Track this metric over time. Compare it to competitors in your niche.
+- [ ] **Toxic backlinks are identified and disavowed.** Use your tool's toxicity score. Look for links from link farms, PBNs, and foreign-language spam sites. Submit a disavow file to Google.
+- [ ] **Anchor text distribution is natural.** Exact-match anchor text should be under 10% of your profile. Branded anchors should be 40% to 60%. Naked URLs and generic anchors fill the rest.
+- [ ] **No sudden backlink spikes from spam sources.** A spike of 1,000 links in one day is almost always negative SEO. Monitor weekly.
+
+### Brand Signals
+
+- [ ] **Brand mentions without links are tracked.** Unlinked brand mentions are link opportunities. Use Google Alerts or Ahrefs Content Explorer to find them. Reach out and request a link.
+- [ ] **Social signals are consistent.** Active social profiles correlate with higher trust scores. Ensure your brand has a presence on relevant platforms.
+- [ ] **Review profiles on third-party sites are claimed and monitored.** Google Business Profile, Yelp, Trustpilot, and industry-specific directories all contribute to off-page authority.
+
+### Competitive Benchmarking
+
+- [ ] **Your backlink profile is compared to top 3 competitors.** If competitors have 500 referring domains and you have 50, you need a link-building strategy. Use gap analysis to find their links you do not have.
+- [ ] **Link velocity is tracked over 12 months.** Link velocity measures how fast you gain links. Steady growth signals organic popularity. Stagnation signals declining relevance.
+
+---
+
+## Local SEO Audit Checklist {#local-seo-audit-checklist}
+
+Local SEO is essential for any business serving a geographic area. A local SEO audit examines how well your business appears in Google Maps, the local pack, and location-based searches.
+
+This section covers 10 local SEO checks. For a deeper dive, see our [local SEO guide](/blog/local-seo-guide/).
+
+### Google Business Profile
+
+- [ ] **Google Business Profile is claimed and verified.** Unverified profiles cannot rank in the local pack. Verification requires a postcard, phone call, or video verification.
+- [ ] **Business name, address, and phone (NAP) are accurate and consistent.** NAP consistency across the web is a core local ranking factor. Any variation ("St." vs "Street") dilutes signals.
+- [ ] **Primary and secondary categories are optimized.** Choose the most specific primary category. Add all relevant secondary categories. Categories determine which searches trigger your listing.
+- [ ] **Business description includes keywords and service areas.** The description has a 750-character limit. Use it to describe services, service areas, and what makes your business different.
+- [ ] **Photos are uploaded weekly.** Businesses with 100+ photos get significantly more engagement. Upload interior, exterior, product, team, and work-in-progress photos.
+- [ ] **Posts are published at least 4 times per month.** Google Posts appear in your listing. They signal activity. They can include offers, events, and updates.
+- [ ] **Reviews are monitored and responded to within 24 hours.** Respond to every review, positive and negative. Response rate is a ranking signal. It also builds trust with prospects.
+
+### Local Citations and Links
+
+- [ ] **Citations exist on major directories (Yelp, Bing Places, Apple Maps).** Consistent NAP on these platforms reinforces your location data. Use a tool like BrightLocal or Moz Local to audit.
+- [ ] **Local backlinks from community sites and organizations are present.** Sponsor local events. Join the chamber of commerce. Get listed on local resource pages.
+- [ ] **LocalBusiness schema is implemented on the homepage.** Include address, telephone, opening hours, and geo-coordinates. Validate with Google's Rich Results Test.
+
+---
+
+## AI Search Audit Checklist: GEO and AEO {#ai-search-audit-checklist}
+
+Traditional SEO audits miss AI search entirely. That is a critical gap. Over 50% of Google searches now show AI Overviews. ChatGPT, Perplexity, and Gemini answer questions directly. If your content is not structured for AI extraction, you are invisible in the fastest-growing search channel.
+
+This section covers 12 AI search readiness checks. For more on this topic, read our [GEO guide](/blog/generative-engine-optimization-guide/) and [AEO guide](/blog/what-is-aeo/).
+
+### Generative Engine Optimization (GEO)
+
+- [ ] **Content includes direct, extractable answer blocks.** Every H2 section should open with a 40 to 60 word standalone answer. AI systems extract these blocks for citations. Self-contained sentences work best.
+- [ ] **Statistics and data points are specific and citable.** "67% of websites fail basic SEO checks" is citable. "Most websites fail" is not. Specific numbers get cited. Vague claims do not.
+- [ ] **Comparison tables use clean HTML markup.** AI parsers read tables more easily than paragraphs. Use tables for feature comparisons, pricing tiers, and pros/cons.
+- [ ] **Content covers topics in full depth.** AI systems prefer authoritative sources. A 500-word overview gets passed over. A 4,000-word guide with 75 checklist items gets cited.
+- [ ] **Entity markup (Person, Organization, Product) is implemented.** Schema helps AI systems understand who wrote the content, what organization published it, and what products are discussed.
+- [ ] **Brand is tracked on ChatGPT, Perplexity, Gemini, and Claude.** Search your brand name in each platform. Does it appear? Is the information accurate? If not, your content needs better entity signals.
+
+### Answer Engine Optimization (AEO)
+
+- [ ] **FAQ sections with FAQPage schema are on key pages.** FAQ schema makes content eligible for rich results. It also structures answers for AI extraction. Use 5 to 8 questions per page.
+- [ ] **Headings are phrased as questions where appropriate.** "What is an SEO audit?" mirrors how users search. It also mirrors how AI systems extract answers.
+- [ ] **Definitions are clear, concise, and early.** Define key terms in the first 2 sentences of a section. Bold the term. Follow with a plain-language explanation.
+- [ ] **HowTo schema is used for step-by-step content.** HowTo schema structures procedural content. It makes your content eligible for rich snippets and AI citations.
+- [ ] **Speakable markup is implemented for voice search.** The `speakable` property identifies content sections optimized for voice assistants. This is a forward-looking signal.
+- [ ] **dateModified is updated and marked in schema.** AI systems favor fresh content. A page updated in 2026 outranks a page last edited in 2023. Update dates signal freshness.
+
+| AI Search Factor | Average Score | Opportunity |
+|---|---|---|
+| GEO readiness | 28% | Massive gap vs competitors |
+| AEO readiness | 35% | Early mover advantage |
+| Content citability | 42% | Structured answers win |
+| Entity markup | 17% | Most sites have none |
+
+![Average website SEO scores showing technical SEO at 62 percent, on-page at 58 percent, AEO readiness at 35 percent, and GEO readiness at 28 percent](/images/blog/seo-audit-geo-readiness-stats.png)
+
+The data is clear. Websites scoring above 70% in AEO and GEO receive 4 times more AI citations than those below 40%. Most of your competitors are scoring under 30%. This is the biggest untapped opportunity in SEO today.
+
+> **AI search is the new SEO battleground.** Stacc structures every article for AI citation. We track your brand across ChatGPT, Perplexity, Gemini, and Claude.
+> [Start for $1 →](/pricing)
+
+---
+
+## How to Prioritize and Execute Your Findings {#how-to-prioritize}
+
+A 75-point checklist produces a lot of findings. You cannot fix everything at once. Prioritization is what separates effective audits from overwhelming ones.
+
+Use this three-tier framework to rank every issue you find.
+
+### Critical: Fix Within 24 Hours
+
+These issues block Google from crawling, indexing, or ranking your site. They cost you traffic every day they remain unresolved.
+
+- robots.txt blocking important pages
+- Noindex tags on pages that should rank
+- HTTPS failures or mixed content
+- Server errors (5xx) on key pages
+- Manual actions in Google Search Console
+- Core Web Vitals failing on high-traffic pages
+
+![SEO audit priority matrix showing critical fixes within 24 hours, high priority within 1 week, and medium priority within 1 month](/images/blog/seo-audit-priority-matrix.png)
+
+### High: Fix Within 1 Week
+
+These issues hurt rankings but do not block indexing. They accumulate over time and compound.
+
+- Missing or duplicate title tags
+- Missing meta descriptions
+- Broken internal links
+- Orphan pages
+- Slow page speed (LCP over 4 seconds)
+- Missing canonical tags
+- Thin content on important pages
+- Toxic backlinks not yet disavowed
+
+### Medium: Fix Within 1 Month
+
+These are optimization opportunities. They improve rankings incrementally.
+
+- Image format optimization
+- HSTS header implementation
+- Breadcrumb schema addition
+- Open Graph tag improvements
+- Content freshness updates
+- Internal linking expansion
+- Author bio enhancements
+- FAQ schema addition
+
+### Audit Frequency by Site Type
+
+| Site Type | Full Audit | Spot Checks |
+|---|---|---|
+| High-traffic e-commerce | Monthly | Weekly |
+| Active content sites | Quarterly | Monthly |
+| Small business sites | Every 6 months | Quarterly |
+| All sites | — | Core Web Vitals monthly |
+
+### Recommended Tool Stack
+
+| Tool | Purpose | Cost |
+|---|---|---|
+| Google Search Console | Indexing, queries, Core Web Vitals | Free |
+| Google Analytics 4 | Traffic, engagement, conversions | Free |
+| PageSpeed Insights | Performance diagnostics | Free |
+| Screaming Frog | Crawl analysis, technical issues | Freemium |
+| Ahrefs or Semrush | Backlinks, keywords, competitor analysis | Paid |
+| Schema.org Validator | Structured data validation | Free |
+| Google Rich Results Test | Rich snippet eligibility | Free |
+
+### The 1-Week Audit Sprint
+
+If you need results fast, run a focused 1-week sprint.
+
+**Day 1:** Crawl the entire site with Screaming Frog. Export all errors.
+
+**Day 2:** Fix robots.txt, sitemap, and canonical issues.
+
+**Day 3:** Fix all broken internal links and redirect chains.
+
+**Day 4:** Rewrite missing or duplicate title tags and meta descriptions.
+
+**Day 5:** Address Core Web Vitals failures. Optimize images. Preload LCP elements.
+
+**Day 6:** Fix thin content. Expand or noindex pages under 300 words.
+
+**Day 7:** Submit updated sitemap to Google Search Console. Request indexing for key pages.
+
+This sprint will not catch everything. It will catch the issues costing you the most traffic.
+
+---
+
+## Frequently Asked Questions {#frequently-asked-questions}
+
+**What is an SEO audit checklist?**
+
+An SEO audit checklist is a structured list of checks that evaluate how well a website is optimized for search engines. It covers technical infrastructure, on-page elements, content quality, backlink profiles, and user experience. Each item is a pass-or-fail test. The checklist produces a prioritized list of fixes.
+
+**How often should I run an SEO audit?**
+
+High-traffic e-commerce sites should run full audits monthly. Active content sites should audit quarterly. Small business sites should audit every 6 months. All sites should monitor Core Web Vitals monthly and spot-check after any site migration, redesign, or algorithm update.
+
+**What is the difference between a technical SEO audit and a full SEO audit?**
+
+A technical SEO audit examines crawlability, indexation, site speed, and structured data. A full SEO audit adds on-page optimization, content quality, backlink analysis, local SEO, and AI search readiness. Technical audits are a subset of full audits.
+
+**How long does an SEO audit take?**
+
+A focused technical audit takes 4 to 8 hours. A full audit takes 20 to 40 hours depending on site size. A 1-week sprint can address the highest-impact issues on most small to medium sites.
+
+**What tools do I need for an SEO audit?**
+
+The minimum toolset is Google Search Console, Google Analytics 4, and PageSpeed Insights (all free). For deeper analysis, add Screaming Frog for crawling and Ahrefs or Semrush for backlinks and keywords. Schema validation requires Google's Rich Results Test.
+
+**What are Core Web Vitals and why do they matter?**
+
+Core Web Vitals are three metrics Google uses to measure page experience: Largest Contentful Paint (loading speed), Interaction to Next Paint (responsiveness), and Cumulative Layout Shift (visual stability). They are confirmed ranking factors. Sites passing all three metrics outperform failing sites in search results.
+
+**What is AI search readiness and why is it on an SEO audit checklist?**
+
+AI search readiness means your content is structured so AI systems like ChatGPT, Perplexity, and Google AI Overviews can extract and cite it. It includes direct answer blocks, citable statistics, comparison tables, FAQ schema, and entity markup. Over 50% of Google searches now include AI-generated results. Content not optimized for AI extraction is increasingly invisible.
+
+**Can I do an SEO audit myself or do I need an agency?**
+
+You can run a basic SEO audit yourself with free tools. Technical audits require more expertise. Full audits at scale require dedicated tools and time. Many businesses use a hybrid approach: run monthly spot checks internally and hire specialists for quarterly deep audits. Services like Stacc include ongoing technical monitoring as part of their content packages.
+
+**What should I fix first after an SEO audit?**
+
+Fix critical issues first. These are items that block crawling, indexing, or security. robots.txt errors, noindex mistakes, HTTPS failures, and server errors take priority. After critical issues, fix high-priority items like missing titles, broken links, and slow pages. Medium-priority optimizations come last.
+
+**How do I know if my SEO audit was successful?**
+
+Track these metrics before and after: organic traffic from Google Analytics 4, indexed pages from Search Console, average ranking position for target keywords, Core Web Vitals scores, and backlink profile health. Improvements in 2 or more metrics within 30 to 60 days indicate a successful audit.
+
+---
+
+An SEO audit is not a one-time task. It is an ongoing practice. Search algorithms change. Competitors improve. Content ages. A quarterly audit keeps your site competitive.
+
+This checklist gives you 75 specific checks across 6 categories. Work through them in order. Fix critical issues first. Track your progress. Repeat every quarter.
+
+The sites that audit consistently are the sites that rank consistently.
+
+> **Want SEO audits done for you every month?** Stacc monitors technical health, optimizes on-page elements, and tracks AI search visibility across every article we publish.
+> [Start for $1 →](/pricing)

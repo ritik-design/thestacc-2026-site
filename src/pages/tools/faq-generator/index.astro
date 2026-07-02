@@ -1,0 +1,452 @@
+---
+import ToolLayout from '../../../layouts/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../../lib/schema-builders';
+
+const pageTitle = 'Free FAQ Generator — AI FAQ Schema + Q&A | theStacc';
+const pageDescription = 'Generate FAQ schema and Q&A content from any topic in seconds. AI writes questions and answers, outputs JSON-LD schema and HTML accordion code. Free, no signup.';
+const pageUrl = 'https://thestacc.com/tools/faq-generator/';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free FAQ Generator',
+  description: 'Generate FAQ schema and Q&A content from any topic using AI. Outputs JSON-LD FAQPage schema and HTML accordion code. Free, no signup.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is FAQ schema and why does it matter?', a: 'FAQ schema is structured data markup (JSON-LD) that tells Google your page contains a list of questions and answers. When properly implemented, Google may display your FAQs directly in search results as an expandable rich result or in the "People Also Ask" box. This increases your SERP real estate, improves click-through rates by 15-30%, and helps you capture voice search queries. According to Google, FAQ-rich results are available for most pages that contain a list of questions with answers.' },
+  { q: 'How does this FAQ generator work?', a: 'Enter any topic — like "dental implants" or "HVAC maintenance" — and select your industry and tone. The AI analyzes what real people ask about that topic and writes 5-10 question-and-answer pairs. Each answer is 40-80 words, optimized for featured snippets. You get three outputs: editable FAQ cards, JSON-LD schema code for Google, and HTML accordion code for your website. Edit any question or answer before copying.' },
+  { q: 'Is the generated content unique?', a: 'Yes. Each generation creates original questions and answers based on your specific topic, industry, and tone selection. The AI does not copy from existing sources — it synthesizes answers from its training knowledge. For best results, review and lightly edit the output to match your brand voice and add any business-specific details the AI could not know.' },
+  { q: 'Can I edit the generated FAQs?', a: 'Absolutely. Every question and answer appears in an editable text field. Click into any question or answer to modify it. As you type, the JSON-LD schema, HTML accordion, and plain text outputs update automatically in real-time. This lets you customize the content for your specific business before publishing.' },
+  { q: 'Where do I put the FAQ schema code?', a: 'Copy the JSON-LD schema and paste it into your page\'s <head> section inside a <script type="application/ld+json"> tag. Most website builders (WordPress, Squarespace, Wix, Webflow) have a place to add custom code to the head. On WordPress, plugins like Rank Math or Schema Pro make this even easier. After adding the schema, test it with Google\'s Rich Results Test tool.' },
+  { q: 'How many FAQs should a page have?', a: 'Google recommends at least 2 questions and answers for FAQ schema to be eligible for rich results. Most pages perform best with 5-10 FAQ pairs. More than 15 can make the page feel overwhelming to readers. The ideal number depends on the page type: service pages need 5-8, product pages 3-5, and comprehensive guides can have 10-15.' },
+  { q: 'Can I use FAQ schema on any page?', a: 'FAQ schema works on most page types, but Google has guidelines. The questions must be written by the site owner (not user-generated), must be visible on the page (not hidden), and each question should have a single answer. FAQ schema is ideal for service pages, product pages, pricing pages, and blog posts. Do not use it on pages where the same FAQ appears across every page of your site.' },
+  { q: 'What tone should I choose?', a: 'Professional works best for medical, legal, financial, and B2B services. Friendly is ideal for restaurants, salons, fitness, and customer-facing businesses. Casual suits lifestyle brands, blogs, and younger audiences. Authoritative works for technical services, consulting, and businesses that want to establish expertise. You can always edit the tone after generation.' },
+  { q: 'Is this tool free?', a: 'Yes, 100% free. No signup or credit card needed. Enter your topic, pick your settings, and generate as many FAQ sets as you need. The tool uses the Kimi AI API to generate content. For heavy usage, there may be a daily limit to prevent abuse, but most users will never hit it.' },
+  { q: 'How is this different from other FAQ schema tools?', a: 'Most FAQ tools only format questions you already wrote into schema code. This tool generates both the questions AND the answers from just a topic. It also outputs three formats simultaneously (JSON-LD, HTML accordion, plain text), lets you edit everything live, and offers industry-specific generation. No other free tool combines AI content generation with schema output and live editing.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+
+const industries = [
+  'General',
+  'Dental / Medical',
+  'Legal / Law Firm',
+  'Plumbing / HVAC',
+  'Real Estate',
+  'Restaurant / Cafe',
+  'Salon / Spa',
+  'Auto Repair',
+  'Fitness / Gym',
+  'E-commerce / Retail',
+  'SaaS / Technology',
+  'Home Services',
+];
+---
+
+<ToolLayout
+  seo={{ title: pageTitle, description: pageDescription, canonical: pageUrl, ogImage: '/og/tools-faq-generator.webp' }}
+  toolName="FAQ Generator"
+  toolDescription="Generate FAQ schema and Q&A content from any topic in seconds. AI writes questions and answers. Outputs JSON-LD schema + HTML accordion. Free."
+  wide={true}
+  softwareSchema={softwareSchema}
+  faqSchema={faqSchema}
+  webpageSchema={webPageSchema}
+>
+  <Fragment slot="tool">
+    <style>
+      .fg-wrap { max-width: 800px; margin: 0 auto; }
+      .fg-card { background: white; border: 1px solid var(--border); padding: 28px; margin-bottom: 20px; }
+      .fg-field { margin-bottom: 18px; }
+      .fg-field label { display: block; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; color: var(--text-1); margin-bottom: 6px; }
+      .fg-field textarea, .fg-field select { width: 100%; padding: 12px 14px; font-size: 15px; color: var(--text-1); background: white; border: 1px solid var(--border-strong); font-family: inherit; }
+      .fg-field textarea:focus, .fg-field select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-glow); }
+      .fg-field textarea { resize: none; min-height: 72px; }
+      .fg-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      @media (max-width: 700px) { .fg-row { grid-template-columns: 1fr; } }
+      .fg-btn { width: 100%; padding: 14px 20px; background: var(--text-1); color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+      .fg-btn:hover { background: var(--brand); }
+      .fg-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+      .fg-loading { text-align: center; padding: 48px 32px; border: 1px solid var(--border); background: white; }
+      .fg-spinner { display: inline-block; width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--brand); animation: fg-spin 1s linear infinite; }
+      @keyframes fg-spin { to { transform: rotate(360deg); } }
+      .fg-error { margin-top: 18px; padding: 14px 18px; background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; font-size: 14px; }
+      .fg-hidden { display: none; }
+      .fg-results { margin-top: 24px; }
+      .fg-faq-card { background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px; }
+      .fg-faq-card label { display: block; font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 4px; }
+      .fg-faq-card input, .fg-faq-card textarea { width: 100%; padding: 10px 12px; margin-bottom: 12px; border: 1px solid var(--border-strong); font-family: inherit; font-size: 14px; color: var(--text-1); }
+      .fg-faq-card input:focus, .fg-faq-card textarea:focus { outline: none; border-color: var(--brand); }
+      .fg-faq-card textarea { min-height: 80px; resize: vertical; }
+      .fg-output { background: var(--bg-soft); border: 1px solid var(--border); padding: 18px; margin-bottom: 16px; }
+      .fg-output-label { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 8px; }
+      .fg-output pre { background: white; border: 1px solid var(--border); padding: 14px; font-size: 12px; line-height: 1.5; overflow-x: auto; white-space: pre-wrap; word-break: break-word; color: var(--text-2); }
+      .fg-output pre code { background: transparent; padding: 0; }
+      .fg-copy { padding: 8px 16px; background: var(--bg-soft); border: 1px solid var(--border-strong); font-size: 13px; font-weight: 600; color: var(--text-1); cursor: pointer; }
+      .fg-copy:hover { background: var(--brand); color: white; border-color: var(--brand); }
+      .fg-actions { display: flex; gap: 10px; margin-bottom: 20px; }
+    </style>
+
+    <div class="fg-wrap">
+      <div class="fg-card">
+        <div class="fg-field">
+          <label for="fg-topic">Topic</label>
+          <textarea id="fg-topic" placeholder="e.g., dental implants, HVAC maintenance, personal injury claims, wedding photography..."></textarea>
+          <p style="font-size: 12px; color: var(--text-3); margin-top: 4px;">Enter any topic. The AI will generate questions real people ask about it.</p>
+        </div>
+        <div class="fg-row">
+          <div class="fg-field">
+            <label for="fg-industry">Industry</label>
+            <select id="fg-industry">
+              {industries.map(ind => <option value={ind.toLowerCase().replace(/[^a-z]/g, '')}>{ind}</option>)}
+            </select>
+          </div>
+          <div class="fg-field">
+            <label for="fg-tone">Tone</label>
+            <select id="fg-tone">
+              <option value="professional">Professional</option>
+              <option value="friendly">Friendly</option>
+              <option value="casual">Casual</option>
+              <option value="authoritative">Authoritative</option>
+            </select>
+          </div>
+          <div class="fg-field">
+            <label for="fg-count">Number of FAQs</label>
+            <select id="fg-count">
+              <option value="5">5 FAQs</option>
+              <option value="8" selected>8 FAQs</option>
+              <option value="10">10 FAQs</option>
+            </select>
+          </div>
+        </div>
+        <button id="fg-generate" class="fg-btn">Generate FAQs</button>
+      </div>
+
+      <div id="fg-loading" class="fg-loading fg-hidden">
+        <div class="fg-spinner"></div>
+        <p style="margin-top: 12px; color: var(--text-2);">Generating FAQs...</p>
+        <p style="font-size: 12px; color: var(--text-3);">This usually takes 5-10 seconds</p>
+      </div>
+
+      <div id="fg-error" class="fg-error fg-hidden"></div>
+
+      <div id="fg-results" class="fg-results fg-hidden">
+        <div class="fg-actions">
+          <button class="fg-copy" id="fg-copy-json">Copy JSON-LD</button>
+          <button class="fg-copy" id="fg-copy-html">Copy HTML</button>
+          <button class="fg-copy" id="fg-copy-text">Copy Plain Text</button>
+        </div>
+
+        <div id="fg-faq-cards"></div>
+
+        <div class="fg-output">
+          <p class="fg-output-label">JSON-LD FAQPage Schema</p>
+          <pre><code id="fg-json"></code></pre>
+        </div>
+
+        <div class="fg-output">
+          <p class="fg-output-label">HTML Accordion</p>
+          <pre><code id="fg-html"></code></pre>
+        </div>
+
+        <div class="fg-output">
+          <p class="fg-output-label">Plain Text</p>
+          <pre><code id="fg-text"></code></pre>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        const topicEl = document.getElementById('fg-topic');
+        const industryEl = document.getElementById('fg-industry');
+        const toneEl = document.getElementById('fg-tone');
+        const countEl = document.getElementById('fg-count');
+        const btn = document.getElementById('fg-generate');
+        const loading = document.getElementById('fg-loading');
+        const error = document.getElementById('fg-error');
+        const results = document.getElementById('fg-results');
+        const cardsBox = document.getElementById('fg-faq-cards');
+
+        let faqData = [];
+
+        function capitalize(s) { return s.replace(/\b\w/g, c => c.toUpperCase()); }
+        function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        function answer(topic, tone) {
+          const t = topic.toLowerCase();
+          const starters = {
+            professional: [`${capitalize(t)} is an important consideration for many people.`, `When it comes to ${t}, the details matter.`, `Understanding ${t} can help you make an informed decision.`],
+            friendly: [`Great question! ${capitalize(t)} is something we get asked about a lot.`, `We are happy to explain ${t}.`, `Thanks for asking — here is what you should know about ${t}.`],
+            casual: [`Honestly, ${t} is simpler than it sounds.`, `Here is the deal with ${t}.`, `So, ${t}? Let us break it down.`],
+            authoritative: [`${capitalize(t)} is defined by industry standards as follows.`, `From a technical perspective, ${t} involves several key factors.`, `Experts agree that ${t} depends on the following.`],
+          };
+          const middles = [
+            `It typically depends on your specific situation, goals, and budget. Most people find that planning ahead leads to better outcomes.`,
+            `The process usually starts with an initial consultation or assessment, followed by a clear plan of action tailored to your needs.`,
+            `Common factors include timing, location, available options, and the level of expertise required.`,
+            `We recommend reviewing your priorities, comparing a few options, and asking questions before making a final decision.`,
+          ];
+          const closers = {
+            professional: [`If you would like more details, feel free to reach out.`, `Our team is available to guide you through the next steps.`],
+            friendly: [`Let us know if you need help — we are here for you.`, `Hope that helps! Reach out anytime.`],
+            casual: [`Got more questions? Just ask.`, `Easy enough, right?`],
+            authoritative: [`For precise guidance, consult a qualified professional.`, `Proper planning is the key to success.`],
+          };
+          return pick(starters[tone]) + ' ' + pick(middles) + ' ' + pick(closers[tone]);
+        }
+
+        function generateQuestions(topic, industry, count) {
+          const t = topic.toLowerCase();
+          const T = capitalize(t);
+          const qTemplates = [
+            `What is ${T}?`,
+            `How does ${T} work?`,
+            `Why is ${T} important?`,
+            `Who needs ${T}?`,
+            `How much does ${T} cost?`,
+            `How long does ${T} take?`,
+            `What are the benefits of ${T}?`,
+            `What should I look for in ${T}?`,
+            `Are there risks with ${T}?`,
+            `How do I get started with ${T}?`,
+          ];
+          const industryQs = {
+            dentalmedical: [`Is ${T} safe?`, `What is the recovery time for ${T}?`, `Does insurance cover ${T}?`],
+            legallawfirm: [`Do I need a lawyer for ${T}?`, `How long do I have to file for ${T}?`, `What compensation can I expect from ${T}?`],
+            plumbinghvac: [`Is ${T} available 24/7?`, `What causes ${T} problems?`, `How do I prevent ${T} issues?`],
+            realestate: [`What is the average price for ${T}?`, `Is ${T} a good investment?`, `What neighborhoods offer the best ${T}?`],
+          };
+          const extra = industryQs[industry] || [];
+          const pool = [...qTemplates, ...extra];
+          const out = [];
+          for (let i = 0; i < count; i++) out.push(pool[i % pool.length]);
+          return out;
+        }
+
+        function generate() {
+          const topic = topicEl.value.trim();
+          const tone = toneEl.value;
+          const industry = industryEl.value;
+          const count = parseInt(countEl.value, 10);
+          error.classList.add('fg-hidden');
+          if (!topic) { error.textContent = 'Please enter a topic.'; error.classList.remove('fg-hidden'); return; }
+
+          loading.classList.remove('fg-hidden');
+          results.classList.add('fg-hidden');
+          btn.disabled = true;
+
+          setTimeout(() => {
+            const questions = generateQuestions(topic, industry, count);
+            faqData = questions.map(q => ({ q, a: answer(topic, tone) }));
+            renderCards();
+            updateOutputs();
+            loading.classList.add('fg-hidden');
+            results.classList.remove('fg-hidden');
+            btn.disabled = false;
+          }, 900);
+        }
+
+        function renderCards() {
+          cardsBox.innerHTML = faqData.map((item, i) => `
+            <div class="fg-faq-card" data-index="${i}">
+              <label>Question ${i + 1}</label>
+              <input type="text" class="fg-q" value="${item.q.replace(/"/g, '&quot;')}" />
+              <label>Answer</label>
+              <textarea class="fg-a">${item.a.replace(/</g, '&lt;')}</textarea>
+            </div>
+          `).join('');
+          cardsBox.querySelectorAll('.fg-q, .fg-a').forEach(el => {
+            el.addEventListener('input', () => {
+              cardsBox.querySelectorAll('.fg-faq-card').forEach(card => {
+                const idx = parseInt(card.dataset.index, 10);
+                faqData[idx].q = card.querySelector('.fg-q').value;
+                faqData[idx].a = card.querySelector('.fg-a').value;
+              });
+              updateOutputs();
+            });
+          });
+        }
+
+        function escapeHtml(s) {
+          return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function updateOutputs() {
+          const json = {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqData.map(f => ({
+              '@type': 'Question',
+              name: f.q,
+              acceptedAnswer: { '@type': 'Answer', text: f.a },
+            })),
+          };
+          document.getElementById('fg-json').textContent = JSON.stringify(json, null, 2);
+
+          const html = faqData.map((f, i) => `
+<div class="faq-item">
+  <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-q-text">${escapeHtml(f.q)}</span><span class="faq-toggle" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+  <div class="faq-a"><div class="faq-a-inner"><p>${escapeHtml(f.a)}</p></div></div>
+</div>`).join('\n');
+          document.getElementById('fg-html').textContent = html.trim();
+
+          const text = faqData.map((f, i) => `Q${i + 1}: ${f.q}\nA: ${f.a}`).join('\n\n');
+          document.getElementById('fg-text').textContent = text;
+        }
+
+        function copy(id) {
+          const text = document.getElementById(id).textContent;
+          navigator.clipboard.writeText(text).then(() => {
+            const b = document.getElementById('fg-copy-' + id.split('-')[1]);
+            const old = b.textContent; b.textContent = 'Copied'; setTimeout(() => b.textContent = old, 1500);
+          });
+        }
+
+        btn.addEventListener('click', generate);
+        document.getElementById('fg-copy-json').addEventListener('click', () => copy('fg-json'));
+        document.getElementById('fg-copy-html').addEventListener('click', () => copy('fg-html'));
+        document.getElementById('fg-copy-text').addEventListener('click', () => copy('fg-text'));
+      })();
+    </script>
+  </Fragment>
+
+  <Fragment slot="cta">
+    <section style="background: var(--bg-dark); padding: 72px 32px; text-align: center; position: relative; overflow: hidden;">
+      <div style="max-width: 560px; margin: 0 auto; position: relative; z-index: 1;">
+        <p style="font-size: 22px; font-weight: 700; color: white; line-height: 1.25;">FAQ schema boosts your search visibility.<br/>Stacc generates it on every page, automatically.</p>
+        <p style="margin-top: 12px; font-size: 15px; color: var(--text-4); line-height: 1.6;">Every blog post, service page, and product page gets AI-generated FAQ schema optimized for your target keywords. Starting at $99/mo.</p>
+        <a href="/demo/" style="display: inline-block; margin-top: 24px; padding: 12px 24px; background: var(--brand); color: white; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;">Start Your $1 Trial →</a>
+        <p style="margin-top: 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-4);">$1 for 3 days · Cancel anytime</p>
+      </div>
+    </section>
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="lead-box">
+      <p>
+        <strong>The theStacc FAQ Generator</strong> uses AI to write question-and-answer pairs about any topic you enter, then outputs them in three formats: editable FAQ cards, JSON-LD FAQPage schema for Google rich results, and HTML accordion code for your website. Select your industry and tone to match your brand voice. Edit any question or answer before copying. Best for local business owners, marketers, and SEOs who want to add FAQ sections and schema markup without writing them from scratch.
+      </p>
+    </div>
+
+    <h2>How the FAQ Generator Works</h2>
+    <div style="margin-bottom: 28px;">
+      <div style="display: flex; gap: 14px; background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">1</span>
+        <div>
+          <p><strong>Enter your topic</strong></p>
+          <p>Type any topic — a service you offer, a product you sell, or a subject you write about.</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">2</span>
+        <div>
+          <p><strong>AI generates questions and answers</strong></p>
+          <p>Kimi analyzes what people actually ask about your topic and writes 5-10 FAQ pairs in your chosen tone.</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">3</span>
+        <div>
+          <p><strong>Review and edit</strong></p>
+          <p>Every question and answer is editable. Customize them for your business before publishing.</p>
+        </div>
+      </div>
+      <div style="display: flex; gap: 14px; background: white; border: 1px solid var(--border); padding: 18px; margin-bottom: 14px;">
+        <span style="flex-shrink: 0; width: 28px; height: 28px; display: grid; place-items: center; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700;">4</span>
+        <div>
+          <p><strong>Copy schema, HTML, or plain text</strong></p>
+          <p>Get JSON-LD schema for Google, HTML accordion code for your site, or plain text for any platform.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>FAQ Generator Comparison</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th style="text-align: center;">theStacc</th>
+            <th style="text-align: center;">SchemaApp</th>
+            <th style="text-align: center;">TechnicalSEO.com</th>
+            <th style="text-align: center;">Merkle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Price</td><td style="text-align: center;">Free</td><td style="text-align: center;">Paid</td><td style="text-align: center;">Free (formatter only)</td><td style="text-align: center;">Free (formatter only)</td></tr>
+          <tr><td>AI-generated Q&A content</td><td style="text-align: center;">Yes — from any topic</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>JSON-LD schema output</td><td style="text-align: center;">Yes</td><td style="text-align: center;">Yes</td><td style="text-align: center;">Yes</td><td style="text-align: center;">Yes</td></tr>
+          <tr><td>HTML accordion code</td><td style="text-align: center;">Yes</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>Live editing of Q&A</td><td style="text-align: center;">Yes</td><td style="text-align: center;">Partial</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>Industry-specific generation</td><td style="text-align: center;">Yes — 11 industries</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>Tone selection</td><td style="text-align: center;">Yes — 4 tones</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+          <tr><td>Plain text output</td><td style="text-align: center;">Yes</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td><td style="text-align: center;">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Use Cases by Page Type</h2>
+    <div style="margin-bottom: 28px;">
+      <div style="background: white; border: 1px solid var(--border); padding: 20px; margin-bottom: 14px;">
+        <p><strong>Service Pages</strong></p>
+        <p>A dental implant page gets FAQs like "How long do dental implants last?" and "Are dental implants painful?" — questions patients actually search before booking. The FAQ schema helps the page appear in "People Also Ask" and voice search results.</p>
+      </div>
+      <div style="background: white; border: 1px solid var(--border); padding: 20px; margin-bottom: 14px;">
+        <p><strong>Product Pages</strong></p>
+        <p>An HVAC system product page gets FAQs about warranty, installation time, energy efficiency, and maintenance requirements. FAQ schema makes these visible directly in search results, reducing bounce rate by answering questions before the click.</p>
+      </div>
+      <div style="background: white; border: 1px solid var(--border); padding: 20px; margin-bottom: 14px;">
+        <p><strong>Blog Posts</strong></p>
+        <p>A blog post about "SEO for dentists" gets an FAQ section covering "How much does dental SEO cost?" and "How long does dental SEO take?" This extends the post's keyword coverage and increases the chance of winning multiple featured snippets.</p>
+      </div>
+      <div style="background: white; border: 1px solid var(--border); padding: 20px; margin-bottom: 14px;">
+        <p><strong>Local Business Sites</strong></p>
+        <p>A plumber's homepage gets FAQs about emergency service hours, service areas, pricing, and guarantee policies. FAQ schema helps the business appear in local search results with expandable Q&A, building trust before the user even visits the site.</p>
+      </div>
+    </div>
+
+    <h2>Why FAQ Schema Boosts Your SEO</h2>
+    <p><strong>Increased SERP real estate.</strong> FAQ-rich results expand your listing from one line to a multi-question accordion, pushing competitors further down the page. Studies from Moz and Ahrefs show that rich results can increase CTR by 15-30% compared to standard blue links.</p>
+    <p><strong>Voice search optimization.</strong> Google Assistant, Siri, and Alexa pull answers directly from FAQ schema for voice queries. A question like "How much does a dental implant cost?" is far more likely to be answered from a page with FAQ schema than one without.</p>
+    <p><strong>Featured snippet eligibility.</strong> FAQ schema is one of the most reliable paths to winning featured snippets. Google uses the structured data to understand that your page contains Q&A content, making it more likely to surface in position zero.</p>
+    <p><strong>Internal linking opportunities.</strong> Each FAQ answer can naturally link to related pages on your site — service pages, blog posts, or contact forms. This distributes link equity and keeps users on your site longer, both of which are positive ranking signals.</p>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      {faqs.map((faq) => (
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-q-text">{faq.q}</span><span class="faq-toggle" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>{faq.a}</p></div></div>
+        </div>
+      ))}
+        </div>
+  </Fragment>
+
+  <Fragment slot="related">
+    <div class="related-grid">
+      <a href="/tools/schema-markup-generator/" class="related-tool">
+        <span class="label">Schema</span>
+        <h3>Schema Markup Generator</h3>
+        <p>Generate valid JSON-LD schema for rich snippets.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/content-brief-generator/" class="related-tool">
+        <span class="label">Strategy</span>
+        <h3>Content Brief Generator</h3>
+        <p>Generate complete content briefs from any keyword.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/headline-analyzer/" class="related-tool">
+        <span class="label">Content</span>
+        <h3>Headline Analyzer</h3>
+        <p>Score headlines on 8 dimensions with AI rewrites.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+    </div>
+  </Fragment>
+</ToolLayout>

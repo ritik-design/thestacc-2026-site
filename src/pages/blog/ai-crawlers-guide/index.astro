@@ -1,0 +1,652 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/review-post.css';
+
+const seo = {
+  title: "AI Crawlers Guide: GPTBot, ClaudeBot, and More",
+  description: "The complete guide to AI crawlers in 2026. Covers GPTBot, ClaudeBot, PerplexityBot, robots.txt management, and blocking strategies. Updated March 2026.",
+  canonical: "https://thestacc.com/blog/ai-crawlers-guide/",
+  ogImage: "/og/blog-ai-crawlers-guide.webp",
+  schemaData: [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://thestacc.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://thestacc.com/blog/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "AI Crawlers Guide: GPTBot, ClaudeBot, and More",
+        "item": "https://thestacc.com/blog/ai-crawlers-guide/"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "AI Crawlers Guide: GPTBot, ClaudeBot, and More",
+    "description": "The complete guide to AI crawlers in 2026. Covers GPTBot, ClaudeBot, PerplexityBot, robots.txt management, and blocking strategies. Updated March 2026.",
+    "image": "https://thestacc.com/og/blog-ai-crawlers-guide.webp",
+    "datePublished": "2026-03-27",
+    "dateModified": "2026-07-02",
+    "author": {
+      "@type": "Person",
+      "name": "Siddharth Gangal"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "theStacc"
+    }
+  }
+]
+};
+---
+<BaseLayout seo={seo}>
+
+  <section class="post-hero">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog/">Blog</a><span class="sep">/</span>
+      <span class="current">AI Crawlers Guide: GPTBot, ClaudeBot, and More</span>
+    </div>
+    <span class="post-cat">SEO Tips</span>
+    <h1>AI Crawlers Guide: GPTBot, ClaudeBot, and More</h1>
+    <p class="description">The complete guide to AI crawlers in 2026. Covers GPTBot, ClaudeBot, PerplexityBot, robots.txt management, and blocking strategies. Updated March 2026.</p>
+    <div class="post-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">SG</div>
+        <div class="meta-author-info">
+          <span class="meta-author-name"><a href="/authors/siddharth-gangal/">Siddharth Gangal</a></span>
+          <span class="meta-author-role">Founder · theStacc</span>
+        </div>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Published</span><span class="meta-value">Mar 27, 2026</span></div>
+      <div class="meta-divider"></div>
+      <div class="meta-item"><span class="meta-label">Read</span><span class="meta-value">26 min</span></div>
+    </div>
+  </section>
+
+  <div class="post-body-wrap">
+    <div class="post-grid">
+      <article class="post-content">
+<p>AI crawlers now consume more bandwidth than most site owners realize. According to <a href="https://blog.cloudflare.com/radar-2025-year-in-review/">Cloudflare's 2025 Year in Review</a>, 52% of all web traffic comes from bots. A growing share of that traffic belongs to AI crawlers like <code>GPTBot</code>, <code>ClaudeBot</code>, and <code>PerplexityBot</code>.</p>
+<p>These bots are not like Googlebot. They use 15 to 20 times more server resources per request. They hammer pages that do not exist. <a href="https://vercel.com/blog/the-rise-of-the-ai-crawler">Vercel's crawler research</a> shows that <code>ChatGPT-User</code> wastes 34.82% of its requests on 404 pages. And 13.26% of AI bot requests flat-out ignore <code>robots.txt</code> directives.</p>
+<p>This guide covers every major AI crawler operating in 2026. You will learn what each bot does, how it behaves, and exactly how to control access to your website.</p>
+<p>We publish 3,500+ blogs across 70+ industries and manage <code>robots.txt</code> configurations for sites of every size. This guide reflects what we see in real server logs every day.</p>
+<p>Here is what you will learn:</p>
+<ul>
+<li>What AI crawlers are and how they differ from traditional search bots</li>
+<li>The 3 categories every AI crawler falls into</li>
+<li>A complete reference table of every major AI crawler active in 2026</li>
+<li>How AI crawlers impact your server performance, bandwidth, and <a href="/blog/improve-core-web-vitals/">Core Web Vitals</a></li>
+<li>A decision framework for which bots to block based on your business type</li>
+<li>Copy-paste <code>robots.txt</code> templates for 3 different strategies</li>
+<li>How to monitor AI crawler activity in your server logs</li>
+<li>What changes to expect from AI crawlers through 2026 and beyond</li>
+</ul>
+<h2>Table of Contents</h2>
+<ul>
+<li><a href="#chapter-1">Chapter 1: What Are AI Crawlers and Why They Matter</a></li>
+<li><a href="#chapter-2">Chapter 2: The 3 Types of AI Crawlers</a></li>
+<li><a href="#chapter-3">Chapter 3: Every Major AI Crawler Explained</a></li>
+<li><a href="#chapter-4">Chapter 4: How AI Crawlers Impact Your Website</a></li>
+<li><a href="#chapter-5">Chapter 5: Should You Block AI Crawlers?</a></li>
+<li><a href="#chapter-6">Chapter 6: How to Control AI Crawlers With robots.txt</a></li>
+<li><a href="#chapter-7">Chapter 7: Beyond robots.txt. Llms.txt and Other Controls</a></li>
+<li><a href="#chapter-8">Chapter 8: How to Monitor AI Crawler Activity</a></li>
+<li><a href="#chapter-9">Chapter 9: The Future of AI Crawlers in 2026 and Beyond</a></li>
+<li><a href="#faq">FAQ</a></li>
+</ul>
+<h2>Chapter 1: What Are AI Crawlers and Why They Matter &#123;#chapter-1&#125;</h2>
+<p><strong>AI crawlers</strong> are automated bots that visit websites to collect data for artificial intelligence systems. They scrape text, images, and structured data. That data feeds model training, AI search results, and real-time user queries.</p>
+<h3>How AI Crawlers Differ From Search Engine Crawlers</h3>
+<p>Traditional crawlers like Googlebot index pages so they appear in search results. They follow well-established protocols. They respect <code>robots.txt</code>. They operate within predictable crawl budgets.</p>
+<p>AI crawlers serve a different purpose. Training crawlers collect data to build and improve large language models. Search crawlers fetch content to generate AI search answers. User-initiated crawlers grab pages in real time when someone asks a question in ChatGPT or Claude.</p>
+<p>The distinction matters because the rules, behaviors, and resource costs differ for each type. Google has crawled the web for over 25 years with clear standards. AI crawlers operate in a space where standards are still forming.</p>
+<h3>The Scale of AI Crawler Traffic</h3>
+<p>The numbers tell the story. <code>GPTBot</code> alone makes 569 million requests per month, according to <a href="https://vercel.com/blog/the-rise-of-the-ai-crawler">Vercel's analysis</a>. <code>ClaudeBot</code> follows at 370 million monthly requests. For context, Googlebot makes 4.5 billion monthly requests.</p>
+<p>That gap is shrinking fast. By Q4 2025, websites received 1 AI bot visit for every 31 human visits. User-driven AI bot crawling grew 15 times over the course of 2025 alone.</p>
+<h3>Why Site Owners Need to Pay Attention</h3>
+<p>AI crawlers affect three things that matter to every website operator: server costs, content ownership, and search visibility. Ignoring them means giving up control over how your content gets used. Managing them means protecting your resources while staying visible in AI search results.</p>
+<p>The rest of this guide breaks down exactly how to do that.</p>
+<h2>Chapter 2: The 3 Types of AI Crawlers &#123;#chapter-2&#125;</h2>
+<p>Not all AI crawlers do the same thing. Understanding the 3 types is the foundation for every decision you make about blocking or allowing them.</p>
+<h3>Type 1: Training Crawlers</h3>
+<p>Training crawlers collect web content to build and improve AI models. They scrape large volumes of text and feed it into the training pipeline. Once your content enters a training dataset, you cannot remove it.</p>
+<p>Examples include <code>GPTBot</code> (OpenAI), <code>ClaudeBot</code> (Anthropic), <code>Google-Extended</code> (Google), <code>Meta-ExternalAgent</code> (Meta), and <code>CCBot</code> (Common Crawl).</p>
+<p>These bots offer zero direct benefit to your website. They do not send you traffic. They do not cite your pages. They take your content and use it to train models that may compete with you.</p>
+<h3>Type 2: Search Crawlers</h3>
+<p>Search crawlers fetch content to power AI search experiences. When someone searches using Perplexity, ChatGPT search, or Google AI Overviews, these bots grab relevant pages to generate answers.</p>
+<p>Examples include <code>OAI-SearchBot</code> (OpenAI), <code>Claude-SearchBot</code> (Anthropic), and <code>PerplexityBot</code> (Perplexity). Blocking these bots means your content will not appear in AI search results. That is a visibility tradeoff most businesses should not make.</p>
+<p>For a deeper look at optimizing for AI search, read our guide on <a href="/blog/generative-engine-optimization-guide/">generative engine optimization</a>.</p>
+<h3>Type 3: User-Initiated Crawlers</h3>
+<p>User-initiated crawlers activate when a real person pastes a URL or asks an AI assistant to read a specific page. They fetch content on demand. The request comes from a human action, not an automated schedule.</p>
+<p>Examples include <code>ChatGPT-User</code> (OpenAI), <code>Claude-User</code> (Anthropic), and <code>Perplexity-User</code> (Perplexity). Blocking these bots prevents users from sharing and discussing your content inside AI tools.</p>
+<h3>Comparison Table: 3 Types of AI Crawlers</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Training Crawlers</th>
+<th>Search Crawlers</th>
+<th>User-Initiated Crawlers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Build and improve AI models</td>
+<td>Power AI search results</td>
+<td>Fetch pages on user request</td>
+</tr>
+<tr>
+<td><strong>Frequency</strong></td>
+<td>Continuous, high volume</td>
+<td>On-demand per search query</td>
+<td>On-demand per user action</td>
+</tr>
+<tr>
+<td><strong>Benefit to you</strong></td>
+<td>None</td>
+<td>AI search visibility</td>
+<td>Content sharing in AI tools</td>
+</tr>
+<tr>
+<td><strong>Robots.txt respect</strong></td>
+<td>Usually (with exceptions)</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Blocking recommendation</strong></td>
+<td>Block for most sites</td>
+<td>Allow</td>
+<td>Allow</td>
+</tr>
+</tbody>
+</table></div>
+<p>This taxonomy drives every blocking decision. Block the bots that take without giving back. Allow the bots that send visibility and traffic.</p>
+<p><img loading="lazy" alt="Three types of AI crawlers: training, search, and user-initiated" src="/images/blog/ai-crawler-types.webp" /></p>
+<h2>Chapter 3: Every Major AI Crawler Explained &#123;#chapter-3&#125;</h2>
+<p>Here is a complete reference of every major AI crawler active in 2026. Bookmark this section. You will come back to it when updating your <code>robots.txt</code>.</p>
+<h3>Complete AI Crawler Reference Table</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Crawler</th>
+<th>Operator</th>
+<th>Type</th>
+<th>User-Agent String</th>
+<th>Purpose</th>
+<th>Robots.txt Respect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GPTBot</code></td>
+<td>OpenAI</td>
+<td>Training</td>
+<td><code>GPTBot</code></td>
+<td>Model training data</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>OAI-SearchBot</code></td>
+<td>OpenAI</td>
+<td>Search</td>
+<td><code>OAI-SearchBot</code></td>
+<td>ChatGPT search results</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ChatGPT-User</code></td>
+<td>OpenAI</td>
+<td>User</td>
+<td><code>ChatGPT-User</code></td>
+<td>Real-time page fetching</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ClaudeBot</code></td>
+<td>Anthropic</td>
+<td>Training</td>
+<td><code>ClaudeBot</code></td>
+<td>Model training data</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Claude-SearchBot</code></td>
+<td>Anthropic</td>
+<td>Search</td>
+<td><code>Claude-SearchBot</code></td>
+<td>Claude search results</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Claude-User</code></td>
+<td>Anthropic</td>
+<td>User</td>
+<td><code>Claude-User</code></td>
+<td>Real-time page fetching</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Google-Extended</code></td>
+<td>Google</td>
+<td>Training</td>
+<td><code>Google-Extended</code></td>
+<td>Gemini model training</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>PerplexityBot</code></td>
+<td>Perplexity</td>
+<td>Search</td>
+<td><code>PerplexityBot</code></td>
+<td>Perplexity search answers</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Perplexity-User</code></td>
+<td>Perplexity</td>
+<td>User</td>
+<td><code>Perplexity-User</code></td>
+<td>User-requested page fetch</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Meta-ExternalAgent</code></td>
+<td>Meta</td>
+<td>Training</td>
+<td><code>Meta-ExternalAgent</code></td>
+<td>Meta AI model training</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td><code>Applebot-Extended</code></td>
+<td>Apple</td>
+<td>Training</td>
+<td><code>Applebot-Extended</code></td>
+<td>Apple Intelligence training</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>CCBot</code></td>
+<td>Common Crawl</td>
+<td>Training</td>
+<td><code>CCBot</code></td>
+<td>Open training dataset</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>Bytespider</code></td>
+<td>ByteDance</td>
+<td>Training</td>
+<td><code>Bytespider</code></td>
+<td>TikTok/Doubao AI training</td>
+<td>Inconsistent</td>
+</tr>
+<tr>
+<td><code>Amazonbot</code></td>
+<td>Amazon</td>
+<td>Training</td>
+<td><code>Amazonbot</code></td>
+<td>Alexa/Amazon AI training</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table></div>
+<h3>OpenAI: 3 Crawlers for 3 Purposes</h3>
+<p>OpenAI operates the most active AI crawlers on the web. <code>GPTBot</code> is their training crawler. It makes 569 million requests per month and feeds data into GPT model updates. Block it unless you want your content in OpenAI's training data.</p>
+<p><code>OAI-SearchBot</code> powers ChatGPT's search feature. When a ChatGPT user runs a web search, this bot fetches results. Blocking it removes your site from ChatGPT search answers.</p>
+<p><code>ChatGPT-User</code> activates when a user pastes a URL into ChatGPT or asks it to analyze a specific page. It operates like a browser fetch. Most sites should allow it.</p>
+<p>Full documentation: <a href="https://developers.openai.com/api/docs/bots">OpenAI bot reference</a>.</p>
+<h3>Anthropic: The 3-Bot Split</h3>
+<p>Anthropic recently split its crawling into 3 distinct bots, matching OpenAI's structure. <code>ClaudeBot</code> handles training and makes 370 million requests per month. <code>Claude-SearchBot</code> powers Claude's search features. <code>Claude-User</code> fetches pages when users request it.</p>
+<p>This split gives site owners granular control. You can block training while allowing search and user access. Details: <a href="https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler">Anthropic crawler documentation</a>.</p>
+<h3>Google: Google-Extended</h3>
+<p>Google keeps AI training separate from search indexing. <code>Google-Extended</code> controls whether your content feeds Gemini model training. Blocking <code>Google-Extended</code> does not affect your Google Search rankings. Your pages still get indexed and ranked normally.</p>
+<p>This is one of the cleanest separations in the AI crawler space. See <a href="https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers">Google's crawler documentation</a> for the full list.</p>
+<p>If you want to <a href="/blog/optimize-google-ai-overviews/">optimize for AI Overviews</a>, keep standard Googlebot allowed. <code>Google-Extended</code> only affects training.</p>
+<h3>Perplexity: Search-First Crawling</h3>
+<p>Perplexity operates <code>PerplexityBot</code> for search indexing and <code>Perplexity-User</code> for user-requested fetches. Unlike OpenAI and Anthropic, Perplexity does not run a separate training crawler. Its bots focus on powering search results.</p>
+<p>Perplexity cites sources with direct links. Allowing <code>PerplexityBot</code> can send referral traffic to your site. That makes it one of the more beneficial AI crawlers to keep allowed.</p>
+<h3>Other Notable Crawlers</h3>
+<p><strong>Meta-ExternalAgent</strong> collects data for Meta AI products. It accounts for 52% of all AI crawler traffic by volume, according to Vercel's data. <code>robots.txt</code> compliance is partial.</p>
+<p><strong>Bytespider</strong> from ByteDance has a reputation for inconsistent <code>robots.txt</code> compliance. Monitor its behavior closely. <strong>Amazonbot</strong> feeds Amazon's AI features and generally respects directives. <strong>CCBot</strong> from Common Crawl builds open datasets used by many AI labs.</p>
+<p><img loading="lazy" alt="Complete AI crawler comparison table" src="/images/blog/ai-crawler-comparison.webp" /></p>
+<h2>Chapter 4: How AI Crawlers Impact Your Website &#123;#chapter-4&#125;</h2>
+<p>AI crawlers do not just read your pages. They stress your infrastructure in ways that traditional search crawlers do not.</p>
+<h3>Server Resource Consumption</h3>
+<p>AI crawlers use 15 to 20 times more server resources than Googlebot per request. They fetch full page content, process JavaScript rendering, and download associated assets. A site that handles Googlebot easily may struggle under AI crawler load.</p>
+<p>Vercel's data shows that AI bots crawl retail sites 198 times more than Google does. For e-commerce sites running on shared hosting, that volume can trigger performance degradation, higher hosting bills, or outright downtime.</p>
+<h3>Wasted Requests on Non-Existent Pages</h3>
+<p><code>ChatGPT-User</code> wastes 34.82% of its requests on pages that return 404 errors. Compare that to Googlebot, which only hits 404 pages 8.22% of the time. AI crawlers often follow outdated links, hallucinated URLs, or poorly structured sitemaps.</p>
+<p>Every 404 request consumes server resources without delivering any value. If your site has many broken URLs, AI crawlers amplify the problem. Run a regular <a href="/blog/how-to-do-seo-audit/">SEO audit</a> to identify and fix these dead pages.</p>
+<h3>Bandwidth and Cost Impact</h3>
+<p>Each AI crawler request transfers more data than a typical Googlebot request. Training crawlers download entire page contents, including embedded media. On a site with thousands of pages, that bandwidth adds up to real hosting costs.</p>
+<p>95% of AI crawler traffic comes from just 3 companies: Meta (52%), Google (23%), and OpenAI (20%). Knowing who consumes your bandwidth helps you make targeted blocking decisions.</p>
+<h3>Core Web Vitals and User Experience</h3>
+<p>Heavy crawler traffic can degrade <a href="/blog/improve-core-web-vitals/">Core Web Vitals</a> scores. When server response times increase due to bot load, real users experience slower page loads. Google measures those metrics for ranking purposes.</p>
+<p>A site that loses Core Web Vitals performance because of AI crawler overload may also lose search rankings. That creates a double penalty: bots take your content while simultaneously hurting your ability to rank.</p>
+<p><img loading="lazy" alt="AI crawler server impact statistics" src="/images/blog/ai-crawler-impact.webp" /></p>
+<blockquote>
+<p><strong>Your SEO team. $99 per month.</strong> 30 optimized articles, published automatically. AI crawler management included.
+<a href="/pricing/">Start for $1 →</a></p>
+</blockquote>
+<h2>Chapter 5: Should You Block AI Crawlers? A Decision Framework &#123;#chapter-5&#125;</h2>
+<p>The answer depends on your business model. Blocking everything sacrifices AI search visibility. Allowing everything gives away your content for free. The right approach sits in between.</p>
+<h3>Decision Framework by Business Type</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Business Type</th>
+<th>Block Training?</th>
+<th>Allow Search?</th>
+<th>Allow User?</th>
+<th>Reasoning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Publisher / News</strong></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Protect original reporting. Gain AI search citations.</td>
+</tr>
+<tr>
+<td><strong>SaaS / B2B</strong></td>
+<td>Selective</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Allow product pages for training. Block proprietary content.</td>
+</tr>
+<tr>
+<td><strong>E-commerce</strong></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Protect product data and descriptions. Appear in AI shopping queries.</td>
+</tr>
+<tr>
+<td><strong>Blog / Content Creator</strong></td>
+<td>No or Selective</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Maximize AI search visibility. Build <a href="/blog/build-topical-authority/">topical authority</a>.</td>
+</tr>
+<tr>
+<td><strong>Agency / Consultant</strong></td>
+<td>Selective</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Block case studies. Allow thought leadership content.</td>
+</tr>
+<tr>
+<td><strong>Personal Site</strong></td>
+<td>Does not matter</td>
+<td>Does not matter</td>
+<td>Does not matter</td>
+<td>Low traffic impact either way.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>The Core Principle</h3>
+<p>Block training bots. Allow search bots. Allow user bots.</p>
+<p>Training bots take your content and give nothing back. Search bots create visibility in AI-generated answers. User bots enable real people to interact with your content through AI tools.</p>
+<p>That principle applies to 80% of websites. The exception is sites that benefit from broad AI model exposure, such as open-source documentation or educational resources. For those, allowing training crawlers can increase brand recognition inside AI responses.</p>
+<h3>The Visibility Tradeoff</h3>
+<p>5.6 million websites now block <code>GPTBot</code>. That number grew 70% from 3.3 million in July 2025. Meanwhile, 79% of top news sites block at least 1 training bot.</p>
+<p>Blocking training bots has no effect on your Google rankings. It does not change how Googlebot crawls or indexes your site. The only tradeoff is whether your content influences future AI model outputs.</p>
+<p>For guidance on appearing in AI search results while protecting your content, read our <a href="/blog/generative-engine-optimization-guide/">generative engine optimization guide</a>.</p>
+<p><img loading="lazy" alt="AI crawler blocking decision framework by business type" src="/images/blog/ai-crawler-decision-framework.webp" /></p>
+<h2>Chapter 6: How to Control AI Crawlers With robots.txt &#123;#chapter-6&#125;</h2>
+<p>The <code>robots.txt</code> file remains the primary tool for managing AI crawler access. It sits at the root of your domain and tells bots which pages they can and cannot access.</p>
+<h3>Quick robots.txt Refresher</h3>
+<p>Every website should have a <code>robots.txt</code> file at <code>yourdomain.com/robots.txt</code>. Each rule specifies a user-agent and a set of allow or disallow directives. If you need a full walkthrough, see our guide on how to <a href="/blog/submit-website-google/">submit your website to Google</a>, which covers sitemap and <code>robots.txt</code> setup.</p>
+<h3>Template 1: Block ALL AI Crawlers</h3>
+<p>Use this if you want to prevent all AI bot access entirely.</p>
+<pre><code class="language-txt">## Block all AI crawlers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-SearchBot
+Disallow: /
+
+User-agent: Claude-User
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Perplexity-User
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+</code></pre>
+<p><strong>When to use:</strong> Publishing sites that need full content protection. News organizations with paywalled content. Sites under heavy bot load causing server issues.</p>
+<h3>Template 2: Block Training Bots Only (Recommended)</h3>
+<p>This is the approach most websites should use. It blocks model training while keeping your site visible in AI search results.</p>
+<pre><code class="language-txt">## Block AI training crawlers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+## Allow AI search and user crawlers
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+</code></pre>
+<p><strong>When to use:</strong> Most business websites, e-commerce stores, SaaS companies, and blogs that want AI search visibility without giving away training data.</p>
+<h3>Template 3: Allow Everything</h3>
+<p>Use this if you want maximum AI visibility and do not mind your content entering training datasets.</p>
+<pre><code class="language-txt">## Allow all AI crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+</code></pre>
+<p><strong>When to use:</strong> Open-source projects, educational resources, personal blogs seeking maximum AI exposure, and sites that benefit from broad model training inclusion.</p>
+<h3>Important Notes on robots.txt for AI Crawlers</h3>
+<p><strong>Subdomain rules:</strong> A <code>robots.txt</code> file only applies to its own subdomain. Your rules at <code>www.example.com/robots.txt</code> do not affect <code>blog.example.com</code>. Create separate files for each subdomain.</p>
+<p><strong>No wildcard grouping:</strong> You cannot use <code>User-agent: *AI*</code> to block all AI bots at once. Each bot requires its own <code>User-agent</code> directive.</p>
+<p><strong>Crawl-delay:</strong> Most AI crawlers ignore the <code>Crawl-delay</code> directive. Do not rely on it for rate limiting. Use server-level rate limiting instead.</p>
+<p><strong>Compliance is not guaranteed.</strong> 13.26% of AI bot requests ignored <code>robots.txt</code> in Q2 2025. The <code>robots.txt</code> file is a request, not a firewall. For stronger enforcement, use server-level blocking.</p>
+<p>For a deeper walkthrough of <code>robots.txt</code> optimization, read our <a href="/blog/on-page-seo-guide/">on-page SEO guide</a>.</p>
+<p><img loading="lazy" alt="Three robots.txt templates for managing AI crawlers" src="/images/blog/ai-crawler-robots-txt-templates.webp" /></p>
+<h2>Chapter 7: Beyond robots.txt. Llms.txt and Other Controls &#123;#chapter-7&#125;</h2>
+<p>The <code>robots.txt</code> file handles access control. But newer standards go further. They tell AI systems what your site is about and how to use your content.</p>
+<h3>llms.txt: A New Standard</h3>
+<p>The <code>llms.txt</code> file sits at your domain root, just like <code>robots.txt</code>. Instead of blocking bots, it provides structured context about your site for large language models. Think of it as an instruction manual for AI.</p>
+<p>Where <code>robots.txt</code> says "do not enter," <code>llms.txt</code> says "here is what you need to know about us." The two files serve complementary purposes. Use both.</p>
+<p>Your <code>llms.txt</code> can include your company description, product details, key pages, and preferred citation format. AI systems that support the standard use this information to give more accurate answers about your brand.</p>
+<h3>Cloudflare One-Click AI Bot Blocking</h3>
+<p>Cloudflare introduced a one-click toggle to block all known AI crawlers at the network level. This approach works at the server layer, not just the <code>robots.txt</code> layer. Bots get blocked before they ever reach your application.</p>
+<p>This is stronger than <code>robots.txt</code> because it enforces compliance. Bots that ignore <code>robots.txt</code> still get blocked. If you use Cloudflare, enable this feature as a complement to your <code>robots.txt</code> rules.</p>
+<h3>Meta Tags and HTTP Headers</h3>
+<p>You can add AI-specific directives at the page level using meta tags.</p>
+<pre><code class="language-html">&lt;meta name=&quot;robots&quot; content=&quot;noai, noimageai&quot;&gt;
+</code></pre>
+<p>The <code>noai</code> directive tells AI crawlers not to use the page content. The <code>noimageai</code> directive specifically blocks image training. Support for these tags varies by provider.</p>
+<p>HTTP headers offer another option. The <code>X-Robots-Tag</code> header can include AI-specific directives for pages that do not have HTML meta tags, such as PDFs or API responses.</p>
+<p>These controls give you page-level precision that <code>robots.txt</code> cannot provide. Use them for sensitive pages while keeping the rest of your site accessible to AI search crawlers.</p>
+<p>For more strategies on AI search optimization, see our guide on <a href="/blog/generative-engine-optimization-guide/">generative engine optimization</a>.</p>
+<h2>Chapter 8: How to Monitor AI Crawler Activity &#123;#chapter-8&#125;</h2>
+<p>You cannot manage what you do not measure. Before blocking or allowing AI crawlers, find out which ones are already visiting your site.</p>
+<h3>Check Server Access Logs</h3>
+<p>Your web server logs every request, including the user-agent string. Search your access logs for known AI crawler identifiers.</p>
+<p>Key user-agent strings to look for:</p>
+<pre><code>GPTBot
+ClaudeBot
+OAI-SearchBot
+ChatGPT-User
+Claude-SearchBot
+Claude-User
+PerplexityBot
+Perplexity-User
+Google-Extended
+Meta-ExternalAgent
+Bytespider
+CCBot
+Amazonbot
+</code></pre>
+<p>On Apache or Nginx servers, filter your access log with a command like:</p>
+<pre><code class="language-bash">grep -E &quot;GPTBot|ClaudeBot|PerplexityBot|OAI-SearchBot|Bytespider|CCBot|Meta-ExternalAgent&quot; /var/log/nginx/access.log
+</code></pre>
+<p>This shows every request from major AI crawlers with timestamps, URLs accessed, and response codes.</p>
+<h3>Use Google Search Console</h3>
+<p>Google Search Console's crawl stats report shows <code>Googlebot</code> activity. It does not track third-party AI crawlers directly. But it helps you establish a baseline for normal crawl behavior. Unexpected spikes in server load that do not match GSC data often indicate heavy AI crawler traffic.</p>
+<h3>Third-Party Monitoring Tools</h3>
+<p>Several <a href="/best/ai-seo-tools/">AI SEO tools</a> now include crawler monitoring dashboards. Cloudflare's bot analytics show AI crawler traffic by volume and type. Vercel's analytics break down requests by user-agent.</p>
+<h3>Set Up Alerts</h3>
+<p>Configure server monitoring to alert you when AI crawler traffic spikes beyond normal levels. A sudden surge from <code>Meta-ExternalAgent</code> or <code>Bytespider</code> can degrade performance within hours. Early detection lets you add blocking rules before your site slows down.</p>
+<p>Track these metrics weekly:</p>
+<ul>
+<li>[ ] Total requests by AI crawler user-agent</li>
+<li>[ ] 404 response rates for AI crawler requests</li>
+<li>[ ] Bandwidth consumed by AI crawlers</li>
+<li>[ ] Server response time during peak crawler hours</li>
+<li>[ ] New or unknown AI user-agent strings</li>
+</ul>
+<p><img loading="lazy" alt="AI crawler monitoring and detection methods" src="/images/blog/ai-crawler-monitoring.webp" /></p>
+<blockquote>
+<p><strong>Scale your content. Protect your site.</strong> We publish 30 SEO-optimized articles per month and help you manage crawler access.
+<a href="/pricing/">Start for $1 →</a></p>
+</blockquote>
+<h2>Chapter 9: The Future of AI Crawlers in 2026 and Beyond &#123;#chapter-9&#125;</h2>
+<p>AI crawler traffic will only increase. The trend line points in one direction. Site owners who build a management strategy now will be better prepared for what comes next.</p>
+<h3>AI Bot Traffic Will Exceed Human Traffic</h3>
+<p>Projections show AI bot traffic surpassing human web traffic by 2027. The 1-to-31 bot-to-human ratio from Q4 2025 will tighten. Every website will need an explicit AI crawler policy, not just large publishers.</p>
+<h3>More Granular Controls From AI Companies</h3>
+<p>Anthropic's 3-bot split set a new standard. OpenAI followed with separate crawlers for training, search, and user access. Expect every major AI company to offer similar granularity. This gives site owners better control without sacrificing visibility.</p>
+<h3>Regulation and Enforcement</h3>
+<p>Governments are paying attention. The EU AI Act and similar legislation may require AI companies to obtain explicit consent before training on copyrighted content. Enforcement mechanisms beyond <code>robots.txt</code> are likely. Compliance standards will formalize.</p>
+<h3>From Blocking to Strategic Access</h3>
+<p>The conversation is shifting. Early reactions focused on blocking everything. The mature approach treats AI crawler management like any other SEO decision. You <a href="/blog/optimize-content-for-seo/">optimize content for SEO</a> to appear in Google. You manage AI crawler access to appear in ChatGPT, Claude, and Perplexity.</p>
+<p>Businesses that <a href="/blog/how-to-rank-higher-google/">rank higher on Google</a> and maintain visibility in AI search will capture traffic from both channels. The goal is not to hide from AI. It is to control the terms of engagement.</p>
+<p>To <a href="/blog/increase-organic-traffic/">increase organic traffic</a> in 2026, you need a strategy that covers both traditional search and AI search. AI crawler management is now part of that strategy.</p>
+<h2>FAQ &#123;#faq&#125;</h2>
+<p><strong>What are AI crawlers?</strong></p>
+<p>AI crawlers are automated bots that visit websites to collect data for artificial intelligence systems. They fall into 3 categories: training crawlers that feed AI model development, search crawlers that power AI search results, and user-initiated crawlers that fetch pages when a person requests it through an AI tool. Major operators include OpenAI, Anthropic, Google, Meta, and Perplexity.</p>
+<p><strong>How do I block GPTBot from my website?</strong></p>
+<p>Add these lines to your <code>robots.txt</code> file at your domain root:</p>
+<pre><code class="language-txt">User-agent: GPTBot
+Disallow: /
+</code></pre>
+<p>This blocks <code>GPTBot</code> from accessing any page on your site. To also block OpenAI's search crawler, add a separate directive for <code>OAI-SearchBot</code>. The <code>robots.txt</code> change takes effect immediately, but OpenAI may take days or weeks to fully comply.</p>
+<p><strong>Does blocking AI crawlers affect my Google rankings?</strong></p>
+<p>No. Blocking <code>GPTBot</code>, <code>ClaudeBot</code>, or any other AI crawler has zero impact on your Google Search rankings. Googlebot operates independently from AI training crawlers. Blocking <code>Google-Extended</code> only prevents your content from training Gemini. It does not affect search indexing or ranking.</p>
+<p><strong>Do AI crawlers respect robots.txt?</strong></p>
+<p>Most major AI crawlers claim to respect <code>robots.txt</code>. In practice, compliance is not perfect. Research from Q2 2025 found that 13.26% of AI bot requests ignored <code>robots.txt</code> directives. <code>Bytespider</code> and <code>Meta-ExternalAgent</code> have the weakest compliance records. For stronger enforcement, use server-level blocking through Cloudflare or firewall rules.</p>
+<p><strong>How do I know if AI crawlers are visiting my site?</strong></p>
+<p>Check your server access logs for AI crawler user-agent strings like <code>GPTBot</code>, <code>ClaudeBot</code>, <code>PerplexityBot</code>, and <code>Meta-ExternalAgent</code>. Filter your Nginx or Apache logs using grep commands. Cloudflare users can check the bot analytics dashboard. A sudden increase in server load without a matching increase in Google Search Console crawl stats often signals heavy AI crawler activity.</p>
+<p><strong>Should I block all AI crawlers or just some?</strong></p>
+<p>Block training crawlers and allow search and user crawlers. That is the recommended approach for most websites. Training bots take your content without sending traffic back. Search bots create visibility in AI-generated answers. User bots let real people interact with your content through AI tools. Block <code>GPTBot</code>, <code>ClaudeBot</code>, <code>Google-Extended</code>, <code>Meta-ExternalAgent</code>, <code>CCBot</code>, and <code>Bytespider</code>. Allow <code>OAI-SearchBot</code>, <code>ChatGPT-User</code>, <code>Claude-SearchBot</code>, <code>Claude-User</code>, <code>PerplexityBot</code>, and <code>Perplexity-User</code>.</p>
+<p>AI crawlers are the new default for web traffic. Every site owner needs a clear policy.</p>
+<p>The right strategy is not blocking everything or allowing everything. It is selective access control: protect your content from training, stay visible in AI search, and monitor what bots actually do on your site. Start with Template 2 from this guide, set up log monitoring, and review your policy quarterly as the AI crawler space evolves.</p>
+<h2>Related Tools &amp; Resources</h2>
+<p><strong>Free SEO Tools:</strong>
+- <a href="/tools/seo-audit/">Free SEO Audit</a>
+- <a href="/tools/ai-content-detector/">AI Content Detector</a></p>
+<p><strong>Best Lists:</strong>
+- <a href="/best/ai-seo-tools/">Best AI SEO Tools</a>
+- <a href="/best/ai-content-writing-tools-for-seo/">Best AI Writing Tools</a></p>
+      </article>
+    </div>
+  </div>
+
+</BaseLayout>

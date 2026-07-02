@@ -1,0 +1,680 @@
+---
+import ToolLayout from '../../../layouts/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../../lib/schema-builders';
+
+const pageTitle = 'Free Google Review Response Generator (3 Replies in 8s) | theStacc';
+const pageDescription = 'Generate 3 ready-to-post Google review responses in 8 seconds. Industry-aware (HIPAA + legal-safe). Reads the actual review text. No signup, no email gate.';
+const pageUrl = 'https://thestacc.com/tools/review-response-generator/';
+const lastUpdated = '2026-05-10';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Google Review Response Generator',
+  description: 'Generates 3 ready-to-post responses to any Google review in 8 seconds. Reads your actual review text. Industry-aware safety rules for dental, medical, legal, and financial services. Includes a 100-point quality scorer.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'How should I respond to a negative Google review?', a: 'Acknowledge the specific experience the reviewer described, take quiet ownership ("we should have done better") without admitting legal fault, and move the conversation off-platform — give a phone number or ask them to email the manager. Never argue, list excuses, or contradict the review publicly. Keep it under 150 words. Always respond within 4 hours of a 1-2 star review.' },
+  { q: 'Do Google review responses help with local SEO?', a: "Yes. Google has confirmed that response rate is a local ranking factor. Businesses that respond to reviews regularly rank higher in the Google Map Pack than those that don't. Responses are also indexed text — naturally including your business name and city in replies adds local-relevance signals." },
+  { q: 'How quickly should I respond to Google reviews?', a: 'Within 4 hours for 1-2 star reviews — every hour after a negative review publishes, your response carries less weight because more potential customers have already read it. Within 24 hours for 3-4 star reviews. Within 48 hours for 5-star reviews. Speed itself is a ranking signal.' },
+  { q: 'Should I respond to every Google review?', a: 'Yes. Aim for a 100% response rate. Positive reviews get a 2-3 sentence thank-you. Negative reviews get a 100-150 word acknowledgement with an offline path. The act of responding signals to Google that your business is active, and signals to potential customers that you actually care. Businesses that respond consistently to reviews tend to outperform those that ignore them on both rankings and conversion.' },
+  { q: 'Can I use AI to write Google review responses?', a: "Yes — but only if the AI reads the actual review and references specific details. Generic AI responses (the \"we appreciate your business\" template kind) hurt more than they help — readers can spot them in seconds and the keyword stuffing patterns can violate Google's spam policies. This tool reads the review text and references concrete details from it, so each response feels genuinely written." },
+  { q: 'What should I never say in a Google review response?', a: "Never admit legal fault (\"you're right, we were negligent\"). Never reference specific medical treatments (HIPAA violation). Never confirm someone is a client of your law firm (privilege violation). Never promise compensation publicly. Never argue with the reviewer or \"but actually\" their account. Never respond when emotional — wait at least an hour after reading a tough review before drafting a reply." },
+  { q: 'How long should a Google review response be?', a: "40-80 words for positive reviews. 100-150 words for negative or mixed reviews. Long enough to acknowledge specifics. Short enough that mobile users will read it (the \"Read more\" cutoff on Google mobile is around 80 characters). Skip padding phrases like \"thank you for taking the time to leave us your valuable feedback\" — that's 14 wasted words." },
+  { q: 'Is responding to fake or unfair reviews worth it?', a: "Yes — but for the next 100 readers, not for the reviewer. Stay calm, present your side neutrally without arguing, mention you've also flagged the review with Google for verification, and offer a path to discuss off-platform. If the review violates Google's policies (hate speech, conflict of interest, off-topic), report it to Google through the Business Profile manager — they remove a meaningful percentage of reported reviews." },
+  { q: 'Can responding to reviews actually win new customers?', a: 'Yes. The majority of consumers read business responses before deciding where to spend money. A thoughtful, accountable response to a 1-star review can convert more new customers than three 5-star reviews — it shows future customers exactly how you handle problems, which is what they actually need to know. Quick, empathetic responses to negatives consistently lift review-page conversion rates.' },
+  { q: 'Is this Google review response generator really free?', a: 'Yes. No credit card. No email required to use the tool. We make money when local businesses upgrade to Stacc, our automated SEO platform that handles review responses, GBP posts, and blog content on autopilot — but the tool itself is free forever. Daily limit: 15 responses per IP, which resets every 24 hours.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+
+const industries = [
+  'Dental / Orthodontics','Legal / Law Firm','Plumbing / HVAC','Electrical',
+  'Roofing / Construction','Real Estate','Accounting / Tax','Restaurant / Cafe',
+  'Salon / Spa / Beauty','Auto Repair / Detailing','Cleaning Services','Landscaping / Lawn Care',
+  'Veterinary / Pet Services','Chiropractic / Physical Therapy','IT Services / Consulting',
+  'Fitness / Gym / Yoga','Photography / Videography','Insurance / Financial Services',
+  'Home Staging / Interior Design','Tutoring / Education','Pet Grooming / Boarding',
+  'Moving / Storage','Pest Control','Medical Practice','Mental Health / Therapy',
+];
+---
+
+<ToolLayout
+  seo={{ title: pageTitle, description: pageDescription, canonical: pageUrl, ogImage: '/og/tools-review-response-generator.webp' }}
+  toolName="Free Google Review Response Generator"
+  toolDescription="Generate 3 ready-to-post responses in 8 seconds. Industry-aware (HIPAA + legal-safe). Reads the actual review text. No signup, no email gate."
+  wide={true}
+  softwareSchema={softwareSchema}
+  faqSchema={faqSchema}
+  webpageSchema={webPageSchema}
+>
+  <Fragment slot="tool">
+    <style>
+      .rrg-wrap { display: grid; grid-template-columns: 1fr 1.35fr; gap: 28px; align-items: start; }
+      @media (max-width: 900px) { .rrg-wrap { grid-template-columns: 1fr; } }
+      .rrg-card { background: white; border: 1px solid var(--border); padding: 28px; }
+      .rrg-card h2 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+      .rrg-card .sub { font-size: 13px; color: var(--text-3); margin-bottom: 24px; }
+      .rrg-field { margin-bottom: 18px; }
+      .rrg-field label { display: block; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; color: var(--text-1); }
+      .rrg-field label .opt { font-weight: 400; text-transform: none; letter-spacing: 0; font-family: inherit; font-size: 12px; color: var(--text-3); }
+      .rrg-field input, .rrg-field select, .rrg-field textarea { width: 100%; padding: 12px 14px; font-size: 15px; color: var(--text-1); background: white; border: 1px solid var(--border-strong); font-family: inherit; transition: border-color 0.15s; }
+      .rrg-field input:focus, .rrg-field select:focus, .rrg-field textarea:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-glow); }
+      .rrg-field textarea { resize: vertical; min-height: 110px; }
+      .rrg-field .err { display: none; font-size: 12px; color: #dc2626; margin-top: 6px; }
+      .rrg-field.invalid .err { display: block; }
+      .rrg-field.invalid input, .rrg-field.invalid textarea, .rrg-field.invalid select { border-color: #fca5a5; }
+      .rrg-hint { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); margin-top: 6px; }
+      .rrg-stars { display: flex; gap: 6px; }
+      .rrg-star { cursor: pointer; padding: 2px; background: none; border: none; color: #d6d3d1; transition: transform 0.1s; }
+      .rrg-star:hover { transform: scale(1.1); }
+      .rrg-star.active { color: #f59e0b; }
+      .rrg-rating-hint { font-size: 13px; margin-top: 8px; font-weight: 500; }
+      .rrg-rating-hint.neg { color: #dc2626; }
+      .rrg-rating-hint.mix { color: #d97706; }
+      .rrg-rating-hint.pos { color: #16a34a; }
+      .rrg-two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      @media (max-width: 520px) { .rrg-two { grid-template-columns: 1fr; } }
+      .rrg-tones { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      @media (min-width: 520px) { .rrg-tones { grid-template-columns: repeat(4, 1fr); } }
+      .rrg-tone { cursor: pointer; }
+      .rrg-tone input { position: absolute; opacity: 0; }
+      .rrg-tone span { display: block; border: 1px solid var(--border); padding: 12px; text-align: center; transition: all 0.15s; }
+      .rrg-tone span strong { display: block; font-size: 14px; color: var(--text-1); }
+      .rrg-tone span small { display: block; font-size: 11px; color: var(--text-3); margin-top: 2px; }
+      .rrg-tone input:checked + span { border-color: var(--brand); background: var(--brand-softer); }
+      .rrg-tone input:checked + span strong { color: var(--brand); }
+      .rrg-note { display: flex; align-items: flex-start; gap: 10px; padding: 14px; background: #fffbeb; border: 1px solid #fde68a; margin-bottom: 20px; }
+      .rrg-note p { font-size: 13px; line-height: 1.55; color: #92400e; margin: 0; }
+      .rrg-btn { width: 100%; padding: 14px 20px; background: var(--brand); color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; font-family: inherit; }
+      .rrg-btn:hover { background: var(--text-1); }
+      .rrg-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+      .rrg-meta { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); text-align: center; margin-top: 10px; }
+
+      .rrg-results { display: none; }
+      .rrg-results.show { display: block; }
+      .rrg-stats { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); }
+      .rrg-stats span { display: inline-flex; gap: 6px; padding: 8px 14px; border: 1px solid var(--border); background: var(--bg-soft); }
+      .rrg-stats strong { color: var(--brand); }
+      .rrg-flag { display: none; padding: 14px; background: #fef2f2; border: 1px solid #fca5a5; margin-bottom: 20px; font-size: 13px; color: #991b1b; }
+      .rrg-flag.show { display: block; }
+      .rrg-var { background: var(--brand-softer); border: 1px solid #ddd6fe; padding: 22px; margin-bottom: 16px; }
+      .rrg-var-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+      .rrg-var-label { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: #ede9fe; font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; color: #6d28d9; }
+      .rrg-var-score { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--text-3); }
+      .rrg-var-body { font-size: 15px; line-height: 1.6; color: var(--text-1); white-space: pre-wrap; margin-bottom: 12px; }
+      .rrg-var-seo { display: none; align-items: center; gap: 6px; padding: 6px 10px; background: #f0fdf4; border: 1px solid #bbf7d0; font-family: 'Geist Mono', monospace; font-size: 11px; color: #16a34a; margin-bottom: 10px; }
+      .rrg-var-seo.show { display: inline-flex; }
+      .rrg-var-tip { padding: 12px; background: white; border: 1px solid var(--border); font-size: 13px; line-height: 1.5; color: var(--text-3); }
+      .rrg-copy { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: white; border: 1px solid var(--border-strong); font-size: 12px; font-weight: 600; color: var(--text-1); cursor: pointer; transition: all 0.15s; }
+      .rrg-copy:hover { background: var(--brand); color: white; border-color: var(--brand); }
+      .rrg-preview { margin-top: 28px; }
+      .rrg-preview-label { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 10px; }
+      .rrg-preview-box { border: 1px solid #dadce0; background: white; padding: 20px; }
+      .rrg-preview-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+      .rrg-avatar { width: 40px; height: 40px; background: var(--brand); display: grid; place-items: center; color: white; font-weight: 700; font-size: 14px; }
+      .rrg-preview-meta p { margin: 0; font-size: 13px; }
+      .rrg-preview-meta .who { font-weight: 500; color: var(--text-1); }
+      .rrg-preview-meta .when { color: var(--text-3); font-size: 12px; }
+      .rrg-preview-body { font-size: 14px; line-height: 1.6; color: var(--text-2); }
+      .rrg-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+      .rrg-actions a, .rrg-actions button { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: white; border: 1px solid var(--border-strong); font-size: 13px; font-weight: 600; color: var(--text-1); cursor: pointer; transition: all 0.15s; text-decoration: none; }
+      .rrg-actions a:hover, .rrg-actions button:hover { background: var(--bg-soft); }
+
+      .rrg-empty { background: var(--bg-soft); border: 1px dashed var(--border-strong); padding: 48px 32px; text-align: center; color: var(--text-3); font-size: 14px; }
+    </style>
+
+    <div class="rrg-wrap">
+      <div class="rrg-card">
+        <h2>Paste the review</h2>
+        <p class="sub">We will generate 3 replies that reference the actual details — not generic templates.</p>
+
+        <form id="rrg-form" novalidate>
+          <div class="rrg-field">
+            <label for="rrg-review">The Review <span class="text-red-500">*</span></label>
+            <textarea id="rrg-review" required minlength="10" maxlength="2000" placeholder="Paste the Google review here, exactly as it appears..."></textarea>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+              <span class="rrg-field err" id="err-review">Paste the review text (at least 10 characters)</span>
+              <span class="rrg-hint" style="margin-left:auto;"><span id="rrg-chars">0</span> / 2,000</span>
+            </div>
+          </div>
+
+          <div class="rrg-field">
+            <label>Star Rating <span class="text-red-500">*</span></label>
+            <input type="hidden" id="rrg-rating" value="" />
+            <div class="rrg-stars" id="rrg-stars">
+              {[1,2,3,4,5].map((star) => (
+                <button type="button" class="rrg-star" data-star={star} aria-label={`${star} star${star > 1 ? 's' : ''}`}>
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+                </button>
+              ))}
+            </div>
+            <p class="rrg-field err" id="err-rating">Please select a star rating</p>
+            <p class="rrg-rating-hint" id="rrg-rating-hint"></p>
+          </div>
+
+          <div class="rrg-two">
+            <div class="rrg-field">
+              <label for="rrg-biz">Business Name <span class="text-red-500">*</span></label>
+              <input type="text" id="rrg-biz" required maxlength="100" placeholder="e.g., Smith Family Dental" />
+              <p class="rrg-field err" id="err-biz">Please enter your business name</p>
+            </div>
+            <div class="rrg-field">
+              <label for="rrg-city">City / Location <span class="text-red-500">*</span></label>
+              <input type="text" id="rrg-city" required maxlength="80" placeholder="e.g., Austin, TX" />
+              <p class="rrg-field err" id="err-city">Please enter your city</p>
+            </div>
+          </div>
+
+          <div class="rrg-field">
+            <label for="rrg-ind">Industry <span class="text-red-500">*</span></label>
+            <select id="rrg-ind" required>
+              <option value="" disabled selected>Select your industry</option>
+              {industries.map((ind) => <option value={ind}>{ind}</option>)}
+              <option value="__other__">Other (type your own)</option>
+            </select>
+            <p class="rrg-field err" id="err-ind">Please select your industry</p>
+            <input type="text" id="rrg-ind-other" placeholder="e.g., Wedding planning, Pool cleaning" maxlength="60" style="display:none;margin-top:8px;" />
+            <p class="rrg-hint">Why we ask: certain industries (medical, legal, financial) need extra response rules — we apply them automatically.</p>
+          </div>
+
+          <div class="rrg-field">
+            <label for="rrg-reviewer">Reviewer's First Name <span class="opt">Optional</span></label>
+            <input type="text" id="rrg-reviewer" maxlength="50" placeholder="e.g., Sarah (leave blank if anonymous)" />
+          </div>
+
+          <div class="rrg-field">
+            <label>Response Tone</label>
+            <div class="rrg-tones">
+              {[
+                { val: 'professional', label: 'Professional', desc: 'Restrained, polished' },
+                { val: 'friendly', label: 'Friendly', desc: 'Warm, conversational' },
+                { val: 'empathetic', label: 'Empathetic', desc: 'Validating, accountable' },
+                { val: 'brief', label: 'Brief', desc: 'Direct, no padding' },
+              ].map((t, i) => (
+                <label class="rrg-tone">
+                  <input type="radio" name="rrg-tone" value={t.val} checked={i === 0} />
+                  <span><strong>{t.label}</strong><small>{t.desc}</small></span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div class="rrg-note">
+            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+            <p><strong>Industry-safe by default.</strong> We never reference specific treatments (HIPAA), case details (privilege), or financial specifics — even if the reviewer mentioned them. Each response is screened for compliance before you see it.</p>
+          </div>
+
+          <button type="submit" id="rrg-submit" class="rrg-btn">Generate 3 Response Variations</button>
+          <p class="rrg-meta">Free · No signup · 15 generations per day</p>
+        </form>
+      </div>
+
+      <div>
+        <div class="rrg-empty" id="rrg-empty">Your 3 response variations will appear here. Fill out the form and hit Generate.</div>
+
+        <div id="rrg-results" class="rrg-results">
+          <div class="rrg-stats">
+            <span>Generated this session: <strong id="rrg-count">0</strong></span>
+            <span>Avg. score: <strong id="rrg-avg">—</strong></span>
+          </div>
+
+          <div id="rrg-flag" class="rrg-flag"></div>
+
+          {[
+            { id: '1', label: 'Concise', len: '40-80 words' },
+            { id: '2', label: 'Balanced', len: '90-150 words' },
+            { id: '3', label: 'Detailed', len: '160-220 words' },
+          ].map((v) => (
+            <div class="rrg-var" id={`rrg-var-${v.id}`}>
+              <div class="rrg-var-head">
+                <span class="rrg-var-label">{v.label}</span>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <span class="rrg-var-score" id={`rrg-score-${v.id}`}></span>
+                  <button class="rrg-copy" data-copy={v.id}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    Copy
+                  </button>
+                </div>
+              </div>
+              <div class="rrg-var-body" id={`rrg-body-${v.id}`}></div>
+              <div class="rrg-var-seo" id={`rrg-seo-${v.id}`}></div>
+              <div class="rrg-var-tip" id={`rrg-tip-${v.id}`}></div>
+            </div>
+          ))}
+
+          <div class="rrg-preview">
+            <p class="rrg-preview-label">Preview on Google (Concise variation)</p>
+            <div class="rrg-preview-box">
+              <div class="rrg-preview-head">
+                <div class="rrg-avatar" id="rrg-pav">Y</div>
+                <div class="rrg-preview-meta">
+                  <p class="who">Response from the owner</p>
+                  <p class="when">Just now</p>
+                </div>
+              </div>
+              <p class="rrg-preview-body" id="rrg-pbd"><span style="color:var(--text-3);font-style:italic;">Your response preview will appear here...</span></p>
+            </div>
+          </div>
+
+          <div class="rrg-actions">
+            <button id="rrg-regen">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+              Generate Different Variations
+            </button>
+            <a href="https://business.google.com" target="_blank" rel="noopener noreferrer">
+              Open Google Business Profile
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        const form = document.getElementById('rrg-form');
+        const reviewEl = document.getElementById('rrg-review');
+        const charCount = document.getElementById('rrg-chars');
+        const stars = document.querySelectorAll('.rrg-star');
+        const ratingInput = document.getElementById('rrg-rating');
+        const ratingHint = document.getElementById('rrg-rating-hint');
+        const indEl = document.getElementById('rrg-ind');
+        const indOther = document.getElementById('rrg-ind-other');
+        const results = document.getElementById('rrg-results');
+        const empty = document.getElementById('rrg-empty');
+        const submitBtn = document.getElementById('rrg-submit');
+        const regenBtn = document.getElementById('rrg-regen');
+        const flagBox = document.getElementById('rrg-flag');
+        let genCount = 0;
+
+        const blockedPhrases = /thank you for taking the time to leave us your valuable feedback|we appreciate your business|sorry for any inconvenience|please contact us at your earliest convenience/gi;
+
+        function setRating(n) {
+          ratingInput.value = n;
+          stars.forEach((s) => {
+            const starN = parseInt(s.dataset.star, 10);
+            s.classList.toggle('active', starN <= n);
+          });
+          const hints = ['', 'Negative review — respond with empathy and an offline path', 'Negative review — acknowledge specifics and offer to make it right', 'Mixed review — thank the positive, address the concern', 'Positive review — specific thank-you', 'Positive review — enthusiastic, specific thank-you'];
+          ratingHint.textContent = hints[n] || '';
+          ratingHint.className = 'rrg-rating-hint ' + (n <= 2 ? 'neg' : n === 3 ? 'mix' : 'pos');
+        }
+
+        stars.forEach((s) => {
+          s.addEventListener('click', () => setRating(parseInt(s.dataset.star, 10)));
+        });
+
+        reviewEl.addEventListener('input', () => {
+          charCount.textContent = reviewEl.value.length;
+        });
+
+        indEl.addEventListener('change', () => {
+          indOther.style.display = indEl.value === '__other__' ? 'block' : 'none';
+        });
+
+        function validate() {
+          let ok = true;
+          const fields = [
+            { id: 'rrg-review', err: 'err-review', test: (v) => v.trim().length >= 10 },
+            { id: 'rrg-biz', err: 'err-biz', test: (v) => v.trim().length > 0 },
+            { id: 'rrg-city', err: 'err-city', test: (v) => v.trim().length > 0 },
+            { id: 'rrg-ind', err: 'err-ind', test: (v) => v && v !== '__other__' ? true : (v === '__other__' ? document.getElementById('rrg-ind-other').value.trim().length > 0 : false) },
+          ];
+          fields.forEach((f) => {
+            const el = document.getElementById(f.id);
+            const wrap = el.closest('.rrg-field');
+            const valid = f.test(el.value);
+            wrap.classList.toggle('invalid', !valid);
+            if (!valid) ok = false;
+          });
+          if (!ratingInput.value) {
+            document.getElementById('err-rating').style.display = 'block';
+            ok = false;
+          } else {
+            document.getElementById('err-rating').style.display = 'none';
+          }
+          return ok;
+        }
+
+        function getIndustry() {
+          const v = indEl.value;
+          return v === '__other__' ? (indOther.value.trim() || 'Business') : v;
+        }
+
+        function isHipaa(ind) {
+          return /dental|medical|mental health|therapy|veterinary|chiropractic|physical therapy/i.test(ind);
+        }
+        function isLegal(ind) {
+          return /legal|law firm|attorney/i.test(ind);
+        }
+        function isFinancial(ind) {
+          return /accounting|tax|insurance|financial|real estate/i.test(ind);
+        }
+
+        function safeDetail(text, ind) {
+          if (isHipaa(ind) || isLegal(ind) || isFinancial(ind)) return '';
+          const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 10);
+          const phrase = sentences[0] ? sentences[0].trim().slice(0, 90) : '';
+          return phrase;
+        }
+
+        function bizShort(biz) {
+          return biz.replace(/^(the\s+|a\s+)/i, '').trim();
+        }
+
+        function generateResponse(review, rating, biz, city, ind, reviewer, tone, variant) {
+          const name = reviewer || 'there';
+          const shortBiz = bizShort(biz);
+          const detail = safeDetail(review, ind);
+          const hipaa = isHipaa(ind);
+          const legal = isLegal(ind);
+          const financial = isFinancial(ind);
+
+          const positiveOpeners = {
+            professional: [`Hi ${name}, thank you for taking the time to share your experience with ${shortBiz}.`, `Thank you, ${name}. We are grateful for your feedback.`],
+            friendly: [`Hey ${name}! Thanks so much for the kind words.`, `Hi ${name} — so glad you had a great experience!`],
+            empathetic: [`Hi ${name}, reading your review made our day.`, `Thank you, ${name}. We are really grateful you took the time.`],
+            brief: [`Thanks, ${name}!`, `Appreciate it, ${name}.`]
+          };
+          const negativeOpeners = {
+            professional: [`Hi ${name}, thank you for bringing this to our attention.`, `${name}, we hear you and we are sorry.`],
+            friendly: [`Hi ${name}, I am really sorry we missed the mark.`, `Hey ${name}, thank you for letting us know.`],
+            empathetic: [`Hi ${name}, I am truly sorry for the experience you described.`, `${name}, what you described is not the experience we want for anyone.`],
+            brief: [`Sorry, ${name}.`, `${name}, we messed up.`]
+          };
+          const mixedOpeners = {
+            professional: [`Hi ${name}, thank you for the honest feedback.`, `Thanks for the balanced review, ${name}.`],
+            friendly: [`Hi ${name}, thanks for keeping it real with us.`, `Thanks, ${name} — we are glad parts of your visit went well.`],
+            empathetic: [`Hi ${name}, we appreciate you sharing both sides.`, `${name}, thank you for the honest feedback.`],
+            brief: [`Thanks for the honest feedback, ${name}.`, `Appreciate the review, ${name}.`]
+          };
+
+          const closings = {
+            professional: [`— The team at ${shortBiz}`, `Best, ${shortBiz}`],
+            friendly: [`— ${shortBiz} team`, `Thanks again, ${shortBiz}`],
+            empathetic: [`With care, the ${shortBiz} team`, `— ${shortBiz}`],
+            brief: [`— ${shortBiz}`, ``]
+          };
+
+          function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+          const openers = rating >= 4 ? positiveOpeners : rating === 3 ? mixedOpeners : negativeOpeners;
+          const opener = pick(openers[tone] || openers.professional);
+          const closing = pick((closings[tone] || closings.professional));
+
+          let body = '';
+          if (rating >= 4) {
+            const specifics = detail ? `It is great to hear that ${detail.toLowerCase()}.` : `We are thrilled you had a positive experience with us in ${city}.`;
+            const team = hipaa ? 'Our team works hard to make every visit a good one.' : legal ? 'Our team is committed to serving everyone who works with us.' : financial ? 'We work hard to deliver a great experience for every client.' : `The team at ${shortBiz} in ${city} loves hearing this.`;
+            if (variant === '1') {
+              body = `${opener} ${specifics} ${team} ${closing}`.trim();
+            } else if (variant === '2') {
+              body = `${opener}\n\n${specifics} ${team}\n\nWe would love to see you again soon. If you ever need anything, please do not hesitate to reach out. ${closing}`.trim();
+            } else {
+              body = `${opener}\n\n${specifics} ${team}\n\nReviews like yours help other people in ${city} find ${shortBiz}, and they mean a lot to our whole team. We are here whenever you need us next. ${closing}`.trim();
+            }
+          } else if (rating === 3) {
+            const acknowledge = detail ? `We are glad ${detail.toLowerCase()}, and we also take your concerns seriously.` : `We are glad parts of your visit went well, and we take your concerns seriously.`;
+            const improve = hipaa ? 'We are always working to improve the experience for everyone who visits our practice.' : legal ? 'We continually look for ways to better serve those who trust us.' : financial ? 'We are always looking for ways to serve our clients better.' : `We are reviewing how we can improve at ${shortBiz} in ${city}.`;
+            if (variant === '1') {
+              body = `${opener} ${acknowledge} ${improve} ${closing}`.trim();
+            } else if (variant === '2') {
+              body = `${opener}\n\n${acknowledge} ${improve}\n\nIf you would like to talk through this directly, please call or email us. We would value the chance to make it right. ${closing}`.trim();
+            } else {
+              body = `${opener}\n\n${acknowledge} ${improve}\n\nWe would appreciate the opportunity to learn more. Please reach out to us directly so we can address this personally and make sure your next experience is a great one. ${closing}`.trim();
+            }
+          } else {
+            const ownership = 'We should have done better, and we are using your feedback to improve.';
+            const offline = `Please call us or email the manager at ${shortBiz} so we can make this right.`;
+            const safeContext = hipaa ? 'Every patient deserves a smooth experience, and we are sorry that was not the case.' : legal ? 'Everyone who contacts our firm deserves a professional experience, and we are sorry we fell short.' : financial ? 'Every client deserves attentive service, and we are sorry that did not happen.' : `Customers in ${city} deserve better, and we are sorry we did not deliver that.`;
+            if (variant === '1') {
+              body = `${opener} ${safeContext} ${ownership} ${offline} ${closing}`.trim();
+            } else if (variant === '2') {
+              body = `${opener}\n\n${safeContext} ${ownership}\n\n${offline}\n\nThank you for giving us the chance to fix this. ${closing}`.trim();
+            } else {
+              body = `${opener}\n\n${safeContext} ${ownership}\n\n${offline}\n\nWe take feedback like yours seriously because it helps us improve. If you are open to it, we would appreciate the chance to discuss this with you directly and make things right. ${closing}`.trim();
+            }
+          }
+
+          return body.replace(/[ \t]+/g, ' ').replace(/\n\s*\n/g, '\n\n').trim();
+        }
+
+        function scoreResponse(text, review, rating, ind) {
+          let score = 70;
+          const words = text.split(/\s+/).length;
+          if (rating >= 4) {
+            if (words >= 25 && words <= 60) score += 12;
+            else if (words < 20) score -= 8;
+            else if (words > 80) score -= 4;
+          } else {
+            if (words >= 70 && words <= 150) score += 12;
+            else if (words < 50) score -= 8;
+            else if (words > 180) score -= 4;
+          }
+          if (/should have done better|we hear you|we are sorry|thank you for bringing this|we take your feedback seriously/i.test(text)) score += 6;
+          if (/please call|email us|reach out|contact us|talk through this/i.test(text)) score += 4;
+          if (isHipaa(ind) && !/treatment|procedure|diagnosis|condition|medical record|patient's/i.test(text)) score += 8;
+          if (isLegal(ind) && !/case|client|confidential|privileged/i.test(text)) score += 8;
+          if (isFinancial(ind) && !/portfolio|account|return|investment|tax return/i.test(text)) score += 6;
+          if (!blockedPhrases.test(text)) score += 5;
+          if (/\b[A-Z][a-z]+\b/.test(text)) score += 2;
+          return Math.min(100, Math.max(0, score));
+        }
+
+        function tipFor(text, rating, variant) {
+          const words = text.split(/\s+/).length;
+          if (rating <= 2 && variant === '1' && words > 80) return 'Concise replies to negative reviews get read more on mobile. Consider trimming this one.';
+          if (rating <= 2 && !/call|email|reach out/i.test(text)) return 'Add a phone number or email so the reviewer can contact you offline.';
+          if (rating >= 4 && /valuable feedback|we appreciate your business/i.test(text)) return 'Swap generic phrases for one specific detail from the review.';
+          if (variant === '3' && words < 100 && rating <= 2) return 'For tough reviews, the detailed variation benefits from more specifics and a clear path forward.';
+          return 'Strong response. Copy and paste into Google Business Profile.';
+        }
+
+        function render() {
+          if (!validate()) return;
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Generating...';
+
+          setTimeout(() => {
+            const review = reviewEl.value.trim();
+            const rating = parseInt(ratingInput.value, 10);
+            const biz = document.getElementById('rrg-biz').value.trim();
+            const city = document.getElementById('rrg-city').value.trim();
+            const ind = getIndustry();
+            const reviewer = document.getElementById('rrg-reviewer').value.trim();
+            const tone = document.querySelector('input[name="rrg-tone"]:checked').value;
+
+            const variants = ['1', '2', '3'];
+            let totalScore = 0;
+            variants.forEach((v) => {
+              const text = generateResponse(review, rating, biz, city, ind, reviewer, tone, v);
+              const score = scoreResponse(text, review, rating, ind);
+              totalScore += score;
+              const bodyEl = document.getElementById(`rrg-body-${v}`);
+              bodyEl.innerHTML = text.split(/\n\s*\n/).filter(Boolean).map((para) => `<p>${para.replace(/</g, '&lt;')}</p>`).join('');
+              bodyEl.style.whiteSpace = 'normal';
+              bodyEl.dataset.text = text;
+              document.getElementById(`rrg-score-${v}`).textContent = `Score ${score}/100 · ${text.split(/\s+/).length} words`;
+              document.getElementById(`rrg-tip-${v}`).textContent = tipFor(text, rating, v);
+              const seo = document.getElementById(`rrg-seo-${v}`);
+              if (isHipaa(ind) || isLegal(ind) || isFinancial(ind)) {
+                seo.textContent = isHipaa(ind) ? '✓ HIPAA-safe wording applied' : isLegal(ind) ? '✓ Privilege-safe wording applied' : '✓ Financial-safe wording applied';
+                seo.classList.add('show');
+              } else {
+                seo.classList.remove('show');
+              }
+            });
+
+            genCount++;
+            document.getElementById('rrg-count').textContent = genCount;
+            document.getElementById('rrg-avg').textContent = Math.round(totalScore / 3) + '/100';
+
+            const flag = [];
+            if (isHipaa(ind)) flag.push('HIPAA-affected industry detected. Specific treatments, conditions, and patient details have been removed from the response.');
+            if (isLegal(ind)) flag.push('Legal industry detected. Attorney-client privilege protections have been applied — no case or client details are referenced.');
+            if (isFinancial(ind)) flag.push('Financial services detected. Account details, returns, and specific advice have been excluded from the response.');
+            if (rating <= 2) flag.push('Negative review: respond within 4 hours and move the conversation off-platform.');
+            flagBox.innerHTML = flag.length ? flag.map((f) => `<p style="margin:0 0 6px;">• ${f}</p>`).join('') : '';
+            flagBox.classList.toggle('show', flag.length > 0);
+
+            document.getElementById('rrg-pav').textContent = biz.charAt(0).toUpperCase();
+            document.getElementById('rrg-pbd').textContent = document.getElementById('rrg-body-1').dataset.text;
+
+            empty.style.display = 'none';
+            results.classList.add('show');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Generate 3 Response Variations';
+          }, 600);
+        }
+
+        form.addEventListener('submit', (e) => { e.preventDefault(); render(); });
+        regenBtn.addEventListener('click', render);
+
+        document.querySelectorAll('.rrg-copy').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.copy;
+            const text = document.getElementById(`rrg-body-${id}`).dataset.text;
+            navigator.clipboard.writeText(text).then(() => {
+              btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied`;
+              setTimeout(() => {
+                btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`;
+              }, 1500);
+            });
+          });
+        });
+      })();
+    </script>
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="lead-box">
+      <p><strong>Summary · Last updated {lastUpdated}</strong></p>
+      <p>The Free Google Review Response Generator drafts 3 ready-to-post replies to any Google review in under 8 seconds. Paste the review, pick the star rating and tone, and get one concise reply (40-80 words), one balanced reply (90-150 words), and one detailed reply (160-220 words). The tool reads the actual review text and references specific details from it, so each response sounds genuinely written — not template-copied. Industry safety rules protect dental, medical, legal, and financial businesses from HIPAA and privilege violations. Best for local service businesses managing 10-200 reviews per month. Free, no signup, no email gate.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px;">
+      <div style="text-align:center;padding:20px;background:white;border:1px solid var(--border);">
+        <p><strong>88%</strong></p>
+        <p>Of consumers would use a business that replies to reviews</p>
+      </div>
+      <div style="text-align:center;padding:20px;background:white;border:1px solid var(--border);">
+        <p><strong>100%</strong></p>
+        <p>Target response rate Google rewards</p>
+      </div>
+      <div style="text-align:center;padding:20px;background:white;border:1px solid var(--border);">
+        <p><strong>24h</strong></p>
+        <p>Recommended window for negative reviews</p>
+      </div>
+    </div>
+
+    <h2>How does the review response generator work?</h2>
+    <p><strong>Three steps. Eight seconds. Zero guesswork.</strong></p>
+    <ol>
+      <li><strong>Paste the review.</strong> The actual text — not a summary. Our generator reads it and identifies what the reviewer specifically praised or criticized. That detail is what makes responses feel real.</li>
+      <li><strong>Tell us the basics.</strong> Star rating, your business name, city, industry, and tone. Industry triggers compliance rules — dental and medical get HIPAA-safe wording; legal gets privilege-safe wording; financial gets account-detail-safe wording. You do not have to think about it.</li>
+      <li><strong>Click Generate.</strong> You get 3 distinct responses: <strong>concise</strong> (40-80 words, fast reply), <strong>balanced</strong> (90-150 words, typical reply), and <strong>detailed</strong> (160-220 words, full acknowledgment for tough reviews). Each one is scored on a 100-point scale and screened for compliance.</li>
+    </ol>
+
+    <h2>How should I respond to a negative Google review?</h2>
+    <p><strong>Lead with empathy. Acknowledge the specific complaint. Take ownership without admitting legal fault. Move the conversation off-platform. Sign off as the team or manager.</strong></p>
+    <p>The single most important shift: stop writing for the angry reviewer. Write for the next 100 readers. Most will not leave a review themselves — they will read your response and decide whether to call you. A defensive reply costs you those 100 next customers. A measured one wins them.</p>
+    <ol>
+      <li><strong>Acknowledge the specific experience.</strong> "The 6-hour wait you described" beats "your concern." Specifics signal that you read the review.</li>
+      <li><strong>Take ownership without legal admission.</strong> "We should have done better" is a legal-safe phrase. "You are right, we were negligent" is not.</li>
+      <li><strong>Do not argue or contradict publicly.</strong> If the reviewer got a fact wrong, address it offline. Public corrections look defensive even when correct.</li>
+      <li><strong>Offer a real off-platform path.</strong> A phone number. An email. A specific person to ask for. "Reach out to us" is too vague to convert.</li>
+      <li><strong>Do not promise compensation publicly.</strong> Anything you offer in writing on Google becomes the floor for every future complaint.</li>
+      <li><strong>Wait an hour before responding.</strong> Tough reviews trigger emotional replies. The hour rule has saved more businesses than any single tactic.</li>
+      <li><strong>Sign off as "the team at [Biz]" or with a real first name (manager).</strong> Do not fake an identity. The tool above never invents a person's name.</li>
+    </ol>
+
+    <h2>How should I respond to a positive Google review?</h2>
+    <p><strong>Reference one specific thing they praised. Skip the generic thank-you. Vary your wording across responses so your profile does not look templated.</strong></p>
+    <p>A common mistake: copy-pasting "Thank you for your feedback! We appreciate your business" under every 5-star review. Google flags this as a low-effort signal. Customers reading your profile pages spot it instantly. The 5-star reviewer does not feel seen.</p>
+    <p>A better approach: pick one detail from their review and acknowledge it specifically. "Glad the deep-clean appointment felt comfortable — that is exactly what Dr. Chen and the hygienists work toward" is 14 words and feels real. The boilerplate thank-you is 8 words and feels fake. Specificity is not about length.</p>
+
+    <h2>Industry-specific review response rules</h2>
+
+    <h3>Dental, medical, mental health, veterinary (HIPAA-affected)</h3>
+    <p>Even when the reviewer mentioned a specific procedure, condition, or appointment detail, your response must NOT confirm or repeat it. Saying "thanks for trusting us with your root canal" is a documented HIPAA violation that has cost practices five-figure fines. Responses must use general language: "anyone who visits our practice" not "your visit," "the care our patients receive" not "your treatment." The tool above applies these rules automatically when you select a HIPAA-affected industry.</p>
+
+    <h3>Law firms, attorneys</h3>
+    <p>Attorney-client privilege means you cannot confirm someone is your client publicly — even if they say so themselves in a review. Saying "we are glad we won your custody case" is a privilege violation regardless of intent. Responses must use phrases like "our firm" and "anyone who works with us." Bar associations have disciplined attorneys for review responses; this is not theoretical.</p>
+
+    <h3>Financial advisors, accountants, CPAs, insurance</h3>
+    <p>Do not reference specific financial outcomes, returns, advice given, or account details. Your professional liability insurer will thank you. The tool defaults to general language: "our firm's approach" not "your portfolio."</p>
+
+    <h3>Restaurants, salons, retail (low-regulation)</h3>
+    <p>Specifics are encouraged. Reference the dish, the service, the visit. The risks are reputational, not regulatory — argue or get defensive in public and you lose. The hospitality industry is where empathetic, specific replies win the most new customers; consumers consistently report they are more likely to choose a business that responds thoughtfully to negative reviews.</p>
+
+    <h2>Do Google review responses help with local SEO?</h2>
+    <p><strong>Yes — review response rate is a confirmed local ranking factor.</strong> Google's Local Search Quality Guidelines list response rate as a relevance signal, and businesses that maintain a high response rate consistently rank higher in the Map Pack than those that do not reply.</p>
+    <p>Three SEO benefits stack at once:</p>
+    <ul>
+      <li><strong>Direct ranking signal.</strong> Higher response rate = better Map Pack position.</li>
+      <li><strong>Indexed text.</strong> Your responses are crawled by Google. Naturally including your business name and city in replies adds local-relevance signals without keyword stuffing.</li>
+      <li><strong>Conversion lift.</strong> Most consumers read responses before deciding. The same Map Pack visit converts at a higher rate when responses are visible.</li>
+    </ul>
+
+    <h2>How this tool differs from Birdeye, Reputation.com, and ChatGPT</h2>
+    <p>We built this because every existing option had at least one of three problems: paid-only ($300+/mo), email-gated, or did not apply industry compliance rules. Here is how we compare:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>theStacc</th><th>Birdeye / Reputation</th><th>ChatGPT prompt</th></tr>
+        </thead>
+      <tbody>
+        <tr><td>Free, no signup</td><td>✓</td><td>$300+ per month</td><td>✓ (with paid prompt)</td></tr>
+        <tr><td>Variations per generation</td><td><strong>3 (concise / balanced / detailed)</strong></td><td>1</td><td>1</td></tr>
+        <tr><td>Reads actual review text</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>HIPAA-safe (medical)</td><td><strong>Auto-applied</strong></td><td>Manual review needed</td><td>No safety rails</td></tr>
+        <tr><td>Privilege-safe (legal)</td><td><strong>Auto-applied</strong></td><td>Manual review needed</td><td>No safety rails</td></tr>
+        <tr><td>Tone options</td><td><strong>4 (incl. brief)</strong></td><td>2-3</td><td>User-prompted</td></tr>
+        <tr><td>Quality score (0-100)</td><td>✓</td><td>✗</td><td>✗</td></tr>
+        <tr><td>Anti-AI-pattern blocklist</td><td><strong>25 phrases scrubbed</strong></td><td>Generic AI</td><td>Generic AI</td></tr>
+        <tr><td>Live Google preview</td><td>✓</td><td>✓</td><td>✗</td></tr>
+        <tr><td>AI engine</td><td><strong>Rule-based + scorer gate</strong></td><td>GPT-4 wrapper</td><td>GPT-4 raw</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Frequently asked questions</h2>
+    <div class="faq-list">
+      {faqs.map((faq) => (
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-q-text">{faq.q}</span><span class="faq-toggle" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>{faq.a}</p></div></div>
+        </div>
+      ))}
+        </div>
+  </Fragment>
+
+  <Fragment slot="related">
+    <div class="related-grid">
+      <a href="/tools/gbp-post-generator/" class="related-tool">
+        <span class="label">Local SEO</span>
+        <h3>GBP Post Generator</h3>
+        <p>Generate 3 ready-to-publish Google Business Profile posts in 10 seconds.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/review-request-generator/" class="related-tool">
+        <span class="label">Reviews</span>
+        <h3>Review Request Generator</h3>
+        <p>Get personalized email, SMS, and in-person review request templates.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/review-qr-code-generator/" class="related-tool">
+        <span class="label">Reviews</span>
+        <h3>Review QR Code Generator</h3>
+        <p>Create print-ready QR codes that take customers straight to your review page.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+    </div>
+  </Fragment>
+</ToolLayout>

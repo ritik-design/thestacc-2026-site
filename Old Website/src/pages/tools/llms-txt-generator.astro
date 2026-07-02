@@ -1,0 +1,465 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free LLMs.txt Generator — Auto-Crawl + AI Crawler Control | theStacc';
+const pageDescription = 'Free llms.txt generator with auto-crawl. Enter any URL to generate a validated llms.txt file with AI crawler controls, attribution settings, and structured format. No signup required.';
+const pageUrl = 'https://thestacc.com/tools/llms-txt-generator/';
+const lastUpdated = '2026-05-22';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free LLMs.txt Generator',
+  description: 'Generate a properly formatted llms.txt file for any website. Auto-crawl, AI crawler controls, attribution settings, and validation.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is llms.txt and why do I need it?', a: 'llms.txt is an emerging standard that lets websites control how AI crawlers access their content. It tells AI systems like ChatGPT, Claude, and Perplexity which parts of your site they can crawl, which they should avoid, and whether you require attribution when they use your content. As AI search grows, having an llms.txt file helps protect your intellectual property while maintaining visibility.' },
+  { q: 'How does this llms.txt generator work?', a: 'Enter your website URL and select a template. Our tool auto-crawls your homepage, detects your site type (blog, e-commerce, SaaS, etc.), and generates a properly formatted llms.txt file with appropriate Allow/Disallow rules for major AI crawlers including GPTBot, ClaudeBot, PerplexityBot, and Google-Extended.' },
+  { q: 'Which AI crawlers does this support?', a: 'We support all major AI crawlers: GPTBot (OpenAI), ClaudeBot (Anthropic), PerplexityBot, Google-Extended (Gemini), CCBot (Common Crawl), FacebookBot (Meta), ChatGPT-User, OAI-SearchBot, Applebot, Bingbot, and more. You can toggle each crawler on or off.' },
+  { q: 'How is llms.txt different from robots.txt?', a: 'robots.txt controls what search engine crawlers can access for indexing in Google, Bing, etc. llms.txt is specifically for AI systems — it controls how AI crawlers use your content for training and generating responses. A site might allow Google to index everything but block AI crawlers from using content for training.' },
+  { q: 'Should I require attribution for AI use?', a: 'Requiring attribution means AI systems must credit your website when using your content in responses. This is recommended for content creators, publishers, and news sites. E-commerce and SaaS sites may prefer optional attribution. The tool lets you toggle this setting.' },
+  { q: 'How do I upload llms.txt to my website?', a: 'Upload the generated file to your website root directory so it is accessible at yourdomain.com/llms.txt. Most CMS platforms (WordPress, Webflow, Shopify) allow file uploads. For custom sites, place the file in your public folder.' },
+  { q: 'Is this tool free?', a: 'Yes, 100% free with no signup. Enter any domain and get an instant, validated llms.txt file. You can generate up to 5 files per day.' },
+  { q: 'What templates are available?', a: 'We offer five templates: Allow All Crawlers (full access), Block All AI Crawlers (maximum protection), Allow Blog Content Only (protect private areas), Allow Public Pages Only (block admin/checkout), and Custom (full control).' },
+  { q: 'Can I block specific crawlers?', a: 'Yes. After generating your llms.txt, you can toggle individual crawlers on or off. The preview updates in real-time so you can see exactly which crawlers have access.' },
+  { q: 'Does theStacc help with AI visibility?', a: 'Yes. After generating your llms.txt, try our AI Visibility Checker to see how visible your site is to ChatGPT, Perplexity, Claude, and Gemini. Stacc also offers AI search optimization tools.' },
+  { q: 'What happens if I do not have an llms.txt file?', a: 'Without llms.txt, AI crawlers follow your robots.txt rules and their own policies. You have no explicit control over how AI systems use your content. Having llms.txt gives you direct control and signals to AI systems how you want your content handled.' },
+  { q: 'How accurate is the auto-crawl?', a: 'The auto-crawl analyzes your homepage HTML, sitemap XML, and robots.txt to detect site type, content categories, and site sections. It works for most public websites. If your site blocks crawlers or requires JavaScript, you can still use our templates and customize manually.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'LLMs.txt Generator', url: pageUrl },
+]);
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free LLMs.txt Generator"
+  toolDescription="Generate a properly formatted llms.txt file for any website. Auto-crawl, AI crawler controls, attribution settings, and validation."
+  wide={false}
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <div class="mx-auto max-w-3xl">
+      <!-- Step 1: URL + Site Info -->
+      <div id="ltg-step-1" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="flex items-center gap-2 mb-6">
+          <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#4f39f6] font-mono text-[12px] font-bold text-white">1</span>
+          <span class="font-sans text-[16px] font-semibold text-[#292524]">Enter Your Website Details</span>
+        </div>
+
+        <div class="space-y-4">
+          <!-- URL -->
+          <div>
+            <label class="block font-mono text-[11px] font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ltg-url">
+              Website URL <span class="text-red-500">*</span>
+            </label>
+            <input type="url" id="ltg-url" required placeholder="e.g., thestacc.com"
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+            />
+            <p class="mt-1 text-[12px] text-[#a8a29e]">We'll crawl this site to understand its structure</p>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block font-mono text-[11px] font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ltg-email">
+              Contact Email <span class="text-red-500">*</span>
+            </label>
+            <input type="email" id="ltg-email" required placeholder="you@yourcompany.com"
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+            />
+            <p class="mt-1 text-[12px] text-[#a8a29e]">Used in your llms.txt for crawler communication. Never shared.</p>
+          </div>
+
+          <!-- Company Name -->
+          <div>
+            <label class="block font-mono text-[11px] font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ltg-company">
+              Company / Organization Name
+            </label>
+            <input type="text" id="ltg-company" placeholder="e.g., Acme Inc."
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+            />
+          </div>
+
+          <!-- Description -->
+          <div>
+            <label class="block font-mono text-[11px] font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ltg-description">
+              What does your website do?
+            </label>
+            <textarea id="ltg-description" rows="2" placeholder="e.g., We provide AI-powered SEO tools for agencies and marketers..."
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Content Types -->
+          <div>
+            <label class="block font-mono text-[11px] font-medium uppercase tracking-wide text-[#79716b] mb-2">What content does your site have?</label>
+            <div class="flex flex-wrap gap-2" id="ltg-content-types">
+              {['Blog / Articles', 'Products / Shop', 'Documentation', 'Portfolio', 'News / Media', 'SaaS / Software', 'Services', 'Other'].map((type) => (
+                <label class="cursor-pointer">
+                  <input type="checkbox" value={type} class="ltg-content-check peer sr-only" />
+                  <span class="inline-block rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 text-[13px] text-[#57534e] peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff] peer-checked:text-[#4f39f6] transition-colors">
+                    {type}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <!-- Template + Attribution row -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-[11px] font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ltg-template">Template</label>
+              <select id="ltg-template"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors cursor-pointer"
+              >
+                <option value="allow-public-only">Allow Public Pages Only</option>
+                <option value="allow-all">Allow All AI Crawlers</option>
+                <option value="block-all">Block All AI Crawlers</option>
+                <option value="allow-blog-only">Allow Blog Content Only</option>
+                <option value="custom">Custom — Full Control</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ltg-attribution">Attribution</label>
+              <select id="ltg-attribution"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors cursor-pointer"
+              >
+                <option value="optional">Optional (appreciated but not required)</option>
+                <option value="required">Required (must credit this site)</option>
+                <option value="none">None (no attribution needed)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Extra options -->
+          <div class="flex flex-wrap gap-4 pt-2">
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="ltg-policy" class="h-4 w-4 rounded border-[#e7e5e4] text-[#4f39f6] accent-[#4f39f6] cursor-pointer" />
+              <span class="text-[13px] text-[#57534e]">Include content policy section</span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="ltg-rate-limit" class="h-4 w-4 rounded border-[#e7e5e4] text-[#4f39f6] accent-[#4f39f6] cursor-pointer" />
+              <span class="text-[13px] text-[#57534e]">Include rate limiting notes</span>
+            </label>
+          </div>
+
+          <button id="ltg-submit-step-1" class="mt-2 w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+            Analyze Site & Continue
+          </button>
+        </div>
+
+        <!-- Quick examples -->
+        <div class="mt-4 flex flex-wrap items-center gap-2 pt-4 border-t border-[#e7e5e4]">
+          <span class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Try:</span>
+          {['thestacc.com', 'hubspot.com', 'backlinko.com', 'moz.com', 'neilpatel.com'].map((ex) => (
+            <button class="ltg-example-btn rounded-full border border-[#e7e5e4] bg-[#f5f5f4] px-3 py-1 font-mono text-[11px] text-[#57534e] hover:border-[#c4b5fd] hover:bg-[#f5f3ff] hover:text-[#4f39f6] cursor-pointer transition-colors" data-url={ex}>
+              {ex}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Step 2: Customize (hidden initially) -->
+      <div id="ltg-step-2" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-2">
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#4f39f6] font-mono text-[12px] font-bold text-white">2</span>
+            <span class="font-sans text-[16px] font-semibold text-[#292524]">Customize Your Rules</span>
+          </div>
+          <button id="ltg-back-step-1" class="text-[13px] text-[#4f39f6] hover:text-[#615fff] cursor-pointer font-medium">
+            &larr; Back
+          </button>
+        </div>
+
+        <!-- Detected site info -->
+        <div id="ltg-detected-info" class="mb-6 rounded-xl bg-[#fafaf9] p-4">
+          <p class="font-mono text-[11px] uppercase tracking-wide text-[#79716b] mb-2">Detected from crawl</p>
+          <div id="ltg-detected-content" class="text-[14px] text-[#57534e]"></div>
+        </div>
+
+        <!-- Site Sections -->
+        <div class="mb-6">
+          <h4 class="font-sans text-[15px] font-semibold text-[#292524] mb-2">Detected Site Sections</h4>
+          <p class="text-[13px] text-[#79716b] mb-3">We found these sections on your site. Toggle to allow or block each one.</p>
+          <div id="ltg-sections-grid" class="space-y-2"></div>
+        </div>
+
+        <!-- Custom Paths -->
+        <div class="mb-6">
+          <h4 class="font-sans text-[15px] font-semibold text-[#292524] mb-2">Custom Paths</h4>
+          <p class="text-[13px] text-[#79716b] mb-3">Add any additional paths to allow or block.</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-[#79716b] mb-1">Allow paths</label>
+              <textarea id="ltg-custom-allow" rows="3" placeholder="/blog/&#10;/guides/&#10;/resources/"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-3 py-2 font-mono text-[13px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-none"
+              ></textarea>
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] uppercase tracking-wide text-[#79716b] mb-1">Block paths</label>
+              <textarea id="ltg-custom-disallow" rows="3" placeholder="/admin/&#10;/private/&#10;/api/internal/"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-3 py-2 font-mono text-[13px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-none"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Crawler Toggles -->
+        <div class="mb-6">
+          <h4 class="font-sans text-[15px] font-semibold text-[#292524] mb-2">AI Crawler Controls</h4>
+          <p class="text-[13px] text-[#79716b] mb-3">Toggle each crawler. All start as allowed based on your template.</p>
+          <div id="ltg-crawler-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+        </div>
+
+        <button id="ltg-generate-final" class="w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+          Generate My LLMs.txt
+        </button>
+      </div>
+
+      <!-- Loading State -->
+      <div id="ltg-loading" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <div class="space-y-3">
+          {[
+            { id: 'crawl', label: 'Crawling your website...' },
+            { id: 'analyze', label: 'Analyzing content types...' },
+            { id: 'sitemap', label: 'Parsing sitemap...' },
+            { id: 'generate', label: 'Generating llms.txt...' },
+            { id: 'validate', label: 'Validating format...' },
+          ].map((step) => (
+            <div class="flex items-center gap-3 step" data-step={step.id}>
+              <span class="step-icon w-5 h-5 text-[#79716b]">
+                <svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/>
+                  <path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span set:html={step.label} class="text-[14px] text-[#57534e]"></span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div id="ltg-error-panel" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+        <svg class="mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        <p class="text-[15px] text-red-700 font-medium">Could not generate llms.txt</p>
+        <p id="ltg-error-msg" class="mt-1 text-[13px] text-red-600">Check the URL and try again.</p>
+        <button id="ltg-retry-btn" class="mt-3 rounded-lg border border-red-300 bg-white px-4 py-2 text-[13px] font-medium text-red-700 hover:bg-red-100 cursor-pointer transition-colors">
+          Try Again
+        </button>
+      </div>
+
+      <!-- Step 3: Results -->
+      <div id="ltg-step-3" class="mt-6 hidden space-y-6">
+        <!-- Success banner -->
+        <div class="rounded-xl bg-green-50 border border-green-200 p-4 flex items-center gap-3">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-green-600 shrink-0">
+            <path d="M5 12l5 5L20 7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <p class="text-[14px] font-semibold text-green-800">Your llms.txt is ready!</p>
+            <p class="text-[13px] text-green-700">Upload this file to your website root as <code class="font-mono bg-green-100 px-1 rounded">llms.txt</code></p>
+          </div>
+        </div>
+
+        <!-- Site Analysis -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524] mb-3">Site Analysis</h3>
+          <div id="ltg-analysis-content" class="text-[14px] text-[#57534e]"></div>
+        </div>
+
+        <!-- LLMs.txt Preview -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <h3 class="font-sans text-[16px] font-semibold text-[#292524]">Generated LLMs.txt</h3>
+            <div class="flex gap-2">
+              <button id="ltg-copy-btn" class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-2 font-mono text-[12px] font-medium text-[#57534e] hover:border-[#4f39f6] hover:text-[#4f39f6] cursor-pointer transition-colors">
+                Copy
+              </button>
+              <button id="ltg-download-btn" class="rounded-lg border border-[#4f39f6] bg-[#615fff] px-4 py-2 font-mono text-[12px] font-medium text-white hover:bg-[#4f39f6] cursor-pointer transition-colors">
+                Download
+              </button>
+            </div>
+          </div>
+          <div class="relative">
+            <pre id="ltg-preview" class="rounded-lg bg-[#1c1917] p-4 font-mono text-[13px] text-[#e7e5e4] overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-[500px] overflow-y-auto"></pre>
+          </div>
+        </div>
+
+        <!-- Validation -->
+        <div id="ltg-validation" class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524] mb-2">Validation</h3>
+          <div id="ltg-validation-content"></div>
+        </div>
+
+        <!-- Regenerate -->
+        <div class="text-center">
+          <button id="ltg-start-over" class="rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 text-[14px] font-medium text-[#57534e] hover:border-[#4f39f6] hover:text-[#4f39f6] cursor-pointer transition-colors">
+            Start Over — Generate Another
+          </button>
+        </div>
+      </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <div class="speakable mx-auto max-w-3xl">
+      <!-- TL;DR -->
+      <div class="mb-12 rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-3">What is llms.txt?</h2>
+        <p class="text-[15px] text-[#57534e] leading-relaxed">
+          llms.txt is an emerging standard that lets websites control how AI crawlers access their content. Enter your website URL above to auto-crawl your site, detect content types, and generate a validated llms.txt file with proper AI crawler controls.
+        </p>
+      </div>
+
+      <!-- How It Works -->
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">How It Works</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { step: '1', title: 'Enter Website Details', desc: 'Type your URL, contact email, and site description. We use this to build a personalized llms.txt — no generic templates.' },
+            { step: '2', title: 'Auto-Crawl & Analyze', desc: 'We fetch your homepage, parse your sitemap, and read your robots.txt to understand your site structure and content sections.' },
+            { step: '3', title: 'Customize Rules', desc: 'Review detected site sections, toggle individual AI crawlers, and add custom allow/block paths for fine-grained control.' },
+            { step: '4', title: 'Copy or Download', desc: 'Get your validated llms.txt file with proper formatting. Upload it to yourdomain.com/llms.txt.' },
+          ].map((item) => (
+            <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#f5f3ff] font-mono text-[14px] font-bold text-[#4f39f6]">{item.step}</span>
+              <h3 class="mt-3 font-sans text-[15px] font-semibold text-[#292524]">{item.title}</h3>
+              <p class="mt-1 text-[14px] text-[#57534e] leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Use Cases -->
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">Use Cases by Site Type</h2>
+        <div class="space-y-3">
+          {[
+            { type: 'Blogs & Content Sites', desc: 'Allow AI crawlers to access articles and guides while blocking admin areas. Require attribution to protect your intellectual property.' },
+            { type: 'E-commerce Stores', desc: 'Allow product descriptions and blog content for AI search visibility. Block checkout, cart, and account pages.' },
+            { type: 'SaaS Platforms', desc: 'Allow documentation and public marketing pages. Block app dashboards, user data, and private API endpoints.' },
+            { type: 'Portfolio Sites', desc: 'Allow full crawling of public work samples and case studies. Control how AI represents your creative output.' },
+            { type: 'Documentation Sites', desc: 'Allow API docs and guides for AI training. Set clear attribution requirements for technical content.' },
+            { type: 'News & Media', desc: 'Require attribution for all AI use of reporting. Block subscription-only content while allowing public articles.' },
+          ].map((item) => (
+            <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+              <h3 class="font-sans text-[15px] font-semibold text-[#292524]">{item.type}</h3>
+              <p class="mt-1 text-[14px] text-[#57534e] leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">How We Compare</h2>
+        <div class="overflow-x-auto rounded-xl border border-[#e7e5e4]">
+          <table class="w-full text-[14px]">
+            <thead>
+              <tr class="border-b-2 border-[#e7e5e4] bg-[#fafaf9]">
+                <th class="py-3 px-4 text-left font-semibold text-[#292524]">Feature</th>
+                <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+                <th class="py-3 px-4 text-center font-semibold text-[#292524]">Dark Visitors</th>
+                <th class="py-3 px-4 text-center font-semibold text-[#292524]">Firecrawl</th>
+                <th class="py-3 px-4 text-center font-semibold text-[#292524]">llmstxt.org</th>
+              </tr>
+            </thead>
+            <tbody class="text-[#57534e]">
+              {[
+                { feature: 'Free tier', stacc: 'Unlimited', dv: 'Limited', fc: 'Limited', llm: 'Free' },
+                { feature: 'Sign-up required', stacc: 'No', dv: 'No', fc: 'Yes (API)', llm: 'No' },
+                { feature: 'Auto-crawl from URL', stacc: 'Yes', dv: 'No', fc: 'Yes', llm: 'No' },
+                { feature: 'Sitemap parsing', stacc: 'Yes', dv: 'No', fc: 'Yes', llm: 'No' },
+                { feature: 'robots.txt analysis', stacc: 'Yes', dv: 'No', fc: 'No', llm: 'No' },
+                { feature: 'Structured format', stacc: 'Yes', dv: 'Yes', fc: 'Yes', llm: 'Basic' },
+                { feature: 'Validation', stacc: 'Yes', dv: 'Yes', fc: 'No', llm: 'No' },
+                { feature: 'AI crawler database', stacc: '20+ crawlers', dv: 'Basic', fc: 'No', llm: 'No' },
+                { feature: 'Template presets', stacc: '5 templates', dv: '3', fc: 'No', llm: 'No' },
+                { feature: 'Site type detection', stacc: 'Yes', dv: 'No', fc: 'Yes', llm: 'No' },
+                { feature: 'Custom paths', stacc: 'Yes', dv: 'No', fc: 'No', llm: 'No' },
+                { feature: 'Download option', stacc: 'Yes', dv: 'Yes', fc: 'No', llm: 'Copy only' },
+              ].map((row, i) => (
+                <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#fafaf9]'}>
+                  <td class="py-2.5 px-4 font-medium text-[#292524]">{row.feature}</td>
+                  <td class="py-2.5 px-4 text-center font-semibold text-[#4f39f6]">{row.stacc}</td>
+                  <td class="py-2.5 px-4 text-center">{row.dv}</td>
+                  <td class="py-2.5 px-4 text-center">{row.fc}</td>
+                  <td class="py-2.5 px-4 text-center">{row.llm}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-3">
+          {faqs.map((faq, i) => (
+            <details class="rounded-xl border border-[#e7e5e4] bg-white group">
+              <summary class="flex cursor-pointer items-center justify-between p-5 font-sans text-[15px] font-semibold text-[#292524] list-none">
+                {faq.q}
+                <svg class="h-5 w-5 shrink-0 text-[#79716b] transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <div class="px-5 pb-5 text-[14px] text-[#57534e] leading-relaxed">
+                {faq.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      <!-- Related Tools -->
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">Related Tools</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {[
+            { name: 'AI Visibility Checker', url: '/tools/ai-visibility-checker/', desc: 'Check AI search visibility' },
+            { name: 'Sitemap Generator', url: '/tools/sitemap-generator/', desc: 'Create XML sitemaps' },
+            { name: 'SEO Audit', url: '/tools/seo-audit/', desc: 'Full site health check' },
+            { name: 'On-Page SEO Checker', url: '/tools/on-page-seo-checker/', desc: 'Page-level SEO analysis' },
+            { name: 'Schema Markup Generator', url: '/tools/schema-markup-generator/', desc: 'Generate structured data' },
+            { name: 'Website SEO Score', url: '/tools/website-seo-score/', desc: 'Overall SEO scorecard' },
+          ].map((tool) => (
+            <a href={tool.url} class="rounded-xl border border-[#e7e5e4] bg-white p-4 hover:border-[#c4b5fd] hover:bg-[#f5f3ff] transition-colors">
+              <h3 class="font-sans text-[14px] font-semibold text-[#292524]">{tool.name}</h3>
+              <p class="mt-1 text-[12px] text-[#79716b]">{tool.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- CTA Banner -->
+      <div class="rounded-2xl border border-[#4f39f6] bg-[#f5f3ff] p-6 md:p-8 text-center">
+        <h2 class="font-sans text-[18px] font-semibold text-[#292524]">Control AI crawlers. Optimize for AI search.</h2>
+        <p class="mt-2 text-[14px] text-[#57534e]">
+          theStacc monitors AI visibility across ChatGPT, Perplexity, Gemini, and Claude — and optimizes your content for AI citations.
+        </p>
+        <a href="/" class="mt-4 inline-block rounded-xl bg-[#615fff] px-6 py-3 font-mono text-[13px] font-bold uppercase text-white hover:bg-[#4f39f6] transition-colors">
+          Start Your $1 Trial
+        </a>
+      </div>
+    </div>
+  </Fragment>
+</ToolLayout>
+
+<script src="/js/llms-txt-generator-engine.js" defer></script>

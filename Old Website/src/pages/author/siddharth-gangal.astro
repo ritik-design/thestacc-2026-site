@@ -1,0 +1,190 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+import { getCollection } from 'astro:content';
+import { SITE_URL, LOGO_URL, buildBreadcrumbs } from '../../utils/schema';
+
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 12);
+
+const authorSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfilePage',
+      '@id': `${SITE_URL}/author/siddharth-gangal/`,
+      name: 'Siddharth Gangal - Author at theStacc',
+      url: `${SITE_URL}/author/siddharth-gangal/`,
+      mainEntity: { '@id': `${SITE_URL}/author/siddharth-gangal/#person` },
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/author/siddharth-gangal/#person`,
+      name: 'Siddharth Gangal',
+      url: `${SITE_URL}/author/siddharth-gangal/`,
+      jobTitle: 'Founder',
+      description: 'Founder of theStacc. Ex-IITian (IIT Mandi) and founder of Arka360 (Solar Labs). Building the operating system for organic growth.',
+      worksFor: { '@id': `${SITE_URL}/#organization` },
+      sameAs: [
+        'https://www.linkedin.com/in/siddharthgangal/',
+      ],
+      knowsAbout: [
+        'SEO Automation',
+        'AI Content Generation',
+        'Local SEO',
+        'SaaS Product Development',
+        'Content Marketing',
+        'Technical SEO',
+      ],
+      alumniOf: {
+        '@type': 'CollegeOrUniversity',
+        name: 'Indian Institute of Technology Mandi',
+      },
+      interactionStatistic: {
+        '@type': 'InteractionCounter',
+        interactionType: 'https://schema.org/WriteAction',
+        userInteractionCount: allPosts.length,
+      },
+    },
+    buildBreadcrumbs(`${SITE_URL}/author/siddharth-gangal/`, [
+      { name: 'Home', url: SITE_URL },
+      { name: 'Author', url: `${SITE_URL}/author/siddharth-gangal/` },
+      { name: 'Siddharth Gangal', url: `${SITE_URL}/author/siddharth-gangal/` },
+    ]),
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'theStacc',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: LOGO_URL },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Siddharth Gangal - Founder & Author | theStacc"
+  description="Siddharth Gangal is the founder of theStacc and author of 480+ articles on SEO, content strategy, and AI-powered marketing. Ex-IITian, founder of Arka360."
+>
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(authorSchema)} />
+
+    <!-- Author Hero -->
+    <section class="border-b border-[#e7e5e4] bg-white px-6 py-14 md:py-20">
+      <div class="mx-auto max-w-[680px]">
+        <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          <div class="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#615fff] to-[#4f39f6]">
+            <span class="font-mono text-[28px] font-bold text-white">SG</span>
+          </div>
+          <div>
+            <h1 class="font-sans text-[28px] leading-[36px] md:text-[34px] md:leading-[42px] font-semibold text-[#292524] text-center sm:text-left">
+              Siddharth Gangal
+            </h1>
+            <p class="mt-1 font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#4f39f6] text-center sm:text-left">
+              Founder, theStacc
+            </p>
+
+            <div class="mt-4 flex flex-wrap justify-center sm:justify-start gap-2">
+              <span class="inline-flex items-center rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1 font-mono text-[12px] font-medium tracking-[0.3px] text-[#57534e]">IIT Mandi</span>
+              <span class="inline-flex items-center rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1 font-mono text-[12px] font-medium tracking-[0.3px] text-[#57534e]">Founder, Arka360</span>
+              <span class="inline-flex items-center rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1 font-mono text-[12px] font-medium tracking-[0.3px] text-[#57534e]">{allPosts.length}+ Articles</span>
+            </div>
+
+            <p class="mt-5 font-sans text-[16px] leading-[26px] text-[#57534e]">
+              Siddharth builds systems that make organic growth automatic. After founding Arka360 (solar technology), he saw firsthand how much time businesses waste on fragmented marketing workflows. theStacc is his answer: an AI-powered engine that handles blog SEO, local SEO, and social distribution. So businesses can focus on what they actually do.
+            </p>
+
+            <p class="mt-4 font-sans text-[16px] leading-[26px] text-[#57534e]">
+              He writes about SEO automation, AI content strategy, local search, and the intersection of technology and marketing. Every article on theStacc reflects hands-on experience building and scaling growth systems.
+            </p>
+
+            <div class="mt-6 flex gap-3">
+              <a href="https://www.linkedin.com/in/siddharthgangal/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] px-4 py-2 font-mono text-sm font-medium text-[#292524] transition-colors hover:bg-[#fafaf9]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#0A66C2">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                LinkedIn
+              </a>
+              <a href="/about" class="inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] px-4 py-2 font-mono text-sm font-medium text-[#292524] transition-colors hover:bg-[#fafaf9]">
+                About theStacc
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Expertise Areas -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9] px-6 py-10">
+      <div class="mx-auto max-w-[680px]">
+        <p class="font-mono text-[13px] font-semibold uppercase tracking-[0.56px] text-[#79716b]">Areas of Expertise</p>
+        <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {['SEO Automation', 'AI Content Strategy', 'Local SEO', 'Technical SEO', 'Content Marketing', 'SaaS Growth'].map((area) => (
+            <div class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-3">
+              <p class="font-sans text-[14px] font-medium text-[#292524]">{area}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Articles -->
+    <section class="border-b border-[#e7e5e4] bg-white px-6 py-14">
+      <div class="mx-auto max-w-[900px]">
+        <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#4f39f6]">Recent Articles</p>
+        <h2 class="mt-3 font-sans text-[24px] leading-[32px] font-semibold text-[#292524]">
+          Latest from Siddharth
+        </h2>
+
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {recentPosts.map((post) => (
+            <a href={`/blog/${post.data.slug}/`} class="group relative block overflow-hidden rounded-[12px] border border-[#e7e5e4] bg-white transition-shadow hover:border-[#c4b5fd] hover:shadow-md">
+              <div class="h-[3px] w-full bg-gradient-to-r from-[#4f39f6] via-[#818cf8] to-[#c4b5fd]"></div>
+              <div class="p-5">
+                <span class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">{post.data.category}</span>
+                <h3 class="mt-2.5 font-sans text-[15px] leading-[1.4] font-semibold text-[#292524] group-hover:text-[#4f39f6] transition-colors line-clamp-3">{post.data.title}</h3>
+                <p class="mt-3 font-mono text-[10px] uppercase tracking-[0.08em] text-[#79716b]">{post.data.date}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div class="mt-8 text-center">
+          <a href="/blog/" class="inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] px-5 py-2.5 font-mono text-sm font-semibold uppercase text-[#292524] transition-colors hover:bg-[#fafaf9]">
+            View All {allPosts.length} Articles
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ DARK FOOTER CTA ░░ -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.06) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <p class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">theStacc</p>
+        <h3 class="mt-3 font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-[#292524]">
+          30+ articles a month. No writers needed.
+        </h3>
+        <p class="mx-auto mt-3 max-w-[440px] font-sans text-[15px] leading-[1.7] text-[#57534e]">
+          theStacc writes, optimizes, and publishes SEO blog content to your site every month. Automatically.
+        </p>
+        <a href="/demo/"
+          class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">
+          Start Your $1 Trial
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#79716b]">$1 for 3 days · Cancel anytime</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

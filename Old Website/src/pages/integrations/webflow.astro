@@ -1,0 +1,449 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "How does Stacc connect with Webflow?",
+    a: "Stacc connects via a Webflow API token you generate in Site Settings → Apps & Integrations → API Access. The token needs CMS and Sites set to Read and write — all other scopes can stay on None. No Webflow Developer plan is required.",
+  },
+  {
+    q: "What permissions does the Webflow API token need?",
+    a: "Exactly two scopes: CMS set to Read and write (so Stacc can create and update CMS items) and Sites set to Read and write (so Stacc can read site info to construct your live URL and re-publish the site so new items appear live). The underlying API scopes are cms:read, cms:write, sites:read, sites:write. Leave Custom code, Pages, Users, Forms, Components, and Ecommerce on None.",
+  },
+  {
+    q: "Where do I find the API access page in Webflow?",
+    a: "Open the site you want to connect → Site Settings (top-right) → Apps & Integrations tab → API Access section. Click Generate API token, name it theStacc, set the permission dropdowns as above, and copy the token immediately — Webflow only shows it once.",
+  },
+  {
+    q: "My Webflow site is brand new — will publishing work?",
+    a: "You need to publish your Webflow site at least once from the Designer first. Webflow rejects live CMS publishes on sites that have never been published. After your first manual publish, Stacc handles every future publish automatically.",
+  },
+  {
+    q: "Can Stacc sync data to Webflow CMS fields?",
+    a: "Yes. Stacc pushes business data — name, address, hours, phone, service descriptions, and blog content — into designated Webflow CMS collection fields. Use Plain text fields for tags, categories, and authors (Reference fields are not yet supported).",
+  },
+  {
+    q: "Does Stacc inject local schema markup on Webflow?",
+    a: "Yes. Stacc adds LocalBusiness JSON-LD schema to your Webflow site's custom code head section. This structured data tells Google your exact business location, hours, and services — with no manual JSON-LD editing required.",
+  },
+  {
+    q: "Can I embed a review widget on Webflow?",
+    a: "Yes. Stacc provides an HTML embed that you add to any Webflow page using an HTML Embed component. Your latest Google and Facebook reviews display dynamically — automatically updated as new reviews come in.",
+  },
+  {
+    q: "Does this work for agency-built Webflow sites?",
+    a: "Yes. Agencies can connect client Webflow sites to Stacc and deploy CMS sync, local schema, NAP sync, and review feeds across multiple client projects from a single Stacc account. Each client site connects with its own token and syncs to the appropriate location data.",
+  },
+  {
+    q: "Do I need to modify my Webflow theme or components?",
+    a: "No. Stacc only writes to CMS items via the API — your existing design stays exactly as it is. Custom code is only needed if you also want local schema and the review widget on top of CMS sync.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Webflow Integration",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Connect Webflow to theStacc. Sync local business data to CMS fields, inject local schema automatically, and embed live review feeds on Webflow sites.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Integrations", "item": "https://thestacc.com/integrations/" },
+        { "@type": "ListItem", "position": 3, "name": "Webflow", "item": "https://thestacc.com/integrations/webflow/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Webflow Integration — Local SEO Automation for Webflow Sites | theStacc"
+  description="Keep your Webflow site's local business data synchronized with Google Business Profile and 50+ directories. Automate local schema and NAP without custom code."
+
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Integration · Webflow</span>
+          </div>
+
+          <div class="mb-8 flex items-center justify-center gap-5">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-label="theStacc" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="4" fill="#4f39f6"/>
+                <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+            </div>
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="#4353FF" aria-label="Webflow" aria-hidden="true">
+                <path d="M17.44 7.636C16.26 9.87 15.42 11.54 14.65 13.03c-.17-.96-.27-2.04-.4-3.44l-.05-.61H10.8L8.56 16.36 7.34 9H4L6.56 21h3.37l2.3-7.3c.14 1.06.29 2.11.54 3.07l.56 2.23h3l4.67-11.36h-3.04z"/>
+              </svg>
+            </div>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Stacc + Webflow.<br />
+            <span style="color:#4f39f6;">Local SEO, always in sync.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Connect your Webflow site to Stacc and keep all local business data accurate automatically. CMS fields synced, local schema injected, review feeds embedded — without modifying your design or writing custom code.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Connect Webflow free
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#how-to-connect"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              See how it works
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            No custom code · CMS API sync · Works for agencies + multi-location
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHAT THIS DOES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">What you get</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Local SEO data flows from Stacc<br />into your Webflow CMS automatically.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15', title: 'CMS field sync', body: 'Business data — name, address, hours, phone, services — pushes to Webflow CMS collection fields automatically. Location pages stay accurate without manual edits.' },
+            { icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4', title: 'Local schema injection', body: 'LocalBusiness JSON-LD schema injects via Webflow\'s custom code settings automatically. Clean structured data for Google — no JSON-LD editing, no developer needed.' },
+            { icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z', title: 'Dynamic review feed', body: 'Embed a live review feed on any Webflow page using an HTML Embed component. Latest Google and Facebook reviews display automatically — always current.' },
+            { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Business hours sync', body: 'Hours updated in Stacc push to Webflow CMS fields automatically. Customers on your Webflow site always see accurate hours — no manual updates needed.' },
+            { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Services data bridge', body: 'Service names and descriptions sync from your GBP through Stacc to Webflow. Consistent service info everywhere search engines and customers look.' },
+            { icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7', title: 'Multi-location CMS support', body: 'For multi-location Webflow builds, Stacc syncs location-specific data to individual CMS items — keeping each location page accurate without any manual CMS management.' },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SETUP STEPS ─── -->
+    <section id="how-to-connect" class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">How to connect</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Three steps. No designer changes.<br />Webflow connected.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-3xl space-y-4">
+          <!-- Step 01 — with screenshot of the API access page -->
+          <div class="flex gap-6 rounded-2xl border border-[#e7e5e4] bg-white p-7">
+            <span class="font-mono text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[#4f39f6]/20 shrink-0">01</span>
+            <div class="flex-1 min-w-0">
+              <p class="font-sans text-[15px] font-semibold text-[#111827]">Open Webflow's API access page</p>
+              <p class="mt-1.5 font-sans text-[14px] leading-relaxed text-[#57534e]">
+                In Webflow, open the site you want to connect → <span class="font-medium text-[#292524]">Site Settings</span> → <span class="font-medium text-[#292524]">Apps & Integrations</span> tab → scroll to the <span class="font-medium text-[#292524]">API access</span> section. You'll see something like this:
+              </p>
+              <figure class="mt-4 overflow-hidden rounded-xl border border-[#e7e5e4]">
+                <img
+                  src="/images/integrations/webflow/api-access-page.webp"
+                  alt="Webflow Site Settings → Apps & Integrations → API access section, showing two buttons: 'Generate V1 token' and the highlighted blue 'Generate API token' button"
+                  width="1600"
+                  height="280"
+                  loading="lazy"
+                  class="block w-full"
+                />
+              </figure>
+              <div class="mt-4 flex gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p class="font-sans text-[13px] leading-relaxed text-amber-900">
+                  Click the <span class="font-semibold">blue "Generate API token" button</span> on the right — <span class="font-semibold">not</span> "Generate V1 token". V1 tokens use Webflow's legacy API which Stacc doesn't support.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 02 — set permissions on the screen that opens -->
+          <div class="flex gap-6 rounded-2xl border border-[#e7e5e4] bg-white p-7">
+            <span class="font-mono text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[#4f39f6]/20 shrink-0">02</span>
+            <div class="flex-1 min-w-0">
+              <p class="font-sans text-[15px] font-semibold text-[#111827]">Name the token and set the permissions</p>
+              <p class="mt-1.5 font-sans text-[14px] leading-relaxed text-[#57534e]">
+                A new screen opens with a name field and a list of permission categories, each with a dropdown. Name the token <span class="font-mono text-[12px] bg-[#f5f3ff] px-1.5 py-0.5 rounded">theStacc</span> and set the dropdowns exactly like the table below. <span class="font-medium text-[#292524]">Only CMS and Sites need access</span> — leave everything else on None.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 03 — copy and paste -->
+          <div class="flex gap-6 rounded-2xl border border-[#e7e5e4] bg-white p-7">
+            <span class="font-mono text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[#4f39f6]/20 shrink-0">03</span>
+            <div class="flex-1 min-w-0">
+              <p class="font-sans text-[15px] font-semibold text-[#111827]">Copy the token and paste it into Stacc</p>
+              <p class="mt-1.5 font-sans text-[14px] leading-relaxed text-[#57534e]">
+                Click <span class="font-medium text-[#292524]">Generate token</span>, then <span class="font-semibold text-[#292524]">copy it immediately</span> — Webflow only shows the token once. In Stacc, open <span class="font-medium text-[#292524]">Integrations → Webflow</span>, paste the token, pick your site and CMS collection, and you're connected.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Permission scopes table — exact dropdowns to set -->
+        <div class="mx-auto mt-10 max-w-3xl">
+          <div class="rounded-2xl border border-[#e7e5e4] bg-white p-7">
+            <div class="flex items-center gap-2">
+              <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#4f39f6]">Permissions to grant</span>
+            </div>
+            <p class="mt-2 font-sans text-[14px] leading-relaxed text-[#57534e]">When Webflow asks which permissions to grant the API token, set each dropdown exactly like this:</p>
+            <div class="mt-5 overflow-hidden rounded-xl border border-[#e7e5e4]">
+              <div class="grid grid-cols-3 bg-[#f5f3ff] border-b border-[#e7e5e4]">
+                <div class="px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Scope</div>
+                <div class="border-x border-[#e7e5e4] px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Set to</div>
+                <div class="px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Why</div>
+              </div>
+              {[
+                ['CMS', 'Read and write', 'Create and update blog items in your collection'],
+                ['Sites', 'Read and write', 'Read site info (for live URL) and re-publish the site so new posts appear live'],
+                ['Custom code', 'None', 'Not used'],
+                ['Pages', 'None', 'Not used'],
+                ['Users', 'None', 'Not used'],
+                ['Forms', 'None', 'Not used'],
+                ['Components', 'None', 'Not used'],
+                ['Ecommerce', 'None', 'Not used'],
+                ['Authorized user', 'Read only', 'Default — leave as is'],
+              ].map(([scope, perm, why]) => {
+                const isActive = perm === 'Read and write';
+                return (
+                  <div class="grid grid-cols-3 border-b border-[#e7e5e4] last:border-0">
+                    <div class="px-5 py-3 font-sans text-[13px] font-medium text-[#292524]">{scope}</div>
+                    <div class={`border-x border-[#e7e5e4] px-5 py-3 font-sans text-[13px] ${isActive ? 'font-semibold text-[#4f39f6]' : 'text-[#79716b]'}`}>{perm}</div>
+                    <div class="px-5 py-3 font-sans text-[13px] text-[#79716b]">{why}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <p class="mt-4 font-sans text-[13px] leading-relaxed text-[#79716b]">
+              Granting more than this works, but giving the token only what's needed is the safer default — Stacc never reads your forms, users, or page contents.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── BEFORE / AFTER ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Before vs. after</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            What changes when Webflow<br />connects to Stacc.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-[#e7e5e4]">
+          <div class="grid grid-cols-3 bg-[#f5f3ff] border-b border-[#e7e5e4]">
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Task</div>
+            <div class="border-x border-[#e7e5e4] px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Without Stacc</div>
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4f39f6]">With Stacc</div>
+          </div>
+          {[
+            ['Add local schema to Webflow', 'Manually edit custom code or hire developer', 'Auto-injected by Stacc on connection'],
+            ['Update location page hours', 'Log into Webflow CMS, find item, edit', 'Update in Stacc, syncs to CMS automatically'],
+            ['Show reviews on Webflow', 'Screenshot + paste testimonials into CMS', 'Live embed, always shows latest reviews'],
+            ['Launch new location page', 'Manually enter all data into CMS collection', 'Stacc pushes the new location\'s data automatically'],
+            ['Keep NAP consistent', 'Update Webflow, GBP, directories separately', 'One change in Stacc syncs to all platforms'],
+          ].map(([task, before, after]) => (
+            <div class="grid grid-cols-3 border-b border-[#e7e5e4] last:border-0">
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#292524]">{task}</div>
+              <div class="border-x border-[#e7e5e4] px-6 py-4 font-sans text-[13px] text-[#79716b]">{before}</div>
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#4f39f6]">{after}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── USE CASES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Who uses this</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Three workflows this<br />integration unlocks immediately.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-5 md:grid-cols-3">
+          {[
+            { label: 'Webflow agencies', title: 'Local SEO automation across every client site', body: 'Connect all client Webflow sites to Stacc and deploy schema markup, NAP sync, and review feeds to every project from one dashboard — in minutes, not hours per client.' },
+            { label: 'Multi-location Webflow builds', title: 'Location pages that always show the right data', body: 'Each location page on Webflow shows the correct address, hours, and reviews for that location — synced automatically from Stacc without touching the CMS.' },
+            { label: 'Local businesses on Webflow', title: 'A Webflow site that maintains itself', body: 'Your beautiful Webflow design stays exactly as it is. Stacc adds the local SEO layer underneath — schema, NAP, reviews — all kept accurate automatically.' },
+          ].map(c => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4f39f6]">{c.label}</span>
+              <p class="mt-3 font-sans text-[15px] font-semibold leading-snug text-[#111827]">{c.title}</p>
+              <p class="mt-2.5 font-sans text-[13px] leading-relaxed text-[#57534e]">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED INTEGRATIONS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Often connected together</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Webflow works best<br />alongside these.
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-3">
+          {[
+            { title: 'Google Business Profile', desc: 'GBP changes sync to Stacc, then push to your Webflow CMS fields automatically. The full data loop, closed.', href: '/integrations/google-business-profile/' },
+            { title: 'Citation Management', desc: 'Keep NAP consistent across 50+ directories — including your Webflow site — all managed from one place.', href: '/features/citation-management/' },
+            { title: 'White-Label Dashboard', desc: 'Agencies delivering Webflow sites can present clients a branded Stacc dashboard alongside the site delivery.', href: '/features/white-label-dashboard/' },
+          ].map(r => (
+            <a href={r.href} class="group rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6 transition-colors hover:border-[#4f39f6]/30 hover:bg-[#f5f3ff]/40">
+              <p class="font-sans text-[14px] font-semibold text-[#111827] group-hover:text-[#4f39f6]">{r.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-relaxed text-[#57534e]">{r.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">FAQ</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Questions about the<br />Webflow integration
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq) => (
+            <div class="faq-item">
+              <button class="faq-btn w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <span class="faq-icon-plus shrink-0 text-[#4f39f6]">+</span>
+                <span class="faq-icon-minus hidden shrink-0 text-[#4f39f6]">−</span>
+              </button>
+              <div class="faq-answer hidden px-6 pb-5">
+                <p class="font-sans text-[14px] leading-relaxed text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-24" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.06) 0%, transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Connect in minutes</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-[#292524] md:text-[2.75rem]">
+            Your Webflow build.<br />Local SEO handled automatically.
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Webflow builds beautiful sites. Stacc makes them rank locally. Connect the two and let local SEO data — schema, NAP, reviews — flow into your Webflow CMS automatically. No more manual updates, no outdated location pages.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Connect Webflow free
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pricing/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              View pricing
+            </a>
+          </div>
+          <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#292524]/20">$1 for 3 days · No credit card · Cancel anytime</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const answer = item?.querySelector('.faq-answer');
+      const plus = btn.querySelector('.faq-icon-plus');
+      const minus = btn.querySelector('.faq-icon-minus');
+      if (!answer) return;
+      const isOpen = !answer.classList.contains('hidden');
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+      document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+      document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+      if (!isOpen) {
+        answer.classList.remove('hidden');
+        plus?.classList.add('hidden');
+        minus?.classList.remove('hidden');
+      }
+    });
+  });
+</script>

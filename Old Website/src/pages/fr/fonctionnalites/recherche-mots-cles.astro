@@ -1,0 +1,443 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/fr/HeaderFr.astro';
+import Footer from '../../../components/fr/FooterFr.astro';
+
+const faqs = [
+  {
+    q: "Comment Stacc identifie-t-il les mots-clés locaux ?",
+    a: "Stacc combine plusieurs sources : données de recherche Google localisées pour votre secteur et votre zone géographique, analyse des sites de vos concurrents locaux, mots-clés sur lesquels ils se positionnent actuellement, et patterns de recherche spécifiques à votre type de service. Le résultat est une liste de mots-clés calibrée pour votre marché réel.",
+  },
+  {
+    q: "Puis-je ajouter mes propres mots-clés à la liste ?",
+    a: "Oui. Après l'analyse initiale, vous pouvez ajouter des mots-clés spécifiques que vous souhaitez cibler — des termes techniques de votre secteur, des services nouveaux, des zones géographiques supplémentaires. Stacc les intègre dans le plan et les suit comme les autres.",
+  },
+  {
+    q: "À quelle fréquence la liste de mots-clés est-elle mise à jour ?",
+    a: "L'analyse est relancée automatiquement chaque mois. Les nouvelles opportunités — termes émergents, lacunes créées par les mouvements de vos concurrents, saisonnalité — sont intégrées dans votre plan de contenu mis à jour. Ce n'est pas une analyse ponctuelle, c'est une veille continue.",
+  },
+  {
+    q: "Combien de mots-clés Stacc analyse-t-il ?",
+    a: "Lors de l'audit initial, Stacc analyse typiquement entre 5 000 et 15 000 mots-clés potentiels pour votre secteur et zone. La liste finale que vous recevez contient les opportunités les plus pertinentes et les plus réalisables — généralement 50 à 200 mots-clés prioritaires selon la taille de votre marché.",
+  },
+  {
+    q: "Quelle est la différence entre mots-clés locaux et nationaux ?",
+    a: "Les mots-clés locaux incluent une composante géographique — explicite ('plombier Lyon') ou implicite (Google sait que 'plombier' est recherché avec une intention locale quand l'utilisateur est à Lyon). Stacc se concentre sur les mots-clés avec une intention locale — ceux où apparaître dans le pack Google Maps ou les résultats de recherche locale a le plus d'impact commercial.",
+  },
+  {
+    q: "La recherche de mots-clés est-elle incluse dans tous les plans ?",
+    a: "La recherche de mots-clés locaux est incluse dans le module Blog SEO (pour guider la stratégie de contenu) et dans le module SEO Local (pour le suivi des positions). Si vous souhaitez l'outil de recherche de mots-clés seul, contactez-nous pour une configuration personnalisée.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Recherche de Mots-Clés Locaux",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "fr",
+      "description": "Stacc analyse votre marché local, identifie les mots-clés à fort potentiel que vos concurrents ne ciblent pas encore, et construit votre stratégie de contenu complète. Automatiquement.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://thestacc.com/fr/" },
+        { "@type": "ListItem", "position": 2, "name": "Fonctionnalités", "item": "https://thestacc.com/fr/fonctionnalites/" },
+        { "@type": "ListItem", "position": 3, "name": "Recherche de Mots-Clés", "item": "https://thestacc.com/fr/fonctionnalites/recherche-mots-cles/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "fr",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+
+const trustStats = [
+  { value: "10K+", label: "Mots-clés analysés par audit" },
+  { value: "Local", label: "Ciblage géographique précis" },
+  { value: "Mensuel", label: "Mise à jour automatique" },
+  { value: "4,9★", label: "Note moyenne Stacc" },
+];
+
+const painPoints = [
+  {
+    title: "Cibler 'plombier' quand vos clients cherchent 'plombier urgence Paris 15' ne génère rien.",
+    body: "Les mots-clés génériques ont une compétition nationale impossible à gagner pour une PME locale. Les mots-clés locaux à haute intention — avec la ville, le service spécifique, l'urgence — ont moins de compétition et génèrent des clients qui appellent dans l'heure. Si vous ne les ciblez pas, votre concurrent les prend.",
+  },
+  {
+    title: "Vous ne savez pas ce que vous ne savez pas.",
+    body: "Sans outil de recherche, vous ciblez les mots-clés que vous pensez importants. Mais vos clients utilisent un vocabulaire différent. Ils cherchent 'dégorgement évier Paris' pendant que vous optimisez pour 'plomberie'. Les opportunités les plus rentables sont souvent celles auxquelles vous n'avez pas pensé.",
+  },
+  {
+    title: "Votre contenu cible des mots-clés pour lesquels vous ne pouvez pas gagner en 6 mois.",
+    body: "Publier du contenu sur des mots-clés avec une difficulté de 85/100 quand votre autorité de domaine est de 20 est du temps perdu. La stratégie gagnante est de dominer d'abord les mots-clés gagnables, accumuler de l'autorité, puis monter vers les plus compétitifs. Stacc priorise exactement pour ça.",
+  },
+];
+
+const steps = [
+  {
+    num: "01",
+    title: "Entrez votre URL et votre secteur",
+    body: "Stacc analyse votre site existant, identifie vos thèmes de contenu actuels et vos lacunes. Il cartographie aussi le paysage de recherche de votre secteur dans votre zone géographique.",
+  },
+  {
+    num: "02",
+    title: "L'IA identifie les opportunités de mots-clés",
+    body: "Stacc analyse les termes que recherchent vos clients locaux, identifie ce que vos concurrents ciblent, et calcule le score de difficulté de chaque mot-clé. Les opportunités les plus rentables — fort trafic, faible difficulté, haute intention — sont prioritisées.",
+  },
+  {
+    num: "03",
+    title: "Votre plan de contenu se construit automatiquement",
+    body: "Sur la base de l'analyse, Stacc construit votre calendrier de contenu avec les sujets à cibler, dans quel ordre, et pour quelle audience. Chaque article est planifié pour maximiser vos chances de positionnement.",
+  },
+];
+
+const capabilities = [
+  {
+    title: "Analyse de l'intention de recherche locale",
+    body: "Termes informationnels, commerciaux et transactionnels séparés. Cibler 'meilleur dentiste Paris' (commercial) vs 'comment choisir un dentiste' (informationnel) nécessite des contenus différents.",
+    icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z",
+  },
+  {
+    title: "Analyse des lacunes concurrentes",
+    body: "Voyez exactement quels mots-clés vos concurrents ciblent et pour lesquels ils se positionnent. Identifiez les termes rentables qu'ils ont manqués — vos opportunités immédiates.",
+    icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
+  },
+  {
+    title: "Score de difficulté calibré localement",
+    body: "Le score de difficulté est calculé pour votre marché géographique spécifique, pas au niveau national. Un mot-clé difficile à Lyon peut être facile à Clermont-Ferrand.",
+    icon: "M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z",
+  },
+  {
+    title: "Recherche de mots-clés longue traîne",
+    body: "Les termes spécifiques et détaillés ont souvent plus de valeur commerciale. 'urgence plombier Paris 15 nuit' génère moins de recherches mais des clients qui appellent immédiatement.",
+    icon: "M4 6h16M4 10h16M4 14h16M4 18h16",
+  },
+  {
+    title: "Mise à jour mensuelle automatique",
+    body: "Les tendances de recherche évoluent. Stacc analyse votre marché chaque mois et ajuste votre plan de contenu en fonction des nouvelles opportunités et de l'évolution de la compétition.",
+    icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
+  },
+  {
+    title: "Suivi des positions par mot-clé ciblé",
+    body: "Chaque mot-clé dans votre plan est suivi automatiquement. Voyez si votre contenu se positionne et sur quels termes vous gagnez du terrain mois après mois.",
+    icon: "M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z",
+  },
+];
+
+const metrics = [
+  { value: "15×", label: "Plus de mots-clés ciblés vs. sans outil", sub: "pour les entreprises qui démarrent avec Stacc" },
+  { value: "60 jours", label: "Pour voir les premiers mouvements de position", sub: "sur les mots-clés gagnables" },
+  { value: "4,9×", label: "Augmentation moyenne du trafic organique", sub: "en 6 mois d'optimisation ciblée" },
+];
+---
+
+<BaseLayout
+  title="Recherche de Mots-Clés Locaux — Trouvez les Termes que Cherchent Vraiment Vos Clients | theStacc"
+  description="Stacc analyse votre marché local, identifie les mots-clés à fort potentiel que vos concurrents ne ciblent pas encore, et construit votre stratégie de contenu complète. Automatiquement."
+  lang="fr"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[760px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Recherche de Mots-Clés · Module SEO Local</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Vous publiez du contenu.<br class="hidden md:block" />
+            <span style="color:#4f39f6;">Mais pas sur ce que cherchent vos clients.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[560px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            La plupart des entreprises ciblent des mots-clés trop compétitifs ou trop vagues. Stacc analyse les termes exacts que tapent vos clients dans votre zone géographique, identifie les lacunes de vos concurrents, et construit votre plan de contenu sur des opportunités réelles — pas des suppositions.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/fr/demo/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Analyser mes mots-clés
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/fr/tarifs/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]"
+            >
+              Voir les tarifs
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            30 jours de garantie · Sans carte bancaire · Annulez quand vous voulez
+          </p>
+
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {trustStats.map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]">{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PROBLEM ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Le problème</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Cibler les mauvais mots-clés,<br />c'est investir dans du contenu invisible.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Sans recherche de mots-clés rigoureuse, chaque article publié est un pari. Certains fonctionnent par chance. La plupart n'attirent personne. Stacc remplace le pari par la données.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {painPoints.map(p => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{p.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section id="how-it-works" class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Comment ça fonctionne</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            De votre URL à un plan de contenu complet<br />en moins de 24 heures.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Stacc analyse, identifie et priorise. Vous recevez une liste de mots-clés actionnables avec un plan de contenu — prêt à publier.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl">
+          <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+            {steps.map(s => (
+              <div class="bg-white px-8 py-10">
+                <div class="mb-6 flex items-center justify-between">
+                  <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                  </div>
+                  <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.num}</span>
+                </div>
+                <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+                <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CAPABILITY GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Tout inclus</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Chaque outil pour cibler les mots-clés<br />qui génèrent des clients réels.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {capabilities.map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d={f.icon}/>
+                </svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="relative overflow-hidden border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.06) 0%, transparent 70%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20">
+        <div class="mx-auto max-w-5xl">
+          <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white/5 sm:grid-cols-3">
+            {metrics.map(m => (
+              <div class="px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+                <p class="font-sans text-[3rem] font-bold leading-none text-[#292524]">{m.value}</p>
+                <p class="mt-3 font-mono text-[12px] font-semibold uppercase tracking-[0.1em]" style="color:#818cf8;">{m.label}</p>
+                <p class="mt-2 font-sans text-[13px]" style="color:#4b5563;">{m.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#f5f3ff]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-[#c7c0fc] bg-white px-10 py-12 shadow-sm">
+            <div class="flex gap-1 mb-6">
+              {[1,2,3,4,5].map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <blockquote class="font-sans text-[1.2rem] leading-[1.65] text-[#111827] font-medium">
+              "On pensait cibler les bons mots-clés depuis des années. Stacc nous a montré qu'on ratait complètement les termes que cherchaient vraiment nos clients. En 4 mois sur les nouveaux mots-clés, on a généré plus de leads organiques que les 2 années précédentes combinées."
+            </blockquote>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="h-11 w-11 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                <span class="font-mono text-[14px] font-bold text-white">PM</span>
+              </div>
+              <div>
+                <p class="font-sans text-[14px] font-semibold text-[#111827]">Pierre M.</p>
+                <p class="font-mono text-[11px] text-[#79716b]">Associé, Cabinet d'Avocats · Toulouse</p>
+              </div>
+              <div class="ml-auto flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1.5">
+                <span class="font-mono text-[11px] font-semibold text-[#059669]">2× plus de leads organiques en 4 mois</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Questions fréquentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Les questions que tout le monde pose avant de commencer
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button
+                class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
+                aria-expanded={i === 0 ? 'true' : 'false'}
+              >
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0 transition-transform" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Commencez aujourd'hui</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Cibler les mauvais mots-clés,
+            <span style="color:#818cf8;"> c'est publier pour personne.</span>
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Stacc identifie les termes que cherchent vraiment vos clients locaux, calcule quels sont les plus faciles à conquérir, et construit votre plan de contenu sur des données réelles. Pas des suppositions.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/fr/demo/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]"
+            >
+              Analyser mes mots-clés
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/fr/tarifs/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5"
+            >
+              Voir les tarifs
+            </a>
+          </div>
+
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">Sans contrat · RGPD conforme</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

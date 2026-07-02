@@ -1,0 +1,204 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free Title Tag Generator — SEO-Optimized Titles in Seconds | theStacc';
+const pageDescription = 'Free title tag generator. Enter any keyword and get 8 optimized, click-worthy title tags with scores and character counts. Perfect for blog posts, product pages, and landing pages.';
+const pageUrl = 'https://thestacc.com/tools/title-tag-generator/';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Title Tag Generator',
+  description: 'Generate SEO-optimized title tags for any keyword. Get scored suggestions with character counts and explanations.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is a title tag?', a: 'A title tag is the HTML element that specifies the title of a web page. It appears in search engine results pages (SERPs) as the clickable headline, in browser tabs, and when shared on social media. It is one of the most important on-page SEO elements.' },
+  { q: 'What makes a good title tag?', a: 'A good title tag is 50-60 characters long, front-loads the target keyword, is compelling enough to earn clicks, accurately describes the page content, and is unique across your site. Power words, numbers, and emotional triggers can improve click-through rates.' },
+  { q: 'How does this title tag generator work?', a: 'Enter your target keyword and select a page type. Our AI analyzes SEO best practices and generates multiple title tag variations with different styles — keyword-front, power words, numbers, questions. Each title gets a score and character count so you can pick the best one.' },
+  { q: 'Is this tool free?', a: 'Yes, 100% free with no signup. Enter any keyword and get instant title tag suggestions. You can run up to 15 searches per day.' },
+  { q: 'Why do character counts matter?', a: 'Google typically displays the first 50-60 characters of a title tag in search results. Titles longer than 60 characters may be truncated with an ellipsis, hiding important words. Titles shorter than 50 characters may miss opportunities to include secondary keywords or compelling copy.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'Title Tag Generator', url: pageUrl },
+]);
+
+const pageTypes = [
+  { value: 'blog post', label: 'Blog Post' },
+  { value: 'product page', label: 'Product Page' },
+  { value: 'homepage', label: 'Homepage' },
+  { value: 'landing page', label: 'Landing Page' },
+  { value: 'category page', label: 'Category Page' },
+  { value: 'service page', label: 'Service Page' },
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Title Tag Generator"
+  toolDescription="Generate SEO-optimized title tags for any keyword. Get scored suggestions with character counts and explanations."
+  wide={true}
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <div class="mx-auto max-w-4xl">
+      <!-- Input Form -->
+      <div id="ttg-step-1" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="flex items-center gap-2 mb-6">
+          <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#4f39f6] font-mono text-[12px] font-bold text-white">1</span>
+          <span class="font-sans text-[16px] font-semibold text-[#292524]">Enter Your Keyword</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="md:col-span-2">
+            <input
+              type="text"
+              id="ttg-keyword"
+              required
+              placeholder="e.g., best CRM software, content marketing tips"
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+            />
+          </div>
+          <div>
+            <select
+              id="ttg-page-type"
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors cursor-pointer"
+            >
+              {pageTypes.map((pt) => (
+                <option value={pt.value}>{pt.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <button
+          id="ttg-submit"
+          class="mt-4 w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors"
+        >
+          Generate Title Tags
+        </button>
+      </div>
+
+      <!-- Loading -->
+      <div id="ttg-loading" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6 text-center">
+        <svg class="animate-spin mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="#4f39f6" stroke-width="3" opacity="0.25"/>
+          <path d="M12 2a10 10 0 019.8 8" stroke="#4f39f6" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <p class="text-[15px] text-[#57534e]">Crafting optimized title tags...</p>
+        <p class="text-[13px] text-[#a8a29e] mt-1">This takes about 5-10 seconds</p>
+      </div>
+
+      <!-- Error -->
+      <div id="ttg-error-panel" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+        <svg class="mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        <p class="text-[15px] text-red-700 font-medium">Could not generate titles</p>
+        <p id="ttg-error-msg" class="mt-1 text-[13px] text-red-600">Try a different keyword.</p>
+        <button id="ttg-retry-btn" class="mt-3 rounded-lg border border-red-300 bg-white px-4 py-2 text-[13px] font-medium text-red-700 hover:bg-red-100 cursor-pointer transition-colors">
+          Try Again
+        </button>
+      </div>
+
+      <!-- Results -->
+      <div id="ttg-results" class="mt-6 hidden space-y-4">
+        <!-- Header -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-5">
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <p class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Keyword</p>
+              <p id="ttg-keyword-display" class="text-[18px] font-semibold text-[#292524]"></p>
+            </div>
+            <div>
+              <p class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Page Type</p>
+              <p id="ttg-page-type-display" class="text-[14px] text-[#57534e]"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Suggestions -->
+        <div id="ttg-suggestions" class="space-y-3">
+        </div>
+
+        <!-- Start Over -->
+        <div class="text-center mt-6">
+          <button id="ttg-start-over" class="rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 text-[14px] font-medium text-[#57534e] hover:border-[#4f39f6] hover:text-[#4f39f6] cursor-pointer transition-colors">
+            Generate More Titles
+          </button>
+        </div>
+      </div>
+    </div>
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="speakable mx-auto max-w-3xl">
+      <div class="mb-12 rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-3">Why Title Tags Matter for SEO</h2>
+        <p class="text-[15px] text-[#57534e] leading-relaxed">
+          Title tags are the single most important on-page SEO element. They tell search engines what your page is about and convince searchers to click. A well-optimized title can be the difference between position 3 with 2% CTR and position 3 with 8% CTR.
+        </p>
+      </div>
+
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">How It Works</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { step: '1', title: 'Enter Your Keyword', desc: 'Type the main keyword you want to rank for.' },
+            { step: '2', title: 'Pick Page Type', desc: 'Select whether this is a blog post, product page, homepage, etc.' },
+            { step: '3', title: 'Get Suggestions', desc: 'Our AI generates multiple title variations with different styles.' },
+            { step: '4', title: 'Copy & Use', desc: 'Each title shows a score, character count, and explanation. Pick the best one.' },
+          ].map((item) => (
+            <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#f5f3ff] font-mono text-[14px] font-bold text-[#4f39f6]">{item.step}</span>
+              <h3 class="mt-3 font-sans text-[15px] font-semibold text-[#292524]">{item.title}</h3>
+              <p class="mt-1 text-[14px] text-[#57534e] leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-3">
+          {faqs.map((faq) => (
+            <details class="rounded-xl border border-[#e7e5e4] bg-white group">
+              <summary class="flex cursor-pointer items-center justify-between p-5 font-sans text-[15px] font-semibold text-[#292524] list-none">
+                {faq.q}
+                <svg class="h-5 w-5 shrink-0 text-[#79716b] transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <div class="px-5 pb-5 text-[14px] text-[#57534e] leading-relaxed">
+                {faq.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-[#4f39f6] bg-[#f5f3ff] p-6 md:p-8 text-center">
+        <h2 class="font-sans text-[18px] font-semibold text-[#292524]">Want title tag tracking across your site?</h2>
+        <p class="mt-2 text-[14px] text-[#57534e]">
+          theStacc monitors every title tag on your site for length, duplicates, and click-through performance.
+        </p>
+        <a href="/" class="mt-4 inline-block rounded-xl bg-[#615fff] px-6 py-3 font-mono text-[13px] font-bold uppercase text-white hover:bg-[#4f39f6] transition-colors">
+          Start Your $1 Trial
+        </a>
+      </div>
+    </div>
+  </Fragment>
+</ToolLayout>
+
+<script src="/js/title-tag-generator-engine.js" defer></script>

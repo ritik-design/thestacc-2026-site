@@ -1,0 +1,396 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "Come si connette Stacc a un sito Wix?",
+    a: "Stacc si connette al tuo sito Wix tramite le API di Wix. Nella dashboard Stacc, vai alla sezione Integrazioni, seleziona Wix e autorizza la connessione tramite il tuo account Wix. Il processo richiede meno di 5 minuti e non richiede modifiche manuali al sito.",
+  },
+  {
+    q: "Stacc aggiunge automaticamente lo schema LocalBusiness al mio sito Wix?",
+    a: "Sì. Stacc inietta lo schema LocalBusiness nelle impostazioni SEO avanzate di Wix. Questo permette a Google di leggere le informazioni strutturate sulla tua attività direttamente dal tuo sito — una delle basi del SEO locale tecnico che spesso manca nei siti Wix.",
+  },
+  {
+    q: "Posso mostrare le recensioni Google sul mio sito Wix?",
+    a: "Sì. Stacc fornisce un widget embed HTML che puoi aggiungere a qualsiasi pagina Wix tramite il blocco HTML personalizzato. Il widget mostra dinamicamente le ultime recensioni Google e si aggiorna automaticamente — senza accedere all'editor Wix ogni volta.",
+  },
+  {
+    q: "Funziona con tutti i piani Wix?",
+    a: "L'integrazione funziona con i piani Wix che permettono l'accesso alle API e l'aggiunta di codice HTML personalizzato — in genere i piani Business e premium. Il piano gratuito di Wix non supporta queste funzionalità.",
+  },
+  {
+    q: "Se cambio il numero di telefono in Stacc, si aggiorna anche sul sito Wix?",
+    a: "Sì. La sincronizzazione è bidirezionale: le modifiche ai dati dell'attività in Stacc vengono propagate automaticamente ai campi corrispondenti del tuo sito Wix. Non devi accedere all'editor Wix per aggiornare le informazioni di contatto.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Integrazione Wix",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "it",
+      "description": "Sincronizza i dati dell'attività locale da Stacc al tuo sito Wix. Schema LocalBusiness automatico, dati NAP aggiornati e widget recensioni per siti locali su Wix.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/it/" },
+        { "@type": "ListItem", "position": 2, "name": "Integrazioni", "item": "https://thestacc.com/it/integrazioni/" },
+        { "@type": "ListItem", "position": 3, "name": "Wix", "item": "https://thestacc.com/it/integrazioni/wix/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "it",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Integrazione Wix — Sincronizza Dati Locali e Schema da Stacc | theStacc"
+  description="Sincronizza i dati dell'attività locale da Stacc al tuo sito Wix. Schema LocalBusiness automatico, dati NAP aggiornati e widget recensioni per siti locali su Wix."
+  lang="it"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Integrazione · Wix</span>
+          </div>
+
+          <!-- Logo pairing visual -->
+          <div class="mb-8 flex items-center justify-center gap-5">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-label="theStacc" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="4" fill="#4f39f6"/>
+                <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+            </div>
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="36" height="20" viewBox="0 0 60 24" aria-label="Wix" aria-hidden="true">
+                <text x="0" y="20" font-family="Arial, sans-serif" font-weight="bold" font-size="22" fill="white">Wix</text>
+              </svg>
+            </div>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Stacc + Wix.<br />
+            <span style="color:#4f39f6;">Il tuo sito ottimizzato per il locale.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Collega Stacc al tuo sito Wix per sincronizzare automaticamente le informazioni dell'attività, iniettare schema LocalBusiness e mostrare le tue recensioni Google — senza aprire l'editor Wix ogni volta che qualcosa cambia.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/it/demo/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Connetti Wix
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/it/prezzi/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              Vedi i prezzi
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            Inizia per $1 · Nessuna carta di credito · Cancella quando vuoi
+          </p>
+
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {[
+              { value: 'Auto', label: 'Sincronizzazione dati NAP su Wix' },
+              { value: 'Schema', label: 'LocalBusiness iniettato automaticamente' },
+              { value: 'Live', label: 'Widget recensioni Google dinamico' },
+              { value: '4.9★', label: 'Valutazione clienti' },
+            ].map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]">{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PAIN SECTION ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Il problema</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Wix è facile da usare, ma il SEO locale tecnico richiede qualcosa in più.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Wix semplifica la costruzione del sito, ma il SEO locale tecnico — schema markup, coerenza NAP, segnali di fiducia — non è automatico. Senza questi elementi, il tuo sito non sfrutta tutto il potenziale per il posizionamento locale.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {[
+            {
+              icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+              title: 'Lo schema LocalBusiness non è configurato di default nei siti Wix.',
+              body: 'Wix offre alcune opzioni SEO di base, ma il markup schema LocalBusiness — che dice a Google esattamente cosa sei, dove sei e quando sei aperto — non viene generato automaticamente. Senza schema corretto, perdi un\'opportunità di ranking locale significativa rispetto ai concorrenti che lo hanno.',
+            },
+            {
+              icon: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+              title: 'Aggiornare le informazioni su Wix e GBP separatamente è un lavoro doppio.',
+              body: 'Ogni volta che cambi orari, numero di telefono o indirizzo, devi aggiornarlo sia su Google Business Profile che sull\'editor Wix — in due posti separati, con il rischio di dimenticare uno dei due. Le discrepanze che ne derivano penalizzano il ranking locale.',
+            },
+            {
+              icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z',
+              title: 'Le recensioni sul sito Wix devono essere aggiornate manualmente.',
+              body: 'Aggiungere recensioni al sito Wix significa copiarle manualmente dall\'interfaccia Google — un\'operazione che richiede tempo e che la maggior parte dei titolari non fa mai. Il risultato sono siti con recensioni vecchie o, peggio, senza nessuna recensione visibile.',
+            },
+          ].map(p => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={p.icon}/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{p.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Come funziona</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Il tuo sito Wix pronto per il SEO locale.<br />In cinque minuti, non in cinque giorni.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+          {[
+            { n: '01', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1', title: 'Connetti il tuo sito Wix', body: 'Autorizza Stacc ad accedere al tuo account Wix dalla sezione Integrazioni. Stacc legge la struttura del tuo sito e identifica le pagine rilevanti per il SEO locale — pagina contatti, pagina chi siamo, homepage. La configurazione richiede meno di 5 minuti.' },
+            { n: '02', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15', title: 'Schema e dati si sincronizzano automaticamente', body: 'Stacc inietta lo schema LocalBusiness nelle impostazioni SEO avanzate del tuo sito Wix e sincronizza i dati NAP con i campi corrispondenti. Ogni modifica in Stacc si propaga automaticamente al sito — nessun doppio aggiornamento manuale.' },
+            { n: '03', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z', title: 'Recensioni dinamiche sulle pagine Wix', body: 'Aggiungi il blocco HTML embed di Stacc alle pagine Wix dove vuoi mostrare le recensioni. Il widget recupera automaticamente le ultime recensioni Google e le visualizza — aggiornato in tempo reale, senza accedere all\'editor Wix.' },
+          ].map(s => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={s.icon}/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.n}</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CAPABILITY GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Tutto incluso</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            SEO locale completo<br />per il tuo sito Wix.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { title: 'Connessione API Wix', body: 'Integrazione via API ufficiale Wix. Connetti il tuo sito in meno di 5 minuti dall\'interfaccia Stacc senza modifiche manuali.', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1' },
+            { title: 'Schema LocalBusiness automatico', body: 'Stacc inietta e mantiene aggiornato il markup schema LocalBusiness nelle impostazioni SEO avanzate del tuo sito Wix.', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
+            { title: 'Sincronizzazione NAP bidirezionale', body: 'Le informazioni di nome, indirizzo e telefono vengono sincronizzate automaticamente tra Stacc e il tuo sito Wix ad ogni aggiornamento.', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15' },
+            { title: 'Widget recensioni embed', body: 'Blocco HTML personalizzabile per mostrare le ultime recensioni Google su qualsiasi pagina Wix. Nessun aggiornamento manuale richiesto.', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' },
+            { title: 'Identificazione pagine locali', body: 'Stacc identifica automaticamente le pagine del sito Wix più rilevanti per il SEO locale — contatti, chi siamo, pagine sede — e ottimizza su quelle.', icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z' },
+            { title: 'Supporto multi-sito per agenzie', body: 'Le agenzie possono connettere più siti Wix di clienti diversi a un unico account Stacc agency per gestire il SEO locale di tutti i clienti da una dashboard.', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z' },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Risultati</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2.4rem]">
+            Cosa ottieni quando il tuo sito Wix<br />è tecnicamente ottimizzato per il locale.
+          </h2>
+        </div>
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px overflow-hidden rounded-2xl bg-white/5 md:grid-cols-3" style="border:1px solid rgba(255,255,255,0.08);">
+          {[
+            { value: '< 5min', label: 'Configurazione dell\'integrazione Wix', sub: 'da autorizzazione a sincronizzazione attiva' },
+            { value: '100%', label: 'Coerenza NAP tra Stacc e Wix', sub: 'aggiornamento automatico senza doppio lavoro' },
+            { value: 'Auto', label: 'Schema LocalBusiness mantenuto aggiornato', sub: 'ad ogni modifica delle informazioni attività' },
+          ].map(s => (
+            <div class="flex flex-col items-center justify-center px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+              <p class="font-sans text-[3rem] font-semibold tracking-[-0.04em] text-[#292524]">{s.value}</p>
+              <p class="mt-2 font-sans text-[14px] font-semibold text-[#292524]/70">{s.label}</p>
+              <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.12em]" style="color:#4b5563;">{s.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#f5f3ff]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-[#c7c0fc] bg-white px-10 py-12 shadow-sm">
+            <div class="flex gap-1 mb-6">
+              {[1,2,3,4,5].map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <blockquote class="font-sans text-[1.2rem] leading-[1.65] text-[#111827] font-medium">
+              "Avevo il mio sito su Wix da tre anni ma non sapevo nemmeno cosa fosse lo schema markup. Il mio commercialista mi ha detto che i concorrenti apparivano su Google Maps e io no. Dopo aver collegato Wix a Stacc e configurato il tutto, sono comparsa nel Local Pack in sei settimane."
+            </blockquote>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="h-11 w-11 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                <span class="font-mono text-[14px] font-bold text-white">EP</span>
+              </div>
+              <div>
+                <p class="font-sans text-[14px] font-semibold text-[#111827]">Elena P.</p>
+                <p class="font-mono text-[11px] text-[#79716b]">Titolare, Centro Estetico · Padova</p>
+              </div>
+              <div class="ml-auto hidden sm:flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1.5">
+                <span class="font-mono text-[11px] font-semibold text-[#059669]">Local Pack in 6 settimane</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Domande frequenti</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Domande sull'integrazione Wix
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left" aria-expanded={i === 0 ? 'true' : 'false'}>
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Il tuo sito Wix merita la stessa ottimizzazione locale dei siti più tecnici</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Connetti Wix a Stacc.<br />SEO locale completo in cinque minuti.
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Schema automatico, dati sincronizzati, widget recensioni dinamico. Il tuo sito Wix ottimizzato per il posizionamento locale — senza sviluppatori, senza codice.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/it/demo/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Connetti Wix
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/it/prezzi/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5">
+              Vedi i prezzi
+            </a>
+          </div>
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">Inizia per $1 · Garanzia 30 giorni · Cancella quando vuoi</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

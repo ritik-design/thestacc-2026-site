@@ -1,0 +1,384 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "What exactly gets white-labeled?",
+    a: "Everything the client sees: the dashboard URL (your domain), the logo, your agency name, report PDFs, automated report emails, and client-facing notifications. Stacc's name and branding never appear anywhere in the client experience.",
+  },
+  {
+    q: "Can each client have their own login?",
+    a: "Yes. You create individual client logins scoped to their specific locations. Each client sees only their own data — never data from your other clients. You maintain full admin access across all clients from your agency account.",
+  },
+  {
+    q: "How long does white-label setup take?",
+    a: "About 2 hours. You upload your logo, configure your agency name and domain (CNAME record), set your color scheme, and you're done. There's no developer work required — everything is configured via the dashboard.",
+  },
+  {
+    q: "Do I need to pay per client login?",
+    a: "No. Client logins are included at $0 per client regardless of how many clients you add. Your cost is based on the number of locations managed — not the number of client seats. You can give every client their own login without it affecting your bill.",
+  },
+  {
+    q: "Can I use a custom domain for client dashboards?",
+    a: "Yes. Point a subdomain (e.g., seo.youragency.com) to Stacc via a CNAME record and all client-facing dashboards load on your domain. Clients never see thestacc.com in the URL.",
+  },
+  {
+    q: "Can white-label reports be automatically sent to clients?",
+    a: "Yes. Configure automated report delivery for each client — weekly or monthly. Reports are generated with your branding and sent from your domain automatically. You can review reports before they go out or let them send on full autopilot.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — White-Label Dashboard",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Deliver local SEO results under your agency's brand. White-label dashboards, reports, and client logins — your logo, your domain, your brand on everything clients see.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Features", "item": "https://thestacc.com/features/" },
+        { "@type": "ListItem", "position": 3, "name": "White-Label Dashboard", "item": "https://thestacc.com/features/white-label-dashboard/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="White-Label SEO Dashboard for Agencies — Your Brand on Everything | theStacc"
+  description="Give clients a branded local SEO dashboard with your logo and domain. theStacc's white-label dashboard includes branded reports, client logins, and automated delivery — zero Stacc branding visible."
+
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">White-Label Dashboard · Agency Module</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Your brand on every dashboard.<br />
+            <span style="color:#4f39f6;">Not ours. Yours.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Every client-facing dashboard, report, and login carries your agency's logo, domain, and brand. Clients log into your platform, see your reports, and never know Stacc exists. Your brand gets stronger every time they check in.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Set up white-label free
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pricing/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              See pricing
+            </a>
+          </div>
+
+          <div class="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {['Custom domain (CNAME)', '$0 per client login', '2-hour setup', '$1 for 3 days'].map(c => (
+              <span class="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-[#79716b]">
+                <span class="h-1 w-1 rounded-full bg-[#4f39f6]"></span>{c}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PAIN SECTION ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">The problem</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Showing clients a generic tool<br />undermines your agency's brand.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            When your client logs into a dashboard branded with a vendor's name, they're not thinking about your agency — they're thinking about the vendor. Every touchpoint that doesn't carry your brand is a missed opportunity to reinforce your value. Worse: if they look up that vendor, they find pricing pages. They start wondering if they really need you. A generic tool that shows them Stacc's logo is doing your brand a disservice every time a client opens a report.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {[
+            { icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', title: "Your brand should own the relationship.", body: "Every report, every dashboard, every login is an opportunity to remind clients why they're paying you. When a vendor's name is on those touchpoints instead of yours, you're building their brand recognition at your expense." },
+            { icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z', title: 'Clients can find the pricing page.', body: "If a client sees the vendor's name on their dashboard and looks it up, they find a pricing page. They see that the tool costs less than what they pay you. The question forms: what exactly is the agency adding? You want them asking the opposite question." },
+            { icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z', title: 'Branded tools keep clients longer.', body: 'Clients who access reports through your branded portal associate those results with your agency. When your brand is present at every result, retention is higher. When a vendor\'s brand is there instead, the credit goes somewhere else.' },
+          ].map(p => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={p.icon}/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{p.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">How it works</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Set up in 2 hours. Clients log in<br />to your brand from day one.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Configure your white-label once. Every client you add after that automatically sees your branded experience — no additional setup per client.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+          {[
+            { n: '01', icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01', title: 'Configure your brand settings', body: 'Upload your logo, set your agency name, choose your color scheme, and point your subdomain via a CNAME record. Everything is configured in the dashboard — no developer required. Done in under 2 hours.' },
+            { n: '02', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', title: 'Create client logins', body: 'Add clients and assign them to their locations. Each client gets their own login to your branded portal — scoped to their data only. No client ever sees another client\'s information. $0 per client login, always.' },
+            { n: '03', icon: 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', title: 'Reports deliver under your brand', body: 'Automated weekly or monthly reports go out with your agency logo, your domain in the email sender, and your color scheme in the PDF. Clients see consistent, professional reporting that reinforces your brand every time it arrives.' },
+          ].map(s => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={s.icon}/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.n}</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CAPABILITY GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Everything included</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Every white-label capability.<br />Built for agencies at scale.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9', title: 'Custom domain (CNAME)', body: 'Client dashboards load on your subdomain — e.g., seo.youragency.com. Stacc\'s domain never appears in any client-facing URL.' },
+            { icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01', title: 'Full logo and brand customization', body: 'Upload your agency logo, set your color scheme, and configure your agency name. Your brand identity is consistent across every screen and document clients see.' },
+            { icon: 'M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', title: 'Branded automated reports', body: 'Reports are generated with your logo, sent from your domain, and formatted with your colors. Delivered on your schedule — weekly or monthly — automatically.' },
+            { icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', title: '$0 per client login', body: 'Add as many client logins as you need. Client access is included at no cost regardless of how many clients you serve. Pricing is based on locations, not seats.' },
+            { icon: 'M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z', title: 'Role-based access control', body: 'Clients see only their own locations and data. Your team has full admin access. Permissions are locked to role — no cross-client data exposure possible.' },
+            { icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', title: 'Branded email notifications', body: 'Automated alerts, report delivery emails, and account notifications send from your domain. No thestacc.com email addresses in any client inbox.' },
+          ].map(c => (
+            <div class="bg-white px-7 py-8">
+              <div class="mb-4 flex h-9 w-9 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={c.icon}/></svg>
+              </div>
+              <p class="font-sans text-[0.95rem] font-semibold text-[#111827]">{c.title}</p>
+              <p class="mt-1.5 font-sans text-[13px] leading-[1.6] text-[#79716b]">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% 0%,rgba(79,57,246,0.10) 0%,transparent 65%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">By the numbers</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2.4rem]">
+            What white-labeling does<br />for your agency business.
+          </h2>
+        </div>
+        <div class="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3">
+          {[
+            { from: 0, to: 400, suffix: '+', label: 'Agencies using Stacc white-label', sub: 'From boutique to enterprise' },
+            { from: 0, to: 2, suffix: ' hrs', label: 'Average setup time', sub: 'From sign-up to first client login' },
+            { from: 0, to: 0, suffix: '$0', label: 'Per client login added', sub: 'Unlimited client seats included' },
+          ].map(m => (
+            <div class="text-center">
+              <div class="font-sans text-[3.5rem] font-bold leading-none tracking-[-0.04em] text-white">
+                {m.to === 0
+                  ? <span>{m.suffix}</span>
+                  : <span data-count-up data-from={m.from} data-to={m.to} data-suffix={m.suffix}>0</span>
+                }
+              </div>
+              <p class="mt-3 font-sans text-[0.95rem] font-semibold text-[#292524]/90">{m.label}</p>
+              <p class="mt-1 font-mono text-[11px] uppercase tracking-[0.1em]" style="color:#818cf8;">{m.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-16">
+        <figure class="mx-auto max-w-2xl text-center">
+          <blockquote class="font-sans text-[1.25rem] font-medium leading-[1.55] tracking-[-0.015em] text-[#111827]">
+            "Clients never ask 'what tool is this?' — they just see our brand. Every report, every login, every alert comes from us. It's made a real difference in how clients perceive our work. They think we built it."
+          </blockquote>
+          <figcaption class="mt-6">
+            <span class="font-sans text-[14px] font-semibold text-[#292524]">Danielle Park</span>
+            <span class="mx-2 text-[#e7e5e4]">·</span>
+            <span class="font-sans text-[14px] text-[#79716b]">Founder, 38-client local SEO agency</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED FEATURES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16">
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Related features</p>
+        <div class="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-3">
+          {[
+            { href: '/features/client-reporting/', label: 'Client Reporting', desc: 'Auto-generated branded reports delivered on your schedule.' },
+            { href: '/features/multi-location-reporting/', label: 'Multi-Location Reporting', desc: 'See all client locations in one view. Identify what needs attention.' },
+            { href: '/solutions/agencies/', label: 'Stacc for Agencies', desc: 'See how agencies use Stacc to scale local SEO for every client.' },
+          ].map(r => (
+            <a href={r.href} class="group bg-white px-7 py-7 transition-colors hover:bg-[#f5f3ff]">
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#4f39f6]">{r.label}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.6] text-[#57534e]">{r.desc}</p>
+              <span class="mt-4 inline-flex items-center gap-1 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#4f39f6] opacity-0 transition-opacity group-hover:opacity-100">
+                Learn more
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">FAQ</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Everything you need to know<br />about the white-label dashboard.
+          </h2>
+          <div class="mt-10 divide-y divide-[#e7e5e4]">
+            {faqs.map((f, i) => (
+              <div class="py-5">
+                <button class="faq-btn flex w-full items-start justify-between gap-4 text-left" aria-expanded="false" aria-controls={`faq-${i}`}>
+                  <span class="font-sans text-[1rem] font-semibold text-[#111827]">{f.q}</span>
+                  <span class="mt-0.5 flex-shrink-0">
+                    <svg class="faq-icon-plus h-5 w-5 text-[#4f39f6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                    <svg class="faq-icon-minus hidden h-5 w-5 text-[#4f39f6]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+                  </span>
+                </button>
+                <div id={`faq-${i}`} class="faq-answer hidden pt-3">
+                  <p class="font-sans text-[0.95rem] leading-[1.7] text-[#57534e]">{f.a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[400px]" style="background:radial-gradient(ellipse at 50% 0%,rgba(79,57,246,0.35) 0%,transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative py-24 text-center">
+        <h2 class="font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.8rem]">
+          Your brand on everything.<br />Set up in 2 hours or less.
+        </h2>
+        <p class="mx-auto mt-5 max-w-[520px] font-sans text-[1rem] leading-[1.7]" style="color:#9ca3af;">
+          Start your $1 trial today. Configure white-label before you onboard your first client.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <a href="/demo/" target="_blank" rel="noopener noreferrer"
+            class="inline-flex h-12 items-center gap-2 rounded-xl bg-[#4f39f6] px-7 font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+            Start free — no credit card
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="/solutions/agencies/"
+            class="inline-flex h-12 items-center rounded-xl border border-white/15 bg-white/5 px-7 font-sans text-[15px] font-medium text-white/80 transition-colors hover:bg-white/10">
+            See agency features
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      const answer = btn.nextElementSibling as HTMLElement;
+      if (answer) answer.classList.toggle('hidden', expanded);
+      btn.querySelector('.faq-icon-plus')?.classList.toggle('hidden', !expanded);
+      btn.querySelector('.faq-icon-minus')?.classList.toggle('hidden', expanded);
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-count-up]').forEach(el => {
+    const from = parseFloat(el.dataset.from || '0');
+    const to = parseFloat(el.dataset.to || '0');
+    const suffix = el.dataset.suffix || '';
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    const duration = 1800;
+    let start: number | null = null;
+    const obs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      obs.disconnect();
+      const step = (ts: number) => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        el.textContent = (from + (to - from) * ease).toFixed(decimals) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }, { threshold: 0.3 });
+    obs.observe(el);
+  });
+</script>

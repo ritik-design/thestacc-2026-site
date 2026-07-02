@@ -1,0 +1,419 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free Google Business Profile Post Generator (3 Posts in 8s) | theStacc';
+const pageDescription = 'Generate 3 ready-to-publish GBP posts in 8 seconds. Industry-specific. Locally relevant. With the right CTA button. No signup.';
+const pageUrl = 'https://thestacc.com/tools/gbp-post-generator/';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Google Business Profile Post Generator',
+  description: 'Generates 3 ready-to-post GBP updates with industry-specific language, local keywords, and the right CTA button. Includes a 100-point quality scorer.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What should I post on my Google Business Profile?', a: 'Customer stories, seasonal offers, FAQ answers, behind-the-scenes content, industry tips, and event announcements. Skip generic promotional copy — Google\'s algorithm and your customers both reward specificity.' },
+  { q: 'How often should I post on Google Business Profile?', a: 'At least once per week. Active profiles see up to 2x more discovery searches. Posts last 7 days for standard updates, or through expiry for offer/event posts.' },
+  { q: 'Do GBP posts help with local SEO?', a: 'Yes. GBP posts are a confirmed local ranking signal. Active profiles with regular posts, photos, and review responses rank higher in the Google Map Pack.' },
+  { q: 'What size should images be on Google Business Profile?', a: '1200×900 pixels is ideal. Google supports up to 10MB. Use real photos of your business, work, or team — stock images underperform.' },
+  { q: 'Why are my Google Business Profile posts getting rejected?', a: 'Common reasons: phone numbers in the post body (use the CTA instead), prohibited content (alcohol, pharmacy, gambling), pricing without local context, or violating Google\'s content policies. The tool above generates compliant posts by default.' },
+  { q: 'What is a good CTA button for a GBP post?', a: 'Match it to your conversion goal. "Book" works for appointments. "Call now" for emergencies. "Learn more" for educational content. "Get offer" for promotions. The tool maps your post type to the optimal button.' },
+  { q: 'Can I schedule GBP posts in advance?', a: 'Google Business Profile doesn\'t natively schedule posts, but tools like Stacc, Localo, and Hootsuite can. The free tool above generates the posts — for automated scheduling and unlimited generation, try Stacc.' },
+  { q: 'What words attract customers in GBP posts?', a: 'Specific numbers ("$49 tune-up"), customer names ("Maria saved $1,200"), urgency ("Before March 31"), and concrete outcomes ("AC fixed in 90 minutes"). Avoid: "industry-leading", "tailored to your needs", "state-of-the-art".' },
+  { q: 'What is the 7-11-4 Google strategy?', a: 'A small-business marketing principle: 7 hours of brand interaction, 11 touchpoints, across 4 locations builds trust. Applied to GBP: post weekly for 7+ weeks, across 4+ Google surfaces (posts, photos, reviews, Q&A) to build local authority.' },
+  { q: 'Is this GBP post generator really free?', a: 'Yes. No credit card. No email required to use the tool. We make money when local businesses upgrade to Stacc, our automated SEO platform — but the tool itself is free forever.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+
+const industries = [
+  'Dental / Orthodontics','Legal / Law Firm','Plumbing / HVAC','Electrical',
+  'Roofing / Construction','Real Estate','Accounting / Tax','Restaurant / Cafe',
+  'Salon / Spa / Beauty','Auto Repair / Detailing','Cleaning Services','Landscaping / Lawn Care',
+  'Veterinary / Pet Services','Chiropractic / Physical Therapy','IT Services / Consulting',
+  'Fitness / Gym / Yoga','Photography / Videography','Insurance / Financial Services',
+  'Home Staging / Interior Design','Tutoring / Education','Pet Grooming / Boarding',
+  'Moving / Storage','Pest Control',
+];
+
+const lastUpdated = '2026-05-10';
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Google Business Profile Post Generator"
+  toolDescription="Generate 3 ready-to-post GBP updates in 8 seconds. AI-powered with a 100-point quality scorer. Industry-specific. Locally relevant. No signup."
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <!-- Business Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz">Business Name <span class="text-red-500">*</span></label>
+          <input type="text" id="biz" required maxlength="100" placeholder="e.g., Smith Family Dental" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-biz">Please enter your business name</p>
+        </div>
+
+        <!-- City -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="city">City / Location <span class="text-red-500">*</span></label>
+          <input type="text" id="city" required maxlength="60" placeholder="e.g., Austin, TX" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-city">Please enter your city or location</p>
+        </div>
+
+        <!-- Industry -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ind">Industry <span class="text-red-500">*</span></label>
+          <select id="ind" required class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+            <option value="" disabled selected>Select your industry</option>
+            {industries.map(ind => <option>{ind}</option>)}
+            <option value="__other__">Other (type your own)</option>
+          </select>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-ind">Please select your industry</p>
+          <input type="text" id="ind-other" placeholder="e.g., Wedding planning, Pool cleaning, Tattoo studio" maxlength="60" class="mt-1.5 hidden w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Post Angle -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Post Angle <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-3 gap-2 sm:grid-cols-3">
+            {[
+              { val: 'tip', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>`, label: 'Tip / Advice' },
+              { val: 'seasonal', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`, label: 'Seasonal' },
+              { val: 'story', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`, label: 'Customer Story' },
+              { val: 'offer', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`, label: 'Offer / Promo' },
+              { val: 'bts', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`, label: 'Behind the Scenes' },
+              { val: 'faq', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`, label: 'FAQ / Myth-Bust' },
+            ].map((a, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="angle" value={a.val} checked={i === 0} class="peer sr-only" />
+                <span class="flex flex-col items-center gap-1 rounded-[10px] border border-[#e7e5e4] p-3 text-center transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff]">
+                  <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-[#f5f3ff]" set:html={a.icon}></span>
+                  <span class="text-[12px] font-semibold text-[#57534e] peer-checked:text-[#4f39f6]">{a.label}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Tone -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Tone</label>
+          <div class="flex gap-2">
+            {['Professional', 'Friendly', 'Casual'].map((t, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="tone" value={t.toLowerCase()} checked={i === 0} class="peer sr-only" />
+                <span class="inline-block rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff] peer-checked:text-[#4f39f6]">{t}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Offer Fields (conditional) -->
+        <div id="offer-f" class="mb-5 hidden rounded-xl border border-dashed border-[#ddd6fe] bg-[#faf5ff]/50 p-4 space-y-4">
+          <div>
+            <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="offer-t">Offer Title <span class="text-red-500">*</span></label>
+            <input type="text" id="offer-t" placeholder="e.g., 20% Off Spring AC Tune-Up" maxlength="80" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="coupon">Coupon Code</label>
+              <input type="text" id="coupon" placeholder="e.g., SPRING20" maxlength="20" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="terms">Offer Terms</label>
+              <input type="text" id="terms" placeholder="e.g., Valid through April 30" maxlength="100" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Message -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="topic">Key Message <span class="font-normal normal-case tracking-normal text-[#79716b]">. Optional</span></label>
+          <textarea id="topic" maxlength="300" rows="2" placeholder="e.g., New patient special, weekend hours, we just hired a new technician" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-none"></textarea>
+          <p class="mt-1 text-right font-mono text-xs text-[#79716b]"><span id="tc">0</span> / 300</p>
+          <div id="idea-chips" class="mt-2 hidden flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- No-Hashtag Note -->
+        <div class="mb-5 flex items-start gap-2 rounded-lg bg-[#fffbeb] border border-[#fde68a] p-3">
+          <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
+          <p class="text-[13px] text-[#92400e] leading-relaxed"><strong>GBP is not Instagram.</strong> Hashtags do nothing on Google Business Profile. We generate clean, hashtag-free posts with local keywords that actually help you rank.</p>
+        </div>
+
+        <!-- CTA Button -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="cta">CTA Button</label>
+          <select id="cta" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+            <option value="Book">Book</option>
+            <option value="Order online">Order Online</option>
+            <option value="Learn more" selected>Learn More</option>
+            <option value="Call now">Call Now</option>
+            <option value="Sign up">Sign Up</option>
+            <option value="Get offer">Get Offer</option>
+          </select>
+        </div>
+
+        <button type="submit" id="gen-btn" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase tracking-wide text-white transition-all hover:bg-[#4f39f6] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+          Generate 3 Post Variations
+        </button>
+      </form>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="mt-8 hidden">
+      <div class="mb-4 flex items-center justify-center gap-1.5 rounded-lg bg-[#fafaf9] border border-[#e7e5e4] px-4 py-2 font-mono text-xs text-[#79716b]">
+        Posts generated this session: <strong class="text-[#6d28d9]" id="gen-count">0</strong> &middot; Regenerate anytime for different results
+      </div>
+
+      <!-- Post 1 -->
+      <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6 mb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]">Short &middot; Direct</span>
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs text-[#79716b]" id="st1"></span>
+            <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3 whitespace-pre-wrap font-sans text-[16px] leading-[1.8] text-[#292524]" id="pt1"></div>
+        <div id="tr1" class="mt-3 hidden"><hr class="border-t border-dashed border-[#c4b5fd]" /><p class="mt-1 font-mono text-[10px] text-[#8b5cf6]">↑ Visible before "Read more" on mobile</p></div>
+        <div id="hs1" class="mt-2 inline-flex items-center gap-1 rounded-md px-2.5 py-1 font-mono text-[11px] font-semibold"></div>
+        <div id="tip1" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+      </div>
+
+      <!-- Email Gate REMOVED — Tier 3 tool, full output shown free -->
+
+      <!-- All 3 Posts (always visible after generation) -->
+      <div id="gated" class="space-y-4">
+        <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]">Medium &middot; Detailed</span>
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#79716b]" id="st2"></span>
+              <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span>Copy</span></button>
+            </div>
+          </div>
+          <div class="mt-3 whitespace-pre-wrap font-sans text-[16px] leading-[1.8] text-[#292524]" id="pt2"></div>
+          <div id="tip2" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+        </div>
+        <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]">Long &middot; Story-driven</span>
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#79716b]" id="st3"></span>
+              <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="3"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg><span>Copy</span></button>
+            </div>
+          </div>
+          <div class="mt-3 whitespace-pre-wrap font-sans text-[16px] leading-[1.8] text-[#292524]" id="pt3"></div>
+          <div id="tip3" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+        </div>
+      </div>
+
+      <!-- GBP Preview -->
+      <div class="mt-6">
+        <p class="mb-2 font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Preview on Google</p>
+        <div class="rounded-xl border border-[#dadce0] bg-white p-4 shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4f39f6]"><span id="pav" class="font-sans text-sm font-bold text-white">S</span></div>
+            <div><p id="pnm" class="font-sans text-[14px] font-semibold text-[#1f1f1f]">Your Business</p><p class="font-sans text-[12px] text-[#70757a]">Just now</p></div>
+          </div>
+          <p id="pbd" class="mt-3 font-sans text-[14px] leading-[1.5] text-[#3c4043]"><span class="text-[#79716b] italic">Your post preview will appear here...</span></p>
+          <div id="pcta-w" class="mt-3 hidden"><span class="inline-block rounded-full border border-[#1a73e8] px-4 py-1.5 font-sans text-[13px] font-medium text-[#1a73e8]" id="pcta-l">Learn more</span></div>
+          <div class="mt-3 flex items-center gap-2 rounded-lg border border-dashed border-[#dadce0] bg-[#f8f9fa] px-3 py-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#70757a" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span class="font-sans text-[12px] text-[#70757a]">Add a photo for 2x more engagement (1200 x 900px)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="regen" class="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Generate Another
+        </button>
+        <a href="https://business.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          Post to GBP <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">You wrote 3 posts in 8 seconds.<br/>Your competitors post 4x per week.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Stacc publishes 30+ GBP posts per month. Automatically. Plus blog, social, and review responses.</p>
+        <a href="/demo/?source=gbp-tool-results" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start your $1 trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days · Cancel anytime · Rank higher in the Map Pack on autopilot.</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- ░░ TL;DR / SPEAKABLE ░░ -->
+    <div class="speakable mb-8 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-5">
+      <p class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#4f39f6] mb-2">Summary · Last updated {lastUpdated}</p>
+      <p class="font-sans text-[16px] leading-[1.8] text-[#292524]">
+        The Free GBP Post Generator creates 3 ready-to-publish Google Business Profile posts in under 8 seconds. Pick your industry, post angle, tone, and call-to-action button. The tool generates posts with local keywords, industry-specific language, and the right CTA — Book, Order online, Buy, Learn more, Sign up, Call now, or Get offer. Each post gets a quality score from 0-100. Best for dentists, plumbers, lawyers, salons, restaurants, real estate agents, and other local service businesses. No signup required.
+      </p>
+    </div>
+
+    <!-- ░░ STAT LEAD (AI Overview bait) ░░ -->
+    <div class="mb-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">71%</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Use Google for local search</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">40%</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Of local businesses never post</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">2x</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">More discovery from weekly posts</p>
+      </div>
+    </div>
+
+    <!-- ░░ HOW IT WORKS ░░ -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mb-3">How does the GBP post generator work?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3"><strong>Three steps. Eight seconds.</strong></p>
+    <ol class="list-decimal pl-5 mb-6 space-y-2 text-[16px] text-[#57534e] leading-[1.75]">
+      <li><strong class="text-[#292524]">Tell us about your business.</strong> Name, city, industry. We have 23 industry presets covering dentistry, plumbing, legal, restaurants, salons, real estate, auto repair, and 16 more. Don&apos;t see yours? Pick &quot;Other&quot; and type it in.</li>
+      <li><strong class="text-[#292524]">Pick your post angle.</strong> Six options match the post types Google prioritizes: tips, seasonal, customer stories, offers, behind-the-scenes, and FAQ-busting. Each angle uses a different proven hook formula.</li>
+      <li><strong class="text-[#292524]">Click Generate.</strong> Our AI writes 3 unique posts — short (~200 chars), medium (~500), and long (~900). Each post is scored on a 100-point scale that checks for real local relevance, anti-AI patterns, CTA clarity, and visibility cutoffs.</li>
+    </ol>
+
+    <!-- ░░ WHAT TO POST (PAA-targeted, AI Overview bait) ░░ -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">What should I post on my Google Business Profile?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-4">
+      Customer-focused content that helps people decide whether to call, book, or visit. Not press releases. Not promotional jargon. Real value. Here are the 11 GBP post types that consistently drive bookings:
+    </p>
+    <ol class="list-decimal pl-5 mb-6 space-y-2 text-[16px] text-[#57534e] leading-[1.75]">
+      <li><strong>Customer story posts.</strong> Specific person, specific problem, specific resolution. &quot;Maria&apos;s water heater died at 6am — we had a new tank installed by 2pm&quot; beats generic copy every time.</li>
+      <li><strong>Seasonal offer posts.</strong> $49 furnace tune-up before winter. 15% off whitening before prom season. Tie to a specific window.</li>
+      <li><strong>FAQ / myth-bust posts.</strong> &quot;Most people think Invisalign costs $8,000. Here&apos;s what it actually costs.&quot;</li>
+      <li><strong>Behind-the-scenes posts.</strong> Real team, real workspace, real process. Customers love human details.</li>
+      <li><strong>Service documentation posts.</strong> Document a real job: the issue, the fix, the outcome. Especially powerful for home services.</li>
+      <li><strong>Industry tip posts.</strong> Share one piece of advice that helps customers make a smart choice.</li>
+      <li><strong>Event posts.</strong> Workshops, open houses, free consultations, holiday hours. Event posts last through the event date — longer than standard 7-day posts.</li>
+      <li><strong>Media-mention posts.</strong> Press coverage, awards, third-party endorsements. Authority signals.</li>
+      <li><strong>Lead-generation posts.</strong> Free consultations, downloadable guides, newsletter signups. Pair with a clear CTA button.</li>
+      <li><strong>Just-completed-job posts.</strong> &quot;Just finished installing a tankless water heater on Maple Street.&quot; Specific, local, real.</li>
+      <li><strong>Limited-time-promo posts.</strong> Flash sales with a clear deadline. Urgency drives clicks.</li>
+    </ol>
+
+    <!-- ░░ HOW OFTEN ░░ -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">How often should I post on Google Business Profile?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3"><strong>Minimum: 1x per week. Ideal: 4-7x per week.</strong> Standard &quot;What&apos;s New&quot; posts last 7 days. Offer posts last through the offer expiry. Event posts last through the event date.</p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">Posting 4x per week means 16 posts per month. Most local businesses post 0. Even 1 post per week puts you ahead of 80% of competitors. GBP posts are a confirmed local ranking signal — Google rewards active profiles in the Map Pack.</p>
+
+    <!-- ░░ COMPARISON TABLE ░░ -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">How this tool differs from other GBP generators</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-4">We built this because every existing tool fell short in at least one of three ways: they only generate one post, they hide output behind email gates, or they don&apos;t speak local-business English. Here&apos;s how we compare:</p>
+    <div class="overflow-x-auto rounded-xl border border-[#e7e5e4] bg-white">
+      <table class="w-full text-[14px]">
+        <thead class="bg-[#fafaf9]">
+          <tr>
+            <th class="px-4 py-3 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">gbppromote</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">ChatGPT prompt</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e7e5e4]">
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Free, no signup</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">Email gate</td><td class="px-4 py-2.5 text-[#ea580c]">Copy/paste prompt</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Posts per generation</td><td class="px-4 py-2.5 text-[#292524] font-semibold">3 (short/med/long)</td><td class="px-4 py-2.5 text-[#79716b]">1</td><td class="px-4 py-2.5 text-[#79716b]">1</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Industry presets</td><td class="px-4 py-2.5 text-[#292524] font-semibold">23 + custom</td><td class="px-4 py-2.5 text-[#79716b]">None</td><td class="px-4 py-2.5 text-[#79716b]">None</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Real GBP CTA buttons</td><td class="px-4 py-2.5 text-[#292524] font-semibold">7 (mapped)</td><td class="px-4 py-2.5 text-[#79716b]">None</td><td class="px-4 py-2.5 text-[#79716b]">None</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Live Google preview</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">✗</td><td class="px-4 py-2.5 text-[#dc2626]">✗</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Quality score (0-100)</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">✗</td><td class="px-4 py-2.5 text-[#dc2626]">✗</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Character count + warnings</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">✗</td><td class="px-4 py-2.5 text-[#dc2626]">✗</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Best time to post hint</td><td class="px-4 py-2.5 text-[#292524] font-semibold">Industry-aware</td><td class="px-4 py-2.5 text-[#79716b]">No</td><td class="px-4 py-2.5 text-[#79716b]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Image guidance</td><td class="px-4 py-2.5 text-[#292524] font-semibold">1200×900 + alt</td><td class="px-4 py-2.5 text-[#79716b]">No</td><td class="px-4 py-2.5 text-[#79716b]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">AI engine</td><td class="px-4 py-2.5 text-[#292524] font-semibold">AI + 100-point scorer gate</td><td class="px-4 py-2.5 text-[#79716b]">Generic</td><td class="px-4 py-2.5 text-[#79716b]">GPT</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ░░ FAQ (10 Qs from frontmatter array) ░░ -->
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently asked questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      {faqs.map((faq, idx) => (
+        <div class:list={[idx < faqs.length - 1 && 'border-b border-[#f3f4f6]']}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[16px] font-semibold text-[#111827]">{faq.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[15px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More free local SEO tools</h2>
+        <p class="mt-1 font-sans text-[13px] text-[#79716b]">Built for the same local-business owners using this generator.</p>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <a href="/tools/review-response-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Review Response Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Respond to Google reviews in seconds</p>
+          </a>
+          <a href="/tools/review-request-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Review Request Templates</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Email, SMS, and in-person scripts</p>
+          </a>
+          <a href="/tools/review-qr-code-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Review QR Code Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Get more reviews with printable QR codes</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">LocalBusiness schema for 23 industries</p>
+          </a>
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score headlines on 8 dimensions</p>
+          </a>
+          <a href="/tools/website-seo-score/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Website SEO Score</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Check your site's SEO health</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script is:inline src="/js/gbp-post-engine.js"></script>
+  </Fragment>
+</ToolLayout>

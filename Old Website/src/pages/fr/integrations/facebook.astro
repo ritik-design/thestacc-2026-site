@@ -1,0 +1,436 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/fr/HeaderFr.astro';
+import Footer from '../../../components/fr/FooterFr.astro';
+
+const faqs = [
+  {
+    q: "Stacc publie-t-il sur ma page Facebook ou sur mon profil personnel ?",
+    a: "Stacc publie uniquement sur les pages Facebook Business — pas sur les profils personnels. Vous devez avoir une page Facebook Business liée à votre activité pour utiliser cette intégration.",
+  },
+  {
+    q: "Le contenu est-il vraiment adapté à Facebook ou copié depuis d'autres plateformes ?",
+    a: "Contenu natif pour Facebook. Les posts Facebook génèrent plus d'engagement quand ils sont conversationnels, incluent des questions ou des anecdotes locales, et ont une longueur adaptée. Stacc crée du contenu spécifiquement pour Facebook — différent de ce qui est publié sur LinkedIn ou Instagram.",
+  },
+  {
+    q: "Puis-je choisir à quelle heure mes posts sont publiés ?",
+    a: "Oui. Vous pouvez définir une plage horaire préférée ou laisser Stacc publier aux heures où votre audience spécifique est la plus active, basé sur les données d'engagement de votre page.",
+  },
+  {
+    q: "Les publications sponsorisées sont-elles supportées ?",
+    a: "Stacc gère les publications organiques. Pour les publications boostées ou les campagnes publicitaires Facebook Ads, vous devrez utiliser le gestionnaire de publicités Facebook directement. Stacc se concentre sur la stratégie de contenu organique.",
+  },
+  {
+    q: "Que se passe-t-il si Meta change ses conditions d'utilisation ?",
+    a: "Stacc utilise l'API officielle de Meta et maintient sa conformité avec les politiques Meta. Si Meta modifie ses conditions, nous adaptons notre intégration pour maintenir la continuité de service.",
+  },
+  {
+    q: "Puis-je gérer plusieurs pages Facebook ?",
+    a: "Oui. Si vous gérez plusieurs pages Facebook (plusieurs établissements ou marques), chaque page peut être connectée à un établissement Stacc distinct. Les agences peuvent gérer les pages Facebook de plusieurs clients depuis un seul tableau de bord.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Intégration Facebook",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "fr",
+      "description": "Stacc génère et publie du contenu natif sur votre page Facebook chaque jour. Posts adaptés à Facebook, images IA incluses, publiés automatiquement selon votre calendrier d'entreprise.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://thestacc.com/fr/" },
+        { "@type": "ListItem", "position": 2, "name": "Intégrations", "item": "https://thestacc.com/fr/integrations/" },
+        { "@type": "ListItem", "position": 3, "name": "Facebook", "item": "https://thestacc.com/fr/integrations/facebook/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "fr",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+
+const trustStats = [
+  { value: "Quotidien", label: "Publications générées" },
+  { value: "Natif", label: "Contenu adapté à Facebook" },
+  { value: "Images IA", label: "Incluses automatiquement" },
+  { value: "4,9★", label: "Note moyenne Stacc" },
+];
+
+const benefits = [
+  {
+    title: "Contenu natif adapté au format Facebook",
+    body: "Facebook favorise les posts conversationnels avec questions, anecdotes locales et actualités. Stacc génère du contenu dans ce format — pas du texte copié-collé depuis LinkedIn.",
+    icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z",
+  },
+  {
+    title: "Images générées par IA pour chaque post",
+    body: "Les posts avec image obtiennent 2,3× plus d'engagement sur Facebook. Stacc génère automatiquement des images adaptées à chaque publication dans votre palette de marque.",
+    icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+  {
+    title: "Constance qui fait la différence algorithmique",
+    body: "Les pages qui publient quotidiennement ont une portée organique 3× supérieure aux pages qui publient une fois par semaine. Stacc maintient cette constance automatiquement.",
+    icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
+  },
+];
+
+const steps = [
+  {
+    num: "01",
+    title: "Connectez votre page Facebook",
+    body: "Autorisez Stacc à gérer votre page Facebook Business via l'API officielle de Meta. Connexion sécurisée, révocable à tout moment.",
+  },
+  {
+    num: "02",
+    title: "Définissez votre stratégie de contenu",
+    body: "Indiquez vos thèmes prioritaires, votre ton et votre cadence de publication. Stacc s'adapte à votre secteur et votre audience locale.",
+  },
+  {
+    num: "03",
+    title: "Les publications se créent et se publient automatiquement",
+    body: "Chaque jour, Stacc génère un post adapté à Facebook et le publie à l'heure optimale pour votre audience. Avec ou sans image selon le type de contenu.",
+  },
+];
+
+const capabilities = [
+  {
+    title: "Publications Facebook quotidiennes",
+    body: "Posts conversationnels adaptés au format Facebook, publiés automatiquement à l'heure où votre audience est la plus active.",
+    icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+  {
+    title: "Images générées par IA",
+    body: "Visuels créés automatiquement pour accompagner vos publications. Dans votre charte graphique. Pas besoin de Canva ou d'un designer.",
+    icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z",
+  },
+  {
+    title: "Contenu saisonnier et local",
+    body: "Stacc intègre les saisons, les événements locaux et les actualités de votre secteur dans votre calendrier de publication Facebook.",
+    icon: "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    title: "Recyclage de votre contenu blog",
+    body: "Chaque article publié sur votre site devient automatiquement plusieurs posts Facebook avec des angles différents. Un article = 3 à 5 posts.",
+    icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15",
+  },
+  {
+    title: "Approbation ou publication automatique",
+    body: "Révisez chaque publication avant qu'elle parte ou activez la publication automatique complète.",
+    icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+  },
+  {
+    title: "Analytiques d'engagement",
+    body: "Portée, likes, partages, commentaires — toutes les métriques Facebook dans votre tableau de bord Stacc avec historique et tendances.",
+    icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
+  },
+];
+
+const metrics = [
+  { value: "3×", label: "Plus de portée organique", sub: "avec des publications quotidiennes vs. hebdomadaires" },
+  { value: "2,3×", label: "Plus d'engagement sur les posts avec image", sub: "générés automatiquement par Stacc" },
+  { value: "0h", label: "De votre temps pour gérer Facebook", sub: "après la configuration initiale de 10 minutes" },
+];
+---
+
+<BaseLayout
+  title="Intégration Facebook — Publications Automatiques sur Votre Page Facebook | theStacc"
+  description="Stacc génère et publie du contenu natif sur votre page Facebook chaque jour. Posts adaptés à Facebook, images IA incluses, publiés automatiquement selon votre calendrier d'entreprise."
+  lang="fr"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[760px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Intégration Facebook · Publications Automatiques</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Votre page Facebook publie une fois par semaine.<br class="hidden md:block" />
+            <span style="color:#4f39f6;">L'algorithme l'a oubliée.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Facebook récompense les pages qui publient régulièrement avec une portée organique plus large. Stacc génère du contenu natif adapté à Facebook et le publie automatiquement selon votre calendrier. Votre page reste active et visible — sans y passer du temps.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/fr/demo/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Connecter ma page Facebook
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/fr/tarifs/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]"
+            >
+              Voir les tarifs
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            API officielle Meta · Contenu 100% natif · Configuration 10 min
+          </p>
+
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {trustStats.map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]">{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHY CONNECT ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Pourquoi connecter Facebook</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            La régularité est la clé de la portée<br />organique sur Facebook.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Facebook récompense les pages actives. Stacc génère du contenu natif et maintient la cadence de publication automatiquement — pour que l'algorithme travaille pour vous.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          {benefits.map(b => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#c7c0fc] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={b.icon}/></svg>
+              </div>
+              <p class="font-sans text-[1rem] font-semibold text-[#111827]">{b.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">{b.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW TO CONNECT ─── -->
+    <section id="how-to-connect" class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Comment connecter</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Trois étapes. Votre page Facebook<br />publie automatiquement dès demain.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-3xl space-y-4">
+          {steps.map(s => (
+            <div class="flex gap-6 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-7">
+              <span class="font-mono text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[#4f39f6]/20 shrink-0">{s.num}</span>
+              <div>
+                <p class="font-sans text-[15px] font-semibold text-[#111827]">{s.title}</p>
+                <p class="mt-1.5 font-sans text-[14px] leading-relaxed text-[#57534e]">{s.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHAT YOU GET ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Ce que vous obtenez</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Tout ce que Stacc gère automatiquement<br />sur votre page Facebook.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {capabilities.map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── DARK METRICS ─── -->
+    <section class="relative overflow-hidden border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.06) 0%, transparent 70%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20">
+        <div class="mx-auto max-w-5xl">
+          <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white/5 sm:grid-cols-3">
+            {metrics.map(m => (
+              <div class="px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+                <p class="font-sans text-[3rem] font-bold leading-none text-[#292524]">{m.value}</p>
+                <p class="mt-3 font-mono text-[12px] font-semibold uppercase tracking-[0.1em]" style="color:#818cf8;">{m.label}</p>
+                <p class="mt-2 font-sans text-[13px]" style="color:#4b5563;">{m.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#f5f3ff]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-[#c7c0fc] bg-white px-10 py-12 shadow-sm">
+            <div class="flex gap-1 mb-6">
+              {[1,2,3,4,5].map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <blockquote class="font-sans text-[1.2rem] leading-[1.65] text-[#111827] font-medium">
+              "Notre page Facebook avait 2 posts par mois en moyenne. On publiait quand on avait le temps — ce qui arrivait rarement. Avec Stacc, on publie chaque jour. En 3 mois, notre portée organique a triplé et on reçoit des messages directs depuis Facebook qu'on n'avait jamais eus avant."
+            </blockquote>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="h-11 w-11 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                <span class="font-mono text-[14px] font-bold text-white">CV</span>
+              </div>
+              <div>
+                <p class="font-sans text-[14px] font-semibold text-[#111827]">Céline V.</p>
+                <p class="font-mono text-[11px] text-[#79716b]">Directrice, Institut de Beauté · Rennes</p>
+              </div>
+              <div class="ml-auto flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1.5">
+                <span class="font-mono text-[11px] font-semibold text-[#059669]">3× portée organique en 3 mois</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Questions fréquentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Questions sur l'intégration Facebook
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button
+                class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
+                aria-expanded={i === 0 ? 'true' : 'false'}
+              >
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0 transition-transform" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Commencez aujourd'hui</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Facebook récompense la régularité.
+            <span style="color:#818cf8;"> Laissez Stacc maintenir la vôtre.</span>
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Stacc génère et publie du contenu natif sur votre page Facebook quotidiennement — pendant que vous gérez votre entreprise. L'algorithme récompense la constance. Stacc la garantit.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/fr/demo/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]"
+            >
+              Connecter ma page Facebook
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/fr/tarifs/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5"
+            >
+              Voir les tarifs
+            </a>
+          </div>
+
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">14 jours d'essai gratuit · Sans carte bancaire · Annulez quand vous voulez</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

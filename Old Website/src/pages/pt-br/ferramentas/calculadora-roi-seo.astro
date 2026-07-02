@@ -1,0 +1,362 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Calculadora Gratuita de ROI de SEO para Negócios Locais | theStacc';
+const pageDescription = 'Calcule o retorno do seu investimento em SEO em 10 segundos. Presets de setor para dentistas, encanadores, advogados. Compare faça você mesmo vs agência vs Stacc. Projeções de crescimento composto de 12 meses. Gratuito.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Calculadora Gratuita de ROI de SEO',
+  description: 'Calcule o retorno do seu investimento em SEO com presets específicos de setor. Compare faça você mesmo vs agência vs ferramenta automatizada. Projeções de crescimento composto em tempo real.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'Como se calcula o ROI de SEO?', acceptedAnswer: { '@type': 'Answer', text: 'ROI de SEO = (Receita do tráfego orgânico - Investimento em SEO) / Investimento em SEO x 100. Para negócios locais, rastreie os novos clientes do tráfego orgânico, multiplique pelo valor de vida do cliente e subtraia seu custo mensal de SEO. A maioria dos negócios vê ROI positivo dentro de 4-8 meses.' } },
+    { '@type': 'Question', name: 'Vale a pena o SEO para negócios locais?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O SEO local oferece ROI de 3-10x para a maioria dos negócios de serviços. Um dentista que investe R$99/mês em SEO pode esperar de 5 a 15 novas consultas de pacientes por mês para o mês 6-8, com cada paciente valendo mais de R$1.000 em valor de vida.' } },
+    { '@type': 'Question', name: 'Quanto tempo leva o SEO para mostrar resultados?', acceptedAnswer: { '@type': 'Answer', text: 'O SEO segue uma curva S: resultados mínimos nos meses 1-3 (fundação), melhora notável nos meses 4-6 (aceleração) e fortes retornos compostos nos meses 7-12+. A maioria dos negócios locais vê o ponto de equilíbrio entre os meses 4-8.' } },
+    { '@type': 'Question', name: 'SEO vs Google Ads. Qual é melhor?', acceptedAnswer: { '@type': 'Answer', text: 'Google Ads oferece tráfego instantâneo, mas para quando você para de pagar. O SEO demora mais para ser construído, mas se acumula com o tempo e oferece tráfego mesmo se você pausar. Para a maioria dos negócios locais, o ponto de cruzamento onde o SEO se torna mais rentável está em torno do mês 6-8.' } },
+    { '@type': 'Question', name: 'Esta calculadora de ROI de SEO é gratuita?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, 100% gratuita. Sem cadastro necessário. Selecione seu setor para obter valores de referência pré-preenchidos, ajuste os controles deslizantes para corresponder ao seu negócio e veja as projeções em tempo real instantaneamente.' } },
+  ],
+};
+
+const industries = [
+  { key: 'dentist', label: 'Dentista', icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`, ltv: 1200 },
+  { key: 'plumber', label: 'Encanador / HVAC', icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`, ltv: 2500 },
+  { key: 'lawyer', label: 'Advogado', icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.55-1.92.85-3 .85s-2.13-.3-3-.85z"/><path d="m2 16 3-8 3 8c-.87.55-1.92.85-3 .85s-2.13-.3-3-.85z"/><path d="M7 21h10"/><line x1="12" y1="3" x2="12" y2="21"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>`, ltv: 5000 },
+  { key: 'realtor', label: 'Imobiliária', icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`, ltv: 8000 },
+  { key: 'restaurant', label: 'Restaurante', icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>`, ltv: 300 },
+  { key: 'auto', label: 'Oficina Mecânica', icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="12" x="3" y="8" rx="2"/><path d="M7 8V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><path d="M5 20v2"/><path d="M19 20v2"/><circle cx="7.5" cy="14" r="1.5"/><circle cx="16.5" cy="14" r="1.5"/></svg>`, ltv: 800 },
+  { key: 'chiro', label: 'Quiropraxista', icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`, ltv: 1500 },
+  { key: 'salon', label: 'Salão / Spa', icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>`, ltv: 600 },
+  { key: 'custom', label: 'Personalizado', icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>`, ltv: 0 },
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Calculadora Gratuita de ROI de SEO"
+  toolDescription="Selecione seu setor, veja as projeções de retorno em tempo real. Compare faça você mesmo vs agência vs Stacc com projeções de crescimento composto. Sem cadastro."
+  lang="pt-BR"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <!-- Industry Selector -->
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-3">Selecione Seu Setor</label>
+      <div class="grid grid-cols-3 gap-2 sm:grid-cols-3 md:grid-cols-3">
+        {industries.map(ind => (
+          <button
+            type="button"
+            class="ind-card cursor-pointer flex flex-col items-center gap-1.5 rounded-xl border border-[#e7e5e4] p-3 md:p-4 text-center transition-all hover:border-[#c4b5fd]"
+            data-industry={ind.key}
+          >
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#f5f3ff] mb-0.5" set:html={ind.icon}></span>
+            <span class="text-[12px] md:text-[13px] font-semibold text-[#292524]">{ind.label}</span>
+            {ind.ltv > 0 && (
+              <span class="text-[10px] text-[#79716b] font-mono">VVC Médio: ${ind.ltv.toLocaleString()}</span>
+            )}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Sliders -->
+    <div id="sliders-section" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-4">Ajuste Seus Números</label>
+
+      <!-- Customer Lifetime Value -->
+      <div class="mb-5">
+        <div class="flex items-center justify-between mb-1.5">
+          <label class="text-[13px] font-medium text-[#292524]" for="sl-ltv">Valor de Vida do Cliente</label>
+          <span id="val-ltv" class="font-mono text-[13px] font-semibold text-[#6d28d9]">$1,200</span>
+        </div>
+        <input type="range" id="sl-ltv" min="100" max="100000" step="50" value="1200" class="w-full h-2 rounded-lg appearance-none cursor-pointer accent-[#615fff] bg-[#e7e5e4]" />
+        <p class="mt-1 text-[11px] text-[#79716b]">Quanto vale um cliente ao longo de sua vida?</p>
+      </div>
+
+      <!-- Conversion Rate -->
+      <div class="mb-5">
+        <div class="flex items-center justify-between mb-1.5">
+          <label class="text-[13px] font-medium text-[#292524]" for="sl-conv">Taxa de Conversão</label>
+          <span id="val-conv" class="font-mono text-[13px] font-semibold text-[#6d28d9]">8.0%</span>
+        </div>
+        <input type="range" id="sl-conv" min="1" max="30" step="0.5" value="8" class="w-full h-2 rounded-lg appearance-none cursor-pointer accent-[#615fff] bg-[#e7e5e4]" />
+        <p class="mt-1 text-[11px] text-[#79716b]">Qual % dos visitantes do site se convertem em clientes?</p>
+      </div>
+
+      <!-- Monthly Search Volume -->
+      <div class="mb-5">
+        <div class="flex items-center justify-between mb-1.5">
+          <label class="text-[13px] font-medium text-[#292524]" for="sl-searches">Buscas Locais Mensais</label>
+          <span id="val-searches" class="font-mono text-[13px] font-semibold text-[#6d28d9]">1,200</span>
+        </div>
+        <input type="range" id="sl-searches" min="100" max="50000" step="50" value="1200" class="w-full h-2 rounded-lg appearance-none cursor-pointer accent-[#615fff] bg-[#e7e5e4]" />
+        <p class="mt-1 text-[11px] text-[#79716b]">Buscas locais mensais pelos seus serviços</p>
+      </div>
+
+      <!-- Monthly SEO Investment -->
+      <div class="mb-5">
+        <div class="flex items-center justify-between mb-1.5">
+          <label class="text-[13px] font-medium text-[#292524]" for="sl-seo-cost">Investimento Mensal em SEO</label>
+          <span id="val-seo-cost" class="font-mono text-[13px] font-semibold text-[#6d28d9]">$99</span>
+        </div>
+        <input type="range" id="sl-seo-cost" min="49" max="10000" step="10" value="99" class="w-full h-2 rounded-lg appearance-none cursor-pointer accent-[#615fff] bg-[#e7e5e4]" />
+        <p class="mt-1 text-[11px] text-[#79716b]">Seu orçamento mensal de SEO</p>
+      </div>
+
+      <!-- Projection Period -->
+      <div class="mb-2">
+        <label class="block text-[13px] font-medium text-[#292524] mb-2">Período de Projeção</label>
+        <div class="flex gap-2">
+          {[
+            { val: '6', label: '6 meses' },
+            { val: '12', label: '12 meses' },
+            { val: '24', label: '24 meses' },
+          ].map((p, i) => (
+            <label class="cursor-pointer">
+              <input type="radio" name="period" value={p.val} checked={i === 1} class="peer sr-only" />
+              <span class="inline-block rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff] peer-checked:text-[#4f39f6]">{p.label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Dashboard -->
+    <div id="results" class="mt-8 hidden">
+      <!-- Headline Metrics -->
+      <div class="grid grid-cols-2 gap-3 md:grid-cols-4 mb-6">
+        <div class="rounded-2xl border border-[#bbf7d0] bg-[#f0fdf4] p-5 text-center" id="card-revenue">
+          <p id="metric-revenue" class="font-sans text-[28px] font-bold text-[#292524]">$0</p>
+          <p id="metric-revenue-sub" class="mt-1 font-mono text-[11px] text-[#79716b]">Em 12 meses</p>
+        </div>
+        <div class="rounded-2xl border border-[#bbf7d0] bg-[#f0fdf4] p-5 text-center" id="card-roi">
+          <p id="metric-roi" class="font-sans text-[28px] font-bold text-[#292524]">0%</p>
+          <p id="metric-roi-sub" class="mt-1 font-mono text-[11px] text-[#79716b]">Retorno sobre investimento</p>
+        </div>
+        <div class="rounded-2xl border border-[#bbf7d0] bg-[#f0fdf4] p-5 text-center" id="card-breakeven">
+          <p id="metric-breakeven" class="font-sans text-[28px] font-bold text-[#292524]">, </p>
+          <p id="metric-breakeven-sub" class="mt-1 font-mono text-[11px] text-[#79716b]">Quando a receita supera o custo</p>
+        </div>
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-5 text-center">
+          <p id="metric-cpl" class="font-sans text-[28px] font-bold text-[#292524]">$0</p>
+          <p id="metric-cpl-sub" class="mt-1 font-mono text-[11px] text-[#79716b]">Custo por lead</p>
+        </div>
+      </div>
+
+      <!-- Growth Chart -->
+      <div class="mb-6">
+        <p class="mb-2 font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Crescimento Projetado</p>
+        <div class="relative rounded-2xl border border-[#e7e5e4] bg-white p-4">
+          <canvas id="roi-chart" class="w-full" style="max-width:700px;margin:0 auto;display:block"></canvas>
+          <div id="chart-tooltip" class="absolute hidden pointer-events-none z-10 rounded-lg bg-[#292524] px-3 py-2 text-[12px] text-white font-mono shadow-lg" style="max-width:200px"></div>
+        </div>
+      </div>
+
+      <!-- 3-Way Comparison Table -->
+      <div class="mb-6">
+        <p class="mb-2 font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Faça Você Mesmo vs Stacc vs Agência</p>
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-[13px]">
+              <thead>
+                <tr class="border-b border-[#e7e5e4]">
+                  <th class="px-4 py-3 text-left font-mono text-[11px] uppercase text-[#79716b] font-medium">Métrica</th>
+                  <th class="px-4 py-3 text-center font-mono text-[11px] uppercase text-[#79716b] font-medium">Faça Você Mesmo ($200/mês)</th>
+                  <th class="px-4 py-3 text-center font-mono text-[11px] uppercase text-[#6d28d9] font-semibold bg-[#f5f3ff] border-x border-[#ddd6fe]">Stacc</th>
+                  <th class="px-4 py-3 text-center font-mono text-[11px] uppercase text-[#79716b] font-medium">Agência</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-[#f5f5f4]">
+                  <td class="px-4 py-3 font-medium text-[#292524]">Custo total</td>
+                  <td id="cmp-cost-diy" class="px-4 py-3 text-center text-[#57534e]">, </td>
+                  <td id="cmp-cost-stacc" class="px-4 py-3 text-center font-semibold text-[#292524] bg-[#f5f3ff] border-x border-[#ddd6fe]">, </td>
+                  <td id="cmp-cost-agency" class="px-4 py-3 text-center text-[#57534e]">, </td>
+                </tr>
+                <tr class="border-b border-[#f5f5f4]">
+                  <td class="px-4 py-3 font-medium text-[#292524]">Receita projetada</td>
+                  <td id="cmp-rev-diy" class="px-4 py-3 text-center text-[#57534e]">, </td>
+                  <td id="cmp-rev-stacc" class="px-4 py-3 text-center font-semibold text-[#292524] bg-[#f5f3ff] border-x border-[#ddd6fe]">, </td>
+                  <td id="cmp-rev-agency" class="px-4 py-3 text-center text-[#57534e]">, </td>
+                </tr>
+                <tr class="border-b border-[#f5f5f4]">
+                  <td class="px-4 py-3 font-medium text-[#292524]">ROI</td>
+                  <td id="cmp-roi-diy" class="px-4 py-3 text-center text-[#57534e]">, </td>
+                  <td id="cmp-roi-stacc" class="px-4 py-3 text-center font-semibold text-[#16a34a] bg-[#f5f3ff] border-x border-[#ddd6fe]">, </td>
+                  <td id="cmp-roi-agency" class="px-4 py-3 text-center text-[#57534e]">, </td>
+                </tr>
+                <tr class="border-b border-[#f5f5f4]">
+                  <td class="px-4 py-3 font-medium text-[#292524]">Ponto de equilíbrio</td>
+                  <td id="cmp-be-diy" class="px-4 py-3 text-center text-[#57534e]">, </td>
+                  <td id="cmp-be-stacc" class="px-4 py-3 text-center font-semibold text-[#292524] bg-[#f5f3ff] border-x border-[#ddd6fe]">, </td>
+                  <td id="cmp-be-agency" class="px-4 py-3 text-center text-[#57534e]">, </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-medium text-[#292524]">Volume de conteúdo</td>
+                  <td id="cmp-content-diy" class="px-4 py-3 text-center text-[#57534e]">, </td>
+                  <td id="cmp-content-stacc" class="px-4 py-3 text-center font-semibold text-[#292524] bg-[#f5f3ff] border-x border-[#ddd6fe]">, </td>
+                  <td id="cmp-content-agency" class="px-4 py-3 text-center text-[#57534e]">, </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Ads Comparison -->
+      <div class="mb-6 rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5">
+        <div class="flex items-start gap-2">
+          <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+          <div>
+            <p class="font-sans text-[13px] font-semibold text-[#292524] mb-1">SEO vs Google Ads</p>
+            <p id="ads-comparison" class="font-sans text-[13px] leading-relaxed text-[#57534e]">Selecione um setor acima para ver como o SEO se compara ao Google Ads para o seu negócio.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p id="cta-headline" class="font-sans text-[22px] font-bold leading-tight text-white">Os números não mentem. O SEO se acumula.</p>
+        <p id="cta-subtext" class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">30 artigos/mês, 30 publicações GBP, redes sociais. Tudo no piloto automático. A partir de R$99/mês.</p>
+        <a href="/pt-br/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Comece seu Teste por R$1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">R$1 por 30 dias · Cancele quando quiser</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Como Calcular o ROI de SEO para Seu Negócio</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">O ROI de SEO mede o retorno que você obtém ao investir em otimização para mecanismos de busca. A fórmula é simples: (Receita do tráfego orgânico - Custo de SEO) / Custo de SEO x 100. Mas os dados de entrada importam mais do que a fórmula.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Para negócios locais, a variável-chave é o <strong class="text-[#292524]">valor de vida do cliente (VVC)</strong>. Um paciente odontológico que vale R$1.200 ao longo de sua vida muda os números. Se o SEO traz 5 novos pacientes por mês no mês 6, isso representa R$6.000/mês em VVC a partir de um investimento de R$99/mês. Um ROI de 6.000%.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A segunda variável é o <strong class="text-[#292524]">tempo</strong>. O SEO não é instantâneo. Os meses 1-3 constroem a base (conteúdo, correções técnicas, sinais de autoridade). Os meses 4-6 mostram aceleração. Os meses 7-12 oferecem retornos compostos à medida que o conteúdo se acumula e os rankings melhoram. Por isso o pensamento de curto prazo destrói os investimentos em SEO. A maioria dos negócios desiste exatamente antes da curva dobrar.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Esta calculadora usa um modelo de crescimento em curva S realista, não uma taxa de crescimento plana. Ela leva em conta a melhora da posição nos rankings ao longo do tempo e usa referências específicas do setor para que você não precise adivinhar taxas de conversão ou volumes de busca.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">SEO vs Google Ads: Qual é Melhor para Negócios Locais?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Google Ads oferece tráfego instantâneo. Você paga por clique e obtém visitantes hoje. Quando você para de pagar, o tráfego para. O SEO demora mais para ser construído, mas cria um ativo composto. Cada artigo, cada link, cada mês de autoridade se acumula sobre o anterior.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Para a maioria dos negócios locais, o ponto de cruzamento está em torno do mês 6-8. Antes disso, o Google Ads oferece mais tráfego por real. Depois disso, o volume de tráfego de SEO supera o que você poderia pagar em anúncios. E continua crescendo mesmo se você reduzir seu investimento.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A diferença de custos é dramática para setores competitivos. Um advogado paga mais de R$80 por clique no Google Ads. Esse mesmo clique do tráfego orgânico custa R$0. Com 50 cliques por mês, isso representa R$4.000/mês em valor equivalente de anúncios a partir de um investimento em SEO de R$99/mês.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Quanto Tempo Leva para o SEO Funcionar?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">O SEO segue uma curva S, não uma linha reta. <strong class="text-[#292524]">Meses 1-3</strong>: a fase de fundação. Você está publicando conteúdo, corrigindo problemas técnicos e construindo sinais de autoridade. Os resultados visíveis são mínimos. <strong class="text-[#292524]">Meses 4-6</strong>: a fase de aceleração. O conteúdo começa a rankear, o tráfego aumenta notavelmente. <strong class="text-[#292524]">Meses 7-12+</strong>: a fase de composição. O conteúdo anterior sobe mais alto, o novo conteúdo ranka mais rápido e o tráfego orgânico cresce exponencialmente.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">O maior erro é desistir durante os meses 2-4. O investimento parece desperdiçado porque os resultados ainda não se materializaram. Mas o trabalho realizado nesses meses é o que faz os meses 7-12 funcionarem. É como plantar sementes. A colheita não chega no dia em que você planta.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">ROI de SEO por Setor</h2>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Dentistas</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">VVC médio do paciente de R$1.200. Com 1.200 buscas mensais por serviços odontológicos em uma cidade média e uma taxa de conversão de 8%, o SEO tipicamente oferece de 5 a 15 novas consultas de pacientes por mês para o mês 8. O ponto de equilíbrio geralmente é alcançado por volta do mês 4-5 com um investimento de R$99/mês.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Encanadores e Climatização</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Maior VVC (R$2.500 para relacionamentos de manutenção recorrente) mas também maior CPC no Google Ads (R$25/clique). Isso significa que o ROI de SEO é especialmente forte. O gasto equivalente em anúncios seria de R$625/mês pelos mesmos 25 cliques orgânicos. Palavras-chave de serviço de emergência convertem em 12%+.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Advogados</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Maior VVC (R$5.000-R$50.000 por caso) e maior CPC (R$80+/clique). Um único cliente do tráfego orgânico pode pagar anos de investimento em SEO. Os números são esmagadores: mesmo com uma taxa de conversão conservadora de 5%, 3 novos clientes por mês de SEO = R$15.000/mês em receita a partir de um investimento de R$99/mês.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Restaurantes</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Menor VVC (R$300) mas maior volume de busca (1.500/mês) e taxa de conversão (15%). O volume compensa o menor valor por cliente. A otimização do Google Business Profile é especialmente impactante. A visibilidade no pacote de mapas gera tráfego direto de visitantes presenciais.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Perguntas Frequentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Como se calcula o ROI de SEO?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">ROI de SEO = (Receita do tráfego orgânico - Investimento em SEO) / Investimento em SEO x 100. Rastreie os novos clientes do tráfego orgânico, multiplique pelo valor de vida e subtraia seu custo mensal de SEO. A maioria dos negócios locais vê ROI positivo dentro de 4-8 meses.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Vale a pena o SEO para negócios locais?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sim. O SEO local oferece ROI de 3-10x para a maioria dos negócios de serviços. A chave é o valor de vida do cliente. Um único paciente odontológico, cliente jurídico ou cliente de climatização pode valer de R$1.000 a R$50.000 ao longo de sua vida, tornando até investimentos modestos em SEO muito rentáveis.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Quanto tempo leva o SEO para mostrar resultados?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">O SEO segue uma curva S: resultados mínimos nos meses 1-3 (construção da base), melhora notável nos meses 4-6 (aceleração) e fortes retornos compostos a partir do mês 7 em diante. A maioria dos negócios locais atinge o ponto de equilíbrio entre os meses 4-8.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">SEO vs Google Ads. Qual é melhor?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Google Ads oferece tráfego instantâneo, mas para quando você para de pagar. O SEO demora mais, mas se acumula com o tempo. Para a maioria dos negócios locais, o SEO se torna mais rentável por volta do mês 6-8 e supera dramaticamente os anúncios para o mês 12.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Esta calculadora é gratuita?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sim, 100% gratuita. Sem cadastro nem cartão de crédito necessários. Selecione seu setor, ajuste os controles deslizantes e veja as projeções em tempo real instantaneamente.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Mais Ferramentas Gratuitas de SEO Local</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/pt-br/ferramentas/gerador-post-gbp/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de Publicações GBP</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Gere atualizações GBP prontas para publicar</p>
+          </a>
+          <a href="/pt-br/ferramentas/gerador-resposta-avaliacoes/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de Respostas a Avaliações</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Responda avaliações do Google em segundos</p>
+          </a>
+          <a href="/pt-br/ferramentas/analisador-meta-tags/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Analisador de Meta Tags</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Verifique a saúde das meta tags do seu site</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta ferramenta requer JavaScript. Por favor, ative-o no seu navegador.</p></div></noscript>
+    <script is:inline src="/js/seo-roi-engine.js"></script>
+  </Fragment>
+</ToolLayout>

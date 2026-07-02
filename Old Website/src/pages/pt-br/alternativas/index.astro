@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const alternatives = await getCollection('alternatives_ptbr');
+const visibleAlts = alternatives.filter(a => a.data.image).sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+function readTime(body: string): number {
+  const words = (body ?? '').split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+---
+
+<BaseLayout
+  title="Alternativas a Ferramentas de SEO 2026 — Comparações Completas | theStacc"
+  description="Pensando em trocar de ferramenta de SEO? Comparações completas com preços, recursos e guias de migração. Avaliado por uma equipe de SEO que publica 30+ artigos por mês."
+  lang="pt-BR"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": "https://thestacc.com/pt-br/alternativas/",
+      "name": "Alternativas a Ferramentas de SEO — theStacc",
+      "description": "Comparações completas de alternativas a ferramentas populares de SEO.",
+      "url": "https://thestacc.com/pt-br/alternativas/",
+      "inLanguage": "pt-BR"
+    })} />
+  </Fragment>
+
+  <Header />
+  <main class="flex-1">
+
+    <!-- ░░ HERO ░░ -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.18) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 pt-12 pb-12">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#4f39f6]">Alternativas</span>
+          <span class="h-3 w-px bg-[#e7e5e4]"></span>
+          <span class="font-mono text-[10px] text-[#79716b]">{visibleAlts.length} guias de comparação</span>
+        </div>
+        <h1 class="font-sans text-[28px] font-bold leading-[1.18] tracking-[-0.025em] text-[#292524] md:text-[40px]">
+          Alternativas a Ferramentas de SEO
+        </h1>
+        <p class="mt-3 max-w-[560px] font-sans text-[15px] leading-[1.7] text-[#57534e]">
+          Pensando em trocar? Fizemos a pesquisa por você. Comparações completas com preços, recursos e guias de migração honestos. Avaliados por profissionais que publicam 30+ artigos por mês.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          {[
+            `${visibleAlts.length} guias de comparação`,
+            'Preços verificados em 2026',
+            'Custos de migração honestos',
+            'Rankings imparciais',
+          ].map(text => (
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-[#e7e5e4] bg-white px-3 py-1 font-mono text-[11px] text-[#6b7280]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              {text}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ CARDS ░░ -->
+    <section class="bg-[#fafaf9] px-6 py-10">
+      <div class="mx-auto max-w-6xl">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {visibleAlts.slice(0, 12).map(alt => (
+            <a
+              href={`/pt-br/alternativas/${alt.data.slug}/`}
+              class="group relative flex flex-col overflow-hidden rounded-xl border border-[#e7e5e4] bg-white transition-all hover:border-[#c4b5fd] hover:shadow-sm"
+            >
+              <div class="h-[3px] w-full bg-gradient-to-r from-[#4f39f6] via-[#818cf8] to-[#c4b5fd]"></div>
+              <div class="flex flex-1 flex-col p-6">
+                <span class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">Alternativa</span>
+                <h3 class="mt-2.5 flex-1 font-sans text-[16px] font-semibold leading-[1.4] text-[#292524] line-clamp-3 transition-colors group-hover:text-[#4f39f6]">{alt.data.title}</h3>
+                <p class="mt-2 font-sans text-[13px] leading-[1.6] text-[#79716b] line-clamp-2">{alt.data.description}</p>
+                <div class="mt-4 flex items-center justify-between border-t border-[#f5f5f4] pt-3">
+                  <span class="font-mono text-[10px] text-[#79716b]">{readTime(alt.body || '')} min de leitura</span>
+                  <svg class="text-[#c4b5fd] transition-colors group-hover:text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        {visibleAlts.length > 12 && (
+          <div class="mt-8 text-center">
+            <a href="/alternatives/" class="inline-flex h-10 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-mono text-[12px] font-semibold uppercase tracking-[0.08em] text-[#57534e] transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]">
+              Ver todas as {visibleAlts.length} comparações →
+            </a>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- ░░ FOOTER CTA ░░ -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.4) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <h3 class="font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-white">
+          Pare de pagar por ferramentas que não publicam conteúdo
+        </h3>
+        <p class="mx-auto mt-3 max-w-[440px] font-sans text-[15px] leading-[1.7] text-[#94a3b8]">
+          O theStacc publica 30 artigos, 30 posts no GMN e conteúdo para redes sociais. Todo mês. Automaticamente.
+        </p>
+        <a
+          href="/pt-br/demo/"
+          class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+        >
+          Começar por R$1
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#4b5563]">R$1 por 30 dias · Cancele quando quiser</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

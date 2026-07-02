@@ -1,0 +1,173 @@
+---
+import '../styles/global.css';
+import { buildHreflangAlternates, getLangFromPath } from '../utils/hreflang';
+import { getContentIndex } from '../utils/content-index';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  noBorders?: boolean;
+  noindex?: boolean;
+  lang?: string;
+}
+
+const {
+  title,
+  description = 'Stacc generates SEO blog posts, publishes them to your site, and optimizes your Google Business Profile — all on autopilot.',
+  ogImage = '/dashboard-preview.webp',
+  noBorders = false,
+  noindex = false,
+  lang: langProp,
+} = Astro.props;
+
+// Enforce trailing slash and strip query params for consistent canonicals
+const rawPath = Astro.url.pathname;
+const normalizedPath = rawPath === '/' ? '/' : rawPath.endsWith('/') ? rawPath : rawPath + '/';
+const canonicalURL = Astro.site ? new URL(normalizedPath, Astro.site).toString() : normalizedPath;
+const fullOgImage = Astro.site ? new URL(ogImage, Astro.site).toString() : ogImage;
+
+const lang = langProp ?? getLangFromPath(normalizedPath);
+
+const ogLocaleMap: Record<string, string> = {
+  en: 'en_US', es: 'es_ES', de: 'de_DE', fr: 'fr_FR', it: 'it_IT', 'pt-BR': 'pt_BR',
+};
+const ogLocale = ogLocaleMap[lang] ?? 'en_US';
+
+// Filter hreflang alternates against actual content existence
+const _contentIndex = await getContentIndex();
+const hreflangAlternates = buildHreflangAlternates(normalizedPath, _contentIndex.bySet);
+
+// SERP-safe truncation
+function trimTitle(t: string, max = 60): string {
+  if (t.length <= max) return t;
+  const stripped = t.replace(/\s*\|\s*theStacc\s*$/, '');
+  if (stripped.length <= max) return stripped;
+  return stripped.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
+}
+function trimDesc(d: string, max = 155): string {
+  if (d.length <= max) return d;
+  return d.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
+}
+const titleSeo = trimTitle(title);
+const descriptionSeo = trimDesc(description);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18240501426"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-18240501426');
+      gtag('config', 'G-C068PB1SXV');
+    </script>
+    <!-- End Google tag (gtag.js) -->
+
+    <!-- Google Tag Manager -->
+    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NJ6NDTH8');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{titleSeo}</title>
+    <meta name="description" content={descriptionSeo} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonicalURL} />
+    {hreflangAlternates.map(a => (
+      <link rel="alternate" hreflang={a.lang} href={a.url} />
+    ))}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={titleSeo} />
+    <meta property="og:description" content={descriptionSeo} />
+    <meta property="og:image" content={fullOgImage} />
+    <meta property="og:site_name" content="theStacc" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titleSeo} />
+    <meta name="twitter:description" content={descriptionSeo} />
+    <meta name="twitter:image" content={fullOgImage} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.webp" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#4f39f6" />
+    <link rel="alternate" type="text/plain" href="https://thestacc.com/llms.txt" title="LLMs.txt" />
+    <link rel="alternate" type="text/plain" href="https://thestacc.com/llms-full.txt" title="LLMs Full" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Doto:wght@800;900&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" />
+
+    <!-- Meta Pixel Code -->
+    <script is:inline>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '2103462140517318');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2103462140517318&ev=PageView&noscript=1" alt=""/></noscript>
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript" is:inline>
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "wmdjm9t73a");
+    </script>
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen bg-white">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NJ6NDTH8"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class={`min-h-screen flex flex-col mx-auto max-w-[1280px] bg-white ${noBorders ? '' : 'lg:border-l lg:border-r border-stone-200'}`}>
+      <slot />
+    </div>
+    <script>
+      (function () {
+        function easeOutQuad(t) { return t * (2 - t); }
+        function animateCount(el) {
+          const target   = parseFloat(el.dataset.to ?? el.dataset.target ?? '0');
+          const from     = parseFloat(el.dataset.from     ?? '0');
+          const prefix   = el.dataset.prefix   ?? '';
+          const suffix   = el.dataset.suffix   ?? '';
+          const decimals = parseInt(el.dataset.decimals   ?? '0', 10);
+          const duration = 2600;
+          const start    = performance.now();
+          function step(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const value    = from + (target - from) * easeOutQuad(progress);
+            el.textContent = prefix + value.toFixed(decimals) + suffix;
+            if (progress < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        }
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              obs.unobserve(entry.target);
+              animateCount(entry.target);
+            }
+          });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('[data-count-up]').forEach((el) => obs.observe(el));
+      })();
+    </script>
+  </body>
+</html>

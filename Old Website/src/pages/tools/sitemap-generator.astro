@@ -1,0 +1,382 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free Sitemap Generator — XML Sitemap with Visual Tree & Validation | theStacc';
+const pageDescription = 'Free XML sitemap generator. Crawl any website, auto-detect changefreq and priority, flag broken links, validate against sitemap.org spec, and view an interactive site tree. No signup required.';
+const pageUrl = 'https://thestacc.com/tools/sitemap-generator/';
+const lastUpdated = '2026-05-22';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Sitemap Generator',
+  description: 'Generate a validated XML sitemap with auto-detected changefreq and priority scores, plus an interactive visual tree of your site structure.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is an XML sitemap and why do I need one?', a: 'An XML sitemap is a file that lists all the important pages on your website, helping search engines discover and index your content more efficiently. It includes metadata like when each page was last updated, how often it changes, and how important it is relative to other pages. While not required, a sitemap significantly improves indexation for new sites, large sites, and sites with complex navigation.' },
+  { q: 'How does this sitemap generator work?', a: 'Enter your website URL and select crawl depth and page limit. Our tool crawls your site starting from the homepage, follows internal links, and discovers pages up to your configured limits. For each page, it extracts the title, detects the page type, auto-assigns changefreq and priority scores, and flags any issues like broken links or noindex pages. Finally, it generates a validated XML sitemap and a visual tree diagram.' },
+  { q: 'What is changefreq auto-detection?', a: 'Changefreq tells search engines how often a page is likely to change. Our tool auto-detects this based on page type: homepage and news pages get "daily", blog posts and product pages get "weekly", static pages like About and Contact get "monthly", and archived content gets "yearly". You can customize these values before downloading.' },
+  { q: 'How does priority scoring work?', a: 'Priority scores (0.0 to 1.0) tell search engines which pages are most important on your site. Our scoring algorithm considers three factors: depth from homepage (closer = higher), internal link count (more links = higher), and page type (homepage = 1.0, category = 0.8, blog post = 0.6). The result is a balanced priority distribution across your site.' },
+  { q: 'How do I submit a sitemap to Google?', a: 'After generating your sitemap, download the XML file and upload it to your website root directory (e.g., yourdomain.com/sitemap.xml). Then go to Google Search Console, select your property, navigate to Sitemaps, enter the URL of your sitemap, and click Submit. Google will then crawl and index the pages listed in your sitemap.' },
+  { q: 'What pages are excluded automatically?', a: 'Our crawler automatically excludes non-HTML assets (images, CSS, JS, PDFs), external links, pages blocked by robots.txt, and pages with noindex meta tags. You can also configure max crawl depth and max pages to further limit the scope.' },
+  { q: 'Is this tool free?', a: 'Yes, 100% free with no signup. You can crawl up to 500 pages per sitemap and generate up to 5 sitemaps per day.' },
+  { q: 'How many pages can it crawl?', a: 'You can configure the crawl from 10 to 500 pages. The default is 100 pages with a max depth of 3 levels from the homepage. For larger sites, consider using a desktop tool like Screaming Frog or a paid service.' },
+  { q: 'Can I customize changefreq and priority?', a: 'Yes. After the crawl completes, you can review and edit changefreq and priority values for any page before generating the final XML. The visual tree also lets you see how priority is distributed across your site.' },
+  { q: 'Does it detect broken links?', a: 'Yes. During the crawl, any page that returns a 404, 500, or other error status is flagged in the Issues panel. Redirects (301/302) are also noted so you can update your internal links.' },
+  { q: 'Does it work for large websites?', a: 'The free version supports up to 500 pages, which covers most small to medium websites. For enterprise sites with thousands of pages, you may need a desktop crawler or a paid service. The tool works well for blogs, small business sites, portfolios, and SaaS platforms.' },
+  { q: 'Does theStacc manage sitemaps automatically?', a: 'Yes. Stacc\'s platform can automatically generate, validate, and submit sitemaps to Google Search Console as part of its SEO automation suite. After generating your sitemap here, consider starting a trial to automate ongoing sitemap management.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'Sitemap Generator', url: pageUrl },
+]);
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Sitemap Generator"
+  toolDescription="Generate a validated XML sitemap with auto-detected changefreq and priority scores, plus an interactive visual tree of your site structure."
+  wide={false}
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <div class="mx-auto max-w-4xl">
+      <!-- Input Form -->
+      <div id="sg-step-1" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="flex items-center gap-2 mb-6">
+          <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#4f39f6] font-mono text-[12px] font-bold text-white">1</span>
+          <span class="font-sans text-[16px] font-semibold text-[#292524]">Enter Your Website</span>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block font-mono text-[11px] font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="sg-url">
+              Website URL <span class="text-red-500">*</span>
+            </label>
+            <input type="url" id="sg-url" required placeholder="e.g., thestacc.com"
+              class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#a8a29e] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-[11px] font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="sg-max-depth">
+                Max Crawl Depth
+              </label>
+              <select id="sg-max-depth"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors cursor-pointer"
+              >
+                <option value="2">2 levels</option>
+                <option value="3" selected>3 levels</option>
+                <option value="4">4 levels</option>
+                <option value="5">5 levels</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-mono text-[11px] font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="sg-max-pages">
+                Max Pages
+              </label>
+              <select id="sg-max-pages"
+                class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors cursor-pointer"
+              >
+                <option value="25">25 pages</option>
+                <option value="50" selected>50 pages</option>
+                <option value="100">100 pages</option>
+                <option value="250">250 pages</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="sg-submit" class="w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+            Generate Sitemap
+          </button>
+        </div>
+
+        <div class="mt-4 flex flex-wrap items-center gap-2 pt-4 border-t border-[#e7e5e4]">
+          <span class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Try:</span>
+          {['thestacc.com', 'hubspot.com', 'backlinko.com', 'moz.com'].map((ex) => (
+            <button class="sg-example-btn rounded-full border border-[#e7e5e4] bg-[#f5f5f4] px-3 py-1 font-mono text-[11px] text-[#57534e] hover:border-[#c4b5fd] hover:bg-[#f5f3ff] hover:text-[#4f39f6] cursor-pointer transition-colors" data-url={ex}>
+              {ex}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="sg-loading" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <div class="space-y-3">
+          {[
+            { id: 'fetch', label: 'Fetching homepage...' },
+            { id: 'crawl', label: 'Crawling pages...' },
+            { id: 'analyze', label: 'Analyzing page types...' },
+            { id: 'generate', label: 'Generating sitemap...' },
+            { id: 'validate', label: 'Validating XML...' },
+          ].map((step) => (
+            <div class="flex items-center gap-3 step" data-step={step.id}>
+              <span class="step-icon w-5 h-5 text-[#79716b]">
+                <svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/>
+                  <path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span set:html={step.label} class="text-[14px] text-[#57534e]"></span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div id="sg-error-panel" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+        <svg class="mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        <p class="text-[15px] text-red-700 font-medium">Could not generate sitemap</p>
+        <p id="sg-error-msg" class="mt-1 text-[13px] text-red-600">Check the URL and try again.</p>
+        <button id="sg-retry-btn" class="mt-3 rounded-lg border border-red-300 bg-white px-4 py-2 text-[13px] font-medium text-red-700 hover:bg-red-100 cursor-pointer transition-colors">
+          Try Again
+        </button>
+      </div>
+
+      <!-- Results -->
+      <div id="sg-results" class="mt-6 hidden space-y-6">
+        <!-- Stats -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+            <p class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Pages</p>
+            <p id="sg-stat-pages" class="mt-1 text-[24px] font-bold text-[#292524]">0</p>
+          </div>
+          <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+            <p class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Broken</p>
+            <p id="sg-stat-broken" class="mt-1 text-[24px] font-bold text-red-500">0</p>
+          </div>
+          <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+            <p class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Redirects</p>
+            <p id="sg-stat-redirects" class="mt-1 text-[24px] font-bold text-amber-500">0</p>
+          </div>
+          <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+            <p class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Depth</p>
+            <p id="sg-stat-depth" class="mt-1 text-[24px] font-bold text-[#292524]">0</p>
+          </div>
+        </div>
+
+        <!-- Visual Tree -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524] mb-3">Site Tree</h3>
+          <p class="text-[13px] text-[#79716b] mb-4">Click nodes to expand/collapse. Color = page type.</p>
+          <div id="sg-tree" class="rounded-lg bg-[#fafaf9] p-4 overflow-x-auto max-h-96 overflow-y-auto"></div>
+        </div>
+
+        <!-- XML Preview -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <h3 class="font-sans text-[16px] font-semibold text-[#292524]">XML Sitemap</h3>
+            <div class="flex gap-2">
+              <button id="sg-copy-btn" class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-2 font-mono text-[12px] font-medium text-[#57534e] hover:border-[#4f39f6] hover:text-[#4f39f6] cursor-pointer transition-colors">
+                Copy XML
+              </button>
+              <button id="sg-download-btn" class="rounded-lg border border-[#4f39f6] bg-[#615fff] px-4 py-2 font-mono text-[12px] font-medium text-white hover:bg-[#4f39f6] cursor-pointer transition-colors">
+                Download
+              </button>
+            </div>
+          </div>
+          <div class="relative">
+            <pre id="sg-xml-preview" class="rounded-lg bg-[#1c1917] p-4 font-mono text-[13px] text-[#e7e5e4] overflow-x-auto whitespace-pre-wrap leading-relaxed max-h-[400px] overflow-y-auto"></pre>
+          </div>
+        </div>
+
+        <!-- Validation -->
+        <div id="sg-validation" class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524] mb-2">Validation</h3>
+          <div id="sg-validation-content"></div>
+        </div>
+
+        <!-- Issues -->
+        <div id="sg-issues-panel" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 hidden">
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524] mb-3">Issues Found</h3>
+          <div id="sg-issues-content" class="space-y-2"></div>
+        </div>
+
+        <!-- Pages Table -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524] mb-3">Pages</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-[13px]">
+              <thead>
+                <tr class="border-b-2 border-[#e7e5e4] bg-[#fafaf9]">
+                  <th class="py-2 px-3 text-left font-semibold text-[#292524]">URL</th>
+                  <th class="py-2 px-3 text-left font-semibold text-[#292524]">Type</th>
+                  <th class="py-2 px-3 text-center font-semibold text-[#292524]">Priority</th>
+                  <th class="py-2 px-3 text-center font-semibold text-[#292524]">Changefreq</th>
+                </tr>
+              </thead>
+              <tbody id="sg-pages-table" class="text-[#57534e]"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Start Over -->
+        <div class="text-center">
+          <button id="sg-start-over" class="rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 text-[14px] font-medium text-[#57534e] hover:border-[#4f39f6] hover:text-[#4f39f6] cursor-pointer transition-colors">
+            Generate Another Sitemap
+          </button>
+        </div>
+      </div>
+    </div>
+  </Fragment>
+
+  <!-- SEO Content -->
+  <Fragment slot="content">
+    <div class="speakable mx-auto max-w-3xl">
+      <!-- TL;DR -->
+      <div class="mb-12 rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-3">What is an XML Sitemap?</h2>
+        <p class="text-[15px] text-[#57534e] leading-relaxed">
+          An XML sitemap helps search engines discover and index all your pages. Enter your website URL above to crawl up to 500 pages, generate a validated XML sitemap with auto-detected changefreq and priority scores, and view an interactive visual tree of your site structure.
+        </p>
+      </div>
+
+      <!-- How It Works -->
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">How It Works</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {[
+            { step: '1', title: 'Enter Website URL', desc: 'Type your website address and choose crawl depth and page limit. Our crawler respects robots.txt.' },
+            { step: '2', title: 'Crawl & Detect', desc: 'We crawl your site following internal links, extracting titles, detecting page types, and finding issues.' },
+            { step: '3', title: 'Auto-Score Pages', desc: 'Each page gets auto-detected changefreq (daily/weekly/monthly) and priority (0.0-1.0) based on type and depth.' },
+            { step: '4', title: 'Validate & Download', desc: 'Get a sitemap.org-compliant XML file, a visual site tree, and a validation report with issue flags.' },
+          ].map((item) => (
+            <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#f5f3ff] font-mono text-[14px] font-bold text-[#4f39f6]">{item.step}</span>
+              <h3 class="mt-3 font-sans text-[15px] font-semibold text-[#292524]">{item.title}</h3>
+              <p class="mt-1 text-[14px] text-[#57534e] leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Use Cases -->
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">Use Cases by Site Type</h2>
+        <div class="space-y-3">
+          {[
+            { type: 'Small Business Websites', desc: 'Ensure all service pages, contact info, and location pages are indexed. Perfect for 10-50 page sites.' },
+            { type: 'E-commerce Stores', desc: 'Keep product pages, categories, and collections discoverable. Auto-detects product vs category pages.' },
+            { type: 'Blogs & Media Sites', desc: 'Make articles and archive pages indexable. Blog posts get weekly changefreq and appropriate priority.' },
+            { type: 'SaaS Platforms', desc: 'Index landing pages, documentation, and feature pages while excluding app dashboards and private areas.' },
+            { type: 'Portfolio Sites', desc: 'Showcase all projects and case studies. Visual tree helps you see your portfolio structure at a glance.' },
+            { type: 'Enterprise Sites', desc: 'Audit complex site architecture, find orphan pages, and identify broken links across hundreds of pages.' },
+          ].map((item) => (
+            <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+              <h3 class="font-sans text-[15px] font-semibold text-[#292524]">{item.type}</h3>
+              <p class="mt-1 text-[14px] text-[#57534e] leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">How We Compare</h2>
+        <div class="overflow-x-auto rounded-xl border border-[#e7e5e4]">
+          <table class="w-full text-[14px]">
+            <thead>
+              <tr class="border-b-2 border-[#e7e5e4] bg-[#fafaf9]">
+                <th class="py-3 px-4 text-left font-semibold text-[#292524]">Feature</th>
+                <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+                <th class="py-3 px-4 text-center font-semibold text-[#292524]">XML-Sitemaps</th>
+                <th class="py-3 px-4 text-center font-semibold text-[#292524]">Web Aloha</th>
+                <th class="py-3 px-4 text-center font-semibold text-[#292524]">Screaming Frog</th>
+              </tr>
+            </thead>
+            <tbody class="text-[#57534e]">
+              {[
+                { feature: 'Free tier', stacc: 'Unlimited', xml: '500 pages', wa: '500 pages', sf: '500 pages' },
+                { feature: 'Sign-up required', stacc: 'No', xml: 'No', wa: 'No', sf: 'No (desktop)' },
+                { feature: 'Changefreq auto-detect', stacc: 'Yes', xml: 'No', wa: 'No', sf: 'No' },
+                { feature: 'Priority scoring', stacc: 'Yes', xml: 'No', wa: 'No', sf: 'No' },
+                { feature: 'Visual tree', stacc: 'Yes', xml: 'No', wa: 'No', sf: 'No' },
+                { feature: 'Validation', stacc: 'Yes', xml: 'No', wa: 'No', sf: 'Limited' },
+                { feature: 'Broken link detection', stacc: 'Yes', xml: 'No', wa: 'No', sf: 'Yes' },
+                { feature: 'Page type classification', stacc: 'Yes', xml: 'No', wa: 'No', sf: 'No' },
+                { feature: 'Noindex detection', stacc: 'Yes', xml: 'No', wa: 'No', sf: 'Yes' },
+                { feature: 'Export options', stacc: 'XML', xml: 'XML/HTML/TXT', wa: 'XML', sf: 'Multiple' },
+              ].map((row, i) => (
+                <tr class={i % 2 === 0 ? 'bg-white' : 'bg-[#fafaf9]'}>
+                  <td class="py-2.5 px-4 font-medium text-[#292524]">{row.feature}</td>
+                  <td class="py-2.5 px-4 text-center font-semibold text-[#4f39f6]">{row.stacc}</td>
+                  <td class="py-2.5 px-4 text-center">{row.xml}</td>
+                  <td class="py-2.5 px-4 text-center">{row.wa}</td>
+                  <td class="py-2.5 px-4 text-center">{row.sf}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-3">
+          {faqs.map((faq, i) => (
+            <details class="rounded-xl border border-[#e7e5e4] bg-white group">
+              <summary class="flex cursor-pointer items-center justify-between p-5 font-sans text-[15px] font-semibold text-[#292524] list-none">
+                {faq.q}
+                <svg class="h-5 w-5 shrink-0 text-[#79716b] transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+              </summary>
+              <div class="px-5 pb-5 text-[14px] text-[#57534e] leading-relaxed">
+                {faq.a}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      <!-- Related Tools -->
+      <div class="mb-12">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524] mb-4">Related Tools</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {[
+            { name: 'SEO Audit', url: '/tools/seo-audit/', desc: 'Full site health check' },
+            { name: 'On-Page SEO Checker', url: '/tools/on-page-seo-checker/', desc: 'Page-level SEO analysis' },
+            { name: 'Website SEO Score', url: '/tools/website-seo-score/', desc: 'Overall SEO scorecard' },
+            { name: 'Schema Markup Generator', url: '/tools/schema-markup-generator/', desc: 'Generate structured data' },
+            { name: 'LLMs.txt Generator', url: '/tools/llms-txt-generator/', desc: 'Control AI crawlers' },
+            { name: 'AI Visibility Checker', url: '/tools/ai-visibility-checker/', desc: 'Check AI search visibility' },
+          ].map((tool) => (
+            <a href={tool.url} class="rounded-xl border border-[#e7e5e4] bg-white p-4 hover:border-[#c4b5fd] hover:bg-[#f5f3ff] transition-colors">
+              <h3 class="font-sans text-[14px] font-semibold text-[#292524]">{tool.name}</h3>
+              <p class="mt-1 text-[12px] text-[#79716b]">{tool.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="rounded-2xl border border-[#4f39f6] bg-[#f5f3ff] p-6 md:p-8 text-center">
+        <h2 class="font-sans text-[18px] font-semibold text-[#292524]">Generated your sitemap. Now what?</h2>
+        <p class="mt-2 text-[14px] text-[#57534e]">
+          theStacc audits and fixes your site structure automatically — broken links, orphan pages, and indexation issues.
+        </p>
+        <a href="/" class="mt-4 inline-block rounded-xl bg-[#615fff] px-6 py-3 font-mono text-[13px] font-bold uppercase text-white hover:bg-[#4f39f6] transition-colors">
+          Start Your $1 Trial
+        </a>
+      </div>
+    </div>
+  </Fragment>
+</ToolLayout>
+
+<script src="/js/sitemap-generator-engine.js" defer></script>

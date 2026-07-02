@@ -1,0 +1,358 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free AI Visibility Checker — Score Your Site for ChatGPT, Perplexity & Gemini | theStacc';
+const pageDescription = 'Check how visible your website is to AI search engines. Get an AI Visibility Score (0-100) with actionable recommendations for ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews. Free, instant.';
+const pageUrl = 'https://thestacc.com/tools/ai-visibility-checker/';
+const lastUpdated = '2026-05-11';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free AI Visibility Checker',
+  description: 'Analyze your website for AI search visibility. Score crawler access, structured data, E-E-A-T signals, and AI-specific readiness for ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is AI visibility and why does it matter?', a: 'AI visibility is how easily AI-powered search engines and assistants like ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews can discover, understand, and cite your website. As more users turn to AI for answers instead of traditional search, being visible to these systems directly impacts your traffic and brand exposure.' },
+  { q: 'How does the AI Visibility Checker work?', a: 'We analyze your website across five dimensions: AI crawler access (robots.txt rules for GPTBot, ClaudeBot, PerplexityBot, etc.), structured data and schema markup quality, content quality signals, E-E-A-T signals (author expertise, trustworthiness), and AI-specific readiness (llms.txt, sitemaps, canonical tags). Each dimension is scored and combined into an overall AI Visibility Score from 0-100.' },
+  { q: 'What AI systems does this check for?', a: 'We check crawler access rules for GPTBot (ChatGPT), ClaudeBot (Claude), PerplexityBot (Perplexity), Google-Extended (Gemini, Google AI Overviews), CCBot (Common Crawl), and ChatGPT-User. These are the primary crawlers that feed content into major AI systems.' },
+  { q: 'What is llms.txt and why do I need one?', a: 'llms.txt is an emerging standard where websites place a simple text file at their domain root (yoursite.com/llms.txt) that tells AI systems what the site is about, what content is available, and how to cite it. It is like robots.txt but specifically designed for AI crawlers. Sites with llms.txt are more likely to be accurately represented in AI responses.' },
+  { q: 'How accurate is the score?', a: 'The score is based on signals we can detect from your public homepage: HTML structure, schema markup, robots.txt rules, and page content. It provides a strong directional assessment but cannot measure subjective quality factors like writing depth or true topical authority. For a complete picture, combine this tool with a full SEO audit and content quality review.' },
+  { q: 'What is a good AI Visibility Score?', a: 'A+ (97-100) means excellent AI visibility with strong signals across all dimensions. A (90-96) is very good. B (80-89) is good but has gaps. C (70-79) is average — functional but missing key signals. D (60-69) is below average and needs attention. F (<60) means critical gaps that significantly limit AI discoverability.' },
+  { q: 'Does blocking AI crawlers hurt my SEO?', a: 'Blocking AI crawlers does not directly hurt traditional Google SEO rankings. However, it means your content will not appear in AI-generated answers, which is an increasingly important traffic channel. We recommend allowing AI crawlers while maintaining high-quality content and proper attribution.' },
+  { q: 'How is this different from a regular SEO audit?', a: 'A traditional SEO audit checks for Google ranking factors like backlinks, keyword optimization, and page speed. The AI Visibility Checker specifically evaluates signals that matter to AI systems: schema diversity, E-E-A-T markers, AI crawler access, and emerging standards like llms.txt. Both are important but measure different things.' },
+  { q: 'Is this tool free?', a: 'Yes, 100% free with no signup. Enter any domain and get an instant AI Visibility Score with detailed breakdowns and actionable recommendations.' },
+  { q: 'How often should I check my AI visibility?', a: 'Check monthly or after any major site changes (redesign, new content strategy, CMS migration). AI search is evolving rapidly, so new signals and best practices emerge regularly. We recommend re-checking quarterly to stay ahead.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'AI Visibility Checker', url: pageUrl },
+]);
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free AI Visibility Checker"
+  toolDescription="Check how visible your website is to AI search engines like ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews. Get a score and actionable recommendations."
+  wide={false}
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <div class="mx-auto max-w-2xl">
+      <!-- URL Input -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="avc-url">Website Domain</label>
+        <div class="flex gap-3">
+          <input type="url" id="avc-url" required placeholder="e.g., thestacc.com"
+            class="flex-1 rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+          />
+          <button id="avc-submit" class="shrink-0 rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+            Check AI Visibility
+          </button>
+        </div>
+        <p id="avc-error" class="mt-1 hidden text-xs text-red-500">Please enter a valid URL</p>
+
+        <!-- Quick examples -->
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <span class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Try:</span>
+          {['thestacc.com', 'hubspot.com', 'backlinko.com', 'neilpatel.com', 'moz.com'].map((ex) => (
+            <button class="avc-example-btn rounded-full border border-[#e7e5e4] bg-[#f5f5f4] px-3 py-1 font-mono text-[11px] text-[#57534e] hover:border-[#c4b5fd] hover:bg-[#f5f3ff] hover:text-[#4f39f6] cursor-pointer transition-colors" data-url={ex}>
+              {ex}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="avc-loading" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <div class="space-y-3">
+          {[
+            { id: 'fetch', label: 'Fetching homepage…' },
+            { id: 'robots', label: 'Checking robots.txt…' },
+            { id: 'llms', label: 'Looking for llms.txt…' },
+            { id: 'schema', label: 'Analyzing structured data…' },
+            { id: 'signals', label: 'Scoring E-E-A-T signals…' },
+            { id: 'score', label: 'Computing AI Visibility Score…' },
+          ].map((step) => (
+            <div class="flex items-center gap-3 step" data-step={step.id}>
+              <span class="step-icon w-5 h-5 text-[#79716b]">
+                <svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/>
+                  <path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span set:html={step.label} class="text-[14px] text-[#57534e]"></span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div id="avc-error" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+        <svg class="mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        <p class="text-[15px] text-red-700 font-medium">Could not analyze the site</p>
+        <p id="avc-error-msg" class="mt-1 text-[13px] text-red-600">Check the URL and try again.</p>
+      </div>
+
+      <!-- Results -->
+      <div id="avc-results" class="mt-6 hidden space-y-6">
+        <!-- Score Card -->
+        <div id="avc-score-card" class="rounded-2xl border border-[#e7e5e4] p-6 md:p-8">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="inline-block h-2 w-2 rounded-full bg-[#4f39f6]"></span>
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">AI Visibility Score</span>
+                <span id="avc-source-badge" class="rounded-full bg-[#f0fdf4] px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-green-600">AI-Analyzed</span>
+              </div>
+              <div class="mt-2 flex items-baseline gap-2">
+                <span id="avc-score-number" class="font-sans text-[48px] font-bold tracking-[-0.03em] text-[#292524]">0</span>
+                <span class="font-sans text-[20px] text-[#79716b]">/100</span>
+                <span id="avc-grade" class="ml-2 font-sans text-[24px] font-bold">F</span>
+              </div>
+              <p id="avc-domain" class="mt-1 font-mono text-[13px] text-[#57534e]"></p>
+            </div>
+            <div class="w-full md:w-48">
+              <div class="h-3 w-full rounded-full bg-[#e7e5e4]">
+                <div id="avc-score-bar" class="h-3 rounded-full transition-all duration-700" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+          <p id="avc-summary" class="mt-4 text-[15px] text-[#57534e] leading-relaxed"></p>
+        </div>
+
+        <!-- AI Crawler Access -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524] mb-3">AI Crawler Access</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-[14px]">
+              <thead>
+                <tr class="border-b-2 border-[#e7e5e4]">
+                  <th class="py-2 pr-4 text-left font-semibold text-[#292524]">Crawler</th>
+                  <th class="py-2 px-4 text-left font-semibold text-[#292524]">Status</th>
+                  <th class="py-2 pl-4 text-left font-semibold text-[#292524]">Detail</th>
+                </tr>
+              </thead>
+              <tbody id="avc-crawler-table" class="text-[#57534e]">
+                <tr><td class="py-4 text-[#79716b]" colspan="3">Run a check to see crawler access data</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- llms.txt Status -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524] mb-2">llms.txt Status</h3>
+          <div id="avc-llms-status">
+            <p class="text-[14px] text-[#79716b]">Run a check to see llms.txt status</p>
+          </div>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div>
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524] mb-3">Score Breakdown by Category</h3>
+          <div id="avc-categories" class="space-y-3">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Top Recommendations -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524] mb-3">Top Recommendations</h3>
+          <div id="avc-recommendations" class="space-y-3">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Action row -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p class="font-sans text-[15px] font-semibold text-[#292524]">Want deeper analysis?</p>
+              <p class="mt-0.5 font-sans text-[13px] text-[#79716b]">Run a full SEO audit or check your meta tags.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <a href="/tools/seo-audit/" class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-2 font-mono text-[12px] font-semibold uppercase text-[#57534e] hover:border-[#4f39f6] hover:text-[#4f39f6] transition-colors">SEO Audit</a>
+              <a href="/tools/meta-tag-analyzer/" class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-2 font-mono text-[12px] font-semibold uppercase text-[#57534e] hover:border-[#4f39f6] hover:text-[#4f39f6] transition-colors">Meta Tags</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form id="avc-form" class="hidden" onsubmit="return false;"></form>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-section" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <div class="mx-auto max-w-lg">
+          <p class="font-sans text-[22px] font-bold leading-tight text-white">Stay visible as search evolves.</p>
+          <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Stacc optimizes your site for both traditional Google rankings and AI search visibility. Starting at $99/mo.</p>
+          <a href="/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start Your $1 Trial &rarr;</a>
+          <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days &middot; Cancel anytime</p>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / Speakable -->
+    <div class="speakable rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5 mb-8">
+      <p class="font-sans text-[15px] leading-[1.7] text-[#57534e]">
+        <strong class="text-[#292524]">The theStacc AI Visibility Checker</strong> scores your website from 0-100 on how visible it is to AI search engines like ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews. We check AI crawler access in your robots.txt, schema markup quality, content depth, E-E-A-T signals, and AI-specific readiness factors like llms.txt. Enter any domain and get an instant score with actionable recommendations.
+      </p>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">What Is AI Visibility?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">AI visibility measures how likely your website is to be discovered, understood, and cited by AI-powered search engines and assistants. Unlike traditional SEO, which optimizes for Google blue links, AI visibility optimizes for inclusion in generated answers, summaries, and recommendations produced by systems like ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">These AI systems use specialized crawlers to index the web. GPTBot powers ChatGPT's knowledge. ClaudeBot powers Anthropic's Claude. PerplexityBot feeds Perplexity's real-time search. Google-Extended covers Gemini and Google AI Overviews. If these crawlers cannot access your site, or if your content lacks the structured signals AI systems rely on, your brand simply will not appear in AI-generated answers — even if you rank #1 on traditional Google.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">AI visibility is not replacing SEO. It is an additional layer. The fundamentals — great content, technical health, authority backlinks — still matter. But AI visibility adds new requirements: schema diversity, explicit E-E-A-T markers, AI crawler permissions, and emerging standards like llms.txt that did not exist three years ago.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">The Five Dimensions We Check</h2>
+
+    <h3 class="text-lg font-semibold text-[#292524] mt-6 mb-2">1. AI Crawler Access (20 points)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">We read your robots.txt file and check whether major AI crawlers are allowed or blocked. A site that blocks GPTBot, ClaudeBot, and PerplexityBot scores poorly here — it is effectively invisible to the AI systems that matter most. We also check for blanket blocks that might inadvertently catch AI crawlers along with malicious bots.</p>
+
+    <h3 class="text-lg font-semibold text-[#292524] mt-6 mb-2">2. Structured Data and Schema (20 points)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">AI systems heavily rely on Schema.org markup to understand what a page is about, who wrote it, when it was published, and how it relates to other content. We check for Article schema, FAQ schema, Organization schema, Breadcrumb schema, and overall schema diversity. Sites with rich, valid schema are far more likely to be accurately cited.</p>
+
+    <h3 class="text-lg font-semibold text-[#292524] mt-6 mb-2">3. Content Quality Signals (20 points)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">AI systems favor substantive, well-structured content. We check content depth (word count), heading structure, title tags, meta descriptions, and canonical tags. Thin pages with no headings and minimal text rarely get cited. Pages with clear hierarchy, comprehensive coverage, and proper technical markup score higher.</p>
+
+    <h3 class="text-lg font-semibold text-[#292524] mt-6 mb-2">4. E-E-A-T Signals (20 points)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Experience, Expertise, Authoritativeness, and Trustworthiness are critical for AI citation decisions. We check for author bylines, publication dates, About pages, contact information, and social media profiles. AI systems are trained to be cautious — they prefer citing sources that clearly demonstrate who is behind the content and why they are credible.</p>
+
+    <h3 class="text-lg font-semibold text-[#292524] mt-6 mb-2">5. AI-Specific Readiness (20 points)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">This dimension checks emerging standards and practices specifically for AI systems. Does your site have an llms.txt file? Is your sitemap referenced in robots.txt? Do you have diverse schema types covering different content formats? These are the forward-looking signals that will matter more as AI search matures.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">AI Visibility Checker Comparison</h2>
+    <div class="overflow-x-auto mb-5">
+      <table class="w-full text-[14px]">
+        <thead>
+          <tr class="border-b-2 border-[#e7e5e4]">
+            <th class="py-3 pr-4 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">amivisibleonai</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">Semrush</th>
+            <th class="py-3 pl-4 text-center font-semibold text-[#57534e]">Ahrefs</th>
+          </tr>
+        </thead>
+        <tbody class="text-[#57534e]">
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Price</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Free</td><td class="py-2.5 px-4 text-center">Freemium</td><td class="py-2.5 px-4 text-center">Paid ($139+/mo)</td><td class="py-2.5 pl-4 text-center">Paid ($129+/mo)</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Signup required</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">No</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">Yes</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">AI crawler check</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">6 crawlers</td><td class="py-2.5 px-4 text-center">3 crawlers</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">llms.txt check</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Schema analysis</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — 5 types</td><td class="py-2.5 px-4 text-center">Basic</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">Limited</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">E-E-A-T scoring</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Actionable recommendations</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — prioritized</td><td class="py-2.5 px-4 text-center">Limited</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">Yes</td></tr>
+          <tr><td class="py-2.5 pr-4">Linked SEO tools</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — audit, meta</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Use Cases by Role</h2>
+    <div class="space-y-3 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">SEO Agencies</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Pitch AI visibility as a new service line. Most clients have never heard of GPTBot or llms.txt. Run their site through this tool and you instantly have a concrete report with specific fixes. It differentiates you from agencies still selling "page 1 rankings" as the only metric.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Content Teams</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Understand whether your content structure supports AI citation. Are your articles marked up with Article schema? Do they have author bylines and publication dates? Is your FAQ content wrapped in FAQPage schema? These small technical changes dramatically increase citation probability.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Marketing Leaders</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Track AI visibility as a new KPI alongside traditional organic traffic. As AI search adoption grows, the sites that invested early in AI visibility will capture disproportionate share of voice. Use this tool monthly to benchmark progress and justify investment.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Business Owners</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">If you rely on organic traffic for leads or sales, AI visibility is becoming as important as Google rankings. This tool gives you a quick health check with specific actions you can take yourself or hand to your developer. No SEO expertise required to understand the results.</p>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Why Traditional SEO Is Not Enough</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Traditional SEO optimizes for ranking factors in Google's algorithm: backlinks, keyword density, page speed, mobile usability. These still matter. But AI search engines use different signals to decide what to cite. They do not have a "SERP" in the traditional sense — they generate answers by synthesizing information from multiple sources.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">When ChatGPT answers a question, it decides which sources to reference based on: how well the content answers the specific question, whether the source is authoritative on the topic, how recently the content was published, and whether the source has clear authorship and trust signals. A page that ranks #8 on Google might be cited by ChatGPT while the #1 result is ignored, if the #8 page has better structured data and clearer expertise signals.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The AI Visibility Checker bridges this gap. It evaluates the signals that specifically matter for AI citation, separate from traditional ranking factors. Use it alongside your existing SEO tools for a complete picture of your search presence.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      {faqs.map((faq, i) => (
+        <div class={i < faqs.length - 1 ? 'border-b border-[#f3f4f6]' : ''}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/seo-audit/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO Audit</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Full audit with authority data</p>
+          </a>
+          <a href="/tools/meta-tag-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Meta Tag Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">SERP comparison + AI rewrites</p>
+          </a>
+          <a href="/tools/cms-detector/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">CMS Detector</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Identify 70+ technologies</p>
+          </a>
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score headlines on 8 dimensions</p>
+          </a>
+          <a href="/tools/internal-link-suggester/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Internal Link Suggester</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Find link opportunities on any page</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Generate JSON-LD with real PAA</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script is:inline src="/js/ai-visibility-checker-engine.js"></script>
+  </Fragment>
+</ToolLayout>

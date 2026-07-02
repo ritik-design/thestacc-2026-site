@@ -1,0 +1,291 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Analisador Gratuito de Títulos para Negócios Locais | theStacc';
+const pageDescription = 'Pontue seus títulos em 8 dimensões: equilíbrio de palavras, emoção, força de SEO, SEO local, clareza e mais. Desenvolvido para dentistas, encanadores, advogados. Gratuito, instantâneo, sem cadastro.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Analisador Gratuito de Títulos',
+  description: 'Pontue seus títulos de blog, títulos de publicações GBP, títulos de página e assuntos de e-mail em 8 dimensões incluindo pontuação de SEO local. Resultados instantâneos, sem cadastro.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'O que faz um analisador de títulos?', acceptedAnswer: { '@type': 'Answer', text: 'Um analisador de títulos pontua seu título em múltiplas dimensões: equilíbrio de palavras, apelo emocional, força de SEO, comprimento, clareza, palavras de poder, sentimento e SEO local. Fornece uma pontuação de 0 a 100 e sugestões específicas para melhorar as taxas de cliques.' } },
+    { '@type': 'Question', name: 'Qual deve ser o comprimento do título de um post de blog?', acceptedAnswer: { '@type': 'Answer', text: 'Títulos de posts de blog devem ter 50-60 caracteres para SEO ideal. O Google trunca títulos com mais de ~60 caracteres nos resultados de busca. Publicações GBP funcionam bem com 40-80 caracteres, enquanto assuntos de e-mail têm melhor desempenho com 30-50 caracteres.' } },
+    { '@type': 'Question', name: 'O que são palavras de poder nos títulos?', acceptedAnswer: { '@type': 'Answer', text: 'Palavras de poder são palavras psicologicamente atraentes que desencadeiam emoção ou ação. Exemplos incluem "gratuito", "comprovado", "garantido", "definitivo", "segredo" e "exclusivo". Títulos com palavras de poder consistentemente obtêm taxas de cliques mais altas.' } },
+    { '@type': 'Question', name: 'Por que o SEO local importa nos títulos?', acceptedAnswer: { '@type': 'Answer', text: 'Incluir o nome da sua cidade e palavras-chave do setor nos títulos indica relevância geográfica ao Google. Um título como "Melhor Dentista em São Paulo SP" ranka melhor para buscas locais do que "Melhor Dentista" sozinho. Isso é fundamental para negócios de serviços que atendem uma área específica.' } },
+    { '@type': 'Question', name: 'Este analisador de títulos é gratuito?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, 100% gratuito. Sem cadastro, sem barreira de e-mail, sem limites. Escreva seu título e obtenha uma pontuação instantânea em 8 dimensões com análise palavra por palavra, pré-visualizações de conteúdo e sugestões de melhoria.' } },
+  ],
+};
+
+const industries = [
+  { value: 'dentist', label: 'Dentista' },
+  { value: 'chiropractor', label: 'Quiropraxista' },
+  { value: 'plumber', label: 'Encanador' },
+  { value: 'hvac', label: 'HVAC / Climatização' },
+  { value: 'electrician', label: 'Eletricista' },
+  { value: 'roofing', label: 'Telhados' },
+  { value: 'landscaping', label: 'Jardinagem' },
+  { value: 'pest_control', label: 'Controle de Pragas' },
+  { value: 'auto_repair', label: 'Oficina Mecânica' },
+  { value: 'lawyer', label: 'Advogado' },
+  { value: 'accountant', label: 'Contador' },
+  { value: 'realtor', label: 'Imóveis' },
+  { value: 'insurance', label: 'Seguros' },
+  { value: 'financial_advisor', label: 'Consultor Financeiro' },
+  { value: 'restaurant', label: 'Restaurante' },
+  { value: 'salon', label: 'Salão / Spa' },
+  { value: 'gym', label: 'Academia / Fitness' },
+  { value: 'veterinarian', label: 'Veterinário' },
+  { value: 'cleaning', label: 'Limpeza' },
+  { value: 'moving', label: 'Mudanças' },
+  { value: 'optometrist', label: 'Optometrista' },
+  { value: 'orthodontist', label: 'Ortodontista' },
+  { value: 'dermatologist', label: 'Dermatologista' },
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Analisador Gratuito de Títulos"
+  toolDescription="Pontue seus títulos de blog, títulos de publicações GBP, títulos de página e assuntos de e-mail em 8 dimensões. Inclui pontuação de SEO local. Resultados instantâneos, sem cadastro."
+  lang="pt-BR"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <!-- Headline Input + Options Card -->
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <!-- Headline textarea -->
+      <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2" for="headline-input">Seu Título</label>
+      <div class="relative">
+        <textarea
+          id="headline-input"
+          rows="2"
+          maxlength="200"
+          placeholder="Escreva seu título, título de blog ou assunto de e-mail..."
+          class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 font-sans text-[16px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-none"
+        ></textarea>
+        <span id="char-counter" class="absolute bottom-2 right-3 font-mono text-[11px] text-[#79716b]">0/200</span>
+      </div>
+
+      <!-- Content Type Pills -->
+      <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mt-5 mb-2">Tipo de Conteúdo</label>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" class="content-type-pill cursor-pointer rounded-lg border-2 border-[#4f39f6] bg-[#f5f3ff] px-4 py-2 text-[13px] font-medium text-[#4f39f6] transition-all" data-type="blog">Post de blog</button>
+        <button type="button" class="content-type-pill cursor-pointer rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all" data-type="gbp">Publicação GBP</button>
+        <button type="button" class="content-type-pill cursor-pointer rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all" data-type="page">Título de página / H1</button>
+        <button type="button" class="content-type-pill cursor-pointer rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all" data-type="email">Assunto de e-mail</button>
+      </div>
+
+      <!-- Industry + City (side by side) -->
+      <div class="grid gap-4 mt-5 md:grid-cols-2">
+        <div>
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2" for="industry-select">Setor <span class="normal-case font-normal">(opcional)</span></label>
+          <select id="industry-select" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[14px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors">
+            <option value="">Selecione o setor...</option>
+            {industries.map(ind => (
+              <option value={ind.value}>{ind.label}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2" for="city-input">Cidade Alvo <span class="normal-case font-normal">(opcional)</span></label>
+          <input
+            type="text"
+            id="city-input"
+            maxlength="60"
+            placeholder="ex., São Paulo"
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== RESULTS ==================== -->
+    <div id="results-section" class="hidden mt-6 space-y-6">
+
+      <!-- Score Gauge + Dimension Bars -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <div class="flex flex-col items-center gap-8 md:flex-row md:items-start">
+          <!-- Gauge -->
+          <div class="flex flex-col items-center shrink-0">
+            <svg width="160" height="160" viewBox="0 0 160 160" class="transform -rotate-90">
+              <circle cx="80" cy="80" r="70" fill="none" stroke="#f5f5f4" stroke-width="10" />
+              <circle id="gauge-arc" cx="80" cy="80" r="70" fill="none" stroke="#22C55E" stroke-width="10" stroke-linecap="round" style="stroke-dasharray:439.82;stroke-dashoffset:439.82;transition:stroke-dashoffset 0.6s ease,stroke 0.3s ease" />
+            </svg>
+            <div class="relative -mt-[108px] flex flex-col items-center mb-[48px]">
+              <svg width="160" height="60" viewBox="0 0 160 60">
+                <text id="gauge-score" x="80" y="32" text-anchor="middle" font-family="ui-monospace,monospace" font-size="36" font-weight="700" fill="#22C55E">0</text>
+                <text id="gauge-grade" x="80" y="52" text-anchor="middle" font-family="ui-monospace,monospace" font-size="16" font-weight="600" fill="#22C55E">F</text>
+              </svg>
+            </div>
+          </div>
+          <!-- Dimension Bars -->
+          <div id="dimension-bars" class="flex-1 w-full"></div>
+        </div>
+      </div>
+
+      <!-- Content Preview -->
+      <div id="preview-box"></div>
+
+      <!-- Word-by-Word Analysis -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-3">Análise Palavra por Palavra</p>
+        <div id="word-analysis"></div>
+      </div>
+
+      <!-- Improvement Suggestions -->
+      <div id="suggestions-box" class="hidden rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-6">
+        <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#7c3aed] mb-3">Sugestões de Melhoria</p>
+      </div>
+
+      <!-- Headline History -->
+      <div id="history-section" class="hidden">
+        <div class="flex items-center justify-between mb-3">
+          <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Histórico de Títulos</p>
+          <button type="button" id="test-another-btn" class="cursor-pointer rounded-lg border border-[#e7e5e4] px-3 py-1.5 font-mono text-[11px] font-medium uppercase text-[#57534e] transition-colors hover:border-[#c4b5fd] hover:text-[#4f39f6]">Testar Outro</button>
+        </div>
+        <div id="history-list" class="space-y-2"></div>
+      </div>
+
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p id="cta-headline" class="font-sans text-[22px] font-bold leading-tight text-white">Criar 1 título levou 5 minutos.<br/>O Stacc escreve 30 artigos otimizados por mês.</p>
+        <p id="cta-subtext" class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Cada artigo é otimizado para SEO e desenvolvido para rankear. A partir de R$99/mês.</p>
+        <a id="cta-link" href="/pt-br/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Comece seu Teste por R$1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">R$1 por 30 dias · Cancele quando quiser</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Como Escrever Títulos que Geram Cliques</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Um título é a primeira coisa que as pessoas veem. Nos resultados de busca, na caixa de entrada, no seu Google Business Profile. As pesquisas mostram que 80% das pessoas lê títulos, mas apenas 20% lê o conteúdo completo. Isso significa que seu título faz a maior parte da venda.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Este analisador pontua seu título em <strong class="text-[#292524]">8 dimensões</strong> que determinam se as pessoas clicam ou seguem em frente. <strong class="text-[#292524]">Equilíbrio de Palavras</strong> mede a mistura de palavras comuns, incomuns, de poder e emocionais. Os melhores títulos combinam as quatro. <strong class="text-[#292524]">Valor Emocional</strong> busca palavras que desencadeiam curiosidade, medo, emoção ou urgência. <strong class="text-[#292524]">Comprimento</strong> garante que seu título se ajuste ao meio. O Google trunca títulos com mais de 60 caracteres, enquanto clientes de e-mail cortam assuntos por volta de 50.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Clareza</strong> usa um cálculo de facilidade de leitura Flesch para garantir que seu título seja compreensível de uma olhada. <strong class="text-[#292524]">Força de SEO</strong> avalia a estrutura. Números, formatos de perguntas e posicionamento de palavras-chave melhoram as taxas de cliques nos resultados de busca. <strong class="text-[#292524]">Palavras de Poder</strong> busca termos psicologicamente atraentes como "gratuito", "comprovado" e "garantido". <strong class="text-[#292524]">Sentimento</strong> mede se seu título tem um ângulo positivo ou negativo claro. Ambos superam títulos neutros.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A oitava dimensão é o que torna esta ferramenta única: <strong class="text-[#292524]">SEO Local</strong>. Para negócios de serviços, incluir o nome da sua cidade e palavras-chave do setor nos títulos indica relevância geográfica ao Google. Nenhum outro analisador de títulos pontua isso.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Títulos de SEO Local: Por que Nomes de Cidade Importam</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Se você é dentista em São Paulo, o título do seu post de blog não deve dizer apenas "5 Dicas para Dentes mais Brancos". Deve dizer "5 Dicas para Dentes mais Brancos de um Dentista em São Paulo". Esse nome de cidade sinaliza ao Google que seu conteúdo é geograficamente relevante, melhorando as posições nos resultados de busca local e no pacote de mapas.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Títulos de SEO local funcionam porque o algoritmo do Google corresponde a intenção de busca com relevância de conteúdo. Quando alguém busca "melhor encanador perto de mim" ou "encanador de emergência em SP", o Google procura conteúdo que mencione explicitamente a cidade e o serviço. Títulos que incluem ambos rankear significativamente melhor do que as alternativas genéricas.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Isso é especialmente importante para <strong class="text-[#292524]">publicações do Google Business Profile</strong>. Publicações GBP que incluem o nome da sua cidade e a palavra-chave do serviço obtêm mais visualizações, mais cliques e mais ligações. Nosso analisador verifica ambos. Insira sua cidade e setor para ver sua pontuação de SEO Local.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Guia de Comprimento de Títulos por Tipo de Conteúdo</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Diferentes plataformas têm comprimentos ideais de título distintos. Errar nisso significa que seu título é truncado. E títulos truncados obtêm menos cliques.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Posts de blog: 50-60 caracteres.</strong> O Google exibe aproximadamente 60 caracteres nos resultados de busca. Coloque suas palavras-chave no início e mantenha as mais importantes nos primeiros 50 caracteres.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Publicações GBP: 40-80 caracteres.</strong> O Google Business Profile oferece mais espaço, e títulos mais longos com detalhes específicos funcionam bem. "Consulta Gratuita de Clareamento Dental Esta Semana em Nossa Clínica" usa bem o intervalo completo.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Assuntos de e-mail: 30-50 caracteres.</strong> Clientes de e-mail mobile exibem 30-40 caracteres. Mais curto é melhor.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Títulos de página / H1s: 50-60 caracteres.</strong> Igual aos posts de blog. Eles aparecem nos resultados de busca e nas abas do navegador.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Palavras de Poder que Aumentam a Taxa de Cliques</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Palavras de poder são termos de alto impacto que desencadeiam respostas psicológicas. Curiosidade, urgência, confiança ou desejo. As pesquisas mostram que palavras de poder aumentam as taxas de cliques em 12 a 25%.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Construtores de confiança:</strong> Gratuito, Comprovado, Garantido, Certificado, Confiável, Recomendado, Premiado, Oficial</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Impulsionadores de urgência:</strong> Limitado, Instantâneo, Agora, Hoje, Rápido, Essencial, Precisa, Crítico</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Gatilhos de curiosidade:</strong> Segredo, Definitivo, Exclusivo, Insider, Revolucionário</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Perguntas Frequentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">O que faz um analisador de títulos?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Um analisador de títulos pontua seu título em múltiplas dimensões: equilíbrio de palavras, apelo emocional, força de SEO, comprimento, clareza, palavras de poder, sentimento e SEO local. Fornece uma pontuação de 0 a 100 e sugestões específicas para melhorar as taxas de cliques.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Qual deve ser o comprimento do título de um post de blog?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Títulos de posts de blog devem ter 50-60 caracteres para SEO ideal. O Google trunca títulos com mais de ~60 caracteres nos resultados de busca. Publicações GBP funcionam bem com 40-80 caracteres, enquanto assuntos de e-mail têm melhor desempenho com 30-50 caracteres.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">O que são palavras de poder nos títulos?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Palavras de poder são palavras psicologicamente atraentes que desencadeiam emoção ou ação. Exemplos incluem "gratuito", "comprovado", "garantido", "definitivo", "segredo" e "exclusivo". Títulos com palavras de poder consistentemente obtêm taxas de cliques mais altas.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Por que o SEO local importa nos títulos?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Incluir o nome da sua cidade e palavras-chave do setor nos títulos indica relevância geográfica ao Google. Um título como "Melhor Dentista em São Paulo" ranka melhor para buscas locais do que "Melhor Dentista" sozinho. Isso é fundamental para negócios de serviços que atendem uma área específica.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Este analisador de títulos é gratuito?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sim, 100% gratuito. Sem cadastro, sem barreira de e-mail, sem limites. Escreva seu título e obtenha uma pontuação instantânea em 8 dimensões com análise palavra por palavra, pré-visualizações de conteúdo e sugestões de melhoria.</p>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Mais Ferramentas Gratuitas de SEO Local</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/pt-br/ferramentas/gerador-post-gbp/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de Publicações GBP</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Gere atualizações GBP prontas para publicar</p>
+          </a>
+          <a href="/pt-br/ferramentas/gerador-resposta-avaliacoes/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de Respostas a Avaliações</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Responda avaliações do Google em segundos</p>
+          </a>
+          <a href="/pt-br/ferramentas/calculadora-roi-seo/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Calculadora de ROI de SEO</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Calcule seu retorno projetado de SEO</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta ferramenta requer JavaScript. Por favor, ative-o no seu navegador.</p></div></noscript>
+    <script is:inline src="/js/headline-analyzer-engine.js"></script>
+  </Fragment>
+</ToolLayout>

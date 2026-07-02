@@ -1,0 +1,362 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "What data syncs between Stacc and WordPress?",
+    a: "Business name, address, phone number, hours, and service descriptions sync to your WordPress site automatically. Any changes made in Stacc — or pulled from Google Business Profile — push to the corresponding WordPress fields without manual updates.",
+  },
+  {
+    q: "Does Stacc inject schema markup into WordPress automatically?",
+    a: "Yes. Stacc pushes LocalBusiness schema markup to your WordPress pages automatically. This structured data tells Google exactly what your business is, where it's located, and when it's open — helping your local pages rank higher in local search results.",
+  },
+  {
+    q: "Can I embed reviews on my WordPress site?",
+    a: "Yes. Stacc provides a review widget that you add to WordPress pages with a shortcode or block. It pulls your latest Google and Facebook reviews dynamically, so the widget always shows fresh social proof without manual updates.",
+  },
+  {
+    q: "Does this work with page builders like Elementor or Divi?",
+    a: "Yes. The Stacc review widget and local data fields work with WordPress page builders including Elementor, Divi, and Beaver Builder. The shortcode embeds anywhere a standard WordPress shortcode works.",
+  },
+  {
+    q: "How many WordPress sites can I connect?",
+    a: "You can connect one WordPress site per business location. Agencies can connect multiple client WordPress sites across different Stacc accounts or within a single agency account, depending on your plan.",
+  },
+  {
+    q: "Is a WordPress plugin required?",
+    a: "Yes. The Stacc WordPress plugin is free and available in the WordPress plugin directory. Install it, add your Stacc API key from the settings page, and the connection is established. Setup takes under 3 minutes.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — WordPress Integration",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Connect WordPress to theStacc. Sync local business data, push schema markup automatically, and embed live review widgets on your site.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Integrations", "item": "https://thestacc.com/integrations/" },
+        { "@type": "ListItem", "position": 3, "name": "WordPress", "item": "https://thestacc.com/integrations/wordpress/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="WordPress Integration — Sync Local Business Data With Your WordPress Site | theStacc"
+  description="Keep your WordPress site in sync with your Google Business Profile. Update hours, services, and NAP data in Stacc — it pushes to WordPress automatically with local schema markup."
+
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Integration · WordPress</span>
+          </div>
+
+          <div class="mb-8 flex items-center justify-center gap-5">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-label="theStacc" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="4" fill="#4f39f6"/>
+                <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+            </div>
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="#21759B" aria-label="WordPress" aria-hidden="true">
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zM3.5 12c0-1.232.254-2.406.706-3.474L7.942 19.25A8.507 8.507 0 013.5 12zm8.5 8.5a8.498 8.498 0 01-2.416-.35l2.565-7.453 2.629 7.198a.764.764 0 00.058.112A8.496 8.496 0 0112 20.5zm1.172-11.217c.512-.027.972-.08.972-.08.457-.054.403-.726-.054-.699 0 0-1.374.108-2.263.108-.833 0-2.234-.107-2.234-.107-.458-.027-.512.672-.054.699 0 0 .433.053.891.08l1.323 3.623-1.858 5.574-3.094-9.197c.512-.027.972-.08.972-.08.457-.054.403-.726-.054-.699 0 0-1.374.108-2.263.108-.159 0-.347-.004-.546-.01A8.5 8.5 0 0120.398 9.3c-.044.001-.087.005-.131.005-.833 0-1.585.726-1.585 1.504 0 .699.403 1.29.833 1.989.322.565.699 1.29.699 2.343 0 .726-.28 1.569-.646 2.747l-.847 2.829L15.45 9.283zm2.64 10.375l2.61-7.542c.487-1.219.648-2.194.648-3.063 0-.315-.021-.607-.059-.886A8.5 8.5 0 0120.5 12a8.5 8.5 0 01-4.688 7.658z"/>
+              </svg>
+            </div>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Stacc + WordPress.<br />
+            <span style="color:#4f39f6;">Your site, always in sync.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Keep your WordPress site's local business data accurate everywhere it matters. Update your business info in Stacc once — it syncs to WordPress, injects local schema automatically, and keeps your reviews widget always current.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Connect WordPress free
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#how-to-connect"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              See how it works
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            Free plugin · 3-minute setup · Works with any WordPress theme
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHAT THIS DOES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">What you get</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Local SEO data flows from Stacc<br />into WordPress automatically.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15', title: 'Automatic NAP sync', body: 'Business name, address, and phone number stay consistent between Stacc, Google, and your WordPress site. One change in Stacc updates everywhere.' },
+            { icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4', title: 'Local schema markup injection', body: 'LocalBusiness JSON-LD schema pushes to your WordPress pages automatically. Tells Google your exact location, hours, and category — without touching your theme code.' },
+            { icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z', title: 'Live review widget', body: 'Embed a dynamic review feed on any WordPress page. Your latest Google and Facebook reviews update automatically — always showing fresh social proof.' },
+            { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Hours sync', body: 'Business hours updated in Stacc or pulled from Google push to WordPress automatically. Holiday hour changes take 30 seconds to propagate everywhere.' },
+            { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Services and description sync', body: 'Service lists and business descriptions from your GBP push to WordPress. Consistent descriptions everywhere search engines and customers look.' },
+            { icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7', title: 'Location page automation', body: 'For multi-location businesses, Stacc can populate individual location pages on WordPress with the right data for each address — automatically.' },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SETUP STEPS ─── -->
+    <section id="how-to-connect" class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">How to connect</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Three steps. Under three minutes.<br />WordPress connected.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-3xl space-y-4">
+          {[
+            { step: '01', title: 'Install the Stacc WordPress plugin', body: 'Search "theStacc" in the WordPress plugin directory, install, and activate. The plugin is free and requires no coding — it adds a settings page to your WordPress admin.' },
+            { step: '02', title: 'Enter your Stacc API key', body: 'Copy your API key from Stacc settings (under Integrations → WordPress) and paste it into the plugin settings page. This connects your WordPress site to your Stacc account.' },
+            { step: '03', title: 'Choose what to sync', body: 'Select which data to sync: NAP, hours, services, schema markup, and review widgets. Enable auto-sync and Stacc keeps WordPress updated automatically whenever your business data changes.' },
+          ].map(s => (
+            <div class="flex gap-6 rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <span class="font-mono text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[#4f39f6]/20 shrink-0">{s.step}</span>
+              <div>
+                <p class="font-sans text-[15px] font-semibold text-[#111827]">{s.title}</p>
+                <p class="mt-1.5 font-sans text-[14px] leading-relaxed text-[#57534e]">{s.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── BEFORE / AFTER ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Before vs. after</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            What changes when WordPress<br />connects to Stacc.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-[#e7e5e4]">
+          <div class="grid grid-cols-3 bg-[#f5f3ff] border-b border-[#e7e5e4]">
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Task</div>
+            <div class="border-x border-[#e7e5e4] px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Without Stacc</div>
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4f39f6]">With Stacc</div>
+          </div>
+          {[
+            ['Update business hours on site', 'Log into WordPress, find the field, update manually', 'Update in Stacc, pushes to WP automatically'],
+            ['Add schema markup to location pages', 'Hire developer or install schema plugin + configure', 'Auto-injected by Stacc on connection'],
+            ['Show reviews on website', 'Screenshot and manually update a testimonials page', 'Live widget, always shows latest reviews'],
+            ['Keep NAP consistent', 'Update GBP, then WP, then 50 other places separately', 'One change in Stacc, syncs everywhere'],
+            ['Move to a new address', 'Update 8+ places manually, hope you don\'t miss one', 'Update once, Stacc pushes to all platforms'],
+          ].map(([task, before, after]) => (
+            <div class="grid grid-cols-3 border-b border-[#e7e5e4] last:border-0">
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#292524]">{task}</div>
+              <div class="border-x border-[#e7e5e4] px-6 py-4 font-sans text-[13px] text-[#79716b]">{before}</div>
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#4f39f6]">{after}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── USE CASES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Who uses this</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Three workflows this<br />integration unlocks immediately.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-5 md:grid-cols-3">
+          {[
+            { label: 'Local service businesses', title: 'Always-accurate site with zero manual updates', body: 'Hours change, phone numbers change, addresses change. With Stacc, your WordPress site updates automatically when anything changes in your GBP — no web developer needed.' },
+            { label: 'SEO agencies', title: 'Automate local schema for every client WordPress site', body: 'Connect all client WordPress sites to Stacc. Schema markup installs itself. Client sites stay accurate. Hours of setup work per client reduced to one click.' },
+            { label: 'Multi-location businesses', title: 'Location pages that always show the right data', body: 'Each location page on WordPress shows the correct hours, address, and reviews for that specific location — synced automatically from Stacc.' },
+          ].map(c => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4f39f6]">{c.label}</span>
+              <p class="mt-3 font-sans text-[15px] font-semibold leading-snug text-[#111827]">{c.title}</p>
+              <p class="mt-2.5 font-sans text-[13px] leading-relaxed text-[#57534e]">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED INTEGRATIONS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Often connected together</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            WordPress works best<br />alongside these.
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-3">
+          {[
+            { title: 'Google Business Profile', desc: 'The source of truth for your local data. GBP changes sync to Stacc, then push to WordPress automatically.', href: '/integrations/google-business-profile/' },
+            { title: 'Citation Management', desc: 'NAP consistency across 50+ directories — including your WordPress site — all managed from one place.', href: '/features/citation-management/' },
+            { title: 'Review Monitoring', desc: 'Monitor reviews on Google and Facebook, then display them on your WordPress site with the live review widget.', href: '/features/review-monitoring/' },
+          ].map(r => (
+            <a href={r.href} class="group rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6 transition-colors hover:border-[#4f39f6]/30 hover:bg-[#f5f3ff]/40">
+              <p class="font-sans text-[14px] font-semibold text-[#111827] group-hover:text-[#4f39f6]">{r.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-relaxed text-[#57534e]">{r.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">FAQ</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Questions about the<br />WordPress integration
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq) => (
+            <div class="faq-item">
+              <button class="faq-btn w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <span class="faq-icon-plus shrink-0 text-[#4f39f6]">+</span>
+                <span class="faq-icon-minus hidden shrink-0 text-[#4f39f6]">−</span>
+              </button>
+              <div class="faq-answer hidden px-6 pb-5">
+                <p class="font-sans text-[14px] leading-relaxed text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-24" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.06) 0%, transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Connect in minutes</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-[#292524] md:text-[2.75rem]">
+            Your WordPress site.<br />Always accurate, automatically.
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Stop updating your WordPress site manually every time something changes in your business. Connect Stacc and let data flow automatically — schema, hours, reviews, and NAP kept accurate everywhere without touching a thing.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Connect WordPress free
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pricing/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              View pricing
+            </a>
+          </div>
+          <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#292524]/20">$1 for 3 days · No credit card · Cancel anytime</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const answer = item?.querySelector('.faq-answer');
+      const plus = btn.querySelector('.faq-icon-plus');
+      const minus = btn.querySelector('.faq-icon-minus');
+      if (!answer) return;
+      const isOpen = !answer.classList.contains('hidden');
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+      document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+      document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+      if (!isOpen) {
+        answer.classList.remove('hidden');
+        plus?.classList.add('hidden');
+        minus?.classList.remove('hidden');
+      }
+    });
+  });
+</script>

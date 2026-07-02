@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DocsHeader from '../../components/docs/DocsHeader.astro';
+import DocsSidebar from '../../components/docs/DocsSidebar.astro';
+import { docsCategories, getPopularDocs } from '../../data/docs';
+
+const popularDocs = getPopularDocs();
+
+const categoryIcons: Record<string, string> = {
+  'getting-started': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>',
+  'content-seo': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
+  'local-seo': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  'social-media': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>',
+  'account': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>',
+};
+
+const popularIcons = [
+  '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>',
+  '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
+  '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
+  '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>',
+];
+---
+
+<BaseLayout
+  title="Documentation - theStacc"
+  description="Learn how to use theStacc to automate your SEO. Guides, tutorials, and reference documentation for Blog SEO, Local SEO, and more."
+  noBorders
+>
+  <DocsHeader />
+  <div class="min-h-[calc(100vh-56px)] pt-14 lg:pl-[256px]">
+    <DocsSidebar />
+    <main class="min-w-0">
+      <!-- Hero -->
+      <div class="border-b border-[#e7e5e4] px-6 pt-16 pb-12 md:px-12">
+        <h1 class="font-sans text-[36px] leading-[44px] font-semibold text-[#292524]">
+          theStacc Docs
+        </h1>
+        <p class="mt-3 font-sans text-[18px] leading-[26px] text-[#79716b] max-w-[600px]">
+          Learn how to automate your SEO with theStacc. Guides for Blog SEO, Local SEO, account management, and more.
+        </p>
+      </div>
+
+      <!-- Popular -->
+      <div class="px-6 pt-10 pb-4 md:px-12">
+        <h2 class="font-sans text-[16px] font-semibold text-[#292524]">Popular</h2>
+      </div>
+      <div class="grid grid-cols-1 gap-4 px-6 pb-10 sm:grid-cols-2 xl:grid-cols-4 md:px-12">
+        {popularDocs.map(({ category, page }, i) => (
+          <a
+            href={`/docs/${category.slug}/${page.slug}`}
+            class="group flex flex-col rounded-xl border border-[#e7e5e4] p-5 transition-colors hover:bg-[#fafaf9]"
+          >
+            <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#f5f5f4] text-[#292524] mb-10">
+              <Fragment set:html={popularIcons[i] || popularIcons[0]} />
+            </div>
+            <p class="font-sans text-[15px] font-semibold text-[#292524] group-hover:text-[#4f39f6] transition-colors">
+              {page.title}
+            </p>
+            <p class="mt-1.5 font-sans text-[13px] leading-[19px] text-[#79716b]">
+              {page.description}
+            </p>
+          </a>
+        ))}
+      </div>
+
+      <!-- Category sections -->
+      {docsCategories.map((category) => (
+        <div class="border-t border-[#e7e5e4] px-6 py-10 md:px-12">
+          <div class="flex items-center gap-2.5 mb-5">
+            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#f5f5f4] text-[#292524]">
+              <Fragment set:html={categoryIcons[category.slug] || ''} />
+            </div>
+            <h2 class="font-sans text-[16px] font-semibold text-[#292524]">{category.name}</h2>
+          </div>
+          <div class="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2 xl:grid-cols-3">
+            {category.items.map((page) => (
+              <a
+                href={`/docs/${category.slug}/${page.slug}`}
+                class="group flex flex-col rounded-lg px-3 py-2.5 -mx-3 transition-colors hover:bg-[#fafaf9]"
+              >
+                <p class="font-sans text-[14px] font-medium text-[#292524] group-hover:text-[#4f39f6] transition-colors">
+                  {page.title}
+                </p>
+                <p class="mt-0.5 font-sans text-[13px] leading-[18px] text-[#79716b]">
+                  {page.description}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      ))}
+
+    </main>
+  </div>
+</BaseLayout>

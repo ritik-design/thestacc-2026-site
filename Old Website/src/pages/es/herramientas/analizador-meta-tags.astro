@@ -1,0 +1,277 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Analizador Gratuito de Meta Tags | theStacc';
+const pageDescription = 'Comprueba los meta tags de tu sitio web y ve cómo aparece tu página en Google, Facebook, Twitter y LinkedIn. Incluye señales de SEO local. Gratis, resultados instantáneos.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Analizador Gratuito de Meta Tags',
+  description: 'Analiza los meta tags de tu sitio web, previsualiza cómo aparece tu página en Google, Facebook, Twitter y LinkedIn, y audita señales de SEO local. Incluye fragmentos de código para etiquetas faltantes.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: '¿Qué son los meta tags?', acceptedAnswer: { '@type': 'Answer', text: 'Los meta tags son elementos HTML en la sección head de tu página que proporcionan información sobre tu página a los motores de búsqueda y plataformas de redes sociales. Controlan cómo aparecen el título, descripción e imagen de tu página en los resultados de búsqueda de Google, compartidos en Facebook, tarjetas de Twitter y publicaciones de LinkedIn.' } },
+    { '@type': 'Question', name: '¿Cómo afectan los meta tags al SEO?', acceptedAnswer: { '@type': 'Answer', text: 'Los meta tags afectan directamente cómo aparece tu página en los resultados de búsqueda y redes sociales. La etiqueta de título es un factor de posicionamiento confirmado de Google. La meta descripción influye en las tasas de clics desde los resultados de búsqueda. Las etiquetas Open Graph y Twitter Card controlan cómo se ve tu página cuando se comparte en redes sociales, afectando el engagement y el tráfico.' } },
+    { '@type': 'Question', name: '¿Qué es una buena puntuación de meta tags?', acceptedAnswer: { '@type': 'Answer', text: 'Una puntuación de meta tags de 75 o más indica etiquetas bien optimizadas. Las puntuaciones entre 50 y 74 significan que tus etiquetas necesitan mejoras. Por debajo de 50 significa que faltan etiquetas críticas. La mayoría de sitios web de pequeñas empresas puntúan entre 35 y 55.' } },
+    { '@type': 'Question', name: '¿Qué son las etiquetas Open Graph?', acceptedAnswer: { '@type': 'Answer', text: 'Las etiquetas Open Graph (OG) son meta tags creadas por Facebook que controlan cómo aparece tu página cuando se comparte en redes sociales. Las etiquetas OG clave son og:title, og:description, og:image, og:url y og:type. Se usan en Facebook, LinkedIn, Pinterest, Slack y la mayoría de las aplicaciones de mensajería.' } },
+    { '@type': 'Question', name: '¿Qué son las etiquetas de Twitter Card?', acceptedAnswer: { '@type': 'Answer', text: 'Las etiquetas de Twitter Card (twitter:card, twitter:title, twitter:description, twitter:image) controlan cómo aparecen tus enlaces en Twitter/X. El tipo de tarjeta más común es summary_large_image, que muestra una gran imagen de vista previa con título y descripción. Si faltan las etiquetas de Twitter Card, Twitter recurre a las etiquetas Open Graph.' } },
+    { '@type': 'Question', name: '¿Cómo agrego meta tags a mi sitio web?', acceptedAnswer: { '@type': 'Answer', text: 'En WordPress, usa un plugin de SEO como Yoast SEO o Rank Math. En Squarespace, ve a la configuración de la página y completa las secciones de SEO e Imagen Social. En Wix, usa la configuración de SEO en el editor de páginas. Para sitios HTML personalizados, agrega meta tags directamente en la sección head. Esta herramienta genera los fragmentos de código exactos que necesitas.' } },
+    { '@type': 'Question', name: '¿Por qué los negocios locales necesitan meta tags específicos?', acceptedAnswer: { '@type': 'Answer', text: 'Los negocios locales se benefician de incluir el nombre de su ciudad en la etiqueta de título, lo que ayuda a posicionarse para búsquedas "cerca de mí" y específicas de ciudad. Tener tu número de teléfono, dirección y esquema de LocalBusiness en la página ayuda a Google a entender tu ubicación.' } },
+    { '@type': 'Question', name: '¿Es gratuito este analizador de meta tags?', acceptedAnswer: { '@type': 'Answer', text: 'Sí, 100% gratis sin registro. Ingresa cualquier URL y obtén un análisis completo de meta tags en 2 a 4 segundos. La herramienta verifica todas las meta tags estándar, etiquetas Open Graph, etiquetas de Twitter Card, etiquetas técnicas y señales de SEO local.' } },
+  ],
+};
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Analizador Gratuito de Meta Tags"
+  toolDescription="Ve exactamente cómo aparece tu página en Google, Facebook, Twitter y LinkedIn. Verifica todos los meta tags, obtén fragmentos de código para los que faltan y audita señales de SEO local."
+  lang="es"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <!-- URL Input -->
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">URL de la Página</label>
+      <div class="flex gap-3">
+        <input type="url" id="url-input" required placeholder="ej., smithfamilydental.com"
+          class="flex-1 rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none">
+        <button id="analyze-btn" class="shrink-0 rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+          Analizar Meta Tags
+        </button>
+      </div>
+      <p id="url-error" class="mt-1 hidden text-xs text-red-500">Por favor ingresa una URL válida</p>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-8 text-center">
+      <div class="animate-spin inline-block w-8 h-8 border-4 border-[#e7e5e4] border-t-[#615fff] rounded-full"></div>
+      <p class="mt-3 text-[14px] text-[#57534e]">Analizando meta tags...</p>
+      <p class="text-[12px] text-[#79716b] mt-1">Esto suele tardar 2-4 segundos</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-section" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+      <svg class="mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      <p class="text-[15px] text-red-700 font-medium">Algo salió mal</p>
+      <p class="error-msg mt-1 text-[13px] text-red-600">Verifica la URL e inténtalo de nuevo. Asegúrate de que el sitio web sea accesible públicamente.</p>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="mt-6 hidden space-y-6">
+      <!-- Score Summary -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <div class="flex items-center gap-6">
+          <div class="shrink-0 w-24 h-24 rounded-full flex items-center justify-center" id="score-ring" style="border: 4px solid #22C55E">
+            <div class="text-center">
+              <span id="score-num" class="text-3xl font-bold text-[#292524]">0</span>
+              <span class="block text-[10px] text-[#79716b]">/100</span>
+            </div>
+          </div>
+          <div class="flex-1 space-y-2" id="category-bars"></div>
+        </div>
+        <p id="score-summary" class="mt-4 text-[14px] text-[#57534e]"></p>
+      </div>
+
+      <!-- Visual Previews -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <h2 class="font-semibold text-[16px] text-[#292524] mb-4">Cómo Aparece Tu Página en Cada Plataforma</h2>
+        <div id="previews-section"></div>
+      </div>
+
+      <!-- Tag-by-Tag Checklist -->
+      <div>
+        <h2 class="font-semibold text-[16px] text-[#292524] mb-3">Lista de Verificación Etiqueta por Etiqueta</h2>
+        <div id="checklist-section" class="space-y-4"></div>
+      </div>
+
+      <!-- Code Snippets -->
+      <div id="snippets-section" class="hidden rounded-2xl border border-[#e7e5e4] bg-[#1e1e1e] overflow-hidden">
+        <div class="flex items-center justify-between px-5 py-3 border-b border-[#333]">
+          <h2 class="font-semibold text-[14px] text-[#e5e5e5]">Fragmentos de Código para Etiquetas Faltantes</h2>
+          <button id="copy-snippets" class="rounded-lg bg-[#615fff] px-4 py-1.5 font-mono text-xs font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer transition-colors">Copiar Todo</button>
+        </div>
+        <pre class="px-5 py-4 overflow-x-auto"><code id="snippet-code" class="text-[13px] text-[#d4d4d4] font-mono leading-relaxed whitespace-pre-wrap"></code></pre>
+      </div>
+
+      <!-- Local SEO Signals -->
+      <div id="local-section" class="rounded-2xl border-2 border-[#ddd6fe] bg-[#faf5ff] p-6">
+        <div class="flex items-center gap-2 mb-3">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <h2 class="font-semibold text-[16px] text-[#292524]">Señales de SEO Local</h2>
+          <span class="ml-auto text-[11px] font-semibold uppercase tracking-wide text-[#7c3aed] bg-[#ede9fe] px-2 py-0.5 rounded-full">exclusivo de theStacc</span>
+        </div>
+        <p class="text-[13px] text-[#57534e] mb-3">Estas señales ayudan a Google a entender la ubicación de tu negocio y mostrarte en los resultados de búsqueda local.</p>
+        <div id="local-checks" class="divide-y divide-[#e9d5ff]"></div>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p id="cta-headline" class="font-sans text-[22px] font-bold leading-tight text-white">Tus meta tags necesitan trabajo.</p>
+        <p id="cta-subtext" class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Stacc optimiza cada página de tu sitio &mdash; títulos, descripciones, schema y contenido. Desde $99/mes.</p>
+        <a href="/es/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Inicia tu Prueba por $1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 por 30 días &middot; Cancela cuando quieras</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">¿Qué Son los Meta Tags y Por Qué Importan?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Los meta tags son elementos HTML invisibles que se encuentran dentro de la sección <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">&lt;head&gt;</code> de tu página. Aunque los visitantes nunca los ven directamente, controlan algunos de los aspectos más importantes de tu presencia en línea: cómo aparecen el título y la descripción de tu página en los resultados de búsqueda de Google, qué imagen y texto se muestran cuando alguien comparte tu enlace en Facebook o LinkedIn.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Para los negocios locales, los meta tags son especialmente importantes porque son tu primera impresión en los resultados de búsqueda. Cuando un cliente potencial busca "dentista cerca de mí" o "plomero en CDMX," la etiqueta de título y la meta descripción son lo que leen antes de decidir hacer clic en tu listado o en el de tu competidor.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Esta herramienta analiza cada meta tag en tu página, te muestra exactamente cómo aparece tu página en Google, Facebook, Twitter y LinkedIn, y genera el código que necesitas para corregir cualquier cosa que falte. Es la forma más rápida de auditar tus meta tags y mejorar tu apariencia en búsquedas.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Los Meta Tags Que Afectan Tu Posicionamiento en Google</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La <strong class="text-[#292524]">etiqueta de título</strong> es el elemento de SEO en la página más importante. Es un factor de posicionamiento confirmado de Google y determina directamente el texto de enlace azul que las personas ven en los resultados de búsqueda. Tu título debe incluir tu palabra clave principal, el nombre de tu negocio e idealmente tu ciudad. Mantenlo entre 30 y 60 caracteres para evitar truncamientos.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La <strong class="text-[#292524]">meta descripción</strong> no es un factor de posicionamiento directo, pero influye fuertemente en la tasa de clics. Una descripción bien escrita actúa como texto publicitario para tu listado de búsqueda. Incluye una propuesta de valor clara, un llamado a la acción y el nombre de tu ciudad. Apunta a 120-160 caracteres.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La <strong class="text-[#292524]">etiqueta meta robots</strong> le dice a los motores de búsqueda si deben indexar tu página. Si contiene "noindex," Google no mostrará tu página en los resultados de búsqueda. La <strong class="text-[#292524]">etiqueta canónica</strong> previene problemas de contenido duplicado diciéndole a Google qué versión de una página es la original.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Etiquetas Open Graph: Controla Tus Vistas Previas en Redes Sociales</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Las etiquetas Open Graph (OG) fueron creadas por Facebook y ahora son usadas por casi todas las plataformas sociales incluyendo LinkedIn, Pinterest y aplicaciones de mensajería como Slack e iMessage. Las cuatro etiquetas OG esenciales son <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">og:title</code>, <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">og:description</code>, <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">og:image</code> y <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">og:url</code>.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La etiqueta <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">og:image</code> tiene el mayor impacto en el engagement social. Las publicaciones con imágenes obtienen 2-3 veces más engagement que las publicaciones solo de texto. Tu imagen OG debe tener al menos 1200 x 630 píxeles para la mejor visualización en Facebook y LinkedIn.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Twitter Cards: Vistas Previas Enriquecidas para Tus Tweets</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Las etiquetas de Twitter Card (<code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">twitter:card</code>, <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">twitter:title</code>, <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">twitter:description</code>, <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">twitter:image</code>) controlan cómo aparecen tus enlaces en Twitter/X. Twitter tiene una cadena de respaldo útil: si no se encuentran etiquetas de Twitter Card, usa etiquetas Open Graph en su lugar, y luego recurre a tu título estándar y meta descripción.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Meta Tags para Negocios Locales</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Los negocios locales necesitan una estrategia de meta tags específica. La táctica más importante es <strong class="text-[#292524]">incluir el nombre de tu ciudad en la etiqueta de título</strong>. Más allá de las etiquetas de título, los negocios locales deben asegurarse de que su <strong class="text-[#292524]">NAP (Nombre, Dirección, Teléfono)</strong> aparezca en HTML rastreable en cada página. El <strong class="text-[#292524]">schema markup de LocalBusiness</strong> es la columna vertebral técnica del SEO local.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Cómo Agregar Meta Tags a Tu Sitio Web</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">WordPress:</strong> Instala un plugin de SEO como Yoast SEO o Rank Math. <strong class="text-[#292524]">Squarespace:</strong> Abre el panel de configuración de la página y completa los campos de "Título SEO", "Descripción SEO" e "Imagen Social". <strong class="text-[#292524]">Wix:</strong> Usa la configuración de SEO en el editor de páginas. <strong class="text-[#292524]">Sitios HTML personalizados:</strong> Agrega meta tags directamente dentro de la sección <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">&lt;head&gt;</code> de tus archivos HTML. Esta herramienta genera los fragmentos de código exactos que necesitas.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Preguntas Frecuentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Qué son los meta tags?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Los meta tags son elementos HTML en la sección head de tu página que proporcionan información sobre tu página a los motores de búsqueda y plataformas de redes sociales. Controlan cómo aparecen el título, descripción e imagen de tu página en los resultados de Google, compartidos en Facebook, tarjetas de Twitter y publicaciones de LinkedIn.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Cómo afectan los meta tags al SEO?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">La etiqueta de título es un factor de posicionamiento confirmado de Google. La meta descripción influye en las tasas de clics. Las etiquetas Open Graph y Twitter Card controlan las vistas previas en redes sociales, afectando el engagement y el tráfico de referencia. Las etiquetas mal optimizadas significan menos clics incluso cuando te posicionas bien.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Qué es una buena puntuación de meta tags?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Una puntuación de 75 o más es buena. Las puntuaciones entre 50 y 74 necesitan mejorar. Por debajo de 50 significa que faltan etiquetas críticas. La mayoría de sitios web de pequeñas empresas puntúan entre 35 y 55 en su primera verificación porque les faltan etiquetas Open Graph, etiquetas de Twitter Card o tienen problemas de longitud.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Qué son las etiquetas Open Graph?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Las etiquetas Open Graph son meta tags creadas por Facebook que controlan cómo aparece tu página cuando se comparte en redes sociales. Las etiquetas clave son og:title, og:description, og:image y og:url. Son usadas por Facebook, LinkedIn, Pinterest, Slack y la mayoría de las aplicaciones de mensajería.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Qué son las etiquetas de Twitter Card?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Las etiquetas de Twitter Card controlan cómo aparecen tus enlaces en Twitter/X. Incluyen twitter:card, twitter:title, twitter:description y twitter:image. Si faltan, Twitter recurre a las etiquetas Open Graph. El tipo más común es summary_large_image.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Cómo agrego meta tags a mi sitio web?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">En WordPress, usa Yoast SEO o Rank Math. En Squarespace, usa la sección de SEO en la configuración de la página. En Wix, usa la configuración de SEO en el editor de páginas. Para HTML personalizado, agrega los meta tags directamente en la sección head. Esta herramienta genera los fragmentos de código exactos que necesitas.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Por qué los negocios locales necesitan meta tags específicos?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Los negocios locales deben incluir su ciudad en la etiqueta de título, mostrar NAP (Nombre, Dirección, Teléfono) en cada página y agregar schema markup de LocalBusiness. Estas señales ayudan a Google a mostrar tu negocio en los resultados de búsqueda local y el paquete de mapas.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Es gratuito este analizador de meta tags?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sí, 100% gratis sin registro. Ingresa cualquier URL y obtén un análisis completo en 2 a 4 segundos, incluyendo vistas previas visuales, una lista de verificación etiqueta por etiqueta, fragmentos de código para etiquetas faltantes y señales de SEO local.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Más Herramientas Gratuitas de SEO</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/es/herramientas/puntuacion-seo-sitio/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Puntuación SEO del Sitio</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Auditoría SEO completa en 6 categorías</p>
+          </a>
+          <a href="/es/herramientas/generador-schema-markup/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Generador de Schema Markup</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Genera schema LocalBusiness y FAQ</p>
+          </a>
+          <a href="/es/herramientas/analizador-titulos/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Analizador de Títulos</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Puntúa titulares en 8 dimensiones</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta herramienta requiere JavaScript. Por favor, actívalo en tu navegador.</p></div></noscript>
+    <script is:inline src="/js/meta-tag-engine.js"></script>
+  </Fragment>
+</ToolLayout>

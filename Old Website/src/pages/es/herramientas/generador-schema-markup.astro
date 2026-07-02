@@ -1,0 +1,439 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Generador de Schema Markup Gratuito para Negocios Locales | theStacc';
+const pageDescription = 'Genera schema markup LocalBusiness, FAQ y Service en JSON-LD. Pre-relleno para dentistas, plomeros, abogados. Copia al portapapeles, valida con Google. Gratis.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Generador de Schema Markup Gratuito',
+  description: 'Genera schema markup LocalBusiness, FAQ y Service en JSON-LD con presets de industria para más de 23 tipos de negocio. Copia al portapapeles o descarga.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: '¿Qué es el schema markup?', acceptedAnswer: { '@type': 'Answer', text: 'El schema markup es código de datos estructurados (normalmente JSON-LD) que agregas a tu sitio web para ayudar a los motores de búsqueda a entender tu contenido. Para los negocios locales, le indica a Google tu nombre comercial, dirección, teléfono, servicios, horarios y reseñas en un formato legible por máquinas. Esto puede dar lugar a resultados enriquecidos como valoraciones de estrellas, desplegables de FAQ y paneles de empresa en los resultados de búsqueda.' } },
+    { '@type': 'Question', name: '¿Cómo agrego el schema markup a mi sitio web?', acceptedAnswer: { '@type': 'Answer', text: 'Copia el código JSON-LD y pégalo en tu HTML antes de la etiqueta de cierre </head>. En WordPress, usa el plugin "Insert Headers and Footers". En Webflow, ve a Configuración de página > Código personalizado > Código de encabezado. En Squarespace, ve a Configuración > Avanzado > Inyección de código > Encabezado. Luego valida con la Prueba de resultados enriquecidos de Google.' } },
+    { '@type': 'Question', name: '¿Necesito schema markup para el SEO local?', acceptedAnswer: { '@type': 'Answer', text: 'Sí. El schema markup ayuda a Google a entender los detalles de tu negocio y puede mejorar tu visibilidad en los resultados de búsqueda local. Los negocios con schema markup correcto tienen más probabilidades de aparecer en el paquete local, paneles de conocimiento y resultados enriquecidos. Es especialmente importante para los tipos de schema LocalBusiness, FAQ y Service.' } },
+    { '@type': 'Question', name: '¿Qué tipos de schema debe usar un negocio local?', acceptedAnswer: { '@type': 'Answer', text: 'Todo negocio local debería tener schema LocalBusiness (con tu tipo específico como Dentist o Plumber), schema FAQPage para preguntas comunes, schema Service para cada servicio que ofreces, y schema BreadcrumbList para la navegación. Combinarlos en un único @graph le da a los motores de búsqueda la imagen más completa de tu negocio.' } },
+    { '@type': 'Question', name: '¿Este generador de schema markup es gratuito?', acceptedAnswer: { '@type': 'Answer', text: 'Sí, 100% gratuito. No se requiere registro. Selecciona tu industria para auto-rellenar los campos, personaliza los detalles de tu negocio y copia el código JSON-LD válido al instante. Todo se ejecuta en tu navegador. No se envían datos a ningún servidor.' } },
+  ],
+};
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Generador de Schema Markup Gratuito"
+  toolDescription="Genera schema LocalBusiness, FAQ y Service en JSON-LD. Los presets de industria auto-rellenan tu tipo de negocio, servicios y sugerencias de FAQ. Copia o descarga."
+  wide={true}
+  lang="es"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="flex flex-col lg:flex-row gap-6">
+      <!-- LEFT: Form Column -->
+      <div class="lg:w-[60%] space-y-6" id="form-column">
+
+        <!-- Section 1: Schema Type Checkboxes -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-3">Tipos de Schema</p>
+          <div class="space-y-3">
+            <label class="flex items-start gap-3 rounded-xl border-2 border-[#4f39f6] bg-[#f5f3ff] p-3.5 cursor-pointer transition-all has-[:checked]:border-[#4f39f6] has-[:checked]:bg-[#f5f3ff]">
+              <input type="checkbox" id="type-local" class="schema-type-cb mt-0.5 h-4 w-4 accent-[#4f39f6] cursor-pointer" checked />
+              <div class="flex-1">
+                <span class="text-[14px] font-semibold text-[#292524]">LocalBusiness</span>
+                <p class="text-[12px] text-[#79716b] mt-0.5">Nombre, dirección, teléfono, horarios, reseñas, coordenadas geográficas</p>
+              </div>
+            </label>
+            <label class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-3.5 cursor-pointer transition-all has-[:checked]:border-[#4f39f6] has-[:checked]:bg-[#f5f3ff]">
+              <input type="checkbox" id="type-faq" class="schema-type-cb mt-0.5 h-4 w-4 accent-[#4f39f6] cursor-pointer" />
+              <div class="flex-1">
+                <span class="text-[14px] font-semibold text-[#292524]">FAQPage</span>
+                <p class="text-[12px] text-[#79716b] mt-0.5">Pares de preguntas y respuestas. Aparecen como desplegables en los resultados de búsqueda</p>
+              </div>
+            </label>
+            <label class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-3.5 cursor-pointer transition-all has-[:checked]:border-[#4f39f6] has-[:checked]:bg-[#f5f3ff]">
+              <input type="checkbox" id="type-service" class="schema-type-cb mt-0.5 h-4 w-4 accent-[#4f39f6] cursor-pointer" />
+              <div class="flex-1">
+                <div class="flex items-center gap-2">
+                  <span class="text-[14px] font-semibold text-[#292524]">Service</span>
+                  <span class="rounded-full bg-[#fef3c7] px-2 py-0.5 text-[10px] font-bold uppercase text-[#92400e]">Único</span>
+                </div>
+                <p class="text-[12px] text-[#79716b] mt-0.5">Entradas de servicio individuales con información del proveedor. Raramente generado por otras herramientas</p>
+              </div>
+            </label>
+            <label class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-3.5 cursor-pointer transition-all has-[:checked]:border-[#4f39f6] has-[:checked]:bg-[#f5f3ff]">
+              <input type="checkbox" id="type-breadcrumb" class="schema-type-cb mt-0.5 h-4 w-4 accent-[#4f39f6] cursor-pointer" />
+              <div class="flex-1">
+                <span class="text-[14px] font-semibold text-[#292524]">BreadcrumbList</span>
+                <p class="text-[12px] text-[#79716b] mt-0.5">Ruta de navegación. Ayuda a Google a entender la estructura del sitio</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Section 2: Industry Selector -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="industry-select">Industria</label>
+          <select id="industry-select" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors cursor-pointer">
+            <option value="">Selecciona tu industria (auto-rellena los campos)</option>
+            <option value="dentist">Dentista</option>
+            <option value="chiropractor">Quiropráctico</option>
+            <option value="orthodontist">Ortodoncista</option>
+            <option value="optometrist">Optometrista</option>
+            <option value="dermatologist">Dermatólogo</option>
+            <option value="plumber">Plomero</option>
+            <option value="hvac">HVAC / Climatización</option>
+            <option value="electrician">Electricista</option>
+            <option value="roofing">Techado</option>
+            <option value="landscaping">Jardinería</option>
+            <option value="pest_control">Control de Plagas</option>
+            <option value="auto_repair">Reparación de Autos</option>
+            <option value="lawyer">Abogado</option>
+            <option value="accountant">Contador</option>
+            <option value="realtor">Agente Inmobiliario</option>
+            <option value="insurance">Agencia de Seguros</option>
+            <option value="financial_advisor">Asesor Financiero</option>
+            <option value="restaurant">Restaurante</option>
+            <option value="salon">Salón / Spa</option>
+            <option value="gym">Gimnasio / Fitness</option>
+            <option value="veterinarian">Veterinario</option>
+            <option value="cleaning">Servicio de Limpieza</option>
+            <option value="moving">Empresa de Mudanzas</option>
+            <option value="other">Otro / General</option>
+          </select>
+          <p class="mt-1 text-[11px] text-[#79716b]">Establece tu tipo de schema y pre-rellena los servicios y sugerencias de FAQ.</p>
+        </div>
+
+        <!-- Section 3: LocalBusiness Fields -->
+        <div id="section-local" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 space-y-4">
+          <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1">Detalles del Negocio</p>
+
+          <!-- Core Info -->
+          <div>
+            <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-name">Nombre del Negocio <span class="rounded bg-[#fef2f2] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#dc2626]">Obligatorio</span></label>
+            <input type="text" id="f-name" placeholder="ej., Odontología Familia García" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          </div>
+          <div>
+            <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-description">Descripción <span class="rounded bg-[#fffbeb] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#d97706]">Recomendado</span></label>
+            <textarea id="f-description" rows="2" placeholder="Breve descripción de tu negocio..." class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-none"></textarea>
+          </div>
+
+          <!-- Contact -->
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-phone">Teléfono <span class="rounded bg-[#fef2f2] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#dc2626]">Obligatorio</span></label>
+              <input type="tel" id="f-phone" placeholder="(55) 1234-5678" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-email">Correo electrónico <span class="rounded bg-[#f5f5f4] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#78716c]">Opcional</span></label>
+              <input type="email" id="f-email" placeholder="info@ejemplo.com" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-url">URL del Sitio Web <span class="rounded bg-[#fef2f2] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#dc2626]">Obligatorio</span></label>
+            <input type="url" id="f-url" placeholder="https://www.ejemplo.com" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          </div>
+
+          <!-- Address -->
+          <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] pt-2">Dirección</p>
+          <div>
+            <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-street">Calle y Número <span class="rounded bg-[#fef2f2] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#dc2626]">Obligatorio</span></label>
+            <input type="text" id="f-street" placeholder="Av. Principal 123, Piso 2" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          </div>
+          <div class="grid gap-4 md:grid-cols-3">
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-city">Ciudad <span class="rounded bg-[#fef2f2] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#dc2626]">Obligatorio</span></label>
+              <input type="text" id="f-city" placeholder="Ciudad de México" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-state">Estado / Provincia <span class="rounded bg-[#fffbeb] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#d97706]">Recomendado</span></label>
+              <input type="text" id="f-state" placeholder="CDMX" maxlength="2" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-zip">Código Postal <span class="rounded bg-[#fffbeb] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#d97706]">Recomendado</span></label>
+              <input type="text" id="f-zip" placeholder="06600" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-country">País <span class="rounded bg-[#f5f5f4] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#78716c]">Opcional</span></label>
+            <input type="text" id="f-country" placeholder="MX" value="MX" maxlength="2" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          </div>
+
+          <!-- Media & Rating -->
+          <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] pt-2">Multimedia y Valoración</p>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-logo">URL del Logo <span class="rounded bg-[#fffbeb] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#d97706]">Recomendado</span></label>
+              <input type="url" id="f-logo" placeholder="https://ejemplo.com/logo.png" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-image">URL de Imagen <span class="rounded bg-[#fffbeb] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#d97706]">Recomendado</span></label>
+              <input type="url" id="f-image" placeholder="https://ejemplo.com/foto.jpg" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-price">Rango de Precios <span class="rounded bg-[#f5f5f4] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#78716c]">Opcional</span></label>
+            <select id="f-price" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors cursor-pointer">
+              <option value="">Selecciona el rango de precios...</option>
+              <option value="$">$. Económico</option>
+              <option value="$$">$$. Moderado</option>
+              <option value="$$$">$$$. Premium</option>
+              <option value="$$$$">$$$$. Lujo</option>
+            </select>
+          </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-rating">Valoración <span class="rounded bg-[#f5f5f4] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#78716c]">Opcional</span></label>
+              <input type="number" id="f-rating" placeholder="4.8" min="1" max="5" step="0.1" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-reviewcount">Número de Reseñas <span class="rounded bg-[#f5f5f4] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#78716c]">Opcional</span></label>
+              <input type="number" id="f-reviewcount" placeholder="127" min="0" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+          </div>
+
+          <!-- Opening Hours -->
+          <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] pt-2">Horario de Apertura <span class="rounded bg-[#fffbeb] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#d97706]">Recomendado</span></p>
+          <div id="hours-container" class="space-y-2"></div>
+          <button type="button" id="btn-copy-hours" class="mt-2 cursor-pointer rounded-lg border border-[#e7e5e4] px-3 py-1.5 text-[12px] font-medium text-[#57534e] hover:border-[#c4b5fd] hover:text-[#4f39f6] transition-colors">Copiar horario del lunes a los días de semana</button>
+
+          <!-- Geo -->
+          <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] pt-2">Coordenadas Geográficas <span class="rounded bg-[#f5f5f4] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#78716c]">Opcional</span></p>
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-lat">Latitud</label>
+              <input type="text" id="f-lat" placeholder="19.4326" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block text-[13px] font-semibold text-[#292524] mb-1" for="f-lng">Longitud</label>
+              <input type="text" id="f-lng" placeholder="-99.1332" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+          </div>
+
+          <!-- Social Profiles -->
+          <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] pt-2">Perfiles Sociales <span class="rounded bg-[#f5f5f4] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#78716c]">Opcional</span></p>
+          <div class="space-y-2" id="social-container">
+            <input type="url" class="social-url w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" placeholder="https://facebook.com/tunegocio" />
+            <input type="url" class="social-url w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" placeholder="https://instagram.com/tunegocio" />
+            <input type="url" class="social-url w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" placeholder="https://linkedin.com/company/tunegocio" />
+          </div>
+        </div>
+
+        <!-- Section 4: FAQ Fields -->
+        <div id="section-faq" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 hidden">
+          <div class="flex items-center justify-between mb-4">
+            <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Entradas de FAQ</p>
+            <button type="button" id="btn-add-faq" class="cursor-pointer rounded-lg bg-[#f5f3ff] px-3 py-1.5 text-[12px] font-semibold text-[#4f39f6] hover:bg-[#ede9fe] transition-colors">+ Añadir FAQ</button>
+          </div>
+          <div id="faq-list" class="space-y-4"></div>
+        </div>
+
+        <!-- Section 5: Service Fields -->
+        <div id="section-service" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 hidden">
+          <div class="flex items-center justify-between mb-4">
+            <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Servicios</p>
+            <button type="button" id="btn-add-service" class="cursor-pointer rounded-lg bg-[#f5f3ff] px-3 py-1.5 text-[12px] font-semibold text-[#4f39f6] hover:bg-[#ede9fe] transition-colors">+ Añadir Servicio</button>
+          </div>
+          <div id="service-list" class="space-y-4"></div>
+        </div>
+
+        <!-- Section 6: Breadcrumb Fields -->
+        <div id="section-breadcrumb" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 hidden">
+          <div class="flex items-center justify-between mb-4">
+            <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Elementos de Breadcrumb</p>
+            <button type="button" id="btn-add-breadcrumb" class="cursor-pointer rounded-lg bg-[#f5f3ff] px-3 py-1.5 text-[12px] font-semibold text-[#4f39f6] hover:bg-[#ede9fe] transition-colors">+ Añadir Nivel</button>
+          </div>
+          <div id="breadcrumb-list" class="space-y-3"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Code Preview Column -->
+      <div class="lg:w-[40%]">
+        <div class="lg:sticky lg:top-6 space-y-4">
+          <!-- Completeness bar + Code block -->
+          <div class="rounded-2xl border border-[#e7e5e4] bg-white p-4">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-[11px] font-mono text-[#79716b]">Completitud:</span>
+              <div class="flex-1 h-1.5 rounded-full bg-[#f5f5f4]">
+                <div id="completeness-bar" class="h-full rounded-full bg-[#22C55E] transition-all" style="width:0%"></div>
+              </div>
+              <span id="completeness-pct" class="text-[11px] font-mono text-[#79716b]">0%</span>
+            </div>
+            <!-- Dark code block -->
+            <div class="bg-[#1c1917] rounded-xl p-4 overflow-x-auto max-h-[500px] overflow-y-auto">
+              <pre id="code-output" class="text-[12px] font-mono leading-relaxed text-[#e7e5e4] whitespace-pre-wrap">Selecciona un tipo de schema para comenzar...</pre>
+            </div>
+            <!-- Buttons -->
+            <div class="flex flex-wrap gap-2 mt-4">
+              <button id="btn-copy" class="flex-1 rounded-lg bg-[#615fff] px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-[#4f46e5] transition-colors cursor-pointer">Copiar al Portapapeles</button>
+              <a href="https://search.google.com/test/rich-results" target="_blank" rel="noopener" class="flex-1 rounded-lg border border-[#e7e5e4] px-4 py-2.5 text-[13px] font-semibold text-[#292524] hover:bg-[#fafaf9] text-center transition-colors">Validar con Google</a>
+            </div>
+            <button id="btn-download" class="w-full mt-2 rounded-lg border border-[#e7e5e4] px-4 py-2.5 text-[13px] font-semibold text-[#292524] hover:bg-[#fafaf9] transition-colors cursor-pointer">Descargar .json</button>
+          </div>
+
+          <!-- Implementation instructions -->
+          <details class="rounded-2xl border border-[#e7e5e4] bg-white p-4">
+            <summary class="cursor-pointer text-[13px] font-semibold text-[#292524]">Cómo Añadir Esto a Tu Sitio Web</summary>
+            <ol class="mt-3 space-y-2 text-[13px] text-[#57534e] list-decimal pl-4">
+              <li>Copia el código de arriba</li>
+              <li>Pégalo en tu HTML antes de la etiqueta de cierre <code class="rounded bg-[#f5f5f4] px-1 py-0.5 text-[12px] font-mono">&lt;/head&gt;</code></li>
+              <li><strong class="text-[#292524]">WordPress:</strong> Usa el plugin "Insert Headers and Footers"</li>
+              <li><strong class="text-[#292524]">Webflow:</strong> Configuración de Página &rarr; Código Personalizado &rarr; Código de Encabezado</li>
+              <li><strong class="text-[#292524]">Squarespace:</strong> Configuración &rarr; Avanzado &rarr; Inyección de Código &rarr; Encabezado</li>
+              <li>Haz clic en "Validar con Google" para confirmar que funciona</li>
+            </ol>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email Gate Modal -->
+    <div id="email-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div class="mx-4 w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
+        <h3 class="font-sans text-[20px] font-bold text-[#292524]">Descarga tu archivo de schema</h3>
+        <p class="mt-2 text-[14px] text-[#57534e]">Ingresa tu correo electrónico para descargar el archivo JSON-LD. También te enviaremos una guía rápida sobre la implementación del schema markup.</p>
+        <form id="gate-form" class="mt-5">
+          <input type="email" id="gate-email" required placeholder="tu@empresa.com" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <button type="submit" class="mt-3 w-full cursor-pointer rounded-lg bg-[#615fff] px-4 py-2.5 text-[14px] font-semibold text-white hover:bg-[#4f46e5] transition-colors">Descargar Archivo</button>
+        </form>
+        <button id="gate-close" type="button" class="mt-3 w-full cursor-pointer text-[13px] text-[#79716b] hover:text-[#292524] transition-colors">Cancelar</button>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">Acabas de generar schema para 1 página.<br/>Stacc genera contenido optimizado para cada página.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Publicaciones de blog, publicaciones GBP, redes sociales y SEO local. Todo en piloto automático. Desde $99/mes.</p>
+        <a href="/es/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Inicia tu Prueba por $1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 por 30 días · Cancela cuando quieras</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">¿Qué es el Schema Markup? Una Guía para Negocios Locales</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">El schema markup es código de datos estructurados que agregas a tu sitio web para ayudar a los motores de búsqueda a entender tu contenido. Piénsalo como un traductor entre tu sitio web y Google. Sin schema, Google tiene que adivinar qué hace tu negocio, dónde está ubicado y qué servicios ofrece. Con schema, se lo dices directamente. En un lenguaje que entiende.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">El formato más común es <strong class="text-[#292524]">JSON-LD</strong> (JavaScript Object Notation for Linked Data), que Google recomienda explícitamente. Es un bloque de código que se coloca en la sección <code class="rounded bg-[#f5f5f4] px-1 py-0.5 text-[13px] font-mono">&lt;head&gt;</code> de tu página y que describe tu negocio en pares clave-valor. No afecta el aspecto de tu página. Solo afecta cómo los motores de búsqueda la interpretan.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Para los negocios locales, el schema markup es especialmente poderoso. Conecta tu sitio web con el Grafo de Conocimiento de Google, que impulsa los paneles de empresa, los listados de mapas y los resultados enriquecidos. Cuando un cliente potencial busca "dentista cerca de mí" y ve tu empresa con valoraciones de estrellas, horarios y una lista de servicios directamente en los resultados de búsqueda, eso es el schema markup en acción.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La mayoría de los negocios locales no tienen schema markup, lo que significa que agregarlo te da una ventaja competitiva inmediata. Este generador crea JSON-LD válido para los cuatro tipos de schema más importantes, pre-relleno con datos específicos de la industria para 23 categorías de negocio.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Los 4 Tipos de Schema que Todo Negocio Local Necesita</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">1. Schema LocalBusiness.</strong> Esta es la base. Le dice a Google tu nombre comercial, dirección, teléfono, horario, sitio web, logo y coordenadas geográficas. Google usa un @type específico para cada industria. Un dentista usa "Dentist", un plomero usa "Plumber" y una empresa de climatización usa "HVACBusiness". Usar el tipo correcto ayuda a Google a categorizar tu negocio con precisión en los resultados de búsqueda local y el paquete de mapas.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">2. Schema FAQPage.</strong> El schema FAQ marca pares de preguntas y respuestas para que Google pueda mostrarlos como desplegables expandibles directamente en los resultados de búsqueda. Esto aumenta drásticamente el espacio visual de tu listado en la página de resultados, empujando a los competidores hacia abajo. Para los negocios locales, preguntas frecuentes como "¿Aceptan seguros?" o "¿Ofrecen presupuesto gratis?" son candidatas perfectas.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">3. Schema Service.</strong> El schema Service le dice a Google exactamente qué servicios ofreces, con descripciones y URLs para cada uno. La mayoría de los generadores de schema omiten esto por completo, pero es fundamental para los negocios de servicios. Un plomero que marca "Limpieza de Tuberías", "Reparación de Calentador de Agua" y "Detección de Fugas" como entidades Service separadas le da a Google una comprensión mucho más completa de su negocio.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">4. Schema BreadcrumbList.</strong> El schema de breadcrumb le dice a Google la jerarquía de navegación de tu sitio. En lugar de mostrar una URL simple en los resultados de búsqueda, Google muestra una ruta de navegación limpia como "Inicio > Servicios > Implantes Dentales". Esto mejora las tasas de clics y ayuda a Google a entender la estructura de tu sitio.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Cómo Añadir Schema Markup a Tu Sitio Web</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Agregar schema markup es sencillo independientemente de tu plataforma. Copia el código JSON-LD de este generador y pégalo en el HTML de tu sitio web antes de la etiqueta de cierre <code class="rounded bg-[#f5f5f4] px-1 py-0.5 text-[13px] font-mono">&lt;/head&gt;</code>. El código no afecta el aspecto de tu página. Es invisible para los visitantes.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">WordPress:</strong> Instala el plugin "Insert Headers and Footers" (gratis), ve a Ajustes > Insert Headers and Footers y pega tu código de schema en el cuadro "Scripts en el Encabezado". <strong class="text-[#292524]">Webflow:</strong> Ve a la configuración de la página, desplázate hasta "Código Personalizado" y pega en la sección "Código de Encabezado". <strong class="text-[#292524]">Squarespace:</strong> Ve a Configuración > Avanzado > Inyección de Código y pega en el campo "Encabezado".</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Después de agregar el código, valídalo usando la <a href="https://search.google.com/test/rich-results" target="_blank" rel="noopener" class="text-[#4f39f6] underline">Prueba de Resultados Enriquecidos de Google</a>. Ingresa la URL de tu página y Google te mostrará exactamente qué tipos de schema detectó y si hay errores. Corrige cualquier problema, vuelve a validar y listo. Google comenzará a procesar tu schema en pocos días.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Resultados Enriquecidos de Schema Markup: Lo Que Obtienes</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">El schema markup puede activar varios tipos de resultados enriquecidos en la Búsqueda de Google. <strong class="text-[#292524]">Valoraciones de estrellas</strong> aparecen cuando incluyes aggregateRating en tu schema LocalBusiness. Tu puntuación promedio y el número de reseñas se muestran directamente en los resultados de búsqueda. <strong class="text-[#292524]">Desplegables de FAQ</strong> aparecen cuando usas el schema FAQPage, añadiendo secciones expandibles de preguntas y respuestas debajo de tu listado que pueden ocupar un espacio significativo en la página de resultados.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Paneles de conocimiento de empresa.</strong> Esas grandes cajas de información en el lado derecho de los resultados de búsqueda de Google. Extraen datos de tu schema LocalBusiness, incluyendo horarios, número de teléfono, dirección y fotos. <strong class="text-[#292524]">Rutas de navegación</strong> reemplazan las URLs simples con rutas de navegación limpias, haciendo que tu listado se vea más profesional y confiable.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">El efecto combinado es significativo. Un listado con valoraciones de estrellas, desplegables de FAQ y rutas de navegación ocupa 3-4 veces más espacio que un listado simple. Más espacio visual significa tasas de clics más altas, lo que significa más tráfico, más llamadas y más clientes. Todo desde la misma posición en los rankings de búsqueda.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Preguntas Frecuentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Qué es el schema markup?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">El schema markup es código de datos estructurados (normalmente JSON-LD) que agregas a tu sitio web para ayudar a los motores de búsqueda a entender tu contenido. Para los negocios locales, le indica a Google tu nombre comercial, dirección, teléfono, servicios, horarios y reseñas en un formato legible por máquinas. Esto puede dar lugar a resultados enriquecidos como valoraciones de estrellas, desplegables de FAQ y paneles de empresa en los resultados de búsqueda.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Cómo agrego el schema markup a mi sitio web?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Copia el código JSON-LD y pégalo en tu HTML antes de la etiqueta de cierre &lt;/head&gt;. En WordPress, usa el plugin "Insert Headers and Footers". En Webflow, ve a Configuración de Página &gt; Código Personalizado &gt; Código de Encabezado. En Squarespace, ve a Configuración &gt; Avanzado &gt; Inyección de Código &gt; Encabezado. Luego valida con la Prueba de Resultados Enriquecidos de Google.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Necesito schema markup para el SEO local?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sí. El schema markup ayuda a Google a entender los detalles de tu negocio y puede mejorar tu visibilidad en los resultados de búsqueda local. Los negocios con schema markup correcto tienen más probabilidades de aparecer en el paquete local, paneles de conocimiento y resultados enriquecidos. Es especialmente importante para los tipos de schema LocalBusiness, FAQ y Service.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Qué tipos de schema debe usar un negocio local?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Todo negocio local debería tener schema LocalBusiness (con tu tipo específico como Dentist o Plumber), schema FAQPage para preguntas comunes, schema Service para cada servicio que ofreces, y schema BreadcrumbList para la navegación. Combinarlos en un único @graph le da a los motores de búsqueda la imagen más completa de tu negocio.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Este generador de schema markup es gratuito?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sí, 100% gratuito. No se requiere registro. Selecciona tu industria para auto-rellenar los campos, personaliza los detalles de tu negocio y copia el código JSON-LD válido al instante. Todo se ejecuta en tu navegador. No se envían datos a ningún servidor.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Más Herramientas Gratuitas de SEO Local</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/es/herramientas/calculadora-roi-seo/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Calculadora de ROI de SEO</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Calcula tu retorno proyectado de SEO</p>
+          </a>
+          <a href="/es/herramientas/analizador-titulos/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Analizador de Títulos</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Puntúa titulares en 8 dimensiones</p>
+          </a>
+          <a href="/es/herramientas/generador-post-gbp/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Generador de Publicaciones GBP</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Genera actualizaciones GBP listas para publicar</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta herramienta requiere JavaScript. Por favor, actívalo en tu navegador.</p></div></noscript>
+    <script is:inline src="/js/schema-generator-engine.js"></script>
+  </Fragment>
+</ToolLayout>

@@ -1,0 +1,239 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/de/HeaderDe.astro';
+import Footer from '../../../components/de/FooterDe.astro';
+import { getCollection } from 'astro:content';
+
+const glossaryTerms = await getCollection('glossary_de');
+const sortedTerms = glossaryTerms.sort((a, b) => a.data.term.localeCompare(b.data.term, 'de'));
+
+const grouped: Record<string, typeof sortedTerms> = {};
+for (const term of sortedTerms) {
+  const letter = term.data.term[0].toUpperCase();
+  if (!grouped[letter]) grouped[letter] = [];
+  grouped[letter].push(term);
+}
+const letters = Object.keys(grouped).sort();
+
+const categoryLabels: Record<string, string> = {
+  'Technical SEO': 'Technisches SEO',
+  'On-Page SEO': 'On-Page-SEO',
+  'Local SEO': 'Lokales SEO',
+  'Content': 'Inhalte',
+  'Analytics': 'Analytics',
+  'Link Building': 'Linkaufbau',
+  'Marketing': 'Marketing',
+  'SEO': 'SEO',
+  'Social Media': 'Social Media',
+  'AI & Emerging': 'KI & Trends',
+};
+
+const categories = [...new Set(sortedTerms.map(t => t.data.category))];
+---
+
+<BaseLayout
+  title="SEO-Glossar auf Deutsch — Begriffe und Definitionen | theStacc"
+  description="Vollständiges SEO-Glossar auf Deutsch. Klare Definitionen aller SEO-Begriffe: technisches SEO, On-Page, lokales SEO, Linkaufbau und Analytics. Für Anfänger und Profis."
+  lang="de"
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <Header />
+  <main class="flex-1">
+
+    <!-- ░░ HERO ░░ -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.18) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <p class="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">SEO-Glossar</p>
+        <h1 class="mt-4 font-sans text-[34px] font-bold leading-[1.15] tracking-[-0.025em] text-[#292524] md:text-[46px]">
+          SEO-Glossar auf Deutsch
+        </h1>
+        <p class="mx-auto mt-4 max-w-[520px] font-sans text-[16px] leading-[1.7] text-[#57534e]">
+          {sortedTerms.length}+ SEO-Begriffe klar erklärt. Von technischem SEO über lokales SEO bis hin zu Inhalten und Linkaufbau.
+        </p>
+        <!-- Search -->
+        <div class="mt-6 max-w-[520px] mx-auto">
+          <div class="relative">
+            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </div>
+            <input
+              id="glossary-search"
+              type="search"
+              placeholder={`Suche unter ${sortedTerms.length}+ SEO-Begriffen...`}
+              style="background:#f5f5f4;color:#292524;"
+              class="w-full rounded-xl border border-[#e7e5e4] py-3 pl-11 pr-4 font-sans text-[14px] placeholder-[#4b5563] outline-none transition-all focus:border-[#4f39f6]"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ ALPHABET NAV ░░ -->
+    <div class="sticky top-0 z-20 border-b border-[#e7e5e4] bg-white/95 backdrop-blur-sm">
+      <div class="container-x overflow-x-auto">
+        <div class="flex items-center gap-1 py-2.5">
+          {letters.map(letter => (
+            <a
+              href={`#letter-${letter}`}
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-mono text-[12px] font-semibold text-[#79716b] transition-colors hover:bg-[#f5f3ff] hover:text-[#4f39f6]"
+            >
+              {letter}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ CATEGORY FILTER ░░ -->
+    <div class="border-b border-[#e7e5e4] bg-[#fafaf9] py-4">
+      <div class="container-x">
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            class="glossary-cat-btn active cursor-pointer rounded-full border border-[#4f39f6] bg-[#4f39f6] px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-white transition-colors"
+            data-category="all"
+          >
+            Alle ({sortedTerms.length})
+          </button>
+          {categories.map(cat => (
+            <button
+              class="glossary-cat-btn cursor-pointer rounded-full border border-[#e7e5e4] bg-white px-3.5 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#57534e] transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]"
+              data-category={cat}
+            >
+              {categoryLabels[cat] ?? cat} ({sortedTerms.filter(t => t.data.category === cat).length})
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- ░░ TERMS GRID ░░ -->
+    <section class="bg-[#fafaf9] py-10">
+      <div class="container-x">
+        {letters.map(letter => (
+          <div id={`letter-${letter}`} class="mb-10">
+            <div class="mb-4 flex items-center gap-3">
+              <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#4f39f6] font-mono text-[16px] font-bold text-white">{letter}</span>
+              <div class="h-px flex-1 bg-[#e7e5e4]"></div>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {grouped[letter].map(term => (
+                <a
+                  href={`/de/glossar/${term.data.slug}/`}
+                  class="glossary-card group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-sm"
+                  data-category={term.data.category}
+                  data-term={term.data.term.toLowerCase()}
+                >
+                  <div class="flex items-start justify-between gap-3">
+                    <h3 class="font-sans text-[15px] font-semibold text-[#292524] transition-colors group-hover:text-[#4f39f6]">
+                      {term.data.term}
+                    </h3>
+                    <span class="shrink-0 rounded-full bg-[#f5f3ff] px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.08em] text-[#7c3aed]">
+                      {categoryLabels[term.data.category] ?? term.data.category}
+                    </span>
+                  </div>
+                  <p class="mt-2 font-sans text-[13px] leading-[1.6] text-[#79716b] line-clamp-2">{term.data.definition}</p>
+                  <div class="mt-3 inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.1em] text-[#4f39f6]">
+                    Mehr lesen
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <!-- No results -->
+        <div id="no-results" class="hidden py-16 text-center">
+          <p class="font-sans text-[16px] text-[#79716b]">Keine Begriffe gefunden. <button id="clear-search" class="cursor-pointer text-[#4f39f6] underline">Suche zurücksetzen</button></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ FOOTER CTA ░░ -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.4) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <h3 class="font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-white">
+          Theorie verstanden. Jetzt umsetzen.
+        </h3>
+        <p class="mx-auto mt-3 max-w-[420px] font-sans text-[15px] leading-[1.7] text-[#94a3b8]">
+          theStacc schreibt, optimiert und veröffentlicht jeden Monat 30 SEO-Artikel auf Ihrer Website. Vollautomatisch.
+        </p>
+        <a
+          href="/de/demo/"
+          class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+        >
+          Für $1 testen
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#4b5563]">$1 für 30 Tage · Jederzeit kündbar</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script>
+    const searchInput = document.getElementById('glossary-search') as HTMLInputElement | null;
+    const catBtns = document.querySelectorAll('.glossary-cat-btn');
+    const cards = document.querySelectorAll('.glossary-card') as NodeListOf<HTMLElement>;
+    const letterSections = document.querySelectorAll('[id^="letter-"]') as NodeListOf<HTMLElement>;
+    const noResults = document.getElementById('no-results');
+    const clearBtn = document.getElementById('clear-search');
+
+    let activeCategory = 'all';
+    let searchQuery = '';
+
+    function filterCards() {
+      let visible = 0;
+      cards.forEach((card) => {
+        const matchesCat = activeCategory === 'all' || card.dataset.category === activeCategory;
+        const matchesSearch = !searchQuery || (card.dataset.term ?? '').includes(searchQuery);
+        const show = matchesCat && matchesSearch;
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+
+      letterSections.forEach((section) => {
+        const visibleCards = section.querySelectorAll('.glossary-card:not([style*="none"])');
+        (section as HTMLElement).style.display = visibleCards.length > 0 ? '' : 'none';
+      });
+
+      if (noResults) noResults.classList.toggle('hidden', visible > 0);
+    }
+
+    catBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeCategory = btn.getAttribute('data-category') || 'all';
+        catBtns.forEach((b) => {
+          const on = b.getAttribute('data-category') === activeCategory;
+          b.classList.toggle('bg-[#4f39f6]', on);
+          b.classList.toggle('text-white', on);
+          b.classList.toggle('border-[#4f39f6]', on);
+          b.classList.toggle('bg-white', !on);
+          b.classList.toggle('text-[#57534e]', !on);
+          b.classList.toggle('border-[#e7e5e4]', !on);
+        });
+        filterCards();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        searchQuery = searchInput.value.toLowerCase().trim();
+        filterCards();
+      });
+    }
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        searchQuery = '';
+        filterCards();
+      });
+    }
+  </script>
+</BaseLayout>

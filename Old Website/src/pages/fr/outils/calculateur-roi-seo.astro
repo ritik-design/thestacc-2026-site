@@ -1,0 +1,88 @@
+---
+import ToolLayoutFr from '../../../components/tools/ToolLayoutFr.astro';
+
+const industries = [
+  { value: 'dental', label: 'Dentaire / Orthodontie',      cpc: 8.50, rate: 0.12, value_: 2800 },
+  { value: 'legal',  label: 'Juridique / Cabinet d\'avocats', cpc: 12.00, rate: 0.08, value_: 5500 },
+  { value: 'plumbing', label: 'Plomberie / CVC',            cpc: 7.50, rate: 0.15, value_: 850  },
+  { value: 'roofing', label: 'Couverture / Construction',   cpc: 9.00, rate: 0.10, value_: 4500 },
+  { value: 'realestate', label: 'Immobilier',               cpc: 5.50, rate: 0.06, value_: 8000 },
+  { value: 'accounting', label: 'Comptabilité / Fiscalité', cpc: 6.50, rate: 0.10, value_: 2200 },
+  { value: 'restaurant', label: 'Restaurant / Café',        cpc: 3.50, rate: 0.08, value_: 120  },
+  { value: 'salon',  label: 'Salon / Spa / Beauté',         cpc: 4.00, rate: 0.12, value_: 180  },
+  { value: 'fitness', label: 'Fitness / Salle de sport',    cpc: 4.50, rate: 0.10, value_: 600  },
+  { value: 'consulting', label: 'Conseil / Services B2B',   cpc: 10.00, rate: 0.06, value_: 12000 },
+  { value: 'saas',   label: 'SaaS / Logiciel',              cpc: 9.50, rate: 0.05, value_: 3600 },
+  { value: 'ecommerce', label: 'E-commerce',                cpc: 3.00, rate: 0.03, value_: 95   },
+  { value: 'custom', label: 'Saisir mes propres chiffres',  cpc: 0,    rate: 0,    value_: 0    },
+];
+---
+
+<ToolLayoutFr
+  title="Calculateur ROI SEO gratuit — Estimez votre retour sur investissement SEO | theStacc"
+  description="Calculez le retour sur investissement de votre SEO : trafic, leads, revenus et économies par rapport aux publicités payantes. Paramètres par secteur inclus. Gratuit."
+  toolName="Calculateur ROI SEO"
+  toolDescription="Estimez le retour sur investissement de votre SEO : trafic organique projeté, leads générés, revenu estimé et économies par rapport aux publicités payantes."
+  enUrl="https://thestacc.com/tools/seo-roi-calculator/"
+  wide={true}
+>
+  <Fragment slot="tool">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+      <!-- Inputs -->
+      <div class="space-y-6">
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b] mb-4">Paramètres de votre activité</h3>
+          <div class="space-y-4">
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Secteur d'activité</label>
+              <select id="industry-select" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[14px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none">
+                {industries.map(i => <option value={i.value} data-cpc={i.cpc} data-rate={i.rate} data-val={i.value_}>{i.label}</option>)}
+              </select>
+            </div>
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Trafic mensuel actuel (visites)</label>
+              <input type="number" id="current-traffic" min="0" value="500" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[14px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none" />
+            </div>
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Taux de conversion estimé (%)</label>
+              <input type="number" id="conv-rate" min="0.1" max="100" step="0.1" value="3" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[14px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none" />
+            </div>
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Valeur moyenne d'un client (€)</label>
+              <input type="number" id="client-value" min="1" value="500" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[14px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none" />
+            </div>
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Budget SEO mensuel (€)</label>
+              <input type="number" id="seo-budget" min="0" value="99" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[14px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div id="results-panel" class="space-y-4">
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b] mb-4">Projections SEO — 12 mois</h3>
+          <div id="roi-metrics" class="grid grid-cols-2 gap-4"></div>
+        </div>
+        <div id="chart-section" class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b] mb-4">Croissance mensuelle projetée</h3>
+          <div id="roi-chart" class="h-48"></div>
+        </div>
+        <div id="comparison-section" class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <h3 class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b] mb-4">SEO vs Publicité payante</h3>
+          <div id="comparison-table"></div>
+        </div>
+      </div>
+    </div>
+
+    <noscript><div class="py-12 text-center"><p class="text-[15px] text-[#79716b]">Cet outil nécessite JavaScript.</p></div></noscript>
+    <script is:inline src="/js/seo-roi-engine.js"></script>
+  </Fragment>
+
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Comment calculer le ROI du SEO ?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Le ROI SEO se calcule en estimant la valeur du trafic organique généré, moins l'investissement dans le SEO. Le trafic organique a une valeur car il remplace des clics payants qui coûteraient un certain prix par clic (CPC).</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Ce calculateur projette votre trafic organique sur 12 mois en tenant compte de la croissance progressive typique du SEO, de votre taux de conversion et de la valeur de vos clients. Il compare aussi votre investissement SEO avec ce que vous paieriez en publicité pour le même trafic.</p>
+  </Fragment>
+</ToolLayoutFr>

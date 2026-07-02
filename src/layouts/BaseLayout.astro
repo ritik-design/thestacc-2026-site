@@ -11,15 +11,29 @@ export interface Props {
   };
   bodyClass?: string;
 }
+import fs from 'node:fs';
+import path from 'node:path';
+
 const { seo = {}, bodyClass = '' } = Astro.props;
-const {
+let {
   title = 'theStacc — AI SEO automation that publishes for you',
   description = 'AI that writes, ranks, and publishes content across Google, AI search, Maps, and every major social channel — automatically. From $49/mo.',
   canonical,
-  ogImage = '/og-default.webp',
+  ogImage = '/og-default.png',
   schemaData,
   noindex = false,
 } = seo;
+
+// Fall back to the default OG image if a page-specific one does not exist.
+if (!ogImage.startsWith('http')) {
+  const ogFile = path.join(process.cwd(), 'public', ogImage);
+  try {
+    fs.accessSync(ogFile);
+  } catch {
+    ogImage = '/og-default.png';
+  }
+}
+
 const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
 ---
 <!DOCTYPE html>
@@ -29,21 +43,24 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{title}</title>
 <meta name="description" content={description} />
+<meta name="theme-color" content="#4f39f6" />
 <link rel="canonical" href={canonicalUrl} />
+<link rel="icon" type="image/svg+xml" href="/button.flex.svg" />
 {noindex && <meta name="robots" content="noindex, follow" />}
 <meta property="og:type" content="website" />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={ogImage} />
+<meta property="og:image" content={ogImage.startsWith('http') ? ogImage : `https://thestacc.com${ogImage}`} />
 <meta property="og:site_name" content="theStacc" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image" content={ogImage.startsWith('http') ? ogImage : `https://thestacc.com${ogImage}`} />
+<link rel="preload" as="image" href="/hero-poster.jpg" fetchpriority="high" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
 {schemaData && <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />}
 <style is:global>
   :root {
@@ -53,10 +70,13 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     --brand-soft: #ede9fe;
     --brand-softer: #f5f3ff;
     --brand-glow: rgba(79, 57, 246, 0.4);
-    --accent-amber: #f59e0b;
+    --accent-amber: #d97706;
     --accent-cyan: #06b6d4;
     --accent-pink: #ec4899;
     --accent-emerald: #10b981;
+    --font-display: 'Space Grotesk', 'Geist', system-ui, sans-serif;
+    --font-body: 'Geist', system-ui, sans-serif;
+    --font-mono: 'Geist Mono', monospace;
     --text-1: #0f0e10;
     --text-2: #3a3640;
     --text-3: #6b6573;
@@ -70,6 +90,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     --container-w: 1240px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { border-radius: 0 !important; }
   html { scroll-behavior: smooth; overflow-x: clip; }
   body {
     font-family: 'Geist', system-ui, sans-serif;
@@ -149,6 +170,30 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   button { font-family: inherit; cursor: pointer; border: none; background: none; }
   ::selection { background: var(--brand); color: white; }
 
+  /* Focus rings — visible and on-brand */
+  :focus-visible {
+    outline: 3px solid var(--brand);
+    outline-offset: 2px;
+  }
+  a:focus-visible, button:focus-visible { }
+  .btn:focus-visible { outline-offset: 3px; }
+
+  /* Skip-to-content link */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    padding: 10px 18px;
+    background: var(--text-1);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    transition: top 0.2s;
+  }
+  .skip-link:focus { top: 0; }
+
   /* ─────── MOTION / INTERACTIONS ─────── */
   /* Scroll progress bar (at top of viewport, above sticky header) */
   .scroll-progress {
@@ -175,12 +220,6 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   /* Active nav state — set by scroll-spy */
   .nav-trigger.active { background: var(--brand-softer); color: var(--brand); }
   .nav-trigger.active .caret { color: var(--brand); }
-
-  /* ZERO BORDER RADIUS — sharp Saaly-style edges everywhere */
-  *, *::before, *::after { border-radius: 0 !important; clip-path: none !important; }
-  img, video, svg, canvas, picture, iframe { border-radius: 0 !important; }
-  /* Neutralise SVG rect rx/ry to keep icons sharp too */
-  svg rect[rx], svg rect[ry] { rx: 0 !important; ry: 0 !important; }
 
   /* ═══════════════════════════════════════════════
      SAALY GRID SYSTEM — Frame with borders + corner markers
@@ -214,30 +253,29 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   section::after { right: -8px; }
   section.dark::before, section.dark::after { background: var(--bg-dark); color: rgba(255,255,255,0.3); }
 
-  /* Typography — ONE font (Geist), differentiate by color/weight */
+  /* Typography — Space Grotesk display + Geist body */
+  h1, h2, h3, h4, h5 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.035em; line-height: 1; color: var(--text-1); }
+  .h-display { font-family: var(--font-display); font-size: clamp(44px, 6.4vw, 92px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.95; }
+  .h-xl { font-family: var(--font-display); font-size: clamp(48px, 6vw, 88px); font-weight: 600; letter-spacing: -0.04em; line-height: 0.95; }
+  .h-lg { font-family: var(--font-display); font-size: clamp(36px, 4.5vw, 64px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.02; }
+  .h-md { font-family: var(--font-display); font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; }
+  .h-sm { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; }
   .label-pill {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 6px 14px;
-    background: white; border: 1px solid var(--border); border-radius: 100px;
-    font-family: 'Geist Mono', monospace;
+    background: white; border: 1px solid var(--border);
+    font-family: var(--font-mono);
     font-size: 11px; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--brand); font-weight: 500;
   }
   .label-pill::before {
     content: ''; width: 6px; height: 6px;
-    background: var(--brand); border-radius: 50%;
+    background: var(--brand);
     box-shadow: 0 0 8px var(--brand-glow);
     animation: pulseDot 2s infinite;
   }
   @keyframes pulseDot { 0%,100% { box-shadow: 0 0 0 0 var(--brand-glow); } 50% { box-shadow: 0 0 0 8px transparent; } }
 
-  /* Heading classes — single font, color creates emphasis */
-  h1, h2, h3, h4, h5 { font-family: 'Geist', sans-serif; font-weight: 600; letter-spacing: -0.035em; line-height: 1; color: var(--text-1); }
-  .h-display { font-size: clamp(44px, 6.4vw, 92px); font-weight: 700; letter-spacing: -0.045em; line-height: 0.95; }
-  .h-xl { font-size: clamp(48px, 6vw, 88px); font-weight: 600; letter-spacing: -0.04em; line-height: 0.95; }
-  .h-lg { font-size: clamp(36px, 4.5vw, 64px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.02; }
-  .h-md { font-size: clamp(28px, 3vw, 40px); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; }
-  .h-sm { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; }
   .accent { color: var(--brand); }
   .accent-w { color: var(--brand-bright); }
 
@@ -246,7 +284,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .lede strong { color: var(--text-1); font-weight: 600; }
 
   /* BUTTONS */
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 0 22px; border-radius: 100px; font-weight: 500; font-size: 15px; height: 48px; transition: all 0.2s cubic-bezier(.2,.8,.2,1); position: relative; overflow: hidden; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 0 22px; font-weight: 500; font-size: 15px; height: 48px; transition: all 0.2s cubic-bezier(.2,.8,.2,1); position: relative; overflow: hidden; }
   .btn-primary { background: var(--text-1); color: white; box-shadow: 0 0 0 1px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.1); }
   .btn-primary::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--brand) 0%, var(--brand-deep) 100%); opacity: 0; transition: opacity 0.2s; }
   .btn-primary span { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; }
@@ -275,7 +313,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .nav-trigger,
   .nav-item > a {
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 14px; border-radius: 100px;
+    padding: 8px 14px;
     color: var(--text-2); font-size: 14px; font-weight: 500;
     background: transparent; border: none; cursor: pointer; font-family: inherit;
     transition: background 0.15s, color 0.15s;
@@ -309,7 +347,6 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .mega-link {
     display: flex; align-items: flex-start; gap: 12px;
     padding: 10px 12px; margin: 0 -12px;
-    border-radius: 10px !important;
     color: inherit; text-decoration: none;
     transition: background 0.15s;
   }
@@ -338,7 +375,6 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .mega-cta-btn {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 8px 14px; background: var(--brand); color: white;
-    border-radius: 100px !important;
     font-size: 12px; font-weight: 600;
     align-self: flex-start;
     transition: background 0.15s;
@@ -349,8 +385,127 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .btn-cta-nav { height: 40px; padding: 0 18px; font-size: 14px; }
 
   /* MOBILE MENU TOGGLE */
-  .nav-toggle { display: none; background: none; border: none; padding: 8px; cursor: pointer; }
-  .nav-toggle svg { width: 22px; height: 22px; color: var(--text-1); }
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-1);
+    transition: background 0.15s;
+  }
+  .nav-toggle:hover { background: rgba(0,0,0,0.04); }
+  .nav-toggle svg { width: 24px; height: 24px; }
+  .nav-toggle[aria-expanded="true"] { background: var(--brand-softer); color: var(--brand); }
+
+  /* MOBILE DRAWER */
+  .mobile-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .mobile-drawer.open { pointer-events: auto; visibility: visible; }
+  .mobile-drawer-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 14, 16, 0.35);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .mobile-drawer.open .mobile-drawer-backdrop { opacity: 1; }
+  .mobile-drawer-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(360px, 86vw);
+    height: 100%;
+    background: white;
+    border-left: 1px solid var(--border);
+    box-shadow: -24px 0 64px -16px rgba(15,15,30,0.18);
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(.2,.8,.2,1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .mobile-drawer.open .mobile-drawer-panel { transform: translateX(0); }
+  .mobile-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-drawer-logo { height: 28px; width: auto; }
+  .mobile-drawer-close {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-1);
+  }
+  .mobile-drawer-close:hover { background: var(--bg-soft); }
+  .mobile-drawer-close svg { width: 22px; height: 22px; }
+  .mobile-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px 32px;
+  }
+  .mobile-drawer-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    margin: 0 20px 16px;
+    background: var(--text-1);
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+  }
+  .mobile-drawer-cta:hover { background: var(--brand); }
+  .mobile-nav-section { margin-bottom: 24px; }
+  .mobile-nav-section:last-child { margin-bottom: 0; }
+  .mobile-nav-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 10px;
+    padding: 0 4px;
+  }
+  .mobile-nav-list { list-style: none; padding: 0; margin: 0; }
+  .mobile-nav-list li { border-bottom: 1px solid var(--border); }
+  .mobile-nav-list a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 4px;
+    color: var(--text-1);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .mobile-nav-list a:hover { color: var(--brand); }
+  .mobile-nav-list a svg, .mobile-nav-list a img {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: var(--brand);
+  }
+  .mobile-nav-list a img { object-fit: contain; }
 
   @media (max-width: 1100px) {
     nav.primary { display: none; }
@@ -369,9 +524,9 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
       radial-gradient(ellipse 600px 400px at 80% 80%, rgba(79,57,246,0.04) 0%, transparent 70%);
   }
   .hero-section > * { position: relative; z-index: 1; }
-  .hero-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: white; border: 1px solid var(--border); border-radius: 100px; font-size: 13px; color: var(--text-2); font-weight: 500; margin-bottom: 40px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); transition: all 0.2s; }
+  .hero-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: white; border: 1px solid var(--border); font-size: 13px; color: var(--text-2); font-weight: 500; margin-bottom: 40px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); transition: all 0.2s; }
   .hero-pill:hover { border-color: var(--brand); transform: translateY(-1px); }
-  .hero-pill .pill-dot { width: 6px; height: 6px; background: var(--brand); border-radius: 50%; box-shadow: 0 0 8px var(--brand-glow); animation: pulseDot 2s infinite; }
+  .hero-pill .pill-dot { width: 6px; height: 6px; background: var(--brand); box-shadow: 0 0 8px var(--brand-glow); animation: pulseDot 2s infinite; }
   .hero-pill .pill-arrow { color: var(--brand); margin-left: 4px; }
 
   .hero h1.h-display { max-width: 18ch; margin: 0 auto 28px; padding-bottom: 4px; }
@@ -390,7 +545,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .trust-label { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); margin: 0; }
   .trust-rating { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-2); }
   .trust-rating strong { color: var(--text-1); font-weight: 600; }
-  .trust-stars { display: inline-flex; gap: 2px; color: #f59e0b; }
+  .trust-stars { display: inline-flex; gap: 2px; color: var(--accent-amber); }
   .trust-stars svg { width: 13px; height: 13px; fill: currentColor; }
   .trust-logos {
     display: grid; grid-template-columns: repeat(5, 1fr);
@@ -415,7 +570,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .hero-meta-item strong { color: var(--text-1); font-weight: 600; }
 
   /* Hero proof chips row — centered */
-  .hero-proof-chips { display: inline-grid; grid-template-columns: repeat(4, auto); gap: 0; margin: 0 auto 32px; border: 1px solid var(--border); border-radius: 14px; background: white; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
+  .hero-proof-chips { display: inline-grid; grid-template-columns: repeat(4, auto); gap: 0; margin: 0 auto 32px; border: 1px solid var(--border); background: white; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
   .hero-proof-chip { padding: 14px 24px; border-right: 1px solid var(--border); text-align: center; }
   .hero-proof-chip:last-child { border-right: none; }
   .hero-proof-chip .num { font-size: 20px; font-weight: 700; color: var(--text-1); letter-spacing: -0.02em; line-height: 1; }
@@ -425,7 +580,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   /* LIVE ARTICLE PREVIEW WIDGET (right column) */
   .preview-widget {
     position: relative;
-    background: white; border: 1px solid var(--border); border-radius: 18px;
+    background: white; border: 1px solid var(--border);
     box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 30px 80px -20px rgba(79,57,246,0.2), 0 8px 30px -8px rgba(0,0,0,0.08);
     overflow: hidden;
   }
@@ -434,15 +589,15 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     background: radial-gradient(120% 60% at 50% 0%, rgba(79,57,246,0.06) 0%, transparent 60%);
   }
   .preview-head { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--bg-soft); position: relative; z-index: 1; }
-  .preview-head .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .preview-head .dot { width: 10px; height: 10px; }
   .preview-head .dot.r { background: #ff5f57; }
   .preview-head .dot.y { background: #febc2e; }
   .preview-head .dot.g { background: #28c840; }
   .preview-head .title { margin-left: 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.05em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
-  .preview-head .title .live-dot { width: 6px; height: 6px; background: #10b981; border-radius: 50%; animation: pulseDot 1.4s infinite; box-shadow: 0 0 8px #10b981; }
+  .preview-head .title .live-dot { width: 6px; height: 6px; background: #10b981; animation: pulseDot 1.4s infinite; box-shadow: 0 0 8px #10b981; }
   .preview-body { padding: 20px 22px 16px; position: relative; z-index: 1; }
   .preview-inputs { display: grid; gap: 10px; margin-bottom: 18px; }
-  .preview-input { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-soft); }
+  .preview-input { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); background: var(--bg-soft); }
   .preview-input svg { width: 14px; height: 14px; color: var(--text-3); flex-shrink: 0; }
   .preview-input .lbl { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; }
   .preview-input .val { color: var(--text-1); font-size: 13px; font-weight: 500; }
@@ -451,15 +606,15 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .preview-divider { display: flex; align-items: center; gap: 12px; padding: 14px 0 16px; }
   .preview-divider::before, .preview-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .preview-divider .lbl { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--brand); letter-spacing: 0.08em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
-  .preview-divider .lbl .spin { width: 10px; height: 10px; border: 1.5px solid var(--brand); border-top-color: transparent; border-radius: 50%; animation: spinIcon 0.8s linear infinite; }
+  .preview-divider .lbl .spin { width: 10px; height: 10px; border: 1.5px solid var(--brand); border-top-color: transparent; animation: spinIcon 0.8s linear infinite; }
   @keyframes spinIcon { to { transform: rotate(360deg); } }
 
   .preview-article {
-    background: white; border: 1px solid var(--border); border-radius: 12px;
+    background: white; border: 1px solid var(--border);
     padding: 18px 20px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
   }
   .preview-article .a-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; }
-  .preview-article .a-meta .score { background: #ecfdf5; color: #047857; padding: 2px 8px; border-radius: 100px; font-weight: 600; border: 1px solid #a7f3d0; }
+  .preview-article .a-meta .score { background: #ecfdf5; color: #047857; padding: 2px 8px; font-weight: 600; border: 1px solid #a7f3d0; }
   .preview-article h4 { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; color: var(--text-1); margin-bottom: 10px; }
   .preview-article p { font-size: 13px; line-height: 1.55; color: var(--text-2); margin-bottom: 4px; }
   .preview-article .typing-line { display: inline; }
@@ -474,7 +629,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
 
   .preview-footer { padding: 14px 22px 18px; border-top: 1px solid var(--border); background: linear-gradient(180deg, transparent, var(--bg-soft)); display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; flex-wrap: wrap; gap: 8px; }
   .preview-footer .left { display: flex; align-items: center; gap: 8px; font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); }
-  .preview-footer .left .pulse { width: 6px; height: 6px; background: var(--brand); border-radius: 50%; animation: pulseDot 1.6s infinite; }
+  .preview-footer .left .pulse { width: 6px; height: 6px; background: var(--brand); animation: pulseDot 1.6s infinite; }
   .preview-footer .right { font-size: 12px; color: var(--brand); font-weight: 600; }
 
   @media (max-width: 640px) {
@@ -486,12 +641,13 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .hero-stars { display: inline-flex; gap: 2px; color: var(--accent-amber); }
   .hero-stars svg { width: 14px; height: 14px; }
   .hero-avatars { display: flex; }
-  .hero-avatars .av { width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; display: grid; place-items: center; color: white; font-size: 11px; font-weight: 600; }
+  .hero-avatars .av { width: 28px; height: 28px; border: 2px solid white; overflow: hidden; display: grid; place-items: center; flex: 0 0 auto; }
   .hero-avatars .av:not(:first-child) { margin-left: -8px; }
-  .hero-avatars .av:nth-child(1) { background: linear-gradient(135deg, #4f39f6, #8b5cf6); }
-  .hero-avatars .av:nth-child(2) { background: linear-gradient(135deg, #ec4899, #f97316); }
-  .hero-avatars .av:nth-child(3) { background: linear-gradient(135deg, #10b981, #06b6d4); }
-  .hero-avatars .av:nth-child(4) { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+  .hero-avatars .av svg { width: 100%; height: 100%; }
+  .hero-avatars .av-1 { background: linear-gradient(135deg, #4f39f6, #8b5cf6); }
+  .hero-avatars .av-2 { background: linear-gradient(135deg, #ec4899, #f97316); }
+  .hero-avatars .av-3 { background: linear-gradient(135deg, #10b981, #06b6d4); }
+  .hero-avatars .av-4 { background: linear-gradient(135deg, #f59e0b, #ef4444); }
 
   /* ═══════════════════════════════════════════════
      HERO VIDEO SECTION
@@ -502,6 +658,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     background: white;
     border-bottom: none !important;
   }
+  @media (max-width: 768px) { .video-section { padding: 40px 20px 64px; } }
   .video-section::before, .video-section::after { display: none !important; }
   .video-shell {
     position: relative;
@@ -519,14 +676,13 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     padding: 12px 16px; background: #f5f5f4; border-bottom: 1px solid #e7e5e4;
   }
   .browser-dots { display: flex; gap: 7px; }
-  .browser-dots span { width: 11px; height: 11px; border-radius: 50% !important; display: block; }
+  .browser-dots span { width: 11px; height: 11px; display: block; }
   .browser-dots span:nth-child(1) { background: #ff5f57; }
   .browser-dots span:nth-child(2) { background: #febc2e; }
   .browser-dots span:nth-child(3) { background: #28c840; }
   .browser-url {
     flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
-    height: 28px; padding: 0 14px; background: white; border: 1px solid #e7e5e4;
-    border-radius: 100px !important; font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--text-2);
+    height: 28px; padding: 0 14px; background: white; border: 1px solid #e7e5e4; font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--text-2);
     max-width: 360px; margin: 0 auto;
   }
   .browser-url svg { width: 11px; height: 11px; color: var(--text-3); }
@@ -612,7 +768,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .bento-cta { margin-top: 18px; }
   .bento-mock-bar { display: flex; justify-content: space-between; align-items: center; }
   .bento-mock-meta { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--brand); letter-spacing: 0.08em; }
-  .bento-mock-pulse { width: 6px; height: 6px; background: var(--accent-emerald); border-radius: 50% !important; box-shadow: 0 0 8px var(--accent-emerald); animation: pulseDot 1.8s infinite; }
+  .bento-mock-pulse { width: 6px; height: 6px; background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald); animation: pulseDot 1.8s infinite; }
   .bento-mock-title { font-size: 14px; font-weight: 600; line-height: 1.3; color: var(--text-1); }
   .bento-mock-tags { display: flex; gap: 6px; flex-wrap: wrap; }
   .bento-mock-tag { padding: 3px 8px; background: var(--bg-soft); border: 1px solid var(--border); font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-2); }
@@ -697,7 +853,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .tab-text ul { list-style: none; margin-bottom: 28px; }
   .tab-text li { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-2); padding: 6px 0; }
   .tab-text li .icon { width: 18px; height: 18px; color: var(--brand); }
-  .tab-visual { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 28px; min-height: 320px; box-shadow: 0 16px 40px -16px rgba(0,0,0,0.08); }
+  .tab-visual { background: white; border: 1px solid var(--border); padding: 28px; min-height: 320px; box-shadow: 0 16px 40px -16px rgba(0,0,0,0.08); }
 
   /* Article mockup inside tabs */
   .mockup-article { display: flex; flex-direction: column; gap: 14px; }
@@ -705,7 +861,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .mockup-article h4 { font-size: 19px; line-height: 1.25; }
   .mockup-article p { font-size: 13px; color: var(--text-3); line-height: 1.5; }
   .mockup-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-  .mockup-tag { padding: 4px 9px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px; font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-2); }
+  .mockup-tag { padding: 4px 9px; background: var(--bg-soft); border: 1px solid var(--border); font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-2); }
   .mockup-tag.brand { background: var(--brand-softer); border-color: rgba(79,57,246,0.2); color: var(--brand); }
 
   @media (max-width: 900px) {
@@ -739,28 +895,28 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .serp-header p { font-size: 18px; color: var(--text-2); }
   .serp-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; max-width: 1180px; margin: 0 auto; align-items: stretch; padding-bottom: 96px; }
   .serp-mock {
-    background: white; border: 1px solid var(--border); border-radius: 16px;
+    background: white; border: 1px solid var(--border);
     overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 30px 60px -20px rgba(0,0,0,0.12);
     display: flex; flex-direction: column;
   }
   .serp-bar { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--border); background: var(--bg-soft); }
-  .serp-bar .dot { width: 9px; height: 9px; border-radius: 50%; }
+  .serp-bar .dot { width: 9px; height: 9px; }
   .serp-bar .dot.r { background: #ff5f57; } .serp-bar .dot.y { background: #febc2e; } .serp-bar .dot.g { background: #28c840; }
   .serp-bar .search {
     flex: 1; margin-left: 12px; padding: 8px 16px; background: white;
-    border: 1px solid var(--border); border-radius: 100px; font-size: 13px; color: var(--text-1);
+    border: 1px solid var(--border); font-size: 13px; color: var(--text-1);
     display: flex; align-items: center; gap: 8px; font-weight: 500;
   }
   .serp-bar .search svg { width: 12px; height: 12px; color: var(--text-3); }
   .serp-bar .live-pill {
     display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;
-    background: #fef2f2; border: 1px solid #fecaca; border-radius: 100px;
+    background: #fef2f2; border: 1px solid #fecaca;
     font-family: 'Geist Mono', monospace; font-size: 10px; color: #dc2626; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 600;
   }
-  .serp-bar .live-pill::before { content: ''; width: 5px; height: 5px; background: #ef4444; border-radius: 50%; animation: pulseDot 1.4s infinite; }
+  .serp-bar .live-pill::before { content: ''; width: 5px; height: 5px; background: #ef4444; animation: pulseDot 1.4s infinite; }
   .serp-results { padding: 12px 18px 18px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
   .serp-result {
-    padding: 14px 16px; border-radius: 10px; border: 1px solid transparent;
+    padding: 14px 16px; border: 1px solid transparent;
     transition: all 0.3s; position: relative;
   }
   .serp-result.competitor { background: #fafafa; }
@@ -776,7 +932,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .serp-result .snippet { font-size: 12px; color: var(--text-2); line-height: 1.5; }
   .serp-result.you .you-badge {
     display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px;
-    background: #fed7aa; color: #9a3412; border-radius: 100px;
+    background: #fed7aa; color: #9a3412;
     font-family: 'Geist Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px;
   }
   .serp-page-jump { padding: 10px 16px; text-align: center; font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); border-top: 1px dashed var(--border); border-bottom: 1px dashed var(--border); margin: 4px 0; }
@@ -788,7 +944,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .serp-copy h3 { font-size: 32px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 20px; color: var(--text-1); }
   .serp-copy h3 .accent { color: var(--brand); }
   .serp-copy p { font-size: 16px; color: var(--text-2); line-height: 1.6; margin-bottom: 24px; }
-  .serp-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border); border-radius: 12px; background: white; }
+  .serp-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border); background: white; }
   .serp-stat-cell { padding: 16px; border-right: 1px solid var(--border); }
   .serp-stat-cell:last-child { border-right: none; }
   .serp-stat-cell .v { font-size: 22px; font-weight: 700; color: var(--brand); letter-spacing: -0.02em; line-height: 1; }
@@ -827,10 +983,10 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .saaly-cell .cell-num { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--brand); letter-spacing: 0.1em; margin-bottom: 12px; }
 
   /* Center cell visual */
-  .center-visual { width: 100%; max-width: 280px; aspect-ratio: 1; background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: 0 8px 24px -8px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; }
+  .center-visual { width: 100%; max-width: 280px; aspect-ratio: 1; background: white; border: 1px solid var(--border); padding: 24px; box-shadow: 0 8px 24px -8px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between; }
   .cv-label { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
   .cv-chart { flex: 1; display: flex; align-items: end; gap: 6px; height: 110px; padding: 12px 0; }
-  .cv-bar { flex: 1; background: linear-gradient(180deg, var(--border-strong), var(--border)); border-radius: 4px; }
+  .cv-bar { flex: 1; background: linear-gradient(180deg, var(--border-strong), var(--border)); }
   .cv-bar:nth-child(1) { height: 40%; }
   .cv-bar:nth-child(2) { height: 30%; background: linear-gradient(180deg, var(--brand), var(--brand-deep)); }
   .cv-bar:nth-child(3) { height: 60%; }
@@ -846,6 +1002,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
      SOLUTION INTRO
      ═══════════════════════════════════════════════ */
   .solution-section { padding: 120px 32px; }
+  @media (max-width: 768px) { .solution-section { padding: 72px 20px; } }
   .solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; max-width: 1100px; margin: 0 auto; align-items: end; }
   .solution-left .label-pill { margin-bottom: 24px; }
   .solution-right { font-size: 18px; line-height: 1.6; color: var(--text-2); padding-bottom: 8px; }
@@ -890,37 +1047,37 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .feature-visual > * { position: relative; z-index: 1; }
 
   /* Chat mockup */
-  .feature-chat { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 20px; width: 100%; max-width: 380px; box-shadow: 0 16px 40px -16px rgba(79,57,246,0.15); }
+  .feature-chat { background: white; border: 1px solid var(--border); padding: 20px; width: 100%; max-width: 380px; box-shadow: 0 16px 40px -16px rgba(79,57,246,0.15); }
   .feature-chat-top { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-  .feature-chat-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--brand), var(--brand-bright)); }
+  .feature-chat-avatar { width: 32px; height: 32px; background: linear-gradient(135deg, var(--brand), var(--brand-bright)); }
   .feature-chat-name { font-size: 14px; font-weight: 600; }
   .feature-chat-status { font-size: 11px; color: var(--accent-emerald); }
-  .feature-chat-message { padding: 12px 14px; background: var(--bg-soft); border-radius: 12px; font-size: 13px; line-height: 1.5; margin-bottom: 8px; }
+  .feature-chat-message { padding: 12px 14px; background: var(--bg-soft); font-size: 13px; line-height: 1.5; margin-bottom: 8px; }
   .feature-chat-message.user { background: var(--brand-softer); margin-left: 32px; color: var(--text-1); }
   .feature-chat-tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
-  .feature-chat-tag { padding: 4px 10px; background: white; border: 1px solid var(--border); border-radius: 6px; font-size: 11px; color: var(--text-2); cursor: pointer; transition: all 0.15s; }
+  .feature-chat-tag { padding: 4px 10px; background: white; border: 1px solid var(--border); font-size: 11px; color: var(--text-2); cursor: pointer; transition: all 0.15s; }
   .feature-chat-tag:hover { border-color: var(--brand); color: var(--brand); }
 
   /* Workflow mockup */
   .feature-workflow { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 380px; }
-  .workflow-card { padding: 12px 14px; background: white; border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px -4px rgba(0,0,0,0.04); position: relative; }
+  .workflow-card { padding: 12px 14px; background: white; border: 1px solid var(--border); display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px -4px rgba(0,0,0,0.04); position: relative; }
   .workflow-card::before { content: ''; position: absolute; bottom: -8px; left: 24px; width: 2px; height: 8px; background: var(--brand); opacity: 0.4; }
   .workflow-card:last-child::before { display: none; }
-  .workflow-icon { width: 28px; height: 28px; border-radius: 6px; background: var(--brand-softer); color: var(--brand); display: grid; place-items: center; flex-shrink: 0; }
+  .workflow-icon { width: 28px; height: 28px; background: var(--brand-softer); color: var(--brand); display: grid; place-items: center; flex-shrink: 0; }
   .workflow-icon svg { width: 14px; height: 14px; }
   .workflow-text { flex: 1; }
   .workflow-title { font-size: 13px; font-weight: 500; }
   .workflow-meta { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); }
-  .workflow-status { font-family: 'Geist Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 100px; }
+  .workflow-status { font-family: 'Geist Mono', monospace; font-size: 10px; padding: 3px 8px; }
   .workflow-status.done { background: rgba(16,185,129,0.1); color: var(--accent-emerald); }
   .workflow-status.live { background: var(--brand-softer); color: var(--brand); }
 
   /* Insights mockup */
-  .feature-insights { width: 100%; max-width: 380px; background: white; border: 1px solid var(--border); border-radius: 14px; padding: 20px; box-shadow: 0 16px 40px -16px rgba(79,57,246,0.15); }
+  .feature-insights { width: 100%; max-width: 380px; background: white; border: 1px solid var(--border); padding: 20px; box-shadow: 0 16px 40px -16px rgba(79,57,246,0.15); }
   .insights-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
   .insights-title { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase; }
   .insights-num { font-size: 36px; font-weight: 700; letter-spacing: -0.025em; line-height: 1; margin-bottom: 6px; }
-  .insights-delta { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--accent-emerald); padding: 3px 8px; background: rgba(16,185,129,0.1); border-radius: 100px; display: inline-block; }
+  .insights-delta { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--accent-emerald); padding: 3px 8px; background: rgba(16,185,129,0.1); display: inline-block; }
   .insights-chart { margin-top: 16px; height: 100px; position: relative; }
   .insights-chart svg { width: 100%; height: 100%; }
 
@@ -957,7 +1114,6 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     background: var(--brand); color: white;
     font-family: 'Geist Mono', monospace; font-size: 14px; font-weight: 600;
     display: grid; place-items: center;
-    border-radius: 100px !important;
   }
   .step-day { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand); }
   .step-text h3 { margin-bottom: 20px; }
@@ -1016,7 +1172,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   /* Step 2 — feed */
   .step-feed-item { display: grid; grid-template-columns: auto 64px 1fr; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px dashed rgba(255,255,255,0.1); }
   .step-feed-item:last-child { border-bottom: none; }
-  .step-feed-dot { width: 8px; height: 8px; border-radius: 50% !important; background: var(--accent-emerald); }
+  .step-feed-dot { width: 8px; height: 8px; background: var(--accent-emerald); }
   .step-feed-dot.live { background: #fbbf24; box-shadow: 0 0 12px #fbbf24; animation: pulseDot 1.6s infinite; }
   .step-feed-time { font-family: 'Geist Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
   .step-feed-text { font-size: 12.5px; color: rgba(255,255,255,0.92); line-height: 1.4; }
@@ -1052,7 +1208,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .benefit-cell { padding: 36px 28px; border-right: 1px solid var(--border); transition: background 0.3s; }
   .benefit-cell:last-child { border-right: none; }
   .benefit-cell:hover { background: var(--bg-soft); }
-  .benefit-icon-box { width: 44px; height: 44px; border-radius: 10px; background: var(--brand-softer); color: var(--brand); display: grid; place-items: center; margin-bottom: 20px; transition: transform 0.3s; }
+  .benefit-icon-box { width: 44px; height: 44px; background: var(--brand-softer); color: var(--brand); display: grid; place-items: center; margin-bottom: 20px; transition: transform 0.3s; }
   .benefit-cell:hover .benefit-icon-box { transform: scale(1.1) rotate(-3deg); }
   .benefit-icon-box svg { width: 22px; height: 22px; }
   .benefit-cell h3 { margin-bottom: 8px; }
@@ -1149,13 +1305,13 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .arch-svg .connector-glow { stroke: url(#engineGradient); stroke-width: 6; opacity: 0.15; filter: blur(8px); }
 
   .input-node-wrap { display: flex; justify-content: center; margin-bottom: 64px; position: relative; z-index: 2; }
-  .input-node { display: inline-flex; align-items: center; padding: 12px 16px; background: white; border: 1px solid var(--border); border-radius: 100px; box-shadow: 0 12px 32px -8px var(--brand-glow), 0 4px 12px -4px rgba(0,0,0,0.04); position: relative; }
-  .input-node::before { content: ''; position: absolute; inset: -1px; border-radius: 100px; padding: 1px; background: linear-gradient(135deg, transparent 30%, var(--brand) 50%, transparent 70%); -webkit-mask: linear-gradient(white,white) content-box, linear-gradient(white,white); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.6; }
+  .input-node { display: inline-flex; align-items: center; padding: 12px 16px; background: white; border: 1px solid var(--border); box-shadow: 0 12px 32px -8px var(--brand-glow), 0 4px 12px -4px rgba(0,0,0,0.04); position: relative; }
+  .input-node::before { content: ''; position: absolute; inset: -1px; padding: 1px; background: linear-gradient(135deg, transparent 30%, var(--brand) 50%, transparent 70%); -webkit-mask: linear-gradient(white,white) content-box, linear-gradient(white,white); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.6; }
   .input-label { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); padding: 0 14px 0 6px; border-right: 1px solid var(--border); }
   .input-platforms { display: flex; align-items: center; gap: 4px; padding: 0 6px; }
-  .input-platform { padding: 8px 14px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--text-2); display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+  .input-platform { padding: 8px 14px; background: var(--bg-soft); border: 1px solid var(--border); font-size: 13px; font-weight: 500; color: var(--text-2); display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
   .input-platform:hover { background: var(--brand-softer); border-color: var(--brand); color: var(--brand); }
-  .input-platform-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .input-platform-dot { width: 6px; height: 6px; }
   .input-platform[data-p="wp"] .input-platform-dot { background: #21759b; }
   .input-platform[data-p="webflow"] .input-platform-dot { background: #4353ff; }
   .input-platform[data-p="shopify"] .input-platform-dot { background: #95bf47; }
@@ -1168,7 +1324,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
       radial-gradient(ellipse at top right, rgba(79, 57, 246, 0.3) 0%, transparent 60%),
       radial-gradient(ellipse at bottom left, rgba(79, 57, 246, 0.2) 0%, transparent 70%),
       linear-gradient(135deg, #0f0e2e 0%, #1a1a3e 50%, #0a0a1f 100%);
-    border: 1px solid rgba(79, 57, 246, 0.3); border-radius: 24px; padding: 36px;
+    border: 1px solid rgba(79, 57, 246, 0.3); padding: 36px;
     color: white; position: relative; overflow: hidden;
     box-shadow: 0 0 0 1px rgba(79, 57, 246, 0.15), 0 24px 64px -12px rgba(79, 57, 246, 0.35), 0 16px 32px -8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
   }
@@ -1179,41 +1335,41 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
 
   .engine-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
   .engine-title { display: flex; align-items: center; gap: 12px; }
-  .engine-orb { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--brand) 0%, var(--brand-deep) 100%); display: grid; place-items: center; color: white; position: relative; box-shadow: 0 0 20px var(--brand-glow), inset 0 1px 0 rgba(255,255,255,0.2); }
-  .engine-orb::before { content: ''; position: absolute; inset: -2px; border-radius: 12px; background: linear-gradient(135deg, var(--brand-bright), transparent); opacity: 0.5; z-index: -1; animation: orbRotate 4s linear infinite; }
+  .engine-orb { width: 40px; height: 40px; background: linear-gradient(135deg, var(--brand) 0%, var(--brand-deep) 100%); display: grid; place-items: center; color: white; position: relative; box-shadow: 0 0 20px var(--brand-glow), inset 0 1px 0 rgba(255,255,255,0.2); }
+  .engine-orb::before { content: ''; position: absolute; inset: -2px; background: linear-gradient(135deg, var(--brand-bright), transparent); opacity: 0.5; z-index: -1; animation: orbRotate 4s linear infinite; }
   @keyframes orbRotate { to { transform: rotate(360deg); } }
   .engine-orb svg { width: 20px; height: 20px; }
   .engine-name { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
   .engine-subtitle { font-family: 'Geist Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.05em; margin-top: 2px; }
-  .engine-status { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(79,57,246,0.15); border: 1px solid rgba(79,57,246,0.3); border-radius: 100px; font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--brand-bright); font-weight: 500; }
-  .engine-status::before { content: ''; width: 6px; height: 6px; background: var(--brand-bright); border-radius: 50%; box-shadow: 0 0 8px var(--brand-bright); animation: pulseDot 2s infinite; }
+  .engine-status { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(79,57,246,0.15); border: 1px solid rgba(79,57,246,0.3); font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--brand-bright); font-weight: 500; }
+  .engine-status::before { content: ''; width: 6px; height: 6px; background: var(--brand-bright); box-shadow: 0 0 8px var(--brand-bright); animation: pulseDot 2s infinite; }
 
   .engine-capabilities { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
-  .capability { padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; display: flex; align-items: center; gap: 12px; transition: all 0.3s; }
+  .capability { padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 12px; transition: all 0.3s; }
   .capability:hover { border-color: rgba(79, 57, 246, 0.5); transform: translateY(-2px); }
-  .capability-icon { flex-shrink: 0; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: rgba(79, 57, 246, 0.15); border: 1px solid rgba(79, 57, 246, 0.3); color: var(--brand-bright); }
+  .capability-icon { flex-shrink: 0; width: 30px; height: 30px; display: grid; place-items: center; background: rgba(79, 57, 246, 0.15); border: 1px solid rgba(79, 57, 246, 0.3); color: var(--brand-bright); }
   .capability-icon svg { width: 14px; height: 14px; }
   .capability-name { font-size: 13px; font-weight: 500; color: white; }
   .capability-meta { font-family: 'Geist Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 2px; }
 
-  .engine-workflow { padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; font-family: 'Geist Mono', monospace; font-size: 11px; }
+  .engine-workflow { padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); font-family: 'Geist Mono', monospace; font-size: 11px; }
   .workflow-label { color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; font-size: 10px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
   .workflow-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
   .workflow-pipeline { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .workflow-node { padding: 6px 10px; background: rgba(79, 57, 246, 0.1); border: 1px solid rgba(79, 57, 246, 0.2); border-radius: 100px; color: white; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; }
-  .workflow-node .dot { width: 5px; height: 5px; background: var(--brand-bright); border-radius: 50%; animation: pulseDot 2s infinite; }
+  .workflow-node { padding: 6px 10px; background: rgba(79, 57, 246, 0.1); border: 1px solid rgba(79, 57, 246, 0.2); color: white; font-size: 11px; display: inline-flex; align-items: center; gap: 6px; }
+  .workflow-node .dot { width: 5px; height: 5px; background: var(--brand-bright); animation: pulseDot 2s infinite; }
   .workflow-arrow { color: rgba(255,255,255,0.3); font-size: 10px; }
 
-  .dashboard-card { background: white; border: 1px solid var(--border); border-radius: 24px; padding: 28px; box-shadow: 0 24px 48px -16px rgba(0,0,0,0.08), 0 8px 16px -8px rgba(0,0,0,0.04); display: flex; flex-direction: column; }
+  .dashboard-card { background: white; border: 1px solid var(--border); padding: 28px; box-shadow: 0 24px 48px -16px rgba(0,0,0,0.08), 0 8px 16px -8px rgba(0,0,0,0.04); display: flex; flex-direction: column; }
   .dashboard-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
   .dashboard-title { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); font-weight: 500; }
   .dashboard-site { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; }
-  .dashboard-site-dot { width: 24px; height: 24px; background: linear-gradient(135deg, var(--accent-cyan), var(--brand)); border-radius: 6px; display: grid; place-items: center; color: white; font-size: 10px; font-weight: 700; }
+  .dashboard-site-dot { width: 24px; height: 24px; background: linear-gradient(135deg, var(--accent-cyan), var(--brand)); display: grid; place-items: center; color: white; font-size: 10px; font-weight: 700; }
   .dashboard-hero-metric { margin-bottom: 24px; }
   .dashboard-metric-label { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
   .dashboard-metric-value { display: flex; align-items: baseline; gap: 12px; }
   .dashboard-metric-num { font-size: 44px; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
-  .dashboard-metric-delta { font-family: 'Geist Mono', monospace; font-size: 13px; font-weight: 500; color: var(--brand); background: var(--brand-softer); padding: 4px 10px; border-radius: 100px; }
+  .dashboard-metric-delta { font-family: 'Geist Mono', monospace; font-size: 13px; font-weight: 500; color: var(--brand); background: var(--brand-softer); padding: 4px 10px; }
   .dashboard-metric-delta::before { content: '↑ '; }
 
   .dashboard-chart { flex: 1; margin-bottom: 24px; min-height: 100px; }
@@ -1232,11 +1388,11 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   @media (max-width: 968px) { .engine-tier-2 { grid-template-columns: 1fr; } }
 
   .output-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; position: relative; z-index: 2; }
-  .output-card { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 22px; transition: all 0.3s cubic-bezier(.2,.8,.2,1); position: relative; overflow: hidden; }
+  .output-card { background: white; border: 1px solid var(--border); padding: 22px; transition: all 0.3s cubic-bezier(.2,.8,.2,1); position: relative; overflow: hidden; }
   .output-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--brand), var(--brand-bright)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
   .output-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px -16px var(--brand-glow); border-color: var(--brand); }
   .output-card:hover::before { transform: scaleX(1); }
-  .output-icon { width: 36px; height: 36px; border-radius: 9px; display: grid; place-items: center; margin-bottom: 14px; }
+  .output-icon { width: 36px; height: 36px; display: grid; place-items: center; margin-bottom: 14px; }
   .output-icon svg { width: 18px; height: 18px; }
   .output-card[data-c="1"] .output-icon { background: var(--brand-softer); color: var(--brand); }
   .output-card[data-c="2"] .output-icon { background: rgba(6,182,212,0.1); color: var(--accent-cyan); }
@@ -1252,8 +1408,8 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   @media (max-width: 1100px) { .output-cards { grid-template-columns: repeat(2, 1fr); } }
 
   .activity-pills { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
-  .activity-pill { position: absolute; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: white; border: 1px solid var(--border); border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--text-1); box-shadow: 0 16px 32px -8px rgba(0,0,0,0.08), 0 4px 12px -4px var(--brand-glow); animation: float 8s ease-in-out infinite; opacity: 0; animation-fill-mode: forwards; }
-  .activity-pill .check-icon { width: 18px; height: 18px; background: var(--brand); color: white; border-radius: 50%; display: grid; place-items: center; }
+  .activity-pill { position: absolute; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: white; border: 1px solid var(--border); font-size: 13px; font-weight: 500; color: var(--text-1); box-shadow: 0 16px 32px -8px rgba(0,0,0,0.08), 0 4px 12px -4px var(--brand-glow); animation: float 8s ease-in-out infinite; opacity: 0; animation-fill-mode: forwards; }
+  .activity-pill .check-icon { width: 18px; height: 18px; background: var(--brand); color: white; display: grid; place-items: center; }
   .activity-pill .check-icon svg { width: 10px; height: 10px; }
   @keyframes float { 0% { opacity: 0; transform: translateY(20px); } 10% { opacity: 1; transform: translateY(0); } 50% { transform: translateY(-8px); } 90% { opacity: 1; } 100% { opacity: 0; transform: translateY(-20px); } }
   .activity-pill:nth-child(1) { top: 8%; left: 5%; animation-delay: 0.5s; }
@@ -1284,6 +1440,9 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   @keyframes marqueeScroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .resources-track { animation: none; }
   }
   .resource-card {
     flex: 0 0 320px; min-height: 240px;
@@ -1372,7 +1531,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .integrations-header h2 { margin-bottom: 16px; }
   .integrations-meta { display: inline-flex; align-items: center; gap: 14px; margin-top: 18px; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--text-3); text-transform: uppercase; }
   .integrations-meta strong { color: var(--text-1); font-weight: 600; }
-  .integrations-meta .dot { width: 3px; height: 3px; background: var(--border-strong); border-radius: 50% !important; display: inline-block; }
+  .integrations-meta .dot { width: 3px; height: 3px; background: var(--border-strong); display: inline-block; }
   .integrations-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1435,10 +1594,20 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
 
   .cases-dots { display: flex; gap: 8px; justify-content: center; margin-top: 28px; }
   .cases-dots button {
-    width: 28px; height: 4px; background: var(--border-strong); border: none; padding: 0;
-    cursor: pointer; transition: background 0.25s, width 0.25s;
+    min-width: 44px; min-height: 44px;
+    padding: 0 8px;
+    background: transparent; border: none;
+    cursor: pointer; transition: background 0.25s;
   }
-  .cases-dots button.is-active { background: var(--brand); width: 44px; }
+  .cases-dots button::before {
+    content: '';
+    display: block;
+    width: 28px; height: 4px;
+    background: var(--border-strong);
+    transition: background 0.25s, width 0.25s;
+    margin: 0 auto;
+  }
+  .cases-dots button.is-active::before { background: var(--brand); width: 44px; }
 
   @media (max-width: 700px) {
     .case-slide { flex: 0 0 92%; }
@@ -1452,18 +1621,18 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .case-read-more { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border); display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--brand); }
   .case-read-more .arrow { transition: transform 0.2s; }
   a.case-cell:hover .case-read-more .arrow { transform: translateX(4px); }
-  .cases-all-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--brand); text-decoration: none; padding: 10px 18px; border: 1px solid var(--brand); border-radius: 100px !important; transition: background 0.15s, color 0.15s; }
+  .cases-all-link { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--brand); text-decoration: none; padding: 10px 18px; border: 1px solid var(--brand); transition: background 0.15s, color 0.15s; }
   .cases-all-link:hover { background: var(--brand); color: white; }
   .cases-all-link .arrow { transition: transform 0.2s; }
   .cases-all-link:hover .arrow { transform: translateX(3px); }
   .case-header-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-  .case-avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: white; font-weight: 600; font-size: 17px; letter-spacing: -0.02em; }
+  .case-avatar { width: 44px; height: 44px; display: grid; place-items: center; color: white; font-weight: 600; font-size: 17px; letter-spacing: -0.02em; }
   .case-avatar.purple { background: linear-gradient(135deg, var(--brand), #8b5cf6); }
   .case-avatar.orange { background: linear-gradient(135deg, #f97316, #ef4444); }
   .case-avatar.green { background: linear-gradient(135deg, var(--brand-bright), #06b6d4); }
   .case-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 2px; letter-spacing: -0.01em; }
   .case-info .meta { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); letter-spacing: 0.05em; }
-  .case-tag { display: inline-block; padding: 4px 10px; background: var(--brand-softer); color: var(--brand); border-radius: 6px; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.02em; font-weight: 500; margin-bottom: 16px; align-self: flex-start; }
+  .case-tag { display: inline-block; padding: 4px 10px; background: var(--brand-softer); color: var(--brand); font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.02em; font-weight: 500; margin-bottom: 16px; align-self: flex-start; }
   .case-cell.featured .case-tag { background: white; }
   .case-quote { font-size: 14px; line-height: 1.5; color: var(--text-1); margin-bottom: 20px; flex: 1; }
   .case-cell.featured .case-quote { font-size: 17px; }
@@ -1506,16 +1675,16 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .testimonials-left h2 { color: white; margin-bottom: 20px; }
   .testimonials-left h2 .accent { color: var(--brand-bright); }
   .testimonials-left p { font-size: 17px; line-height: 1.6; color: rgba(255,255,255,0.65); margin-bottom: 32px; }
-  .testimonials-cta { display: inline-flex; align-items: center; gap: 8px; color: var(--brand-bright); font-weight: 500; font-size: 15px; padding: 10px 20px; background: rgba(79,57,246,0.1); border: 1px solid rgba(79,57,246,0.25); border-radius: 100px; transition: all 0.2s; }
+  .testimonials-cta { display: inline-flex; align-items: center; gap: 8px; color: var(--brand-bright); font-weight: 500; font-size: 15px; padding: 10px 20px; background: rgba(79,57,246,0.1); border: 1px solid rgba(79,57,246,0.25); transition: all 0.2s; }
   .testimonials-cta:hover { background: rgba(79,57,246,0.2); border-color: rgba(79,57,246,0.5); }
   .testimonials-cta:hover .arrow { transform: translateX(3px); }
   .testimonials-cta .arrow { transition: transform 0.2s; }
 
   .testimonials-right { display: flex; flex-direction: column; gap: 16px; }
-  .t-card { background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: all 0.3s cubic-bezier(.2,.8,.2,1); position: relative; overflow: hidden; }
+  .t-card { background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%); border: 1px solid rgba(255,255,255,0.08); padding: 28px; transition: all 0.3s cubic-bezier(.2,.8,.2,1); position: relative; overflow: hidden; }
   .t-card:hover { border-color: rgba(79, 57, 246, 0.5); background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.03) 100%); transform: translateX(8px); }
   .t-card-top { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-  .t-avatar { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; color: white; font-weight: 600; font-size: 22px; letter-spacing: -0.02em; flex-shrink: 0; border: 2px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }
+  .t-avatar { width: 56px; height: 56px; display: grid; place-items: center; color: white; font-weight: 600; font-size: 22px; letter-spacing: -0.02em; flex-shrink: 0; border: 2px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }
   .t-avatar::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), transparent 60%); }
   .t-avatar.purple { background: linear-gradient(135deg, #4f39f6, #8b5cf6); }
   .t-avatar.orange { background: linear-gradient(135deg, #f97316, #ef4444); }
@@ -1523,7 +1692,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .t-avatar.green { background: linear-gradient(135deg, #10b981, var(--brand-bright)); }
   .t-name { font-size: 17px; font-weight: 600; color: white; margin-bottom: 4px; letter-spacing: -0.01em; }
   .t-role { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--brand-bright); letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; }
-  .t-quote-mark { width: 28px; height: 28px; border-radius: 8px; background: rgba(79, 57, 246, 0.2); border: 1px solid rgba(79, 57, 246, 0.3); display: grid; place-items: center; color: var(--brand-bright); margin-left: auto; flex-shrink: 0; }
+  .t-quote-mark { width: 28px; height: 28px; background: rgba(79, 57, 246, 0.2); border: 1px solid rgba(79, 57, 246, 0.3); display: grid; place-items: center; color: var(--brand-bright); margin-left: auto; flex-shrink: 0; }
   .t-quote-mark svg { width: 14px; height: 14px; }
   .t-card-quote { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.85); }
   .t-card-quote .accent { color: var(--brand-bright); font-weight: 500; }
@@ -1535,7 +1704,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   /* Featured case-study card (real outcomes, progress bar, stat grid) */
   .case-card {
     background: linear-gradient(135deg, rgba(79,57,246,0.18) 0%, rgba(79,57,246,0.06) 100%);
-    border: 1px solid rgba(79,57,246,0.35); border-radius: 18px; padding: 28px 28px 24px;
+    border: 1px solid rgba(79,57,246,0.35); padding: 28px 28px 24px;
     margin-bottom: 24px; position: relative; overflow: hidden;
   }
   .case-card::before {
@@ -1545,8 +1714,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .case-card-top { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
   .case-card .verified {
     display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px;
-    background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399;
-    border-radius: 100px; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
+    background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: #34d399; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
     margin-left: auto;
   }
   .case-card .verified svg { width: 10px; height: 10px; }
@@ -1555,16 +1723,15 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .case-progress { margin-bottom: 20px; }
   .case-progress-labels { display: flex; justify-content: space-between; font-family: 'Geist Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
   .case-progress-labels .end { color: var(--brand-bright); font-weight: 600; }
-  .case-progress-track { position: relative; height: 8px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; }
+  .case-progress-track { position: relative; height: 8px; background: rgba(255,255,255,0.08); overflow: hidden; }
   .case-progress-fill {
     position: absolute; inset: 0 8% 0 0;
     background: linear-gradient(90deg, var(--brand) 0%, var(--brand-bright) 100%);
-    border-radius: 100px;
     box-shadow: 0 0 12px var(--brand-glow);
   }
   .case-progress-fill::after {
     content: ''; position: absolute; top: -3px; right: -7px; width: 14px; height: 14px;
-    background: var(--brand-bright); border-radius: 50%; border: 2px solid white;
+    background: var(--brand-bright); border: 2px solid white;
     box-shadow: 0 0 16px var(--brand-bright);
   }
   .case-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 18px; }
@@ -1647,13 +1814,13 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .vertical-cell:nth-child(3n) { border-right: none; }
   .vertical-cell:nth-child(n+4) { border-bottom: none; }
   .vertical-cell:hover { background: var(--bg-soft); }
-  .vertical-cell .v-icon { width: 44px; height: 44px; background: var(--brand-softer); color: var(--brand); border-radius: 10px; display: grid; place-items: center; margin-bottom: 20px; transition: transform 0.3s; }
+  .vertical-cell .v-icon { width: 44px; height: 44px; background: var(--brand-softer); color: var(--brand); display: grid; place-items: center; margin-bottom: 20px; transition: transform 0.3s; }
   .vertical-cell:hover .v-icon { transform: scale(1.1) rotate(-5deg); }
   .vertical-cell .v-icon svg { width: 22px; height: 22px; }
   .vertical-cell h3 { font-size: 19px; margin-bottom: 4px; }
   .vertical-cell .v-subtitle { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); margin-bottom: 16px; letter-spacing: 0.08em; }
   .vertical-cell p { font-size: 13px; line-height: 1.5; color: var(--text-3); margin-bottom: 20px; }
-  .vertical-cell .v-stat { padding: 12px 14px; background: var(--bg-soft); border-radius: 8px; display: flex; justify-content: space-between; align-items: baseline; border: 1px dashed var(--border); }
+  .vertical-cell .v-stat { padding: 12px 14px; background: var(--bg-soft); display: flex; justify-content: space-between; align-items: baseline; border: 1px dashed var(--border); }
   .vertical-cell .v-stat-num { font-size: 22px; font-weight: 700; letter-spacing: -0.025em; color: var(--brand); }
   .vertical-cell .v-stat-label { font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--text-3); text-align: right; line-height: 1.3; }
   .vertical-cell .v-arrow { position: absolute; top: 28px; right: 28px; color: var(--text-3); transition: all 0.3s; }
@@ -1674,7 +1841,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .cost-header p { font-size: 18px; color: var(--text-2); }
   .cost-table {
     max-width: 1080px; margin: 0 auto;
-    background: white; border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+    background: white; border: 1px solid var(--border); overflow: hidden;
     box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 30px 60px -20px rgba(79,57,246,0.12);
   }
   .cost-row { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; border-bottom: 1px solid var(--border); align-items: stretch; }
@@ -1706,9 +1873,9 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
      ═══════════════════════════════════════════════ */
   .guarantee-section { padding: 80px 32px; background: var(--bg-soft); }
   .guarantee-grid { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .guarantee-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; display: flex; align-items: flex-start; gap: 16px; }
+  .guarantee-card { background: white; border: 1px solid var(--border); padding: 28px 24px; display: flex; align-items: flex-start; gap: 16px; }
   .guarantee-icon {
-    flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px;
+    flex-shrink: 0; width: 44px; height: 44px;
     background: linear-gradient(135deg, var(--brand-softer) 0%, rgba(79,57,246,0.08) 100%);
     border: 1px solid rgba(79,57,246,0.18); display: grid; place-items: center; color: var(--brand);
   }
@@ -1728,14 +1895,13 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .sticky-cta.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
   .sticky-cta a {
     display: inline-flex; align-items: center; gap: 10px;
-    padding: 14px 22px; background: var(--text-1); color: white;
-    border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 14px;
+    padding: 14px 22px; background: var(--text-1); color: white; text-decoration: none; font-weight: 600; font-size: 14px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.18), 0 0 0 4px rgba(79,57,246,0.15), 0 4px 12px rgba(79,57,246,0.3);
     transition: all 0.2s;
   }
   .sticky-cta a:hover { transform: translateY(-2px); box-shadow: 0 14px 38px rgba(0,0,0,0.22), 0 0 0 6px rgba(79,57,246,0.2), 0 6px 16px rgba(79,57,246,0.4); }
   .sticky-cta .price-pill {
-    background: var(--brand); padding: 4px 10px; border-radius: 100px;
+    background: var(--brand); padding: 4px 10px;
     font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.05em;
   }
   @media (max-width: 540px) { .sticky-cta { right: 16px; bottom: 16px; } .sticky-cta a { padding: 12px 18px; font-size: 13px; } }
@@ -1748,16 +1914,17 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .pricing-header .label-pill { margin-bottom: 20px; }
   .pricing-header h2 { margin-bottom: 16px; }
   .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1080px; margin: 0 auto; }
-  .pricing-card { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 36px 32px; display: flex; flex-direction: column; transition: all 0.3s; position: relative; }
+  .pricing-card { background: white; border: 1px solid var(--border); padding: 36px 32px; display: flex; flex-direction: column; transition: all 0.3s; position: relative; }
   .pricing-card.featured { background: var(--text-1); color: white; border-color: var(--text-1); position: relative; overflow: hidden; }
   .pricing-card.featured::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--brand), var(--brand-bright)); }
   .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -16px rgba(0,0,0,0.08); }
   .pricing-card.featured:hover { box-shadow: 0 24px 48px -16px var(--brand-glow); }
-  .pricing-badge { position: absolute; top: 24px; right: 24px; padding: 4px 10px; background: var(--brand); color: white; border-radius: 100px; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.1em; font-weight: 600; }
+  .pricing-badge { position: absolute; top: 24px; right: 24px; padding: 4px 10px; background: var(--brand); color: white; font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.1em; font-weight: 600; }
   .pricing-name { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-3); font-weight: 500; margin-bottom: 16px; }
   .pricing-card.featured .pricing-name { color: var(--brand-bright); }
   .pricing-amount { display: flex; align-items: baseline; gap: 4px; margin-bottom: 8px; }
   .pricing-amount .num { font-size: 56px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+  @media (max-width: 480px) { .pricing-amount .num { font-size: 44px; } }
   .pricing-amount .period { font-family: 'Geist Mono', monospace; font-size: 13px; color: var(--text-3); }
   .pricing-card.featured .pricing-amount .period { color: rgba(255,255,255,0.6); }
   .pricing-tagline { font-size: 14px; color: var(--text-3); margin-bottom: 32px; }
@@ -1768,7 +1935,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .pricing-features li .icon { width: 16px; height: 16px; color: var(--brand); flex-shrink: 0; margin-top: 2px; }
   .pricing-card.featured .pricing-features li { color: rgba(255,255,255,0.85); }
   .pricing-card.featured .pricing-features li .icon { color: var(--brand-bright); }
-  .pricing-cta { display: block; text-align: center; padding: 14px 24px; border-radius: 100px; font-weight: 500; font-size: 15px; transition: all 0.2s; }
+  .pricing-cta { display: block; text-align: center; padding: 14px 24px; font-weight: 500; font-size: 15px; transition: all 0.2s; }
   .pricing-card:not(.featured) .pricing-cta { background: white; color: var(--text-1); border: 1px solid var(--border-strong); }
   .pricing-card:not(.featured) .pricing-cta:hover { border-color: var(--text-1); }
   .pricing-card.featured .pricing-cta { background: white; color: var(--text-1); }
@@ -1784,17 +1951,21 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .faq-left h2 { margin-bottom: 16px; }
   .faq-left p { font-size: 15px; line-height: 1.55; color: var(--text-3); }
   .faq-left p a { color: var(--brand); font-weight: 500; }
+  @media (max-width: 768px) { .faq-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* ─── Standard FAQ accordion (rankmath style) ─── */
   .faq-list { border-top: 1px solid var(--border); }
   .faq-item { border-bottom: 1px solid var(--border); }
-  .faq-question { width: 100%; padding: 24px 0; text-align: left; display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: 500; letter-spacing: -0.015em; color: var(--text-1); transition: color 0.2s; }
-  .faq-question:hover { color: var(--brand); }
-  .faq-icon { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border-strong); display: grid; place-items: center; transition: all 0.2s; color: var(--text-3); }
-  .faq-icon svg { width: 11px; height: 11px; transition: transform 0.2s; }
-  .faq-item.open .faq-icon { background: var(--text-1); color: white; border-color: var(--text-1); }
-  .faq-item.open .faq-icon svg { transform: rotate(45deg); }
-  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s, padding 0.4s; font-size: 15px; line-height: 1.55; color: var(--text-2); }
-  .faq-item.open .faq-answer { max-height: 400px; padding: 0 0 24px; }
-  @media (max-width: 768px) { .faq-grid { grid-template-columns: 1fr; gap: 32px; } }
+  .faq-q { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 20px 0; cursor: pointer; width: 100%; text-align: left; background: none; border: none; font-family: inherit; color: inherit; }
+  .faq-q:hover { color: var(--brand); }
+  .faq-q-text { font-size: 17px; font-weight: 600; color: var(--text-1); letter-spacing: -0.01em; line-height: 1.4; flex: 1; }
+  .faq-toggle { width: 28px; height: 28px; border: 1px solid var(--border); display: grid; place-items: center; flex-shrink: 0; transition: all 0.2s; color: var(--text-3); }
+  .faq-item.open .faq-toggle { background: var(--brand); border-color: var(--brand); color: white; transform: rotate(45deg); }
+  .faq-toggle svg { width: 12px; height: 12px; }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .faq-item.open .faq-a { max-height: 800px; }
+  .faq-a-inner { padding: 0 0 24px; font-size: 16px; line-height: 1.65; color: var(--text-2); }
+  .faq-a-inner p + p { margin-top: 12px; }
 
   /* ═══════════════════════════════════════════════
      FINAL CTA (dark)
@@ -1810,6 +1981,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   @keyframes dotPulse { from { opacity: 0.6; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .final-section .dot-pattern { animation: none; } }
   .final-wrap { padding: 140px 32px; text-align: center; position: relative; overflow: hidden; }
+  @media (max-width: 768px) { .final-wrap { padding: 88px 20px; } }
   .final-wrap::before {
     content: ''; position: absolute; inset: 0;
     background:
@@ -1822,13 +1994,13 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     background-size: 64px 64px;
   }
   .final-content { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
-  .final-label { font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--brand-bright); margin-bottom: 32px; display: inline-block; padding: 8px 16px; background: rgba(79, 57, 246, 0.15); border: 1px solid rgba(79, 57, 246, 0.3); border-radius: 100px; }
+  .final-label { font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--brand-bright); margin-bottom: 32px; display: inline-block; padding: 8px 16px; background: rgba(79, 57, 246, 0.15); border: 1px solid rgba(79, 57, 246, 0.3); }
   .final-headline { font-size: clamp(32px, 4.5vw, 58px); font-weight: 700; line-height: 1.1; letter-spacing: -0.025em; color: white; margin: 0 auto 28px; white-space: nowrap; }
   .final-headline br { display: block; }
   @media (max-width: 880px) { .final-headline { white-space: normal; font-size: clamp(28px, 6.5vw, 42px); } }
   .final-headline .accent { color: var(--brand-bright); }
   .final-sub { font-size: 19px; line-height: 1.45; color: rgba(255,255,255,0.65); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
-  .final-cta-btn { display: inline-flex; align-items: center; gap: 12px; padding: 0 32px; height: 56px; background: white; color: var(--text-1); border-radius: 100px; font-size: 16px; font-weight: 500; transition: all 0.2s; }
+  .final-cta-btn { display: inline-flex; align-items: center; gap: 12px; padding: 0 32px; height: 56px; background: white; color: var(--text-1); font-size: 16px; font-weight: 500; transition: all 0.2s; }
   .final-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 48px rgba(255,255,255,0.2); }
   .final-cta-btn .arrow { transition: transform 0.2s; }
   .final-cta-btn:hover .arrow { transform: translateX(4px); }
@@ -1861,7 +2033,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
   .footer-col a .arrow-up { width: 10px; height: 10px; color: rgba(255,255,255,0.4); transition: transform 0.2s, color 0.2s; }
   .footer-col a:hover .arrow-up { color: white; transform: translate(2px, -2px); }
   .footer-avatars { display: flex; }
-  .footer-avatars .av { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--brand); display: grid; place-items: center; color: white; font-size: 12px; font-weight: 600; }
+  .footer-avatars .av { width: 32px; height: 32px; border: 2px solid var(--brand); display: grid; place-items: center; color: white; font-size: 12px; font-weight: 600; }
   .footer-avatars .av:not(:first-child) { margin-left: -8px; }
   .footer-avatars .av:nth-child(1) { background: linear-gradient(135deg, #4f39f6, #8b5cf6); }
   .footer-avatars .av:nth-child(2) { background: linear-gradient(135deg, #ec4899, #f97316); }
@@ -1889,6 +2061,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
 </style>
 </head>
 <body class={bodyClass}>
+<a href="#main" class="skip-link">Skip to main content</a>
 <!-- ICON DEFINITIONS (sprite) -->
 <svg width="0" height="0" style="position: absolute" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -2127,7 +2300,7 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
 
       <!-- CUSTOMERS — simple link -->
       <div class="nav-item">
-        <a href="/customers/">Customers</a>
+        <a href="/case-studies/">Customers</a>
       </div>
 
       <!-- PRICING — simple link -->
@@ -2137,19 +2310,85 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     </nav>
 
     <div class="header-actions">
-      <a href="/sign-in/" class="btn btn-ghost">Sign in</a>
+      <a href="https://app.thestacc.com/login" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Sign in</a>
       <a href="/checkout/" class="btn btn-primary btn-cta-nav"><span>Start for $1 <span class="arrow">→</span></span></a>
-      <button class="nav-toggle" aria-label="Open menu">
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
   </div>
 </header>
 
-<!-- MAIN FRAME (everything inside Saaly borders) -->
-<div class="frame">
+<!-- MOBILE NAVIGATION DRAWER -->
+<div class="mobile-drawer" id="mobileNav" aria-hidden="true" aria-label="Mobile navigation">
+  <div class="mobile-drawer-backdrop" id="mobileNavBackdrop"></div>
+  <div class="mobile-drawer-panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="mobile-drawer-header">
+      <a href="/" class="mobile-drawer-logo-link" aria-label="theStacc home">
+        <img src="/button.flex.svg" alt="theStacc" class="mobile-drawer-logo"/>
+      </a>
+      <button class="mobile-drawer-close" id="mobileNavClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <a href="/checkout/" class="mobile-drawer-cta">Start for $1 <span>→</span></a>
+    <div class="mobile-drawer-body">
+      <div class="mobile-nav-section">
+        <div class="mobile-nav-title">Product</div>
+        <ul class="mobile-nav-list">
+          <li><a href="/features/rank-tracking/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/></svg> Rank Tracking</a></li>
+          <li><a href="/features/keyword-research/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Keyword Research</a></li>
+          <li><a href="/features/citation-management/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Citation Management</a></li>
+          <li><a href="/features/review-monitoring/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Review Monitoring</a></li>
+          <li><a href="/features/social-scheduling/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Social Scheduling</a></li>
+          <li><a href="/features/client-reporting/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Client Reporting</a></li>
+        </ul>
+      </div>
+      <div class="mobile-nav-section">
+        <div class="mobile-nav-title">Modules</div>
+        <ul class="mobile-nav-list">
+          <li><a href="/modules/content-seo/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Content SEO</a></li>
+          <li><a href="/modules/local-seo/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Local SEO</a></li>
+          <li><a href="/modules/social-media/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Social Media</a></li>
+        </ul>
+      </div>
+      <div class="mobile-nav-section">
+        <div class="mobile-nav-title">Solutions</div>
+        <ul class="mobile-nav-list">
+          <li><a href="/solutions/agencies/">Agencies</a></li>
+          <li><a href="/solutions/multi-location/">Multi-Location</a></li>
+          <li><a href="/solutions/franchises/">Franchises</a></li>
+          <li><a href="/solutions/small-businesses/">Small Businesses</a></li>
+        </ul>
+      </div>
+      <div class="mobile-nav-section">
+        <div class="mobile-nav-title">Resources</div>
+        <ul class="mobile-nav-list">
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tools/">Free Tools</a></li>
+          <li><a href="/glossary/">Glossary</a></li>
+          <li><a href="/case-studies/">Case Studies</a></li>
+          <li><a href="/reviews/">Reviews</a></li>
+          <li><a href="/alternatives/">Alternatives</a></li>
+        </ul>
+      </div>
+      <div class="mobile-nav-section">
+        <div class="mobile-nav-title">Company</div>
+        <ul class="mobile-nav-list">
+          <li><a href="/case-studies/">Customers</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- MAIN FRAME (everything inside Saaly borders) -->
+<main id="main" class="frame">
   <slot />
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -2228,19 +2467,17 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
 
   <div class="footer-bottom">
     <div class="footer-bottom-left">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="#">Security</a>
+      <a href="/legal/privacy/">Privacy</a>
+      <a href="/legal/terms/">Terms</a>
+      <a href="/legal/data-processing/">Security</a>
     </div>
     <div>© 2026 theStacc · Local SEO, on autopilot</div>
   </div>
 </footer>
 
-</div><!-- end .frame -->
-
 <!-- STICKY FLOATING $1 TRIAL CTA -->
-<div class="sticky-cta" id="stickyCta" aria-hidden="true">
-  <a href="/checkout/">
+<div class="sticky-cta" id="stickyCta">
+  <a href="/checkout/" aria-label="Start your $1 trial">
     <span class="price-pill">$1</span>
     <span>Start your trial</span>
     <span class="arrow">→</span>
@@ -2249,7 +2486,11 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
 
 <script is:inline>
   // FAQ accordion
-  function toggleFaq(btn) { btn.parentElement.classList.toggle('open'); }
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const isOpen = item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
 
   // ─── Case-studies carousel · infinite loop ───
   (function() {
@@ -2391,6 +2632,50 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     setInterval(() => { serpIdx = (serpIdx + 1) % serpQueries.length; renderSerp(serpIdx); }, 4500);
   }
 
+  // ─────── MOBILE DRAWER ───────
+  (function() {
+    const toggle = document.getElementById('navToggle');
+    const drawer = document.getElementById('mobileNav');
+    const closeBtn = document.getElementById('mobileNavClose');
+    const backdrop = document.getElementById('mobileNavBackdrop');
+    const panel = drawer ? drawer.querySelector('.mobile-drawer-panel') : null;
+    if (!toggle || !drawer || !panel) return;
+
+    let lastFocus = null;
+    function getFocusables() {
+      return Array.from(panel.querySelectorAll('a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'));
+    }
+    function open() {
+      lastFocus = document.activeElement;
+      drawer.classList.add('open');
+      drawer.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      const first = getFocusables()[0];
+      if (first) first.focus();
+    }
+    function close() {
+      drawer.classList.remove('open');
+      drawer.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    toggle.addEventListener('click', open);
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    if (backdrop) backdrop.addEventListener('click', close);
+    drawer.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key !== 'Tab') return;
+      const focusables = getFocusables();
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+  })();
+
   // ─────── MEGA MENU (hover + click + keyboard) ───────
   (function() {
     const items = document.querySelectorAll('.nav-item[data-menu]');
@@ -2463,7 +2748,6 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
       '.modules-section .modules-header, .modules-section .module-card,' +
       '.cases-section .cases-header, .cases-section .case-cell,' +
       '.serp-section .serp-header, .serp-section .serp-mock, .serp-section .serp-copy,' +
-      '.cost-section .cost-header, .cost-section .cost-table,' +
       '.integrations-section .integrations-header, .integrations-section .integration-cell,' +
       '.guarantee-section .guarantee-card,' +
       '.verticals-section .verticals-header, .verticals-section .vertical-cell,' +
@@ -2583,31 +2867,6 @@ const canonicalUrl = canonical || `https://thestacc.com${Astro.url.pathname}`;
     shell.addEventListener('mouseleave', () => {
       shell.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg)';
       shell.style.transitionDuration = '0.5s';
-    });
-  })();
-
-  // ─────── MAGNETIC CTA BUTTON (primary in hero) ───────
-  (function() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const buttons = document.querySelectorAll('.hero-ctas .btn-primary, .final-cta-btn');
-    buttons.forEach(btn => {
-      const radius = 90;
-      btn.style.transition = 'transform 0.18s cubic-bezier(.2,.8,.2,1)';
-      const inner = btn.querySelector('span') || btn;
-      document.addEventListener('mousemove', (e) => {
-        const r = btn.getBoundingClientRect();
-        const cx = r.left + r.width / 2;
-        const cy = r.top + r.height / 2;
-        const dx = e.clientX - cx;
-        const dy = e.clientY - cy;
-        const dist = Math.hypot(dx, dy);
-        if (dist < radius) {
-          const pull = (radius - dist) / radius;
-          btn.style.transform = `translate(${dx * pull * 0.25}px, ${dy * pull * 0.25}px)`;
-        } else {
-          btn.style.transform = 'translate(0, 0)';
-        }
-      });
     });
   })();
 

@@ -1,0 +1,350 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free SERP Checker — Live Google Results + Feature Analysis | theStacc';
+const pageDescription = 'Check live Google SERP results for any keyword. See top 100 rankings, SERP feature detection (featured snippets, PAA, local pack, videos), keyword stats, and domain frequency analysis. Free, instant.';
+const pageUrl = 'https://thestacc.com/tools/serp-checker/';
+const lastUpdated = '2026-05-13';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free SERP Checker',
+  description: 'Check live Google SERP results for any keyword. See top 100 organic rankings, detect SERP features (featured snippets, People Also Ask, local pack, images, videos, knowledge graph), keyword stats (volume, difficulty, CPC, intent), and domain frequency analysis. Free preview shows top 10 + all features.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is a SERP checker?', a: 'A SERP (Search Engine Results Page) checker shows you exactly what appears on Google for any keyword — the organic rankings, featured snippets, People Also Ask boxes, local packs, images, videos, knowledge panels, and more. This tool fetches live Google SERP data and presents it in a clean, readable format with keyword stats (search volume, difficulty, CPC, intent) and a domain frequency analysis showing which sites dominate the results.' },
+  { q: 'Is the SERP data live and accurate?', a: 'Yes — the data comes directly from Google search results via the DataForSEO API, which pulls fresh SERP snapshots. The results you see reflect what Google is showing right now for that keyword in the selected location. Data updates in real-time on each check (cached for 24 hours for repeat searches to keep the tool fast).' },
+  { q: 'How many results can I see?', a: 'The free view shows the top 10 organic results plus all detected SERP features (featured snippets, People Also Ask, local pack, images, videos, knowledge graph, related searches, top stories, shopping). Click "Show All Results" to expand the full top 100 organic rankings, domain frequency chart, and CSV export. No email or signup required to expand.' },
+  { q: 'What SERP features does this tool detect?', a: 'The tool detects 9 SERP feature types: Featured Snippet (with title, description, and URL preview), People Also Ask (with question count and answer previews), Local Pack (with business names and ratings), Images, Videos, Knowledge Graph, Related Searches (with term list), Top Stories, and Shopping results. Each feature is shown as a color-coded badge so you can see the full SERP landscape at a glance.' },
+  { q: 'How is this different from Mangools or Ahrefs SERP checker?', a: 'Mangools SERPChecker shows position tracking and SERP features but is limited on the free plan. Ahrefs requires a paid subscription for any meaningful SERP data. This tool offers something neither free competitor provides: live top 100 organic results with all SERP feature detection, keyword difficulty, CPC, and search intent in a single view — with no account required. The domain frequency analysis (showing which domains appear most often in the top 100) is unique to this tool.' },
+  { q: 'What locations are supported?', a: 'United States, United Kingdom, Canada, Australia, and India. Each location uses the correct Google search engine and local ranking signals. More locations can be added on request — the underlying API supports 50+ countries.' },
+  { q: 'What does the domain frequency chart show?', a: 'When you expand the full results, the domain frequency chart shows which domains appear most often in the top 100 results for your keyword. For example, if Wikipedia ranks for 8 different positions, it shows "Wikipedia — 8 results — best position #2." This helps you identify SERP dominance patterns and understand which competitors you are really up against.' },
+  { q: 'What is keyword difficulty (KD)?', a: 'Keyword Difficulty is a 0-100 score estimating how hard it would be to rank on page one for the given keyword. Under 30 is relatively easy for newer sites. 31-60 is moderate and requires decent content and authority. 61+ is hard and needs strong backlinks and comprehensive content. KD is calculated from the backlink profiles and content quality of the current top 10 results.' },
+  { q: 'What does "search intent" mean?', a: 'Search intent classifies what the user is trying to accomplish: Informational (learn something), Transactional (buy something), Navigational (find a specific site), or Commercial (compare options before buying). Understanding intent helps you create content that matches what Google is already rewarding. This tool shows the dominant intent for your keyword based on analysis of the top-ranking pages.' },
+  { q: 'Why do some keywords show no data?', a: 'Three common reasons: (1) The keyword is brand-new or has extremely low search volume and has not been indexed by third-party databases yet. (2) The keyword contains special characters or is too long (over 100 characters). (3) The location selected does not have sufficient data coverage for that keyword. Try a broader or more common variant of the keyword.' },
+  { q: 'Is there a usage limit?', a: 'Yes — 5 free checks per day per IP address. This prevents API abuse and keeps the tool free for everyone. Cached results (checking the same keyword + location within 24 hours) do not count against your limit. For unlimited SERP checks and automated monitoring, theStacc platform includes rank tracking across all your target keywords.' },
+  { q: 'Can I export the results?', a: 'Yes — the expanded full results include a CSV export button that downloads all organic rankings with position, title, URL, domain, and description. This is useful for competitor analysis, client reporting, and building your own tracking spreadsheets.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free SERP Checker"
+  toolDescription="Check live Google SERP results for any keyword. Top 100 rankings, SERP feature detection, keyword stats, and domain analysis. Free."
+  trustCount=""
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="sc-form" novalidate>
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="sc-keyword">Keyword <span class="text-red-500">*</span></label>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input type="text" id="sc-keyword" required placeholder="e.g., best dentist in austin"
+              class="flex-1 rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            <select id="sc-location"
+              class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[14px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors cursor-pointer">
+              <option value="us">United States</option>
+              <option value="uk">United Kingdom</option>
+              <option value="ca">Canada</option>
+              <option value="au">Australia</option>
+              <option value="in">India</option>
+            </select>
+            <button id="sc-check-btn" type="submit" class="shrink-0 rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+              Check SERP
+            </button>
+          </div>
+          <p class="mt-1.5 text-[11px] text-[#79716b]">Enter any keyword — head term or long-tail. Choose a location for local rankings.</p>
+          <p id="sc-form-error" class="mt-2 hidden text-xs text-red-500"></p>
+        </div>
+      </form>
+    </div>
+
+    <div id="sc-loading" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+      <div class="flex items-center gap-3">
+        <span><svg class="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4f39f6" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="#4f39f6" stroke-width="3" stroke-linecap="round"/></svg></span>
+        <span data-step class="font-sans text-[14px] text-[#57534e]">Fetching live Google SERP data...</span>
+      </div>
+      <p class="mt-2 font-mono text-[11px] text-[#79716b]">This takes 5-10 seconds for fresh data. Cached results return instantly.</p>
+    </div>
+
+    <div id="sc-error" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-5 flex items-start gap-3">
+      <svg class="mt-0.5 shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      <div>
+        <p class="text-[15px] text-red-700 font-semibold">Couldn't fetch SERP data</p>
+        <p class="sc-error-msg mt-1 text-[13px] text-red-600">Check the keyword and try again. Very new or low-volume keywords may not have data.</p>
+      </div>
+    </div>
+
+    <div id="sc-results" class="mt-6 hidden"></div>
+
+    <script src="/js/serp-checker-engine.js" defer></script>
+  </Fragment>
+
+  <!-- ==================== CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR -->
+    <div class="speakable mb-10 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+      <p class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#4f39f6]">TL;DR</p>
+      <p class="mt-2 text-[15px] leading-[1.75] text-[#57534e]">
+        Enter any keyword and see the live Google SERP — top 100 organic rankings, all detected SERP features (featured snippets, People Also Ask, local pack, images, videos, knowledge graph), keyword difficulty, search volume, CPC, and search intent. The domain frequency chart shows which sites dominate the results. Free. No signup.
+      </p>
+    </div>
+
+    <!-- What this tool shows -->
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">What This SERP Checker Shows You</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-6">
+      Most SERP checkers give you a list of URLs. This tool gives you the full picture — what Google is actually showing on the page, who dominates the rankings, and what it takes to compete.
+    </p>
+
+    <div class="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#f5f3ff]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        </div>
+        <h3 class="mt-3 font-sans text-[14px] font-semibold text-[#292524]">Live Top 100 Rankings</h3>
+        <p class="mt-1 text-[13px] text-[#79716b] leading-relaxed">See all organic results with position, title, URL, domain, and description. Top 3 highlighted in green. Positions 4-10 in purple.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <h3 class="mt-3 font-sans text-[14px] font-semibold text-[#292524]">SERP Feature Detection</h3>
+        <p class="mt-1 text-[13px] text-[#79716b] leading-relaxed">Detects 9 feature types: featured snippets, PAA, local pack, images, videos, knowledge graph, related searches, top stories, and shopping.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3 class="mt-3 font-sans text-[14px] font-semibold text-[#292524]">Keyword Stats</h3>
+        <p class="mt-1 text-[13px] text-[#79716b] leading-relaxed">Search volume, keyword difficulty (0-100), cost-per-click, and classified search intent (informational, transactional, navigational, commercial).</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-50">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg>
+        </div>
+        <h3 class="mt-3 font-sans text-[14px] font-semibold text-[#292524]">Domain Frequency Analysis</h3>
+        <p class="mt-1 text-[13px] text-[#79716b] leading-relaxed">See which domains appear most often in the top 100, with their best position and total result count. Identifies SERP dominance at a glance.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-50">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <h3 class="mt-3 font-sans text-[14px] font-semibold text-[#292524]">CSV Export</h3>
+        <p class="mt-1 text-[13px] text-[#79716b] leading-relaxed">Download the full top 100 as a CSV file with position, title, URL, domain, and description. Ready for Excel, Google Sheets, or your SEO tool.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-50">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <h3 class="mt-3 font-sans text-[14px] font-semibold text-[#292524]">5 Locations</h3>
+        <p class="mt-1 text-[13px] text-[#79716b] leading-relaxed">Check SERPs in the US, UK, Canada, Australia, or India. Each location uses the correct Google search engine and local ranking signals.</p>
+      </div>
+    </div>
+
+    <!-- How it works -->
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">How the SERP Checker Works</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-4">Three steps from keyword to full SERP analysis:</p>
+
+    <div class="mb-10 space-y-3">
+      <div class="flex gap-4 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">1</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Enter your keyword + location</p>
+          <p class="mt-0.5 text-[13px] text-[#79716b]">Type any keyword and pick a country. The tool queries Google's live search results for that exact query.</p>
+        </div>
+      </div>
+      <div class="flex gap-4 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">2</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Get keyword stats + SERP features</p>
+          <p class="mt-0.5 text-[13px] text-[#79716b]">See search volume, keyword difficulty, CPC, and intent. Color-coded badges show which SERP features are present on the page.</p>
+        </div>
+      </div>
+      <div class="flex gap-4 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">3</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Expand to see top 100 + domain analysis</p>
+          <p class="mt-0.5 text-[13px] text-[#79716b]">Click "Show All Results" for the full top 100, domain frequency chart, and CSV export. No signup needed.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison table -->
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">SERP Checker Comparison</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-4">How this tool compares to the most popular SERP checkers:</p>
+
+    <div class="mb-10 overflow-x-auto">
+      <table class="w-full min-w-[640px] text-left text-[13px]">
+        <thead>
+          <tr class="border-b border-[#e7e5e4]">
+            <th class="py-3 pr-4 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Feature</th>
+            <th class="py-3 px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Mangools</th>
+            <th class="py-3 px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Ahrefs</th>
+            <th class="py-3 px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Semrush</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e7e5e4]">
+          <tr>
+            <td class="py-3 pr-4 font-medium text-[#292524]">Top organic results</td>
+            <td class="py-3 px-3 text-[#4f39f6] font-semibold">100 (free)</td>
+            <td class="py-3 px-3 text-[#57534e]">10 (free)</td>
+            <td class="py-3 px-3 text-[#57534e]">Paid only</td>
+            <td class="py-3 px-3 text-[#57534e]">Paid only</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-medium text-[#292524]">SERP feature detection</td>
+            <td class="py-3 px-3 text-[#4f39f6] font-semibold">9 features (free)</td>
+            <td class="py-3 px-3 text-[#57534e]">Limited (paid)</td>
+            <td class="py-3 px-3 text-[#57534e]">Full (paid)</td>
+            <td class="py-3 px-3 text-[#57534e]">Full (paid)</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-medium text-[#292524]">Keyword difficulty</td>
+            <td class="py-3 px-3 text-[#4f39f6] font-semibold">Included</td>
+            <td class="py-3 px-3 text-[#57534e]">Included</td>
+            <td class="py-3 px-3 text-[#57534e]">Included</td>
+            <td class="py-3 px-3 text-[#57534e]">Included</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-medium text-[#292524]">Search volume + CPC</td>
+            <td class="py-3 px-3 text-[#4f39f6] font-semibold">Included</td>
+            <td class="py-3 px-3 text-[#57534e]">Included</td>
+            <td class="py-3 px-3 text-[#57534e]">Included</td>
+            <td class="py-3 px-3 text-[#57534e]">Included</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-medium text-[#292524]">Domain frequency analysis</td>
+            <td class="py-3 px-3 text-[#4f39f6] font-semibold">Included</td>
+            <td class="py-3 px-3 text-[#57534e]">No</td>
+            <td class="py-3 px-3 text-[#57534e]">No</td>
+            <td class="py-3 px-3 text-[#57534e]">No</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-medium text-[#292524]">CSV export</td>
+            <td class="py-3 px-3 text-[#4f39f6] font-semibold">Included</td>
+            <td class="py-3 px-3 text-[#57534e]">Paid</td>
+            <td class="py-3 px-3 text-[#57534e]">Paid</td>
+            <td class="py-3 px-3 text-[#57534e]">Paid</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-medium text-[#292524]">Signup required</td>
+            <td class="py-3 px-3 text-[#4f39f6] font-semibold">No</td>
+            <td class="py-3 px-3 text-[#57534e]">No (limited)</td>
+            <td class="py-3 px-3 text-[#57534e]">Yes</td>
+            <td class="py-3 px-3 text-[#57534e]">Yes</td>
+          </tr>
+          <tr>
+            <td class="py-3 pr-4 font-medium text-[#292524]">Price</td>
+            <td class="py-3 px-3 text-[#4f39f6] font-semibold">Free</td>
+            <td class="py-3 px-3 text-[#57534e]">$49/mo</td>
+            <td class="py-3 px-3 text-[#57534e]">$129/mo</td>
+            <td class="py-3 px-3 text-[#57534e]">$139/mo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Why SERP features matter -->
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Why SERP Features Matter for SEO</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-4">
+      Google has evolved far beyond the classic "10 blue links." Modern SERPs are rich with features that push organic results down the page — or give you new opportunities to appear above them.
+    </p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-6">
+      A featured snippet can capture 35% of clicks for informational queries. A local pack dominates the fold for service-based searches. People Also Ask boxes expand the SERP real estate and give you multiple entry points. Videos and images appear for visual queries. If you are not tracking these features, you are flying blind.
+    </p>
+
+    <div class="mb-10 grid gap-4 sm:grid-cols-2">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <h3 class="font-sans text-[14px] font-semibold text-[#292524]">Featured Snippets</h3>
+        <p class="mt-1 text-[13px] text-[#79716b] leading-relaxed">The "position zero" result that appears above all organic listings. Usually a paragraph, list, or table pulled from a top-ranking page. Captures 35%+ of clicks for informational queries.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <h3 class="font-sans text-[14px] font-semibold text-[#292524]">People Also Ask</h3>
+        <p class="mt-1 text-[13px] text-[#79716b] leading-relaxed">Expandable question boxes that multiply your chances of appearing on page one. Each question links to a different page — one article can rank for multiple PAA questions.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <h3 class="font-sans text-[14px] font-semibold text-[#292524]">Local Pack</h3>
+        <p class="mt-1 text-[13px] text-[#79716b] leading-relaxed">The map + 3-business listing that appears for local searches ("dentist near me"). Captures 60%+ of local search clicks. Appears above organic results.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-5">
+        <h3 class="font-sans text-[14px] font-semibold text-[#292524]">Knowledge Graph</h3>
+        <p class="mt-1 text-[13px] text-[#79716b] leading-relaxed">The information panel on the right side of the SERP for entities (brands, people, places). Built from structured data, Wikipedia, and trusted sources. Hard to influence but worth monitoring.</p>
+      </div>
+    </div>
+
+    <!-- Related tools -->
+    <h2 class="text-xl font-semibold text-[#292524] mb-4">Related SEO Tools</h2>
+    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <a href="/tools/website-traffic-checker/" class="group flex items-center gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4 transition-all hover:border-[#c4b5fd]">
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f3ff] transition-colors group-hover:bg-[#ede9fe]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <div>
+          <p class="text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Website Traffic Checker</p>
+          <p class="text-[12px] text-[#79716b]">Check any domain's organic traffic</p>
+        </div>
+      </a>
+      <a href="/tools/content-brief-generator/" class="group flex items-center gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4 transition-all hover:border-[#c4b5fd]">
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f3ff] transition-colors group-hover:bg-[#ede9fe]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <p class="text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Content Brief Generator</p>
+          <p class="text-[12px] text-[#79716b]">Build briefs from SERP data</p>
+        </div>
+      </a>
+      <a href="/tools/on-page-seo-checker/" class="group flex items-center gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4 transition-all hover:border-[#c4b5fd]">
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f3ff] transition-colors group-hover:bg-[#ede9fe]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div>
+          <p class="text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">On-Page SEO Checker</p>
+          <p class="text-[12px] text-[#79716b]">15-point page-level analysis</p>
+        </div>
+      </a>
+      <a href="/tools/headline-analyzer/" class="group flex items-center gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4 transition-all hover:border-[#c4b5fd]">
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f3ff] transition-colors group-hover:bg-[#ede9fe]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        </div>
+        <div>
+          <p class="text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+          <p class="text-[12px] text-[#79716b]">Score titles on 8 dimensions</p>
+        </div>
+      </a>
+      <a href="/tools/ai-humanizer/" class="group flex items-center gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4 transition-all hover:border-[#c4b5fd]">
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f3ff] transition-colors group-hover:bg-[#ede9fe]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2"><path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>
+        </div>
+        <div>
+          <p class="text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">AI Humanizer</p>
+          <p class="text-[12px] text-[#79716b]">Make AI text sound human</p>
+        </div>
+      </a>
+      <a href="/tools/seo-roi-calculator/" class="group flex items-center gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4 transition-all hover:border-[#c4b5fd]">
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f5f3ff] transition-colors group-hover:bg-[#ede9fe]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div>
+          <p class="text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO ROI Calculator</p>
+          <p class="text-[12px] text-[#79716b]">Project your SEO returns</p>
+        </div>
+      </a>
+    </div>
+  </Fragment>
+</ToolLayout>
+
+<script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />

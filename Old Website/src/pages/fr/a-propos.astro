@@ -1,0 +1,514 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/fr/HeaderFr.astro';
+import Footer from '../../components/fr/FooterFr.astro';
+import { SITE_URL, LOGO_URL, buildBreadcrumbs } from '../../utils/schema';
+
+const aboutSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'theStacc',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: LOGO_URL, width: 512, height: 512 },
+      description: 'theStacc construit le système d\'exploitation pour la croissance organique. Réunissant Blog SEO, référencement local et distribution dans un seul moteur automatisé.',
+      inLanguage: 'fr',
+      founder: { '@id': `${SITE_URL}/about/#founder` },
+      sameAs: [
+        'https://www.linkedin.com/company/thestacc',
+        'https://x.com/thestacc',
+      ],
+      knowsAbout: ['SEO Automation', 'AI Content Generation', 'Local SEO', 'Google Business Profile Management'],
+    },
+    {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/about/#founder`,
+      name: 'Siddharth Gangal',
+      url: `${SITE_URL}/about/`,
+      jobTitle: 'Fondateur',
+      worksFor: { '@id': `${SITE_URL}/#organization` },
+      description: 'Fondateur de theStacc et Arka360. Diplômé de l\'IIT Mandi. Il construit le moteur de contenu automatisé pour la croissance organique.',
+      knowsAbout: ['SEO', 'IA', 'SaaS', 'Marketing de Contenu'],
+    },
+    {
+      '@type': 'AboutPage',
+      '@id': `${SITE_URL}/fr/a-propos/`,
+      name: 'À Propos de theStacc',
+      url: `${SITE_URL}/fr/a-propos/`,
+      inLanguage: 'fr',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      mainEntity: { '@id': `${SITE_URL}/#organization` },
+    },
+    buildBreadcrumbs(`${SITE_URL}/fr/a-propos/`, [
+      { name: 'Accueil', url: `${SITE_URL}/fr/` },
+      { name: 'À Propos', url: `${SITE_URL}/fr/a-propos/` },
+    ]),
+  ],
+};
+
+const values = [
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    name: 'Exécution avant la réflexion',
+    statement: 'Les tableaux de bord qui vous disent quoi faire ne sont pas la même chose que les systèmes qui le font pour vous.',
+    proof: 'Chaque plan sur theStacc se termine par une publication planifiée, pas par une recommandation. Votre contenu est publié même si vous ne vous connectez pas.',
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+    name: 'Qualité qui s\'accumule',
+    statement: 'Nous ne publions pas du remplissage. Chaque article est construit pour se positionner, générer du trafic et bien vieillir.',
+    proof: 'Recherche de mots-clés, maillage interne, structure SEO et lisibilité. Appliqués à chaque contenu automatiquement. Pas en dernier recours.',
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+    name: 'Transparence plutôt qu\'exagération',
+    statement: 'Nous sommes en concurrence avec plusieurs outils que nous évaluons. Nous le disons. Toujours.',
+    proof: 'Chaque page de comparaison et d\'avis sur theStacc inclut une divulgation éditoriale claire. Nous montrons des métriques réelles, pas des chiffres de vanité.',
+  },
+];
+
+const icpCards = [
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/><path d="M3 15h6"/><path d="M15 9h3"/><path d="M15 15h3"/></svg>`,
+    title: 'PME et ETI',
+    body: 'Vous avez besoin de 30 articles par mois pour concurrencer les budgets des grandes entreprises. Mais vous n\'avez pas une équipe de contenu de 10 personnes. theStacc vous donne des résultats d\'entreprise sans le personnel.',
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+    title: 'Commerces locaux et prestataires de services',
+    body: 'Dentistes, artisans, cabinets juridiques, agences. Des entreprises qui gagnent en étant l\'option la plus visible localement. Nous automatisons les publications GBP, le contenu SEO local et les réponses aux avis.',
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    title: 'Équipes marketing sous pression',
+    body: 'Vous avez une stratégie de contenu mais pas assez de temps pour l\'exécuter. theStacc prend en charge les 80 % de production de contenu en bas de gamme pour que votre équipe puisse se concentrer sur les 20 % à forte valeur ajoutée.',
+  },
+];
+---
+
+<BaseLayout
+  title="À Propos de theStacc | L'Histoire de Siddharth Gangal et la Mission"
+  description="Stacc a été fondé par Siddharth Gangal (IIT Mandi, Arka360) avec pour mission de faire de la croissance organique un système, pas un sprint."
+  lang="fr"
+>
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(aboutSchema)} />
+
+    <!-- ░░ HERO ░░ -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.18) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-20 text-center">
+
+        <p class="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#4f39f6]">À Propos de theStacc</p>
+        <h1 class="mx-auto mt-4 max-w-[700px] font-sans text-[32px] font-bold leading-[1.15] tracking-[-0.03em] text-[#292524] md:text-[48px]">
+          Conçu pour éliminer le travail répétitif<br class="hidden md:block" /> qui freine la croissance.
+        </h1>
+        <p class="mx-auto mt-5 max-w-[520px] font-sans text-[16px] leading-[1.7] text-[#94a3b8]">
+          La plupart des entreprises ont la bonne stratégie SEO. Elles n'ont tout simplement pas le temps, l'équipe ni le budget pour l'exécuter de façon cohérente. theStacc est le système qui le fait à leur place.
+        </p>
+
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="/fr/demo/"
+            class="inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-7 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+          >
+            Commencer pour 1 $
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a
+            href="/modules/"
+            class="inline-flex h-[46px] items-center gap-2 rounded-xl border border-[rgba(255,255,255,0.12)] px-7 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-[#94a3b8] transition-colors hover:border-[rgba(255,255,255,0.25)] hover:text-[#292524]"
+          >
+            Voir comment ça fonctionne
+          </a>
+        </div>
+
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-2">
+          {[
+            '30 articles de blog/mois',
+            '30 publications GBP/mois',
+            'Réseaux sociaux inclus',
+            '1 $ pour commencer',
+          ].map(text => (
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-[#1e2633] bg-[rgba(15,23,42,0.05)] px-3 py-1 font-mono text-[11px] text-[#6b7280]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              {text}
+            </span>
+          ))}
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ░░ BY THE NUMBERS ░░ -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-16">
+        <div class="mb-10 text-center">
+          <p class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">En chiffres</p>
+          <h2 class="mt-2 font-sans text-[26px] font-bold tracking-[-0.02em] text-[#111827] md:text-[32px]">Ce que theStacc délivre, chaque mois</h2>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+
+          <div class="col-span-2 overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-8">
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Module Blog SEO</p>
+            <p class="mt-2 font-sans text-[60px] font-bold leading-none tracking-[-0.04em] text-[#4f39f6]"
+               data-count-up data-target="30" data-from="0" data-prefix="" data-suffix="" data-decimals="0">30</p>
+            <p class="mt-2 font-sans text-[17px] font-semibold text-[#292524]">Articles de blog SEO publiés sur votre site chaque mois</p>
+            <p class="mt-2 font-sans text-[13px] leading-[1.6] text-[#79716b]">Avec recherche de mots-clés, maillage interne et structure optimisée pour se positionner. Publiés sur votre domaine automatiquement.</p>
+          </div>
+
+          <div class="rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Référencement Local</p>
+            <p class="mt-2 font-sans text-[48px] font-bold leading-none tracking-[-0.04em] text-[#292524]"
+               data-count-up data-target="30" data-from="0" data-prefix="" data-suffix="" data-decimals="0">30</p>
+            <p class="mt-2 font-sans text-[14px] font-semibold text-[#292524]">Publications GBP par mois</p>
+            <p class="mt-1 font-sans text-[12px] leading-[1.6] text-[#79716b]">Contenu pour Google Business Profile qui maintient votre présence locale active.</p>
+          </div>
+
+          <div class="rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Couverture</p>
+            <p class="mt-2 font-sans text-[48px] font-bold leading-none tracking-[-0.04em] text-[#292524]"
+               data-count-up data-target="70" data-from="0" data-prefix="" data-suffix="+" data-decimals="0">70+</p>
+            <p class="mt-2 font-sans text-[14px] font-semibold text-[#292524]">Secteurs d'activité</p>
+            <p class="mt-1 font-sans text-[12px] leading-[1.6] text-[#79716b]">Du SaaS au solaire en passant par le dentaire. Un moteur, chaque niche.</p>
+          </div>
+
+          <div class="rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Pour commencer</p>
+            <p class="mt-2 font-sans text-[48px] font-bold leading-none tracking-[-0.04em] text-[#4f39f6]"
+               data-count-up data-target="1" data-from="0" data-prefix="$" data-suffix="" data-decimals="0">$1</p>
+            <p class="mt-2 font-sans text-[14px] font-semibold text-[#292524]">Pendant vos 30 premiers jours</p>
+            <p class="mt-1 font-sans text-[12px] leading-[1.6] text-[#79716b]">Sans engagement de carte bancaire. Annulez avant le 30e jour et vous ne payez rien de plus.</p>
+          </div>
+
+          <div class="rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Modules intégrés</p>
+            <p class="mt-2 font-sans text-[48px] font-bold leading-none tracking-[-0.04em] text-[#292524]"
+               data-count-up data-target="3" data-from="0" data-prefix="" data-suffix="" data-decimals="0">3</p>
+            <p class="mt-2 font-sans text-[14px] font-semibold text-[#292524]">Blog · Local · Social</p>
+            <p class="mt-1 font-sans text-[12px] leading-[1.6] text-[#79716b]">Un abonnement, tous les canaux. Tout connecté.</p>
+          </div>
+
+          <div class="col-span-2 overflow-hidden rounded-2xl border border-[#4f39f6] bg-[#fafaf9] p-8" style="background:linear-gradient(135deg,#f5f3ff 0%,#fafaf9 100%);">
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#4f39f6]">Module Réseaux Sociaux</p>
+            <p class="mt-2 font-sans text-[17px] font-semibold text-[#292524]">Contenu social prêt pour chaque plateforme. Rédigé, planifié et publié sur LinkedIn, Facebook, Instagram et plus. Chaque mois. Automatiquement.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {['LinkedIn', 'Facebook', 'Instagram', 'X / Twitter'].map(p => (
+                <span class="rounded-full border border-[#c4b5fd] bg-white px-3 py-1 font-mono text-[11px] font-semibold text-[#4f39f6]">{p}</span>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ FOUNDER STORY ░░ -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.6fr] lg:items-start">
+
+          <div class="flex flex-col items-center text-center">
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">Fondateur</p>
+            <div class="mt-6 overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+              <img
+                src="/images/siddharth-gangal.webp"
+                alt="Siddharth Gangal, Fondateur de theStacc"
+                width="300"
+                height="300"
+                class="mx-auto h-[160px] w-[160px] rounded-full object-cover ring-4 ring-[#f5f3ff]"
+                loading="lazy"
+              />
+              <h3 class="mt-5 font-sans text-[22px] font-bold text-[#111827]">Siddharth Gangal</h3>
+              <p class="mt-1 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#79716b]">Fondateur, theStacc</p>
+              <div class="mt-4 flex flex-wrap justify-center gap-2">
+                <span class="inline-flex items-center rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1 font-mono text-[11px] text-[#57534e]">IIT Mandi</span>
+                <span class="inline-flex items-center rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1 font-mono text-[11px] text-[#57534e]">Fondateur, Arka360</span>
+                <span class="inline-flex items-center rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1 font-mono text-[11px] text-[#57534e]">Solar Labs</span>
+              </div>
+              <div class="mt-5 flex justify-center gap-3">
+                <a href="https://www.linkedin.com/in/siddharth-gangal" target="_blank" rel="noopener noreferrer"
+                  class="flex h-9 w-9 items-center justify-center rounded-lg border border-[#e7e5e4] bg-white transition-colors hover:border-[#c4b5fd]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="#0077b5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="https://x.com/thestacc" target="_blank" rel="noopener noreferrer"
+                  class="flex h-9 w-9 items-center justify-center rounded-lg border border-[#e7e5e4] bg-white transition-colors hover:border-[#c4b5fd]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#111827"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col justify-start">
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">L'histoire</p>
+            <h2 class="mt-3 font-sans text-[28px] font-bold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[34px]">
+              Pourquoi j'ai créé theStacc
+            </h2>
+
+            <div class="mt-6 space-y-4">
+              <p class="font-sans text-[16px] leading-[1.75] text-[#57534e]">
+                Chez Arka360, je dirigeais une entreprise de logiciels d'ingénierie solaire. Nous avions un excellent produit, une bonne rétention et une équipe qui connaissait le secteur mieux que presque n'importe qui. Mais nous étions invisibles sur internet. Pas parce que nous ne savions pas quoi faire. Nous le savions. Nous avions une stratégie de contenu, des objectifs de mots-clés, un calendrier de publication. Ce que nous n'avions pas, c'était suffisamment d'heures pour l'exécuter.
+              </p>
+              <p class="font-sans text-[16px] leading-[1.75] text-[#57534e]">
+                Nous consacrions entre 30 et 40 % de notre temps marketing à la production de contenu : rédiger, éditer, formater, publier, mettre à jour. Et recommencer. Ce travail était important, mais il était mécanique. Le genre de travail qui devrait fonctionner en pilote automatique.
+              </p>
+              <p class="font-sans text-[16px] leading-[1.75] text-[#57534e]">
+                J'ai passé en revue tous les outils du marché. Ils avaient tous la même réponse : voici des données, voici des recommandations, voici un calendrier. Aucun ne publiait quoi que ce soit réellement. Aucun n'éliminait l'étape manuelle.
+              </p>
+            </div>
+
+            <div class="mt-6 rounded-xl border-l-[3px] border-[#4f39f6] bg-white px-5 py-4">
+              <p class="font-sans text-[17px] leading-[1.65] font-medium text-[#111827]">
+                "La plupart des entreprises n'échouent pas sur le contenu par manque de stratégie. Elles échouent parce que l'exécution est lente, manuelle et fragmentée. Je voulais résoudre ça. Pour n'importe quelle entreprise, pas seulement celles qui ont de grandes équipes."
+              </p>
+              <p class="mt-3 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#79716b]">— Siddharth Gangal, Fondateur</p>
+            </div>
+
+            <p class="mt-5 font-sans text-[16px] leading-[1.75] text-[#57534e]">
+              theStacc est le système que j'aurais voulu avoir chez Arka360. Il ne suggère pas seulement du contenu. Il l'écrit, l'optimise et le publie. Chaque mois. Sans que personne n'ait à se connecter.
+            </p>
+
+            <div class="mt-7">
+              <a
+                href="/fr/demo/"
+                class="inline-flex h-[44px] items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-mono text-[12px] font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#615fff]"
+              >
+                Commencer pour 1 $ →
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ MISSION / VISION ░░ -->
+    <section class="relative overflow-hidden border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.03) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 50%,black 40%,transparent 90%);"></div>
+      <div class="container-x relative z-10 py-20">
+        <div class="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
+          <div>
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">Notre mission</p>
+            <h2 class="mt-3 font-sans text-[28px] font-bold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[34px]">
+              Faire de la croissance organique un système, pas un sprint.
+            </h2>
+            <p class="mt-4 font-sans text-[15px] leading-[1.7] text-[#57534e]">
+              Nous croyons que le contenu cohérent et de haute qualité est le moteur le plus fiable pour la croissance organique. Nous croyons aussi que la plupart des entreprises ne peuvent pas le maintenir manuellement. Notre mission est de combler cet écart. En rendant accessible ce qui nécessitait auparavant des agences ou de grandes équipes à n'importe quelle entreprise ayant un site web.
+            </p>
+          </div>
+          <div class="rounded-2xl border p-8" style="background:rgba(15,23,42,0.04);border-color:rgba(255,255,255,0.08);">
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">Notre vision</p>
+            <p class="mt-4 font-sans text-[22px] font-bold leading-[1.3] text-[#292524]">
+              Le système d'exploitation pour la croissance organique.
+            </p>
+            <p class="mt-3 font-sans text-[14px] leading-[1.7] text-[#57534e]">
+              Une plateforme de croissance native IA où chaque partie du flux de travail de contenu — recherche, création, optimisation et distribution — est automatisée, connectée et s'améliore continuellement. Les entreprises se connectent une fois et croissent de manière composée au fil du temps.
+            </p>
+            <div class="mt-6 grid grid-cols-3 gap-3">
+              {[
+                { n: '01', label: 'Génère du contenu' },
+                { n: '02', label: 'Le distribue' },
+                { n: '03', label: 'Multiplie la croissance' },
+              ].map(p => (
+                <div class="rounded-xl border px-3 py-4 text-center" style="border-color:rgba(79,57,246,0.3);background:rgba(79,57,246,0.08);">
+                  <p class="font-mono text-[18px] font-bold text-[#4f39f6]">{p.n}</p>
+                  <p class="mt-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.08em] text-[#57534e]">{p.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ THE PROBLEM → THE FIX ░░ -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mb-10 text-center">
+          <p class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">Pourquoi nous existons</p>
+          <h2 class="mt-2 font-sans text-[28px] font-bold tracking-[-0.025em] text-[#111827] md:text-[34px]">Nous ne sommes pas là pour être un énième outil SEO.</h2>
+        </div>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div class="rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-8">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#fee2e2]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            </div>
+            <p class="mt-4 font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Le problème</p>
+            <h3 class="mt-2 font-sans text-[20px] font-bold text-[#111827]">La croissance est fragmentée et manuelle.</h3>
+            <ul class="mt-4 space-y-3">
+              {[
+                'Le SEO vit dans un outil, le contenu dans un autre, le local dans un troisième',
+                'Les équipes consacrent 30 à 40 % de leur temps marketing à la production de contenu',
+                'Les agences sont coûteuses ; les freelances sont incohérents',
+                'Publier de façon cohérente demande un effort manuel constant',
+                'La plupart des outils recommandent. Aucun n\'exécute',
+              ].map(item => (
+                <li class="flex items-start gap-3 font-sans text-[14px] leading-[1.6] text-[#57534e]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="rounded-2xl border border-[#4f39f6] p-8" style="background:linear-gradient(135deg,#f5f3ff 0%,#fafaf9 100%);">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#f5f3ff]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <p class="mt-4 font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#4f39f6]">theStacc change ça</p>
+            <h3 class="mt-2 font-sans text-[20px] font-bold text-[#111827]">Un moteur. Tout exécuté.</h3>
+            <ul class="mt-4 space-y-3">
+              {[
+                'Blog SEO, référencement local et réseaux sociaux. Un abonnement',
+                '30 articles + 30 publications GBP auto-publiés chaque mois',
+                'Pas de rédacteurs à gérer, pas d\'agences à informer',
+                'Se publie que vous vous connectiez ou non',
+                'S\'accumule. Chaque article construit sur le précédent',
+              ].map(item => (
+                <li class="flex items-start gap-3 font-sans text-[14px] leading-[1.6] text-[#57534e]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ VALUES ░░ -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mb-12 text-center">
+          <p class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">Nos valeurs</p>
+          <h2 class="mt-2 font-sans text-[28px] font-bold tracking-[-0.025em] text-[#111827] md:text-[34px]">Des principes qui se reflètent dans le produit</h2>
+          <p class="mx-auto mt-3 max-w-[480px] font-sans text-[15px] leading-[1.7] text-[#79716b]">Pas une liste de mots. Chaque valeur a une preuve. Un endroit dans le produit où elle s'applique vraiment.</p>
+        </div>
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+          {values.map(v => (
+            <div class="flex flex-col rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <div class="flex h-11 w-11 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]" set:html={v.icon}></div>
+              <h3 class="mt-4 font-sans text-[17px] font-bold text-[#111827]">{v.name}</h3>
+              <p class="mt-2 font-sans text-[14px] italic leading-[1.65] text-[#292524]">"{v.statement}"</p>
+              <div class="mt-4 flex-1 rounded-lg border border-[#f5f3ff] bg-[#fafaf9] p-4">
+                <p class="font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[#4f39f6]">En pratique</p>
+                <p class="mt-1.5 font-sans text-[13px] leading-[1.65] text-[#57534e]">{v.proof}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ BUILT FOR WHO ░░ -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mb-12 text-center">
+          <p class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">À qui nous servons</p>
+          <h2 class="mt-2 font-sans text-[28px] font-bold tracking-[-0.025em] text-[#111827] md:text-[34px]">theStacc est conçu pour trois types d'entreprises</h2>
+        </div>
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+          {icpCards.map(card => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-7 transition-colors hover:border-[#c4b5fd]">
+              <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-[#e7e5e4] bg-white" set:html={card.icon}></div>
+              <h3 class="mt-4 font-sans text-[17px] font-bold text-[#111827]">{card.title}</h3>
+              <p class="mt-2 font-sans text-[14px] leading-[1.7] text-[#57534e]">{card.body}</p>
+            </div>
+          ))}
+        </div>
+        <div class="mt-8 text-center">
+          <p class="font-sans text-[14px] text-[#79716b]">Pas sûr si ça correspond ? <a href="/fr/tarifs/" class="text-[#4f39f6] hover:underline">Consultez la page tarifs</a> ou <a href="/fr/demo/" class="text-[#4f39f6] hover:underline">commencez votre essai pour 1 $</a> et vérifiez par vous-même.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ EDITORIAL COMMITMENT ░░ -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16">
+        <div class="mx-auto max-w-[720px]">
+          <div class="rounded-2xl border border-[#e7e5e4] bg-white p-8">
+            <div class="flex items-start gap-5">
+              <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#fafaf9]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+              </div>
+              <div>
+                <p class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#4f39f6]">Engagement éditorial</p>
+                <h3 class="mt-1.5 font-sans text-[18px] font-bold text-[#111827]">Nous sommes en concurrence avec des outils sur lesquels nous écrivons. Nous le disons.</h3>
+                <p class="mt-3 font-sans text-[14px] leading-[1.75] text-[#57534e]">
+                  Le blog de theStacc, les pages d'avis et les guides comparatifs couvrent des outils avec lesquels nous sommes directement en concurrence. Nous avons un intérêt commercial à être l'alternative. Nous le divulguons sur chaque page où c'est pertinent. Tous les tarifs sont vérifiés auprès de sources officielles. Toutes les affirmations sur les fonctionnalités proviennent de la documentation publique. Notre processus éditorial est conçu pour être utile. Pas seulement promotionnel.
+                </p>
+                <a href="/editorial/" class="mt-4 inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#4f39f6] transition-opacity hover:opacity-70">
+                  Lire notre politique éditoriale
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ DARK FOOTER CTA ░░ -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.4) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-20 text-center">
+        <p class="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-[#818cf8]">theStacc</p>
+        <h3 class="mx-auto mt-4 max-w-[560px] font-sans text-[28px] font-bold leading-[1.2] tracking-[-0.025em] text-white md:text-[36px]">
+          Prêt à mettre votre contenu en pilote automatique ?
+        </h3>
+        <p class="mx-auto mt-4 max-w-[440px] font-sans text-[15px] leading-[1.7] text-[#94a3b8]">
+          30 articles de blog, 30 publications GBP et contenu réseaux sociaux. Publiés sur votre site chaque mois. Automatiquement.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="/fr/demo/"
+            class="inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+          >
+            Commencer pour 1 $
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a
+            href="/fr/tarifs/"
+            class="inline-flex h-[46px] items-center gap-2 rounded-xl border border-[rgba(255,255,255,0.12)] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-[#94a3b8] transition-colors hover:border-[rgba(255,255,255,0.25)] hover:text-white"
+          >
+            Voir les tarifs
+          </a>
+        </div>
+        <p class="mt-4 font-mono text-[11px] tracking-[0.08em] text-[#4b5563]">1 $ pendant 30 jours · Sans carte bancaire · Annulez quand vous voulez</p>
+      </div>
+    </section>
+
+    <!-- Informations sur l'entreprise -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9] px-6 py-14 md:py-20">
+      <div class="mx-auto max-w-[680px] text-center">
+        <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#4f39f6]">Informations sur l'entreprise</p>
+        <h2 class="mt-4 font-sans text-[24px] leading-[32px] font-normal text-[#292524]">Détails juridiques</h2>
+        <div class="mt-6 rounded-xl border border-[#e7e5e4] bg-white p-6 md:p-8 text-left">
+          <div class="space-y-3">
+            <div class="flex flex-col sm:flex-row sm:gap-3">
+              <span class="font-sans text-[13px] font-semibold text-[#292524] sm:w-28 shrink-0">Nom légal</span>
+              <span class="font-sans text-[14px] text-[#57534e]">SOLARTREK VENTURES LLP</span>
+            </div>
+            <div class="border-t border-[#e7e5e4]"></div>
+            <div class="flex flex-col sm:flex-row sm:gap-3">
+              <span class="font-sans text-[13px] font-semibold text-[#292524] sm:w-28 shrink-0">Adresse enregistrée</span>
+              <span class="font-sans text-[14px] text-[#57534e]">Ground Floor, Flat No. 05, Vatika Infotech City, Bauhinia Street, Urbanwoods, Near GVK Toll Plaza, Thikariya Ajmer Road, Jaipur, Rajasthan – 302026, India</span>
+            </div>
+            <div class="border-t border-[#e7e5e4]"></div>
+            <div class="flex flex-col sm:flex-row sm:gap-3">
+              <span class="font-sans text-[13px] font-semibold text-[#292524] sm:w-28 shrink-0">E-mail</span>
+              <a href="mailto:hello@thestacc.com" class="font-sans text-[14px] text-[#4f39f6] hover:underline">hello@thestacc.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>

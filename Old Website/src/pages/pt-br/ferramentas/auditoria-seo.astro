@@ -1,0 +1,264 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Ferramenta de Auditoria SEO Gratuita (Lite) | theStacc';
+const pageDescription = 'Obtenha um relatório rápido de SEO para seu site. 10 verificações críticas com classificação aprovado/reprovado e instruções de correção em português simples. Gratuito, instantâneo, sem cadastro.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Ferramenta de Auditoria SEO Gratuita (Lite)',
+  description: 'Obtenha um relatório rápido de SEO para seu site. 10 verificações críticas com nota por letra, resultados aprovado/reprovado e instruções de correção em linguagem simples para negócios locais.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'O que esta auditoria SEO verifica?', acceptedAnswer: { '@type': 'Answer', text: 'Esta ferramenta realiza 10 verificações SEO críticas: title tag, meta descrição, tag H1, velocidade de página, compatibilidade móvel, segurança HTTPS, texto alternativo de imagens, links internos, schema markup e comprimento do conteúdo. Cada verificação é pontuada individualmente e combinada em uma nota de letra de A a F.' } },
+    { '@type': 'Question', name: 'Por que apenas 10 verificações em vez de 200?', acceptedAnswer: { '@type': 'Answer', text: 'A maioria das ferramentas de auditoria SEO te sobrecarrega com centenas de avisos técnicos, a maioria com impacto mínimo nos rankings. Essas 10 verificações cobrem os fundamentos que realmente fazem diferença para negócios locais. Corrija-os primeiro e você verá melhorias reais nas suas posições de busca.' } },
+    { '@type': 'Question', name: 'O que significam as notas por letra?', acceptedAnswer: { '@type': 'Answer', text: 'A (90-100) significa que seus fundamentos SEO são excelentes. B (75-89) significa que está bom com pequenas melhorias necessárias. C (60-74) significa que seu site precisa de trabalho em várias áreas. D (40-59) significa que a saúde SEO é deficiente com múltiplos problemas. F (menos de 40) significa problemas críticos que provavelmente estão afetando seus rankings.' } },
+    { '@type': 'Question', name: 'Esta ferramenta de auditoria SEO é gratuita?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, 100% gratuita. Sem cadastro, sem e-mail necessário, sem limites. Insira sua URL, obtenha seu relatório em segundos. Tudo roda no seu navegador. Nenhum dado é armazenado em nossos servidores.' } },
+    { '@type': 'Question', name: 'Em que se diferencia da ferramenta de Pontuação SEO do Site?', acceptedAnswer: { '@type': 'Answer', text: 'A ferramenta de Pontuação SEO do Site realiza mais de 30 verificações em 6 categorias que incluem SEO local, avaliações e prontidão para IA. Esta Auditoria SEO (Lite) foca apenas nas 10 verificações mais críticas para um resumo executivo rápido. Use esta ferramenta para uma verificação rápida de saúde, e a Pontuação SEO completa para uma análise profunda.' } },
+    { '@type': 'Question', name: 'O que devo fazer após obter meus resultados de auditoria?', acceptedAnswer: { '@type': 'Answer', text: 'Comece com a seção de Top 3 Prioridades. Elas são classificadas por impacto, portanto corrigi-las primeiro oferece a maior melhoria. Cada verificação reprovada inclui uma instrução de correção em linguagem simples. Para melhoria SEO contínua, considere executar o verificador completo de Pontuação SEO do Site e usar nossas outras ferramentas gratuitas.' } },
+  ],
+};
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Auditoria SEO Gratuita, Relatório de 10 Pontos"
+  toolDescription="Verifique as 10 coisas que realmente importam para seus rankings. Obtenha uma nota por letra, correções específicas e veja como sua página aparece nos resultados de busca."
+  lang="pt-BR"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <!-- URL Input -->
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <div class="space-y-4">
+        <div>
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">URL do Site <span class="text-red-500">*</span></label>
+          <input
+            type="url"
+            id="url-input"
+            required
+            placeholder="ex., familiadental.com.br"
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+          />
+        </div>
+        <details>
+          <summary class="cursor-pointer text-[13px] font-medium text-[#615fff]">+ Adicionar uma palavra-chave alvo (opcional)</summary>
+          <div class="mt-2">
+            <input type="text" id="keyword-input" maxlength="100" placeholder="ex., dentista em São Paulo, encanador perto de mim" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            <p class="mt-1 text-[11px] text-[#79716b]">Adicionar uma palavra-chave verifica se seu título, descrição e H1 a contêm</p>
+          </div>
+        </details>
+        <button id="audit-btn" class="w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+          Executar Auditoria SEO
+        </button>
+      </div>
+      <p id="url-error" class="mt-2 hidden text-xs text-red-500"></p>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading-section" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+      <div class="space-y-3">
+        <div class="flex items-center gap-3 step" data-step="fetch">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Buscando seu site&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="audit">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Executando auditoria de 10 pontos&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="report">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Gerando seu relatório&hellip;</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-section" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+      <svg class="mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      <p class="text-[15px] text-red-700 font-medium">Algo deu errado</p>
+      <p id="error-message" class="mt-1 text-[13px] text-red-600">Verifique a URL e tente novamente. Certifique-se de que o site seja publicamente acessível.</p>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results-section" class="mt-6 hidden space-y-6">
+      <!-- Grade Circle -->
+      <div id="grade-hero" class="rounded-2xl border border-[#e7e5e4] bg-white p-8 flex flex-col items-center text-center"></div>
+
+      <!-- Top 3 Priorities -->
+      <div id="priorities-section" class="hidden rounded-2xl border-2 border-[#615fff] bg-[#f5f3ff] p-6">
+        <h3 class="font-sans text-[17px] font-semibold text-[#292524] mb-4">Corrija Estas 3 Coisas Primeiro</h3>
+        <div id="priorities-list" class="space-y-4"></div>
+      </div>
+
+      <!-- Keyword Analysis -->
+      <div id="keyword-section" class="hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <h3 class="font-sans text-[17px] font-semibold text-[#292524] mb-4">Análise de Palavras-Chave</h3>
+        <div id="keyword-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+      </div>
+
+      <!-- 10 Checks -->
+      <div id="checks-section" class="space-y-3"></div>
+
+      <!-- SERP Preview -->
+      <div id="serp-section" class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <h3 class="font-sans text-[17px] font-semibold text-[#292524] mb-4">Prévia no Google</h3>
+        <div id="serp-preview" class="max-w-xl"></div>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-banner" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p id="cta-headline" class="font-sans text-[22px] font-bold leading-tight text-white"></p>
+        <p id="cta-subtext" class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]"></p>
+        <a href="/pt-br/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Inicie seu Teste por $1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 por 30 dias · Cancele quando quiser</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">O que Esta Auditoria SEO Verifica?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Esta ferramenta avalia os 10 elementos SEO mais importantes de qualquer página da web. Cada verificação é pontuada individualmente e combinada em uma nota de letra de A a F. Isso é o que é verificado e por que cada um importa para suas posições de busca.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Title tag</strong> é o link azul nos resultados do Google. Deve existir, ter o comprimento correto (10-60 caracteres) e idealmente conter sua palavra-chave alvo. <strong class="text-[#292524]">Meta descrição</strong> é o trecho abaixo desse link. O Google a usa para decidir se sua página corresponde à intenção de um pesquisador. <strong class="text-[#292524]">Tag H1</strong> é seu título principal e diz ao Google do que trata sua página. Você deve ter exatamente um H1 por página.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Velocidade de página</strong> afeta diretamente os rankings e se os visitantes ficam ou saem. <strong class="text-[#292524]">Compatibilidade móvel</strong> importa porque mais de 60% das pesquisas ocorrem em celulares. <strong class="text-[#292524]">HTTPS</strong> é um requisito de segurança básico pelo qual o Google te penaliza se não cumprir.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Texto alternativo de imagens</strong> ajuda o Google a entender suas imagens e melhora a acessibilidade. <strong class="text-[#292524]">Links internos</strong> ajudam os mecanismos de busca a descobrir e entender as relações entre suas páginas. <strong class="text-[#292524]">Schema markup</strong> fornece ao Google dados estruturados sobre seu negócio. <strong class="text-[#292524]">Comprimento do conteúdo</strong> indica profundidade e autoridade. Páginas finas com menos de 100 palavras raramente se posicionam bem.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Por que Apenas 10 Verificações? (E Por que Isso É Melhor)</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A maioria das ferramentas de auditoria SEO te sobrecarrega com mais de 200 avisos técnicos. Tags hreflang faltantes. CSS bloqueando a renderização. Violações de hierarquia de cabeçalhos de quarto nível. O resultado é um PDF de 47 páginas que fica sem ser lido na sua pasta de downloads para sempre.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A verdade é que para a maioria dos negócios locais, <strong class="text-[#292524]">10 verificações cobrem 80% do que importa</strong>. Esses são os fundamentos que o Google pondera mais quando decide se mostrar seu site ou o do seu concorrente. Um dentista em São Paulo não precisa se preocupar com SEO internacional ou cadeias de tags canônicas. Eles precisam de um title tag adequado, uma página móvel rápida, HTTPS e dados estruturados.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Esta ferramenta dá sinais, não ruído. Cada verificação que falha vem com uma instrução de correção específica e acionável escrita em linguagem simples. Sem jargão. Sem "consulte seu desenvolvedor". Apenas "isso é o que está errado e assim é como você corrige". Essa é a diferença entre uma auditoria que você lê e uma que você implementa.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Se você quer a análise profunda com mais de 30 verificações em SEO local, prontidão para IA, avaliações e velocidade de conteúdo, use nossa ferramenta de <a href="/pt-br/ferramentas/pontuacao-seo-site/" class="text-[#615fff] hover:underline">Pontuação SEO do Site</a>. Mas comece aqui primeiro.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Como Ler seu Relatório de Auditoria SEO</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Sua nota por letra é calculada a partir de uma pontuação de 100 pontos. Cada uma das 10 verificações contribui com um número específico de pontos, ponderado por importância. A velocidade de página e o HTTPS têm mais peso do que a contagem de links internos porque têm um maior impacto nos rankings.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Nota A (90-100):</strong> Seus fundamentos SEO são excelentes. Continue fazendo o que está fazendo e concentre-se na criação de conteúdo e na geração de avaliações. <strong class="text-[#292524]">Nota B (75-89):</strong> Boa base com algumas áreas para melhorar. Verifique as Top 3 Prioridades para vitórias rápidas. <strong class="text-[#292524]">Nota C (60-74):</strong> Seu site precisa de trabalho. Várias verificações importantes estão falhando e provavelmente estão custando posições.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Nota D (40-59):</strong> Saúde SEO deficiente. Múltiplos problemas fundamentais precisam de atenção. Comece com a prioridade máxima e trabalhe para baixo. <strong class="text-[#292524]">Nota F (menos de 40):</strong> Problemas críticos. Seu site provavelmente é invisível para os mecanismos de busca em consultas competitivas. A boa notícia é que corrigir o básico pode produzir melhorias dramáticas rapidamente.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Sempre comece com a seção de <strong class="text-[#292524]">Top 3 Prioridades</strong>. Estas são as correções de maior impacto classificadas por pontos potenciais ganhos. Corrigir as três frequentemente pode fazer você subir uma nota inteira.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Auditoria SEO vs Pontuação SEO Completa</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Esta Auditoria SEO (Lite) e nossa ferramenta de <a href="/pt-br/ferramentas/pontuacao-seo-site/" class="text-[#615fff] hover:underline">Pontuação SEO do Site</a> servem a propósitos diferentes. A auditoria é seu resumo executivo: 10 verificações críticas, uma nota por letra e instruções de correção claras. Roda mais rápido e dá um sim-ou-não rápido sobre os fundamentos.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A Pontuação SEO completa realiza mais de 30 verificações em 6 categorias: SEO on-page, saúde técnica, sinais de conteúdo, SEO local, saúde das avaliações e prontidão para IA. Avalia seu Perfil de Negócio no Google, verifica arquivos llms.txt, analisa o frescor do seu conteúdo e pontua sua presença de avaliações. Se você leva a sério se posicionar no seu mercado local, execute a pontuação completa após passar por esta auditoria.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Pense assim: esta auditoria diz se sua casa tem telhado, paredes e fundações. A pontuação completa verifica a encanação, a elétrica, o isolamento e o paisagismo também. Ambas importam. Comece com o básico.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Problemas SEO Comuns para Negócios Locais</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Consultórios odontológicos</strong> comumente têm páginas de serviços com menos de 100 palavras e omitem o schema markup completamente. A maioria dos sites odontológicos usa title tags genéricos como "Início - Dental Garcia" em vez de títulos ricos em palavras-chave como "Dentista Familiar em São Paulo | Dental Garcia". Corrigir o title tag por si só pode melhorar as taxas de clique em 20-30%.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Escritórios de advocacia</strong> tendem a ter boa extensão de conteúdo, mas bases técnicas fracas. HTTPS ausente, velocidades de página lentas por imagens não otimizadas e sem dados estruturados são os problemas mais comuns. Como um único cliente novo pode valer milhares de reais, mesmo pequenas melhorias no ranking oferecem retornos desproporcionais.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Negócios de serviços residenciais</strong> (encanadores, ar-condicionado, eletricistas) tipicamente obtêm as pontuações mais baixas porque dependem de sites de uma única página ou templates básicos. A correção mais impactante é criar páginas de serviço individuais com tags H1 adequadas, meta descrições únicas e mais de 300 palavras de conteúdo para cada serviço oferecido.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Restaurantes</strong> frequentemente têm cardápios como PDFs ou imagens que o Google não consegue ler, texto alternativo faltante em fotografias de comida e sem schema markup. Adicionar schema Restaurant e converter seu cardápio para HTML são duas correções que podem melhorar dramaticamente sua visibilidade nas pesquisas locais de comida.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Perguntas Frequentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">O que esta auditoria SEO verifica?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Esta ferramenta realiza 10 verificações SEO críticas: title tag, meta descrição, tag H1, velocidade de página, compatibilidade móvel, segurança HTTPS, texto alternativo de imagens, links internos, schema markup e comprimento do conteúdo. Cada verificação é pontuada individualmente e combinada em uma nota de letra de A a F.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Por que apenas 10 verificações em vez de 200?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">A maioria das ferramentas de auditoria SEO te sobrecarrega com centenas de avisos técnicos, a maioria com impacto mínimo nos rankings. Essas 10 verificações cobrem os fundamentos que realmente fazem diferença para negócios locais. Corrija-os primeiro e você verá melhorias reais nas suas posições de busca.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">O que significam as notas por letra?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">A (90-100) significa que seus fundamentos SEO são excelentes. B (75-89) significa que está bom com pequenas melhorias necessárias. C (60-74) significa que seu site precisa de trabalho em várias áreas. D (40-59) significa que a saúde SEO é deficiente com múltiplos problemas. F (menos de 40) significa problemas críticos que provavelmente estão afetando seus rankings.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Esta ferramenta de auditoria SEO é gratuita?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sim, 100% gratuita. Sem cadastro, sem e-mail necessário, sem limites. Insira sua URL, obtenha seu relatório em segundos. Tudo roda no seu navegador. Nenhum dado é armazenado em nossos servidores.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Em que se diferencia da ferramenta de Pontuação SEO do Site?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">A ferramenta de Pontuação SEO do Site realiza mais de 30 verificações em 6 categorias que incluem SEO local, avaliações e prontidão para IA. Esta Auditoria SEO (Lite) foca apenas nas 10 verificações mais críticas para um resumo executivo rápido. Use esta ferramenta para uma verificação rápida de saúde, e a Pontuação SEO completa para uma análise profunda.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">O que devo fazer após obter meus resultados de auditoria?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Comece com a seção de Top 3 Prioridades. Elas são classificadas por impacto, portanto corrigi-las primeiro oferece a maior melhoria. Cada verificação reprovada inclui uma instrução de correção em linguagem simples. Para melhoria SEO contínua, considere executar o verificador completo de Pontuação SEO do Site e usar nossas outras ferramentas gratuitas.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Mais Ferramentas Gratuitas de SEO</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/pt-br/ferramentas/pontuacao-seo-site/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Pontuação SEO do Site</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Quer uma análise mais profunda com 30+ verificações?</p>
+          </a>
+          <a href="/pt-br/ferramentas/verificador-seo-on-page/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Verificador de SEO On-Page</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Análise de otimização de palavras-chave em 15 pontos</p>
+          </a>
+          <a href="/pt-br/ferramentas/gerador-solicitacao-avaliacao/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de Solicitação de Avaliação</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Calcule seu retorno projetado de SEO</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta ferramenta requer JavaScript. Por favor, ative-o no seu navegador.</p></div></noscript>
+    <script is:inline src="/js/seo-audit-engine.js"></script>
+  </Fragment>
+</ToolLayout>

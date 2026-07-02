@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const seo = {
+  title: 'Compare · theStacc',
+  description: 'Side-by-side comparisons of theStacc against the most popular SEO and content tools.',
+  canonical: 'https://thestacc.com/compare/',
+};
+const comparisons = [
+  { slug: 'ahrefs-vs-semrush', title: 'Ahrefs vs Semrush', desc: 'The two SEO giants compared on data, workflow, and value for agencies.' },
+  { slug: 'outrank', title: 'theStacc vs Outrank', desc: 'How theStacc stacks up against Outrank for AI-powered SEO automation.' },
+];
+---
+<BaseLayout seo={seo}>
+  <section class="hero-section">
+    <span class="label-pill" style="margin-bottom: 24px;">Compare</span>
+    <h1 class="h-display">Side-by-side <span class="accent">comparisons.</span></h1>
+    <p class="hero-sub">See how theStacc compares to the tools you already know.</p>
+  </section>
+  <section style="padding: 64px 32px; background: var(--bg-soft); border-top: 1px solid var(--border);">
+    <div style="max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+      {comparisons.map((c) => (
+        <a href={`/compare/${c.slug}/`} class="bento-card" style="padding: 32px; display: block;">
+          <h2 class="h-sm" style="margin-bottom: 10px;">{c.title}</h2>
+          <p class="bento-desc">{c.desc}</p>
+          <div class="bento-cta" style="margin-top: 18px;">Read comparison <span class="arrow">→</span></div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

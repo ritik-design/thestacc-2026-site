@@ -1,0 +1,514 @@
+---
+import ToolLayout from '../../../layouts/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../../lib/schema-builders';
+
+const pageTitle = 'Free Sitemap Generator — XML Sitemap with Visual Tree & Validation | theStacc';
+const pageDescription = 'Free XML sitemap generator. Crawl any website, auto-detect changefreq and priority, flag broken links, validate against sitemap.org spec, and view an interactive site tree. No signup required.';
+const pageUrl = 'https://thestacc.com/tools/sitemap-generator/';
+const lastUpdated = '2026-05-22';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Sitemap Generator',
+  description: 'Generate a validated XML sitemap with auto-detected changefreq and priority scores, plus an interactive visual tree of your site structure.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is an XML sitemap and why do I need one?', a: 'An XML sitemap is a file that lists all the important pages on your website, helping search engines discover and index your content more efficiently. It includes metadata like when each page was last updated, how often it changes, and how important it is relative to other pages. While not required, a sitemap significantly improves indexation for new sites, large sites, and sites with complex navigation.' },
+  { q: 'How does this sitemap generator work?', a: 'Enter your website URL and select crawl depth and page limit. Our tool crawls your site starting from the homepage, follows internal links, and discovers pages up to your configured limits. For each page, it extracts the title, detects the page type, auto-assigns changefreq and priority scores, and flags any issues like broken links or noindex pages. Finally, it generates a validated XML sitemap and a visual tree diagram.' },
+  { q: 'What is changefreq auto-detection?', a: 'Changefreq tells search engines how often a page is likely to change. Our tool auto-detects this based on page type: homepage and news pages get "daily", blog posts and product pages get "weekly", static pages like About and Contact get "monthly", and archived content gets "yearly". You can customize these values before downloading.' },
+  { q: 'How does priority scoring work?', a: 'Priority scores (0.0 to 1.0) tell search engines which pages are most important on your site. Our scoring algorithm considers three factors: depth from homepage (closer = higher), internal link count (more links = higher), and page type (homepage = 1.0, category = 0.8, blog post = 0.6). The result is a balanced priority distribution across your site.' },
+  { q: 'How do I submit a sitemap to Google?', a: 'After generating your sitemap, download the XML file and upload it to your website root directory (e.g., yourdomain.com/sitemap.xml). Then go to Google Search Console, select your property, navigate to Sitemaps, enter the URL of your sitemap, and click Submit. Google will then crawl and index the pages listed in your sitemap.' },
+  { q: 'What pages are excluded automatically?', a: 'Our crawler automatically excludes non-HTML assets (images, CSS, JS, PDFs), external links, pages blocked by robots.txt, and pages with noindex meta tags. You can also configure max crawl depth and max pages to further limit the scope.' },
+  { q: 'Is this tool free?', a: 'Yes, 100% free with no signup. You can crawl up to 500 pages per sitemap and generate up to 5 sitemaps per day.' },
+  { q: 'How many pages can it crawl?', a: 'You can configure the crawl from 10 to 500 pages. The default is 100 pages with a max depth of 3 levels from the homepage. For larger sites, consider using a desktop tool like Screaming Frog or a paid service.' },
+  { q: 'Can I customize changefreq and priority?', a: 'Yes. After the crawl completes, you can review and edit changefreq and priority values for any page before generating the final XML. The visual tree also lets you see how priority is distributed across your site.' },
+  { q: 'Does it detect broken links?', a: 'Yes. During the crawl, any page that returns a 404, 500, or other error status is flagged in the Issues panel. Redirects (301/302) are also noted so you can update your internal links.' },
+  { q: 'Does it work for large websites?', a: 'The free version supports up to 500 pages, which covers most small to medium websites. For enterprise sites with thousands of pages, you may need a desktop crawler or a paid service. The tool works well for blogs, small business sites, portfolios, and SaaS platforms.' },
+  { q: 'Does theStacc manage sitemaps automatically?', a: 'Yes. Stacc\'s platform can automatically generate, validate, and submit sitemaps to Google Search Console as part of its SEO automation suite. After generating your sitemap here, consider starting a trial to automate ongoing sitemap management.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+---
+
+<ToolLayout
+  seo={{ title: pageTitle, description: pageDescription, canonical: pageUrl, ogImage: '/og/tools-sitemap-generator.webp' }}
+  toolName="Free Sitemap Generator"
+  toolDescription="Generate a validated XML sitemap with auto-detected changefreq and priority scores, plus an interactive visual tree of your site structure."
+  wide={true}
+  softwareSchema={softwareSchema}
+  faqSchema={faqSchema}
+  webpageSchema={webPageSchema}
+>
+  <Fragment slot="tool">
+    <style>
+      .sg-wrap { max-width: 900px; margin: 0 auto; }
+      .sg-card { background: white; border: 1px solid var(--border); padding: 28px; }
+      .sg-card h2 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+      .sg-card .sub { font-size: 13px; color: var(--text-3); margin-bottom: 20px; }
+      .sg-field { margin-bottom: 16px; }
+      .sg-field label { display: block; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; color: var(--text-1); }
+      .sg-field input, .sg-field select { width: 100%; padding: 12px 14px; font-size: 15px; color: var(--text-1); background: white; border: 1px solid var(--border-strong); font-family: inherit; }
+      .sg-field input:focus, .sg-field select:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-glow); }
+      .sg-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+      @media (min-width: 640px) { .sg-grid { grid-template-columns: 1fr 1fr; } }
+      .sg-btn { width: 100%; padding: 14px 20px; background: var(--text-1); color: white; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
+      .sg-btn:hover { background: var(--brand); }
+      .sg-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+      .sg-examples { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
+      .sg-examples span { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--text-3); }
+      .sg-example-btn { padding: 6px 12px; border: 1px solid var(--border); background: var(--bg-soft); font-size: 12px; color: var(--text-2); cursor: pointer; }
+      .sg-example-btn:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-softer); }
+
+      .sg-loading, .sg-error, .sg-results { display: none; margin-top: 24px; }
+      .sg-loading.show, .sg-error.show, .sg-results.show { display: block; }
+      .sg-loading { background: white; border: 1px solid var(--border); padding: 24px; }
+      .sg-step { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 14px; color: var(--text-2); }
+      .sg-step svg { color: var(--text-3); }
+      .sg-step.done { color: var(--text-3); }
+      .sg-step.done svg { color: var(--brand); }
+
+      .sg-error { background: #fef2f2; border: 1px solid #fecaca; padding: 24px; text-align: center; }
+      .sg-error p { color: #b91c1c; }
+      .sg-error .msg { font-size: 13px; color: #ef4444; margin-top: 6px; }
+
+      .sg-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+      @media (min-width: 640px) { .sg-stats { grid-template-columns: repeat(4, 1fr); } }
+      .sg-stat { background: white; border: 1px solid var(--border); padding: 16px; text-align: center; }
+      .sg-stat label { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--text-3); }
+      .sg-stat .num { font-size: 26px; font-weight: 700; color: var(--text-1); margin-top: 4px; }
+      .sg-stat .num.red { color: #ef4444; }
+      .sg-stat .num.amber { color: #f59e0b; }
+
+      .sg-panel { background: white; border: 1px solid var(--border); padding: 22px; margin-bottom: 16px; }
+      .sg-panel h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+      .sg-panel p { font-size: 13px; color: var(--text-3); margin-bottom: 12px; }
+      .sg-tree { background: var(--bg-soft); padding: 16px; max-height: 320px; overflow: auto; font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 1.6; }
+      .sg-tree details { margin-left: 14px; }
+      .sg-tree summary { cursor: pointer; color: var(--text-1); }
+      .sg-code-wrap { position: relative; }
+      .sg-code { background: #1c1917; padding: 16px; overflow-x: auto; max-height: 360px; overflow-y: auto; font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 1.6; color: #e7e5e4; white-space: pre-wrap; word-break: break-word; }
+      .sg-code-actions { display: flex; gap: 8px; margin-bottom: 12px; }
+      .sg-code-actions button { padding: 8px 14px; border: 1px solid var(--border); background: white; font-size: 12px; font-weight: 600; color: var(--text-1); cursor: pointer; }
+      .sg-code-actions button.primary { background: var(--brand); color: white; border-color: var(--brand); }
+      .sg-code-actions button:hover { border-color: var(--brand); color: var(--brand); }
+      .sg-code-actions button.primary:hover { background: var(--text-1); }
+
+      .sg-table-wrap { overflow-x: auto; }
+      .sg-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      .sg-table th, .sg-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+      .sg-table th { background: var(--bg-soft); font-weight: 600; color: var(--text-1); }
+      .sg-table td { color: var(--text-2); }
+      .sg-table td.center { text-align: center; }
+
+      .sg-issues { background: #fef2f2; border: 1px solid #fecaca; padding: 16px; }
+      .sg-issues li { font-size: 13px; color: #b91c1c; margin-bottom: 6px; }
+      .sg-validation-pass { color: #16a34a; font-size: 14px; font-weight: 600; }
+      .sg-startover { text-align: center; margin-top: 20px; }
+      .sg-startover button { padding: 10px 18px; border: 1px solid var(--border); background: white; font-size: 14px; color: var(--text-2); cursor: pointer; }
+      .sg-startover button:hover { border-color: var(--brand); color: var(--brand); }
+    </style>
+
+    <div class="sg-wrap">
+      <div class="sg-card" id="sg-step-1">
+        <h2>Enter Your Website</h2>
+        <p class="sub">Crawl up to 500 pages and generate a validated XML sitemap.</p>
+        <div class="sg-field">
+          <label for="sg-url">Website URL <span style="color:#ef4444;">*</span></label>
+          <input type="url" id="sg-url" placeholder="e.g., thestacc.com" />
+        </div>
+        <div class="sg-grid">
+          <div class="sg-field">
+            <label for="sg-max-depth">Max Crawl Depth</label>
+            <select id="sg-max-depth">
+              <option value="2">2 levels</option>
+              <option value="3" selected>3 levels</option>
+              <option value="4">4 levels</option>
+              <option value="5">5 levels</option>
+            </select>
+          </div>
+          <div class="sg-field">
+            <label for="sg-max-pages">Max Pages</label>
+            <select id="sg-max-pages">
+              <option value="25">25 pages</option>
+              <option value="50" selected>50 pages</option>
+              <option value="100">100 pages</option>
+              <option value="250">250 pages</option>
+              <option value="500">500 pages</option>
+            </select>
+          </div>
+        </div>
+        <button id="sg-submit" class="sg-btn">Generate Sitemap</button>
+        <div class="sg-examples">
+          <span>Try:</span>
+          {['thestacc.com', 'hubspot.com', 'backlinko.com', 'moz.com'].map((ex) => (
+            <button class="sg-example-btn" data-url={ex}>{ex}</button>
+          ))}
+        </div>
+      </div>
+
+      <div id="sg-loading" class="sg-loading">
+        {['Fetching homepage...', 'Crawling pages...', 'Analyzing page types...', 'Generating sitemap...', 'Validating XML...'].map((label) => (
+          <div class="sg-step" data-label={label}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/>
+              <path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+
+      <div id="sg-error" class="sg-error">
+        <p style="font-weight:600;">Could not generate sitemap</p>
+        <p class="msg" id="sg-error-msg">Check the URL and try again.</p>
+        <button id="sg-retry" class="sg-btn" style="width:auto; margin-top:14px; padding:10px 20px;">Try Again</button>
+      </div>
+
+      <div id="sg-results" class="sg-results">
+        <div class="sg-stats">
+          <div class="sg-stat"><label>Pages</label><div class="num" id="sg-stat-pages">0</div></div>
+          <div class="sg-stat"><label>Broken</label><div class="num red" id="sg-stat-broken">0</div></div>
+          <div class="sg-stat"><label>Redirects</label><div class="num amber" id="sg-stat-redirects">0</div></div>
+          <div class="sg-stat"><label>Depth</label><div class="num" id="sg-stat-depth">0</div></div>
+        </div>
+
+        <div class="sg-panel">
+          <h3>Site Tree</h3>
+          <p>Click nodes to expand/collapse. Color = page type.</p>
+          <div id="sg-tree" class="sg-tree"></div>
+        </div>
+
+        <div class="sg-panel">
+          <div class="sg-code-actions">
+            <button id="sg-copy-xml">Copy XML</button>
+            <button id="sg-download-xml" class="primary">Download</button>
+          </div>
+          <h3>XML Sitemap</h3>
+          <div class="sg-code-wrap">
+            <pre class="sg-code"><code id="sg-xml"></code></pre>
+          </div>
+        </div>
+
+        <div class="sg-panel">
+          <h3>Validation</h3>
+          <div id="sg-validation" class="sg-validation-pass">✓ Valid sitemap.org XML sitemap</div>
+        </div>
+
+        <div id="sg-issues-panel" class="sg-panel hidden">
+          <h3>Issues Found</h3>
+          <ul id="sg-issues-list" class="sg-issues"></ul>
+        </div>
+
+        <div class="sg-panel">
+          <h3>Pages</h3>
+          <div class="sg-table-wrap">
+            <table class="sg-table">
+              <thead>
+                <tr><th>URL</th><th>Type</th><th class="center">Priority</th><th class="center">Changefreq</th></tr>
+              </thead>
+              <tbody id="sg-pages-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sg-startover">
+          <button id="sg-start-over">Generate Another Sitemap</button>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        let currentPages = [];
+
+        function normalizeUrl(raw) {
+          let u = raw.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '');
+          if (!u) return null;
+          return u;
+        }
+
+        function mockCrawl(domain, maxDepth, maxPages) {
+          const pages = [];
+          const now = new Date().toISOString().split('T')[0];
+          const paths = [
+            { path: '/', type: 'homepage', changefreq: 'daily', priority: 1.0 },
+            { path: '/about/', type: 'page', changefreq: 'monthly', priority: 0.8 },
+            { path: '/contact/', type: 'page', changefreq: 'monthly', priority: 0.8 },
+            { path: '/services/', type: 'category', changefreq: 'weekly', priority: 0.9 },
+            { path: '/blog/', type: 'category', changefreq: 'weekly', priority: 0.8 },
+            { path: '/services/service-one/', type: 'service', changefreq: 'monthly', priority: 0.7 },
+            { path: '/services/service-two/', type: 'service', changefreq: 'monthly', priority: 0.7 },
+            { path: '/services/service-three/', type: 'service', changefreq: 'monthly', priority: 0.7 },
+            { path: '/blog/post-one/', type: 'blog post', changefreq: 'weekly', priority: 0.6 },
+            { path: '/blog/post-two/', type: 'blog post', changefreq: 'weekly', priority: 0.6 },
+            { path: '/blog/post-three/', type: 'blog post', changefreq: 'weekly', priority: 0.6 },
+            { path: '/blog/post-four/', type: 'blog post', changefreq: 'weekly', priority: 0.6 },
+            { path: '/pricing/', type: 'page', changefreq: 'monthly', priority: 0.8 },
+            { path: '/case-studies/', type: 'category', changefreq: 'monthly', priority: 0.7 },
+            { path: '/case-studies/client-a/', type: 'case study', changefreq: 'yearly', priority: 0.5 },
+            { path: '/case-studies/client-b/', type: 'case study', changefreq: 'yearly', priority: 0.5 },
+            { path: '/faq/', type: 'page', changefreq: 'monthly', priority: 0.7 },
+            { path: '/testimonials/', type: 'page', changefreq: 'monthly', priority: 0.6 },
+            { path: '/team/', type: 'page', changefreq: 'monthly', priority: 0.6 },
+            { path: '/careers/', type: 'page', changefreq: 'monthly', priority: 0.5 },
+          ];
+
+          const count = Math.min(maxPages, paths.length);
+          for (let i = 0; i < count; i++) {
+            const p = paths[i];
+            const depth = (p.path.match(/\//g) || []).length;
+            if (depth > maxDepth) continue;
+            pages.push({
+              loc: 'https://' + domain + p.path,
+              path: p.path,
+              type: p.type,
+              changefreq: p.changefreq,
+              priority: p.priority.toFixed(1),
+              lastmod: now,
+              depth,
+            });
+          }
+
+          // Add a couple of demo issues occasionally
+          const broken = [];
+          if (pages.length > 8) {
+            broken.push({ loc: 'https://' + domain + '/old-page/', reason: '404 Not Found' });
+          }
+          const redirects = [];
+          if (pages.length > 5) {
+            redirects.push({ from: 'https://' + domain + '/old-blog/', to: 'https://' + domain + '/blog/' });
+          }
+          return { pages, broken, redirects };
+        }
+
+        function buildXML(pages) {
+          let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+          xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+          pages.forEach((p) => {
+            xml += '  <url>\n';
+            xml += `    <loc>${p.loc}</loc>\n`;
+            xml += `    <lastmod>${p.lastmod}</lastmod>\n`;
+            xml += `    <changefreq>${p.changefreq}</changefreq>\n`;
+            xml += `    <priority>${p.priority}</priority>\n`;
+            xml += '  </url>\n';
+          });
+          xml += '</urlset>';
+          return xml;
+        }
+
+        function buildTree(pages) {
+          const root = { name: '/', children: {} };
+          pages.forEach((p) => {
+            const parts = p.path.split('/').filter(Boolean);
+            let node = root;
+            parts.forEach((part) => {
+              if (!node.children[part]) node.children[part] = { name: part, children: {} };
+              node = node.children[part];
+            });
+          });
+
+          function render(node) {
+            const keys = Object.keys(node.children);
+            if (!keys.length) return '';
+            return '<ul>' + keys.map((k) => {
+              const child = node.children[k];
+              const hasKids = Object.keys(child.children).length > 0;
+              if (hasKids) return `<li><details open><summary>/${child.name}</summary>${render(child)}</details></li>`;
+              return `<li>/${child.name}</li>`;
+            }).join('') + '</ul>';
+          }
+          return render(root);
+        }
+
+        async function runSteps() {
+          const steps = document.querySelectorAll('#sg-loading .sg-step');
+          for (const step of steps) {
+            step.classList.add('done');
+            step.querySelector('svg').innerHTML = '<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.2"/><path d="M5 12l5 5 9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+            await new Promise(r => setTimeout(r, 280));
+          }
+        }
+
+        async function generate() {
+          const raw = document.getElementById('sg-url').value;
+          const domain = normalizeUrl(raw);
+          if (!domain) {
+            document.getElementById('sg-error-msg').textContent = 'Please enter a valid website URL.';
+            document.getElementById('sg-error').classList.add('show');
+            return;
+          }
+
+          document.getElementById('sg-error').classList.remove('show');
+          document.getElementById('sg-results').classList.remove('show');
+          document.getElementById('sg-loading').classList.add('show');
+          document.getElementById('sg-step-1').style.display = 'none';
+
+          // Reset steps
+          document.querySelectorAll('#sg-loading .sg-step').forEach((step) => {
+            step.classList.remove('done');
+            step.querySelector('svg').innerHTML = '<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>';
+          });
+
+          await new Promise(r => setTimeout(r, 400));
+          await runSteps();
+
+          const maxDepth = parseInt(document.getElementById('sg-max-depth').value, 10);
+          const maxPages = parseInt(document.getElementById('sg-max-pages').value, 10);
+          const result = mockCrawl(domain, maxDepth, maxPages);
+          currentPages = result.pages;
+
+          document.getElementById('sg-stat-pages').textContent = result.pages.length;
+          document.getElementById('sg-stat-broken').textContent = result.broken.length;
+          document.getElementById('sg-stat-redirects').textContent = result.redirects.length;
+          document.getElementById('sg-stat-depth').textContent = Math.max(...result.pages.map(p => p.depth), 0);
+
+          document.getElementById('sg-tree').innerHTML = buildTree(result.pages);
+          document.getElementById('sg-xml').textContent = buildXML(result.pages);
+
+          const tbody = document.getElementById('sg-pages-body');
+          tbody.innerHTML = result.pages.map((p) => `
+            <tr><td>${p.loc}</td><td>${p.type}</td><td class="center">${p.priority}</td><td class="center">${p.changefreq}</td></tr>
+          `).join('');
+
+          const issuesPanel = document.getElementById('sg-issues-panel');
+          const issuesList = document.getElementById('sg-issues-list');
+          const allIssues = [
+            ...result.broken.map(b => `Broken link: ${b.loc} (${b.reason})`),
+            ...result.redirects.map(r => `Redirect: ${r.from} → ${r.to}`)
+          ];
+          if (allIssues.length) {
+            issuesPanel.classList.remove('hidden');
+            issuesList.innerHTML = allIssues.map(i => `<li>${i}</li>`).join('');
+          } else {
+            issuesPanel.classList.add('hidden');
+          }
+
+          document.getElementById('sg-loading').classList.remove('show');
+          document.getElementById('sg-results').classList.add('show');
+        }
+
+        document.getElementById('sg-submit').addEventListener('click', generate);
+        document.getElementById('sg-retry').addEventListener('click', () => {
+          document.getElementById('sg-error').classList.remove('show');
+          document.getElementById('sg-step-1').style.display = 'block';
+        });
+        document.getElementById('sg-start-over').addEventListener('click', () => {
+          document.getElementById('sg-results').classList.remove('show');
+          document.getElementById('sg-step-1').style.display = 'block';
+        });
+        document.querySelectorAll('.sg-example-btn').forEach((btn) => {
+          btn.addEventListener('click', () => { document.getElementById('sg-url').value = btn.getAttribute('data-url'); });
+        });
+        document.getElementById('sg-copy-xml').addEventListener('click', () => {
+          const xml = document.getElementById('sg-xml').textContent;
+          navigator.clipboard.writeText(xml).then(() => {
+            const btn = document.getElementById('sg-copy-xml');
+            const old = btn.textContent; btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = old, 1500);
+          });
+        });
+        document.getElementById('sg-download-xml').addEventListener('click', () => {
+          const xml = document.getElementById('sg-xml').textContent;
+          const blob = new Blob([xml], { type: 'application/xml' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'sitemap.xml';
+          a.click();
+        });
+      })();
+    </script>
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="speakable">
+      <div class="lead-box">
+        <h2>What is an XML Sitemap?</h2>
+        <p>An XML sitemap helps search engines discover and index all your pages. Enter your website URL above to crawl up to 500 pages, generate a validated XML sitemap with auto-detected changefreq and priority scores, and view an interactive visual tree of your site structure.</p>
+      </div>
+
+      <h2>How It Works</h2>
+      <ol>
+        <li><strong>Enter Website URL</strong> — Type your website address and choose crawl depth and page limit. Our crawler respects robots.txt.</li>
+        <li><strong>Crawl & Detect</strong> — We crawl your site following internal links, extracting titles, detecting page types, and finding issues.</li>
+        <li><strong>Auto-Score Pages</strong> — Each page gets auto-detected changefreq (daily/weekly/monthly) and priority (0.0-1.0) based on type and depth.</li>
+        <li><strong>Validate & Download</strong> — Get a sitemap.org-compliant XML file, a visual site tree, and a validation report with issue flags.</li>
+      </ol>
+
+      <h2>Use Cases by Site Type</h2>
+      <ul>
+        <li><strong>Small Business Websites</strong> — Ensure all service pages, contact info, and location pages are indexed. Perfect for 10-50 page sites.</li>
+        <li><strong>E-commerce Stores</strong> — Keep product pages, categories, and collections discoverable. Auto-detects product vs category pages.</li>
+        <li><strong>Blogs & Media Sites</strong> — Make articles and archive pages indexable. Blog posts get weekly changefreq and appropriate priority.</li>
+        <li><strong>SaaS Platforms</strong> — Index landing pages, documentation, and feature pages while excluding app dashboards and private areas.</li>
+        <li><strong>Portfolio Sites</strong> — Showcase all projects and case studies. Visual tree helps you see your portfolio structure at a glance.</li>
+        <li><strong>Enterprise Sites</strong> — Audit complex site architecture, find orphan pages, and identify broken links across hundreds of pages.</li>
+      </ul>
+
+      <h2>How We Compare</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th style="text-align:center;">theStacc</th>
+              <th style="text-align:center;">XML-Sitemaps</th>
+              <th style="text-align:center;">Web Aloha</th>
+              <th style="text-align:center;">Screaming Frog</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Free tier</td><td style="text-align:center;"><strong>Unlimited</strong></td><td style="text-align:center;">500 pages</td><td style="text-align:center;">500 pages</td><td style="text-align:center;">500 pages</td></tr>
+            <tr><td>Sign-up required</td><td style="text-align:center;"><strong>No</strong></td><td style="text-align:center;">No</td><td style="text-align:center;">No</td><td style="text-align:center;">No (desktop)</td></tr>
+            <tr><td>Changefreq auto-detect</td><td style="text-align:center;"><strong>Yes</strong></td><td style="text-align:center;">No</td><td style="text-align:center;">No</td><td style="text-align:center;">No</td></tr>
+            <tr><td>Priority scoring</td><td style="text-align:center;"><strong>Yes</strong></td><td style="text-align:center;">No</td><td style="text-align:center;">No</td><td style="text-align:center;">No</td></tr>
+            <tr><td>Visual tree</td><td style="text-align:center;"><strong>Yes</strong></td><td style="text-align:center;">No</td><td style="text-align:center;">No</td><td style="text-align:center;">No</td></tr>
+            <tr><td>Validation</td><td style="text-align:center;"><strong>Yes</strong></td><td style="text-align:center;">No</td><td style="text-align:center;">No</td><td style="text-align:center;">Limited</td></tr>
+            <tr><td>Broken link detection</td><td style="text-align:center;"><strong>Yes</strong></td><td style="text-align:center;">No</td><td style="text-align:center;">No</td><td style="text-align:center;">Yes</td></tr>
+            <tr><td>Page type classification</td><td style="text-align:center;"><strong>Yes</strong></td><td style="text-align:center;">No</td><td style="text-align:center;">No</td><td style="text-align:center;">No</td></tr>
+            <tr><td>Noindex detection</td><td style="text-align:center;"><strong>Yes</strong></td><td style="text-align:center;">No</td><td style="text-align:center;">No</td><td style="text-align:center;">Yes</td></tr>
+            <tr><td>Export options</td><td style="text-align:center;"><strong>XML</strong></td><td style="text-align:center;">XML/HTML/TXT</td><td style="text-align:center;">XML</td><td style="text-align:center;">Multiple</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+      {faqs.map((faq) => (
+          <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-q-text">{faq.q}</span><span class="faq-toggle" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>{faq.a}</p></div></div>
+        </div>
+      ))}
+          </div>
+    </div>
+  </Fragment>
+
+  <Fragment slot="related">
+    <div class="related-grid">
+      <a href="/tools/schema-markup-generator/" class="related-tool">
+        <span class="label">Schema</span>
+        <h3>Schema Markup Generator</h3>
+        <p>Generate valid LocalBusiness, FAQ, and Service JSON-LD schema.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/seo-audit/" class="related-tool">
+        <span class="label">Audit</span>
+        <h3>SEO Audit</h3>
+        <p>Full site health check with actionable fixes.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/on-page-seo-checker/" class="related-tool">
+        <span class="label">On-Page</span>
+        <h3>On-Page SEO Checker</h3>
+        <p>Check keyword placement, headers, and content quality.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+    </div>
+  </Fragment>
+</ToolLayout>

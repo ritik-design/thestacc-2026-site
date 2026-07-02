@@ -1,0 +1,393 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "What data syncs from Google Business Profile to Stacc?",
+    a: "Business name, address, phone number, hours, categories, services, photos, posts, and reviews. Review responses can be drafted and published through Stacc. Profile completeness scores and missing field alerts update automatically whenever Google's profile data changes.",
+  },
+  {
+    q: "How often does review data update?",
+    a: "Review monitoring is real-time. New reviews appear in Stacc within minutes of being published on Google. You receive an instant alert — with the review text, star rating, and reviewer name — the moment it lands.",
+  },
+  {
+    q: "Can I schedule GBP posts in advance?",
+    a: "Yes. Write posts and schedule them to publish at specific dates and times, to individual locations or bulk-published to all connected locations simultaneously. You can also set a recurring posting schedule and let Stacc generate and publish content automatically on a cadence you control.",
+  },
+  {
+    q: "Can I manage multi-location GBP accounts?",
+    a: "Yes. Connect as many locations as you operate. All locations appear in a single dashboard. Bulk-publish a post to all locations at once, update hours across every location in a single action, or manage each location individually. Add more locations at any time.",
+  },
+  {
+    q: "Is the GBP integration available on all plans?",
+    a: "Google Business Profile connection is available on all Stacc plans including Starter. The number of connected locations may vary by plan. All plans include real-time review monitoring, post scheduling, and profile health tracking.",
+  },
+  {
+    q: "Does Stacc use OAuth or does it store my Google password?",
+    a: "Stacc uses Google OAuth exclusively. You authenticate through Google's own login — Stacc never sees or stores your password. You can revoke access from your Google Account settings at any time.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Google Business Profile Integration",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Connect Google Business Profile to Stacc. Manage every location's GBP from one dashboard — automated posts, real-time review alerts, bulk updates.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Integrations", "item": "https://thestacc.com/integrations/" },
+        { "@type": "ListItem", "position": 3, "name": "Google Business Profile", "item": "https://thestacc.com/integrations/google-business-profile/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Google Business Profile Integration — Manage Every Location from One Dashboard | theStacc"
+  description="Connect Google Business Profile to theStacc. Manage posts, reviews, and profile updates across every location from one dashboard. Setup takes 2 minutes."
+
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Integration · Google Business Profile</span>
+          </div>
+
+          <!-- Dual logo bridge -->
+          <div class="mb-8 flex items-center justify-center gap-5">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-label="theStacc" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="4" fill="#4f39f6"/>
+                <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+            </div>
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-label="Google" aria-hidden="true">
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" fill="#4285F4"/>
+                <path d="M17.04 12.2c0-.4-.04-.8-.1-1.2H12v2.28h2.84c-.12.66-.5 1.22-1.06 1.6v1.32h1.72c1-.94 1.54-2.32 1.54-4z" fill="#4285F4"/>
+                <path d="M12 18c1.44 0 2.64-.48 3.52-1.28l-1.72-1.32c-.48.32-1.08.52-1.8.52-1.38 0-2.56-.94-2.98-2.2H7.26v1.36C8.14 16.94 9.96 18 12 18z" fill="#34A853"/>
+                <path d="M9.02 13.72c-.1-.32-.16-.66-.16-1.02s.06-.7.16-1.02V10.3H7.26C6.9 10.96 6.7 11.7 6.7 12.7s.2 1.72.56 2.38l1.76-1.36z" fill="#FBBC05"/>
+                <path d="M12 9.5c.78 0 1.48.26 2.02.78l1.52-1.52C14.64 7.88 13.44 7.3 12 7.3c-2.04 0-3.86 1.06-4.74 2.62l1.76 1.36C9.44 10.44 10.62 9.5 12 9.5z" fill="#EA4335"/>
+              </svg>
+            </div>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Stacc + Google Business Profile.<br />
+            <span style="color:#4f39f6;">Every location, one dashboard.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Connect your Google Business Profile once. Stacc handles the posts, monitors your reviews in real time, flags profile inconsistencies, and tracks your Maps rankings — for every location, automatically.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Connect GBP free for $1
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#how-to-connect"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              See how it works
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            OAuth secured · Setup in 2 minutes · Works for 1 or 100 locations
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHAT THIS DOES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">What you get</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Connect GBP once. Everything runs<br />automatically after that.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z', title: 'Publish posts to all locations at once', body: 'Write one post. Publish it to 1 location or all 100 simultaneously. No logging into separate GBP accounts. No copy-paste. One action, everywhere done.' },
+            { icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z', title: 'Real-time review alerts', body: 'New reviews appear in Stacc within minutes of landing on Google. You get an instant alert with the review text, star rating, and a response template ready to go.' },
+            { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Profile health monitoring', body: 'Incomplete fields, inconsistent hours, missing photos — Stacc flags profile gaps automatically so your listings stay complete and your ranking signals stay strong.' },
+            { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Bulk edit hours and info', body: 'Update business hours, phone numbers, and descriptions across every location in a single action. Holiday hours pushed to 50 locations in 30 seconds.' },
+            { icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', title: 'Maps ranking correlation', body: 'See how your GBP post activity and profile completeness correlates with your local pack and Maps ranking position, week over week.' },
+            { icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', title: 'GBP performance reporting', body: 'Views, clicks, direction requests, and calls — GBP insight data pulled automatically and included in your client reports every week.' },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SETUP STEPS ─── -->
+    <section id="how-to-connect" class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">How to connect</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            3 steps. Takes 2 minutes.<br />Runs itself after that.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+          {[
+            { n: '01', icon: 'M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z', title: 'Authenticate with Google', body: 'Sign in with the Google account that manages your Business Profiles. Stacc uses OAuth — your password is never stored or shared. You can revoke access from Google Account settings at any time.' },
+            { n: '02', icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', title: 'Select your locations', body: 'Choose which locations to connect — one or all of them. Each location appears in Stacc as its own entity with its own dashboard, content calendar, and performance tracking.' },
+            { n: '03', icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Everything runs automatically', body: 'Posts publish on schedule. Reviews alert in real time. Profile health scores update daily. Rankings track weekly. You manage the strategy. Stacc manages the execution.' },
+          ].map(s => (
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={s.icon}/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">{s.n}</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{s.title}</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">{s.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <p class="mt-6 text-center font-mono text-[11px] uppercase tracking-[0.14em] text-[#79716b]">
+          Average setup time: 2 minutes · No technical knowledge required
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ─── BEFORE / AFTER TABLE ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">What gets automated</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Every manual GBP task — handled.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Every item in this table is something you're doing by hand today. After connecting GBP to Stacc, all of it runs automatically.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-4xl overflow-hidden rounded-2xl border border-[#e7e5e4]">
+          <div class="grid grid-cols-2 bg-[#f5f3ff] border-b border-[#e7e5e4]">
+            <div class="px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-[#6b7280]">Without Stacc</div>
+            <div class="border-l border-[#4f39f6] bg-[#4f39f6] px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-white">With Stacc</div>
+          </div>
+          {[
+            { before: 'Log into each GBP account individually', after: 'One dashboard for all locations' },
+            { before: 'Publish posts to each location separately', after: 'Write once, publish to all — scheduled or immediate' },
+            { before: 'Check for new reviews by refreshing GBP', after: 'Real-time alert within minutes of a new review' },
+            { before: 'Manually audit each profile for completeness', after: 'Automated health score + missing field alerts' },
+            { before: 'Update business hours location by location', after: 'Bulk edit — update all locations in one action' },
+            { before: 'Export GBP data to build client reports', after: 'GBP data flows into automated client reports' },
+          ].map((row, i) => (
+            <div class={`grid grid-cols-2 border-t border-[#e7e5e4] ${i % 2 === 0 ? 'bg-white' : 'bg-[#fafaf9]'}`}>
+              <div class="px-6 py-4 flex items-center gap-3">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <span class="font-sans text-[13px] text-[#6b7280]">{row.before}</span>
+              </div>
+              <div class="border-l border-[#c7c0fc] bg-[#f5f3ff] px-6 py-4 flex items-center gap-3">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                <span class="font-sans text-[13px] font-semibold text-[#4f39f6]">{row.after}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── USE CASES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Who uses this</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Built for teams managing<br />GBP at any scale.
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-5 md:grid-cols-3">
+          {[
+            { type: 'Agencies', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', desc: 'Each client\'s GBP accounts live in a separate workspace. Post content, monitor reviews, and report on GBP health for every client — without logging into their individual Google accounts.', highlight: 'White-label reports included' },
+            { type: 'Multi-location businesses', icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z M9 22V12h6v10', desc: 'Manage GBP for 10 or 100 locations with the same effort as 1. Push holiday hours everywhere at once. Publish a promotion across all locations simultaneously. Monitor all reviews from a single feed.', highlight: 'All locations, one dashboard' },
+            { type: 'Single-location businesses', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z', desc: 'Connect your GBP once. Set a posting schedule. Get instant review alerts. Stop logging in manually — Stacc handles the ongoing upkeep while you run the business.', highlight: 'Runs on autopilot' },
+          ].map(u => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-8">
+              <div class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={u.icon}/></svg>
+              </div>
+              <p class="font-sans text-[15px] font-semibold text-[#111827]">{u.type}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#57534e]">{u.desc}</p>
+              <div class="mt-4 inline-flex items-center gap-2 rounded-full bg-[#f5f3ff] px-3 py-1.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+                <span class="font-mono text-[10px] font-semibold text-[#4f39f6]">{u.highlight}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED INTEGRATIONS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Related integrations</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Stacc connects to your whole stack.
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-3">
+          {[
+            { name: 'Facebook', desc: 'Manage your Facebook Business Page posts from the same dashboard as your GBP. Write once, publish everywhere.', href: '/integrations/facebook/' },
+            { name: 'Instagram', desc: 'Schedule Instagram content in the same posting workflow as your GBP posts. One queue, all platforms.', href: '/integrations/instagram/' },
+            { name: 'WordPress', desc: 'Track the SEO performance of every page on your WordPress site alongside your GBP activity.', href: '/integrations/wordpress/' },
+          ].map(r => (
+            <a href={r.href} class="group rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6 transition-all hover:border-[#c7c0fc] hover:bg-white">
+              <p class="font-sans text-[15px] font-semibold text-[#111827]">{r.name}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.6] text-[#57534e]">{r.desc}</p>
+              <div class="mt-4 flex items-center gap-2">
+                <span class="font-mono text-[12px] font-semibold text-[#4f39f6]">View integration</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div class="mt-8 text-center">
+          <a href="/modules/local-seo/" class="font-mono text-[12px] font-semibold text-[#4f39f6] hover:underline">See the full Local SEO module →</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">FAQ</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Questions about the GBP integration
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left" aria-expanded={i === 0 ? 'true' : 'false'}>
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.08) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.03) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Stop managing GBP manually.</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-[#292524] md:text-[2.75rem]">
+            Every location you manage manually<br class="hidden md:block" /> is 20 minutes you're not getting back.
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Connect GBP to Stacc and let the automation handle it. Posts publish on schedule. Reviews alert in real time. Profile health monitors itself. Setup takes 2 minutes. The time it saves runs forever.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Connect Google Business Profile — $1
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <div class="mt-6 inline-flex items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-[#292524]/60">Setup in 2 minutes · Disconnect anytime · No credit card to start</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+</BaseLayout>

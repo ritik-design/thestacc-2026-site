@@ -1,0 +1,249 @@
+---
+title: "Google AI Overview Stats 2026: CTR Drops and Recovery Data"
+description: "61% CTR drops and 85% recovery analyzed. Complete Google AI Overview statistics for 2026 — data from Seer Interactive, Ahrefs, and Pew Research."
+slug: "google-ai-overview-statistics-2026"
+keyword: "AI Overview statistics 2026"
+author: "Sarah Chen"
+authorRole: "Content Strategist"
+reviewedBy: "Stacc Editorial Team"
+reviewerRole: "Content Review Board"
+expertise: "SEO Analytics, Content Strategy, Search Trends"
+date: "2026-05-18"
+lastUpdated: "2026-05-18"
+factChecked: true
+category: "SEO Tips"
+image: "/blogs-preview-images/google-ai-overview-statistics-2026.png"
+---
+
+# Google AI Overview Stats 2026: CTR Drops and Recovery Data
+
+**Last updated: May 2026**
+
+Organic click-through rates collapsed when Google AI Overviews expanded across search results in 2025. Then something unexpected happened in early 2026: CTR began climbing back. This post compiles the latest data from studies covering 2.43 billion impressions, 300,000 keywords, and 68,000 tracked searches to show exactly what changed — and what it means for your traffic.
+
+## Key AI Overview Statistics at a Glance
+
+| Statistic | Figure | Source | Date |
+|---|---|---|---|
+| Organic CTR drop when AIO present | 34–61% | Seer Interactive, Ahrefs | 2025–2026 |
+| CTR recovery from December 2025 floor | 85% | Seer Interactive | Feb 2026 |
+| AIO prevalence in US searches | 25–48% | Semrush, BrightEdge | Q1 2026 |
+| Zero-click rate with AIO present | 72–83% | Pew Research, SparkToro | 2025–2026 |
+| Average AI Overview height | 1,200+ pixels | ALM Corp | Mar 2026 |
+| Citation advantage for cited brands | +35% CTR | Ahrefs | 2026 |
+| Position 1 CTR drop with AIO | 30.6% | Visionary Marketing | Mar 2026 |
+| Comparison query AIO trigger rate | 95.4% | Seer Interactive | Feb 2026 |
+| Question query AIO trigger rate | 85.9% | Seer Interactive | Feb 2026 |
+| Branded query CTR change with AIO | +18% | Amsive | 2025 |
+
+## How Prevalent Are AI Overviews in 2026?
+
+Google AI Overviews now appear on approximately 25% to 48% of all US search queries, depending on the data source and methodology. This represents one of the fastest feature rollouts in Google's history.
+
+Semrush data tracked AI Overview presence growing from 6.49% of queries in January 2025 to a peak of roughly 25% by July 2025, then stabilizing around 15–16% by November 2025. BrightEdge reported a 58% year-over-year increase in AIO coverage between February 2025 and February 2026, with approximately 48–50% of tracked queries showing an AI Overview as of Q1 2026. Conductor's analysis of 21.9 million searches showed 25.11% triggering an AI Overview by Q1 2026.
+
+The variation in these figures stems from differences in query sampling. Studies tracking head terms report lower AIO rates, while those including long-tail informational queries report higher rates. SE Ranking found that 68% of AI Overview triggers receive fewer than 100 searches per month, meaning the feature disproportionately affects low-volume, high-intent informational queries.
+
+Google has expanded AI Overviews to over 200 countries and 40 languages, reaching an estimated 2 billion monthly users. The feature is not distributed evenly across query types. Informational queries see AI Overviews on roughly 36% of searches, while transactional queries see them on only about 5%. Comparison queries — "X vs Y" searches — trigger AI Overviews on 95.4% of searches.
+
+![AI Overview prevalence growth chart showing increase from 6.49% in January 2025 to 25-48% in Q1 2026 across multiple data sources](/images/blog/ai-overview-prevalence-growth-2026.png)
+
+*AI Overview prevalence has grown dramatically since January 2025, with estimates converging around 25-30% of all US searches by early 2026.*
+
+## The CTR Drop: How Much Traffic Did Sites Actually Lose?
+
+The impact of AI Overviews on organic click-through rates has been severe, though the exact magnitude varies by study methodology and query type.
+
+Seer Interactive's longitudinal study — the largest of its kind, analyzing 53 brands, 5.47 million queries, and 2.43 billion impressions from January 2025 to February 2026 — found that organic CTR on AI Overview-present queries dropped from 1.76% in Q3 2025 to 0.61% in Q4 2025. That is a 65% decline in a single quarter. The December 2025 floor of 1.3% represented the lowest point.
+
+Ahrefs analyzed 300,000 keywords and 4 million AI Overview URLs, finding that top-ranking pages experienced a 58% lower CTR when an AI Overview appeared. Visionary Marketing's study of 21.7 million Google Search Console impressions found that Position 1 CTR fell from 39.8% to 27.6% — a 30.6% drop — when an AI Overview was present.
+
+Pew Research Center tracked 68,879 searches from 900 US adults and found that users clicked only 8% of the time when an AI Overview appeared, versus 15% when no AI Overview was present. That is a 46.7% relative reduction in click behavior.
+
+The worst-case scenarios have been extreme. DMG Media reported that desktop CTR for one property dropped from 25.23% to 2.79% when an AI Overview surfaced above a visible link — an 89% decline. The UK Competition and Markets Authority documented similar patterns across multiple publisher properties.
+
+## The 2026 Recovery: Why CTR Is Bouncing Back
+
+After bottoming in December 2025, organic CTR on AI Overview-present queries began a notable recovery. By February 2026, CTR had climbed from 1.3% to 2.4% — an 85% increase over two months.
+
+Several factors appear to drive this recovery. Google adjusted AI Overview formatting to include more prominent inline links and source citations. Users have adapted to the feature, developing new search behaviors that include clicking through to source pages more frequently. The composition of queries triggering AI Overviews has shifted, with fewer extreme zero-click scenarios.
+
+The recovery is not uniform. Seer Interactive's data shows that queries without AI Overviews maintained a higher CTR of 3.82% in February 2026, compared to 2.36% for queries with AI Overviews present. The gap persists at roughly 37%, suggesting a permanent structural change rather than a temporary disruption.
+
+Non-AIO query CTR has actually improved over the same period, rising from 2.8% in early 2025 to 3.8% by February 2026. This suggests a selection effect: as AI Overviews absorb lower-intent informational queries, the remaining non-AIO searches represent higher-intent users who are more likely to click.
+
+> **Track your AI Overview visibility before your competitors do.** The difference between being cited and not being cited in an AI Overview is now a 120% swing in organic clicks per impression. Stacc monitors AI Overview citations across your keyword portfolio and flags new citation opportunities as they appear.
+> [Run a free AI Overview visibility check](/tools/seo-audit/)
+
+## Zero-Click Search Rates in the AI Overview Era
+
+Zero-click searches — queries where the user never clicks any result — have increased substantially with AI Overview expansion.
+
+SparkToro and Datos data from Q1 2026 showed the US zero-click rate fell from 24.5% to 22.4%, suggesting some stabilization. However, when an AI Overview is present, the zero-click rate jumps dramatically. Pew Research found that 72% of searches with AI Overviews ended without a click to any website. Some studies report zero-click rates as high as 83% when AI Overviews are present.
+
+Google's AI Mode — the more advanced conversational search experience — shows even higher zero-click behavior. Early data suggests a 93% zero-click rate for AI Mode interactions, where the AI generates multi-paragraph answers that satisfy user intent without requiring any external navigation.
+
+The Indian School of Business and Carnegie Mellon published research in March 2026 showing that AI Overviews cut organic clicks by 38% overall, with zero-click searches jumping from 54% to 72% in their sample. This aligns with broader industry observations that AI Overviews satisfy informational intent directly on the search results page.
+
+## Which Queries and Industries Are Hit Hardest?
+
+AI Overview impact is not uniform across query types or industries. The data reveals clear patterns about where the disruption is concentrated.
+
+**Query-type vulnerability:**
+
+| Query Type | AIO Trigger Rate | CTR Impact at Position 1 |
+|---|---|---|
+| Comparison ("X vs Y") | 95.4% | -55% to -61% |
+| Question format ("how to", "what is") | 85.9% | -55% to -61% |
+| Informational ("near me" variants) | 76.9% | -40% to -50% |
+| Single-word queries | 27.3% | -15% to -20% |
+| Transactional ("buy", "order") | ~5% | Minimal |
+| Navigational/branded | ~14% | -8% |
+
+**Industry exposure:**
+
+B2B technology faces the highest disruption, with approximately 70% of queries triggering AI Overviews. Healthcare, education, and finance follow closely behind. E-commerce is relatively protected, with only about 4% of product queries showing AI Overviews. Local service queries see AI Overviews on roughly 7% of searches.
+
+The Daily Mail's experience illustrates the publisher impact. When AI Overviews appeared above their content, desktop CTR dropped from 25.23% to 2.79%. Mobile traffic fell by 87%. Chegg reported a 49% decline in non-subscriber traffic between January 2024 and January 2025, attributing much of the loss to AI-generated answers satisfying user queries directly in search results.
+
+![Industry AI Overview exposure chart showing B2B tech at 70%, healthcare and education at high levels, e-commerce at only 4%](/images/blog/ai-overview-industry-exposure-2026.png)
+
+*Industry exposure to AI Overviews varies dramatically, with B2B technology facing 70% query coverage while e-commerce remains largely unaffected.*
+
+## The Citation Advantage: Why Being Cited Changes Everything
+
+The most important strategic insight from 2026 data is the dramatic difference between being cited in an AI Overview and not being cited.
+
+Ahrefs found that brands cited in AI Overviews receive approximately 35% more organic clicks than non-cited brands appearing in the same SERP. When cited, brands also see 91% more paid clicks. Position Digital's analysis showed that when a brand is cited in an AI Overview, organic CTR is 35% higher than when the same brand ranks well but is not cited.
+
+Seer Interactive's data reveals an even starker divide. In February 2026, queries with AI Overviews where the brand was cited showed organic CTR of approximately 2.1%, while queries where the brand was not cited showed CTR of roughly 0.9%. That is a 133% difference.
+
+Critically, only 38% of AI-cited pages actually rank in Google's top 10 organic results. A page ranking at position 15 or 20 can be cited in an AI Overview while a competitor at position 2 receives no citation. This decouples traditional ranking from AI visibility in ways that fundamentally change SEO strategy.
+
+Brands that achieve AI Overview citations also see secondary benefits. Amsive research found that cited brands experience a 23% lift in branded search volume within 30 days of first citation. The AI Overview acts as a brand awareness mechanism even when users do not click through.
+
+## AI Overview Format Changes in 2026
+
+Google has made several adjustments to AI Overview formatting throughout 2025 and 2026, each affecting CTR dynamics.
+
+The average AI Overview now exceeds 1,200 pixels in height, up from approximately 1,050 pixels a year earlier — a 15% increase. This pushes organic results further down the page. The first organic result now appears at roughly 1,674 pixels below the top of the page when an AI Overview is expanded.
+
+On May 6, 2026, Google announced five updates to AI Overviews and AI Mode:
+
+1. Inline links next to bullet points within AI-generated answers
+2. Hover previews on desktop showing source page snippets
+3. A "Subscribed" label for news publication subscribers
+4. Article suggestions at the end of AI-generated answers
+5. Community Perspectives featuring Reddit and forum quotes
+
+These changes are widely viewed as responses to publisher pressure and regulatory scrutiny. While they improve click-through opportunities, the fundamental dynamic — AI-generated answers satisfying user intent on the search results page — remains unchanged.
+
+Advertising within AI Overviews has also expanded. Approximately 25.5% of AI Overview results now include ads, up from 5.17% in early 2025 — a 394% increase. US AI search ad spend is forecast to reach $2.08 billion in 2026 and $25.93 billion by 2029.
+
+![AI Overview CTR recovery chart showing the drop from 1.76% to 0.61% in Q4 2025 and recovery to 2.4% by February 2026](/images/blog/ai-overview-ctr-recovery-2026.png)
+
+*Organic CTR on AI Overview-present queries dropped to a December 2025 floor of 1.3%, then recovered 85% to 2.4% by February 2026 — though a gap remains versus non-AIO queries.*
+
+## What the Data Means for Your SEO Strategy
+
+The 2026 AI Overview data points to several clear strategic priorities.
+
+**Optimize for citation, not just ranking.** Traditional position-based SEO is insufficient. Pages need clear, quotable answer blocks that Google's AI can extract and cite. This means leading sections with standalone 40–60 word answers, using FAQ and HowTo schema markup, and structuring content with clear definitions and step-by-step instructions.
+
+**Target non-AIO query types.** Transactional, navigational, and branded queries show minimal AI Overview presence and higher CTR. Shifting content strategy toward these query types can protect traffic.
+
+**Build brand search volume.** Brands cited in AI Overviews see measurable lifts in branded search. Investing in brand awareness creates a virtuous cycle where AI citations drive more branded searches, which in turn improves the likelihood of future citations.
+
+**Monitor AI Overview presence by query segment.** Use Google Search Console's Search Appearance filters to track which queries trigger AI Overviews and how CTR changes over time. Segment analysis reveals which parts of your keyword portfolio are most vulnerable.
+
+**Structure for AI citability.** Content that earns AI Overview citations shares common traits: clear opening sentences that answer the query directly, bulleted or numbered lists for procedural content, tables for comparative data, and authoritative sourcing with named attribution.
+
+![Citation advantage comparison showing cited brands at +35% CTR versus non-cited brands facing -67% declines](/images/blog/ai-overview-citation-advantage-2026.png)
+
+*Being cited in an AI Overview delivers a 35% organic CTR boost, while non-cited brands in the same SERP see dramatic click losses.*
+
+> **Stop guessing whether AI Overviews are eating your traffic.** Stacc's SEO audit shows exactly which of your keywords trigger AI Overviews, whether your pages are being cited, and what your CTR looks like before and after AIO appearance. Most teams discover 20–40% of their traffic is at risk and do not know it.
+> [Get your free SEO audit report](/tools/seo-audit/)
+
+## Methodology and Data Sources
+
+This article synthesizes data from the following primary sources, all published between January 2025 and May 2026:
+
+- **Seer Interactive:** 53 brands, 5.47 million queries, 2.43 billion organic impressions, 296.9 million paid impressions, January 2025–February 2026
+- **Ahrefs:** 300,000 keywords, 4 million AI Overview URLs
+- **Pew Research Center:** 900 US adults, 68,879 tracked searches
+- **Visionary Marketing:** 21.7 million Google Search Console impressions
+- **BrightEdge:** Q4 2025–Q1 2026 tracking data
+- **Semrush:** 10 million keyword study
+- **ALM Corp:** Industry benchmark data, March 2026
+- **SparkToro/Datos:** Q1 2026 zero-click analysis
+- **Amsive:** Brand citation impact study
+- **Indian School of Business/Carnegie Mellon:** March 2026 academic research
+
+Statistics are dated to their publication or data collection period. Where multiple sources report similar metrics, ranges are provided. All external sources are linked where available online.
+
+## Frequently Asked Questions
+
+**How much did AI Overviews drop organic CTR in 2025?**
+
+Organic CTR on AI Overview-present queries dropped 34% to 61% depending on the study. Seer Interactive measured a 65% drop from 1.76% to 0.61% in Q4 2025. Ahrefs found a 58% drop for top-ranking pages. Pew Research documented a 46.7% relative decline in user click behavior.
+
+**Has organic CTR recovered in 2026?**
+
+Yes, partially. After bottoming at 1.3% in December 2025, organic CTR on AIO-present queries recovered to 2.4% by February 2026 — an 85% increase. However, this remains below pre-AIO baselines of 3.2%, and a 37% gap persists between AIO and non-AIO query CTR.
+
+**What percentage of searches show AI Overviews in 2026?**
+
+Estimates range from 25% to 48% of US searches, depending on the data source. Semrush reports approximately 15–25%, BrightEdge reports 48–50%, and Conductor reports 25.11%. The variation reflects differences in query sampling, with long-tail informational queries showing much higher AIO rates than head terms.
+
+**Do AI Overviews hurt all websites equally?**
+
+No. Informational and comparison queries are hit hardest, with 85–95% trigger rates and 55–61% CTR drops. E-commerce and local service queries are relatively protected, with only 4–7% AIO trigger rates. Branded queries actually see an 18% CTR increase when AI Overviews appear.
+
+**How can I get my content cited in AI Overviews?**
+
+Structure content with clear, standalone answer blocks of 40–60 words at the start of each section. Use FAQ and HowTo schema markup. Include bulleted lists for procedural content and tables for comparisons. Cite authoritative sources by name. TheStacc's content optimization tools can audit your pages for AI citability.
+
+**What is the zero-click rate with AI Overviews?**
+
+When an AI Overview is present, 72% to 83% of searches end without any website click. Google's AI Mode shows even higher zero-click rates at approximately 93%. For queries without AI Overviews, the zero-click rate is substantially lower at roughly 22–34%.
+
+**Are ads appearing in AI Overviews?**
+
+Yes. Approximately 25.5% of AI Overview results now include advertising, up from 5.17% in early 2025. US AI search ad spend is projected to reach $2.08 billion in 2026.
+
+**Which industries face the highest AI Overview disruption?**
+
+B2B technology (70% of queries), healthcare, education, and finance face the highest AIO exposure. E-commerce (4%), local services (7%), and transactional queries (5%) are relatively protected. The severity of impact correlates with the informational nature of the query.
+
+**How are AI Overview statistics tracked?**
+
+Researchers track AI Overview presence using three methods. Rank-tracking tools (Semrush, Ahrefs, BrightEdge) scan SERPs at scale and flag AIO appearances. Manual audit studies sample specific query sets and verify AIO presence by hand. Platform APIs provide direct data from Google Search Console on impressions and clicks. The 25–48% prevalence range reflects differences in methodology, query sample, and geographic focus. US-focused studies with large informational query samples report the highest numbers.
+
+**What is the future of AI Overviews?**
+
+Google is expanding AI Overview coverage to more query types and more countries. AI Mode — a conversational search interface with near-93% zero-click rates — is rolling out to Google One AI Premium subscribers. Advertising integration is growing from 5% to 25% of AIO results. The trajectory points toward more AI-generated answers, more zero-click searches, and higher value for the minority of clicks that do reach websites. Sites optimizing for AI citability rather than just ranking position will capture disproportionate value from this shift.
+
+## Key Takeaways
+
+- AI Overviews now appear on 25–48% of US searches, with the highest rates on informational and comparison queries
+- Organic CTR dropped 34–61% when AI Overviews appeared, with the worst impact on informational keywords
+- CTR began recovering in early 2026, climbing 85% from the December 2025 floor to 2.4% by February
+- Being cited in an AI Overview delivers 35% more organic clicks than ranking well without a citation
+- Zero-click rates jump to 72–83% when AI Overviews are present, compared to 22–34% without
+- The strategic priority has shifted from ranking position to AI citability — structure content for extraction
+
+The AI Overview disruption of 2025 was real and measurable. The partial recovery of 2026 offers hope, but the underlying shift is permanent. Search behavior has changed, and SEO strategy must change with it.
+
+> **See which of your pages are at risk from AI Overview expansion.** Stacc analyzes your entire keyword portfolio for AI Overview triggers, citation status, and CTR trends. The audit takes 60 seconds and shows exactly where to focus your optimization efforts.
+> [Start your free SEO analysis](/tools/seo-audit/)
+
+## Related Tools & Resources
+
+**Free SEO Tools:**
+- [Free SEO Audit](/tools/seo-audit/)
+- [AI Content Detector](/tools/ai-content-detector/)
+
+**Best Lists:**
+- [Best AI SEO Tools](/best/ai-seo-tools/)
+- [Best AI Writing Tools](/best/ai-content-writing-tools-for-seo/)

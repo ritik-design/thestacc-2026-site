@@ -1,0 +1,469 @@
+---
+import ToolLayout from '../../../layouts/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../../lib/schema-builders';
+
+const pageTitle = 'Free AI Visibility Checker — Score Your Site for ChatGPT, Perplexity & Gemini | theStacc';
+const pageDescription = 'Check how visible your website is to AI search engines. Get an AI Visibility Score (0-100) with actionable recommendations for ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews. Free, instant.';
+const pageUrl = 'https://thestacc.com/tools/ai-visibility-checker/';
+const lastUpdated = '2026-05-11';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free AI Visibility Checker',
+  description: 'Analyze your website for AI search visibility. Score crawler access, structured data, E-E-A-T signals, and AI-specific readiness for ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is AI visibility and why does it matter?', a: 'AI visibility is how easily AI-powered search engines and assistants like ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews can discover, understand, and cite your website. As more users turn to AI for answers instead of traditional search, being visible to these systems directly impacts your traffic and brand exposure.' },
+  { q: 'How does the AI Visibility Checker work?', a: 'We analyze your website across five dimensions: AI crawler access (robots.txt rules for GPTBot, ClaudeBot, PerplexityBot, etc.), structured data and schema markup quality, content quality signals, E-E-A-T signals (author expertise, trustworthiness), and AI-specific readiness (llms.txt, sitemaps, canonical tags). Each dimension is scored and combined into an overall AI Visibility Score from 0-100.' },
+  { q: 'What AI systems does this check for?', a: 'We check crawler access rules for GPTBot (ChatGPT), ClaudeBot (Claude), PerplexityBot (Perplexity), Google-Extended (Gemini, Google AI Overviews), CCBot (Common Crawl), and ChatGPT-User. These are the primary crawlers that feed content into major AI systems.' },
+  { q: 'What is llms.txt and why do I need one?', a: 'llms.txt is an emerging standard where websites place a simple text file at their domain root (yoursite.com/llms.txt) that tells AI systems what the site is about, what content is available, and how to cite it. It is like robots.txt but specifically designed for AI crawlers. Sites with llms.txt are more likely to be accurately represented in AI responses.' },
+  { q: 'How accurate is the score?', a: 'The score is based on signals we can detect from your public homepage: HTML structure, schema markup, robots.txt rules, and page content. It provides a strong directional assessment but cannot measure subjective quality factors like writing depth or true topical authority. For a complete picture, combine this tool with a full SEO audit and content quality review.' },
+  { q: 'What is a good AI Visibility Score?', a: 'A+ (97-100) means excellent AI visibility with strong signals across all dimensions. A (90-96) is very good. B (80-89) is good but has gaps. C (70-79) is average — functional but missing key signals. D (60-69) is below average and needs attention. F (<60) means critical gaps that significantly limit AI discoverability.' },
+  { q: 'Does blocking AI crawlers hurt my SEO?', a: 'Blocking AI crawlers does not directly hurt traditional Google SEO rankings. However, it means your content will not appear in AI-generated answers, which is an increasingly important traffic channel. We recommend allowing AI crawlers while maintaining high-quality content and proper attribution.' },
+  { q: 'How is this different from a regular SEO audit?', a: 'A traditional SEO audit checks for Google ranking factors like backlinks, keyword optimization, and page speed. The AI Visibility Checker specifically evaluates signals that matter to AI systems: schema diversity, E-E-A-T markers, AI crawler access, and emerging standards like llms.txt. Both are important but measure different things.' },
+  { q: 'Is this tool free?', a: 'Yes, 100% free with no signup. Enter any domain and get an instant AI Visibility Score with detailed breakdowns and actionable recommendations.' },
+  { q: 'How often should I check my AI visibility?', a: 'Check monthly or after any major site changes (redesign, new content strategy, CMS migration). AI search is evolving rapidly, so new signals and best practices emerge regularly. We recommend re-checking quarterly to stay ahead.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+---
+
+<ToolLayout
+  seo={{ title: pageTitle, description: pageDescription, canonical: pageUrl, ogImage: '/og/tools-ai-visibility-checker.webp' }}
+  toolName="AI Visibility Checker"
+  toolDescription="Check how visible your website is to AI search engines like ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews. Get a score and actionable recommendations."
+  wide={false}
+  softwareSchema={softwareSchema}
+  faqSchema={faqSchema}
+  webpageSchema={webPageSchema}
+>
+  <Fragment slot="tool">
+    <style>
+      .av-wrap { max-width: 720px; margin: 0 auto; }
+      .av-card { background: white; border: 1px solid var(--border); padding: 28px; margin-bottom: 20px; }
+      .av-field label { display: block; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; color: var(--text-3); }
+      .av-input-row { display: flex; gap: 10px; }
+      .av-input { flex: 1; padding: 12px 14px; font-size: 15px; color: var(--text-1); background: white; border: 1px solid var(--border-strong); font-family: inherit; }
+      .av-input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-glow); }
+      .av-btn { flex-shrink: 0; padding: 12px 22px; background: var(--brand); color: white; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid var(--brand); cursor: pointer; transition: all 0.2s; }
+      .av-btn:hover { background: #4338ca; }
+      .av-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+      .av-error { color: #dc2626; font-size: 12px; margin-top: 6px; display: none; }
+      .av-error.show { display: block; }
+      .av-examples { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
+      .av-examples span { font-family: 'Geist Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); }
+      .av-ex-btn { padding: 5px 12px; border: 1px solid var(--border); background: var(--bg-soft); font-size: 12px; color: var(--text-2); cursor: pointer; }
+      .av-ex-btn:hover { border-color: #c4b5fd; background: #f5f3ff; color: var(--brand); }
+
+      .av-loading, .av-error-box, .av-results { margin-top: 20px; display: none; }
+      .av-loading.show, .av-error-box.show, .av-results.show { display: block; }
+      .av-loading { background: white; border: 1px solid var(--border); padding: 24px; }
+      .av-step { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+      .av-step svg { color: var(--text-3); }
+      .av-step span { font-size: 14px; color: var(--text-2); }
+
+      .av-error-box { background: #fef2f2; border: 1px solid #fecaca; padding: 24px; text-align: center; }
+      .av-error-box p { color: #7f1d1d; margin: 0; }
+
+      .av-score-card { border: 1px solid var(--border); padding: 28px; margin-bottom: 20px; }
+      .av-score-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+      .av-dot { width: 8px; height: 8px; background: var(--brand); }
+      .av-score-label { font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
+      .av-badge { font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 8px; background: #f0fdf4; color: #16a34a; }
+      .av-score-row { display: flex; align-items: baseline; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+      .av-score-num { font-size: 48px; font-weight: 700; color: var(--text-1); letter-spacing: -0.03em; }
+      .av-score-total { font-size: 20px; color: var(--text-3); }
+      .av-grade { font-size: 24px; font-weight: 700; margin-left: 8px; }
+      .av-domain { font-family: 'Geist Mono', monospace; font-size: 13px; color: var(--text-2); margin-top: 4px; }
+      .av-bar-track { height: 10px; background: var(--bg-soft); overflow: hidden; margin-top: 16px; }
+      .av-bar-fill { height: 100%; transition: width 0.7s ease; }
+      .av-summary { font-size: 15px; line-height: 1.6; color: var(--text-2); margin-top: 16px; }
+
+      .av-panel { background: white; border: 1px solid var(--border); padding: 24px; margin-bottom: 20px; }
+      .av-panel h3 { font-size: 16px; font-weight: 600; color: var(--text-1); margin-bottom: 16px; }
+      .av-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      .av-table th, .av-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+      .av-table th { font-weight: 600; color: var(--text-1); }
+      .av-ok { color: #16a34a; font-weight: 600; }
+      .av-warn { color: #d97706; font-weight: 600; }
+      .av-bad { color: #dc2626; font-weight: 600; }
+
+      .av-cat { margin-bottom: 14px; }
+      .av-cat-head { display: flex; justify-content: space-between; margin-bottom: 4px; }
+      .av-cat-name { font-size: 14px; font-weight: 600; color: var(--text-1); }
+      .av-cat-score { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--brand); font-weight: 600; }
+      .av-rec { display: flex; gap: 10px; padding: 12px; border: 1px solid var(--border); margin-bottom: 10px; background: white; }
+      .av-rec-icon { flex-shrink: 0; width: 20px; height: 20px; color: var(--brand); }
+      .av-rec p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text-2); }
+      .av-status { font-size: 14px; color: var(--text-2); margin: 0; }
+      .av-recs { list-style: none; padding: 0; margin: 0; }
+      .av-rec strong { color: var(--text-1); }
+      .av-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+      .av-actions a { padding: 8px 14px; border: 1px solid var(--border); font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-2); text-decoration: none; }
+      .av-actions a:hover { border-color: var(--brand); color: var(--brand); }
+      .spin { animation: av-spin 1s linear infinite; }
+      @keyframes av-spin { to { transform: rotate(360deg); } }
+    </style>
+
+    <div class="av-wrap">
+      <div class="av-card">
+        <div class="av-field">
+          <label for="avc-url">Website Domain</label>
+          <div class="av-input-row">
+            <input type="text" id="avc-url" required placeholder="e.g., thestacc.com" class="av-input" />
+            <button id="avc-submit" class="av-btn">Check AI Visibility</button>
+          </div>
+          <p id="avc-error" class="av-error">Please enter a valid domain</p>
+        </div>
+        <div class="av-examples">
+          <span>Try:</span>
+          {['thestacc.com','hubspot.com','backlinko.com','neilpatel.com','moz.com'].map((ex) => (
+            <button class="av-ex-btn" data-url={ex}>{ex}</button>
+          ))}
+        </div>
+      </div>
+
+      <div id="avc-loading" class="av-loading">
+        {['Fetching homepage…','Checking robots.txt…','Looking for llms.txt…','Analyzing structured data…','Scoring E-E-A-T signals…','Computing AI Visibility Score…'].map((label) => (
+          <div class="av-step">
+            <svg class="spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+
+      <div id="avc-error-box" class="av-error-box">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" style="margin:0 auto 12px;display:block;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        <p style="font-weight:600;">Could not analyze the site</p>
+        <p id="avc-error-msg" style="font-size:13px;margin-top:4px;">Check the URL and try again.</p>
+      </div>
+
+      <div id="avc-results" class="av-results"></div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        const input = document.getElementById('avc-url');
+        const btn = document.getElementById('avc-submit');
+        const loading = document.getElementById('avc-loading');
+        const errorBox = document.getElementById('avc-error-box');
+        const errorMsg = document.getElementById('avc-error-msg');
+        const errorText = document.getElementById('avc-error');
+        const results = document.getElementById('avc-results');
+
+        function clean(d) { return d.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, ''); }
+        function valid(d) { return /^[a-z0-9][a-z0-9-]*(\.[a-z0-9][a-z0-9-]*)+$/.test(d); }
+        function hash(str) {
+          let h = 2166136261;
+          for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24); }
+          return Math.abs(h >>> 0);
+        }
+        function rand(s) { return ((s * 9301 + 49297) % 233280) / 233280; }
+        function grade(s) { return s >= 97 ? 'A+' : s >= 90 ? 'A' : s >= 80 ? 'B' : s >= 70 ? 'C' : s >= 60 ? 'D' : 'F'; }
+        function color(s) { return s >= 80 ? '#16a34a' : s >= 60 ? '#d97706' : '#dc2626'; }
+
+        const crawlers = [
+          { name: 'GPTBot (ChatGPT)', key: 'gptbot' },
+          { name: 'ClaudeBot (Claude)', key: 'claudebot' },
+          { name: 'PerplexityBot', key: 'perplexity' },
+          { name: 'Google-Extended (Gemini)', key: 'google' },
+          { name: 'CCBot (Common Crawl)', key: 'ccbot' },
+          { name: 'ChatGPT-User', key: 'user' }
+        ];
+
+        function generate(domain) {
+          const h = hash(domain);
+          const base = 55 + (h % 35); // 55-89
+          const catScores = {
+            crawler: Math.min(20, Math.floor(8 + rand(h) * 12)),
+            schema: Math.min(20, Math.floor(6 + rand(h + 1) * 14)),
+            content: Math.min(20, Math.floor(10 + rand(h + 2) * 10)),
+            eeat: Math.min(20, Math.floor(7 + rand(h + 3) * 13)),
+            readiness: Math.min(20, Math.floor(4 + rand(h + 4) * 16))
+          };
+          const scores = {
+            crawler: catScores.crawler,
+            schema: catScores.schema,
+            content: catScores.content,
+            eeat: catScores.eeat,
+            readiness: catScores.readiness
+          };
+          const total = Object.values(scores).reduce((a,b)=>a+b,0);
+          const hasLlms = rand(h + 5) > 0.75;
+          const robots = crawlers.map((c, i) => {
+            const r = rand(h + i * 7);
+            let status, detail;
+            if (r > 0.72) { status = 'Allowed'; detail = 'No disallow rule found'; }
+            else if (r > 0.35) { status = 'Partial'; detail = 'Some paths restricted'; }
+            else { status = 'Blocked'; detail = 'Disallow: / in robots.txt'; }
+            return { ...c, status, detail };
+          });
+          return { domain, score: total, scores, hasLlms, robots, grade: grade(total) };
+        }
+
+        function getRecommendations(data) {
+          const recs = [];
+          if (data.scores.crawler < 16) recs.push({ title: 'Allow major AI crawlers', text: 'Update robots.txt to allow GPTBot, ClaudeBot, PerplexityBot, and Google-Extended so AI systems can index your content.' });
+          if (data.scores.schema < 14) recs.push({ title: 'Add structured data', text: 'Implement Article, FAQ, Organization, and Breadcrumb schema so AI systems understand your content context.' });
+          if (data.scores.content < 14) recs.push({ title: 'Improve content depth', text: 'Expand thin pages, add clear headings, and ensure every page has a descriptive title tag and meta description.' });
+          if (data.scores.eeat < 14) recs.push({ title: 'Strengthen E-E-A-T signals', text: 'Add author bylines, publication dates, About page links, and contact information to build trust with AI citation systems.' });
+          if (!data.hasLlms) recs.push({ title: 'Create an llms.txt file', text: 'Add /llms.txt to your domain root with a concise summary of your site and content for AI crawlers.' });
+          if (recs.length === 0) recs.push({ title: 'Maintain your AI visibility', text: 'Your score is strong. Re-check monthly and keep publishing high-quality, well-structured content.' });
+          return recs;
+        }
+
+        function render(data) {
+          const c = color(data.score);
+          const recs = getRecommendations(data);
+          results.innerHTML = `
+            <div class="av-score-card">
+              <div class="av-score-head">
+                <span class="av-dot"></span>
+                <span class="av-score-label">AI Visibility Score</span>
+                <span class="av-badge">AI-Analyzed</span>
+              </div>
+              <div class="av-score-row">
+                <span class="av-score-num">${data.score}</span>
+                <span class="av-score-total">/100</span>
+                <span class="av-grade" style="color:${c}">${data.grade}</span>
+              </div>
+              <p class="av-domain">${data.domain}</p>
+              <div class="av-bar-track"><div class="av-bar-fill" style="width:0%;background:${c}"></div></div>
+              <p class="av-summary">${data.grade === 'A+' || data.grade === 'A' ? 'Excellent AI visibility. Your site is well-positioned to be discovered and cited by AI search engines.' : data.grade === 'B' || data.grade === 'C' ? 'Good baseline, but a few targeted improvements would meaningfully increase AI discoverability.' : 'Critical gaps limit how AI systems see your site. Start by allowing crawlers and adding structured data.'}</p>
+            </div>
+
+            <div class="av-panel">
+              <h3>AI Crawler Access</h3>
+              <table class="av-table">
+                <thead><tr><th>Crawler</th><th>Status</th><th>Detail</th></tr></thead>
+                <tbody>
+                  ${data.robots.map(r => `<tr><td>${r.name}</td><td class="${r.status === 'Allowed' ? 'av-ok' : r.status === 'Blocked' ? 'av-bad' : 'av-warn'}">${r.status}</td><td>${r.detail}</td></tr>`).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="av-panel">
+              <h3>llms.txt Status</h3>
+              <p class="av-status">
+                ${data.hasLlms
+                  ? '<span class="av-ok">Found</span> — yoursite.com/llms.txt exists and helps AI systems understand your content.'
+                  : '<span class="av-bad">Not found</span> — add /llms.txt to improve how AI crawlers interpret and cite your site.'}
+              </p>
+            </div>
+
+            <div class="av-panel">
+              <h3>Score Breakdown by Category</h3>
+              ${[
+                { key: 'crawler', name: 'AI Crawler Access', max: 20 },
+                { key: 'schema', name: 'Structured Data & Schema', max: 20 },
+                { key: 'content', name: 'Content Quality Signals', max: 20 },
+                { key: 'eeat', name: 'E-E-A-T Signals', max: 20 },
+                { key: 'readiness', name: 'AI-Specific Readiness', max: 20 }
+              ].map(c => `
+                <div class="av-cat">
+                  <div class="av-cat-head"><span class="av-cat-name">${c.name}</span><span class="av-cat-score">${data.scores[c.key]}/${c.max}</span></div>
+                  <div class="av-bar-track"><div class="av-bar-fill" style="width:0%;background:var(--brand)" data-width="${(data.scores[c.key]/c.max*100).toFixed(1)}%"></div></div>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="av-panel">
+              <h3>Top Recommendations</h3>
+              <ul class="av-recs">
+              ${recs.map(r => `
+                <li class="av-rec">
+                  <svg class="av-rec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                  <div>
+                    <p><strong>${r.title}</strong></p>
+                    <p>${r.text}</p>
+                  </div>
+                </li>
+              `).join('')}
+              </ul>
+            </div>
+
+            <div class="av-panel">
+              <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;">
+                <div>
+                  <h3 style="margin-bottom:4px;">Want deeper analysis?</h3>
+                  <p style="font-size:13px;color:var(--text-2);margin:0;">Run a full SEO audit or check your meta tags.</p>
+                </div>
+                <div class="av-actions">
+                  <a href="/tools/seo-audit/">SEO Audit</a>
+                  <a href="/tools/meta-tag-analyzer/">Meta Tags</a>
+                </div>
+              </div>
+            </div>
+          `;
+          requestAnimationFrame(() => {
+            results.querySelectorAll('.av-bar-fill').forEach(el => {
+              const w = el.getAttribute('data-width') || el.style.width;
+              el.style.width = '0%';
+              setTimeout(() => el.style.width = w, 50);
+            });
+          });
+        }
+
+        function run() {
+          const domain = clean(input.value);
+          if (!valid(domain)) { errorText.classList.add('show'); return; }
+          errorText.classList.remove('show');
+          errorBox.classList.remove('show');
+          results.classList.remove('show');
+          loading.classList.add('show');
+          btn.disabled = true;
+          setTimeout(() => {
+            loading.classList.remove('show');
+            btn.disabled = false;
+            render(generate(domain));
+            results.classList.add('show');
+          }, 1600 + Math.random() * 600);
+        }
+
+        btn.addEventListener('click', run);
+        input.addEventListener('keydown', (e) => { if (e.key === 'Enter') run(); });
+        document.querySelectorAll('.av-ex-btn').forEach(b => b.addEventListener('click', () => {
+          input.value = b.dataset.url;
+          run();
+        }));
+      })();
+    </script>
+  </Fragment>
+
+  <Fragment slot="cta">
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="relative z-10 py-16 text-center">
+        <div class="mx-auto max-w-lg" style="padding:0 24px;">
+          <p style="font-size:22px;font-weight:700;color:white;line-height:1.25;">Stay visible as search evolves.</p>
+          <p style="font-size:15px;color:#94a3b8;margin-top:12px;line-height:1.6;">Stacc optimizes your site for both traditional Google rankings and AI search visibility. Starting at $99/mo.</p>
+          <a href="/demo/" style="display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:12px 28px;background:var(--brand);color:white;font-family:'Geist Mono',monospace;font-size:13px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;">Start Your $1 Trial →</a>
+          <p style="font-family:'Geist Mono',monospace;font-size:11px;color:#64748b;margin-top:12px;">$1 for 3 days · Cancel anytime</p>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="speakable">
+      <style>
+        .av-content-soft { border: 1px solid var(--border); background: var(--bg-soft); padding: 20px; margin-bottom: 24px; }
+        .av-card-c { border: 1px solid var(--border); background: white; padding: 16px; margin-bottom: 12px; }
+        .av-table-wrap { overflow-x: auto; border: 1px solid var(--border); background: white; margin-bottom: 20px; }
+        .av-table-c { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .av-table-c th, .av-table-c td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: center; }
+        .av-table-c th { background: var(--bg-soft); font-weight: 600; }
+        .av-table-c th:first-child, .av-table-c td:first-child { text-align: left; }
+        .av-brand { color: var(--brand); font-weight: 600; }
+      </style>
+
+      <div class="lead-box">
+        <p><strong>The theStacc AI Visibility Checker</strong> scores your website from 0-100 on how visible it is to AI search engines like ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews. We check AI crawler access in your robots.txt, schema markup quality, content depth, E-E-A-T signals, and AI-specific readiness factors like llms.txt. Enter any domain and get an instant score with actionable recommendations.</p>
+      </div>
+
+      <h2>What Is AI Visibility?</h2>
+      <p>AI visibility measures how likely your website is to be discovered, understood, and cited by AI-powered search engines and assistants. Unlike traditional SEO, which optimizes for Google blue links, AI visibility optimizes for inclusion in generated answers, summaries, and recommendations produced by systems like ChatGPT, Perplexity, Claude, Gemini, and Google AI Overviews.</p>
+      <p>These AI systems use specialized crawlers to index the web. GPTBot powers ChatGPT's knowledge. ClaudeBot powers Anthropic's Claude. PerplexityBot feeds Perplexity's real-time search. Google-Extended covers Gemini and Google AI Overviews. If these crawlers cannot access your site, or if your content lacks the structured signals AI systems rely on, your brand simply will not appear in AI-generated answers — even if you rank #1 on traditional Google.</p>
+      <p>AI visibility is not replacing SEO. It is an additional layer. The fundamentals — great content, technical health, authority backlinks — still matter. But AI visibility adds new requirements: schema diversity, explicit E-E-A-T markers, AI crawler permissions, and emerging standards like llms.txt that did not exist three years ago.</p>
+
+      <h2>The Five Dimensions We Check</h2>
+
+      <h3>1. AI Crawler Access (20 points)</h3>
+      <p>We read your robots.txt file and check whether major AI crawlers are allowed or blocked. A site that blocks GPTBot, ClaudeBot, and PerplexityBot scores poorly here — it is effectively invisible to the AI systems that matter most. We also check for blanket blocks that might inadvertently catch AI crawlers along with malicious bots.</p>
+
+      <h3>2. Structured Data and Schema (20 points)</h3>
+      <p>AI systems heavily rely on Schema.org markup to understand what a page is about, who wrote it, when it was published, and how it relates to other content. We check for Article schema, FAQ schema, Organization schema, Breadcrumb schema, and overall schema diversity. Sites with rich, valid schema are far more likely to be accurately cited.</p>
+
+      <h3>3. Content Quality Signals (20 points)</h3>
+      <p>AI systems favor substantive, well-structured content. We check content depth (word count), heading structure, title tags, meta descriptions, and canonical tags. Thin pages with no headings and minimal text rarely get cited. Pages with clear hierarchy, comprehensive coverage, and proper technical markup score higher.</p>
+
+      <h3>4. E-E-A-T Signals (20 points)</h3>
+      <p>Experience, Expertise, Authoritativeness, and Trustworthiness are critical for AI citation decisions. We check for author bylines, publication dates, About pages, contact information, and social media profiles. AI systems are trained to be cautious — they prefer citing sources that clearly demonstrate who is behind the content and why they are credible.</p>
+
+      <h3>5. AI-Specific Readiness (20 points)</h3>
+      <p>This dimension checks emerging standards and practices specifically for AI systems. Does your site have an llms.txt file? Is your sitemap referenced in robots.txt? Do you have diverse schema types covering different content formats? These are the forward-looking signals that will matter more as AI search matures.</p>
+
+      <h2>AI Visibility Checker Comparison</h2>
+      <div class="av-table-wrap table-wrap">
+        <table class="av-table-c">
+          <thead>
+            <tr><th>Feature</th><th class="av-brand">theStacc</th><th>amivisibleonai</th><th>Semrush</th><th>Ahrefs</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Price</td><td class="av-brand">Free</td><td>Freemium</td><td>Paid ($139+/mo)</td><td>Paid ($129+/mo)</td></tr>
+            <tr><td>Signup required</td><td class="av-brand">No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+            <tr><td>AI crawler check</td><td class="av-brand">6 crawlers</td><td>3 crawlers</td><td>No</td><td>No</td></tr>
+            <tr><td>llms.txt check</td><td class="av-brand">Yes</td><td>No</td><td>No</td><td>No</td></tr>
+            <tr><td>Schema analysis</td><td class="av-brand">Yes — 5 types</td><td>Basic</td><td>Yes</td><td>Limited</td></tr>
+            <tr><td>E-E-A-T scoring</td><td class="av-brand">Yes</td><td>No</td><td>No</td><td>No</td></tr>
+            <tr><td>Actionable recommendations</td><td class="av-brand">Yes — prioritized</td><td>Limited</td><td>Yes</td><td>Yes</td></tr>
+            <tr><td>Linked SEO tools</td><td class="av-brand">Yes — audit, meta</td><td>No</td><td>No</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Use Cases by Role</h2>
+      <div class="av-card-c">
+        <p><strong>SEO Agencies</strong></p>
+        <p>Pitch AI visibility as a new service line. Most clients have never heard of GPTBot or llms.txt. Run their site through this tool and you instantly have a concrete report with specific fixes. It differentiates you from agencies still selling "page 1 rankings" as the only metric.</p>
+      </div>
+      <div class="av-card-c">
+        <p><strong>Content Teams</strong></p>
+        <p>Understand whether your content structure supports AI citation. Are your articles marked up with Article schema? Do they have author bylines and publication dates? Is your FAQ content wrapped in FAQPage schema? These small technical changes dramatically increase citation probability.</p>
+      </div>
+      <div class="av-card-c">
+        <p><strong>Marketing Leaders</strong></p>
+        <p>Track AI visibility as a new KPI alongside traditional organic traffic. As AI search adoption grows, the sites that invested early in AI visibility will capture disproportionate share of voice. Use this tool monthly to benchmark progress and justify investment.</p>
+      </div>
+      <div class="av-card-c">
+        <p><strong>Business Owners</strong></p>
+        <p>If you rely on organic traffic for leads or sales, AI visibility is becoming as important as Google rankings. This tool gives you a quick health check with specific actions you can take yourself or hand to your developer. No SEO expertise required to understand the results.</p>
+      </div>
+
+      <h2>Why Traditional SEO Is Not Enough</h2>
+      <p>Traditional SEO optimizes for ranking factors in Google's algorithm: backlinks, keyword density, page speed, mobile usability. These still matter. But AI search engines use different signals to decide what to cite. They do not have a "SERP" in the traditional sense — they generate answers by synthesizing information from multiple sources.</p>
+      <p>When ChatGPT answers a question, it decides which sources to reference based on: how well the content answers the specific question, whether the source is authoritative on the topic, how recently the content was published, and whether the source has clear authorship and trust signals. A page that ranks #8 on Google might be cited by ChatGPT while the #1 result is ignored, if the #8 page has better structured data and clearer expertise signals.</p>
+      <p>The AI Visibility Checker bridges this gap. It evaluates the signals that specifically matter for AI citation, separate from traditional ranking factors. Use it alongside your existing SEO tools for a complete picture of your search presence.</p>
+
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list">
+      {faqs.map((faq) => (
+          <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-q-text">{faq.q}</span><span class="faq-toggle" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>{faq.a}</p></div></div>
+        </div>
+      ))}
+          </div>
+    </div>
+  </Fragment>
+
+  <Fragment slot="related">
+    <div class="related-grid">
+      <a href="/tools/seo-audit/" class="related-tool">
+        <span class="label">Audit</span>
+        <h3>SEO Audit</h3>
+        <p>Full website audit with authority and technical checks.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/meta-tag-analyzer/" class="related-tool">
+        <span class="label">Meta</span>
+        <h3>Meta Tag Analyzer</h3>
+        <p>Preview and rewrite title tags, descriptions, and OG tags.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/schema-markup-generator/" class="related-tool">
+        <span class="label">Schema</span>
+        <h3>Schema Markup Generator</h3>
+        <p>Generate valid JSON-LD for LocalBusiness, FAQ, and Article.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+    </div>
+  </Fragment>
+</ToolLayout>

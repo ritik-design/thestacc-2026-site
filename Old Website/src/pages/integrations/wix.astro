@@ -1,0 +1,363 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "What data syncs between Stacc and my Wix site?",
+    a: "Business name, address, phone number, hours, and service descriptions sync from Stacc to your Wix site's business info fields. Any update in Stacc — including changes pulled from Google Business Profile — pushes to Wix automatically.",
+  },
+  {
+    q: "Does Stacc inject local schema markup on Wix?",
+    a: "Yes. Stacc adds LocalBusiness JSON-LD schema to your Wix site via Wix's custom code or Meta Tags section. This structured data tells Google your exact business location, hours, and category — improving your local search visibility without any manual coding.",
+  },
+  {
+    q: "Can I embed a review widget on my Wix site?",
+    a: "Yes. Stacc provides an HTML embed code that you add to any Wix page using the HTML embed widget. Your latest Google and Facebook reviews display dynamically — updated automatically as new reviews come in.",
+  },
+  {
+    q: "Does Stacc work with Wix Business & eCommerce plans?",
+    a: "Yes. The Stacc integration works with all Wix Business plans. The HTML embed and custom code features required for the integration are available on Wix's paid plans (Business Basic and above).",
+  },
+  {
+    q: "Do I need a Wix developer to set this up?",
+    a: "No. The integration uses Wix's built-in HTML embed widget and custom code settings — no Velo coding or Wix developer access required. If you can add a section to your Wix site, you can set this up.",
+  },
+  {
+    q: "Can Wix local pages use location-specific data from Stacc?",
+    a: "Yes. For multi-location businesses using Wix, Stacc can supply location-specific business data — unique address, hours, and phone per location — to individual Wix pages. This keeps each location page accurate without manual management.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Wix Integration",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Connect Wix to theStacc. Sync local business data, auto-inject local schema, and embed live review feeds on your Wix business site.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://thestacc.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Integrations", "item": "https://thestacc.com/integrations/" },
+        { "@type": "ListItem", "position": 3, "name": "Wix", "item": "https://thestacc.com/integrations/wix/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Wix Integration — Automate Local SEO Across Your Wix Business Site | theStacc"
+  description="Sync your Wix website with theStacc to keep location data, hours, and reviews consistent everywhere. Local SEO automation built for Wix business sites."
+
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Integration · Wix</span>
+          </div>
+
+          <div class="mb-8 flex items-center justify-center gap-5">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-label="theStacc" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="4" fill="#4f39f6"/>
+                <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+            </div>
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" aria-label="Wix" aria-hidden="true">
+                <rect x="2" y="8" width="20" height="8" rx="2" fill="#FAAD00"/>
+                <text x="12" y="15" font-size="9" font-weight="bold" fill="#000" text-anchor="middle" font-family="sans-serif">Wix</text>
+              </svg>
+            </div>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Stacc + Wix.<br />
+            <span style="color:#4f39f6;">Local SEO on autopilot.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Connect your Wix business site to Stacc and keep local business data accurate automatically. Schema injected, NAP synced, reviews displayed — without touching your Wix design or hiring a developer.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Connect Wix free
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#how-to-connect"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              See how it works
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            No Velo required · 3-minute setup · Works with any Wix template
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHAT THIS DOES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">What you get</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Your Wix site stays accurate<br />without manual updates.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15', title: 'NAP data sync', body: 'Business name, address, and phone stay consistent between Stacc, Google, and your Wix site. One change in Stacc updates everywhere automatically.' },
+            { icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4', title: 'Local schema injection', body: 'LocalBusiness JSON-LD schema injects into your Wix site\'s custom code automatically. Clean structured data for Google — no manual JSON editing.' },
+            { icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z', title: 'Live review widget', body: 'Add the Stacc review embed to any Wix page. Your latest Google and Facebook reviews display automatically — always fresh, always accurate.' },
+            { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Hours sync', body: 'Business hours changed in Stacc push to your Wix site automatically. Seasonal changes, holiday hours — customers always see the right information.' },
+            { icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', title: 'Google Maps embed sync', body: 'Your embedded Google Map updates automatically when your address or service area changes in Stacc — no iframe updates needed.' },
+            { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Location page automation', body: 'For multi-location Wix businesses, Stacc populates individual location pages with the correct data per address — keeping each page accurate automatically.' },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SETUP STEPS ─── -->
+    <section id="how-to-connect" class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">How to connect</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Three steps. No developer.<br />Wix connected.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-3xl space-y-4">
+          {[
+            { step: '01', title: 'Add your Wix site URL to Stacc', body: 'In Stacc settings under Integrations → Wix, enter your Wix site URL. Stacc will generate a connection token and the schema/embed code snippets for your site.' },
+            { step: '02', title: 'Add the schema code to Wix custom code', body: 'In your Wix dashboard, go to Settings → Custom Code → Head. Paste the schema snippet Stacc provides. This enables auto-injection of local schema and data sync.' },
+            { step: '03', title: 'Embed the review widget where needed', body: 'Copy the review widget embed from Stacc. In your Wix editor, add an HTML embed widget to any page and paste the code. Reviews display immediately and update automatically.' },
+          ].map(s => (
+            <div class="flex gap-6 rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <span class="font-mono text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[#4f39f6]/20 shrink-0">{s.step}</span>
+              <div>
+                <p class="font-sans text-[15px] font-semibold text-[#111827]">{s.title}</p>
+                <p class="mt-1.5 font-sans text-[14px] leading-relaxed text-[#57534e]">{s.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── BEFORE / AFTER ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Before vs. after</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            What changes when Wix<br />connects to Stacc.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-[#e7e5e4]">
+          <div class="grid grid-cols-3 bg-[#f5f3ff] border-b border-[#e7e5e4]">
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Task</div>
+            <div class="border-x border-[#e7e5e4] px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Without Stacc</div>
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4f39f6]">With Stacc</div>
+          </div>
+          {[
+            ['Add local schema to Wix', 'Manual JSON-LD or hire developer', 'Auto-injected via custom code section'],
+            ['Update hours on site', 'Edit Wix page manually', 'Update in Stacc, syncs to Wix automatically'],
+            ['Display reviews on Wix', 'Screenshot and paste testimonials manually', 'Live embed, auto-updates with new reviews'],
+            ['Keep NAP consistent', 'Update Wix, GBP, and 50 directories separately', 'One change in Stacc pushes everywhere'],
+            ['Change address', 'Log into Wix and update all pages individually', 'Update once, Stacc syncs to all platforms'],
+          ].map(([task, before, after]) => (
+            <div class="grid grid-cols-3 border-b border-[#e7e5e4] last:border-0">
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#292524]">{task}</div>
+              <div class="border-x border-[#e7e5e4] px-6 py-4 font-sans text-[13px] text-[#79716b]">{before}</div>
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#4f39f6]">{after}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── USE CASES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Who uses this</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Three workflows this<br />integration unlocks immediately.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-5 md:grid-cols-3">
+          {[
+            { label: 'Local service businesses', title: 'Wix site that always shows accurate info', body: 'No more outdated hours or wrong phone numbers on your Wix site. Stacc keeps everything in sync automatically — without logging into Wix every time something changes.' },
+            { label: 'Restaurants on Wix', title: 'Hours, menus, and reviews always current', body: 'Update your business hours in Stacc once and they push to Google, Wix, and 50+ directories simultaneously. Your customers always see the right information.' },
+            { label: 'SEO agencies', title: 'Deploy local SEO across all client Wix sites', body: 'Connect all client Wix sites to Stacc and add schema markup, NAP sync, and review widgets to every site in minutes instead of hours per client.' },
+          ].map(c => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4f39f6]">{c.label}</span>
+              <p class="mt-3 font-sans text-[15px] font-semibold leading-snug text-[#111827]">{c.title}</p>
+              <p class="mt-2.5 font-sans text-[13px] leading-relaxed text-[#57534e]">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED INTEGRATIONS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Often connected together</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Wix works best<br />alongside these.
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-3">
+          {[
+            { title: 'Google Business Profile', desc: 'GBP is the source of truth. Changes in GBP sync to Stacc, then push to your Wix site automatically.', href: '/integrations/google-business-profile/' },
+            { title: 'Citation Management', desc: 'Keep NAP consistent across 50+ directories — including your Wix site — from one dashboard.', href: '/features/citation-management/' },
+            { title: 'Review Monitoring', desc: 'Monitor new reviews across Google and Facebook, then display them on Wix with the live review embed.', href: '/features/review-monitoring/' },
+          ].map(r => (
+            <a href={r.href} class="group rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6 transition-colors hover:border-[#4f39f6]/30 hover:bg-[#f5f3ff]/40">
+              <p class="font-sans text-[14px] font-semibold text-[#111827] group-hover:text-[#4f39f6]">{r.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-relaxed text-[#57534e]">{r.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">FAQ</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Questions about the<br />Wix integration
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq) => (
+            <div class="faq-item">
+              <button class="faq-btn w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <span class="faq-icon-plus shrink-0 text-[#4f39f6]">+</span>
+                <span class="faq-icon-minus hidden shrink-0 text-[#4f39f6]">−</span>
+              </button>
+              <div class="faq-answer hidden px-6 pb-5">
+                <p class="font-sans text-[14px] leading-relaxed text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-24" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.06) 0%, transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Connect in minutes</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-[#292524] md:text-[2.75rem]">
+            Your Wix site.<br />Always accurate, automatically.
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Stop updating your Wix site manually every time your hours change or a new review comes in. Connect Stacc and let the data flow — NAP, schema, and reviews kept accurate without touching your site design.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/demo/" target="_blank" rel="noopener noreferrer"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Connect Wix free
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pricing/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">
+              View pricing
+            </a>
+          </div>
+          <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#292524]/20">$1 for 3 days · No credit card · Cancel anytime</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const answer = item?.querySelector('.faq-answer');
+      const plus = btn.querySelector('.faq-icon-plus');
+      const minus = btn.querySelector('.faq-icon-minus');
+      if (!answer) return;
+      const isOpen = !answer.classList.contains('hidden');
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+      document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+      document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+      if (!isOpen) {
+        answer.classList.remove('hidden');
+        plus?.classList.add('hidden');
+        minus?.classList.remove('hidden');
+      }
+    });
+  });
+</script>

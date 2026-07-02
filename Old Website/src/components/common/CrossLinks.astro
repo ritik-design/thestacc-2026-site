@@ -1,0 +1,116 @@
+---
+/**
+ * CrossLinks — Renders a contextual internal linking section.
+ * Used on blog posts, reviews, alternatives, best lists, glossary, and tool pages.
+ * Drives cross-section linking and homepage keyword anchors.
+ */
+interface LinkItem {
+  url: string;
+  label: string;
+}
+
+interface Props {
+  /** Section heading */
+  heading?: string;
+  /** Links to module/feature pages */
+  moduleLinks?: LinkItem[];
+  /** Links to free tools */
+  toolLinks?: LinkItem[];
+  /** Links to best-list pages */
+  bestLinks?: LinkItem[];
+  /** Links to blog posts */
+  blogLinks?: LinkItem[];
+  /** Links to review pages */
+  reviewLinks?: LinkItem[];
+  /** Links to alternatives pages */
+  altLinks?: LinkItem[];
+  /** Homepage link with keyword anchor */
+  homepageAnchor?: string;
+  /** Additional custom links */
+  customLinks?: LinkItem[];
+  /** Compact mode (inline, no grid) */
+  compact?: boolean;
+}
+
+const {
+  heading = 'Explore More from theStacc',
+  moduleLinks = [],
+  toolLinks = [],
+  bestLinks = [],
+  blogLinks = [],
+  reviewLinks = [],
+  altLinks = [],
+  homepageAnchor,
+  customLinks = [],
+  compact = false,
+} = Astro.props;
+
+const allLinks = [
+  ...moduleLinks.map(l => ({ ...l, type: 'Module' })),
+  ...toolLinks.map(l => ({ ...l, type: 'Free Tool' })),
+  ...bestLinks.map(l => ({ ...l, type: 'Best List' })),
+  ...blogLinks.map(l => ({ ...l, type: 'Guide' })),
+  ...reviewLinks.map(l => ({ ...l, type: 'Review' })),
+  ...altLinks.map(l => ({ ...l, type: 'Alternatives' })),
+  ...customLinks.map(l => ({ ...l, type: '' })),
+];
+
+const hasContent = allLinks.length > 0 || homepageAnchor;
+---
+
+{hasContent && (
+  <div class="crosslinks-section mt-10 pt-8 border-t border-[#e7e5e4]">
+    <h2 class="font-sans text-[20px] leading-[28px] font-semibold text-[#292524] mb-5">{heading}</h2>
+
+    {compact ? (
+      <div class="flex flex-wrap gap-2">
+        {allLinks.map(link => (
+          <a
+            href={link.url}
+            class="inline-flex items-center gap-1.5 rounded-[8px] border border-[#e7e5e4] px-3 py-1.5 font-sans text-[13px] text-[#292524] transition-all hover:border-[#4f39f6] hover:text-[#4f39f6] hover:shadow-sm"
+          >
+            {link.label}
+          </a>
+        ))}
+        {homepageAnchor && (
+          <a
+            href="/"
+            class="inline-flex items-center gap-1.5 rounded-[8px] border border-[#4f39f6]/20 bg-[#4f39f6]/5 px-3 py-1.5 font-sans text-[13px] text-[#4f39f6] font-medium transition-all hover:bg-[#4f39f6]/10"
+          >
+            {homepageAnchor}
+          </a>
+        )}
+      </div>
+    ) : (
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {allLinks.map(link => (
+          <a
+            href={link.url}
+            class="group rounded-[10px] border border-[#e7e5e4] px-4 py-3 transition-all hover:shadow-md hover:border-[#d6d3d1]"
+          >
+            {link.type && (
+              <span class="font-mono text-[10px] font-bold uppercase tracking-wider text-[#79716b]">{link.type}</span>
+            )}
+            <span class="block font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6] transition-colors mt-0.5">{link.label}</span>
+          </a>
+        ))}
+        {homepageAnchor && (
+          <a
+            href="/"
+            class="group rounded-[10px] border border-[#4f39f6]/20 bg-[#4f39f6]/5 px-4 py-3 transition-all hover:shadow-md hover:bg-[#4f39f6]/10"
+          >
+            <span class="font-mono text-[10px] font-bold uppercase tracking-wider text-[#4f39f6]">Platform</span>
+            <span class="block font-sans text-[14px] font-semibold text-[#4f39f6] mt-0.5">{homepageAnchor} &rarr;</span>
+          </a>
+        )}
+      </div>
+    )}
+
+    <div class="mt-4 flex flex-wrap items-center gap-4 text-[13px]">
+      <a href="/pricing/" class="font-sans text-[#4f39f6] hover:underline font-medium">See Pricing &rarr;</a>
+      <a href="/tools/" class="font-sans text-[#57534e] hover:text-[#4f39f6] transition-colors">Free SEO Tools</a>
+      <a href="/blog/" class="font-sans text-[#57534e] hover:text-[#4f39f6] transition-colors">SEO Blog</a>
+      <a href="/glossary/" class="font-sans text-[#57534e] hover:text-[#4f39f6] transition-colors">SEO Glossary</a>
+    </div>
+  </div>
+)}

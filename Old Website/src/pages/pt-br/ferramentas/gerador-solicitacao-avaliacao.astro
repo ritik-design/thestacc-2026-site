@@ -1,0 +1,304 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Gerador de Modelos de Solicitação de Avaliação Gratuito | theStacc';
+const pageDescription = 'Gere modelos personalizados de solicitação de avaliação para e-mail, SMS e presencialmente em 10 segundos. Multicanal, específico por setor, com seu link de avaliações do Google incluído. Gratuito, sem cadastro.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Gerador de Modelos de Solicitação de Avaliação Gratuito',
+  description: 'Gere modelos personalizados de solicitação de avaliação para e-mail, SMS, presencialmente e acompanhamento. Específico por setor, multicanal, com o link de avaliações do Google incluído.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'Como peço a um cliente uma avaliação no Google?', acceptedAnswer: { '@type': 'Answer', text: 'A melhor forma de pedir é imediatamente após uma experiência positiva. Presencialmente, por mensagem ou por e-mail. Seja breve, personalize (use o nome do cliente e mencione o serviço) e inclua um link direto para sua página de avaliações do Google para que não precisem te procurar.' } },
+    { '@type': 'Question', name: 'Qual é o melhor momento para enviar uma solicitação de avaliação?', acceptedAnswer: { '@type': 'Answer', text: 'Para SMS: dentro da primeira hora após o serviço. Para e-mail: dentro de 2 horas. Presencialmente: no caixa enquanto o cliente ainda está satisfeito. Quanto mais próximo da experiência, maior a taxa de resposta. Faça um acompanhamento 3-5 dias depois se não responderem.' } },
+    { '@type': 'Question', name: 'Devo pedir avaliações por e-mail ou mensagem de texto?', acceptedAnswer: { '@type': 'Answer', text: 'Mensagens de texto têm taxas de resposta 3-5 vezes superiores ao e-mail para solicitações de avaliação. No entanto, o e-mail funciona melhor para pedidos mais longos e profissionais. Use ambos: mensagem de texto para a solicitação inicial, e-mail para um lembrete de acompanhamento.' } },
+    { '@type': 'Question', name: 'Pedir avaliações vai contra as regras do Google?', acceptedAnswer: { '@type': 'Answer', text: 'Não. O Google incentiva explicitamente os negócios a pedir avaliações aos clientes. O que você não pode fazer é oferecer incentivos (descontos, brindes) em troca de avaliações, nem pedir avaliações apenas aos clientes satisfeitos (filtragem de avaliações). Pedir a todos os clientes igualmente é perfeitamente válido.' } },
+    { '@type': 'Question', name: 'Este gerador de solicitação de avaliação é gratuito?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, 100% gratuito. Sem cadastro nem cartão de crédito necessários. Insira os dados do seu negócio, selecione seus canais e obtenha modelos personalizados para e-mail, SMS, scripts presenciais e lembretes de acompanhamento instantaneamente.' } },
+  ],
+};
+
+const industries = [
+  'Odontologia / Ortodontia','Jurídico / Escritório de Advocacia','Encanamento / HVAC','Elétrica',
+  'Telhados / Construção','Imobiliário','Contabilidade / Impostos','Restaurante / Cafeteria',
+  'Salão / Spa / Beleza','Reparação / Detalhamento de Carros','Serviços de Limpeza','Paisagismo / Jardinagem',
+  'Veterinária / Animais de Estimação','Quiropraxia / Fisioterapia','Serviços de TI / Consultoria',
+  'Fitness / Academia / Yoga','Fotografia / Videografia','Seguros / Serviços Financeiros',
+  'Decoração de Interiores','Tutoria / Educação','Banho e Tosa / Creche para Animais',
+  'Mudanças / Armazenamento','Controle de Pragas',
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Gerador de Modelos de Solicitação de Avaliação Gratuito"
+  toolDescription="Obtenha scripts personalizados de e-mail, SMS, presencial e acompanhamento com seu link de avaliações do Google incluído. Multicanal, específico por setor. Sem cadastro."
+  lang="pt-BR"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <!-- Business Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz">Nome do Negócio <span class="text-red-500">*</span></label>
+          <input type="text" id="biz" required maxlength="100" placeholder="ex., Clínica Odontológica Família Garcia" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-biz">Por favor, insira o nome do seu negócio</p>
+        </div>
+
+        <!-- Industry -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ind">Setor <span class="text-red-500">*</span></label>
+          <select id="ind" required class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+            <option value="" disabled selected>Selecione seu setor</option>
+            {industries.map(ind => <option>{ind}</option>)}
+            <option value="__other__">Outro (escreva o seu)</option>
+          </select>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-ind">Por favor, selecione seu setor</p>
+          <input type="text" id="ind-other" placeholder="ex., Organização de casamentos, Limpeza de piscinas" maxlength="60" class="mt-1.5 hidden w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Customer First Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="cname">Nome do Cliente <span class="font-normal normal-case tracking-normal text-[#79716b]">. Opcional</span></label>
+          <input type="text" id="cname" maxlength="30" placeholder="ex., João (deixe em branco para genérico)" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Service Provided -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="svc">Serviço Prestado <span class="font-normal normal-case tracking-normal text-[#79716b]">. Opcional</span></label>
+          <input type="text" id="svc" maxlength="80" placeholder="ex., seu serviço ou consulta recente" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Google Review Link -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="rlink">Link de Avaliações do Google <span class="font-normal normal-case tracking-normal text-[#79716b]">. Opcional</span></label>
+          <input type="url" id="rlink" placeholder="Cole seu link de avaliações do Google (ou adicionaremos um marcador de posição)" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 text-[11px] text-[#79716b]">Não tem? <a href="/pt-br/ferramentas/gerador-qr-avaliacoes/" class="text-[#6d28d9] underline">Encontre-o com nosso Gerador de QR</a></p>
+        </div>
+
+        <!-- Tone -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Tom</label>
+          <div class="flex flex-wrap gap-2">
+            {[
+              { val: 'friendly', label: 'Amigável' },
+              { val: 'professional', label: 'Profissional' },
+              { val: 'brief', label: 'Breve' },
+            ].map((t, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="tone" value={t.val} checked={i === 0} class="peer sr-only" />
+                <span class="inline-block rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff] peer-checked:text-[#4f39f6]">{t.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Channels -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Canais <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-2 gap-2">
+            {[
+              { id: 'ch-email', label: 'E-mail', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>` },
+              { id: 'ch-sms', label: 'SMS / Texto', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>` },
+              { id: 'ch-inperson', label: 'Script Presencial', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>` },
+              { id: 'ch-followup', label: 'Lembrete de Acompanhamento', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>` },
+            ].map(ch => (
+              <label class="flex items-center gap-2.5 rounded-lg border border-[#e7e5e4] px-3 py-2.5 cursor-pointer transition-colors has-[:checked]:border-[#4f39f6] has-[:checked]:bg-[#f5f3ff]">
+                <input type="checkbox" id={ch.id} checked class="accent-[#615fff] w-4 h-4" />
+                <span class="flex h-5 w-5 shrink-0 items-center justify-center" set:html={ch.icon}></span>
+                <span class="text-[13px] font-medium text-[#292524]">{ch.label}</span>
+              </label>
+            ))}
+          </div>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-channels">Por favor, selecione pelo menos um canal</p>
+        </div>
+
+        <!-- Info box -->
+        <div class="mb-5 flex items-start gap-2 rounded-lg bg-[#f5f3ff] border border-[#ddd6fe] p-3">
+          <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+          <p class="text-[13px] text-[#57534e] leading-relaxed"><strong class="text-[#292524]">Ferramenta única no mercado.</strong> Nenhuma outra ferramenta gratuita gera modelos personalizados e multicanal de solicitação de avaliação com seu link de avaliação incluído. Os modelos de blog exigem busca e substituição manual. Esta faz por você.</p>
+        </div>
+
+        <button type="submit" id="gen-btn" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase tracking-wide text-white transition-all hover:bg-[#4f39f6] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+          Gerar Kit de Solicitação de Avaliação
+        </button>
+      </form>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="mt-8 hidden">
+      <div class="mb-4 flex items-center justify-center gap-1.5 rounded-lg bg-[#fafaf9] border border-[#e7e5e4] px-4 py-2 font-mono text-xs text-[#79716b]">
+        Modelos gerados nesta sessão: <strong class="text-[#6d28d9]" id="gen-count">0</strong>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="mb-4 flex border-b border-[#e7e5e4]">
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-[#4f39f6] text-[#4f39f6] cursor-pointer transition-colors" data-tab="email">E-mail</button>
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-transparent text-[#79716b] cursor-pointer transition-colors" data-tab="sms">SMS</button>
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-transparent text-[#79716b] cursor-pointer transition-colors" data-tab="inperson">Presencial</button>
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-transparent text-[#79716b] cursor-pointer transition-colors" data-tab="followup">Acompanhamento</button>
+      </div>
+
+      <!-- Tab Panels -->
+      <div id="panel-email" class="tab-panel"></div>
+      <div id="panel-sms" class="tab-panel hidden"></div>
+      <div id="panel-inperson" class="tab-panel hidden"></div>
+      <div id="panel-followup" class="tab-panel hidden"></div>
+
+      <!-- Review Link Section -->
+      <div id="link-section" class="mt-4"></div>
+
+      <!-- Actions -->
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="regen" class="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Gerar Outro
+        </button>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">Você acabou de criar modelos para 1 cliente.<br/>O Stacc envia para todos os seus clientes, automaticamente.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Solicitações de avaliação personalizadas por e-mail e SMS. No piloto automático. A partir de $49/mês.</p>
+        <a href="/pt-br/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Comece seu Teste por $1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 por 30 dias &middot; Cancele quando quiser</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Como Pedir Avaliações no Google (Sem Ser Constrangedor)</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A principal razão pela qual os negócios não recebem avaliações não é o mau serviço. É que nunca pedem. E quando pedem, a solicitação costuma ser genérica demais, tardia demais ou difícil demais para o cliente agir.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Seja pessoal.</strong> Use o nome do cliente e mencione o serviço específico. "Oi Sara, obrigado por vir hoje para sua limpeza" converte 3 vezes mais que "Prezado cliente".</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Facilite.</strong> Inclua um link direto para sua página de avaliações do Google. Se o cliente tiver que pesquisar você no Google, navegar até as avaliações e clicar em "Escrever uma avaliação", você o perdeu. Um clique deve ser suficiente.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Seja oportuno.</strong> Pergunte dentro de 1-2 horas após o serviço, enquanto a experiência ainda está fresca. Quanto mais você espera, mais cai a taxa de resposta. Uma mensagem de texto enviada 30 minutos após a consulta recebe 5 vezes mais respostas do que um e-mail enviado no dia seguinte.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Seja sem pressão.</strong> "Se você tiver 30 segundos" é melhor do que "Por favor, reserve um tempo para deixar uma avaliação detalhada." Ninguém quer tarefas. Apresente como algo rápido e fácil. Porque é.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Faça um acompanhamento uma vez.</strong> Se não responderem à primeira solicitação, envie um acompanhamento educado 3-5 dias depois. Depois disso, deixe estar. Ninguém gosta de ser pressionado.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Quando Enviar uma Solicitação de Avaliação</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">SMS / Texto:</strong> Dentro da primeira hora após o serviço. O melhor horário é entre 10h e 18h. As mensagens de texto têm uma taxa de abertura de 98%, tornando-as o canal mais eficaz para solicitações de avaliação.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">E-mail:</strong> Dentro de 2 horas do serviço, ou no mesmo dia útil. Envie entre 9-11h ou 13-15h para melhores taxas de abertura. Inclua o link de avaliação de forma destacada. Não o enterre no texto do parágrafo.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Presencial:</strong> No momento de maior satisfação. Logo após concluir o serviço, enquanto o cliente está pagando ou se preparando para sair. Não espere que já estejam fora. Tenha um código QR visível no caixa.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Acompanhamento:</strong> 3-5 dias após a solicitação inicial. Mais curto que o primeiro e-mail. Reconheça que estão ocupados. Inclua o link novamente.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Dicas de Solicitação de Avaliação por Setor</h2>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Dentistas e Clínicas Odontológicas</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Pergunte logo após a consulta, antes que o paciente saia do consultório. A recepção deve ter um script pronto. Mencionar o tratamento específico: "Obrigado por vir para sua limpeza" é mais pessoal do que "Obrigado pela sua visita." As mensagens de texto funcionam especialmente bem para pacientes mais jovens.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Encanadores e HVAC</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Peça ao técnico para perguntar pessoalmente ao terminar o trabalho, e em seguida faça um acompanhamento com uma mensagem de texto na hora seguinte. O cliente está mais satisfeito quando o problema está resolvido. Essa é sua janela. "Seu cano está fluindo perfeitamente agora. Você se importaria de nos deixar uma avaliação rápida no Google?"</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Advogados e Escritórios de Advocacia</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">O momento é tudo no setor jurídico. Não pergunte durante um caso ativo. Pergunte após uma resolução bem-sucedida. Use um tom profissional. Os advogados devem ser especialmente cuidadosos para não fazer referência aos detalhes do caso nas solicitações de avaliação.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Restaurantes e Cafeterias</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Os códigos QR na mesa ou na conta são a solicitação mais natural em um restaurante. Treine os garçons para mencioná-lo ao entregar a conta: "Se gostou da sua refeição, adoraríamos uma avaliação rápida. Há um código QR na mesa." Não envie mensagem de texto ou e-mail a menos que colete informações de contato através de reservas.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Perguntas Frequentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Como peço a um cliente uma avaliação no Google?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Pergunte imediatamente após uma experiência positiva. Presencialmente, por mensagem ou por e-mail. Use o nome do cliente, mencione o serviço específico e inclua um link direto para suas avaliações do Google. Seja breve e sem pressão. "Se você tiver 30 segundos" funciona melhor do que uma solicitação longa e formal.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Qual é o melhor momento para enviar uma solicitação de avaliação?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Para SMS: dentro da primeira hora após o serviço. Para e-mail: dentro de 2 horas. Presencialmente: no caixa. Quanto mais próximo da experiência, maior a taxa de resposta. Faça um acompanhamento 3-5 dias depois se necessário.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Devo pedir avaliações por e-mail ou mensagem de texto?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">As mensagens de texto têm taxas de resposta 3-5 vezes superiores ao e-mail. Use ambos: mensagem de texto para a solicitação inicial (rápida, alta taxa de abertura), e-mail para um lembrete de acompanhamento (mais espaço para personalização). As solicitações presenciais com códigos QR também funcionam muito bem.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Pedir avaliações vai contra as regras do Google?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Não. O Google incentiva os negócios a pedir avaliações. O que você não pode fazer é oferecer incentivos (descontos, brindes) por avaliações, nem pedir avaliações apenas aos clientes satisfeitos (filtragem de avaliações). Pedir a todos os clientes igualmente é permitido e recomendável.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Este gerador de solicitação de avaliação é gratuito?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sim, 100% gratuito. Sem cadastro nem cartão de crédito necessários. Insira os dados do seu negócio, escolha seus canais e obtenha modelos personalizados para e-mail, SMS, presencial e acompanhamento instantaneamente.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Mais Ferramentas de SEO Local Gratuitas</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/pt-br/ferramentas/gerador-qr-avaliacoes/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de QR para Avaliações</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Códigos QR prontos para impressão para avaliações do Google</p>
+          </a>
+          <a href="/pt-br/ferramentas/gerador-resposta-avaliacoes/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de Resposta a Avaliações</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Responda avaliações do Google em segundos</p>
+          </a>
+          <a href="/pt-br/ferramentas/gerador-post-gbp/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de Post GBP</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Gere publicações GBP prontas para publicar</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta ferramenta requer JavaScript. Por favor, ative-o no seu navegador.</p></div></noscript>
+    <script is:inline src="/js/review-request-engine.js"></script>
+  </Fragment>
+</ToolLayout>

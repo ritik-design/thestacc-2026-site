@@ -1,0 +1,592 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import CrossLinks from '../../components/common/CrossLinks.astro';
+import { glossaryCategoryLinks } from '../../data/internal-links';
+import { isNoindexed } from '../../data/noindex-list';
+
+export async function getStaticPaths() {
+  const glossary = await getCollection('glossary');
+  return glossary.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const allTerms = await getCollection('glossary');
+const relatedSlugs = entry.data.relatedTerms || [];
+const relatedTerms = allTerms.filter((t) => relatedSlugs.includes(t.data.slug));
+
+const categoryTerms = allTerms
+  .filter((t) => t.data.category === entry.data.category && t.data.slug !== entry.data.slug)
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 6);
+
+const categoryCrossLinks = glossaryCategoryLinks[entry.data.category] || [];
+
+const categoryColors: Record<string, string> = {
+  'Marketing': '#4f39f6',
+  'SEO': '#16a34a',
+  'Local SEO': '#ea580c',
+  'Social Media': '#db2777',
+  'AI & Emerging': '#7c3aed',
+};
+
+const difficultyColors: Record<string, string> = {
+  'Beginner': '#16a34a',
+  'Intermediate': '#d97706',
+  'Advanced': '#dc2626',
+};
+
+const catColor = categoryColors[entry.data.category] || '#4f39f6';
+const t = entry.data.term;
+
+// ─── Category-specific copy ───────────────────────────────────────────────────
+
+const heroSubtitles: Record<string, string> = {
+  'SEO': `Learn what ${t} means, why it matters for search rankings, and how consistent content publishing keeps your business visible in Google.`,
+  'Local SEO': `Learn what ${t} means, why it matters for local search, and how automated local SEO helps your business get found by nearby customers.`,
+  'Marketing': `Learn what ${t} means, why it matters for your marketing strategy, and how consistent content keeps your brand top of mind.`,
+  'Social Media': `Learn what ${t} means, why it matters for social visibility, and how automated content keeps your brand consistently in front of your audience.`,
+  'AI & Emerging': `Learn what ${t} means, why it matters as AI reshapes search, and how to stay visible with consistent content publishing.`,
+};
+
+const bridgeHeadings: Record<string, string> = {
+  'SEO': `From understanding ${t} to ranking for it`,
+  'Local SEO': `How ${t} drives local business growth. In practice`,
+  'Marketing': `How ${t} shapes your marketing outcomes. In practice`,
+  'Social Media': `Putting ${t} to work for your brand`,
+  'AI & Emerging': `How ${t} affects your search visibility today`,
+};
+
+const bridgeCopy: Record<string, string> = {
+  'SEO': `Understanding ${t} is the starting point. The businesses that actually benefit from it are the ones consistently publishing SEO content. Not just understanding the concept. Most companies know what they should be doing; the bottleneck is execution. theStacc removes that bottleneck by publishing 30 keyword-optimized articles to your site every month, automatically.`,
+  'Local SEO': `${t} gives local businesses the framework. But consistently winning local search requires showing up repeatedly. Through GBP posts, local content, and fresh articles. The businesses ranking above you aren't smarter; they're more consistent. theStacc automates that consistency: 30 GBP posts, local landing pages, and blog content every month without the manual effort.`,
+  'Marketing': `${t} is a concept your competitors understand too. The difference between brands that benefit from it and those that don't comes down to consistent execution. The brands that stay visible aren't publishing more manually. They've automated their content pipeline. theStacc handles that side automatically, so your brand stays relevant without a full marketing team.`,
+  'Social Media': `Knowing what ${t} means gives you the theory. Applying it requires showing up consistently across channels. Which is where most businesses fall behind. theStacc automates your SEO and content calendar so your brand builds visibility without manually writing and scheduling every post.`,
+  'AI & Emerging': `As AI changes how people discover content, ${t} becomes increasingly important for brands that want to stay visible. The businesses that win in AI-powered search are the ones publishing consistently and authoritatively. theStacc automates that publishing pipeline so you can stay ahead without scaling a content team.`,
+};
+
+const sidebarHooks: Record<string, string> = {
+  'SEO': `Want to rank for more terms like "${t}"?`,
+  'Local SEO': `Want to dominate local search automatically?`,
+  'Marketing': `Want consistent marketing content on autopilot?`,
+  'Social Media': `Want your brand consistently visible. Without the manual work?`,
+  'AI & Emerging': `Want to stay visible as AI reshapes search?`,
+};
+
+const sidebarCopy: Record<string, string> = {
+  'SEO': `Understanding ${t} is one thing. Building rankings around it requires consistent content. theStacc publishes 30 SEO articles to your site every month. Automatically.`,
+  'Local SEO': `Local businesses that consistently show up in search aren't doing more. They're automating more. theStacc handles 30 GBP posts and local content monthly.`,
+  'Marketing': `Consistent content is the engine behind every strong marketing strategy. theStacc automates the publishing side so your brand never goes quiet.`,
+  'Social Media': `Visibility requires consistency. theStacc handles your SEO content calendar so your brand stays top of mind without the manual effort.`,
+  'AI & Emerging': `AI-era search rewards brands that publish regularly and authoritatively. theStacc automates that process ,  30 articles per month, no team required.`,
+};
+
+const footerCTAs: Record<string, { heading: string; sub: string }> = {
+  'SEO': {
+    heading: `Build rankings around terms like "${t}". Automatically`,
+    sub: `30 keyword-optimized articles published to your site every month. Rankings compound while you focus on your business.`,
+  },
+  'Local SEO': {
+    heading: `Dominate local search. Automatically`,
+    sub: `30 GBP posts, local landing pages, and blog articles every month. Show up where your local competitors don't.`,
+  },
+  'Marketing': {
+    heading: `Keep your brand visible without the manual work`,
+    sub: `Consistent content is the engine behind every strong marketing strategy. theStacc automates it for you.`,
+  },
+  'Social Media': {
+    heading: `Stay consistently visible across every channel`,
+    sub: `30 blog posts, social content, and GBP updates every month. All on autopilot.`,
+  },
+  'AI & Emerging': {
+    heading: `Stay visible as AI reshapes search`,
+    sub: `Brands that publish consistently and authoritatively win in AI-powered search. theStacc automates that publishing pipeline.`,
+  },
+};
+
+const heroSubtitle = heroSubtitles[entry.data.category] || `Learn what ${t} means, why it matters, and how to put it to work for your business.`;
+const bridgeHeading = bridgeHeadings[entry.data.category] || `How ${t} connects to your content strategy`;
+const bridgeBody = bridgeCopy[entry.data.category] || `Understanding ${t} is the starting point. The businesses that actually benefit from it consistently execute on it. With systems and automation rather than manual effort. That's what theStacc is built for.`;
+const sidebarHook = sidebarHooks[entry.data.category] || `Want to improve your SEO automatically?`;
+const sidebarBody = sidebarCopy[entry.data.category] || `theStacc publishes 30 SEO-optimized articles to your site every month, automatically.`;
+const footerCTA = footerCTAs[entry.data.category] || { heading: 'Ready to automate your SEO?', sub: '30 GBP posts, 30 blog articles, social media. All on autopilot.' };
+
+// ─── FAQ extraction for schema ────────────────────────────────────────────────
+const faqItems: { question: string; answer: string }[] = [];
+const bodyText = entry.body || '';
+const faqSectionMatch = bodyText.split(/^## Frequently Asked Questions/m)[1];
+if (faqSectionMatch) {
+  const faqBlock = faqSectionMatch.split(/^## /m)[0];
+  const faqParts = faqBlock.split(/^### /m).filter(Boolean);
+  for (const part of faqParts) {
+    const lines = part.trim().split('\n');
+    const question = lines[0].replace(/\??\s*$/, '?').trim();
+    const answer = lines.slice(1).join(' ').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*/g, '').trim();
+    if (question && answer) faqItems.push({ question, answer });
+  }
+}
+
+// ─── JSON-LD Schema ───────────────────────────────────────────────────────────
+const termUrl = `https://thestacc.com/glossary/${entry.data.slug}`;
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'DefinedTerm',
+      '@id': `${termUrl}#term`,
+      name: entry.data.term,
+      description: entry.data.definition,
+      url: termUrl,
+      inDefinedTermSet: {
+        '@type': 'DefinedTermSet',
+        '@id': 'https://thestacc.com/glossary/',
+        name: 'Marketing & SEO Glossary',
+        url: 'https://thestacc.com/glossary/',
+      },
+      termCode: entry.data.category,
+    },
+    {
+      '@type': 'Article',
+      '@id': `${termUrl}#article`,
+      headline: `What is ${entry.data.term}? Definition & Guide`,
+      description: entry.data.definition,
+      url: termUrl,
+      datePublished: entry.data.date,
+      dateModified: entry.data.lastUpdated || entry.data.date,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': termUrl },
+      author: { '@type': 'Organization', '@id': 'https://thestacc.com/#organization', name: 'theStacc' },
+      publisher: {
+        '@type': 'Organization',
+        '@id': 'https://thestacc.com/#organization',
+        name: 'theStacc',
+        url: 'https://thestacc.com',
+        logo: { '@type': 'ImageObject', url: 'https://thestacc.com/stacc-logo.png' },
+      },
+      about: { '@id': `${termUrl}#term` },
+      isPartOf: { '@id': 'https://thestacc.com/glossary/' },
+    },
+    ...(faqItems.length > 0 ? [{
+      '@type': 'FAQPage',
+      '@id': `${termUrl}#faq`,
+      mainEntity: faqItems.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+      })),
+    }] : []),
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${termUrl}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://thestacc.com' },
+        { '@type': 'ListItem', position: 2, name: 'Glossary', item: 'https://thestacc.com/glossary/' },
+        { '@type': 'ListItem', position: 3, name: entry.data.term, item: termUrl },
+      ],
+    },
+    {
+      '@type': 'Organization',
+      '@id': 'https://thestacc.com/#organization',
+      name: 'theStacc',
+      url: 'https://thestacc.com',
+      logo: { '@type': 'ImageObject', url: 'https://thestacc.com/stacc-logo.png' },
+      sameAs: ['https://www.linkedin.com/company/thestacc', 'https://x.com/thestacc'],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': termUrl,
+      name: `What is ${entry.data.term}?`,
+      description: entry.data.definition,
+      url: termUrl,
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['.glossary-quick-definition'],
+      },
+      isPartOf: { '@type': 'WebSite', '@id': 'https://thestacc.com/#website', name: 'theStacc', url: 'https://thestacc.com' },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={`${entry.data.term}: Definition & Guide | theStacc`}
+  description={entry.data.definition}
+  noindex={isNoindexed(`/glossary/${entry.data.slug}/`)}
+>
+  <Header />
+  <main class="flex-1">
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+
+    <!-- ░░ HERO ░░ -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.18) 0%, transparent 62%);"></div>
+
+      <div class="mx-auto max-w-[1080px] px-6 relative z-10 pt-8 pb-12">
+        <!-- Breadcrumb -->
+        <nav aria-label="Breadcrumb">
+          <ol class="flex items-center gap-1.5 font-mono text-[11px] text-[#79716b]">
+            <li><a href="/" class="hover:text-[#4f39f6] transition-colors">Home</a></li>
+            <li class="before:content-['/'] before:mx-1.5 before:text-[#a8a29e]"><a href="/glossary/" class="hover:text-[#4f39f6] transition-colors">Glossary</a></li>
+            <li class="before:content-['/'] before:mx-1.5 before:text-[#a8a29e] text-[#292524]">{entry.data.term}</li>
+          </ol>
+        </nav>
+
+        <!-- Meta badges -->
+        <div class="mt-5 flex flex-wrap items-center gap-2">
+          <span
+            class="rounded-lg px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.1em]"
+            style={`color: ${catColor}; background: ${catColor}22;`}
+          >{entry.data.category}</span>
+          <span
+            class="rounded-lg px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.1em]"
+            style={`color: ${difficultyColors[entry.data.difficulty] || '#94a3b8'}; background: ${difficultyColors[entry.data.difficulty] || '#94a3b8'}22;`}
+          >{entry.data.difficulty}</span>
+          {entry.data.lastUpdated && (
+            <span class="font-mono text-[11px] text-[#79716b]">Updated {entry.data.lastUpdated}</span>
+          )}
+        </div>
+
+        <!-- H1 + intent subtitle -->
+        <h1 class="mt-4 max-w-[680px] font-sans text-[28px] font-bold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[36px]">
+          What is {entry.data.term}?
+        </h1>
+        <p class="mt-3 max-w-[600px] font-sans text-[14px] leading-[1.7] text-[#64748b]">
+          {heroSubtitle}
+        </p>
+
+        <!-- Quick definition (speakable target — AI Overview citation source) -->
+        <div
+          class="glossary-quick-definition mt-5 max-w-[680px] rounded-xl border border-[#e7e5e4] bg-[#fafaf9] px-5 py-4"
+          style={`border-left: 3px solid ${catColor};`}
+        >
+          <p class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Definition</p>
+          <p class="mt-1.5 font-sans text-[16px] font-medium leading-[1.7] text-[#292524]">{entry.data.definition}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ CONTENT ░░ -->
+    <section class="bg-white px-6 py-10">
+      <div class="mx-auto max-w-[1080px]">
+
+        <!-- Mobile TOC (collapsible) -->
+        <div class="mb-8 lg:hidden">
+          <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9]">
+            <button
+              id="toc-toggle"
+              class="flex w-full cursor-pointer items-center justify-between px-5 py-3.5"
+              aria-expanded="false"
+            >
+              <span class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#292524]">On This Page</span>
+              <svg id="toc-chevron" class="transition-transform text-[#79716b]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <nav id="glossary-toc-mobile" class="hidden flex-col gap-1 border-t border-[#e7e5e4] px-5 pb-4 pt-3">
+              <!-- JS populates -->
+            </nav>
+          </div>
+        </div>
+
+        <!-- Two-column layout -->
+        <div class="flex flex-col gap-10 lg:flex-row lg:items-start">
+
+          <!-- ── Main Content ── -->
+          <div class="glossary-content min-w-0 flex-1 max-w-full lg:max-w-[700px]">
+            <Content />
+
+            <!-- ── Conversion bridge ── -->
+            <div class="mt-10 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.86a.5.5 0 0 1-.62-.62l.86-2.873a2 2 0 0 1 .506-.854z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-sans text-[15px] font-semibold text-[#292524]">{bridgeHeading}</h3>
+                  <p class="mt-2 font-sans text-[14px] leading-[1.7] text-[#57534e]">{bridgeBody}</p>
+                  <a
+                    href="/demo/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mt-4 inline-flex items-center gap-1.5 font-mono text-[12px] font-semibold text-[#4f39f6] transition-colors hover:text-[#3b27c9]"
+                  >
+                    See how theStacc works
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Related Terms -->
+            {relatedTerms.length > 0 && (
+              <div class="mt-10 border-t border-[#e7e5e4] pt-8">
+                <h2 class="font-sans text-[20px] font-semibold leading-[28px] text-[#292524] mb-4">Related Terms</h2>
+                <div class="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                  {relatedTerms.map((rt) => (
+                    <a
+                      href={`/glossary/${rt.data.slug}/`}
+                      class="group rounded-xl border border-[#e7e5e4] bg-[#fafaf9] px-4 py-3 transition-all hover:border-[#c4b5fd] hover:bg-white hover:shadow-sm"
+                    >
+                      <div class="flex items-start justify-between gap-2">
+                        <span class="font-sans text-[14px] font-semibold text-[#292524] transition-colors group-hover:text-[#4f39f6]">{rt.data.term}</span>
+                        <span
+                          class="shrink-0 rounded-md px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase"
+                          style={`color: ${categoryColors[rt.data.category] || '#57534e'}; background: ${categoryColors[rt.data.category] || '#57534e'}18;`}
+                        >{rt.data.category}</span>
+                      </div>
+                      <p class="mt-1 line-clamp-2 font-sans text-[12px] leading-[18px] text-[#79716b]">{rt.data.definition}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <CrossLinks
+              heading="Learn More"
+              moduleLinks={categoryCrossLinks.filter(l => l.url.startsWith('/modules'))}
+              bestLinks={categoryCrossLinks.filter(l => l.url.startsWith('/best'))}
+              toolLinks={entry.data.category === 'Local SEO'
+                ? [{ url: '/tools/gbp-post-generator/', label: 'GBP Post Generator' }]
+                : [{ url: '/tools/seo-audit/', label: 'Free SEO Audit' }]
+              }
+              homepageAnchor="AI SEO Automation Platform"
+              compact={true}
+            />
+          </div>
+
+          <!-- ── Sidebar ── -->
+          <aside class="hidden lg:block w-[272px] shrink-0 self-stretch">
+            <div class="flex flex-col gap-4 sticky top-[80px]">
+
+              <!-- CTA card. Educational positioning -->
+              <div class="relative overflow-hidden rounded-2xl" style="background:#0d1117;">
+                <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:28px 28px;mask-image:radial-gradient(ellipse at 50% 0%,black 50%,transparent 100%);"></div>
+                <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.55) 0%, transparent 70%);"></div>
+                <div class="relative z-10 p-5">
+                  <p class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#818cf8]">theStacc</p>
+                  <h4 class="mt-2 font-sans text-[14px] font-bold leading-[1.35] text-white">{sidebarHook}</h4>
+                  <p class="mt-2 font-sans text-[12px] leading-[1.65] text-[#94a3b8]">{sidebarBody}</p>
+                  <a
+                    href="/demo/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mt-4 inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#4f39f6] bg-[#615fff] px-4 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+                  >
+                    See how it works
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- TOC card -->
+              <div class="rounded-xl border border-[#e7e5e4] bg-white">
+                <div class="border-b border-[#f5f5f4] px-5 py-3">
+                  <span class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">On This Page</span>
+                </div>
+                <nav id="glossary-toc-desktop" class="flex flex-col gap-0.5 px-5 py-3">
+                  <!-- JS populates -->
+                </nav>
+              </div>
+
+              <!-- More in category -->
+              {categoryTerms.length > 0 && (
+                <div class="rounded-xl border border-[#e7e5e4] bg-white">
+                  <div class="border-b border-[#f5f5f4] px-5 py-3">
+                    <span class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">More in {entry.data.category}</span>
+                  </div>
+                  <div class="flex flex-col px-5 py-3">
+                    {categoryTerms.map((ct) => (
+                      <a
+                        href={`/glossary/${ct.data.slug}/`}
+                        class="border-b border-[#f5f5f4] py-2 font-sans text-[13px] text-[#57534e] transition-colors last:border-0 hover:text-[#4f39f6]"
+                      >{ct.data.term}</a>
+                    ))}
+                  </div>
+                  <div class="border-t border-[#f5f5f4] px-5 py-3">
+                    <a href="/glossary/" class="font-mono text-[11px] font-semibold text-[#4f39f6] transition-colors hover:underline">Browse all terms →</a>
+                  </div>
+                </div>
+              )}
+
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ FOOTER CTA ── topic-specific ░░ -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.4) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <h3 class="font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-white">
+          {footerCTA.heading}
+        </h3>
+        <p class="mx-auto mt-3 max-w-[440px] font-sans text-[15px] leading-[1.7] text-[#94a3b8]">
+          {footerCTA.sub}
+        </p>
+        <a
+          href="/demo/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+        >
+          Start Your $1 Trial
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#4b5563]">$1 for 3 days · Cancel anytime</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script>
+    // === Mobile TOC toggle ===
+    const tocToggle = document.getElementById('toc-toggle');
+    const tocMobileNav = document.getElementById('glossary-toc-mobile');
+    const tocChevron = document.getElementById('toc-chevron');
+    tocToggle?.addEventListener('click', () => {
+      const isOpen = tocToggle.getAttribute('aria-expanded') === 'true';
+      tocToggle.setAttribute('aria-expanded', String(!isOpen));
+      tocMobileNav?.classList.toggle('hidden', isOpen);
+      tocMobileNav?.classList.toggle('flex', !isOpen);
+      tocChevron?.classList.toggle('rotate-180', !isOpen);
+    });
+
+    // === Build Table of Contents ===
+    function buildTOC() {
+      const content = document.querySelector('.glossary-content');
+      if (!content) return;
+
+      const headings = content.querySelectorAll('h2');
+      const tocMobile = document.getElementById('glossary-toc-mobile');
+      const tocDesktop = document.getElementById('glossary-toc-desktop');
+
+      headings.forEach((heading, i) => {
+        if (heading.closest('.faq-box')) return;
+        const id = heading.id || `section-${i}`;
+        heading.id = id;
+        const link = `<a href="#${id}" class="block font-sans text-[13px] leading-[20px] py-1 text-[#57534e] hover:text-[#4f39f6] transition-colors glossary-toc-link" data-target="${id}">${heading.textContent}</a>`;
+        if (tocMobile) tocMobile.innerHTML += link;
+        if (tocDesktop) tocDesktop.innerHTML += link;
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              document.querySelectorAll('.glossary-toc-link').forEach((l) => {
+                l.classList.remove('text-[#4f39f6]', 'font-semibold');
+                l.classList.add('text-[#57534e]');
+              });
+              document.querySelectorAll(`.glossary-toc-link[data-target="${entry.target.id}"]`).forEach((l) => {
+                l.classList.add('text-[#4f39f6]', 'font-semibold');
+                l.classList.remove('text-[#57534e]');
+              });
+            }
+          });
+        },
+        { rootMargin: '-20% 0px -70% 0px' }
+      );
+
+      headings.forEach((h) => observer.observe(h));
+    }
+
+    // === Wrap FAQ section in accordion box ===
+    function buildFAQ() {
+      const content = document.querySelector('.glossary-content');
+      if (!content) return;
+
+      content.querySelectorAll('h2').forEach((h2) => {
+        const text = (h2.textContent || '').trim();
+        if (!text.includes('FAQ') && !text.includes('Frequently Asked')) return;
+
+        h2.classList.add('faq-heading');
+        const faqBox = document.createElement('div');
+        faqBox.className = 'faq-box';
+
+        let el = h2.nextElementSibling;
+        const items: Element[] = [];
+        while (el && el.tagName !== 'H2' && el.tagName !== 'HR') {
+          items.push(el);
+          el = el.nextElementSibling;
+        }
+
+        h2.parentNode?.insertBefore(faqBox, h2);
+        faqBox.appendChild(h2);
+
+        let currentQuestion: HTMLElement | null = null;
+        let currentAnswer: HTMLElement | null = null;
+
+        items.forEach((item) => {
+          if (item.tagName === 'H3') {
+            if (currentQuestion && currentAnswer) {
+              const faqItem = document.createElement('div');
+              faqItem.className = 'faq-item';
+              const q = document.createElement('h3');
+              q.className = 'faq-question';
+              q.textContent = currentQuestion.textContent;
+              q.setAttribute('role', 'button');
+              q.setAttribute('tabindex', '0');
+              faqItem.appendChild(q);
+              faqItem.appendChild(currentAnswer);
+              q.addEventListener('click', () => { faqItem.classList.toggle('open'); });
+              q.addEventListener('keydown', (e: KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); faqItem.classList.toggle('open'); }
+              });
+              faqBox.appendChild(faqItem);
+            }
+            currentQuestion = item as HTMLElement;
+            currentAnswer = document.createElement('div');
+            currentAnswer.className = 'faq-answer';
+            item.remove();
+          } else if (currentAnswer) {
+            currentAnswer.innerHTML += (item as HTMLElement).outerHTML;
+            item.remove();
+          } else {
+            item.remove();
+          }
+        });
+
+        if (currentQuestion && currentAnswer) {
+          const faqItem = document.createElement('div');
+          faqItem.className = 'faq-item';
+          const q = document.createElement('h3');
+          q.className = 'faq-question';
+          q.textContent = currentQuestion.textContent;
+          q.setAttribute('role', 'button');
+          q.setAttribute('tabindex', '0');
+          faqItem.appendChild(q);
+          faqItem.appendChild(currentAnswer);
+          q.addEventListener('click', () => { faqItem.classList.toggle('open'); });
+          q.addEventListener('keydown', (e: KeyboardEvent) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); faqItem.classList.toggle('open'); }
+          });
+          faqBox.appendChild(faqItem);
+        }
+
+        const firstItem = faqBox.querySelector('.faq-item');
+        if (firstItem) firstItem.classList.add('open');
+      });
+    }
+
+    // === External links open in new tab ===
+    function handleExternalLinks() {
+      document.querySelectorAll('.glossary-content a[href^="http"]').forEach((a) => {
+        if (!a.getAttribute('href')?.includes('thestacc.com')) {
+          a.setAttribute('target', '_blank');
+          a.setAttribute('rel', 'noopener');
+        }
+      });
+    }
+
+    buildFAQ();
+    buildTOC();
+    handleExternalLinks();
+  </script>
+</BaseLayout>

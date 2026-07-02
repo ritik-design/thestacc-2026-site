@@ -1,0 +1,384 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Gerador Gratuito de Respostas a Avaliações do Google | theStacc';
+const pageDescription = 'Gere respostas profissionais a avaliações do Google em 10 segundos. Específico por setor, otimizado para SEO, múltiplos tons. Cole qualquer avaliação e obtenha 3 respostas prontas para publicar. Grátis, sem cadastro.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Gerador Gratuito de Respostas a Avaliações do Google',
+  description: 'Gere respostas profissionais a avaliações do Google em 10 segundos. Específico por setor, otimizado para SEO, múltiplos tons.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'Como devo responder a uma avaliação negativa do Google?', acceptedAnswer: { '@type': 'Answer', text: 'Reconheça o feedback, demonstre empatia sem admitir responsabilidade, ofereça resolver o problema de forma privada e mantenha menos de 150 palavras. Responda sempre dentro de 24 horas. O Google recompensa quem responde rapidamente.' } },
+    { '@type': 'Question', name: 'As respostas a avaliações do Google ajudam no SEO local?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. O Google confirma que a taxa de resposta a avaliações é um fator de ranqueamento local. Os negócios que respondem às avaliações regularmente aparecem mais alto no Google Maps Pack e nos resultados de busca local.' } },
+    { '@type': 'Question', name: 'Com que rapidez devo responder às avaliações do Google?', acceptedAnswer: { '@type': 'Answer', text: 'Dentro de 24 horas para avaliações negativas, dentro de 48 horas para positivas. Tempos de resposta rápidos sinalizam ao Google que seu negócio está ativo e engajado.' } },
+    { '@type': 'Question', name: 'Devo responder a todas as avaliações do Google?', acceptedAnswer: { '@type': 'Answer', text: 'Sim. Responder a todas as avaliações — positivas e negativas — melhora seu SEO local, gera confiança com clientes em potencial e demonstra ao Google que seu negócio está sendo gerenciado ativamente.' } },
+    { '@type': 'Question', name: 'Este gerador de respostas a avaliações é gratuito?', acceptedAnswer: { '@type': 'Answer', text: 'Sim, 100% gratuito. Sem cadastro ou cartão de crédito. Você recebe 1 resposta instantaneamente. Informe seu e-mail para desbloquear as 3 variações e um guia de referência de respostas a avaliações.' } },
+  ],
+};
+
+const industries = [
+  'Dentista / Ortodontia','Jurídico / Escritório de Advocacia','Encanamento / HVAC','Eletricista',
+  'Telhados / Construção','Imobiliária','Contabilidade / Impostos','Restaurante / Cafeteria',
+  'Salão / Spa / Beleza','Mecânica / Detalhamento Automotivo','Serviços de Limpeza','Jardinagem / Paisagismo',
+  'Veterinária / Pets','Quiropraxia / Fisioterapia','TI / Consultoria',
+  'Fitness / Academia / Yoga','Fotografia / Videografia','Seguros / Serviços Financeiros',
+  'Decoração de Interiores','Tutoria / Educação','Pet Shop / Hospedagem de Pets',
+  'Mudanças / Armazenagem','Controle de Pragas',
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Gerador Gratuito de Respostas a Avaliações do Google"
+  toolDescription="Cole qualquer avaliação do Google e obtenha 3 respostas profissionais e otimizadas para SEO em 10 segundos. Com consciência do setor e múltiplos tons. Sem cadastro."
+  lang="pt-BR"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <!-- Review Text -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="review-text">Texto da Avaliação <span class="text-red-500">*</span></label>
+          <textarea id="review-text" required minlength="10" maxlength="2000" rows="4" placeholder="Cole aqui a avaliação do Google..." class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-none"></textarea>
+          <div class="mt-1 flex items-center justify-between">
+            <p class="hidden text-xs text-red-500" id="err-review">Cole o texto completo da avaliação (pelo menos 10 caracteres)</p>
+            <p class="ml-auto font-mono text-xs text-[#79716b]"><span id="char-count">0</span> / 2.000</p>
+          </div>
+        </div>
+
+        <!-- Star Rating -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Avaliação em Estrelas <span class="text-red-500">*</span></label>
+          <input type="hidden" id="rating-val" value="" />
+          <div class="flex gap-1.5">
+            {[1,2,3,4,5].map(star => (
+              <button type="button" class="star-btn cursor-pointer p-1 transition-transform hover:scale-110" data-star={star}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#d6d3d1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+              </button>
+            ))}
+          </div>
+          <p class="mt-1.5 hidden text-[13px] text-[#6d28d9] font-medium" id="rating-hint"></p>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-rating">Por favor, selecione uma avaliação em estrelas</p>
+        </div>
+
+        <!-- Business Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz">Nome do Negócio <span class="text-red-500">*</span></label>
+          <input type="text" id="biz" required maxlength="100" placeholder="ex., Clínica Dental Família Silva" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-biz">Por favor, informe o nome do seu negócio</p>
+        </div>
+
+        <!-- Industry -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ind">Setor <span class="text-red-500">*</span></label>
+          <select id="ind" required class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+            <option value="" disabled selected>Selecione seu setor</option>
+            {industries.map(ind => <option>{ind}</option>)}
+            <option value="__other__">Outro (digite o seu)</option>
+          </select>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-ind">Por favor, selecione seu setor</p>
+          <input type="text" id="ind-other" placeholder="ex., Organização de casamentos, Limpeza de piscinas, Estúdio de tatuagem" maxlength="60" class="mt-1.5 hidden w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- City -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="city">Cidade / Localização <span class="text-red-500">*</span></label>
+          <input type="text" id="city" required maxlength="60" placeholder="ex., São Paulo, Rio de Janeiro" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-city">Por favor, informe sua cidade ou localização</p>
+        </div>
+
+        <!-- Reviewer Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="reviewer-name">Nome do Avaliador <span class="font-normal normal-case tracking-normal text-[#79716b]">. Opcional</span></label>
+          <input type="text" id="reviewer-name" maxlength="50" placeholder="ex., João (deixe em branco se anônimo)" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Response Tone -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Tom de Resposta</label>
+          <div class="flex flex-wrap gap-2">
+            {[
+              { val: 'professional', label: 'Profissional' },
+              { val: 'friendly', label: 'Amigável' },
+              { val: 'empathetic', label: 'Empático' },
+              { val: 'brief', label: 'Breve' },
+            ].map((t, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="tone" value={t.val} checked={i === 0} class="peer sr-only" />
+                <span class="inline-block rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff] peer-checked:text-[#4f39f6]">{t.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Review Response Note -->
+        <div class="mb-5 flex items-start gap-2 rounded-lg bg-[#fffbeb] border border-[#fde68a] p-3">
+          <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
+          <p class="text-[13px] text-[#92400e] leading-relaxed"><strong>A resposta importa mais do que a avaliação.</strong> 89% dos consumidores leem as respostas dos negócios às avaliações. Uma resposta profissional a uma avaliação de 1 estrela pode conquistar novos clientes.</p>
+        </div>
+
+        <button type="submit" id="gen-btn" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase tracking-wide text-white transition-all hover:bg-[#4f39f6] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+          Gerar 3 Variações de Resposta
+        </button>
+      </form>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="mt-8 hidden">
+      <div class="mb-4 flex items-center justify-center gap-1.5 rounded-lg bg-[#fafaf9] border border-[#e7e5e4] px-4 py-2 font-mono text-xs text-[#79716b]">
+        Respostas geradas nesta sessão: <strong class="text-[#6d28d9]" id="gen-count">0</strong> &middot; Gere novamente a qualquer momento para resultados diferentes
+      </div>
+
+      <!-- Flag Warning (hidden by default) -->
+      <div class="mb-4 hidden rounded-lg border border-[#fca5a5] bg-[#fef2f2] p-3 flex items-start gap-2">
+        <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <p class="text-[13px] text-[#991b1b] leading-relaxed" id="flag-warning"></p>
+      </div>
+
+      <!-- Variation 1 (ungated) -->
+      <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6 mb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]" id="lbl1">Concisa</span>
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs text-[#79716b]" id="st1"></span>
+            <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <span>Copiar</span>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3 whitespace-pre-wrap font-sans text-[15px] leading-[1.7] text-[#292524]" id="pt1"></div>
+        <div id="seo1" class="mt-2 hidden inline-flex items-center gap-1.5 rounded-md bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1 font-mono text-[11px] font-medium text-[#16a34a] seo-badge"></div>
+        <div id="tip1" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+      </div>
+
+      <!-- Email Gate -->
+      <div id="gate" class="mb-4 rounded-2xl border border-[#e7e5e4] bg-gradient-to-b from-[#fafaf9] to-white p-6 text-center">
+        <p class="font-sans text-[17px] font-semibold text-[#292524]">Desbloqueie mais 2 estilos de resposta</p>
+        <p class="mt-1 font-sans text-sm text-[#79716b]">Receba as versões padrão e detalhada. Mais um guia de referência de respostas a avaliações.</p>
+        <div class="mt-4 flex gap-2 max-w-[400px] mx-auto">
+          <input type="email" id="gate-em" placeholder="seu@empresa.com" class="flex-1 rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <button id="unlock-btn" class="cursor-pointer rounded-lg bg-[#615fff] px-5 py-2.5 font-mono text-sm font-semibold uppercase text-white whitespace-nowrap hover:bg-[#4f39f6] transition-colors">Desbloquear</button>
+        </div>
+        <p id="gate-err" class="mt-1.5 hidden text-xs text-red-500">Por favor, informe um endereço de e-mail válido</p>
+        <p class="mt-2 text-[11px] text-[#79716b]">Sem spam. Cancele quando quiser.</p>
+      </div>
+
+      <!-- Gated Variations 2 & 3 -->
+      <div id="gated" class="hidden space-y-4">
+        <!-- Variation 2 -->
+        <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]" id="lbl2">Padrão</span>
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#79716b]" id="st2"></span>
+              <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="2">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <span>Copiar</span>
+              </button>
+            </div>
+          </div>
+          <div class="mt-3 whitespace-pre-wrap font-sans text-[15px] leading-[1.7] text-[#292524]" id="pt2"></div>
+          <div id="seo2" class="mt-2 inline-flex items-center gap-1.5 rounded-md bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1 font-mono text-[11px] font-medium text-[#16a34a] seo-badge"></div>
+          <div id="tip2" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+        </div>
+
+        <!-- Variation 3 -->
+        <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]" id="lbl3">Detalhada</span>
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#79716b]" id="st3"></span>
+              <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="3">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <span>Copiar</span>
+              </button>
+            </div>
+          </div>
+          <div class="mt-3 whitespace-pre-wrap font-sans text-[15px] leading-[1.7] text-[#292524]" id="pt3"></div>
+          <div id="seo3" class="mt-2 inline-flex items-center gap-1.5 rounded-md bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1 font-mono text-[11px] font-medium text-[#16a34a] seo-badge"></div>
+          <div id="tip3" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+        </div>
+      </div>
+
+      <!-- Google Response Preview -->
+      <div class="mt-6">
+        <p class="mb-2 font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Pré-visualização no Google</p>
+        <div class="rounded-xl border border-[#dadce0] bg-white p-4 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4f39f6]">
+              <span id="pav" class="font-sans text-sm font-bold text-white">S</span>
+            </div>
+            <div>
+              <p class="font-sans text-[13px] font-medium text-[#70757a]">Resposta do proprietário</p>
+              <p class="font-sans text-[12px] text-[#70757a]">Agora mesmo</p>
+            </div>
+          </div>
+          <p id="pbd" class="font-sans text-[14px] leading-[1.6] text-[#3c4043]"><span class="text-[#79716b] italic">Sua pré-visualização de resposta aparecerá aqui...</span></p>
+        </div>
+      </div>
+
+      <!-- Response Quality Scorecard -->
+      <div class="mt-4">
+        <p class="mb-2 font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Qualidade da Resposta</p>
+        <div id="scorecard" class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="regen" class="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Gerar Outra
+        </button>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p id="cta-headline" class="font-sans text-[22px] font-bold leading-tight text-white">Esta ferramenta ajuda com 1 avaliação.<br/>O Stacc gerencia todo o seu SEO local.</p>
+        <p id="cta-subtext" class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">30 posts de GBP, 30 artigos de blog, redes sociais. Tudo no piloto automático. A partir de $49/mês.</p>
+        <a href="/pt-br/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Comece seu Teste por $1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 por 30 dias &middot; Cancele quando quiser</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Como Responder às Avaliações do Google (do Jeito Certo)</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Responder às avaliações do Google é uma das atividades com maior ROI para qualquer negócio local. Impacta diretamente no seu ranqueamento em buscas locais, influencia as decisões de compra e gera confiança com clientes em potencial que leem as avaliações antes de ligar.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">A regra das 24 horas.</strong> Responda a avaliações negativas dentro de 24 horas. Cada hora que passa aumenta a probabilidade de o avaliador compartilhar a experiência em outro lugar. E sinaliza ao Google que você não está gerenciando ativamente seu perfil de negócios.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Nunca discuta em público.</strong> Sua resposta não é apenas para o avaliador. É para os próximos 100 clientes em potencial que leem o histórico. Uma resposta defensiva ou combativa causa mais dano do que a avaliação negativa original.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Leve reclamações para um canal privado.</strong> Para avaliações de 1-2 estrelas, reconheça a experiência e convide o avaliador a entrar em contato diretamente. Isso demonstra profissionalismo e evita uma troca pública.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Inclua o nome do seu negócio e cidade de forma natural.</strong> As respostas a avaliações são indexadas pelo Google. Uma resposta que menciona "Clínica Dental Silva em São Paulo" contribui para o seu ranqueamento em SEO local. Sem parecer keyword stuffing.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Mantenha menos de 150 palavras.</strong> Respostas concisas parecem profissionais. Respostas longas e divagantes parecem defensivas. Diga o que precisa dizer e pare.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Por Que Responder às Avaliações Importa para o SEO Local</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">O Google confirmou que os sinais de avaliações — incluindo taxa de resposta, recência e velocidade — são fatores de ranqueamento local. Os negócios que respondem às avaliações aparecem mais alto no Google Maps Pack, o conjunto de 3 resultados locais que aparece acima dos resultados orgânicos.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">As palavras-chave das avaliações também importam. Quando um cliente menciona "melhor encanador em Curitiba" e você responde com linguagem que reforça naturalmente essa palavra-chave, ambas as avaliações contribuem para seus sinais de relevância local.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Dicas de Resposta a Avaliações por Setor</h2>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Dentistas e Clínicas Odontológicas</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Pacientes odontológicos costumam mencionar ansiedade, tempos de espera e simpatia da equipe. Suas respostas devem enfatizar conforto, cuidado com o paciente e qualificações da sua equipe. Nunca faça referência a tratamentos ou diagnósticos específicos em respostas públicas.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Encanadores e Empresas de HVAC</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Negócios de serviços recebem mais reclamações sobre preços do que qualquer outra categoria. Responda com transparência. Mencione que você fornece orçamentos antecipados e que garante seu trabalho. Para avaliações positivas, reforce sua área de atendimento: "Fico feliz em ter conseguido ajudá-lo com seu aquecedor no norte de São Paulo."</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Advogados e Escritórios de Advocacia</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Respostas a avaliações jurídicas requerem cuidado extra. Nunca faça referência a detalhes do caso, resultados ou confirme que alguém é cliente. Mantenha as respostas gerais: "Levamos muito a sério as preocupações de cada cliente e nos esforçamos para oferecer a representação jurídica de maior qualidade."</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Restaurantes e Cafeterias</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Avaliações de food service costumam mencionar pratos específicos, tempos de espera ou ambiente. Faça referência aos detalhes que mencionam: "Fico feliz que tenha gostado da nossa massa artesanal." Para reclamações sobre qualidade da comida, convide-os a voltar: "Adoraríamos ter a oportunidade de preparar uma refeição que supere suas expectativas."</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Perguntas Frequentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Como devo responder a uma avaliação negativa do Google?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Reconheça o feedback, demonstre empatia sem admitir responsabilidade, ofereça resolver o problema de forma privada e mantenha menos de 150 palavras. Responda sempre dentro de 24 horas. O Google recompensa quem responde rapidamente. Nunca discuta, fique na defensiva ou faça referência a detalhes que possam criar problemas legais.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">As respostas a avaliações do Google ajudam no SEO local?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sim. O Google confirma que a taxa de resposta a avaliações é um fator de ranqueamento local. Os negócios que respondem às avaliações regularmente aparecem mais alto no Google Maps Pack. Palavras-chave usadas naturalmente nas respostas também podem reforçar seus sinais de relevância local.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Com que rapidez devo responder às avaliações do Google?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Dentro de 24 horas para avaliações negativas, dentro de 48 horas para positivas. Tempos de resposta rápidos sinalizam ao Google que seu negócio está ativo e engajado. Respostas tardias — especialmente a avaliações negativas — podem levar a mais reclamações públicas.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Devo responder a todas as avaliações do Google?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sim. Responder a todas as avaliações — positivas e negativas — melhora seu SEO local, gera confiança com clientes em potencial e demonstra ao Google que seu negócio está sendo gerenciado ativamente. O objetivo é uma taxa de resposta de 100%.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Este gerador de respostas a avaliações é gratuito?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sim, 100% gratuito. Sem cadastro ou cartão de crédito. Você recebe 1 resposta instantaneamente. Informe seu e-mail para desbloquear as 3 variações e um guia de referência de respostas a avaliações.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Mais Ferramentas Gratuitas de SEO Local</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/pt-br/ferramentas/gerador-post-gbp/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de Post GBP</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Gere publicações GBP prontas para publicar</p>
+          </a>
+          <a href="/pt-br/ferramentas/gerador-qr-avaliacoes/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Gerador de QR para Avaliações</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Consiga mais avaliações com QR codes imprimíveis</p>
+          </a>
+          <a href="/pt-br/ferramentas/pontuacao-seo-site/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Pontuação SEO do Site</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Verifique a saúde SEO do seu site em segundos</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta ferramenta requer JavaScript. Por favor, ative-o no seu navegador.</p></div></noscript>
+    <script is:inline src="/js/review-response-engine.js"></script>
+  </Fragment>
+</ToolLayout>

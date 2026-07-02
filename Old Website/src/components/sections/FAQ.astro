@@ -1,0 +1,91 @@
+---
+interface Props {
+  faqs?: { question: string; answer: string }[];
+}
+
+const defaultFaqs = [
+  {
+    question: "How long until I see results?",
+    answer: "SEO is a compounding game. Most clients see meaningful ranking improvements within 3-6 months. The content starts working from day one, it just takes time for Google to index and rank your pages.",
+  },
+  {
+    question: "Do I need to write anything?",
+    answer: "Not a single word. Stacc handles keyword research, content creation, optimization, and publishing. You can review posts before they go live, or let us auto-publish.",
+  },
+  {
+    question: "Will the content sound like my business?",
+    answer: "Yes. During setup, Stacc analyzes your website, tone, and audience. Every post is written in your voice, for your customers. You can also customize the writing style at any time.",
+  },
+  {
+    question: "What if I already have a website?",
+    answer: "Perfect. Stacc integrates with WordPress, Webflow, Ghost, and any platform that supports webhooks. Your existing site gets better, not replaced.",
+  },
+  {
+    question: "Can I cancel anytime?",
+    answer: "Absolutely. No contracts, no penalties. But the content we've published keeps working for you even after you leave.",
+  },
+  {
+    question: "How is this different from hiring a freelancer or agency?",
+    answer: "Faster, cheaper, and more consistent. A freelancer writes when they can. An agency bills by the hour. Stacc publishes every day, automatically, at a fraction of the cost.",
+  },
+];
+
+const { faqs = defaultFaqs } = Astro.props;
+---
+
+<section class="border-t border-[#e7e5e4] bg-white">
+  <div class="container-x pt-16 pb-0 text-center md:pt-20">
+    <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">FAQs</p>
+    <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2rem]">
+      Questions? We've got answers.
+    </h2>
+    <p class="mx-auto mt-3 max-w-[480px] font-sans text-[15px] leading-[1.7] text-[#79716b]">
+      The most common things businesses ask before getting started with Stacc.
+    </p>
+  </div>
+
+  <div class="mt-10 border-t border-[#e7e5e4]">
+    {faqs.map((faq, i) => (
+      <div class={i < faqs.length - 1 ? 'border-b border-[#e7e5e4]' : ''}>
+        <button
+          class="faq-btn flex w-full cursor-pointer items-center justify-between px-6 py-5 text-left transition-colors hover:bg-[#fafaf9]"
+          aria-expanded="false"
+        >
+          <span class="font-sans text-[16px] font-medium text-[#292524]">{faq.question}</span>
+          <svg class="faq-icon-plus shrink-0 text-[#79716b]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          <svg class="faq-icon-minus hidden shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5">
+          <p class="max-w-[720px] font-sans text-[15px] leading-[24px] text-[#79716b]">{faq.answer}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const parent = btn.parentElement;
+      const answer = parent?.querySelector('.faq-answer');
+      const iconPlus = btn.querySelector('.faq-icon-plus');
+      const iconMinus = btn.querySelector('.faq-icon-minus');
+      const isOpen = answer?.classList.contains('hidden') === false;
+
+      // Close all
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+      document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+      document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+
+      if (!isOpen) {
+        answer?.classList.remove('hidden');
+        iconPlus?.classList.add('hidden');
+        iconMinus?.classList.remove('hidden');
+      }
+    });
+  });
+</script>

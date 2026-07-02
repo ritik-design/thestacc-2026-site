@@ -1,0 +1,545 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free Review Request Template Generator — All 3 Channels + Occasion-Based | theStacc';
+const pageDescription = 'Generate personalized review request templates for email, SMS, and in-person by occasion: first visit, repeat customer, complaint resolved, project complete. Auto-finds your Google review link. Free, no signup.';
+const pageUrl = 'https://thestacc.com/tools/review-request-generator/';
+const lastUpdated = '2026-05-13';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Review Request Template Generator',
+  description: 'Generate personalized review request templates for email, SMS, in-person, and follow-up. Occasion-based personalization: first visit, repeat customer, complaint resolved, project complete. Auto-finds Google review link. 23 industries.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'How do I ask a customer for a Google review?', a: 'The best way is to ask immediately after a positive experience. Use the customer\'s name, reference the specific service they received, and include a direct link to your Google review page. Keep it short and low-pressure — "If you have 30 seconds" works better than a long formal request. This tool generates personalized templates for every occasion.' },
+  { q: 'When is the best time to send a review request?', a: 'For SMS: within 1 hour of service (best between 10am-6pm). For email: within 2 hours. For in-person: at checkout while the customer is still happy. The closer to the experience, the higher the response rate. Follow up 3-5 days later if they haven\'t responded. After resolving a complaint, wait 24-48 hours first.' },
+  { q: 'Should I ask for reviews via email or text?', a: 'Text messages get 3-5x higher response rates than email for review requests. However, email works better for longer, more professional asks. Use both: text for the initial ask, email for a follow-up reminder. In-person asks with QR codes also work very well, especially for restaurants and retail.' },
+  { q: 'Is it against Google\'s rules to ask for reviews?', a: 'No. Google explicitly encourages businesses to ask customers for reviews. What you cannot do is offer incentives (discounts, gifts) in exchange for reviews, or selectively ask only happy customers (review gating). Asking all customers equally is perfectly fine and recommended.' },
+  { q: 'What tone should I use when asking for a review?', a: 'Match the tone to your relationship with the customer. Friendly works best for casual services (salons, restaurants, fitness). Professional is better for formal services (legal, accounting, medical). Brief is great for SMS where character count matters. After resolving a complaint, be sincere and appreciative without being defensive.' },
+  { q: 'How do I ask for a review after resolving a complaint?', a: 'Wait 24-48 hours after the resolution to give the customer time to evaluate. Acknowledge the issue briefly, focus on how you fixed it, and ask if they\'re satisfied. Don\'t apologize again — just ask if the resolution was good. Only ask if they seem genuinely happy with how you handled it.' },
+  { q: 'What should I say when asking in person?', a: 'Ask when the customer is happiest — right after a successful outcome, not while they\'re paying. Use their name, reference the service, and remove all friction: mention the QR code or offer to text the link immediately. "We\'re so glad you came in today, [name]. If you have a second, we\'d really appreciate a quick Google review — I can text you the link right now!"' },
+  { q: 'How do I get my Google review link?', a: 'Search for your business on Google Maps, click on your listing, and click "Write a review." Copy the URL from your browser. Alternatively, use our Review QR Code Generator tool — it finds your business automatically and gives you both the direct link and a printable QR code.' },
+  { q: 'Should I follow up if a customer doesn\'t leave a review?', a: 'Send one polite follow-up 3-5 days after the initial request. After that, let it go. Nobody likes being nagged. The follow-up should be shorter than the first email and acknowledge that they\'re busy. For complaint resolutions, wait a full week before following up.' },
+  { q: 'Is this review request generator free?', a: 'Yes, 100% free. No signup or credit card needed. Enter your business info, select your occasion and channels, and get personalized templates for email, SMS, in-person scripts, and follow-up reminders instantly. All templates are tailored to your industry and the specific customer relationship.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'Review Request Generator', url: pageUrl },
+]);
+
+const industries = [
+  'Dental / Orthodontics','Legal / Law Firm','Plumbing / HVAC','Electrical',
+  'Roofing / Construction','Real Estate','Accounting / Tax','Restaurant / Cafe',
+  'Salon / Spa / Beauty','Auto Repair / Detailing','Cleaning Services','Landscaping / Lawn Care',
+  'Veterinary / Pet Services','Chiropractic / Physical Therapy','IT Services / Consulting',
+  'Fitness / Gym / Yoga','Photography / Videography','Insurance / Financial Services',
+  'Home Staging / Interior Design','Tutoring / Education','Pet Grooming / Boarding',
+  'Moving / Storage','Pest Control',
+];
+
+const occasions = [
+  { val: 'firstVisit', label: 'First Visit', desc: 'For new customers after their first experience' },
+  { val: 'repeat', label: 'Repeat Customer', desc: 'For returning customers who keep coming back' },
+  { val: 'complaintResolved', label: 'Complaint Resolved', desc: 'Turn a negative experience into a positive review' },
+  { val: 'postPurchase', label: 'Project Complete', desc: 'After a major service, purchase, or project is finished' },
+  { val: 'anniversary', label: 'Service Anniversary', desc: 'Mark a milestone with a long-time customer' },
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Review Request Template Generator"
+  toolDescription="Get personalized email, SMS, in-person scripts, and follow-up templates by occasion. Auto-finds your Google review link. 23 industries. No signup."
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== SCHEMA ==================== -->
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <!-- Google Places API -->
+    <script is:inline src={`https://maps.googleapis.com/maps/api/js?key=${import.meta.env.GOOGLE_MAPS_API_KEY}&libraries=places`} async defer></script>
+
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <!-- Business Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz">Business Name <span class="text-red-500">*</span></label>
+          <input type="text" id="biz" required maxlength="100" placeholder="e.g., Smith Family Dental" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-biz">Please enter your business name</p>
+          <div id="places-status" class="hidden mt-1"></div>
+        </div>
+
+        <!-- Industry -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ind">Industry <span class="text-red-500">*</span></label>
+          <select id="ind" required class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+            <option value="" disabled selected>Select your industry</option>
+            {industries.map(ind => <option>{ind}</option>)}
+            <option value="__other__">Other (type your own)</option>
+          </select>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-ind">Please select your industry</p>
+          <input type="text" id="ind-other" placeholder="e.g., Wedding planning, Pool cleaning" maxlength="60" class="mt-1.5 hidden w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Customer First Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="cname">Customer First Name <span class="font-normal normal-case tracking-normal text-[#79716b]">. Optional</span></label>
+          <input type="text" id="cname" maxlength="30" placeholder="e.g., John (leave blank for generic)" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Service Provided -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="svc">Service Provided <span class="font-normal normal-case tracking-normal text-[#79716b]">. Optional</span></label>
+          <input type="text" id="svc" maxlength="80" placeholder="e.g., your recent service or appointment" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Google Review Link -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="rlink">Google Review Link <span class="font-normal normal-case tracking-normal text-[#79716b]">. Optional — auto-finds from business name</span></label>
+          <input type="url" id="rlink" placeholder="Type your business name above and we'll try to find it, or paste your link here" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 text-[11px] text-[#79716b]">Don't have one? <a href="/tools/review-qr-code-generator/" class="text-[#6d28d9] underline">Find it with our QR Code Generator</a></p>
+        </div>
+
+        <!-- Occasion -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Occasion <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {occasions.map((occ, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="occasion" value={occ.val} checked={i === 0} class="peer sr-only" />
+                <span class="block rounded-lg border border-[#e7e5e4] px-4 py-2.5 text-[13px] text-[#57534e] transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff] peer-checked:text-[#4f39f6]">
+                  <strong class="block text-[14px]">{occ.label}</strong>
+                  <span class="text-[11px] text-[#79716b]">{occ.desc}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+          <p id="occasion-desc" class="mt-2 text-[12px] text-[#79716b]">For new customers after their first experience</p>
+        </div>
+
+        <!-- Tone -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Tone</label>
+          <div class="flex flex-wrap gap-2">
+            {[
+              { val: 'friendly', label: 'Friendly' },
+              { val: 'professional', label: 'Professional' },
+              { val: 'brief', label: 'Brief' },
+            ].map((t, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="tone" value={t.val} checked={i === 0} class="peer sr-only" />
+                <span class="inline-block rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff] peer-checked:text-[#4f39f6]">{t.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Channels -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Channels <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-2 gap-2">
+            {[
+              { id: 'ch-email', label: 'Email', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>` },
+              { id: 'ch-sms', label: 'SMS / Text', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>` },
+              { id: 'ch-inperson', label: 'In-Person Script', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>` },
+              { id: 'ch-followup', label: 'Follow-Up Reminder', icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>` },
+            ].map(ch => (
+              <label class="flex items-center gap-2.5 rounded-lg border border-[#e7e5e4] px-3 py-2.5 cursor-pointer transition-colors has-[:checked]:border-[#4f39f6] has-[:checked]:bg-[#f5f3ff]">
+                <input type="checkbox" id={ch.id} checked class="accent-[#615fff] w-4 h-4" />
+                <span class="flex h-5 w-5 shrink-0 items-center justify-center" set:html={ch.icon}></span>
+                <span class="text-[13px] font-medium text-[#292524]">{ch.label}</span>
+              </label>
+            ))}
+          </div>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-channels">Please select at least one channel</p>
+        </div>
+
+        <!-- Info box -->
+        <div class="mb-5 flex items-start gap-2 rounded-lg bg-[#f5f3ff] border border-[#ddd6fe] p-3">
+          <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+          <p class="text-[13px] text-[#57534e] leading-relaxed"><strong class="text-[#292524]">First-of-its-kind tool.</strong> No other free tool generates occasion-based review request templates. Most tools give you one generic template. This gives you 5 occasions × 3 tones × 3 channels = 45+ unique templates.</p>
+        </div>
+
+        <button type="submit" id="gen-btn" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase tracking-wide text-white transition-all hover:bg-[#4f39f6] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+          Generate Review Request Kit
+        </button>
+      </form>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="mt-8 hidden">
+      <div class="mb-4 flex items-center justify-center gap-2">
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-[#f5f3ff] px-3 py-1 font-mono text-xs text-[#6d28d9]">
+          <span id="occasion-badge">First Visit</span> templates
+        </span>
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-[#fafaf9] border border-[#e7e5e4] px-3 py-1 font-mono text-xs text-[#79716b]">
+          Generated: <strong class="text-[#6d28d9]" id="gen-count">0</strong>
+        </span>
+      </div>
+
+      <!-- QR Code Section -->
+      <div id="qr-section" class="hidden mb-6 rounded-2xl border border-[#e7e5e4] bg-white p-6 text-center">
+        <p class="font-sans text-[15px] font-semibold text-[#292524] mb-2">Printable Review QR Code</p>
+        <p class="text-[13px] text-[#79716b] mb-4">Display this at your counter or include it on receipts</p>
+        <canvas id="qr-canvas" class="mx-auto rounded-xl border border-[#e7e5e4]"></canvas>
+        <p class="mt-3 text-[11px] text-[#a8a29e]">Scan to leave a Google review</p>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="mb-4 flex border-b border-[#e7e5e4]">
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-[#4f39f6] text-[#4f39f6] cursor-pointer transition-colors" data-tab="email">Email</button>
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-transparent text-[#79716b] cursor-pointer transition-colors" data-tab="sms">SMS</button>
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-transparent text-[#79716b] cursor-pointer transition-colors" data-tab="inperson">In-Person</button>
+        <button class="tab-btn px-4 py-2.5 font-mono text-xs font-medium uppercase tracking-wide border-b-2 border-transparent text-[#79716b] cursor-pointer transition-colors" data-tab="followup">Follow-Up</button>
+      </div>
+
+      <!-- Tab Panels -->
+      <div id="panel-email" class="tab-panel"></div>
+      <div id="panel-sms" class="tab-panel hidden"></div>
+      <div id="panel-inperson" class="tab-panel hidden"></div>
+      <div id="panel-followup" class="tab-panel hidden"></div>
+
+      <!-- Review Link Section -->
+      <div id="link-section" class="mt-4"></div>
+
+      <!-- Actions -->
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="regen" class="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          Generate Another
+        </button>
+      </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">You just created templates for 1 customer.<br/>Stacc sends them to every customer, automatically.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Personalized review requests via email and SMS, triggered by the right occasion. On autopilot. Starting at $49/mo.</p>
+        <a href="/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start Your $1 Trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days &middot; Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / Speakable -->
+    <div class="speakable rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5 mb-8">
+      <p class="font-sans text-[15px] leading-[1.7] text-[#57534e]">
+        <strong class="text-[#292524]">The theStacc Review Request Generator</strong> creates personalized review request templates for email, SMS, in-person, and follow-up channels. Unlike other tools that give one generic template, this tool tailors every message to the occasion — first visit, repeat customer, complaint resolved, project complete, or service anniversary — with 3 tones (friendly, professional, brief) across 23 industries. It auto-finds your Google review link from your business name. Best for local business owners who want more Google reviews without sounding robotic or pushy.
+      </p>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">How to Ask for Google Reviews by Occasion</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The biggest mistake businesses make when asking for reviews is using the same generic template for every customer. A first-time visitor needs a different approach than a loyal regular. A customer whose complaint you just resolved needs careful, appreciative language. This tool recognizes five distinct occasions and generates appropriate templates for each.</p>
+
+    <div class="space-y-3 mb-5">
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">1</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">First Visit</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Welcome new customers warmly. Acknowledge their trust in choosing you for the first time. "Welcome to the family" language converts at 3x the rate of generic requests. Send within 1-2 hours of service.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">2</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Repeat Customer</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Acknowledge loyalty. These customers know your quality and leave the most detailed, credible reviews. Reference their history with your business. Response rates from repeat customers are 40% higher than first-time asks.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">3</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Complaint Resolved</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Turn a negative into a positive. Wait 24-48 hours after resolution. Acknowledge the issue briefly, focus on the fix, and ask if they're satisfied. These reviews are gold — they show potential customers that you stand behind your work.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">4</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Project Complete</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Strike while excitement is high. Ask the same day you complete a major project or purchase. Reference the specific work done. These reviews tend to be the longest and most detailed because the experience is fresh.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-3 rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f5f3ff] font-mono text-[11px] font-bold text-[#4f39f6]">5</span>
+        <div>
+          <p class="font-sans text-[14px] font-semibold text-[#292524]">Service Anniversary</p>
+          <p class="font-sans text-[13px] text-[#57534e] mt-0.5">Celebrate milestones with long-time customers. Marking a one-year anniversary creates an emotional moment that naturally leads to a review. These reviews carry the most weight because they represent sustained satisfaction.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">When to Send a Review Request by Channel</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">SMS / Text:</strong> Within 1 hour of service. Best between 10am-6pm. Text messages have a 98% open rate, making them the most effective channel for review requests. Keep it under 160 characters (1 SMS segment) to avoid splitting. This tool shows character counts for every SMS template.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Email:</strong> Within 2 hours of service, or the same business day. Send between 9am-11am or 1pm-3pm for best open rates. Include the review link prominently. Don't bury it in paragraph text. The subject line should be personal and low-pressure.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">In-Person:</strong> At the moment of highest satisfaction. Right after completing the service, while the customer is paying or preparing to leave. Have a QR code displayed at the checkout counter. Train staff on the exact script — confidence matters.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Follow-Up:</strong> 3-5 days after the initial request. Shorter than the first email. Acknowledge they're busy. Include the link again. For complaint resolutions, wait a full week to ensure the fix is permanent.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Review Request Tips by Industry</h2>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Dentists & Dental Practices</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Ask right after the appointment, before the patient leaves the office. The front desk staff should have a script ready. Mention the specific treatment: "Thanks for coming in for your cleaning" feels more personal than "Thanks for your visit." Text messages work especially well for younger patients. For first visits, welcome them to the practice family.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Plumbers & HVAC</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Have your technician ask in person when they finish the job, then follow up with a text within the hour. The customer is most satisfied when the problem is solved. That's your window. "Your drain is flowing perfectly now. Would you mind leaving us a quick Google review?" For repeat customers, acknowledge their loyalty: "Thanks for calling us again."</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Lawyers & Law Firms</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Timing is everything in legal. Don't ask during an active case. Ask after a successful resolution. Use a professional tone. Lawyers should be especially careful not to reference case details in review requests. Keep it about the client experience, not the outcome. For first consultations, focus on the quality of the initial advice.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Restaurants & Cafes</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">QR codes on the table or receipt are the most natural ask in a restaurant setting. Train servers to mention it when dropping off the check: "If you enjoyed your meal, we'd love a quick review. There's a QR code on the table." Don't text or email unless you collect contact info through reservations. For first-time diners, a warm welcome increases review likelihood by 35%.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Salons & Spas</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The mirror moment is your best opportunity. Right after the client sees their new look and loves it — that's when you ask. Have the stylist say: "You look amazing! If you have 30 seconds, a Google review would help other people find us." For repeat clients, reference their transformation journey. "You've been coming to us for a year now — your hair has never looked better!"</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Review Request Generator Comparison</h2>
+    <div class="overflow-x-auto mb-5">
+      <table class="w-full text-[14px]">
+        <thead>
+          <tr class="border-b-2 border-[#e7e5e4]">
+            <th class="py-3 pr-4 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">GatherUp</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">Grade.us</th>
+            <th class="py-3 pl-4 text-center font-semibold text-[#57534e]">Birdeye</th>
+          </tr>
+        </thead>
+        <tbody class="text-[#57534e]">
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Price</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Free</td>
+            <td class="py-2.5 px-4 text-center">$99-299/mo</td>
+            <td class="py-2.5 px-4 text-center">$110-300/mo</td>
+            <td class="py-2.5 pl-4 text-center">$299+/mo</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Occasion-based templates</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">5 occasions</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">No</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Multi-channel (email + SMS + in-person)</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">Yes</td>
+            <td class="py-2.5 px-4 text-center">Yes</td>
+            <td class="py-2.5 pl-4 text-center">Yes</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Industry-specific language</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">23 industries</td>
+            <td class="py-2.5 px-4 text-center">Limited</td>
+            <td class="py-2.5 px-4 text-center">Limited</td>
+            <td class="py-2.5 pl-4 text-center">Limited</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Tone options</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Friendly, Professional, Brief</td>
+            <td class="py-2.5 px-4 text-center">1 tone</td>
+            <td class="py-2.5 px-4 text-center">1 tone</td>
+            <td class="py-2.5 pl-4 text-center">1 tone</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Google review link finder</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Auto-finds from business name</td>
+            <td class="py-2.5 px-4 text-center">Manual entry</td>
+            <td class="py-2.5 px-4 text-center">Manual entry</td>
+            <td class="py-2.5 pl-4 text-center">Manual entry</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Printable QR code</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Built-in</td>
+            <td class="py-2.5 px-4 text-center">Separate tool</td>
+            <td class="py-2.5 px-4 text-center">No</td>
+            <td class="py-2.5 pl-4 text-center">Yes</td>
+          </tr>
+          <tr class="border-b border-[#f3f4f6]">
+            <td class="py-2.5 pr-4">Follow-up reminder templates</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td>
+            <td class="py-2.5 px-4 text-center">Yes</td>
+            <td class="py-2.5 px-4 text-center">Yes</td>
+            <td class="py-2.5 pl-4 text-center">Yes</td>
+          </tr>
+          <tr>
+            <td class="py-2.5 pr-4">Signup required</td>
+            <td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">No</td>
+            <td class="py-2.5 px-4 text-center">Yes</td>
+            <td class="py-2.5 px-4 text-center">Yes</td>
+            <td class="py-2.5 pl-4 text-center">Yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm mt-4">
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How do I ask a customer for a Google review?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Ask immediately after a positive experience. In person, via text, or email. Use their name, reference the specific service, and include a direct Google review link. Keep it short and low-pressure. "If you have 30 seconds" works better than a long formal request. This tool generates personalized templates for every occasion.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">When is the best time to send a review request?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">For SMS: within 1 hour of service. For email: within 2 hours. For in-person: at checkout. The closer to the experience, the higher the response rate. Follow up 3-5 days later if needed. After resolving a complaint, wait 24-48 hours first.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Should I ask for reviews via email or text?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Text messages get 3-5x higher response rates than email. Use both: text for the initial ask (quick, high open rate), email for a follow-up reminder (more space for personalization). In-person asks with QR codes also work very well.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Is it against Google's rules to ask for reviews?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">No. Google encourages businesses to ask for reviews. What you cannot do is offer incentives (discounts, gifts) for reviews, or selectively ask only satisfied customers (review gating). Asking all customers equally is fine and recommended.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What tone should I use when asking for a review?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Match the tone to your relationship with the customer. Friendly works best for casual services (salons, restaurants, fitness). Professional is better for formal services (legal, accounting, medical). Brief is great for SMS where character count matters. After resolving a complaint, be sincere and appreciative without being defensive.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How do I ask for a review after resolving a complaint?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Wait 24-48 hours after resolution to give them time to evaluate. Acknowledge the issue briefly, focus on how you fixed it, and ask if they're satisfied. Don't apologize again — just ask if the resolution was good. Only ask if they seem genuinely happy with how you handled it.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What should I say when asking in person?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Ask when the customer is happiest — right after a successful outcome, not while they're paying. Use their name, reference the service, and remove all friction: mention the QR code or offer to text the link immediately. "We're so glad you came in today, [name]. If you have a second, we'd really appreciate a quick Google review — I can text you the link right now!"</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How do I get my Google review link?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Search for your business on Google Maps, click on your listing, and click "Write a review." Copy the URL from your browser. Alternatively, use our Review QR Code Generator tool — it finds your business automatically and gives you both the direct link and a printable QR code.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Should I follow up if a customer doesn't leave a review?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Send one polite follow-up 3-5 days after the initial request. After that, let it go. Nobody likes being nagged. The follow-up should be shorter than the first email and acknowledge that they're busy. For complaint resolutions, wait a full week before following up.</p>
+        </div>
+      </div>
+      <div>
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Is this review request generator free?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Yes, 100% free. No signup or credit card needed. Enter your business info, select your occasion and channels, and get personalized templates for email, SMS, in-person scripts, and follow-up reminders instantly. All templates are tailored to your industry and the specific customer relationship.</p>
+        </div>
+      </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free Local SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/review-qr-code-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Review QR Code Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Print-ready QR codes for Google reviews</p>
+          </a>
+          <a href="/tools/review-response-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Review Response Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">AI-powered responses to every review</p>
+          </a>
+          <a href="/tools/gbp-post-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">GBP Post Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">AI-generated GBP updates with headlines</p>
+          </a>
+          <a href="/tools/seo-audit/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO Audit Tool</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">55+ checks, real DR + backlink data</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Real PAA-driven FAQ schema</p>
+          </a>
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-all hover:border-[#c4b5fd] hover:shadow-md">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score headlines on 8 dimensions</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script is:inline src="/js/review-request-engine.js"></script>
+  </Fragment>
+</ToolLayout>

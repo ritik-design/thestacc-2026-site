@@ -1,0 +1,200 @@
+---
+const tabs = [
+  {
+    id: 'blog',
+    label: 'Blog SEO',
+    icon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>',
+    title: 'Blog SEO',
+    replaces: ['SEO tool', 'freelance writers', 'content calendar'],
+    narrative: 'Most businesses publish 1–4 blog posts per month. The ones ranking on Google publish 20–30. Stacc writes, optimizes, and publishes articles to your site every day. No writers to manage. No briefs. No missed deadlines.',
+    stats: [
+      { label: 'Content velocity', value: '30 articles/mo', percent: 85, color: 'purple' },
+      { label: 'Cost vs. freelancers', value: '90% less', percent: 90, color: 'green' },
+      { label: 'Time to first rankings', value: '60–90 days', percent: 65, color: 'amber' },
+    ],
+  },
+  {
+    id: 'local',
+    label: 'Local SEO',
+    icon: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>',
+    title: 'Local SEO',
+    replaces: ['GBP manager', 'review tool', 'local rank tracker'],
+    narrative: 'Your Google Business Profile is your storefront on search. Keeping it active eats hours every week. Stacc publishes GBP posts on schedule, responds to reviews automatically, and tracks every keyword in your city.',
+    stats: [
+      { label: 'GBP post frequency', value: '30 posts/mo', percent: 80, color: 'purple' },
+      { label: 'Review response time', value: 'Under 1 hour', percent: 95, color: 'green' },
+      { label: 'Local pack visibility', value: '+40% avg', percent: 70, color: 'amber' },
+    ],
+  },
+  {
+    id: 'social',
+    label: 'Social Media',
+    icon: '<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>',
+    title: 'Social Media',
+    replaces: ['scheduling tool', 'content creator', 'analytics platform'],
+    narrative: 'Creating platform-specific posts, scheduling them, tracking what works - it adds up to hours every week. Stacc generates on-brand content for Facebook, Instagram, LinkedIn, and X. You approve. We post.',
+    stats: [
+      { label: 'Posts per month', value: 'Up to 120', percent: 80, color: 'purple' },
+      { label: 'Platform coverage', value: '4 platforms', percent: 75, color: 'green' },
+      { label: 'Time saved weekly', value: '6+ hours', percent: 85, color: 'amber' },
+    ],
+  },
+];
+
+const counters = [
+  { num: '3,500+', label: 'Blog posts published' },
+  { num: '92%', label: 'Avg. SEO score' },
+  { num: '10x', label: 'Avg. content ROI' },
+];
+---
+
+<section class="border-t border-[#e7e5e4] bg-white" id="compare">
+  <div class="container-x pt-16 pb-0 text-center md:pt-20">
+    <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">What You Actually Get</p>
+    <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2rem]">
+      Every module replaces 2–3 tools you're paying for today.
+    </h2>
+    <p class="mx-auto mt-3 max-w-[480px] font-sans text-[15px] leading-[1.7] text-[#79716b]">
+      Less software. Less overhead. Better results.
+    </p>
+  </div>
+
+  <!-- Tab buttons -->
+  <div class="mt-8 flex flex-col items-center justify-center gap-2 px-6 sm:flex-row" role="tablist" aria-label="Module details">
+    {tabs.map((tab, i) => (
+      <button
+        class={`compare-tab cursor-pointer flex items-center gap-2 rounded-lg border-2 px-5 py-2.5 font-sans text-[14px] font-semibold transition-all ${i === 0 ? 'border-[#615fff] bg-[#615fff]/5 text-[#615fff]' : 'border-[#e7e5e4] text-[#79716b] hover:border-[#d6d3d1] hover:text-[#292524]'}`}
+        role="tab"
+        aria-selected={i === 0 ? 'true' : 'false'}
+        aria-controls={`panel-${tab.id}`}
+        id={`tab-${tab.id}`}
+        data-tab={tab.id}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-[18px] w-[18px]" aria-hidden="true" set:html={tab.icon} />
+        {tab.label}
+      </button>
+    ))}
+  </div>
+
+  <!-- Tab panels -->
+  {tabs.map((tab, i) => (
+    <div
+      class={`compare-panel mt-10 px-6 pb-0 transition-opacity duration-300 ${i === 0 ? 'block opacity-100' : 'hidden opacity-0'}`}
+      role="tabpanel"
+      id={`panel-${tab.id}`}
+      aria-labelledby={`tab-${tab.id}`}
+      data-panel={tab.id}
+    >
+      <div class="mx-auto grid max-w-[920px] grid-cols-1 items-start gap-10 md:grid-cols-2">
+        <!-- Text side -->
+        <div>
+          <h3 class="font-sans text-[24px] font-semibold text-[#292524]">{tab.title}</h3>
+          <div class="mt-2 flex flex-wrap items-center gap-1.5 font-sans text-[14px] text-[#79716b]">
+            <span>Replaces:</span>
+            {tab.replaces.map((r, ri) => (
+              <span>
+                <span class="text-[#79716b] line-through decoration-[#ef4444] decoration-2">{r}</span>
+                {ri < tab.replaces.length - 1 && <span class="mx-0.5">+</span>}
+              </span>
+            ))}
+          </div>
+          <p class="mt-4 font-sans text-[15px] leading-[26px] text-[#79716b]">{tab.narrative}</p>
+        </div>
+
+        <!-- Stats card -->
+        <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+          <div class="flex flex-col gap-6">
+            {tab.stats.map(stat => (
+              <div>
+                <div class="flex items-baseline justify-between mb-2">
+                  <span class="font-mono text-[13px] font-semibold text-[#292524]">{stat.label}</span>
+                  <span class={`font-mono text-[14px] font-bold ${stat.color === 'purple' ? 'text-[#615fff]' : stat.color === 'green' ? 'text-[#22c55e]' : 'text-[#f59e0b]'}`}>{stat.value}</span>
+                </div>
+                <div class="h-2.5 w-full overflow-hidden rounded-full bg-[#e7e5e4]">
+                  <div
+                    class={`stat-bar h-full rounded-full ${stat.color === 'purple' ? 'bg-gradient-to-r from-[#a78bfa] to-[#615fff]' : stat.color === 'green' ? 'bg-gradient-to-r from-[#6ee7b7] to-[#22c55e]' : 'bg-gradient-to-r from-[#fcd34d] to-[#f59e0b]'}`}
+                    style={`width: 0%; --target-width: ${stat.percent}%`}
+                    data-width={stat.percent}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+
+  <!-- Summary counters -->
+  <div class="mx-auto mt-14 max-w-[700px] px-6 pb-10">
+    <div class="rounded-xl border border-[#615fff]/15 bg-gradient-to-br from-[#fafaf9] to-[#ede9fe] p-10 text-center">
+      <h3 class="font-sans text-[24px] leading-[32px] md:text-[32px] md:leading-[40px] font-normal text-[#292524]">
+        The numbers compound.
+      </h3>
+      <p class="mx-auto mt-3 max-w-[480px] font-sans text-[16px] leading-[24px] text-[#79716b]">
+        Every article stacks on the last. Every month builds on the one before.
+      </p>
+      <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
+        {counters.map(c => (
+          <div class="text-center">
+            <div class="font-sans text-[36px] font-bold tracking-tight text-[#292524]">{c.num}</div>
+            <div class="mt-1 font-sans text-[13px] text-[#79716b]">{c.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Tab switching
+  document.querySelectorAll<HTMLButtonElement>('.compare-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tabId = btn.getAttribute('data-tab');
+
+      // Update tab buttons
+      document.querySelectorAll('.compare-tab').forEach(t => {
+        t.classList.remove('border-[#615fff]', 'bg-[#615fff]/5', 'text-[#615fff]');
+        t.classList.add('border-[#e7e5e4]', 'text-[#79716b]');
+        t.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('border-[#615fff]', 'bg-[#615fff]/5', 'text-[#615fff]');
+      btn.classList.remove('border-[#e7e5e4]', 'text-[#79716b]');
+      btn.setAttribute('aria-selected', 'true');
+
+      // Update panels
+      document.querySelectorAll('.compare-panel').forEach(p => {
+        p.classList.add('hidden', 'opacity-0');
+        p.classList.remove('block', 'opacity-100');
+      });
+      const panel = document.querySelector(`[data-panel="${tabId}"]`);
+      if (panel) {
+        panel.classList.remove('hidden', 'opacity-0');
+        panel.classList.add('block');
+        requestAnimationFrame(() => {
+          panel.classList.add('opacity-100');
+          panel.querySelectorAll<HTMLElement>('.stat-bar').forEach(bar => {
+            bar.style.width = bar.getAttribute('data-width') + '%';
+          });
+        });
+      }
+    });
+  });
+
+  // Animate stat bars on scroll into view
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll<HTMLElement>('.stat-bar').forEach(bar => {
+          bar.style.transition = 'width 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+          bar.style.width = bar.getAttribute('data-width') + '%';
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.compare-panel').forEach(panel => {
+    observer.observe(panel);
+  });
+</script>

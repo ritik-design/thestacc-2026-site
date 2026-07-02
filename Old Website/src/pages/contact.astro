@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+import Contact from '../components/sections/Contact.astro';
+import { SITE_URL, organizationSchema, websiteSchema, buildBreadcrumbs } from '../utils/schema';
+
+const contactUrl = `${SITE_URL}/contact/`;
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ContactPage',
+      '@id': `${contactUrl}#contactpage`,
+      url: contactUrl,
+      name: 'Contact theStacc',
+      description: "Reach the theStacc team for product questions, technical support, or agency partnerships. We respond within 24 hours.",
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      mainEntity: {
+        '@type': 'Organization',
+        '@id': `${SITE_URL}/#organization`,
+        contactPoint: [
+          {
+            '@type': 'ContactPoint',
+            contactType: 'customer support',
+            availableLanguage: ['en'],
+            url: contactUrl,
+          },
+          {
+            '@type': 'ContactPoint',
+            contactType: 'sales',
+            availableLanguage: ['en'],
+            url: `${SITE_URL}/demo/`,
+          },
+        ],
+      },
+    },
+    buildBreadcrumbs(contactUrl, [
+      { name: 'Home', url: SITE_URL },
+      { name: 'Contact', url: contactUrl },
+    ]),
+    organizationSchema,
+    websiteSchema,
+  ],
+};
+---
+
+<BaseLayout
+  title="Contact theStacc — 24-Hour Response Guarantee | Product, Support, Agency"
+  description="Reach the theStacc team in under 24 hours. Product questions, technical support, or agency partnerships — pick your topic and we'll come prepared. Book a demo at /demo/."
+>
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(contactSchema)} />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import FaqItem from '../../components/FaqItem.astro';
 
 // Headshot specs:
 //   - 800x800 webp, white or off-white background (#fafaf9)
@@ -101,8 +102,8 @@ const authors = [
     .authors-breadcrumb a:hover { color: var(--brand); }
     .authors-breadcrumb .sep { color: var(--border-strong); }
     .authors-breadcrumb .current { color: var(--text-1); font-weight: 600; }
-    .authors-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--brand-softer); border: 1px solid var(--brand-soft); border-radius: 100px; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand); font-weight: 600; margin-bottom: 28px; }
-    .authors-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--brand); border-radius: 50%; }
+    .authors-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--brand-softer); border: 1px solid var(--brand-soft); font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand); font-weight: 600; margin-bottom: 28px; }
+    .authors-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--brand); }
     .authors-hero h1 { font-size: clamp(40px, 5.2vw, 64px); font-weight: 700; line-height: 1.05; letter-spacing: -0.035em; color: var(--text-1); margin-bottom: 24px; max-width: 18ch; margin-left: auto; margin-right: auto; }
     .authors-hero .lede { font-size: 19px; line-height: 1.6; color: var(--text-2); max-width: 64ch; margin: 0 auto 36px; }
     .authors-hero .lede strong { color: var(--text-1); font-weight: 600; }
@@ -125,15 +126,15 @@ const authors = [
     .author-card:hover { border-color: var(--brand); transform: translateY(-3px); box-shadow: 0 20px 40px -16px rgba(79,57,246,0.18); }
     .author-card::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--brand), var(--brand-bright)); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease; }
     .author-card:hover::before { transform: scaleX(1); }
-    .author-card .ac-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--brand), var(--brand-deep)); color: white; display: grid; place-items: center; font-weight: 700; font-size: 26px; letter-spacing: -0.02em; border-radius: 50% !important; margin-bottom: 20px; box-shadow: 0 12px 28px -10px var(--brand-glow); }
+    .author-card .ac-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--brand), var(--brand-deep)); color: white; display: grid; place-items: center; font-weight: 700; font-size: 26px; letter-spacing: -0.02em; margin-bottom: 20px; box-shadow: 0 12px 28px -10px var(--brand-glow); }
     .author-card h3 { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.015em; margin-bottom: 4px; }
     .author-card .ac-role { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brand); font-weight: 600; margin-bottom: 16px; }
     .author-card .ac-headline { font-size: 15px; line-height: 1.5; color: var(--text-1); font-weight: 500; margin-bottom: 16px; }
     .author-card .ac-bio { font-size: 14px; line-height: 1.6; color: var(--text-2); margin-bottom: 20px; }
     .author-card .ac-loc { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); letter-spacing: 0.06em; margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
-    .author-card .ac-loc::before { content: ''; width: 5px; height: 5px; background: var(--accent-emerald); border-radius: 50%; }
+    .author-card .ac-loc::before { content: ''; width: 5px; height: 5px; background: var(--accent-emerald); }
     .author-card .ac-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 22px; }
-    .author-card .ac-tag { font-size: 11px; padding: 4px 10px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-2); border-radius: 100px; font-weight: 500; }
+    .author-card .ac-tag { font-size: 11px; padding: 4px 10px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-2); font-weight: 500; }
     .author-card .ac-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 18px; border-top: 1px solid var(--border); }
     .author-card .ac-link { font-size: 13px; font-weight: 600; color: var(--brand); display: inline-flex; align-items: center; gap: 6px; }
     .author-card:hover .ac-link span { transform: translateX(3px); }
@@ -165,7 +166,7 @@ const authors = [
     .standards-grid .col-left .mono { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); margin-bottom: 14px; font-weight: 600; }
     .standards-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--border); }
     .standards-list li { padding: 18px 0; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.55; color: var(--text-1); display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; }
-    .standards-list .check { width: 24px; height: 24px; background: var(--brand-softer); border: 1px solid var(--brand-soft); display: grid; place-items: center; color: var(--brand); border-radius: 50% !important; }
+    .standards-list .check { width: 24px; height: 24px; background: var(--brand-softer); border: 1px solid var(--brand-soft); display: grid; place-items: center; color: var(--brand); }
     .standards-list .check svg { width: 12px; height: 12px; }
     .standards-list strong { color: var(--text-1); font-weight: 600; display: block; margin-bottom: 4px; }
     .standards-list span.desc { color: var(--text-2); font-size: 13.5px; line-height: 1.55; font-weight: 400; }
@@ -391,7 +392,7 @@ const authors = [
           <li style="font-size: 14px; line-height: 1.55; color: var(--text-2); padding: 8px 0 8px 22px; position: relative;"><span style="position: absolute; left: 0; top: 8px; color: var(--brand); font-weight: 700;">+</span> AI search experiments with documented outcomes</li>
           <li style="font-size: 14px; line-height: 1.55; color: var(--text-2); padding: 8px 0 8px 22px; position: relative;"><span style="position: absolute; left: 0; top: 8px; color: var(--brand); font-weight: 700;">+</span> Founder-mode write-ups, no agency content</li>
         </ul>
-        <a href="/contact/" style="display: inline-block; margin-top: 18px; padding: 10px 18px; background: var(--brand); color: white; font-size: 13px; font-weight: 600; border-radius: 100px;">Pitch a post →</a>
+        <a href="/contact/" style="display: inline-block; margin-top: 18px; padding: 10px 18px; background: var(--brand); color: white; font-size: 13px; font-weight: 600;">Pitch a post →</a>
       </div>
     </div>
   </section>
@@ -456,27 +457,12 @@ const authors = [
       <div style="font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brand); margin-bottom: 14px; font-weight: 600;">Common questions</div>
       <h2 style="font-size: clamp(24px, 3vw, 32px); font-weight: 700; line-height: 1.2; letter-spacing: -0.025em; color: var(--text-1); margin: 0 auto;">About the editorial team</h2>
     </div>
-    <div style="border-top: 1px solid var(--border);">
-      <details style="border-bottom: 1px solid var(--border); padding: 20px 0;">
-        <summary style="font-size: 17px; font-weight: 600; color: var(--text-1); cursor: pointer; letter-spacing: -0.01em; line-height: 1.4;">Do you accept guest posts?</summary>
-        <p style="margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--text-2);">Occasionally — from operators with real stories and real numbers, not from agencies or content marketers pitching for backlinks. No payment, no exceptions. Pitch via the contact form.</p>
-      </details>
-      <details style="border-bottom: 1px solid var(--border); padding: 20px 0;">
-        <summary style="font-size: 17px; font-weight: 600; color: var(--text-1); cursor: pointer; letter-spacing: -0.01em; line-height: 1.4;">Why don't you use AI to draft articles?</summary>
-        <p style="margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--text-2);">We build AI tools for a living, which is exactly why we don't trust them with editorial. AI helps with research and outlines — humans write the actual prose. The voice and the judgement calls are too hard to fake well at this stage.</p>
-      </details>
-      <details style="border-bottom: 1px solid var(--border); padding: 20px 0;">
-        <summary style="font-size: 17px; font-weight: 600; color: var(--text-1); cursor: pointer; letter-spacing: -0.01em; line-height: 1.4;">How do you handle competitor reviews?</summary>
-        <p style="margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--text-2);">With an editorial disclosure at the top of every piece. We compete with most tools we review, and we say so. The analysis is then as fair as we can make it, including the places competitors are genuinely better than us.</p>
-      </details>
-      <details style="border-bottom: 1px solid var(--border); padding: 20px 0;">
-        <summary style="font-size: 17px; font-weight: 600; color: var(--text-1); cursor: pointer; letter-spacing: -0.01em; line-height: 1.4;">What if you got something wrong?</summary>
-        <p style="margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--text-2);">Email the contact form with the URL and the issue. We'll fix the article, note the change in the editorial log, and credit the catch where appropriate.</p>
-      </details>
-      <details style="border-bottom: 1px solid var(--border); padding: 20px 0;">
-        <summary style="font-size: 17px; font-weight: 600; color: var(--text-1); cursor: pointer; letter-spacing: -0.01em; line-height: 1.4;">Are these authors available for podcasts or interviews?</summary>
-        <p style="margin-top: 14px; font-size: 15px; line-height: 1.65; color: var(--text-2);">Yes, selectively. Each author page has a "How to work with" section that covers the right channel. The short version: include the audience, topic, and timeline in the first message and route via the contact form.</p>
-      </details>
+    <div class="faq-list">
+      <FaqItem question="Do you accept guest posts?" answer="Occasionally — from operators with real stories and real numbers, not from agencies or content marketers pitching for backlinks. No payment, no exceptions. Pitch via the contact form." />
+      <FaqItem question="Why don't you use AI to draft articles?" answer="We build AI tools for a living, which is exactly why we don't trust them with editorial. AI helps with research and outlines — humans write the actual prose. The voice and the judgement calls are too hard to fake well at this stage." />
+      <FaqItem question="How do you handle competitor reviews?" answer="With an editorial disclosure at the top of every piece. We compete with most tools we review, and we say so. The analysis is then as fair as we can make it, including the places competitors are genuinely better than us." />
+      <FaqItem question="What if you got something wrong?" answer="Email the contact form with the URL and the issue. We'll fix the article, note the change in the editorial log, and credit the catch where appropriate." />
+      <FaqItem question="Are these authors available for podcasts or interviews?" answer="Yes, selectively. Each author page has a &quot;How to work with&quot; section that covers the right channel. The short version: include the audience, topic, and timeline in the first message and route via the contact form." />
     </div>
   </section>
 

@@ -1,0 +1,130 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '../styles/tool-content.css';
+import {
+  buildSoftwareApplicationSchema,
+  buildBreadcrumbSchema,
+} from '../lib/schema-builders';
+
+export interface Props {
+  seo?: {
+    title?: string;
+    description?: string;
+    canonical?: string;
+    ogImage?: string;
+    schemaData?: any;
+  };
+  toolName: string;
+  toolDescription: string;
+  wide?: boolean;
+  hideHero?: boolean;
+  softwareSchema?: Record<string, unknown>;
+  faqSchema?: Record<string, unknown>;
+  webpageSchema?: Record<string, unknown>;
+}
+
+const {
+  seo = {},
+  toolName,
+  toolDescription,
+  wide = false,
+  hideHero = false,
+  softwareSchema,
+  faqSchema,
+  webpageSchema,
+} = Astro.props;
+
+const toolSlug = Astro.url.pathname.replace(/^\/+|\/+$/g, '');
+const toolUrl = `https://thestacc.com/${toolSlug}/`;
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: toolName, url: toolUrl },
+]);
+
+const schemaArray = [
+  softwareSchema ?? buildSoftwareApplicationSchema({
+    name: toolName,
+    description: toolDescription,
+    url: toolUrl,
+  }),
+  breadcrumbSchema,
+  ...(faqSchema ? [faqSchema] : []),
+  ...(webpageSchema ? [webpageSchema] : []),
+];
+
+const mergedSeo = {
+  ...seo,
+  schemaData: schemaArray,
+};
+---
+
+<BaseLayout seo={mergedSeo}>
+  <style>
+    .tool-hero { padding: 80px 32px 40px; text-align: center; max-width: 880px; margin: 0 auto; }
+    .tool-hero .eyebrow { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 600; margin-bottom: 16px; display: inline-block; }
+    .tool-hero h1 { font-size: clamp(38px, 5vw, 64px); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; color: var(--text-1); margin-bottom: 20px; }
+    .tool-hero p { font-size: 19px; line-height: 1.5; color: var(--text-2); max-width: 640px; margin: 0 auto 24px; }
+    .tool-hero .breadcrumb { font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .tool-hero .breadcrumb a { color: var(--text-3); transition: color 0.15s; }
+    .tool-hero .breadcrumb a:hover { color: var(--brand); }
+    .tool-hero .trust-badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .tool-hero .trust-badges span { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--border); font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
+
+    .tool-section { padding: 32px 32px 80px; }
+    .tool-section-inner { max-width: 1080px; margin: 0 auto; }
+    .tool-section-inner.wide { max-width: 1180px; }
+  </style>
+
+  {!hideHero && (
+    <section class="tool-hero">
+      <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/tools/">Tools</a>
+        <span>/</span>
+        <span>{toolName}</span>
+      </div>
+      <span class="eyebrow">Free tool · No signup</span>
+      <h1>{toolName}</h1>
+      <p>{toolDescription}</p>
+      <div class="trust-badges">
+        <span>100% Free</span>
+        <span>No signup</span>
+        <span>Runs in your browser</span>
+      </div>
+    </section>
+  )}
+
+  <section class="tool-section">
+    <div class:list={['tool-section-inner', { wide }]}>
+      <slot name="tool" />
+    </div>
+  </section>
+
+  <slot name="cta" />
+
+  <section class="tool-content">
+    <div class="tool-content-inner speakable">
+      <slot name="content" />
+    </div>
+  </section>
+
+  <section class="related-tools">
+    <div class="related-tools-inner">
+      <h2>Other free tools</h2>
+      <slot name="related" />
+    </div>
+  </section>
+
+  <section class="final-section dark" style="padding: 64px 32px;">
+    <div class="dot-pattern" aria-hidden="true"></div>
+    <div class="final-wrap final-content" style="max-width: 720px; margin: 0 auto; text-align: center; position: relative; z-index: 1;">
+      <h2 class="final-headline" style="font-size: clamp(28px, 3.5vw, 44px); white-space: normal;">Free tools are great. Automation is better.</h2>
+      <p class="final-sub">Run these 100× a month on autopilot. From $49/mo.</p>
+      <a href="/checkout/" class="final-cta-btn">Start your $1 trial <span class="arrow">→</span></a>
+    </div>
+  </section>
+
+</BaseLayout>

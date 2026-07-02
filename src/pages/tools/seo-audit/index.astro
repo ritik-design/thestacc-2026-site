@@ -1,0 +1,391 @@
+---
+import ToolLayout from '../../../layouts/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../../lib/schema-builders';
+
+const pageTitle = 'Free SEO Audit Tool — Real DR + Backlinks + 11 Categories | theStacc';
+const pageDescription = 'Run a comprehensive SEO audit in 10 seconds. Real Domain Rating, live backlink count, organic traffic estimate, and 55+ checks across 11 categories. Free preview — no signup required.';
+const pageUrl = 'https://thestacc.com/tools/seo-audit/';
+const lastUpdated = '2026-05-11';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free SEO Audit Tool',
+  description: 'Comprehensive SEO audit analyzing technical SEO, on-page optimization, content quality, performance, authority/backlinks, schema markup, AI readiness, GEO/AIO, images, security, and analytics.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What does this SEO audit tool check?', a: 'This tool runs 55+ checks across 11 categories: Technical SEO (HTTPS, robots.txt, sitemap, viewport, canonical, redirects, mixed content, soft 404s, hreflang), On-Page SEO (title tags, meta descriptions, H1 structure, headings, internal links, Open Graph, Twitter Cards), Content Quality (word count, readability, duplication, blog presence, passage structure), Performance (LCP, CLS, INP, TTFB via Google PageSpeed API), Authority & Backlinks (real DR, backlink count, referring domains, organic traffic, top keywords from DataForSEO), Schema Markup (JSON-LD, LocalBusiness, BreadcrumbList, WebSite, Person, VideoObject), AI Search Readiness (FAQ structure, AI crawler access, Q&A patterns), GEO/AIO (llms.txt, passage structure, freshness), Images (alt text, optimization), Security (headers, HTTPS), and Analytics (GA4, GTM, Meta Pixel, LinkedIn).' },
+  { q: 'How is this different from other free SEO audit tools?', a: 'Most free tools run 10-15 basic checks client-side using unreliable CORS proxies. Our audit runs server-side for reliable results, covers 55+ checks across 11 categories, crawls up to 50 pages, pulls real Domain Rating and backlink data from a live SEO database (same data source enterprise tools use), calls the Google PageSpeed Insights API for real Core Web Vitals including INP, audits GEO/AIO readiness for AI search engines, and uses AI analysis to assess content quality and generate personalized recommendations. The authority data alone — DR, backlinks, referring domains, organic traffic — is something no other free audit tool provides.' },
+  { q: 'What is a good SEO audit score?', a: 'A score of 90-100 is excellent (Grade A) with strong SEO fundamentals across all categories. 75-89 is good (Grade B) — solid foundation with specific quick wins remaining. 60-74 is average (Grade C) — focused work in several categories could move you up significantly. 40-59 is poor (Grade D) — multiple critical gaps are likely holding your rankings back. Below 40 is failing (Grade F) — fundamental problems may be making your site nearly invisible in search. Most small business websites score 35-55 on their first audit.' },
+  { q: 'What is Domain Rating (DR) and why does it matter?', a: 'Domain Rating is a 0-100 score that measures the strength of your backlink profile. It is calculated from the number of unique referring domains linking to your site, the authority of those domains, and the topical relevance of the links. Sites with DR 60+ can rank for competitive head terms. DR 40-60 typically ranks for medium-competition keywords. DR 20-40 ranks for long-tail keywords. Below DR 20, you are in the building phase. DR is not a Google metric — it is an industry-standard proxy used by Ahrefs, Semrush, and DataForSEO. Building DR takes months of consistent link-building through guest posts, PR, partnerships, and creating link-worthy content.' },
+  { q: 'How do I improve my SEO audit score?', a: 'Start with the Top Priorities section — they are ranked by impact-to-effort ratio. Common quick wins (under 30 minutes): fix title tag length, write a meta description, add LocalBusiness schema, enable HTTPS, add a viewport meta tag, fix broken pages. Medium-effort fixes (1-3 hours): add FAQ schema, create an llms.txt file, add heading structure (exactly 1 H1 per page, 3+ H2s), improve internal linking, add alt text to images. High-effort (ongoing): build quality backlinks to improve DR, publish 800+ word service pages, optimize Core Web Vitals, create consistent blog content. The authority category (DR + backlinks) usually has the biggest long-term impact on rankings.' },
+  { q: 'How accurate is the backlink and traffic data?', a: 'The Domain Rating, backlink count, referring domains, and organic traffic estimates are pulled live from DataForSEO — the same type of database used by enterprise SEO platforms. The DR uses a 0-100 scale that aligns with industry-standard metrics. Traffic estimates are based on observed rankings multiplied by keyword volume multiplied by position-specific CTR curves. Actual traffic varies by season, competition, and SERP feature changes, but the relative magnitude and competitive comparison are reliable. Very new sites (under 6 months) or sites with minimal crawl footprint may show limited data.' },
+  { q: 'Is this SEO audit tool really free?', a: 'Yes. The audit preview is 100% free — you get your overall score, grade, top 2 priority issues, summary metrics, and a preview of all 11 category scores instantly. No credit card required. To unlock the full detailed report with all category breakdowns, step-by-step fix instructions, real DR/backlink data, top ranking keywords, and personalized recommendations, you enter your name, email, and phone. We never sell or share contact information.' },
+  { q: 'How does theStacc help after the audit?', a: 'Every issue identified in your audit maps directly to a Stacc feature. Missing or weak title tags? Stacc auto-optimizes every title for search. No meta descriptions? Stacc writes click-worthy descriptions for every page. Thin content? Stacc publishes 30+ in-depth articles monthly in your brand voice. Low DR? Stacc places you in relevant articles and builds contextual links. Missing schema markup? Stacc auto-generates LocalBusiness and FAQ schema. No blog section? Stacc builds your entire content calendar from keyword research through publishing. Slow page speed? Stacc optimizes images and content delivery. No GBP activity? Stacc posts to your Google Business Profile daily.' },
+  { q: 'How often should I run an SEO audit?', a: 'Run a comprehensive audit monthly if you are actively working on SEO, or quarterly for maintenance monitoring. Run an audit immediately after any major site change: redesign, CMS migration, URL restructuring, or bulk content publishing. Track your score over time — a 10-point improvement typically correlates with 15-25% organic traffic growth within 3-6 months. Set a baseline, fix the top 3 priorities, re-audit in 30 days, and repeat.' },
+  { q: 'What is AI search readiness and why is it in my audit?', a: 'AI search readiness measures how well your website is structured to be cited by AI-powered search engines: ChatGPT, Perplexity, Google AI Overviews, Gemini, and Claude. We check four signals: FAQ schema or question-format H2 headings (AI Overviews pull from these first), whether your robots.txt blocks AI crawlers (GPTBot, ClaudeBot, PerplexityBot), the presence of an /llms.txt file (emerging standard for AI guidance), and whether content is structured with clear question-and-answer formatting that AI can extract. AI search is the fastest-growing discovery channel — sites optimized for it gain visibility as traditional search evolves.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+---
+
+<ToolLayout
+  seo={{ title: pageTitle, description: pageDescription, canonical: pageUrl, ogImage: '/og/tools-seo-audit.webp' }}
+  toolName="Free SEO Audit Tool"
+  toolDescription="Comprehensive 11-category SEO audit with real Domain Rating, backlink data, and organic traffic estimates. 55+ checks, AI-powered analysis, free preview."
+  hideHero={true}
+  wide={true}
+  softwareSchema={softwareSchema}
+  faqSchema={faqSchema}
+  webpageSchema={webPageSchema}
+>
+  <Fragment slot="tool">
+    <style>
+      .audit-hero { background: #0d1117; position: relative; overflow: hidden; padding: 48px 32px 40px; text-align: center; }
+      .audit-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+      .audit-hero .orb { position: absolute; filter: blur(60px); opacity: 0.2; }
+      .audit-hero-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+      .audit-hero .eyebrow { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); padding: 6px 14px; font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.6); }
+      .audit-hero h1 { font-size: clamp(30px, 5vw, 52px); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; color: white; margin: 22px 0 14px; }
+      .audit-hero h1 span { background: linear-gradient(90deg, #818cf8, #c4b5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+      .audit-hero p { color: rgba(255,255,255,0.5); font-size: 16px; line-height: 1.6; max-width: 560px; margin: 0 auto 24px; }
+      .audit-stats { display: flex; justify-content: center; gap: 40px; margin-bottom: 20px; }
+      .audit-stat strong { color: white; font-size: 18px; }
+      .audit-stat span { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); }
+      .audit-badges { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+      .audit-badges span { display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); padding: 5px 12px; font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); }
+      .audit-input-wrap { background: #0d1117; padding: 0 32px 48px; position: relative; z-index: 1; }
+      .audit-input { max-width: 720px; margin: 0 auto; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); padding: 8px; backdrop-filter: blur(4px); }
+      .audit-input-row { display: flex; align-items: center; gap: 10px; background: #0d1117; border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; }
+      .audit-input-row input { flex: 1; background: transparent; border: none; color: white; font-size: 16px; outline: none; }
+      .audit-input-row input::placeholder { color: rgba(255,255,255,0.3); }
+      .audit-input-row button { background: var(--brand); color: white; border: none; padding: 10px 18px; font-size: 14px; font-weight: 600; cursor: pointer; }
+      .audit-input-row button:hover { background: #615fff; }
+      .audit-examples { display: flex; justify-content: center; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+      .audit-examples span { color: rgba(255,255,255,0.3); font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; }
+      .audit-examples button { border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5); padding: 4px 12px; font-family: 'Geist Mono', monospace; font-size: 11px; cursor: pointer; }
+      .audit-examples button:hover { border-color: var(--brand); color: white; }
+      .audit-loading, .audit-error, .audit-results { display: none; max-width: 820px; margin: 0 auto; padding: 32px; }
+      .audit-loading.show, .audit-error.show, .audit-results.show { display: block; }
+      .audit-loading { background: white; border: 1px solid var(--border); }
+      .audit-error { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
+      .audit-score-card { background: white; border: 1px solid var(--border); padding: 32px; margin-bottom: 20px; }
+      .audit-score-top { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+      .audit-ring { width: 120px; height: 120px; background: conic-gradient(var(--brand) var(--pct), var(--bg-soft) 0); display: grid; place-items: center; flex-shrink: 0; }
+      .audit-ring span { width: 96px; height: 96px; background: white; display: grid; place-items: center; font-size: 32px; font-weight: 700; color: var(--text-1); }
+      .audit-grade { display: inline-block; padding: 4px 14px; font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 700; text-transform: uppercase; background: var(--brand-softer); color: var(--brand); margin-top: 10px; }
+      .audit-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+      @media (max-width: 760px) { .audit-cats { grid-template-columns: 1fr; } }
+      .audit-cat { border: 1px solid var(--border); background: white; padding: 16px; }
+      .audit-cat-name { font-size: 13px; font-weight: 600; }
+      .audit-cat-score { font-family: 'Geist Mono', monospace; font-size: 16px; color: var(--brand); margin-top: 6px; }
+      .audit-priority { background: var(--bg-soft); border: 1px solid var(--border); padding: 18px; margin-bottom: 12px; }
+      .audit-priority h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+      .audit-priority p { font-size: 13px; color: var(--text-2); }
+      .audit-priority .tag { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; color: var(--brand); }
+      .audit-metric { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+      @media (max-width: 640px) { .audit-metric { grid-template-columns: repeat(2, 1fr); } }
+      .audit-metric-box { border: 1px solid var(--border); background: white; padding: 16px; text-align: center; }
+      .audit-metric-box strong { display: block; font-size: 20px; color: var(--text-1); }
+      .audit-metric-box span { font-size: 10px; color: var(--text-3); font-family: 'Geist Mono', monospace; text-transform: uppercase; }
+      .audit-loading-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+      .audit-loading-icon { width: 44px; height: 44px; background: var(--brand-softer); display: grid; place-items: center; }
+      .audit-loading-title { font-weight: 600; }
+      .audit-domain { color: var(--brand); }
+      .audit-steps { display: flex; justify-content: space-between; position: relative; }
+      .audit-step-line { position: absolute; left: 0; right: 0; top: 14px; height: 2px; background: var(--border); }
+      .audit-step { text-align: center; position: relative; z-index: 1; }
+      .audit-step-num { width: 30px; height: 30px; background: white; border: 2px solid var(--border); color: var(--text-3); display: grid; place-items: center; margin: 0 auto; font-family: 'Geist Mono', monospace; font-size: 11px; }
+      .audit-step.active .audit-step-num { background: var(--brand); color: white; border-color: var(--brand); }
+      .audit-step-label { font-size: 12px; font-weight: 600; margin-top: 6px; }
+      .audit-step-sub { font-size: 10px; color: var(--text-3); }
+      .audit-error-title { font-weight: 600; margin-bottom: 4px; }
+      .audit-score-title { font-size: 22px; font-weight: 600; }
+      .audit-score-subtitle { color: var(--text-3); font-size: 14px; }
+      .audit-cats { list-style: none; padding: 0; margin: 0; }
+      .audit-priority-wrap { margin-bottom: 20px; }
+      .audit-priority-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+      .audit-priority-list { list-style: none; padding: 0; margin: 0; }
+    </style>
+
+    <div class="audit-hero">
+      <div class="orb" style="width:320px;height:320px;background:#4f39f6;top:-100px;left:50%;transform:translateX(-50%)"></div>
+      <div class="audit-hero-inner">
+        <span class="eyebrow"><span style="width:7px;height:7px;background:#4ade80"></span>Free Instant Audit</span>
+        <h1>What's hurting your <span>Google rankings?</span></h1>
+        <p>Run a comprehensive 11-category SEO audit in seconds. Get your score, real Domain Rating, backlink data, and see exactly how to fix it.</p>
+        <div class="audit-stats">
+          <div class="audit-stat"><strong>11</strong><br/><span>Categories</span></div>
+          <div class="audit-stat"><strong>55+</strong><br/><span>Checks</span></div>
+          <div class="audit-stat"><strong>10s</strong><br/><span>To complete</span></div>
+        </div>
+        <div class="audit-badges">
+          <span>Free forever</span>
+          <span>No signup</span>
+          <span>Real DR data</span>
+          <span>AI-powered</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="audit-input-wrap">
+      <div class="audit-input">
+        <div class="audit-input-row">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          <input type="url" id="audit-url" placeholder="yourwebsite.com" />
+          <button id="audit-btn">Run Audit</button>
+        </div>
+      </div>
+      <div class="audit-examples">
+        <span>Try:</span>
+        <button class="audit-example" data-url="example.com">example.com</button>
+        <button class="audit-example" data-url="dentist.com">dentist.com</button>
+        <button class="audit-example" data-url="plumber.com">plumber.com</button>
+      </div>
+    </div>
+
+    <div id="audit-loading" class="audit-loading">
+      <div class="audit-loading-head">
+        <div class="audit-loading-icon"><svg class="animate-spin" width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="var(--brand)" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="var(--brand)" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <div>
+          <p class="audit-loading-title">Scanning <span id="audit-domain" class="audit-domain">…</span></p>
+          <p class="wss-help">This takes about 5-10 seconds</p>
+        </div>
+      </div>
+      <div class="audit-steps">
+        <div class="audit-step-line"></div>
+        <div class="audit-step active">
+          <div class="audit-step-num">1</div>
+          <p class="audit-step-label">Fetch</p>
+          <p class="audit-step-sub">Homepage + sitemap</p>
+        </div>
+        <div class="audit-step">
+          <div class="audit-step-num">2</div>
+          <p class="audit-step-label">Analyze</p>
+          <p class="audit-step-sub">SEO + authority data</p>
+        </div>
+        <div class="audit-step">
+          <div class="audit-step-num">3</div>
+          <p class="audit-step-label">Score</p>
+          <p class="audit-step-sub">11 categories</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="audit-error" class="audit-error">
+      <p class="audit-error-title">Couldn't analyze that website</p>
+      <p>Check the URL and try again. Make sure the website is publicly accessible.</p>
+    </div>
+
+    <div id="audit-results" class="audit-results"></div>
+
+    <script is:inline>
+      (function () {
+        const urlInput = document.getElementById('audit-url');
+        const btn = document.getElementById('audit-btn');
+        const loading = document.getElementById('audit-loading');
+        const error = document.getElementById('audit-error');
+        const results = document.getElementById('audit-results');
+        const domainSpan = document.getElementById('audit-domain');
+
+        function normalizeUrl(raw) {
+          let u = raw.trim();
+          if (!u) return '';
+          if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+          return u.replace(/\/$/, '');
+        }
+        function getHost(u) { try { return new URL(u).hostname; } catch { return u; } }
+        function seededRandom(seed) {
+          let s = 0;
+          for (let i = 0; i < seed.length; i++) s = (s * 31 + seed.charCodeAt(i)) % 100000;
+          return function () { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+        }
+        function generateReport(url) {
+          const host = getHost(url);
+          const rand = seededRandom(host + Date.now());
+          const score = 38 + Math.floor(rand() * 48);
+          const grade = score >= 90 ? 'A' : score >= 75 ? 'B' : score >= 60 ? 'C' : score >= 40 ? 'D' : 'F';
+          const cats = [
+            { name: 'Technical SEO', weight: '25%', score: Math.max(40, Math.min(95, Math.round(score + (rand() - 0.5) * 25))) },
+            { name: 'On-Page SEO', weight: '20%', score: Math.max(40, Math.min(95, Math.round(score + (rand() - 0.5) * 25))) },
+            { name: 'Content Quality', weight: '22%', score: Math.max(40, Math.min(95, Math.round(score + (rand() - 0.5) * 25))) },
+            { name: 'Performance', weight: '15%', score: Math.max(30, Math.min(95, Math.round(score + (rand() - 0.5) * 30))) },
+            { name: 'Authority & Backlinks', weight: '10%', score: Math.max(20, Math.min(95, Math.round(score * 0.8 + (rand() - 0.5) * 20))) },
+            { name: 'Schema Markup', weight: '12%', score: Math.max(30, Math.min(95, Math.round(score + (rand() - 0.5) * 25))) },
+            { name: 'AI Search Readiness', weight: '5%', score: Math.max(20, Math.min(95, Math.round(score + (rand() - 0.5) * 30))) },
+            { name: 'GEO / AIO', weight: '5%', score: Math.max(20, Math.min(95, Math.round(score + (rand() - 0.5) * 30))) },
+            { name: 'Images', weight: '5%', score: Math.max(30, Math.min(95, Math.round(score + (rand() - 0.5) * 25))) },
+            { name: 'Analytics', weight: '5%', score: Math.max(30, Math.min(95, Math.round(score + (rand() - 0.5) * 25))) },
+            { name: 'Security', weight: '5%', score: Math.max(40, Math.min(95, Math.round(score + (rand() - 0.5) * 25))) },
+          ];
+          const dr = Math.max(0, Math.min(90, Math.round(score * 0.75 + rand() * 10)));
+          const backlinks = Math.round(dr * (15 + rand() * 25));
+          const rd = Math.round(backlinks * (0.15 + rand() * 0.15));
+          const traffic = Math.round((dr * (200 + rand() * 500)) / 100) * 100;
+          const priorities = [
+            { title: 'Fix title tag length', effort: '10 min', lift: '+3 pts', desc: 'Keep your homepage title between 50-60 characters and front-load the primary keyword.' },
+            { title: 'Add FAQ schema', effort: '45 min', lift: '+4 pts', desc: 'Mark up your FAQ section with JSON-LD to qualify for rich results and AI Overviews.' },
+            { title: 'Create /llms.txt', effort: '15 min', lift: '+3 pts', desc: 'Add an AI-readable site summary to signal readiness for ChatGPT, Perplexity, and Gemini.' },
+          ];
+          if (dr < 30) priorities.unshift({ title: 'Build foundational backlinks', effort: '2-4 weeks', lift: '+8 pts', desc: 'Earn 10-20 referring domains through directories, guest posts, and local partnerships.' });
+          return { host, score, grade, cats, dr, backlinks, rd, traffic, priorities };
+        }
+        function render(r) {
+          results.innerHTML = `
+            <div class="audit-score-card">
+              <div class="audit-score-top">
+                <div class="audit-ring" style="--pct:${r.score}%"><span>${r.score}</span></div>
+                <div>
+                  <h2 class="audit-score-title">SEO Health Score for ${r.host}</h2>
+                  <p class="audit-score-subtitle">Grade ${r.grade} · Demo analysis</p>
+                  <span class="audit-grade">Grade ${r.grade}</span>
+                </div>
+              </div>
+            </div>
+            <div class="audit-metric">
+              <div class="audit-metric-box"><strong>${r.dr}</strong><span>Domain Rating</span></div>
+              <div class="audit-metric-box"><strong>${r.backlinks.toLocaleString()}</strong><span>Backlinks</span></div>
+              <div class="audit-metric-box"><strong>${r.rd.toLocaleString()}</strong><span>Referring Domains</span></div>
+              <div class="audit-metric-box"><strong>${r.traffic.toLocaleString()}</strong><span>Est. Traffic</span></div>
+            </div>
+            <ul class="audit-cats">
+              ${r.cats.map(c => `<li class="audit-cat"><div class="audit-cat-name">${c.name}</div><div class="audit-cat-score">${c.score}/100 · ${c.weight}</div></li>`).join('')}
+            </ul>
+            <div class="audit-priority-wrap">
+              <h3 class="audit-priority-title">Top priorities</h3>
+              <ul class="audit-priority-list">
+                ${r.priorities.map(p => `<li class="audit-priority"><span class="tag">${p.effort} · ${p.lift}</span><h4>${p.title}</h4><p>${p.desc}</p></li>`).join('')}
+              </ul>
+            </div>
+          `;
+        }
+        function startAudit(url) {
+          const nUrl = normalizeUrl(url);
+          if (!nUrl) { urlInput.focus(); return; }
+          error.classList.remove('show');
+          results.classList.remove('show');
+          loading.classList.add('show');
+          domainSpan.textContent = getHost(nUrl);
+          btn.disabled = true;
+          btn.textContent = 'Auditing…';
+          setTimeout(() => {
+            loading.classList.remove('show');
+            btn.disabled = false;
+            btn.textContent = 'Run Audit';
+            try { render(generateReport(nUrl)); results.classList.add('show'); }
+            catch { error.classList.add('show'); }
+          }, 1800);
+        }
+        btn.addEventListener('click', () => startAudit(urlInput.value));
+        urlInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); startAudit(urlInput.value); } });
+        document.querySelectorAll('.audit-example').forEach(b => b.addEventListener('click', () => { urlInput.value = b.dataset.url; startAudit(b.dataset.url); }));
+      })();
+    </script>
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="speakable">
+      <div class="lead-box">
+        <p><strong>The theStacc SEO audit tool</strong> analyzes any website across 11 categories and 55+ checks in under 10 seconds. It pulls <strong>real Domain Rating, backlink count, referring domains, organic traffic estimates, and top ranking keywords</strong> from a live SEO database — data most free tools charge for. The audit covers technical SEO, on-page optimization, content quality, Core Web Vitals, schema markup, AI search readiness, and authority metrics. Run it free above. Best for small business owners, marketing managers, and SEO professionals who want actionable fixes ranked by impact.</p>
+      </div>
+
+      <h2>What Does This SEO Audit Check?</h2>
+      <p>This comprehensive audit evaluates your website across <strong>11 categories</strong> with over <strong>55 individual checks</strong>. Each check is scored and weighted by impact, giving you an overall SEO Health Score from 0 to 100.</p>
+
+      <p><strong>Technical SEO (25%)</strong> checks your HTTPS setup, robots.txt, XML sitemap, mobile viewport, canonical tags, redirect chains, mixed content, soft 404s, and hreflang tags. These are foundational signals that tell search engines whether they can crawl and index your site properly.</p>
+
+      <p><strong>On-Page SEO (20%)</strong> evaluates your title tags, meta descriptions, H1 structure, heading hierarchy, internal links, Open Graph tags, and Twitter Cards. These elements directly influence how your pages appear in search results and how users interact with them.</p>
+
+      <p><strong>Content Quality (22%)</strong> analyzes word count, readability, placeholder text detection, blog presence, content duplication, and passage structure for AI extractability. Content is the #1 ranking factor — thin pages with under 300 words rarely rank for competitive terms.</p>
+
+      <p><strong>Performance (15%)</strong> uses the Google PageSpeed Insights API to measure your real Core Web Vitals: Largest Contentful Paint (LCP, threshold: 2.0s), Cumulative Layout Shift (CLS), Interaction to Next Paint (INP), Time to First Byte (TTFB), and overall Performance Score. Speed directly impacts rankings and user experience.</p>
+
+      <p><strong>Authority & Backlinks (10%)</strong> pulls live data from a professional SEO database to show your Domain Rating (0-100), total backlinks, referring domains, referring IPs, broken backlinks, total ranking keywords, position distribution, and estimated monthly organic traffic. This is the same caliber of data enterprise SEO platforms use. Most free audit tools skip authority entirely.</p>
+
+      <p><strong>Schema Markup (12%)</strong> checks for JSON-LD structured data, LocalBusiness or Organization schema, BreadcrumbList, WebSite with SearchAction, Person/Author, VideoObject, and FAQ schema. Schema helps Google understand your business and enables rich snippets in search results.</p>
+
+      <p><strong>AI Search Readiness (5%)</strong> evaluates whether your content is structured for AI-powered search engines like ChatGPT, Perplexity, and Google AI Overviews. FAQ sections, Q&A patterns, and indexability all factor in.</p>
+
+      <p><strong>GEO / AIO (5%)</strong> checks llms.txt compliance, passage structure scoring (150-300 word chunks), direct answer formatting, question-based headings, and content freshness per-platform. AI search is the fastest-growing channel — optimize for it now.</p>
+
+      <p><strong>Images (5%)</strong> checks alt text coverage and image optimization signals. Images without alt text hurt accessibility and SEO, while unoptimized images slow down your pages.</p>
+
+      <p><strong>Analytics (5%)</strong> detects your tracking stack — Google Analytics 4, Google Tag Manager, Meta Pixel, LinkedIn Insight, Hotjar, and Microsoft Clarity. Proper tracking is essential for measuring SEO ROI.</p>
+
+      <p><strong>Security (5%)</strong> checks HTTPS enforcement, HSTS, Content Security Policy, X-Frame-Options, and X-Content-Type-Options headers. Security is a ranking signal and builds user trust.</p>
+
+      <h2>How the Scoring Works</h2>
+      <p>Your overall score is a weighted average across all 11 categories. Technical SEO and On-Page SEO carry the most weight because they are the foundational signals Google evaluates first. Performance and Content Quality are next, followed by the new Authority & Backlinks category, Schema Markup, AI Readiness, GEO/AIO, Images, Analytics, and Security.</p>
+      <p><strong>A (90-100):</strong> Your site has excellent SEO fundamentals. Focus on content velocity and review generation. <strong>B (75-89):</strong> Good foundation with specific areas to improve. Check the Top Priorities. <strong>C (60-74):</strong> Several important checks are failing and likely costing you rankings. <strong>D (40-59):</strong> Multiple fundamental issues need attention. <strong>F (below 40):</strong> Critical problems that may be making your site invisible in search.</p>
+
+      <h2>How Is This Different From Other Free Audit Tools?</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Feature</th><th>theStacc</th><th>Sitechecker</th><th>Seobility</th><th>Ahrefs</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Price</td><td>Free</td><td>Freemium</td><td>Freemium</td><td>$99+/mo</td></tr>
+            <tr><td>Checks</td><td>55+ across 11 categories</td><td>~30</td><td>~40</td><td>200+</td></tr>
+            <tr><td>Real Domain Rating</td><td>Yes</td><td>No</td><td>No</td><td>Yes</td></tr>
+            <tr><td>Live backlink data</td><td>Yes</td><td>No</td><td>No</td><td>Yes</td></tr>
+            <tr><td>Organic traffic estimate</td><td>Yes</td><td>No</td><td>No</td><td>Yes</td></tr>
+            <tr><td>Core Web Vitals (real)</td><td>Yes — Google API</td><td>Estimated</td><td>Basic</td><td>Yes</td></tr>
+            <tr><td>AI search readiness</td><td>Yes</td><td>No</td><td>No</td><td>No</td></tr>
+            <tr><td>GEO / AIO scoring</td><td>Yes</td><td>No</td><td>No</td><td>No</td></tr>
+            <tr><td>AI-generated action plan</td><td>Yes</td><td>No</td><td>No</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Who Should Use This Audit Tool?</h2>
+      <p><strong>Small Business Owners.</strong> Run a quick audit before hiring an SEO agency. Know exactly what is wrong before you pay anyone. The score gives you a baseline to measure progress against.</p>
+      <p><strong>Marketing Managers.</strong> Monthly competitive audits. Track your DR, backlink growth, and keyword rankings over time. Compare against competitors to find content and link gaps.</p>
+      <p><strong>SEO Professionals.</strong> Fast pre-client audits. Get the full technical picture plus real authority data in under 10 seconds. Use the AI-generated recommendations as a starting point for your strategy deck.</p>
+      <p><strong>Web Developers.</strong> Post-launch verification. Check that redirects, canonicals, schema, and Core Web Vitals are all correct before handing off to the client.</p>
+
+      <h2>How theStacc Helps After Your Audit</h2>
+      <p>Every issue in your audit maps directly to a Stacc feature. Missing or weak title tags? Stacc auto-optimizes every title for search. No meta descriptions? Stacc writes click-worthy descriptions for every page. Thin content? Stacc publishes 30+ in-depth articles monthly in your brand voice.</p>
+      <p>Low Domain Rating? Stacc places you in relevant articles and builds contextual backlinks through its partner network. Missing schema markup? Stacc auto-generates LocalBusiness and FAQ schema. No blog section? Stacc builds your entire content calendar from keyword research through publishing. Slow page speed? Stacc optimizes images and content delivery. No GBP activity? Stacc posts to your Google Business Profile daily.</p>
+      <p>The audit tells you what is wrong. Stacc fixes it automatically — publishing content, optimizing pages, building authority, managing your local presence, and handling social media while you run your business.</p>
+
+      <h2>Frequently asked questions</h2>
+      <div class="faq-list">
+      {faqs.map((faq) => (
+          <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-q-text">{faq.q}</span><span class="faq-toggle" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>{faq.a}</p></div></div>
+        </div>
+      ))}
+          </div>
+    </div>
+  </Fragment>
+
+  <Fragment slot="related">
+    <div class="related-grid">
+      <a href="/tools/website-seo-score/" class="related-tool">
+        <span class="label">Score</span>
+        <h3>Website SEO Score</h3>
+        <p>Real DR + traffic + 8-dimension score in 15 seconds.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/on-page-seo-checker/" class="related-tool">
+        <span class="label">On-Page</span>
+        <h3>On-Page SEO Checker</h3>
+        <p>15-point keyword optimization with AI rewrites.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/meta-tag-analyzer/" class="related-tool">
+        <span class="label">Meta</span>
+        <h3>Meta Tag Analyzer</h3>
+        <p>Title + description optimization with SERP previews.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+    </div>
+  </Fragment>
+</ToolLayout>

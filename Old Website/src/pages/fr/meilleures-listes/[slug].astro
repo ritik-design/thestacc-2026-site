@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/fr/HeaderFr.astro';
+import Footer from '../../../components/fr/FooterFr.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE_URL, organizationSchema, publisherRef, authorRef, websiteSchema, buildBreadcrumbs, buildSpeakable } from '../../../utils/schema';
+
+export async function getStaticPaths() {
+  const langPosts = await getCollection('best_fr');
+  return langPosts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const wordCount = (post.body ?? '').split(/\s+/).filter(Boolean).length;
+const readTime = Math.max(1, Math.round(wordCount / 200));
+
+const postUrl = `${SITE_URL}/fr/meilleures-listes/${post.data.slug}/`;
+const enUrl = `${SITE_URL}/best/${post.data.slug}/`;
+
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      '@id': `${postUrl}#article`,
+      headline: post.data.title,
+      description: post.data.description,
+      url: postUrl,
+      datePublished: post.data.date,
+      dateModified: post.data.date,
+      author: authorRef,
+      publisher: publisherRef,
+      image: post.data.image ? { '@type': 'ImageObject', url: `${SITE_URL}${post.data.image}` } : undefined,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+      articleSection: 'Meilleures listes',
+      inLanguage: 'fr',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      speakable: buildSpeakable(['.review-content > p:first-of-type', 'h1']),
+    },
+    buildBreadcrumbs(postUrl, [
+      { name: 'Accueil', url: `${SITE_URL}/fr/` },
+      { name: 'Meilleures listes', url: `${SITE_URL}/fr/meilleures-listes/` },
+      { name: post.data.title, url: postUrl },
+    ]),
+    organizationSchema,
+    websiteSchema,
+  ],
+};
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.image}
+  lang="fr"
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <div id="reading-progress" class="pointer-events-none fixed left-0 top-0 z-[200] h-[3px]" style="width:0%;background:linear-gradient(to right,#4f39f6,#818cf8);transition:width 80ms linear;"></div>
+
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+    <article>
+
+      <!-- HERO (dark) -->
+      <div class="relative overflow-hidden" style="background:#0d1117;">
+        <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+        <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.35) 0%, transparent 60%);"></div>
+        <div class="relative z-10 mx-auto max-w-[1320px] px-6 pt-8 pb-10">
+          <div class="max-w-[820px]">
+
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5" aria-label="Fil d'Ariane">
+                <a href="/fr/meilleures-listes/" class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6b7280] transition-colors hover:text-[#818cf8]">Meilleures listes</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#818cf8]">Meilleure liste</span>
+              </nav>
+
+              <div class="mt-3.5 flex flex-wrap items-center gap-2">
+                <span class="rounded-md px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[#818cf8]" style="background:rgba(79,57,246,0.15);">Meilleure liste</span>
+                <span class="flex items-center gap-1.5 font-mono text-[11px] text-[#6b7280]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {readTime} min de lecture
+                </span>
+              </div>
+
+              <h1 class="mt-4 font-sans text-[26px] font-bold leading-[1.18] tracking-[-0.025em] text-white md:text-[34px]">
+                {post.data.title}
+              </h1>
+              <p class="mt-4 font-sans text-[16px] leading-[1.65] text-[#94a3b8]">{post.data.description}</p>
+
+              <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 border-t pt-4" style="border-color:rgba(255,255,255,0.08);">
+                <div class="flex items-center gap-2.5">
+                  <img src="/images/siddharth-gangal.webp" alt="Siddharth Gangal" width="28" height="28" class="h-7 w-7 shrink-0 rounded-full object-cover ring-1 ring-white/20" loading="lazy" />
+                  <a href="/author/siddharth-gangal/" class="font-sans text-[13px] font-medium text-[#e2e8f0] transition-colors hover:text-[#818cf8]">Siddharth Gangal</a>
+                </div>
+                <span style="color:rgba(255,255,255,0.15);">·</span>
+                <span class="font-mono text-[11px] text-[#6b7280]">{post.data.date}</span>
+                <span style="color:rgba(255,255,255,0.15);">·</span>
+                <a href={enUrl} class="font-mono text-[11px] text-[#818cf8] hover:underline">Version anglaise →</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE TOC -->
+      <div class="border-b border-[#e7e5e4] bg-white lg:hidden">
+        <div class="mx-auto max-w-[1320px] px-6">
+          <button id="mobile-toc-toggle" aria-expanded="false" class="flex w-full cursor-pointer items-center justify-between py-3.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#57534e]">
+            <span class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Dans ce guide
+            </span>
+            <svg id="toc-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div id="mobile-toc-panel" class="hidden pb-4">
+            <nav id="review-toc-mobile" class="review-toc flex flex-col"></nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- TWO-COLUMN LAYOUT -->
+      <div class="mx-auto max-w-[1320px] px-6 py-10 lg:flex lg:items-start lg:gap-12">
+
+        <div class="min-w-0 flex-1">
+          <div class="review-content overflow-x-hidden">
+            <Content />
+          </div>
+
+          <!-- Author Box -->
+          <div class="mt-10 flex items-start gap-5 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+            <img src="/images/siddharth-gangal.webp" alt="Siddharth Gangal" width="80" height="80"
+              class="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-white" loading="lazy" />
+            <div class="min-w-0">
+              <p class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Rédigé par</p>
+              <a href="/author/siddharth-gangal/" class="mt-0.5 block font-sans text-[15px] font-bold text-[#111827] transition-colors hover:text-[#4f39f6]">Siddharth Gangal</a>
+              <p class="mt-1.5 font-sans text-[13px] leading-[1.65] text-[#57534e]">Siddharth est le fondateur de theStacc et Arka360, diplômé de l'IIT Mandi. Il écrit sur le SEO, le contenu à grande échelle, et les tactiques qui font vraiment évoluer les positions.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="hidden lg:block w-[300px] shrink-0">
+          <div class="sticky top-20 space-y-6">
+            <nav class="review-toc overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white p-5">
+              <p class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Dans ce guide</p>
+            </nav>
+            <div class="overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+              <p class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Automatisez votre SEO</p>
+              <p class="mt-3 font-sans text-[15px] font-bold leading-[1.35] text-[#111827]">Publiez du contenu SEO tous les mois. Automatiquement.</p>
+              <a href="/fr/demo/" class="mt-5 flex h-10 w-full items-center justify-center rounded-lg border border-[#4f39f6] bg-[#615fff] font-mono text-[12px] font-semibold uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#4f39f6]">
+                Voir la démo
+              </a>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const bar = document.getElementById('reading-progress');
+  if (bar) {
+    window.addEventListener('scroll', () => {
+      const docEl = document.documentElement;
+      const scrolled = docEl.scrollTop;
+      const total = docEl.scrollHeight - docEl.clientHeight;
+      bar.style.width = total > 0 ? `${(scrolled / total) * 100}%` : '0%';
+    }, { passive: true });
+  }
+  const tocToggle = document.getElementById('mobile-toc-toggle');
+  const tocPanel = document.getElementById('mobile-toc-panel');
+  const tocChevron = document.getElementById('toc-chevron');
+  tocToggle?.addEventListener('click', () => {
+    const isOpen = !tocPanel?.classList.contains('hidden');
+    tocPanel?.classList.toggle('hidden', isOpen);
+    tocChevron?.classList.toggle('rotate-180', !isOpen);
+    tocToggle.setAttribute('aria-expanded', String(!isOpen));
+  });
+</script>

@@ -1,0 +1,306 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "Com que tipos de contas do Facebook o Stacc se conecta?",
+    a: "O Stacc se conecta com Páginas Comerciais do Facebook, as páginas vinculadas às suas localizações de negócio. Perfis pessoais não são compatíveis. Você pode conectar uma página por localização e gerenciar todas as páginas conectadas a partir de um único painel do Stacc.",
+  },
+  {
+    q: "Posso publicar o mesmo conteúdo em todas as páginas de localização de uma só vez?",
+    a: "Sim. Escreva uma publicação e publique em uma única página ou em todas as páginas conectadas simultaneamente. A publicação em massa está disponível em todos os planos. Você também pode adicionar detalhes específicos de cada localização antes de enviar, se precisar.",
+  },
+  {
+    q: "O Stacc monitora as avaliações do Facebook?",
+    a: "Sim. As recomendações do Facebook (o equivalente às avaliações de 5 estrelas) aparecem no painel de avaliações do Stacc em tempo real. Você receberá um alerta instantâneo quando chegar uma nova recomendação, com o nome do avaliador, a pontuação e o conteúdo, sem precisar entrar no Facebook.",
+  },
+  {
+    q: "Posso responder às avaliações do Facebook pelo Stacc?",
+    a: "Os modelos de resposta estão disponíveis no Stacc para redigir respostas. Para a publicação final das respostas, a API do Facebook exige confirmação direta. O Stacc prepara a resposta e leva você diretamente à avaliação para que possa publicar com um único clique.",
+  },
+  {
+    q: "Quantas páginas do Facebook posso conectar?",
+    a: "Você pode conectar tantas páginas quantas forem suas localizações. Não há um limite rígido de páginas conectadas no Stacc. Se você gerencia 50 localizações, conecte as 50 páginas e gerencie tudo em um único lugar.",
+  },
+  {
+    q: "A conexão com o Facebook é segura?",
+    a: "O Stacc utiliza o fluxo OAuth oficial do Facebook. A autenticação é feita pelo Facebook: o Stacc nunca armazena sua senha. Você pode revogar o acesso a qualquer momento nas configurações da sua empresa no Facebook.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc — Integração com Facebook",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "pt-BR",
+      "description": "Conecte as Páginas Comerciais do Facebook ao theStacc. Gerencie publicações, monitore avaliações e acompanhe o engajamento de todas as páginas de localização a partir de um único painel.",
+      "offers": { "@type": "Offer", "price": "49", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://thestacc.com/pt-br/" },
+        { "@type": "ListItem", "position": 2, "name": "Integrações", "item": "https://thestacc.com/pt-br/integracoes/" },
+        { "@type": "ListItem", "position": 3, "name": "Facebook", "item": "https://thestacc.com/pt-br/integracoes/facebook/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "pt-BR",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Integração com Facebook — Gerencie Páginas Comerciais e Publique em Todas as Localizações | theStacc"
+  description="Conecte a página do Facebook de cada localização ao theStacc. Agende publicações, monitore avaliações e acompanhe o engajamento de todas as páginas a partir de um painel unificado."
+  lang="pt-BR"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Integração · Facebook</span>
+          </div>
+          <div class="mb-8 flex items-center justify-center gap-5">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4" fill="#4f39f6"/><path d="M8 12h8M12 8v8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <div class="h-px w-8 bg-[#f5f3ff]"></div>
+            </div>
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-[#e7e5e4] bg-white">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </div>
+          </div>
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Stacc + Facebook.<br />
+            <span style="color:#4f39f6;">Todas as páginas, um único lugar.</span>
+          </h1>
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Conecte a página do Facebook de cada localização ao Stacc. Agende publicações em todas as páginas de uma vez, monitore as avaliações em tempo real e acompanhe o engajamento sem entrar no Facebook nem uma única vez.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/pt-br/demo/" target="_blank" rel="noopener noreferrer" class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Conectar Facebook gratuitamente
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#como-conectar" class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]">Como funciona</a>
+          </div>
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">OAuth seguro · Configuração em 2 minutos · Para 1 ou 100 páginas</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHAT YOU GET ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">O que você obtém</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Conecte uma vez. Todas as páginas<br />de localização gerenciadas daqui.
+          </h2>
+        </div>
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { icon: 'M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z', title: 'Publicação em massa em todas as páginas', body: 'Escreva uma publicação e publique em uma página ou em todas as páginas de localização conectadas de uma vez. Sem logins. Sem copiar e colar. Sem localizações esquecidas.' },
+            { icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z', title: 'Monitoramento de avaliações em tempo real', body: 'Novas recomendações do Facebook aparecem no Stacc em minutos. Os alertas instantâneos incluem nome do avaliador, pontuação e texto completo, sem precisar acessar o Facebook.' },
+            { icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', title: 'Calendário de agendamento de conteúdo', body: 'Planeje publicações com semanas de antecedência. Defina um calendário de publicação por página ou para todas as localizações. O Stacc publica automaticamente nos horários que você especificar.' },
+            { icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', title: 'Painel de acompanhamento de engajamento', body: 'Alcance, engajamento de publicações e tendências de seguidores em todas as páginas conectadas em uma única visualização. Veja quais localizações ganham tração e quais precisam de atenção.' },
+            { icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2', title: 'Modelos de resposta a avaliações', body: 'O Stacc prepara modelos de resposta para cada nova avaliação. Edite e envie com um clique, ou deixe o Stacc redigir e encaminhar para aprovação antes de publicar.' },
+            { icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', title: 'Gerenciamento de múltiplas páginas', body: 'Gerencie todas as páginas de localização com um único acesso. Adicione novas páginas ao abrir novas localizações. Remova ou pause páginas sem afetar as demais.' },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={f.icon}/></svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SETUP STEPS ─── -->
+    <section id="como-conectar" class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Como conectar</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Três etapas. Menos de cinco minutos.<br />Todas as páginas conectadas.
+          </h2>
+        </div>
+        <div class="mx-auto mt-12 max-w-3xl space-y-4">
+          {[
+            { step: '01', title: 'Conecte pelo Facebook OAuth', body: 'Clique em "Conectar Facebook" nas configurações do Stacc. Você será redirecionado para o login do Facebook: nenhuma senha é armazenada no Stacc. Selecione as páginas que deseja conectar e autorize o acesso.' },
+            { step: '02', title: 'Selecione suas páginas de localização', body: 'O Stacc exibe todas as Páginas Comerciais do Facebook gerenciadas pela sua conta. Marque as que deseja acompanhar e nas quais publicar. Você pode adicionar ou remover páginas a qualquer momento nas configurações de integrações.' },
+            { step: '03', title: 'Comece a publicar e monitorar', body: 'As páginas conectadas aparecem imediatamente no painel social do Stacc. Agende sua primeira publicação, revise as avaliações pendentes e consulte os dados de engajamento, tudo sem abrir o Facebook.' },
+          ].map(s => (
+            <div class="flex gap-6 rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <span class="font-mono text-[2rem] font-semibold leading-none tracking-[-0.04em] text-[#4f39f6]/20 shrink-0">{s.step}</span>
+              <div>
+                <p class="font-sans text-[15px] font-semibold text-[#111827]">{s.title}</p>
+                <p class="mt-1.5 font-sans text-[14px] leading-relaxed text-[#57534e]">{s.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── BEFORE / AFTER ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Antes vs. depois</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            O que muda quando o Facebook<br />funciona pelo Stacc.
+          </h2>
+        </div>
+        <div class="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-[#e7e5e4]">
+          <div class="grid grid-cols-3 bg-[#f5f3ff] border-b border-[#e7e5e4]">
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Tarefa</div>
+            <div class="border-x border-[#e7e5e4] px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#79716b]">Sem Stacc</div>
+            <div class="px-6 py-4 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4f39f6]">Com Stacc</div>
+          </div>
+          {[
+            ['Publicar em 10 páginas de localização', 'Fazer login 10 vezes, copiar e colar, 40 min', 'Uma publicação, publicação em massa, 2 min'],
+            ['Verificar novas avaliações', 'Acessar cada página separadamente', 'Alerta instantâneo no painel do Stacc'],
+            ['Ver engajamento entre localizações', 'Baixar CSV de cada página e mesclar', 'Uma visualização unificada, sempre ao vivo'],
+            ['Responder a uma avaliação negativa', 'Encontrá-la, entrar, escrever resposta, publicar', 'Modelo pronto, um clique'],
+            ['Agendar uma publicação de temporada', 'Colocar lembretes, entrar no dia', 'Agendado uma vez, publicado automaticamente'],
+          ].map(([task, before, after]) => (
+            <div class="grid grid-cols-3 border-b border-[#e7e5e4] last:border-0">
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#292524]">{task}</div>
+              <div class="border-x border-[#e7e5e4] px-6 py-4 font-sans text-[13px] text-[#79716b]">{before}</div>
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#4f39f6]">{after}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16">
+        <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Frequentemente conectado junto com</p>
+        <div class="mt-8 grid max-w-4xl grid-cols-1 gap-5 sm:grid-cols-3">
+          {[
+            { title: 'Google Business Profile', desc: 'Publique no GBP e no Facebook simultaneamente. Uma ação cobre ambos os canais para cada localização.', href: '/pt-br/integracoes/google-business-profile/' },
+            { title: 'Instagram', desc: 'Amplie seu fluxo de publicação em massa para o Instagram. Mesmo conteúdo, três plataformas, um clique.', href: '/pt-br/integracoes/instagram/' },
+            { title: 'Monitoramento de Avaliações', desc: 'As avaliações do Facebook vão diretamente para o painel unificado de avaliações do Stacc junto com o Google.', href: '/pt-br/funcionalidades/monitoramento-de-avaliacoes/' },
+          ].map(r => (
+            <a href={r.href} class="group rounded-2xl border border-[#e7e5e4] bg-white p-6 transition-colors hover:border-[#4f39f6]/30 hover:bg-[#f5f3ff]/40">
+              <p class="font-sans text-[14px] font-semibold text-[#111827] group-hover:text-[#4f39f6]">{r.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-relaxed text-[#57534e]">{r.desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Perguntas frequentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Perguntas sobre a integração com Facebook
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq) => (
+            <div class="faq-item">
+              <button class="faq-btn w-full flex items-center justify-between gap-4 px-6 py-5 text-left">
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <span class="faq-icon-plus shrink-0 text-[#4f39f6]">+</span>
+                <span class="faq-icon-minus hidden shrink-0 text-[#4f39f6]">−</span>
+              </button>
+              <div class="faq-answer hidden px-6 pb-5">
+                <p class="font-sans text-[14px] leading-relaxed text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-24" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[500px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.06) 0%, transparent 60%);" aria-hidden="true"></div>
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Conecte em minutos</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-[#292524] md:text-[2.75rem]">
+            Todas as páginas de localização.<br />Um lugar para gerenciá-las.
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Pare de acessar uma dúzia de contas do Facebook para gerenciar as páginas do seu negócio. Conecte todas ao Stacc e gerencie tudo — publicações, monitoramento de avaliações, acompanhamento de engajamento — a partir de um painel.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/pt-br/demo/" target="_blank" rel="noopener noreferrer" class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Comece gratuitamente — sem cartão de crédito
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <p class="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#292524]/20">Teste gratuito de 14 dias · Sem cartão de crédito · Cancele quando quiser</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const answer = item?.querySelector('.faq-answer');
+      const plus = btn.querySelector('.faq-icon-plus');
+      const minus = btn.querySelector('.faq-icon-minus');
+      if (!answer) return;
+      const isOpen = !answer.classList.contains('hidden');
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+      document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+      document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+      if (!isOpen) {
+        answer.classList.remove('hidden');
+        plus?.classList.add('hidden');
+        minus?.classList.remove('hidden');
+      }
+    });
+  });
+</script>

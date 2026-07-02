@@ -1,0 +1,100 @@
+---
+import ToolLayoutFr from '../../../components/tools/ToolLayoutFr.astro';
+
+const industries = [
+  'Dentaire / Orthodontie','Juridique / Cabinet d\'avocats','Plomberie / CVC','Électricité',
+  'Couverture / Construction','Immobilier','Comptabilité / Fiscalité','Restaurant / Café',
+  'Salon / Spa / Beauté','Réparation auto / Carrosserie','Services de nettoyage','Paysagisme / Jardinage',
+  'Vétérinaire / Services animaliers','Chiropracteur / Kinésithérapie','Services informatiques / Conseil',
+  'Fitness / Salle de sport / Yoga','Photographie / Vidéographie','Assurance / Services financiers',
+  'Décoration intérieure / Home staging','Soutien scolaire / Éducation','Toilettage animalier / Pension',
+  'Déménagement / Garde-meubles','Désinsectisation / Nuisibles',
+];
+---
+
+<ToolLayoutFr
+  title="Générateur de publications Google Business Profile gratuit | theStacc"
+  description="Générez des publications GBP prêtes à poster en 10 secondes. Choisissez votre secteur, le type de publication et votre CTA. Gratuit, sans inscription."
+  toolName="Générateur de publications Google Business Profile"
+  toolDescription="Générez 3 publications GBP prêtes à l'emploi avec un langage sectoriel, des mots-clés locaux et le bon CTA. Sans inscription."
+  enUrl="https://thestacc.com/tools/gbp-post-generator/"
+>
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz">Nom de l'entreprise <span class="text-red-500">*</span></label>
+          <input type="text" id="biz" required maxlength="100" placeholder="ex. : Cabinet Dentaire Dupont" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-biz">Veuillez saisir le nom de votre entreprise</p>
+        </div>
+
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="city">Ville / Zone géographique <span class="text-red-500">*</span></label>
+          <input type="text" id="city" required maxlength="80" placeholder="ex. : Paris 15e, Lyon Part-Dieu" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-city">Veuillez saisir votre ville</p>
+        </div>
+
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="industry">Secteur d'activité <span class="text-red-500">*</span></label>
+          <select id="industry" required class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[14px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none">
+            <option value="">Choisir votre secteur&hellip;</option>
+            {industries.map(i => <option value={i}>{i}</option>)}
+          </select>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-industry">Veuillez sélectionner votre secteur</p>
+        </div>
+
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Type de publication <span class="text-red-500">*</span></label>
+          <div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {['Mise à jour', 'Offre spéciale', 'Événement', 'Produit', 'Conseil pratique', 'Témoignage client'].map(type => (
+              <label class="post-type-label flex cursor-pointer items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-3 py-2.5 text-[13px] font-medium text-[#57534e] transition-all hover:border-[#4f39f6] hover:text-[#4f39f6]">
+                <input type="radio" name="post-type" value={type} class="sr-only" />
+                <span class="h-3.5 w-3.5 shrink-0 rounded-full border-2 border-[#d1d5db] transition-all"></span>
+                {type}
+              </label>
+            ))}
+          </div>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-type">Veuillez sélectionner un type</p>
+        </div>
+
+        <div class="mb-6">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Bouton d'action (CTA)</label>
+          <div class="flex flex-wrap gap-2">
+            {['Appelez maintenant', 'Réservez en ligne', 'En savoir plus', 'Obtenir un devis', 'Visiter le site', 'Commander'].map(cta => (
+              <label class="cta-label flex cursor-pointer items-center gap-1.5 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 text-[12px] font-medium text-[#57534e] transition-all hover:border-[#4f39f6]">
+                <input type="radio" name="cta" value={cta} class="sr-only" />
+                {cta}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <button type="submit" id="generate-btn" class="w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+          Générer les publications GBP
+        </button>
+      </form>
+    </div>
+
+    <div id="loading-section" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+      <div class="flex items-center gap-3"><span class="w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span><span class="text-[14px] text-[#57534e]">Génération de vos publications GBP&hellip;</span></div>
+    </div>
+
+    <div id="error-section" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+      <p class="text-[15px] text-red-700 font-medium">Une erreur s'est produite</p>
+      <p id="error-message" class="mt-1 text-[13px] text-red-600">Veuillez réessayer.</p>
+    </div>
+
+    <div id="results-section" class="mt-6 hidden space-y-4">
+      <div id="posts-list" class="space-y-4"></div>
+    </div>
+
+    <noscript><div class="py-12 text-center"><p class="text-[15px] text-[#79716b]">Cet outil nécessite JavaScript.</p></div></noscript>
+    <script is:inline src="/js/gbp-post-engine.js"></script>
+  </Fragment>
+
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Pourquoi publier régulièrement sur Google Business Profile ?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Les entreprises qui publient chaque semaine sur GBP obtiennent jusqu'à 2× plus de découvertes dans les résultats de recherche. Les publications restent visibles pendant 6 mois, mais Google récompense la fraîcheur. Les publications avec un CTA clair génèrent significativement plus de clics que les publications sans bouton d'action.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Les publications GBP sont un signal de classement local confirmé. Les profils actifs avec des publications régulières, des photos et des réponses aux avis se positionnent plus haut dans le Pack Map de Google.</p>
+  </Fragment>
+</ToolLayoutFr>

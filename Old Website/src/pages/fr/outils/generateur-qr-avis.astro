@@ -1,0 +1,80 @@
+---
+import ToolLayoutFr from '../../../components/tools/ToolLayoutFr.astro';
+---
+
+<ToolLayoutFr
+  title="Générateur de QR code avis Google gratuit | theStacc"
+  description="Créez un QR code qui envoie directement vos clients vers votre page d'avis Google. Imprimable, personnalisable. Gratuit, sans inscription."
+  toolName="Générateur de QR code pour avis Google"
+  toolDescription="Créez un QR code imprimable qui envoie vos clients directement sur votre formulaire d'avis Google en un scan. Idéal pour les comptoirs, reçus et cartes de visite."
+  enUrl="https://thestacc.com/tools/review-qr-code-generator/"
+>
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="place-id">ID de lieu Google (Place ID) <span class="text-red-500">*</span></label>
+          <input type="text" id="place-id" required maxlength="200" placeholder="ex. : ChIJN1t_tDeuEmsRUsoyG83frY4" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 text-[11px] text-[#79716b]">Trouvez votre Place ID sur <a href="https://developers.google.com/maps/documentation/places/web-service/place-id" target="_blank" rel="noopener" class="text-[#615fff] hover:underline">Google Place ID Finder</a></p>
+        </div>
+
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz-name">Nom de l'entreprise (pour l'étiquette)</label>
+          <input type="text" id="biz-name" maxlength="100" placeholder="ex. : Restaurant Le Provençal" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <div class="mb-6">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Taille du QR code</label>
+          <div class="flex gap-2">
+            {[
+              { value: '200', label: 'Petit (200px)' },
+              { value: '300', label: 'Moyen (300px)' },
+              { value: '400', label: 'Grand (400px)' },
+            ].map(size => (
+              <label class="size-label flex cursor-pointer items-center gap-1.5 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 text-[12px] font-medium text-[#57534e] transition-all hover:border-[#4f39f6]">
+                <input type="radio" name="qr-size" value={size.value} class="sr-only" />
+                {size.label}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <button type="submit" id="generate-btn" class="w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+          Générer le QR code
+        </button>
+      </form>
+    </div>
+
+    <div id="error-section" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+      <p class="text-[15px] text-red-700 font-medium">Une erreur s'est produite</p>
+      <p id="error-message" class="mt-1 text-[13px] text-red-600">Vérifiez votre Place ID et réessayez.</p>
+    </div>
+
+    <div id="results-section" class="mt-6 hidden">
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-8 text-center">
+        <div id="qr-container" class="inline-block"></div>
+        <p id="qr-label" class="mt-4 font-sans text-[15px] font-semibold text-[#292524]"></p>
+        <p class="mt-1 font-sans text-[13px] text-[#79716b]">Scannez pour laisser un avis Google</p>
+        <div class="mt-6 flex justify-center gap-3">
+          <button id="download-btn" class="inline-flex items-center gap-2 rounded-lg border border-[#4f39f6] bg-[#f5f3ff] px-4 py-2 font-mono text-[12px] font-semibold text-[#4f39f6] transition-colors hover:bg-[#ede9fe]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Télécharger le QR code
+          </button>
+          <button id="print-btn" class="inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-4 py-2 font-mono text-[12px] font-semibold text-[#57534e] transition-colors hover:bg-[#fafaf9]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Imprimer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <noscript><div class="py-12 text-center"><p class="text-[15px] text-[#79716b]">Cet outil nécessite JavaScript.</p></div></noscript>
+    <script is:inline src="/js/review-qr-engine.js"></script>
+  </Fragment>
+
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Comment utiliser un QR code pour obtenir plus d'avis ?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Imprimez votre QR code et placez-le aux endroits stratégiques : comptoir d'accueil, table de restaurant, reçu, carte de visite, devanture de magasin. Quand un client satisfait le scanne, il arrive directement sur votre formulaire d'avis Google — sans avoir à chercher votre fiche.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La friction est l'ennemi des avis. Chaque étape supplémentaire dans le processus réduit le taux de conversion de 50 %. Un QR code élimine presque toute la friction — un scan, et le client est sur votre formulaire.</p>
+  </Fragment>
+</ToolLayoutFr>

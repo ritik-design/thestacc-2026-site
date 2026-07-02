@@ -1,0 +1,874 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+
+const customers = [
+  { name: "ReplyDaddy",          logo: "/customer-logos/replydaddy.webp",          showName: true  },
+  { name: "NoobBookLM",          logo: "/customer-logos/noobbooklm.webp",          showName: true  },
+  { name: "ChartMath",           logo: "/customer-logos/chartmath.webp",           showName: true  },
+  { name: "Heaven Designs",      logo: "/customer-logos/heaven-designs.webp",      showName: false },
+  { name: "Solar EPC Company", logo: "/customer-logos/heaven-green-energy.webp", showName: false },
+  { name: "Qbits Energy",        logo: "/customer-logos/qbits.webp",               showName: false },
+  { name: "QuickEstimate",       logo: "/customer-logos/quickestimate.webp",       showName: false },
+  { name: "Suncart",             logo: "/customer-logos/suncart.svg",              showName: false },
+  { name: "Intello",             logo: "/customer-logos/intello.webp",             showName: false },
+];
+
+const platforms = [
+  {
+    name: 'Instagram',
+    color: '#E1306C',
+    bg: '#fdf2f7',
+    iconUrl: '/icons/instagram-gradient.svg',
+    path: '',
+  },
+  {
+    name: 'LinkedIn',
+    color: '#0A66C2',
+    bg: '#f0f6ff',
+    iconUrl: '',
+    path: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z',
+  },
+  {
+    name: 'X',
+    color: '#000000',
+    bg: '#f5f5f5',
+    iconUrl: '',
+    path: 'M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z',
+  },
+  {
+    name: 'Facebook',
+    color: '#1877F2',
+    bg: '#f0f5ff',
+    iconUrl: '',
+    path: 'M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z',
+  },
+];
+
+const faqs = [
+  {
+    q: "As publicações vão parecer conteúdo genérico de IA?",
+    a: "Não. E essa é a maior preocupação de todo mundo. O Stacc aprende sua voz de marca, seu setor, seu público e seus pilares de conteúdo antes de escrever uma única publicação. O resultado é nativo de cada plataforma (legendas do Instagram não soam como posts do LinkedIn), específico para o seu tipo de negócio e escrito no tom que você define. Você pode revisar cada publicação antes de ir ao ar. A maioria dos clientes diz que as publicações soam mais consistentes do que o que eles mesmos escreveriam.",
+  },
+  {
+    q: "Quantas publicações o Stacc publica por mês?",
+    a: "30+ publicações por mês por padrão, distribuídas entre as plataformas que você conectar. Você controla a frequência de publicação por plataforma. Alguns negócios publicam diariamente no Instagram e 3 vezes por semana no LinkedIn. O Stacc adapta o volume de conteúdo a qualquer cadência que você definir. Mais publicações = mais superfície algorítmica = mais alcance.",
+  },
+  {
+    q: "Posso revisar ou aprovar as publicações antes de irem ao ar?",
+    a: "Sim. Cada publicação entra primeiro em uma fila de revisão. Você pode aprovar, editar, regenerar ou reagendar qualquer coisa. A maioria dos clientes revisa as primeiras semanas de publicações e depois ativa a publicação automática ao verificar a qualidade do conteúdo. Depois disso, as publicações simplesmente aparecem nos seus perfis conforme o calendário. Você não precisa pensar nisso.",
+  },
+  {
+    q: "Posso usar minhas próprias fotos e imagens?",
+    a: "Sim. Você pode subir suas próprias fotos e o Stacc as usará nas publicações. Se você não tiver imagens, o Stacc gera visuais com IA no estilo que você escolher. Fotorrealista, Ilustração plana ou Cinematográfico. Com suas cores de marca e logo aplicados automaticamente. A maioria dos negócios usa uma combinação dos dois.",
+  },
+  {
+    q: "O Stacc publica em português e outros idiomas?",
+    a: "Sim. O Stacc suporta mais de 30 idiomas, incluindo português, inglês, espanhol, francês, hindi, japonês, alemão, árabe e mais. Defina o idioma do seu conteúdo uma vez durante a configuração e cada publicação a partir daí é gerada nesse idioma. Contas multilíngues podem definir idiomas diferentes por plataforma ou por localização.",
+  },
+  {
+    q: "Como isso é diferente do Buffer ou Hootsuite?",
+    a: "Buffer e Hootsuite são ferramentas de agendamento. Elas publicam o conteúdo que você cria. O Stacc cria o conteúdo E o publica. Você recebe um gestor de redes sociais, não apenas um calendário. Para negócios que não têm tempo de escrever publicações, o Stacc faz o trabalho completo por $49/mês. O plano mais barato do Buffer custa $18/mês. Mas você ainda precisa escrever tudo.",
+  },
+];
+---
+
+<BaseLayout
+  title="Módulo Redes Sociais | theStacc | Redes Sociais com IA desde $49/mês"
+  description="Stacc escreve e agenda publicações de marca para Instagram, LinkedIn, X e Facebook todo dia. Automaticamente. Mais de 30 publicações por mês. Comece por $1."
+  lang="pt-BR"
+>
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[900px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Módulo Redes Sociais · $49/mês</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Você publicou duas vezes no mês passado.<br />
+            <span style="color:#4f39f6;">Seu concorrente publica todo dia.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[560px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            O algoritmo recompensa consistência. Negócios que publicam diariamente obtêm mais alcance, mais seguidores, mais clientes. O Stacc escreve e publica mais de 30 publicações de marca por mês no Instagram, LinkedIn, X e Facebook. Automaticamente, todo dia.
+          </p>
+
+          <!-- Platform icon strip -->
+          <div class="mt-7 flex flex-wrap items-center justify-center gap-2.5">
+            {platforms.map((p) => (
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-xl"
+                style={`background-color:${p.bg};`}
+                title={p.name}
+              >
+                {p.iconUrl ? (
+                  <img src={p.iconUrl} alt={p.name} width="18" height="18" />
+                ) : (
+                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill={p.color} aria-label={p.name}>
+                    <path d={p.path} />
+                  </svg>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/pt-br/demo/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Comece por $1 hoje
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="#como-funciona"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]"
+            >
+              Ver como funciona
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            30 dias de garantia · Sem cartão de crédito · Cancele quando quiser
+          </p>
+
+          <!-- Trust stats -->
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {[
+              { value: '30+',   num: 30,  prefix: '',  suffix: '+',    decimals: 0, from: 0, label: 'Publicações por mês' },
+              { value: '340+',  num: 340, prefix: '',  suffix: '+',    decimals: 0, from: 0, label: 'Negócios no piloto automático' },
+              { value: '0 h',   num: 0,   prefix: '',  suffix: ' h',   decimals: 0, from: 0, label: 'Do seu tempo exigido' },
+              { value: '4',     num: 4,   prefix: '',  suffix: '',     decimals: 0, from: 0, label: 'Plataformas cobertas' },
+            ].map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]"
+                   data-count-up data-target={s.num} data-from={s.from} data-prefix={s.prefix} data-suffix={s.suffix} data-decimals={s.decimals}>{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SOCIAL PROOF STRIP ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-6">
+        <div class="mb-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-between">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#79716b]">Negócios crescendo nas redes no piloto automático</p>
+          <div class="flex items-center gap-1.5">
+            <div class="flex">
+              {[1,2,3,4,5].map(() => (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <span class="font-mono text-[11px] text-[#6b7280]">4,9 de 127 avaliações</span>
+          </div>
+        </div>
+        <div class="relative overflow-hidden">
+          <div class="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white to-transparent"></div>
+          <div class="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white to-transparent"></div>
+          <div class="flex animate-marquee">
+            {[...customers, ...customers].map((c, i) => (
+              <div class="flex shrink-0 items-center gap-2 mx-8">
+                <img src={c.logo} alt={c.name} width="120" height="40" class={c.showName ? "h-[28px] w-[28px] object-contain grayscale opacity-50" : "h-[32px] w-auto object-contain grayscale opacity-50"} loading="lazy" />
+                {c.showName && <span class="font-mono text-[15px] font-medium text-[#374151] whitespace-nowrap">{c.name}</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PROBLEM SECTION ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">O problema</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Redes sociais não são mais opcionais.<br />Mas publicar consistentemente é exaustivo.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          <div class="bg-white px-8 py-10">
+            <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <p class="font-sans text-[1rem] font-semibold text-[#111827]">Você publica em rajadas e some por semanas.</p>
+            <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">O algoritmo penaliza a inconsistência. Cada lacuna no seu histórico de publicações derruba seu alcance. E leva semanas de atividade constante para recuperar. Publicações esporádicas são quase piores do que não publicar nada.</p>
+          </div>
+
+          <div class="bg-white px-8 py-10">
+            <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <p class="font-sans text-[1rem] font-semibold text-[#111827]">Contratar um gestor de redes sociais custa no mínimo R$3.000/mês.</p>
+            <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">Um bom gestor de redes sociais custa R$3.000–R$8.000 por mês. Um freelancer vai entregar resultados inconsistentes e sumir. Uma agência quer contrato de 3 meses e uma sessão de estratégia de marca antes de escrever uma única publicação.</p>
+          </div>
+
+          <div class="bg-white px-8 py-10">
+            <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <p class="font-sans text-[1rem] font-semibold text-[#111827]">Você está gerenciando um negócio. Não tem 5 horas por semana para conteúdo.</p>
+            <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">Escrever publicações, buscar imagens, redimensionar para cada plataforma, agendar no horário certo. As horas se acumulam e você não as tem. Então pula. Aí se sente culpado. Aí publica uma vez e acha que está em dia. Não está.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section id="como-funciona" class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Como funciona</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Configure uma vez. As publicações saem todo dia. Para sempre.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Sem calendário de conteúdo. Sem sessões de redação. Sem ficar procurando na última hora o que publicar. Conte ao Stacc sobre sua marca uma vez e ele cuida de todo o resto.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl">
+          <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">01</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">Defina sua voz de marca e conecte suas contas</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">Conte ao Stacc seu tom, setor, público e pilares de conteúdo. Conecte Instagram, LinkedIn, X e Facebook com OAuth seguro. Leva cerca de 10 minutos. Não precisa tocar de novo.</p>
+            </div>
+
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">02</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">A IA escreve seu plano de conteúdo mensal</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">30+ publicações geradas. Cada uma adaptada para sua plataforma. Legendas do Instagram com hashtags. Conteúdo de liderança de pensamento no LinkedIn. Threads no X. Atualizações no Facebook. Com imagens geradas por IA no estilo da sua marca. Tudo pronto para revisar antes de qualquer coisa ser publicada.</p>
+            </div>
+
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">03</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">As publicações saem conforme o horário. Você cresce no piloto automático.</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">Aprove a fila ou ative a publicação automática e esqueça. As publicações saem nos horários de pico de cada plataforma, todo dia. Publicação consistente, alcance crescente, sem esforço da sua parte. Todo mês.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHY STACC ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Por que o Stacc</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Um gestor de redes sociais, não apenas um agendador.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            A maioria das ferramentas te ajuda a agendar conteúdo que você já escreveu. O Stacc escreve o conteúdo, gera as imagens e publica. Por 98% menos do que um gestor humano.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl overflow-hidden rounded-2xl border border-[#e7e5e4]">
+          <div class="grid grid-cols-4 bg-[#f5f3ff] px-0">
+            <div class="px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-[#79716b]"></div>
+            <div class="border-l border-[#e7e5e4] px-6 py-4 text-center font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-[#6b7280]">Gestor de Redes Sociais</div>
+            <div class="border-l border-[#e7e5e4] px-6 py-4 text-center font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-[#6b7280]">Manual / Por conta própria</div>
+            <div class="border-l border-[#4f39f6] bg-[#4f39f6] px-6 py-4 text-center font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-white">Stacc</div>
+          </div>
+          {[
+            { label: 'Custo mensal',                      mgr: 'R$3.000–R$8.000', diy: 'Seu tempo',       stacc: '$49'         },
+            { label: 'Publicações por mês',               mgr: '20–30',           diy: '3–5',             stacc: '30+'         },
+            { label: 'Escreve conteúdo por você',         mgr: '✓',               diy: '✗',               stacc: '✓'           },
+            { label: 'Formato nativo por plataforma',     mgr: '✓',               diy: 'Às vezes',        stacc: '✓'           },
+            { label: 'Imagens geradas por IA',            mgr: '✗',               diy: '✗',               stacc: '✓'           },
+            { label: 'Consistência de voz de marca',      mgr: 'Variável',        diy: 'Variável',        stacc: '✓ Sempre'    },
+            { label: 'Tempo exigido de você',             mgr: 'Reuniões semanais', diy: 'Alto',          stacc: 'Nenhum'      },
+          ].map((row, i) => (
+            <div class={`grid grid-cols-4 border-t border-[#e7e5e4] ${i % 2 === 0 ? 'bg-white' : 'bg-[#fafaf9]'}`}>
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#374151]">{row.label}</div>
+              <div class="border-l border-[#e7e5e4] px-6 py-4 text-center font-sans text-[13px] text-[#6b7280]">{row.mgr}</div>
+              <div class="border-l border-[#e7e5e4] px-6 py-4 text-center font-sans text-[13px] text-[#6b7280]">{row.diy}</div>
+              <div class="border-l border-[#c7c0fc] bg-[#f5f3ff] px-6 py-4 text-center font-sans text-[13px] font-semibold text-[#4f39f6]">{row.stacc}</div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-8 text-center">
+          <a
+            href="/pt-br/demo/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+          >
+            Comece por $1 hoje
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FEATURE 1: PLATFORM-NATIVE POSTS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-6xl grid grid-cols-1 items-center gap-14 md:grid-cols-2 md:gap-20">
+          <div>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Editor de publicações</span>
+            <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.1rem]">
+              Cada publicação escrita para sua plataforma. Sem copiar e colar.
+            </h2>
+            <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+              Uma publicação que funciona no LinkedIn fracassaria no Instagram. O Stacc gera conteúdo nativo de cada plataforma: legendas do Instagram com ganchos e hashtags, liderança de pensamento no LinkedIn com formatação adequada, threads no X com pontos contundentes, atualizações no Facebook com CTA. Revise, edite ou aprove com um clique. Depois observe como a publicação consistente se converte em alcance real.
+            </p>
+            <ul class="mt-7 space-y-3">
+              {[
+                'Textos específicos por plataforma com tom adaptado a cada rede',
+                'Hashtags gerados por IA, primeiro comentário e chamadas para ação',
+                'Editor completo para ajustar textos, imagens ou agendamento antes de publicar',
+                'Aprovar individualmente ou ativar publicação automática. Você decide',
+              ].map(item => (
+                <li class="flex items-start gap-3">
+                  <svg class="mt-0.5 shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span class="font-sans text-[14px] leading-relaxed text-[#57534e]">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="order-first md:order-last">
+            <img
+              src="/social-module-images/social-module-details-page.webp"
+              alt="Editor de publicações do Stacc com legenda, prévia da imagem e hashtags"
+              class="w-full rounded-xl border border-[#e7e5e4] shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FEATURE 2: BRAND IDENTITY ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-6xl grid grid-cols-1 items-center gap-14 md:grid-cols-2 md:gap-20">
+          <div>
+            <img
+              src="/social-module-images/brand-styles-setting.webp"
+              alt="Configuração de cores, logo e estilo visual de marca no Stacc"
+              class="w-full rounded-xl border border-[#e7e5e4] shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Identidade de marca</span>
+            <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.1rem]">
+              Cada publicação parece e soa como você. Não como IA.
+            </h2>
+            <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+              O Stacc aprende sua marca antes de escrever uma única publicação. Defina suas cores de marca, suba seu logo, escolha um estilo visual, escolha sua voz entre 6 opções e bloqueie palavras que você nunca quer ver. O resultado: conteúdo consistente, de marca, completamente indistinguível do que um humano escreveria. Exceto que aparece todo dia sem falhar.
+            </p>
+            <ul class="mt-7 space-y-3">
+              {[
+                'Cores de marca aplicadas em cada imagem gerada por IA automaticamente',
+                'Controle de frequência do logo. Inclua em algumas, todas ou nenhuma',
+                '6 perfis de voz: Profissional, Casual, Espirituoso, Inspiracional, Educativo, Ousado',
+                'Lista de bloqueio personalizada. Palavras e frases que nunca aparecem nas suas publicações',
+              ].map(item => (
+                <li class="flex items-start gap-3">
+                  <svg class="mt-0.5 shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span class="font-sans text-[14px] leading-relaxed text-[#57534e]">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FEATURE 3: CONTENT STRATEGY ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-6xl grid grid-cols-1 items-center gap-14 md:grid-cols-2 md:gap-20">
+          <div>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Estratégia de conteúdo</span>
+            <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.1rem]">
+              Um mix de conteúdo estratégico que mantém seu público engajado.
+            </h2>
+            <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+              Publicar aleatoriamente não constrói público nenhum. O Stacc estrutura seu conteúdo em torno de 2–6 pilares que você escolhe. Educativo, Liderança de pensamento, Destaques de produto, Bastidores ou outros. E distribui as publicações entre eles para que seu feed se mantenha variado e valioso. Adicione seu público-alvo e o Stacc escreve para as pessoas com mais probabilidade de se tornarem clientes.
+            </p>
+            <ul class="mt-7 space-y-3">
+              {[
+                '6 opções de pilares de conteúdo. A IA sugere a melhor combinação para o seu tipo de negócio',
+                'Segmentação de público para que o conteúdo fale diretamente ao seu cliente ideal',
+                'Variedade de conteúdo que evita a fadiga do feed e mantém os seguidores engajados',
+                '30+ idiomas de conteúdo incluindo português, inglês, espanhol, francês e mais',
+              ].map(item => (
+                <li class="flex items-start gap-3">
+                  <svg class="mt-0.5 shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span class="font-sans text-[14px] leading-relaxed text-[#57534e]">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="order-first md:order-last">
+            <img
+              src="/social-module-images/content-audience-select.webp"
+              alt="Configuração de pilares de conteúdo e segmentação de público no Stacc"
+              class="w-full rounded-xl border border-[#e7e5e4] shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── RESULTS METRICS ─── -->
+    <section class="border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Resultados</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2.4rem]">
+            O que publicar diariamente faz com seu alcance e engajamento.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Médias de negócios que se comprometeram com publicação consistente e deixaram o Stacc gerenciar sua presença social.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px overflow-hidden rounded-2xl bg-white/5 md:grid-cols-3" style="border:1px solid rgba(255,255,255,0.08);">
+          {[
+            { value: '30+',   num: 30,  prefix: '',  suffix: '+',    decimals: 0, from: 0, label: 'Publicações todo mês',                  sub: 'em todas as plataformas conectadas'                            },
+            { value: '280%',  num: 280, prefix: '',  suffix: '%',    decimals: 0, from: 0, label: 'Aumento médio de engajamento',          sub: 'vs. base de publicação esporádica aos 90 dias'                 },
+            { value: '5 h',   num: 5,   prefix: '',  suffix: ' h',   decimals: 0, from: 0, label: 'Economizadas por semana por negócio',  sub: 'tempo recuperado de redação, design e agendamento'             },
+          ].map(s => (
+            <div class="flex flex-col items-center justify-center px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+              <p class="font-sans text-[3rem] font-semibold tracking-[-0.04em] text-[#292524]"
+                 data-count-up data-target={s.num} data-from={s.from} data-prefix={s.prefix} data-suffix={s.suffix} data-decimals={s.decimals}>{s.value}</p>
+              <p class="mt-2 font-sans text-[14px] font-semibold text-[#292524]/70">{s.label}</p>
+              <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.12em]" style="color:#4b5563;">{s.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FULL FEATURE GRID ─── -->
+    <section id="funcionalidades" class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Tudo incluído</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Tudo que um gestor de redes sociais faz. Por $49.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Criação de conteúdo, design visual, agendamento, consistência de marca. Tudo automatizado, tudo incluído.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              title: 'Conteúdo nativo por plataforma',
+              body: 'Cada publicação adaptada para sua plataforma. Legendas do Instagram com hashtags, artigos do LinkedIn, threads do X, atualizações do Facebook. Não é copiar e colar. Específico por plataforma por design.',
+              icon: 'M17 2H7a5 5 0 00-5 5v10a5 5 0 005 5h10a5 5 0 005-5V7a5 5 0 00-5-5z M15 12a3 3 0 11-6 0 3 3 0 016 0z',
+            },
+            {
+              title: 'Geração de imagens com IA',
+              body: '3 estilos visuais (Fotorrealista, Ilustração plana, Cinematográfico) com suas cores de marca e logo aplicados automaticamente. Sem fotos de banco. Sem Canva. Sem designer.',
+              icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
+            },
+            {
+              title: 'Controle de voz de marca',
+              body: '6 perfis de voz, mais de 30 idiomas de conteúdo e uma lista de bloqueio personalizada. Cada publicação soa como se você tivesse escrito. Consistentemente, em todas as plataformas, todo mês.',
+              icon: 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3',
+            },
+            {
+              title: 'Pilares de conteúdo',
+              body: 'Escolha 2–6 pilares de conteúdo e o Stacc equilibra seu mix automaticamente. Publicações educativas, destaques de produto, liderança de pensamento, bastidores. Feed variado, público engajado.',
+              icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
+            },
+            {
+              title: 'Controles de engajamento',
+              body: 'Estratégia de hashtags (automática, manual ou nenhuma), frequência de emojis, frequência de CTA, alternância de carrosséis para LinkedIn e Instagram. Cada detalhe ao seu alcance.',
+              icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4',
+            },
+            {
+              title: 'Tipografia e combinação de fontes',
+              body: '9 combinações de fontes selecionadas para seus gráficos sociais. Moderna, Profissional, Elegante, Amigável, Ousada, Limpa, Startup, Editorial, Contemporânea. Suas imagens, seu estilo.',
+              icon: 'M4 6h16M4 12h16M4 18h7',
+            },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d={f.icon}/>
+                </svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#f5f3ff]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-[#c7c0fc] bg-white px-10 py-12 shadow-sm">
+            <div class="flex gap-1 mb-6">
+              {[1,2,3,4,5].map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <blockquote class="font-sans text-[1.2rem] leading-[1.65] text-[#111827] font-medium">
+              "Passamos de publicar talvez duas vezes por mês a estar ativos no Instagram e Facebook todo dia. Em 90 dias, nosso engajamento no Instagram subiu 280% e começamos a receber mensagens de pessoas que estavam acompanhando nossas publicações há semanas. Dediquei exatamente zero horas. Por $49 por mês, não sei por que esperei tanto."
+            </blockquote>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="h-11 w-11 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                <span class="font-mono text-[14px] font-bold text-white">RL</span>
+              </div>
+              <div>
+                <p class="font-sans text-[14px] font-semibold text-[#111827]">Rafael L.</p>
+                <p class="font-mono text-[11px] text-[#79716b]">Proprietário, Restaurante · São Paulo</p>
+              </div>
+              <div class="ml-auto flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1.5">
+                <span class="font-mono text-[11px] font-semibold text-[#059669]">↑ 280% engajamento no Instagram</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PRICING CARD ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Preços</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Menos do que uma hora do tempo de um freelancer.<br/>Todo mês.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Gerenciar bem as redes sociais leva mais de 5 horas por semana. A maioria dos negócios não consegue sustentar isso. O Stacc faz o trabalho completo por $49 por mês. Automaticamente.
+          </p>
+        </div>
+
+        <!-- Why $49 callout -->
+        <div class="mx-auto mt-8 max-w-lg rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] px-8 py-6">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4f39f6]">Por que $49 e não R$3.000?</p>
+          <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">
+            Um gestor de redes sociais cobra pelo tempo humano: estratégia, redação, design, agendamento, relatórios. O Stacc automatiza cada etapa. O resultado é o mesmo. Conteúdo consistente e de marca publicado todo dia. O overhead desaparece. Essa é a diferença entre R$3.000/mês e $49/mês.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-8 max-w-lg">
+          <div class="overflow-hidden rounded-2xl border-2 border-[#4f39f6] bg-white shadow-[0_8px_40px_rgba(79,57,246,0.12)]">
+            <div class="bg-[#4f39f6] px-8 py-6">
+              <div class="flex items-start justify-between">
+                <div>
+                  <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">Módulo Redes Sociais</p>
+                  <div class="mt-2 flex items-baseline gap-1">
+                    <span class="font-sans text-[3rem] font-bold text-white leading-none">$49</span>
+                    <span class="font-sans text-[16px] text-white/60">/mês</span>
+                  </div>
+                </div>
+                <div class="rounded-full bg-white/15 px-3 py-1">
+                  <span class="font-mono text-[11px] font-semibold text-white">Melhor custo-benefício</span>
+                </div>
+              </div>
+              <p class="mt-3 font-sans text-[14px] text-white/70">Criação de conteúdo, geração de imagens, agendamento. Totalmente automatizado.</p>
+            </div>
+
+            <div class="px-8 py-7">
+              <ul class="space-y-4">
+                {[
+                  '30+ publicações nativas por plataforma por mês no Instagram, LinkedIn, X e Facebook',
+                  'Imagens geradas por IA com suas cores de marca, logo e estilo visual',
+                  '6 perfis de voz de marca e mais de 30 idiomas de conteúdo',
+                  'Estratégia de pilares de conteúdo para um feed variado e de alto engajamento',
+                  'Fila de revisão completa. Aprovar, editar ou publicação automática',
+                  'Geração de hashtags, primeiro comentário e otimização de CTA',
+                  'Controles de engajamento: frequência de emojis, alternância de carrosséis, frequência de CTA',
+                  'Combinação de tipografia para gráficos visuais de marca',
+                ].map(item => (
+                  <li class="flex items-start gap-3">
+                    <svg class="mt-0.5 shrink-0" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                    <span class="font-sans text-[14px] text-[#374151]">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div class="mt-8 space-y-3">
+                <a
+                  href="/pt-br/demo/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#4f39f6] font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+                >
+                  Comece por $1. Depois $49/mês
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 pt-1">
+                  {['30 dias de garantia', 'Sem contratos', 'Cancele quando quiser', 'O conteúdo é seu'].map(t => (
+                    <span class="font-mono text-[10px] uppercase tracking-[0.12em] text-[#79716b]">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t border-[#e7e5e4] bg-[#fafaf9] px-8 py-5">
+              <div class="grid grid-cols-3 gap-4 text-center text-[12px]">
+                <div>
+                  <p class="font-semibold text-[#ef4444]">Gestor de Redes Sociais</p>
+                  <p class="mt-1 font-mono font-bold text-[#111827]">R$3.000+</p>
+                  <p class="text-[#9ca3af]">20–30 posts/mês</p>
+                </div>
+                <div>
+                  <p class="font-semibold text-[#f59e0b]">Manual / Por conta própria</p>
+                  <p class="mt-1 font-mono font-bold text-[#111827]">Seu tempo</p>
+                  <p class="text-[#9ca3af]">3–5 posts/mês</p>
+                </div>
+                <div>
+                  <p class="font-semibold text-[#4f39f6]">Stacc</p>
+                  <p class="mt-1 font-mono font-bold text-[#111827]">$49</p>
+                  <p class="text-[#9ca3af]">30+ posts/mês</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Perguntas frequentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            As perguntas que todos fazem antes de começar
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button
+                class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
+                aria-expanded={i === 0 ? 'true' : 'false'}
+              >
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0 transition-transform" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CROSS-MODULE ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Outros módulos</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Mais canais.<br />O mesmo piloto automático.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Redes Sociais domina seus feeds. Adicione SEO Blog para dominar a busca orgânica. Adicione SEO Local para dominar o Google Maps. Os três juntos por $197/mês.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2">
+          <a href="/pt-br/modulos/seo-blog/" class="group overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white p-7 transition-all hover:border-[#c7c0fc] hover:shadow-[0_4px_24px_rgba(79,57,246,0.08)]">
+            <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff] transition-colors group-hover:bg-[#ede9fe]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <p class="font-sans text-[16px] font-semibold text-[#111827]">SEO Blog</p>
+            <p class="mt-2 font-sans text-[13px] leading-[1.6] text-[#57534e]">30 artigos de blog otimizados para SEO publicados no seu site todo mês. Automaticamente.</p>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="font-mono text-[12px] font-semibold text-[#4f39f6]">$99/mês</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+
+          <a href="/pt-br/modulos/seo-local/" class="group overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white p-7 transition-all hover:border-[#c7c0fc] hover:shadow-[0_4px_24px_rgba(79,57,246,0.08)]">
+            <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff] transition-colors group-hover:bg-[#ede9fe]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <p class="font-sans text-[16px] font-semibold text-[#111827]">SEO Local</p>
+            <p class="mt-2 font-sans text-[13px] leading-[1.6] text-[#57534e]">Publicações diárias no Google Meu Negócio, monitoramento de avaliações e rastreamento de posição no Maps. Automaticamente.</p>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="font-mono text-[12px] font-semibold text-[#4f39f6]">$49/mês</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Comece hoje</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Cada dia que você não publica<br class="hidden md:block" /> é um dia que você é invisível.
+            <span style="color:#818cf8;"> Seus concorrentes não estão esperando.</span>
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Os negócios que vencem nas redes sociais não são mais criativos do que você. Apenas são mais consistentes. O Stacc torna a consistência automática. Mais de 30 publicações por mês, em todas as plataformas, zero horas do seu tempo. Por $49.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/pt-br/demo/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]"
+            >
+              Comece a publicar no piloto automático por $1
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/pt-br/precos/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5"
+            >
+              Comparar todos os planos
+            </a>
+          </div>
+
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">Sem contratos · Cancele quando quiser</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── RELATED RESOURCES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-16">
+        <div class="mx-auto max-w-5xl">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6] text-center">Recursos</p>
+          <h2 class="mx-auto mt-3 max-w-lg font-sans text-[1.5rem] font-semibold leading-[1.25] tracking-[-0.02em] text-[#111827] text-center">
+            Aprenda mais sobre automação de redes sociais
+          </h2>
+          <div class="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div>
+              <h3 class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#292524] mb-4">Guias</h3>
+              <div class="flex flex-col gap-3">
+                <a href="/blog/social-media-automation/" class="font-sans text-[13px] text-[#57534e] hover:text-[#4f39f6] transition-colors">Guia de Automação de Redes Sociais</a>
+                <a href="/blog/social-media-marketing-strategy/" class="font-sans text-[13px] text-[#57534e] hover:text-[#4f39f6] transition-colors">Estratégia de Marketing em Redes Sociais</a>
+                <a href="/blog/social-media-content-calendar/" class="font-sans text-[13px] text-[#57534e] hover:text-[#4f39f6] transition-colors">Guia de Calendário de Conteúdo</a>
+                <a href="/blog/social-media-seo/" class="font-sans text-[13px] text-[#57534e] hover:text-[#4f39f6] transition-colors">Guia de SEO para Redes Sociais</a>
+                <a href="/blog/" class="font-sans text-[13px] font-semibold text-[#4f39f6] hover:underline mt-1">Ver todos os guias →</a>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#292524] mb-4">Melhores listas</h3>
+              <div class="flex flex-col gap-3">
+                <a href="/best/social-media-management-tools/" class="font-sans text-[13px] text-[#57534e] hover:text-[#4f39f6] transition-colors">Melhores Ferramentas de Gestão de Redes</a>
+                <a href="/best/social-media-scheduling-tools/" class="font-sans text-[13px] text-[#57534e] hover:text-[#4f39f6] transition-colors">Melhores Ferramentas de Agendamento</a>
+                <a href="/best/social-media-automation-tools/" class="font-sans text-[13px] text-[#57534e] hover:text-[#4f39f6] transition-colors">Melhores Ferramentas de Automação</a>
+                <a href="/best/" class="font-sans text-[13px] font-semibold text-[#4f39f6] hover:underline mt-1">Ver todas as listas →</a>
+              </div>
+            </div>
+            <div>
+              <h3 class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#292524] mb-4">Ferramentas gratuitas</h3>
+              <div class="flex flex-col gap-3">
+                <a href="/tools/headline-analyzer/" class="font-sans text-[13px] text-[#57534e] hover:text-[#4f39f6] transition-colors">Analisador de Títulos</a>
+                <a href="/tools/meta-tag-analyzer/" class="font-sans text-[13px] text-[#57534e] hover:text-[#4f39f6] transition-colors">Analisador de Meta Tags</a>
+                <a href="/tools/seo-audit/" class="font-sans text-[13px] text-[#57534e] hover:text-[#4f39f6] transition-colors">Auditoria de SEO Gratuita</a>
+                <a href="/tools/" class="font-sans text-[13px] font-semibold text-[#4f39f6] hover:underline mt-1">Ver todas as ferramentas →</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-10 flex flex-wrap items-center justify-center gap-4 text-[13px] border-t border-[#e7e5e4] pt-8">
+            <span class="text-[#79716b]">Explore também:</span>
+            <a href="/pt-br/modulos/seo-blog/" class="font-medium text-[#292524] hover:text-[#4f39f6] transition-colors">Módulo SEO Blog</a>
+            <span class="text-[#e7e5e4]">·</span>
+            <a href="/pt-br/modulos/seo-local/" class="font-medium text-[#292524] hover:text-[#4f39f6] transition-colors">Módulo SEO Local</a>
+            <span class="text-[#e7e5e4]">·</span>
+            <a href="/pt-br/precos/" class="font-medium text-[#4f39f6] hover:underline">Ver Preços</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+
+</BaseLayout>

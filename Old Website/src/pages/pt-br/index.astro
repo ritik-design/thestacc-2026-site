@@ -1,0 +1,1452 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+import { SITE_URL, LOGO_URL } from '../../utils/schema';
+
+const homepageSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'theStacc',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: LOGO_URL, width: 512, height: 512 },
+      description: 'Plataforma de automação de SEO com IA que publica 30 artigos por mês, gerencia Google Business Profiles e automatiza redes sociais para pequenas empresas brasileiras.',
+      founder: { '@type': 'Person', name: 'Siddharth Gangal', url: `${SITE_URL}/about/` },
+      sameAs: ['https://www.linkedin.com/company/thestacc', 'https://x.com/thestacc'],
+      contactPoint: { '@type': 'ContactPoint', contactType: 'customer support', url: `${SITE_URL}/contact/` },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      name: 'theStacc',
+      url: SITE_URL,
+      publisher: { '@id': `${SITE_URL}/#organization` },
+    },
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${SITE_URL}/#software`,
+      name: 'theStacc',
+      description: 'Plataforma de automação de SEO com IA que escreve 30 artigos por mês, gerencia o SEO local e automatiza a distribuição em redes sociais.',
+      url: SITE_URL,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      offers: [
+        { '@type': 'Offer', name: 'Blog SEO', price: '99.00', priceCurrency: 'USD', url: `${SITE_URL}/pt-br/precos/` },
+        { '@type': 'Offer', name: 'SEO Local', price: '49.00', priceCurrency: 'USD', url: `${SITE_URL}/pt-br/precos/` },
+        { '@type': 'Offer', name: 'Redes Sociais', price: '49.00', priceCurrency: 'USD', url: `${SITE_URL}/pt-br/precos/` },
+        { '@type': 'Offer', name: 'Pacote Completo', price: '167.00', priceCurrency: 'USD', url: `${SITE_URL}/pt-br/precos/` },
+      ],
+      screenshot: `${SITE_URL}/dashboard-preview.webp`,
+      provider: { '@id': `${SITE_URL}/#organization` },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/pt-br/`,
+      name: 'theStacc | Automação de SEO com IA para Pequenas Empresas no Brasil',
+      url: `${SITE_URL}/pt-br/`,
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      about: { '@id': `${SITE_URL}/#software` },
+      inLanguage: 'pt-BR',
+    },
+  ],
+};
+
+const customers = [
+  { name: "ReplyDaddy",          logo: "/customer-logos/replydaddy.webp",          showName: true  },
+  { name: "NoobBookLM",          logo: "/customer-logos/noobbooklm.webp",          showName: true  },
+  { name: "ChartMath",           logo: "/customer-logos/chartmath.webp",           showName: true  },
+  { name: "Heaven Designs",      logo: "/customer-logos/heaven-designs.webp",      showName: false },
+  { name: "Solar EPC Company", logo: "/customer-logos/heaven-green-energy.webp", showName: false },
+  { name: "Qbits Energy",        logo: "/customer-logos/qbits.webp",               showName: false },
+  { name: "QuickEstimate",       logo: "/customer-logos/quickestimate.webp",       showName: false },
+  { name: "Suncart",             logo: "/customer-logos/suncart.svg",              showName: false },
+  { name: "Intello",             logo: "/customer-logos/intello.webp",             showName: false },
+  { name: "Suryantra Energy",    logo: "/customer-logos/suryantra-energy.webp",     showName: true  },
+];
+
+const workflowSteps = [
+  {
+    num: '01',
+    category: 'CONECTAR',
+    title: 'Conta para o Stacc sobre o seu negócio',
+    body: 'Digite a URL e o tipo do seu negócio. O Stacc lê seu conteúdo atual, mapeia suas lacunas de palavras-chave frente aos concorrentes e monta um plano de publicação de 30 artigos. Em minutos.',
+    icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
+  },
+  {
+    num: '02',
+    category: 'GERAR',
+    title: '30 artigos de SEO. Escritos na sua voz.',
+    body: 'O Stacc pesquisa os termos que seus clientes realmente buscam, redige artigos completamente otimizados que combinam com o tom da sua marca e pontua cada um antes de chegar ao seu site.',
+    icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z',
+  },
+  {
+    num: '03',
+    category: 'PUBLICAR',
+    title: 'O conteúdo vai ao ar. Você não faz nada.',
+    body: 'Artigos são publicados diretamente no WordPress, Webflow ou Ghost. Posts no Google Meu Negócio são atualizados todo dia. Redes sociais programadas e publicadas. Seu site cresce enquanto você cuida do negócio.',
+    icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+  },
+];
+
+const resultMetrics = [
+  { label: 'Artigos publicados todo mês',        value: '30',   num: 30,  prefix: '',   suffix: '',  decimals: 0, from: 0,     delta: 'no piloto automático, todo mês', spark: [4,8,12,16,20,24,30] },
+  { label: 'Aumento médio no tráfego orgânico',  value: '4,9×', num: 4.9, prefix: '',   suffix: '×', decimals: 1, from: 0,     delta: '+390% em 6 meses',                spark: [1,1.4,1.9,2.5,3.2,4.0,4.9] },
+  { label: 'Conta mensal de agência substituída', value: 'R$0', num: 0,   prefix: 'R$', suffix: '',  decimals: 0, from: 15000, delta: 'vs. R$15.000/mês de agência',     spark: [15000,12000,8500,5500,3000,1000,0] },
+];
+
+const features = [
+  { title: 'Motor de Blog SEO',          text: '30 artigos pesquisados por palavras-chave e totalmente otimizados, publicados no seu site todo mês. Escritos na voz da sua marca. Não é uma fazenda de conteúdo. É uma máquina de posicionamento.', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+  { title: 'Pesquisa de Palavras-chave', text: 'O Stacc mapeia os termos exatos que seus clientes digitam, pontua por potencial de tráfego e dificuldade, e monta automaticamente seu calendário de conteúdo completo.', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
+  { title: 'Google Meu Negócio',         text: 'Posts diários no GMN mantêm seu perfil local ativo e sobem sua posição no Google Maps. Posts vinculados aos seus serviços, temporadas e promoções atuais. Sem você pensar nisso.', icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z' },
+  { title: 'Gestão de Avaliações',       text: 'Cada nova avaliação recebe uma resposta redigida pela IA em menos de uma hora. Sua nota se mantém alta. Clientes em potencial veem um negócio comprometido e atencioso. Seu concorrente, não.', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' },
+  { title: 'Redes Sociais',              text: 'Cada artigo do blog vira conteúdo para Instagram, LinkedIn, X e Facebook. Agendado e publicado automaticamente. Uma estratégia de redes sociais que funciona sem precisar de um social media na equipe.', icon: 'M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2h-2m-7 10l2 2 4-4' },
+  { title: 'Treinamento de Voz da Marca', text: 'O Stacc lê seu conteúdo existente e aprende como você escreve. Os artigos saem com cara de quem foi escrito pelo seu melhor funcionário. Não uma IA genérica que nunca conheceu seus clientes.', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' },
+  { title: 'Publicação Automática',      text: 'Integrações diretas com WordPress, Webflow, Ghost e qualquer CMS que aceite webhooks. Configure uma vez. Os artigos são publicados conforme o calendário. Sem exportar CSVs. Sem uploads manuais. Sem fazer login.', icon: 'M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12' },
+];
+
+const cmsIn = [
+  { name: 'WordPress',  mark: 'WP',  group: 'CMS' },
+  { name: 'Webflow',    mark: 'WF',  group: 'CMS' },
+  { name: 'Google GMN', mark: 'GMN', group: 'Local' },
+  { name: 'HubSpot',    mark: 'HS',  group: 'CMS' },
+];
+const seoOut = [
+  { name: 'Topo do Google',     mark: '↑' },
+  { name: 'Visibilidade no Maps', mark: '◎' },
+  { name: 'Respostas a avaliações', mark: '★' },
+  { name: 'Alcance social',     mark: '→' },
+];
+
+const industries = [
+  { name: 'Dentistas',     label: "Apareça em 'dentista perto de mim'",  icon: 'M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25' },
+  { name: 'Advogados',     label: 'Domine a busca jurídica local',        icon: 'M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0 0 12 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 0 1-2.031.352 5.988 5.988 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.97Zm-12.5 0L8.87 15.696c.122.499-.106 1.028-.59 1.202a5.989 5.989 0 0 1-2.031.352 5.989 5.989 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.97Z' },
+  { name: 'Encanadores',   label: 'Receba mais chamadas urgentes',        icon: 'M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z' },
+  { name: 'Climatização',  label: 'Apareça antes do concorrente',         icon: 'M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z' },
+  { name: 'Imobiliárias',  label: 'Fique na cabeça do cliente local',     icon: 'm2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25' },
+  { name: 'Restaurantes',  label: 'Encha mesas pelo Google Maps',         icon: 'M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75-1.5.75a3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0 3.354 3.354 0 0 0-3 0 3.354 3.354 0 0 1-3 0L3 16.5m15-3.379a48.474 48.474 0 0 0-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.169c0 .621-.504 1.125-1.125 1.125H4.125A1.125 1.125 0 0 1 3 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 0 1 6 13.12M12.265 3.11a.375.375 0 1 1-.53 0L12 2.845l.265.265Zm-3 0a.375.375 0 1 1-.53 0L9 2.845l.265.265Zm6 0a.375.375 0 1 1-.53 0L15 2.845l.265.265Z' },
+  { name: 'Salões',        label: "Domine 'salão perto de mim'",          icon: 'M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5' },
+  { name: 'Contadores',    label: 'Conquiste clientes empresariais locais', icon: 'M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z' },
+];
+
+const faqs = [
+  {
+    q: "O Google vai penalizar meu site por conteúdo gerado com IA?",
+    a: "As próprias diretrizes do Google são claras: o que importa é qualidade e utilidade, não como o conteúdo foi produzido. Cada artigo que o Stacc publica é pesquisado por palavras-chave, otimizado para SEO e escrito para responder perguntas reais dos seus clientes. Nossos clientes publicaram mais de 4 milhões de palavras sem uma única ação manual ou penalidade de posicionamento. O conteúdo funciona porque é feito primeiro para humanos. Não para enganar algoritmo nenhum.",
+  },
+  {
+    q: "Por que custa só $99? Qual é o truque?",
+    a: "Truque nenhum. Agências cobram R$15.000 por mês porque empregam gerentes de conta, redatores, editores e estrategistas. A gente automatizou cada uma dessas etapas. Pesquisa de palavras-chave, redação, pontuação de SEO, linkagem interna e publicação. Você paga $99 porque não tem uma equipe de R$14.500 trabalhando na sua conta. Tem um sistema que faz o mesmo trabalho em segundos, de forma consistente, todo mês.",
+  },
+  {
+    q: "Quanto tempo até eu ver resultado?",
+    a: "A maioria dos clientes vê melhorias significativas no posicionamento entre 60 e 90 dias. A pergunta de verdade é: o que vai acontecer em 6 meses se você não começar agora? Seu concorrente que começar hoje vai ter 180 artigos publicados e indexados. Você ainda vai estar na página 3 se perguntando por que ele recebe todas as ligações. SEO é um ativo que se acumula. Quanto antes você começa, maior a vantagem que constrói.",
+  },
+  {
+    q: "Qual a diferença entre isso e usar o ChatGPT direto?",
+    a: "O ChatGPT escreve conteúdo. O Stacc posiciona páginas. A diferença está na camada de SEO em cima: pesquisa de palavras-chave calibrada para o seu mercado, pontuação de otimização que avalia cada artigo antes de publicar, linkagem interna pelo seu site, meta tags, schema markup e integração direta com o CMS. O ChatGPT te dá um rascunho que você precisa otimizar e subir manualmente. O Stacc te entrega uma página ativa que já está posicionando.",
+  },
+  {
+    q: "E se o conteúdo não soar como o meu negócio?",
+    a: "Durante a configuração, o Stacc lê seu site atual e analisa seu tom, público e linguagem de serviço. No primeiro lote, 94% dos clientes dizem que os artigos soam como eles ou até melhor. Para os outros 6%, dois ajustes nas configurações de estilo resolvem. Você pode revisar cada artigo antes de publicar. A maioria dos clientes para de revisar depois do primeiro mês porque confia no que vê.",
+  },
+  {
+    q: "Se eu cancelar, perco meu conteúdo?",
+    a: "Não. Cada artigo publicado no seu site fica lá. Cancele hoje e essas páginas continuam posicionando, gerando tráfego e atraindo leads. Para sempre. Você é dono de 100% do conteúdo. A gente não mantém seus posicionamentos como reféns.",
+  },
+  {
+    q: "Qual a diferença entre isso e contratar um freela ou uma agência?",
+    a: "Um freelancer escreve 3 ou 4 artigos por mês quando tem tempo, cobra entre R$3.000 e R$5.000 e some quando a vida acontece. Uma agência cobra de R$10.000 a R$20.000 por mês por 6 a 8 artigos e um relatório mensal que você precisa decifrar. O Stacc publica 30 artigos por mês, automaticamente, todo mês, por $99. A conta nem chega perto.",
+  },
+];
+
+const plans = [
+  {
+    name: 'Blog SEO',
+    price: '$99',
+    period: '/mês',
+    tagline: '30 artigos. Publicados automaticamente.',
+    features: [
+      '30 artigos com IA, pontuados por SEO/mês',
+      'Pesquisa de palavras-chave e análise de concorrentes',
+      'Publicação automática no WordPress, Webflow, Ghost',
+      'Treinamento de voz da marca',
+      'Calendário de conteúdo completo',
+    ],
+    cta: 'Começar por $1',
+    ctaLink: '/pt-br/demo/',
+    highlight: false,
+  },
+  {
+    name: 'Pacote Completo',
+    price: '$167',
+    period: '/mês',
+    tagline: 'Blog + Local + Social. Tudo incluso.',
+    badge: 'Melhor Custo-Benefício',
+    features: [
+      'Tudo do Blog SEO',
+      'Posts diários no Google Meu Negócio',
+      'Monitoramento de avaliações + respostas com IA',
+      'Posts no Instagram, LinkedIn, X, Facebook',
+      'Geração de imagens com IA para redes sociais',
+    ],
+    cta: 'Começar por $1',
+    ctaLink: '/pt-br/demo/',
+    highlight: true,
+  },
+  {
+    name: 'SEO Local',
+    price: '$49',
+    period: '/mês',
+    tagline: 'Domine o Google Maps e a busca local.',
+    features: [
+      '30 posts no GMN gerados por mês',
+      'Monitoramento de avaliações e respostas com IA',
+      'Rastreamento de palavras-chave locais',
+      'Suporte para múltiplas localidades',
+      'Análise do GMN dos concorrentes',
+    ],
+    cta: 'Começar por $1',
+    ctaLink: '/pt-br/demo/',
+    highlight: false,
+  },
+];
+---
+
+<BaseLayout
+  title="theStacc | Automação de SEO com IA para Pequenas Empresas no Brasil"
+  description="A maioria das empresas publica 1–2 artigos por mês. As que aparecem no Google publicam 30. O Stacc faz isso automaticamente. Artigos de blog, posts no GMN e redes sociais no piloto automático."
+  lang="pt-BR"
+>
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(homepageSchema)} />
+
+    <!-- ─────────────────────────────────────────────────
+         HERO. Escuro, centralizado, partículas interativas
+         ───────────────────────────────────────────────── -->
+    <section id="hero-section" class="relative overflow-hidden" style="background:#ffffff;">
+      <canvas id="hero-canvas" class="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);" aria-hidden="true"></div>
+
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[700px]" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.18) 0%, transparent 62%);" aria-hidden="true"></div>
+
+      <div id="hero-mouse-glow" class="pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+      <div class="container-x relative py-24 md:py-32 lg:py-40">
+        <div class="mx-auto max-w-[1100px] text-center">
+
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 font-mono text-[11px] font-medium text-[#79716b] backdrop-blur-sm">
+            <span class="flex -space-x-1.5">
+              {['RL','MS','CF','AB'].map((init) => (
+                <span class="inline-flex h-5 w-5 items-center justify-center rounded-full border-2 border-white font-mono text-[7px] font-bold text-[#292524]" style="background:linear-gradient(135deg,#4f39f6,#818cf8);">{init}</span>
+              ))}
+            </span>
+            <span class="inline-block h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            127 empresas · 300k artigos publicados · Nota 4,9★
+          </span>
+
+          <h1 class="mt-7 font-sans text-[3.5rem] font-semibold leading-[1.15] tracking-[-0.045em] text-[#292524] md:text-[4rem]">
+            <span class="block">O Google está mandando seus <span style="color:#ffffff;background:#4f39f6;padding:0 10px 2px;display:inline-block;">Clientes</span></span>
+            <span class="block">para o concorrente<span class="text-[#292524]"> agora mesmo.</span></span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[540px] font-sans text-[0.95rem] leading-[1.7] text-[#9ca3af] md:text-[1.05rem]">
+            Não porque ele é melhor no que faz. Porque é mais fácil de achar. Cada busca que o seu cliente digita é uma chance do concorrente atender aquela ligação no lugar de você.
+          </p>
+
+          <form id="hero-form" class="mx-auto mt-10 flex w-full max-w-[500px] flex-col gap-2 sm:flex-row sm:gap-0 rounded-xl border border-[#e7e5e4] bg-white p-1.5 backdrop-blur-sm transition-shadow focus-within:shadow-[0_0_0_2px_rgba(129,140,248,0.35)]">
+            <input
+              id="hero-url"
+              type="text"
+              placeholder="seusite.com.br"
+              class="min-w-0 flex-1 bg-transparent px-3 py-1.5 font-sans text-[14px] text-[#292524] placeholder-[#a8a29e] outline-none"
+            />
+            <button
+              type="submit"
+              class="inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-[10px] bg-[#4f39f6] px-5 font-sans text-[13px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Mostre o que estou perdendo
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </form>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            Comece por $1 · Garantia de 30 dias · Cancele quando quiser · O conteúdo é seu para sempre
+          </p>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         SOCIAL PROOF STRIP
+         ───────────────────────────────────────────────── -->
+    <section class="border-t border-b border-[#f3f4f6] bg-white">
+      <div class="container-x py-6">
+        <div class="mb-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-between">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9ca3af]">Confiado por empresas em crescimento</p>
+          <div class="flex items-center gap-1.5">
+            <div class="flex">
+              {[1,2,3,4,5].map(() => (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <span class="font-mono text-[11px] text-[#6b7280]">4,9 de 127 avaliações</span>
+          </div>
+        </div>
+
+        <div class="relative overflow-hidden">
+          <div class="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white to-transparent"></div>
+          <div class="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white to-transparent"></div>
+          <div class="flex animate-marquee">
+            {[...customers, ...customers].map((c) => (
+              <div class="flex shrink-0 items-center gap-2 mx-8">
+                <img src={c.logo} alt={c.name} width="120" height="40" class={c.showName ? "h-[28px] w-[28px] object-contain grayscale opacity-50" : "h-[32px] w-auto object-contain grayscale opacity-50"} loading="lazy" />
+                {c.showName && <span class="font-mono text-[15px] font-medium text-[#374151] whitespace-nowrap">{c.name}</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         STATS STRIP
+         ───────────────────────────────────────────────── -->
+    <section class="border-b border-[#f3f4f6] bg-white">
+      <div class="container-x py-10">
+        <div class="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-[#e5e7eb] bg-[#e5e7eb] md:grid-cols-4">
+          {[
+            { value: '300k', num: 300, prefix: '', suffix: 'k', decimals: 0, from: 0,     label: 'Artigos publicados',        sub: 'em todos os clientes' },
+            { value: '4,9×', num: 4.9, prefix: '',   suffix: '×',  decimals: 1, from: 0,     label: 'Aumento médio de tráfego',  sub: 'em até 6 meses' },
+            { value: 'R$0',  num: 0,   prefix: 'R$', suffix: '',   decimals: 0, from: 15000, label: 'Faturas de agência cortadas', sub: 'média R$15.000/mês economizados' },
+            { value: '4,9★', num: 4.9, prefix: '',   suffix: '★',  decimals: 1, from: 0,     label: 'Avaliação dos clientes',    sub: 'de 127 avaliações' },
+          ].map((s) => (
+            <div class="flex flex-col items-center justify-center bg-white px-6 py-8 text-center">
+              <p class="font-sans text-[2.25rem] font-semibold tracking-[-0.03em] text-[#111827] md:text-[2.75rem]"
+                 data-count-up data-target={s.num} data-from={s.from} data-prefix={s.prefix} data-suffix={s.suffix} data-decimals={s.decimals}>{s.value}</p>
+              <p class="mt-1 font-sans text-[13px] font-semibold text-[#111827]">{s.label}</p>
+              <p class="mt-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-[#9ca3af]">{s.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         O PROBLEMA — SERP Battle
+         ───────────────────────────────────────────────── -->
+    <section class="section bg-white">
+      <div class="container-x">
+        <div class="mx-auto max-w-3xl text-center" data-reveal>
+          <span class="eyebrow">O problema</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#111827] md:text-[2.75rem]">
+            Seu concorrente está recebendo buscas <span class="text-[#4f39f6]">que deveriam ser suas.</span>
+          </h2>
+          <p class="mt-4 font-sans text-[1.05rem] leading-relaxed text-[#4b5563]">
+            O Google recompensa consistência. A empresa que publicar 30 artigos esse mês vai dominar essas buscas por anos. A que publicar zero ainda vai estar explicando para os clientes por que eles não conseguem achá-la online.
+          </p>
+        </div>
+
+        <!-- SERP Battle mockup -->
+        <div class="mx-auto mt-14 max-w-2xl" data-reveal>
+          <div class="mb-3 flex items-center gap-2">
+            <span class="rounded-full bg-[#fef2f2] px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-[#dc2626]">Resultados ao vivo · agora</span>
+          </div>
+
+          <div class="overflow-hidden rounded-xl border border-[#e5e7eb] bg-white shadow-sm">
+            <!-- Browser chrome -->
+            <div class="flex items-center gap-3 border-b border-[#e5e7eb] bg-[#fafafa] px-4 py-3">
+              <div class="flex shrink-0 gap-1.5">
+                <span class="h-2.5 w-2.5 rounded-full bg-[#fca5a5]"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-[#fde68a]"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-[#bbf7d0]"></span>
+              </div>
+              <div class="flex flex-1 items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5">
+                <svg width="11" height="11" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <circle cx="10" cy="10" r="8" stroke="#a8a29e" stroke-width="1.5"/>
+                  <path d="M10 3C7.5 6.5 7.5 13.5 10 17M10 3c2.5 3.5 2.5 10.5 0 14M2.5 10h15" stroke="#a8a29e" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span id="serp-query" class="font-mono text-[11px] text-[#374151]">encanador perto de mim</span>
+                <span class="serp-cursor inline-block h-[13px] w-px bg-[#4f39f6] align-middle"></span>
+              </div>
+            </div>
+
+            <!-- Live label -->
+            <div class="border-b border-[#f5f4ff] bg-[#fafaf9] px-4 py-2">
+              <p class="font-mono text-[10px] text-[#79716b]">
+                Alguém acabou de buscar isso na sua cidade — <span class="font-semibold text-[#ef4444]">agora mesmo</span>
+              </p>
+            </div>
+
+            <!-- Results. Populated by JS -->
+            <div id="serp-results"></div>
+
+            <!-- Footer -->
+            <div class="flex items-center justify-between border-t border-[#e5e7eb] bg-[#fafafa] px-4 py-2.5">
+              <p class="font-sans text-[11px] text-[#9ca3af]">
+                Buscas como essa acontecem <strong class="font-semibold text-[#374151]">centenas de vezes por dia</strong> no seu mercado
+              </p>
+              <span id="serp-footer-status" class="font-mono text-[10px] font-semibold text-[#ef4444]">seu site: página 3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         A SOLUÇÃO — Grid Cascade content calendar
+         ───────────────────────────────────────────────── -->
+    <section class="section relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.04) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at center,black 40%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 40%,transparent 85%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[500px]" style="background:radial-gradient(ellipse at 50% 110%, rgba(79,57,246,0.09) 0%, transparent 65%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-3xl text-center" data-reveal>
+          <span class="eyebrow" style="color:#818cf8;">A solução</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#292524] md:text-[2.75rem]">
+            30 artigos de SEO. Publicados automaticamente
+            <span style="color:#818cf8;">todo mês.</span>
+          </h2>
+          <p class="mt-4 font-sans text-[1.05rem] leading-relaxed" style="color:#6b7280;">
+            O Stacc pesquisa os termos exatos que seus clientes digitam, redige artigos totalmente otimizados na voz da sua marca e publica num calendário consistente. Todo mês, com ou sem você pensando nisso.
+          </p>
+        </div>
+
+        <!-- Grid Cascade mockup. Dark card -->
+        <div class="mx-auto mt-14 max-w-4xl" data-reveal>
+          <div class="grid-dark overflow-hidden rounded-xl shadow-2xl" style="border:1px solid rgba(255,255,255,0.08);background:#0d1520;">
+            <div class="flex items-center justify-between px-4 py-2.5" style="border-bottom:1px solid rgba(255,255,255,0.07);background:rgba(0,0,0,0.3);">
+              <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.14em]" style="color:#4b5563;">Calendário de conteúdo · Esse mês</p>
+              <div class="flex items-center gap-2">
+                <span class="grid-status-dot h-1.5 w-1.5 rounded-full bg-[#22c55e]"></span>
+                <span id="grid-count" class="font-mono text-[10px] font-semibold text-[#059669]">0 artigos na fila</span>
+              </div>
+            </div>
+
+            <div class="flex px-4 pt-1" style="border-bottom:1px solid rgba(255,255,255,0.07);background:rgba(0,0,0,0.2);">
+              <button class="grid-month-tab cursor-pointer border-b-2 bg-transparent px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.08em]" data-tab="0" style="color:#818cf8;border-bottom-color:#4f39f6;">Mês 1</button>
+              <button class="grid-month-tab cursor-pointer border-b-2 border-transparent bg-transparent px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.08em]" data-tab="1" style="color:#374151;">Mês 2</button>
+              <button class="grid-month-tab cursor-pointer border-b-2 border-transparent bg-transparent px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.08em]" data-tab="2" style="color:#374151;">Mês 3</button>
+              <span class="px-3 py-2 font-mono text-[10px] uppercase tracking-[0.08em]" style="color:#1f2937;">Mês 4+</span>
+            </div>
+
+            <div class="p-4" style="background:#080d14;">
+              <div id="article-grid" class="mb-3 grid grid-cols-10 gap-1.5">
+                <!-- JS-populated tiles -->
+              </div>
+              <div class="flex items-center justify-between pt-3" style="border-top:1px solid rgba(255,255,255,0.06);">
+                <p class="font-sans text-[12px] font-medium" style="color:#4f39f6;">+ 23 artigos a mais na fila desse mês</p>
+                <span class="font-mono text-[10px] font-semibold text-[#059669]">publicação automática</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         COMO FUNCIONA — 3 etapas
+         ───────────────────────────────────────────────── -->
+    <section class="section bg-white">
+      <div class="container-x">
+        <div class="mx-auto max-w-3xl text-center" data-reveal>
+          <span class="eyebrow">Como funciona</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#111827] md:text-[2.75rem]">
+            5 minutos para configurar. <span class="text-[#4f39f6]">Roda sozinho depois disso.</span>
+          </h2>
+          <p class="mt-4 font-sans text-[1.05rem] leading-relaxed text-[#4b5563]">
+            Sem contrato com agência. Sem reunião mensal. Sem brief de conteúdo. Você conecta seu site uma vez. O Stacc cuida da pesquisa, redação, otimização e publicação a partir desse dia.
+          </p>
+        </div>
+
+        <div class="relative mx-auto mt-14 max-w-6xl">
+          <div class="pointer-events-none absolute left-[14%] right-[14%] top-[88px] hidden border-t-2 border-dashed border-[#e5e7eb] lg:block" aria-hidden="true"></div>
+
+          <div class="relative grid gap-5 lg:grid-cols-3" data-reveal-stagger>
+            {workflowSteps.map((s, i) => (
+              <div class="relative flex h-[280px] flex-col justify-between rounded-xl border border-[#e5e7eb] bg-white p-6 shadow-sm">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg" style="background:#f5f3ff;">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d={s.icon}/>
+                      </svg>
+                    </span>
+                    <span class="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#d1d5db]">PASSO · {s.num}</span>
+                  </div>
+                  <p class="mt-5 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">{s.category}</p>
+                  <h3 class="mt-2 font-sans text-[1.05rem] font-semibold leading-snug text-[#111827]">{s.title}</h3>
+                  <p class="mt-2 font-sans text-sm leading-relaxed text-[#4b5563]">{s.body}</p>
+                </div>
+
+                {i < workflowSteps.length - 1 && (
+                  <span class="pointer-events-none absolute -right-3 top-[88px] z-10 hidden h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5e7eb] bg-white text-[#d1d5db] shadow-sm lg:inline-flex" aria-hidden="true">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p class="mt-10 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-[#d1d5db]">
+          Tempo médio de configuração · menos de 5 minutos · sem desenvolvedor · sem ferramenta nova para aprender
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         OS RESULTADOS — Dark metrics + sparklines
+         ───────────────────────────────────────────────── -->
+    <section class="relative overflow-hidden py-20 text-white md:py-24" style="background:#111827;">
+      <div class="pointer-events-none absolute inset-0 flex justify-center" aria-hidden="true">
+        <div class="h-full w-full max-w-7xl" style="background-image:linear-gradient(to right,rgba(255,255,255,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);"></div>
+      </div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[400px]" style="background:radial-gradient(ellipse at top, rgba(79,57,246,0.22) 0%, transparent 70%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-3xl text-center" data-reveal>
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#a5b4fc]">Os números</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-white md:text-[2.75rem]">
+            O que muda quando sua máquina de conteúdo <span class="text-[#a5b4fc]">é ligada.</span>
+          </h2>
+        </div>
+
+        <div class="mt-14 grid overflow-hidden rounded-xl border border-white/10 bg-white/5 gap-px md:grid-cols-3" data-reveal-stagger>
+          {resultMetrics.map((m) => (
+            <div class="flex h-[280px] flex-col justify-center" style="background:#111827;">
+              <div class="flex flex-col justify-center p-10 text-center h-full">
+                <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#6b7280]">{m.label}</p>
+                <p class="mt-3 font-sans text-5xl font-semibold tracking-[-0.03em] text-white md:text-[3.5rem]"
+                   data-count-up data-target={m.num} data-from={m.from} data-prefix={m.prefix} data-suffix={m.suffix} data-decimals={m.decimals}>{m.value}</p>
+                <p class="mt-2 font-mono text-[11px] text-[#34d399]">{m.delta}</p>
+                <svg viewBox="0 0 100 28" class="mx-auto mt-4 h-6 w-24" preserveAspectRatio="none" aria-hidden="true">
+                  <path d={m.spark.map((v, i, arr) => {
+                    const max = Math.max(...arr) || 1;
+                    const step = arr.length > 1 ? 100 / (arr.length - 1) : 0;
+                    return `${i === 0 ? 'M' : 'L'}${(i * step).toFixed(1)},${(28 - (v / max) * 28).toFixed(1)}`;
+                  }).join(' ')} fill="none" stroke="#818CF8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p class="mt-10 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-[#4b5563]">
+          Mediana dos clientes do Stacc · 2024–2025 · resultados individuais variam
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         RECURSOS — Tudo que sua agência faz
+         ───────────────────────────────────────────────── -->
+    <section class="section" style="background:#f9fafb;">
+      <div class="container-x">
+        <div class="mx-auto max-w-3xl text-center" data-reveal>
+          <span class="eyebrow">A plataforma completa</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#111827] md:text-[2.75rem]">
+            Tudo que a sua agência de SEO faz. <span class="text-[#4f39f6]">Por menos de 1% do preço.</span>
+          </h2>
+          <p class="mt-4 font-sans text-[1.05rem] leading-relaxed text-[#4b5563]">
+            Agências cobram R$15.000/mês para escrever blog, atualizar GMN, postar nas redes sociais e responder avaliações. O Stacc automatiza tudo. A partir de $99. Mesmas entregas. Sem hora trabalhada. Sem gerente de conta que você nunca fala.
+          </p>
+        </div>
+
+        <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger>
+          {features.map((f, i) => (
+            <div class={`flex flex-col rounded-xl border border-[#e5e7eb] bg-white p-6 shadow-sm transition-shadow hover:shadow-md ${i === 0 ? 'lg:col-span-2' : ''}`}>
+              <span class="inline-flex h-10 w-10 items-center justify-center rounded-lg" style="background:#f5f3ff;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d={f.icon}/>
+                </svg>
+              </span>
+              <h3 class="mt-4 font-sans text-base font-semibold text-[#111827]">{f.title}</h3>
+              <p class="mt-2 font-sans text-sm leading-relaxed text-[#4b5563]">{f.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         INTEGRAÇÕES — Platform hub
+         ───────────────────────────────────────────────── -->
+    <section class="section bg-white">
+      <div class="container-x">
+        <div class="mx-auto max-w-3xl text-center" data-reveal>
+          <span class="eyebrow">Suas plataformas, conectadas</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#111827] md:text-[2.75rem]">
+            Funciona com o que você já usa. <span class="text-[#4f39f6]">Nada novo para aprender.</span>
+          </h2>
+          <p class="mt-4 font-sans text-[1.05rem] leading-relaxed text-[#4b5563]">
+            Conecte seu CMS e suas redes uma vez. O Stacc publica direto. Sem exportar CSV, sem upload manual, sem entrar em 6 plataformas diferentes todo mês.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-6xl" data-reveal>
+          <div class="grid items-stretch gap-5 rounded-2xl border border-[#e5e7eb] p-6 lg:grid-cols-[1fr_auto_1fr] lg:gap-8 lg:p-10" style="background:#f9fafb;">
+
+            <div>
+              <p class="mb-4 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Suas plataformas · conectadas</p>
+              <div class="grid grid-cols-2 gap-3">
+                {cmsIn.map((t) => (
+                  <div class="flex h-[84px] items-center gap-3 rounded-xl border border-[#e5e7eb] bg-white p-3 shadow-sm">
+                    <span class="inline-flex h-10 w-10 flex-none items-center justify-center rounded-md bg-[#f3f4f6] font-mono text-[11px] font-semibold text-[#374151]">{t.mark}</span>
+                    <div class="min-w-0">
+                      <p class="truncate font-sans text-[13px] font-semibold text-[#111827]">{t.name}</p>
+                      <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#9ca3af]">{t.group}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p class="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-[#9ca3af]">+ Ghost · Instagram · LinkedIn · Facebook · X</p>
+            </div>
+
+            <div class="relative flex flex-col items-center justify-center">
+              <svg class="pointer-events-none absolute inset-0 hidden h-full w-full lg:block" viewBox="0 0 80 340" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M 0 60 L 40 170"  stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+                <path d="M 0 170 L 40 170" stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+                <path d="M 0 280 L 40 170" stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+                <path d="M 40 170 L 80 60"  stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+                <path d="M 40 170 L 80 170" stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+                <path d="M 40 170 L 80 280" stroke="#c7d2fe" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+              </svg>
+              <div class="relative flex h-[160px] w-[160px] flex-col items-center justify-center rounded-2xl border-2 border-[#4f39f6] bg-white p-4 shadow-[0_1px_0_rgba(17,24,39,0.04),0_8px_24px_-12px_rgba(79,57,246,0.2)] lg:h-[180px] lg:w-[180px]">
+                <span class="inline-flex h-12 w-12 items-center justify-center rounded-xl font-sans text-base font-bold text-white" style="background:#4f39f6;">S</span>
+                <p class="mt-3 font-sans text-sm font-semibold text-[#111827]">Stacc</p>
+                <p class="font-mono text-[10px] uppercase tracking-[0.14em] text-[#9ca3af]">Camada de SEO</p>
+              </div>
+              <div class="mt-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#9ca3af] lg:hidden">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Vira
+              </div>
+            </div>
+
+            <div>
+              <p class="mb-4 font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Resultados · do lado da busca</p>
+              <div class="grid grid-cols-2 gap-3">
+                {seoOut.map((o) => (
+                  <div class="flex h-[84px] items-center gap-3 rounded-xl border border-[#4f39f6]/20 bg-white p-3 shadow-sm">
+                    <span class="inline-flex h-10 w-10 flex-none items-center justify-center rounded-md font-mono text-base font-semibold text-[#4f39f6]" style="background:#f5f3ff;">{o.mark}</span>
+                    <p class="font-sans text-[13px] font-semibold leading-tight text-[#111827]">{o.name}</p>
+                  </div>
+                ))}
+              </div>
+              <p class="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-[#4f39f6]">medidos no Google Search Console</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         DEPOIMENTO DESTAQUE — Página 4 → Página 1
+         ───────────────────────────────────────────────── -->
+    <section class="section" style="background:#f9fafb;">
+      <div class="container-x">
+        <div class="mx-auto mb-10 max-w-2xl text-center" data-reveal>
+          <p class="eyebrow">Resultado real · clínica odontológica · São Paulo</p>
+          <p class="mt-4 font-sans text-[3.5rem] font-semibold leading-none tracking-[-0.04em] text-[#111827] md:text-[5rem]">
+            Página 4 <span class="text-[#d1d5db]">→</span> Página 1
+          </p>
+          <p class="mt-3 font-sans text-[1.05rem] text-[#4b5563]">
+            Em 87 dias. 30 artigos publicados. <strong class="font-semibold text-[#111827]">R$0 gastos com agência.</strong>
+          </p>
+        </div>
+
+        <div class="mx-auto max-w-4xl">
+          <div class="grid items-center gap-8 rounded-2xl border border-[#e5e7eb] bg-white p-8 shadow-sm md:grid-cols-[1.3fr_1fr] md:p-10" data-reveal>
+            <figure>
+              <svg width="28" height="20" viewBox="0 0 28 20" fill="none" aria-hidden="true">
+                <path d="M0 20V12.444C0 5.481 4.148 1.407 12.444 0l1.334 2.222c-2.667.741-4.593 1.963-5.778 3.667C6.815 7.593 6.222 9.63 6.222 12H11V20H0ZM17 20V12.444C17 5.481 21.148 1.407 29.444 0l1.334 2.222c-2.667.741-4.593 1.963-5.778 3.667C23.815 7.593 23.222 9.63 23.222 12H28V20H17Z" fill="#4f39f6" fill-opacity="0.12"/>
+              </svg>
+
+              <blockquote class="mt-4 font-sans text-xl leading-snug text-[#111827] md:text-2xl">
+                "Contratamos um freela por R$4.500 por mês. Saíram 4 artigos que nem otimizados pra SEO eram. Tentamos uma agência — R$15.000 por 6 artigos e uma planilha de relatório. Com o Stacc, recebemos 30 artigos por mês por $99 e fomos da página 4 para a página 1 da palavra-chave principal em 87 dias."
+              </blockquote>
+              <figcaption class="mt-6 flex items-center gap-3">
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-full font-sans text-sm font-bold text-white" style="background:linear-gradient(135deg,#4f39f6,#818cf8);">RL</span>
+                <div>
+                  <p class="font-sans text-sm font-semibold text-[#111827]">Proprietário, clínica odontológica</p>
+                  <p class="font-mono text-[11px] text-[#9ca3af]">Cliente Stacc · São Paulo</p>
+                </div>
+              </figcaption>
+            </figure>
+
+            <div class="rounded-xl border border-[#e5e7eb] bg-white p-5 shadow-sm">
+              <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9ca3af]">Posicionamento · antes vs. depois do Stacc</p>
+              <div class="mt-3 flex items-baseline gap-3">
+                <div class="text-center">
+                  <p class="font-mono text-[10px] uppercase tracking-[0.1em] text-[#9ca3af]">Antes</p>
+                  <p class="font-sans text-2xl font-semibold text-[#9ca3af] line-through">Página 4</p>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="#d1d5db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="text-center">
+                  <p class="font-mono text-[10px] uppercase tracking-[0.1em] text-[#059669]">Depois</p>
+                  <p class="font-sans text-3xl font-semibold tracking-[-0.02em] text-[#111827]">Página 1</p>
+                </div>
+              </div>
+              <div class="mt-4 h-2 w-full rounded-full bg-[#f3f4f6]">
+                <div class="h-full w-[92%] rounded-full" style="background:linear-gradient(to right,#4f39f6,#818cf8);"></div>
+              </div>
+              <p class="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#059669]">87 dias · 30 artigos publicados · 0 horas de trabalho</p>
+
+              <div class="mt-5 grid grid-cols-2 gap-3 border-t border-[#f3f4f6] pt-4">
+                {[
+                  { label: 'Artigos publicados', value: '30/mês' },
+                  { label: 'Custo mensal de SEO', value: '$99' },
+                  { label: 'Horas escrevendo', value: '0' },
+                  { label: 'Salto médio', value: '3 páginas' },
+                ].map((stat) => (
+                  <div>
+                    <p class="font-mono text-[10px] uppercase tracking-[0.1em] text-[#9ca3af]">{stat.label}</p>
+                    <p class="font-sans text-lg font-semibold text-[#111827]">{stat.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <p class="mt-5 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-[#d1d5db]">Resultado real de cliente · números individuais variam por setor, concorrência e tempo</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         DEPOIMENTOS GRID — Multi-industry proof
+         ───────────────────────────────────────────────── -->
+    <section class="section bg-white">
+      <div class="container-x">
+        <div class="mx-auto mb-10 max-w-xl text-center" data-reveal>
+          <span class="eyebrow">Mais resultados de clientes</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#111827] md:text-[2.5rem]">
+            Empresas diferentes. <span class="text-[#4f39f6]">Mesmo padrão.</span>
+          </h2>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-3" data-reveal-stagger>
+          {[
+            {
+              initials: 'MS',
+              quote: "A gente tinha uma pessoa de marketing meio período que gastava 20 horas por mês escrevendo artigos. O Stacc substituiu tudo isso. Tráfego subiu 3× e estamos recebendo ligações de palavras-chave que a gente nem mirava antes.",
+              role: 'Sócio gestor, escritório de advocacia',
+              location: 'Rio de Janeiro',
+              metric: '3× tráfego orgânico',
+              stats: [
+                { label: 'Artigos/mês', value: '30' },
+                { label: 'Aumento de tráfego', value: '3×' },
+                { label: 'Custo mensal', value: '$99' },
+                { label: 'Tempo de setup', value: '5 min' },
+              ],
+            },
+            {
+              initials: 'CF',
+              quote: "Climatização é brutalmente disputado localmente. Já tentamos anúncio. Caro demais. Tentamos agência. Recebemos uma planilha. O Stacc nos colocou na página 1 de 'manutenção de ar condicionado' na nossa cidade. O telefone não para.",
+              role: 'Proprietário, empresa de climatização',
+              location: 'Belo Horizonte',
+              metric: '15 h/semana economizadas',
+              stats: [
+                { label: 'Palavras posicionadas', value: '47' },
+                { label: 'Tempo economizado', value: '15 h/sem' },
+                { label: 'Custo mensal', value: '$99' },
+                { label: 'Tempo até resultado', value: '72 dias' },
+              ],
+            },
+            {
+              initials: 'AB',
+              quote: "Sou corretor autônomo. Não consigo competir com equipe grande no investimento em anúncio. O Stacc me dá 30 artigos por mês que continuam funcionando muito tempo depois de publicados. Recebo lead de post que esqueci ter publicado seis meses atrás.",
+              role: 'Corretor de imóveis autônomo',
+              location: 'Curitiba',
+              metric: '+200% visualizações no Maps',
+              stats: [
+                { label: 'Artigos no ar', value: '180+' },
+                { label: 'Visualizações Maps', value: '+200%' },
+                { label: 'Custo mensal', value: '$167' },
+                { label: 'Leads recebidos', value: '22/mês' },
+              ],
+            },
+          ].map((t) => (
+            <div class="flex flex-col rounded-2xl border border-[#e5e7eb] bg-white p-7 shadow-sm">
+              <div class="flex items-center gap-3">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-sans text-sm font-bold text-white" style="background:linear-gradient(135deg,#4f39f6,#818cf8);">{t.initials}</span>
+                <div>
+                  <p class="font-sans text-sm font-semibold text-[#111827]">{t.role}</p>
+                  <p class="font-mono text-[11px] text-[#9ca3af]">Cliente Stacc · {t.location}</p>
+                </div>
+                <span class="ml-auto shrink-0 rounded-full bg-[#f0fdf4] px-2.5 py-1 font-mono text-[10px] font-semibold text-[#059669]">{t.metric}</span>
+              </div>
+
+              <figure class="mt-5 flex-1">
+                <svg width="20" height="14" viewBox="0 0 28 20" fill="none" aria-hidden="true">
+                  <path d="M0 20V12.444C0 5.481 4.148 1.407 12.444 0l1.334 2.222c-2.667.741-4.593 1.963-5.778 3.667C6.815 7.593 6.222 9.63 6.222 12H11V20H0ZM17 20V12.444C17 5.481 21.148 1.407 29.444 0l1.334 2.222c-2.667.741-4.593 1.963-5.778 3.667C23.815 7.593 23.222 9.63 23.222 12H28V20H17Z" fill="#4f39f6" fill-opacity="0.12"/>
+                </svg>
+                <blockquote class="mt-3 font-sans text-[14px] leading-[1.7] text-[#374151] italic">"{t.quote}"</blockquote>
+              </figure>
+
+              <div class="mt-5 grid grid-cols-2 gap-3 border-t border-[#f3f4f6] pt-4">
+                {t.stats.map((s) => (
+                  <div>
+                    <p class="font-mono text-[10px] uppercase tracking-[0.1em] text-[#9ca3af]">{s.label}</p>
+                    <p class="font-sans text-base font-semibold text-[#111827]">{s.value}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div class="mt-4 flex">
+                {[1,2,3,4,5].map(() => (
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p class="mt-6 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-[#d1d5db]">Resultados reais de clientes · resultados individuais variam por setor, concorrência e tempo</p>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         SETORES — Para quem é
+         ───────────────────────────────────────────────── -->
+    <section class="section bg-white">
+      <div class="container-x">
+        <div class="mx-auto max-w-3xl text-center" data-reveal>
+          <span class="eyebrow">Feito para</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#111827] md:text-[2.75rem]">
+            Toda empresa local que deveria estar <span class="text-[#4f39f6]">aparecendo no Google.</span>
+          </h2>
+          <p class="mt-4 font-sans text-[1.05rem] leading-relaxed text-[#4b5563]">
+            Se seus clientes pesquisam no Google para encontrar uma empresa como a sua, o Stacc te coloca na frente deles. Antes do concorrente atender o telefone.
+          </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-2 border-t border-l border-[#e5e7eb] sm:grid-cols-4" data-reveal-stagger>
+          {industries.map((industry) => (
+            <div class="group flex flex-col items-center gap-3 border-b border-r border-[#e5e7eb] px-4 py-7 text-center transition-colors hover:bg-[#f9fafb]">
+              <div class="flex h-11 w-11 items-center justify-center rounded-xl border border-[#e5e7eb] bg-[#fafafa] transition-colors group-hover:border-[#4f39f6]/20 group-hover:bg-[#f5f3ff]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="#4f39f6" stroke-width="1.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={industry.icon}/>
+                </svg>
+              </div>
+              <div>
+                <p class="font-mono text-[12px] font-semibold uppercase tracking-[0.4px] text-[#111827]">{industry.name}</p>
+                <p class="mt-0.5 font-sans text-[11px] leading-[16px] text-[#9ca3af]">{industry.label}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         FAQ
+         ───────────────────────────────────────────────── -->
+    <section class="section" style="background:#f9fafb;">
+      <div class="container-x">
+        <div class="mx-auto max-w-3xl text-center" data-reveal>
+          <span class="eyebrow">Antes de você decidir</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#111827] md:text-[2.75rem]">
+            Cada motivo para não testar isso — <span class="text-[#4f39f6]">respondido com sinceridade.</span>
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-3xl" data-reveal>
+          <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+            {faqs.map((faq, i) => (
+              <div class={i < faqs.length - 1 ? 'border-b border-[#f3f4f6]' : ''}>
+                <button
+                  class="faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]"
+                  aria-expanded="false"
+                >
+                  <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                  <svg class="faq-icon-plus mt-0.5 shrink-0 text-[#9ca3af]" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                  <svg class="faq-icon-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </button>
+                <div class="faq-answer hidden px-6 pb-5">
+                  <p class="max-w-2xl font-sans text-[14px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         PREÇOS — Agência vs. Stacc
+         ───────────────────────────────────────────────── -->
+    <section class="section bg-white">
+      <div class="container-x">
+        <div class="mx-auto max-w-3xl text-center" data-reveal>
+          <span class="eyebrow">Preços</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-[#111827] md:text-[2.75rem]">
+            Agências de SEO cobram R$15.000/mês. <span class="text-[#4f39f6]">O Stacc cobra $99.</span>
+          </h2>
+          <p class="mt-3 inline-flex items-center gap-2 rounded-full bg-[#f5f3ff] px-4 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#4f39f6]">
+            Agências cobram por gente. A gente automatizou o trabalho.
+          </p>
+          <p class="mt-4 font-sans text-[1.05rem] leading-relaxed text-[#4b5563]">
+            Comece com um módulo. Adicione outros conforme cresce. Cancele quando quiser. Cada artigo já publicado fica no seu site, continua posicionando e continua trabalhando.
+          </p>
+        </div>
+
+        <!-- Cost comparison anchor -->
+        <div class="mx-auto mt-10 max-w-xl overflow-hidden rounded-xl border border-[#e5e7eb] bg-white shadow-sm" data-reveal>
+          <div class="border-b border-[#f3f4f6] bg-[#fafafa] px-5 py-2.5">
+            <p class="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9ca3af]">Comparação de custo · mesmos resultados de SEO</p>
+          </div>
+          {[
+            { label: 'Agência de SEO', cost: 'R$15.000', note: '6–8 artigos/mês · relatórios mensais',          dim: true  },
+            { label: 'Freelancer',     cost: 'R$4.500',  note: '3–4 artigos/mês · qualidade inconsistente',     dim: true  },
+            { label: 'Stacc',          cost: '$99',      note: '30 artigos/mês · publicação automática · piloto automático', dim: false },
+          ].map((row) => (
+            <div class={`grid grid-cols-[1fr_auto] items-center gap-4 px-5 py-4 ${!row.dim ? 'bg-[#f5f3ff]' : ''}`}>
+              <div class="flex items-center gap-3">
+                <span class={`inline-block h-2 w-2 shrink-0 rounded-full ${!row.dim ? 'bg-[#4f39f6]' : 'bg-[#e5e7eb]'}`}></span>
+                <div>
+                  <p class={`font-sans text-[13px] font-semibold ${!row.dim ? 'text-[#4f39f6]' : 'text-[#9ca3af]'}`}>{row.label}</p>
+                  <p class="font-sans text-[11px] text-[#9ca3af]">{row.note}</p>
+                </div>
+              </div>
+              <p class={`font-sans text-[1.2rem] font-semibold tracking-[-0.02em] ${!row.dim ? 'text-[#111827]' : 'text-[#d1d5db] line-through'}`}>
+                {row.cost}<span class="text-[12px] font-normal text-[#9ca3af]">/mês</span>
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div class="mx-auto mt-8 max-w-5xl grid grid-cols-1 gap-5 md:grid-cols-3" data-reveal-stagger>
+          {plans.map((plan) => (
+            <div class={`relative flex flex-col rounded-2xl border bg-white p-7 ${plan.highlight ? 'border-[#4f39f6] shadow-[0_0_0_1px_#4f39f6,0_12px_40px_-8px_rgba(79,57,246,0.2)]' : 'border-[#e5e7eb] shadow-sm'}`}>
+              {plan.badge && (
+                <div class="absolute -top-3.5 left-1/2 -translate-x-1/2">
+                  <span class="inline-flex items-center rounded-full bg-[#4f39f6] px-3 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-[0.4px] text-white shadow-sm">{plan.badge}</span>
+                </div>
+              )}
+
+              <p class="font-mono text-[12px] font-semibold uppercase tracking-[0.5px] text-[#9ca3af]">{plan.name}</p>
+              <div class="mt-3 flex items-baseline gap-1">
+                <span class="font-sans text-[2.25rem] font-semibold tracking-[-0.03em] text-[#111827]">{plan.price}</span>
+                <span class="font-sans text-sm text-[#9ca3af]">{plan.period}</span>
+              </div>
+              <p class="mt-1 font-sans text-sm text-[#4b5563]">{plan.tagline}</p>
+
+              <div class="mt-6 flex flex-1 flex-col gap-2.5">
+                {plan.features.map((feature) => (
+                  <div class="flex items-start gap-2.5">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0" aria-hidden="true">
+                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="font-sans text-[13px] leading-[20px] text-[#4b5563]">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <a
+                href={plan.ctaLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`mt-7 inline-flex h-10 w-full items-center justify-center rounded-xl font-sans text-sm font-semibold transition-colors ${plan.highlight ? 'bg-[#4f39f6] text-white hover:bg-[#3b2bc4]' : 'border border-[#e5e7eb] bg-white text-[#111827] hover:bg-[#f9fafb]'}`}
+              >
+                {plan.cta}
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-10 text-center">
+          <a href="/pt-br/precos/" class="inline-flex items-center gap-1.5 font-sans text-sm font-medium text-[#4f39f6] hover:underline">
+            Ver preços completos e comparação de funcionalidades
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         GARANTIA STRIP
+         ───────────────────────────────────────────────── -->
+    <section class="border-t border-b border-[#e5e7eb] bg-[#f9fafb]">
+      <div class="container-x py-10">
+        <div class="mx-auto grid max-w-5xl grid-cols-1 gap-8 sm:grid-cols-3">
+          {[
+            {
+              icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+              title: 'Garantia de 30 dias',
+              body: "Não gostou nos primeiros 30 dias? Manda um e-mail e a gente devolve seu dinheiro. Sem formulário. Sem perguntas. Sem peso na consciência.",
+            },
+            {
+              icon: 'M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z',
+              title: 'O conteúdo é sempre seu',
+              body: "Cancele quando quiser. Cada artigo que publicamos fica no seu site, continua posicionando e continua gerando tráfego para sempre.",
+            },
+            {
+              icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
+              title: 'Sem contrato, sem amarração',
+              body: "Cobrança mensal. Sobe de plano, desce de plano ou cancela na próxima fatura. Sem aviso prévio. Sem letra miúda.",
+            },
+          ].map((g) => (
+            <div class="flex items-start gap-4">
+              <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#e5e7eb] bg-white shadow-sm">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d={g.icon}/>
+                </svg>
+              </span>
+              <div>
+                <p class="font-sans text-[15px] font-semibold text-[#111827]">{g.title}</p>
+                <p class="mt-1 font-sans text-[13px] leading-[1.6] text-[#6b7280]">{g.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─────────────────────────────────────────────────
+         FINAL CTA — Dark, loss aversion close
+         ───────────────────────────────────────────────── -->
+    <section class="relative overflow-hidden py-20 text-white md:py-24" style="background:#111827;">
+      <div class="pointer-events-none absolute inset-0 flex justify-center" aria-hidden="true">
+        <div class="h-full w-full max-w-7xl" style="background-image:linear-gradient(to right,rgba(255,255,255,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);"></div>
+      </div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center" data-reveal>
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#a5b4fc]">Antes de fechar essa aba</span>
+          <h2 class="mt-3 font-sans text-[2.1rem] font-semibold leading-[1.15] tracking-[-0.02em] text-white md:text-[2.75rem]">
+            Enquanto você espera,
+            <span class="text-[#a5b4fc]">seu concorrente domina sua cidade.</span>
+          </h2>
+          <p class="mt-4 font-sans text-[1.05rem] leading-relaxed" style="color:#9ca3af;">
+            Os artigos publicados esse mês posicionam por anos. Você já sabe que SEO funciona — só que a agência era cara demais e o freela não era confiável. O Stacc faz tudo isso por menos de 1% do custo de uma agência, automaticamente.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/pt-br/demo/" class="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-sans text-sm font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]">
+              Comece a publicar por $1
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/pt-br/precos/" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 px-6 py-3.5 font-sans text-sm font-medium text-white transition-colors hover:bg-white/10">
+              Ver preços completos
+            </a>
+          </div>
+
+          <!-- Garantia callout -->
+          <div class="mt-10 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[13px] text-white/70">Garantia de 30 dias · Sem perguntas · O conteúdo publicado fica no seu site para sempre</p>
+          </div>
+
+          <!-- P.S. -->
+          <p class="mt-8 font-mono text-[11px] uppercase tracking-[0.18em]" style="color:#4b5563;">
+            P.S.. Os artigos que o Stacc publica esse mês ainda vão estar gerando lead para o seu negócio daqui a 3 anos. No piloto automático, sem custo extra. Esse efeito acumulativo começa no dia que você ativa. Não no dia que você decide.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <!-- Hero: interactive particle canvas + mouse-follow glow -->
+  <script>
+    (function () {
+      const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement | null;
+      const section = document.getElementById('hero-section');
+      const glow = document.getElementById('hero-mouse-glow');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d')!;
+
+      let W = 0, H = 0;
+      const PARTICLE_COUNT = 90;
+      const CONNECT_DIST = 130;
+      const MOUSE_DIST = 180;
+
+      interface P { x: number; y: number; vx: number; vy: number; r: number; }
+      let particles: P[] = [];
+      let mouse = { x: -9999, y: -9999 };
+
+      function resize() {
+        W = canvas!.width = canvas!.offsetWidth;
+        H = canvas!.height = canvas!.offsetHeight;
+      }
+
+      function mkParticle(): P {
+        return {
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+          r: Math.random() * 1.2 + 0.4,
+        };
+      }
+
+      function init() {
+        resize();
+        particles = Array.from({ length: PARTICLE_COUNT }, mkParticle);
+      }
+
+      function tick() {
+        ctx.clearRect(0, 0, W, H);
+
+        for (const p of particles) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > W) p.vx *= -1;
+          if (p.y < 0 || p.y > H) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(79,57,246,0.45)';
+          ctx.fill();
+        }
+
+        for (let i = 0; i < particles.length; i++) {
+          const a = particles[i];
+          for (let j = i + 1; j < particles.length; j++) {
+            const b = particles[j];
+            const d = Math.hypot(a.x - b.x, a.y - b.y);
+            if (d < CONNECT_DIST) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(79,57,246,${0.22 * (1 - d / CONNECT_DIST)})`;
+              ctx.lineWidth = 0.6;
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+          const dm = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+          if (dm < MOUSE_DIST) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(79,57,246,${0.45 * (1 - dm / MOUSE_DIST)})`;
+            ctx.lineWidth = 0.9;
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+          }
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      section?.addEventListener('mousemove', (e) => {
+        const rect = canvas!.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+        if (glow) {
+          glow.style.background = `radial-gradient(500px circle at ${mouse.x}px ${mouse.y}px, rgba(79,57,246,0.08) 0%, transparent 70%)`;
+        }
+      });
+      section?.addEventListener('mouseleave', () => {
+        mouse.x = -9999;
+        mouse.y = -9999;
+        if (glow) glow.style.background = '';
+      });
+
+      window.addEventListener('resize', init);
+      init();
+      tick();
+    })();
+  </script>
+
+  <!-- Scroll-reveal IntersectionObserver -->
+  <script>
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } }),
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('[data-reveal],[data-reveal-stagger]').forEach((el) => io.observe(el));
+  </script>
+
+  <!-- FAQ accordion -->
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+
+  <!-- Hero form redirect -->
+  <script>
+    const form = document.getElementById('hero-form');
+    const input = document.getElementById('hero-url') as HTMLInputElement | null;
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const url = input?.value.trim();
+      const normalized = url?.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+      window.location.href = normalized ? `/pt-br/ferramentas/auditoria-seo/?url=${encodeURIComponent(normalized)}` : '/pt-br/ferramentas/auditoria-seo/';
+    });
+  </script>
+
+  <!-- Count-up animation -->
+  <script>
+    (function () {
+      const els = document.querySelectorAll<HTMLElement>('[data-count-up]');
+      if (!els.length) return;
+      const animate = (el: HTMLElement) => {
+        const target = parseFloat(el.dataset.target || '0');
+        const from = parseFloat(el.dataset.from || '0');
+        const decimals = parseInt(el.dataset.decimals || '0', 10);
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const duration = 1400;
+        const start = performance.now();
+        const step = (now: number) => {
+          const t = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - t, 3);
+          const val = from + (target - from) * eased;
+          el.textContent = `${prefix}${decimals ? val.toFixed(decimals).replace('.', ',') : Math.round(val).toLocaleString('pt-BR')}${suffix}`;
+          if (t < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { animate(e.target as HTMLElement); obs.unobserve(e.target); } });
+      }, { threshold: 0.4 });
+      els.forEach((el) => obs.observe(el));
+    })();
+  </script>
+
+  <!-- SERP Battle. Cycling queries (PT-BR) -->
+  <script>
+    (function () {
+      const QUERIES = [
+        {
+          q: 'encanador perto de mim',
+          rows: [
+            { domain: 'encanadorsp.com.br',     title: 'Melhor Encanador em São Paulo — 24h Emergência',     snip: '★4,9 · Aberto agora · 47 avaliações · Profissional registrado', pos: 1,    yours: false },
+            { domain: 'desentupidora-rapida.com.br', title: 'Encanador Rápido na Sua Região. Atendimento no Mesmo Dia', snip: 'Preço fixo. Sem cobrança extra. Agende online.',                pos: 2,    yours: false },
+            { domain: 'seunegocio.com.br',      title: 'Nossos Serviços — [Nome do Seu Negócio]',             snip: 'Oferecemos serviços de encanamento. Entre em contato.',         pos: 'p.3', yours: true  },
+          ],
+          footer: 'seu site: página 3',
+        },
+        {
+          q: 'manutenção de ar condicionado urgente',
+          rows: [
+            { domain: 'climaperfeito.com.br',   title: 'Manutenção de Ar Condicionado 24h — Especialistas em BH', snip: 'Atendimento de emergência no mesmo dia. Técnicos certificados.', pos: 1,    yours: false },
+            { domain: 'arrapido.com.br',        title: 'Emergência de Ar Condicionado? Atendemos Agora',           snip: 'Resposta em 1 hora garantida. Ligue ou agende online.',          pos: 2,    yours: false },
+            { domain: 'seunegocio.com.br',      title: 'Início. Serviços de HVAC',                                snip: 'Oferecemos serviços de aquecimento e refrigeração.',             pos: 'p.4', yours: true  },
+          ],
+          footer: 'seu site: invisível',
+        },
+        {
+          q: 'dentista aceitando novos pacientes',
+          rows: [
+            { domain: 'sorrisoperfeito-odonto.com.br', title: 'Aceitamos Novos Pacientes — Dentista em São Paulo', snip: '🦷 Agendamento na semana · Aceitamos convênio · 4,8★',          pos: 1,    yours: false },
+            { domain: 'clinicasaude.com.br',           title: 'Dentista Familiar Aceitando Novos Pacientes em SP', snip: 'Horário noturno e fim de semana. Convênios principais aceitos.', pos: 2,    yours: false },
+            { domain: 'seunegocio.com.br',             title: 'Sobre Nossa Clínica Odontológica',                  snip: 'Somos uma clínica odontológica familiar atendendo a região...',  pos: 'p.5', yours: true  },
+          ],
+          footer: 'seu site: enterrado',
+        },
+        {
+          q: 'contador para pequena empresa',
+          rows: [
+            { domain: 'contabilidade-precisao.com.br', title: 'Contador para Pequena Empresa. Mais Bem Avaliado em Curitiba', snip: '47 avaliações 5 estrelas. Especialista MEI e Simples. Consulta grátis.', pos: 1,    yours: false },
+            { domain: 'numerosclaros.com.br',          title: 'Contabilidade para Pequena Empresa — Curitiba',               snip: 'Especializado em prestadores de serviço e startups. Agende já.',         pos: 2,    yours: false },
+            { domain: 'seunegocio.com.br',             title: 'Nossos Serviços de Contabilidade',                            snip: 'Entre em contato para conhecer nossos serviços.',                        pos: 'p.3', yours: true  },
+          ],
+          footer: 'seu site: página 3',
+        },
+      ];
+
+      let idx = 0;
+      const resultsEl = document.getElementById('serp-results');
+      const queryEl   = document.getElementById('serp-query');
+      const footerEl  = document.getElementById('serp-footer-status');
+
+      function render(data: typeof QUERIES[number]) {
+        if (!resultsEl) return;
+        resultsEl.innerHTML = '';
+        data.rows.forEach((r) => {
+          const isFirst = r.pos === 1;
+          const wrap = document.createElement('div');
+          wrap.style.cssText = [
+            'display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-bottom:1px solid #f9fafb;',
+            r.yours  ? 'background:#fff1f2;' : '',
+            isFirst  ? 'background:#fefce8;' : '',
+          ].join('');
+
+          const rankBg    = isFirst ? 'background:#4f39f6;color:white;'  : r.pos === 2 ? 'background:#e5e7eb;color:#374151;' : 'background:#fff1f2;color:#ef4444;';
+          const domainClr = isFirst ? '#10b981' : r.yours ? '#ef4444' : '#6b7280';
+          const deltaText = isFirst ? '↑ #1' : r.pos === 2 ? '→ #2' : `↓ ${r.pos}`;
+          const deltaBg   = isFirst ? 'background:#dcfce7;color:#166534;' : r.pos === 2 ? 'background:#f3f4f6;color:#6b7280;' : 'background:#fff1f2;color:#be123c;';
+
+          wrap.innerHTML = `
+            <div style="flex-shrink:0;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:11px;font-weight:800;margin-top:2px;${rankBg}">${r.pos}</div>
+            <div style="flex:1;min-width:0;">
+              <p style="font-family:monospace;font-size:10px;color:${domainClr};margin-bottom:2px;">${r.domain}${r.yours ? ' ← você' : ''}</p>
+              <p style="font-size:14px;color:#1a0dab;margin-bottom:3px;line-height:1.3;">${r.title}</p>
+              <p style="font-size:11px;color:#4d5156;line-height:1.45;">${r.snip}</p>
+            </div>
+            <div style="flex-shrink:0;align-self:center;padding:2px 8px;font-family:monospace;font-size:10px;font-weight:700;${deltaBg}">${deltaText}</div>
+          `;
+          resultsEl.appendChild(wrap);
+        });
+        if (footerEl) footerEl.textContent = data.footer;
+      }
+
+      function cycle() {
+        if (!resultsEl || !queryEl) return;
+        resultsEl.style.cssText += 'opacity:0;transition:opacity .25s;';
+        queryEl.style.cssText   += 'opacity:0;transition:opacity .25s;';
+        setTimeout(() => {
+          const data = QUERIES[idx % QUERIES.length];
+          if (queryEl) queryEl.textContent = data.q;
+          render(data);
+          resultsEl.style.opacity = '1';
+          if (queryEl) queryEl.style.opacity = '1';
+          idx++;
+        }, 280);
+      }
+
+      render(QUERIES[0]);
+      idx = 1;
+      setInterval(cycle, 3800);
+    })();
+  </script>
+
+  <!-- Article Grid Cascade. Scroll-triggered + month tabs (PT-BR) -->
+  <script>
+    (function () {
+      interface TileDef {
+        score: number;
+        type: 'tile-pub' | 'tile-sched' | 'tile-writing' | 'tile-queue';
+        scoreColor: string;
+        label: string;
+        labelColor: string;
+        title: string;
+      }
+      const TILES: TileDef[] = [
+        { score:94, type:'tile-pub',     scoreColor:'#22c55e', label:'PUB',      labelColor:'#10b981', title:'Melhor [serviço] em [cidade] — guia 2025' },
+        { score:88, type:'tile-pub',     scoreColor:'#22c55e', label:'PUB',      labelColor:'#10b981', title:'Como achar um [serviço] de confiança perto de você' },
+        { score:91, type:'tile-pub',     scoreColor:'#22c55e', label:'PUB',      labelColor:'#10b981', title:'Custo de [serviço]: o que esperar' },
+        { score:86, type:'tile-pub',     scoreColor:'#22c55e', label:'PUB',      labelColor:'#10b981', title:'[Serviço] de emergência: o que fazer' },
+        { score:89, type:'tile-sched',   scoreColor:'#4f39f6', label:'AGENDADO', labelColor:'#7c3aed', title:'[A] vs [B]: comparação honesta' },
+        { score:82, type:'tile-sched',   scoreColor:'#4f39f6', label:'AGENDADO', labelColor:'#7c3aed', title:'Com que frequência fazer [serviço]?' },
+        { score:93, type:'tile-sched',   scoreColor:'#4f39f6', label:'AGENDADO', labelColor:'#7c3aed', title:'Sinais de que você precisa de [serviço] agora' },
+        { score:87, type:'tile-sched',   scoreColor:'#4f39f6', label:'AGENDADO', labelColor:'#7c3aed', title:'[Serviço] perto de mim: o guia completo' },
+        { score:90, type:'tile-sched',   scoreColor:'#4f39f6', label:'AGENDADO', labelColor:'#7c3aed', title:'O que é [serviço]? Tudo que você precisa saber' },
+        { score:85, type:'tile-sched',   scoreColor:'#4f39f6', label:'AGENDADO', labelColor:'#7c3aed', title:'[Serviço] mais barato em [cidade]: ranking' },
+        { score:92, type:'tile-writing', scoreColor:'#f59e0b', label:'ESCREV.',  labelColor:'#d97706', title:'Vale a pena pagar por [serviço] em 2025?' },
+        { score:83, type:'tile-writing', scoreColor:'#f59e0b', label:'ESCREV.',  labelColor:'#d97706', title:'5 motivos para contratar um [serviço] profissional' },
+        { score:88, type:'tile-writing', scoreColor:'#f59e0b', label:'ESCREV.',  labelColor:'#d97706', title:'Dicas sazonais de [serviço] para o seu imóvel' },
+        { score:86, type:'tile-writing', scoreColor:'#f59e0b', label:'ESCREV.',  labelColor:'#d97706', title:'Faça você mesmo vs. [serviço] profissional' },
+        { score:90, type:'tile-writing', scoreColor:'#f59e0b', label:'ESCREV.',  labelColor:'#d97706', title:'Quanto tempo leva para fazer [serviço]?' },
+        { score:84, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Avaliações de [serviço] em [cidade]: em quem confiar' },
+        { score:91, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Melhores marcas de equipamento de [serviço]' },
+        { score:87, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Antes de contratar: checklist de [serviço]' },
+        { score:89, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Perguntas para fazer ao seu prestador de [serviço]' },
+        { score:85, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Seguro de [serviço]: o que está coberto?' },
+        { score:93, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Como comparar preços de [serviço]' },
+        { score:82, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Sinais de alerta na hora de contratar [serviço]' },
+        { score:88, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Custos escondidos de [serviço] que você precisa saber' },
+        { score:86, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Quando chamar profissional vs. fazer sozinho' },
+        { score:90, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Checklist antes do prestador chegar em casa' },
+        { score:84, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Cuidados depois de [serviço]: o que fazer' },
+        { score:91, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Guia de manutenção sazonal de [serviço]' },
+        { score:87, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'FAQ de [serviço]: dúvidas mais comuns' },
+        { score:89, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'Como achar a melhor oferta de [serviço]' },
+        { score:85, type:'tile-queue',   scoreColor:'#9ca3af', label:'FILA',     labelColor:'#9ca3af', title:'O guia completo de [serviço]' },
+      ];
+
+      const grid    = document.getElementById('article-grid');
+      const countEl = document.getElementById('grid-count');
+      if (!grid) return;
+
+      TILES.forEach((t) => {
+        const el = document.createElement('div');
+        el.className = `article-tile ${t.type}`;
+        el.innerHTML = `
+          <span style="font-family:monospace;font-size:11px;font-weight:800;line-height:1;color:${t.scoreColor}">${t.score}</span>
+          <span style="font-family:monospace;font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;line-height:1;color:${t.labelColor}">${t.label}</span>
+          <div class="tile-tooltip">${t.title}</div>
+        `;
+        grid.appendChild(el);
+      });
+
+      let cascadeTimer: ReturnType<typeof setTimeout> | null = null;
+
+      function animateIn(delay = 0) {
+        const tiles = grid.querySelectorAll('.article-tile');
+        let count = 0;
+        tiles.forEach((tile, i) => {
+          setTimeout(() => {
+            tile.classList.add('tile-visible');
+            count++;
+            if (countEl) countEl.textContent = count + ' artigos na fila';
+          }, delay + i * 72);
+        });
+      }
+
+      function resetAndAnimate() {
+        if (cascadeTimer) clearTimeout(cascadeTimer);
+        const tiles = grid.querySelectorAll<HTMLElement>('.article-tile');
+        tiles.forEach((t) => {
+          t.style.transition = 'none';
+          t.classList.remove('tile-visible');
+        });
+        grid.getBoundingClientRect();
+        tiles.forEach((t) => { t.style.transition = ''; });
+        if (countEl) countEl.textContent = '0 artigos na fila';
+        cascadeTimer = setTimeout(() => animateIn(0), 80);
+      }
+
+      document.querySelectorAll<HTMLElement>('.grid-month-tab').forEach((tab) => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll<HTMLElement>('.grid-month-tab').forEach((t) => {
+            t.style.color = '#374151';
+            t.style.borderBottomColor = 'transparent';
+          });
+          tab.style.color = '#818cf8';
+          tab.style.borderBottomColor = '#4f39f6';
+          resetAndAnimate();
+        });
+      });
+
+      const obs = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) { obs.disconnect(); animateIn(300); }
+        },
+        { threshold: 0.2 }
+      );
+      obs.observe(grid);
+    })();
+  </script>
+</BaseLayout>

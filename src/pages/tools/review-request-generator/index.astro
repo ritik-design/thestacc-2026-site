@@ -1,0 +1,636 @@
+---
+import ToolLayout from '../../../layouts/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../../lib/schema-builders';
+
+const pageTitle = 'Free Review Request Template Generator — All 3 Channels + Occasion-Based | theStacc';
+const pageDescription = 'Generate personalized review request templates for email, SMS, and in-person by occasion: first visit, repeat customer, complaint resolved, project complete. Free, no signup.';
+const pageUrl = 'https://thestacc.com/tools/review-request-generator/';
+const lastUpdated = '2026-05-13';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Review Request Template Generator',
+  description: 'Generate personalized review request templates for email, SMS, in-person, and follow-up. Occasion-based personalization: first visit, repeat customer, complaint resolved, project complete. 23 industries.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'How do I ask a customer for a Google review?', a: "The best way is to ask immediately after a positive experience. Use the customer's name, reference the specific service they received, and include a direct link to your Google review page. Keep it short and low-pressure — \"If you have 30 seconds\" works better than a long formal request. This tool generates personalized templates for every occasion." },
+  { q: 'When is the best time to send a review request?', a: "For SMS: within 1 hour of service (best between 10am-6pm). For email: within 2 hours. For in-person: at checkout while the customer is still happy. The closer to the experience, the higher the response rate. Follow up 3-5 days later if they haven't responded. After resolving a complaint, wait 24-48 hours first." },
+  { q: 'Should I ask for reviews via email or text?', a: 'Text messages get 3-5x higher response rates than email. Use both: text for the initial ask (quick, high open rate), email for a follow-up reminder (more space for personalization). In-person asks with QR codes also work very well.' },
+  { q: "Is it against Google's rules to ask for reviews?", a: "No. Google encourages businesses to ask for reviews. What you cannot do is offer incentives (discounts, gifts) for reviews, or selectively ask only satisfied customers (review gating). Asking all customers equally is fine and recommended." },
+  { q: 'What tone should I use when asking for a review?', a: 'Match the tone to your relationship with the customer. Friendly works best for casual services (salons, restaurants, fitness). Professional is better for formal services (legal, accounting, medical). Brief is great for SMS where character count matters. After resolving a complaint, be sincere and appreciative without being defensive.' },
+  { q: 'How do I ask for a review after resolving a complaint?', a: "Wait 24-48 hours after resolution to give them time to evaluate. Acknowledge the issue briefly, focus on how you fixed it, and ask if they're satisfied. Don't apologize again — just ask if the resolution was good. Only ask if they seem genuinely happy with how you handled it." },
+  { q: 'What should I say when asking in person?', a: "Ask when the customer is happiest — right after a successful outcome, not while they're paying. Use their name, reference the service, and remove all friction: mention the QR code or offer to text the link immediately. \"We're so glad you came in today, [name]. If you have a second, we'd really appreciate a quick Google review — I can text you the link right now!\"" },
+  { q: 'How do I get my Google review link?', a: 'Search for your business on Google Maps, click on your listing, and click "Write a review." Copy the URL from your browser. Alternatively, use our Review QR Code Generator tool — it gives you both the direct link and a printable QR code.' },
+  { q: "Should I follow up if a customer doesn't leave a review?", a: "Send one polite follow-up 3-5 days after the initial request. After that, let it go. Nobody likes being nagged. The follow-up should be shorter than the first email and acknowledge that they're busy. For complaint resolutions, wait a full week before following up." },
+  { q: 'Is this review request generator free?', a: 'Yes, 100% free. No signup or credit card needed. Enter your business info, select your occasion and channels, and get personalized templates for email, SMS, in-person scripts, and follow-up reminders instantly. All templates are tailored to your industry and the specific customer relationship.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+
+const industries = [
+  'Dental / Orthodontics','Legal / Law Firm','Plumbing / HVAC','Electrical',
+  'Roofing / Construction','Real Estate','Accounting / Tax','Restaurant / Cafe',
+  'Salon / Spa / Beauty','Auto Repair / Detailing','Cleaning Services','Landscaping / Lawn Care',
+  'Veterinary / Pet Services','Chiropractic / Physical Therapy','IT Services / Consulting',
+  'Fitness / Gym / Yoga','Photography / Videography','Insurance / Financial Services',
+  'Home Staging / Interior Design','Tutoring / Education','Pet Grooming / Boarding',
+  'Moving / Storage','Pest Control',
+];
+
+const occasions = [
+  { val: 'firstVisit', label: 'First Visit', desc: 'For new customers after their first experience' },
+  { val: 'repeat', label: 'Repeat Customer', desc: 'For returning customers who keep coming back' },
+  { val: 'complaintResolved', label: 'Complaint Resolved', desc: 'Turn a negative experience into a positive review' },
+  { val: 'postPurchase', label: 'Project Complete', desc: 'After a major service, purchase, or project is finished' },
+  { val: 'anniversary', label: 'Service Anniversary', desc: 'Mark a milestone with a long-time customer' },
+];
+---
+
+<ToolLayout
+  seo={{ title: pageTitle, description: pageDescription, canonical: pageUrl, ogImage: '/og/tools-review-request-generator.webp' }}
+  toolName="Free Review Request Template Generator"
+  toolDescription="Get personalized email, SMS, in-person scripts, and follow-up templates by occasion. 23 industries. No signup."
+  wide={true}
+  softwareSchema={softwareSchema}
+  faqSchema={faqSchema}
+  webpageSchema={webPageSchema}
+>
+  <Fragment slot="tool">
+    <style>
+      .rrq-wrap { display: grid; grid-template-columns: 1fr 1.35fr; gap: 28px; align-items: start; }
+      @media (max-width: 900px) { .rrq-wrap { grid-template-columns: 1fr; } }
+      .rrq-card { background: white; border: 1px solid var(--border); padding: 28px; }
+      .rrq-card h2 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+      .rrq-card .sub { font-size: 13px; color: var(--text-3); margin-bottom: 24px; }
+      .rrq-field { margin-bottom: 18px; }
+      .rrq-field label { display: block; font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; color: var(--text-1); }
+      .rrq-field label .opt { font-weight: 400; text-transform: none; letter-spacing: 0; font-family: inherit; font-size: 12px; color: var(--text-3); }
+      .rrq-field input, .rrq-field select, .rrq-field textarea { width: 100%; padding: 12px 14px; font-size: 15px; color: var(--text-1); background: white; border: 1px solid var(--border-strong); font-family: inherit; transition: border-color 0.15s; }
+      .rrq-field input:focus, .rrq-field select:focus, .rrq-field textarea:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-glow); }
+      .rrq-field .err { display: none; font-size: 12px; color: #dc2626; margin-top: 6px; }
+      .rrq-field.invalid .err { display: block; }
+      .rrq-field.invalid input, .rrq-field.invalid select { border-color: #fca5a5; }
+      .rrq-hint { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); margin-top: 6px; }
+      .rrq-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2379716b' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 12px; }
+      .rrq-other { display: none; margin-top: 8px; }
+      .rrq-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      @media (max-width: 520px) { .rrq-grid-2 { grid-template-columns: 1fr; } }
+      .rrq-occasions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      @media (max-width: 520px) { .rrq-occasions { grid-template-columns: 1fr; } }
+      .rrq-occ { cursor: pointer; }
+      .rrq-occ input { position: absolute; opacity: 0; }
+      .rrq-occ span { display: block; border: 1px solid var(--border); padding: 12px 14px; transition: all 0.15s; }
+      .rrq-occ span strong { display: block; font-size: 14px; color: var(--text-1); }
+      .rrq-occ span small { display: block; font-size: 11px; color: var(--text-3); margin-top: 2px; }
+      .rrq-occ input:checked + span { border-color: var(--brand); background: var(--brand-softer); }
+      .rrq-occ input:checked + span strong { color: var(--brand); }
+      .rrq-tones { display: flex; flex-wrap: wrap; gap: 8px; }
+      .rrq-tone { cursor: pointer; }
+      .rrq-tone input { position: absolute; opacity: 0; }
+      .rrq-tone span { display: block; border: 1px solid var(--border); padding: 8px 14px; font-size: 13px; font-weight: 500; color: var(--text-2); transition: all 0.15s; }
+      .rrq-tone input:checked + span { border-color: var(--brand); background: var(--brand-softer); color: var(--brand); }
+      .rrq-channels { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .rrq-channel { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--border); cursor: pointer; transition: all 0.15s; }
+      .rrq-channel input { width: 16px; height: 16px; accent-color: var(--brand); }
+      .rrq-channel:has(input:checked) { border-color: var(--brand); background: var(--brand-softer); }
+      .rrq-note { display: flex; align-items: flex-start; gap: 10px; padding: 14px; background: var(--brand-softer); border: 1px solid #ddd6fe; margin-bottom: 20px; }
+      .rrq-note p { font-size: 13px; line-height: 1.55; color: var(--text-2); margin: 0; }
+      .rrq-btn { width: 100%; padding: 14px 20px; background: var(--brand); color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; font-family: inherit; }
+      .rrq-btn:hover { background: var(--text-1); }
+      .rrq-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+      .rrq-empty { background: var(--bg-soft); border: 1px dashed var(--border-strong); padding: 48px 32px; text-align: center; color: var(--text-3); font-size: 14px; }
+      .rrq-results { display: none; }
+      .rrq-results.show { display: block; }
+      .rrq-badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+      .rrq-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: var(--brand-softer); font-family: 'Geist Mono', monospace; font-size: 11px; color: #6d28d9; }
+      .rrq-badge.sec { background: var(--bg-soft); border: 1px solid var(--border); color: var(--text-3); }
+      .rrq-qr { display: none; text-align: center; padding: 24px; background: white; border: 1px solid var(--border); margin-bottom: 20px; }
+      .rrq-qr.show { display: block; }
+      .rrq-qr canvas { margin: 0 auto; border: 1px solid var(--border); }
+      .rrq-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+      .rrq-tab { padding: 12px 18px; font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; }
+      .rrq-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+      .rrq-panel { display: none; }
+      .rrq-panel.active { display: block; }
+      .rrq-template { background: white; border: 1px solid var(--border); padding: 20px; margin-bottom: 12px; }
+      .rrq-template-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+      .rrq-template-label { font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--brand); }
+      .rrq-template-len { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--text-3); }
+      .rrq-template-body { font-size: 15px; line-height: 1.6; color: var(--text-1); white-space: pre-wrap; margin-bottom: 12px; }
+      .rrq-template-subject { font-size: 13px; color: var(--text-3); margin-bottom: 10px; padding: 8px 10px; background: var(--bg-soft); border-left: 3px solid var(--brand); }
+      .rrq-copy { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--bg-soft); border: 1px solid var(--border-strong); font-size: 12px; font-weight: 600; color: var(--text-1); cursor: pointer; }
+      .rrq-copy:hover { background: var(--brand); color: white; border-color: var(--brand); }
+      .rrq-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+      .rrq-linkbox { margin-top: 16px; padding: 14px; background: var(--bg-soft); border: 1px solid var(--border); }
+      .rrq-linkbox p { margin: 0 0 8px; font-size: 13px; color: var(--text-3); }
+      .rrq-linkbox code { display: block; padding: 10px; background: white; border: 1px solid var(--border-strong); font-family: 'Geist Mono', monospace; font-size: 12px; word-break: break-all; color: var(--text-1); }
+    </style>
+
+    <div class="rrq-wrap">
+      <div class="rrq-card">
+        <h2>Tell us about the request</h2>
+        <p class="sub">Everything runs in your browser. No data is sent to a server.</p>
+
+        <form id="rrq-form" novalidate>
+          <div class="rrq-field">
+            <label for="rrq-biz">Business Name <span class="text-red-500">*</span></label>
+            <input type="text" id="rrq-biz" required maxlength="100" placeholder="e.g., Smith Family Dental" />
+            <p class="rrq-field err" id="err-biz">Please enter your business name</p>
+          </div>
+
+          <div class="rrq-field">
+            <label for="rrq-ind">Industry <span class="text-red-500">*</span></label>
+            <select id="rrq-ind" required class="rrq-select">
+              <option value="" disabled selected>Select your industry</option>
+              {industries.map((ind) => <option value={ind}>{ind}</option>)}
+              <option value="__other__">Other (type your own)</option>
+            </select>
+            <p class="rrq-field err" id="err-ind">Please select your industry</p>
+            <input type="text" id="rrq-ind-other" class="rrq-other" placeholder="e.g., Wedding planning, Pool cleaning" maxlength="60" />
+          </div>
+
+          <div class="rrq-grid-2">
+            <div class="rrq-field">
+              <label for="rrq-cname">Customer First Name <span class="opt">Optional</span></label>
+              <input type="text" id="rrq-cname" maxlength="30" placeholder="e.g., John" />
+            </div>
+            <div class="rrq-field">
+              <label for="rrq-svc">Service Provided <span class="opt">Optional</span></label>
+              <input type="text" id="rrq-svc" maxlength="80" placeholder="e.g., your recent service" />
+            </div>
+          </div>
+
+          <div class="rrq-field">
+            <label for="rrq-link">Google Review Link <span class="opt">Optional — paste yours or we'll build a demo link</span></label>
+            <input type="url" id="rrq-link" placeholder="Paste your Google review link, or leave blank for a demo link" />
+            <p class="rrq-hint">Don't have one? <a href="/tools/review-qr-code-generator/" style="color:var(--brand);text-decoration:underline;">Find it with our QR Code Generator</a></p>
+          </div>
+
+          <div class="rrq-field">
+            <label>Occasion <span class="text-red-500">*</span></label>
+            <div class="rrq-occasions">
+              {occasions.map((occ, i) => (
+                <label class="rrq-occ">
+                  <input type="radio" name="rrq-occasion" value={occ.val} checked={i === 0} />
+                  <span><strong>{occ.label}</strong><small>{occ.desc}</small></span>
+                </label>
+              ))}
+            </div>
+            <p class="rrq-hint" id="rrq-occ-desc">For new customers after their first experience</p>
+          </div>
+
+          <div class="rrq-field">
+            <label>Tone</label>
+            <div class="rrq-tones">
+              {[
+                { val: 'friendly', label: 'Friendly' },
+                { val: 'professional', label: 'Professional' },
+                { val: 'brief', label: 'Brief' },
+              ].map((t, i) => (
+                <label class="rrq-tone">
+                  <input type="radio" name="rrq-tone" value={t.val} checked={i === 0} />
+                  <span>{t.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div class="rrq-field">
+            <label>Channels <span class="text-red-500">*</span></label>
+            <div class="rrq-channels">
+              <label class="rrq-channel"><input type="checkbox" id="ch-email" checked /><span>Email</span></label>
+              <label class="rrq-channel"><input type="checkbox" id="ch-sms" checked /><span>SMS / Text</span></label>
+              <label class="rrq-channel"><input type="checkbox" id="ch-inperson" checked /><span>In-Person Script</span></label>
+              <label class="rrq-channel"><input type="checkbox" id="ch-followup" checked /><span>Follow-Up Reminder</span></label>
+            </div>
+            <p class="rrq-field err" id="err-channels">Please select at least one channel</p>
+          </div>
+
+          <div class="rrq-note">
+            <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+            <p><strong>First-of-its-kind tool.</strong> No other free tool generates occasion-based review request templates. Most tools give you one generic template. This gives you 5 occasions × 3 tones × 4 channels.</p>
+          </div>
+
+          <button type="submit" id="rrq-submit" class="rrq-btn">Generate Review Request Kit</button>
+        </form>
+      </div>
+
+      <div>
+        <div class="rrq-empty" id="rrq-empty">Your review request templates will appear here. Fill out the form and hit Generate.</div>
+
+        <div id="rrq-results" class="rrq-results">
+          <div class="rrq-badges">
+            <span class="rrq-badge"><span id="rrq-occ-badge">First Visit</span> templates</span>
+            <span class="rrq-badge sec">Generated: <strong id="rrq-count">0</strong></span>
+          </div>
+
+          <div id="rrq-qr" class="rrq-qr">
+            <p style="font-weight:600;margin-bottom:8px;">Printable Review QR Code</p>
+            <p style="font-size:13px;color:var(--text-3);margin-bottom:12px;">Display this at your counter or include it on receipts</p>
+            <canvas id="rrq-canvas"></canvas>
+            <p style="font-size:11px;color:var(--text-3);margin-top:10px;">Scan to leave a Google review</p>
+          </div>
+
+          <div class="rrq-tabs" id="rrq-tabs">
+            <button class="rrq-tab active" data-tab="email">Email</button>
+            <button class="rrq-tab" data-tab="sms">SMS</button>
+            <button class="rrq-tab" data-tab="inperson">In-Person</button>
+            <button class="rrq-tab" data-tab="followup">Follow-Up</button>
+          </div>
+
+          <div id="panel-email" class="rrq-panel active"></div>
+          <div id="panel-sms" class="rrq-panel"></div>
+          <div id="panel-inperson" class="rrq-panel"></div>
+          <div id="panel-followup" class="rrq-panel"></div>
+
+          <div class="rrq-linkbox" id="rrq-linkbox">
+            <p>Google Review Link</p>
+            <code id="rrq-linkout">https://search.google.com/local/writereview?...demo</code>
+          </div>
+
+          <div class="rrq-actions">
+            <button id="rrq-regen" class="rrq-copy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+              Generate Another
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script is:inline>
+      (function () {
+        const form = document.getElementById('rrq-form');
+        const results = document.getElementById('rrq-results');
+        const empty = document.getElementById('rrq-empty');
+        const submitBtn = document.getElementById('rrq-submit');
+        const regenBtn = document.getElementById('rrq-regen');
+        const indEl = document.getElementById('rrq-ind');
+        const indOther = document.getElementById('rrq-ind-other');
+        const occInputs = document.querySelectorAll('input[name="rrq-occasion"]');
+        const occDesc = document.getElementById('rrq-occ-desc');
+        const tabs = document.querySelectorAll('.rrq-tab');
+        const panels = document.querySelectorAll('.rrq-panel');
+        let genCount = 0;
+
+        const occasionDescs = {
+          firstVisit: 'For new customers after their first experience',
+          repeat: 'For returning customers who keep coming back',
+          complaintResolved: 'Turn a negative experience into a positive review',
+          postPurchase: 'After a major service, purchase, or project is finished',
+          anniversary: 'Mark a milestone with a long-time customer',
+        };
+
+        occInputs.forEach((input) => {
+          input.addEventListener('change', () => {
+            occDesc.textContent = occasionDescs[input.value];
+          });
+        });
+
+        indEl.addEventListener('change', () => {
+          indOther.style.display = indEl.value === '__other__' ? 'block' : 'none';
+        });
+
+        tabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            const key = tab.dataset.tab;
+            tabs.forEach((t) => t.classList.toggle('active', t === tab));
+            panels.forEach((p) => p.classList.toggle('active', p.id === 'panel-' + key));
+          });
+        });
+
+        function getIndustry() {
+          const v = indEl.value;
+          return v === '__other__' ? (indOther.value.trim() || 'Business') : v;
+        }
+
+        function validate() {
+          let ok = true;
+          const biz = document.getElementById('rrq-biz');
+          const ind = indEl;
+          const bizWrap = biz.closest('.rrq-field');
+          const indWrap = ind.closest('.rrq-field');
+          if (!biz.value.trim()) { bizWrap.classList.add('invalid'); ok = false; } else { bizWrap.classList.remove('invalid'); }
+          if (!ind.value || (ind.value === '__other__' && !indOther.value.trim())) { indWrap.classList.add('invalid'); ok = false; } else { indWrap.classList.remove('invalid'); }
+          const channels = ['ch-email','ch-sms','ch-inperson','ch-followup'];
+          const any = channels.some((id) => document.getElementById(id).checked);
+          document.getElementById('err-channels').style.display = any ? 'none' : 'block';
+          if (!any) ok = false;
+          return ok;
+        }
+
+        function makeLink(biz) {
+          const userLink = document.getElementById('rrq-link').value.trim();
+          if (userLink) return userLink;
+          const slug = biz.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'your-business';
+          return `https://search.google.com/local/writereview?placeid=DEMO_${slug}&stacc=demo`;
+        }
+
+        function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        function buildTemplates(biz, ind, cname, svc, occasion, tone, link) {
+          const name = cname || 'there';
+          const service = svc || 'your recent visit';
+          const shortBiz = biz.replace(/^(the\s+|a\s+)/i, '').trim();
+
+          const toneOpeners = {
+            friendly: { email: `Hi ${name},`, sms: `Hi ${name}!`, inperson: `Hey ${name},`, followup: `Hi ${name},` },
+            professional: { email: `Hi ${name},`, sms: `Hi ${name},`, inperson: `Hello ${name},`, followup: `Hi ${name},` },
+            brief: { email: `Hi ${name},`, sms: `Hi ${name}`, inperson: `Hi ${name},`, followup: `Hi ${name},` },
+          };
+          const openers = toneOpeners[tone] || toneOpeners.friendly;
+
+          const occasionBody = {
+            firstVisit: {
+              email: `Welcome to ${shortBiz}! We are so glad you chose us for ${service}.\n\nIf you have 30 seconds, would you mind sharing your experience on Google? Your feedback helps other people in our community find us.`,
+              sms: `Welcome to ${shortBiz}! If you have 30 seconds, we'd love a quick Google review about ${service}: ${link}`,
+              inperson: `"${name}, welcome to ${shortBiz}! We're so glad you came in for ${service}. If you have a quick second, would you mind leaving us a Google review? I can text you the link right now."`,
+              followup: `Quick follow-up — we hope ${service} at ${shortBiz} was a great first experience. If you have a moment, a short Google review would mean a lot to our small team.`,
+            },
+            repeat: {
+              email: `Hi ${name}, it is always a pleasure having you back at ${shortBiz}. Thank you for trusting us with ${service} again.\n\nIf you have a moment, would you leave us a quick Google review? Loyal customers like you are the reason we do this work.`,
+              sms: `Thanks for coming back to ${shortBiz}, ${name}! If you have 30 seconds, a Google review about ${service} would mean a lot: ${link}`,
+              inperson: `"${name}, it's great to see you again! Thank you for trusting us with ${service}. If you have a second, a quick Google review helps other people find ${shortBiz}. I can send you the link right now."`,
+              followup: `Thanks again for choosing ${shortBiz} for ${service}. If you have a moment this week, a short Google review from a loyal customer like you helps us more than you know.`,
+            },
+            complaintResolved: {
+              email: `Hi ${name}, I am glad we were able to resolve the issue with ${service}. Thank you for giving us the chance to make it right.\n\nIf you feel the resolution went well, would you consider sharing that on Google? No pressure at all — we just want future customers to know we stand behind our work.`,
+              sms: `Hi ${name}, glad we could make things right with ${service}. If you're happy with how it was resolved, a quick Google review would help us: ${link}`,
+              inperson: `"${name}, I'm really glad we could take care of the issue with ${service}. If you feel good about how it was resolved, a quick Google review would mean the world to us. Would you like me to text you the link?"`,
+              followup: `Following up on ${service} — I hope everything is still working well for you. If you are satisfied with how we resolved things, a short Google review would help other customers know we stand behind our work.`,
+            },
+            postPurchase: {
+              email: `Hi ${name}, congratulations on completing ${service}! We are excited to see how it works out for you.\n\nIf you have a couple of minutes, would you share your experience on Google? Detailed reviews from customers like you help others make confident decisions.`,
+              sms: `${name}, ${service} is all done! If you have 30 seconds, a Google review about your experience would really help ${shortBiz}: ${link}`,
+              inperson: `"${name}, ${service} is all wrapped up! We're so excited for you. If you have a quick second, a Google review about your experience helps other people feel confident choosing ${shortBiz}. I can text you the link."`,
+              followup: `Checking in after ${service} — I hope everything is going great. When you have a moment, a Google review about your experience would help other customers decide if ${shortBiz} is right for them.`,
+            },
+            anniversary: {
+              email: `Hi ${name}, can you believe it has been a year since you started working with ${shortBiz}? Thank you for trusting us with ${service} for the past 12 months.\n\nIf you have a moment, would you share what the experience has been like on Google? Long-term customers like you tell the story best.`,
+              sms: `Happy 1-year anniversary with ${shortBiz}, ${name}! If you have 30 seconds, a Google review about ${service} would mean a lot: ${link}`,
+              inperson: `"${name}, it's been a whole year since you started coming to ${shortBiz}! Thank you for trusting us with ${service}. If you have a second, a Google review about your experience would help us so much."`,
+              followup: `Happy anniversary with ${shortBiz}! A year of ${service} is worth celebrating. If you have a moment, a Google review about your long-term experience would help other customers find us.`,
+            },
+          };
+
+          const toneClosers = {
+            friendly: { email: 'Thanks so much,\nThe team at ' + shortBiz, sms: `Thanks, ${name}! —${shortBiz}`, inperson: '', followup: 'Thanks,\n' + shortBiz },
+            professional: { email: 'Sincerely,\n' + shortBiz, sms: `Thank you, ${name}`, inperson: '', followup: 'Best regards,\n' + shortBiz },
+            brief: { email: 'Thanks,\n' + shortBiz, sms: 'Thanks!', inperson: '', followup: 'Thanks,\n' + shortBiz },
+          };
+          const closers = toneClosers[tone] || toneClosers.friendly;
+
+          const subjects = {
+            firstVisit: `How was your first visit to ${shortBiz}?`,
+            repeat: `Thanks for coming back to ${shortBiz}`,
+            complaintResolved: `Glad we could resolve this — quick favor?`,
+            postPurchase: `${service} is complete — how did we do?`,
+            anniversary: `Happy anniversary with ${shortBiz}!`,
+          };
+
+          const channels = ['email','sms','inperson','followup'];
+          const out = {};
+          channels.forEach((ch) => {
+            const opener = openers[ch];
+            const body = occasionBody[occasion][ch];
+            const closer = closers[ch];
+            const text = [opener, body, closer].filter(Boolean).join('\n\n');
+            out[ch] = { text, subject: ch === 'email' ? subjects[occasion] : undefined, len: text.length };
+          });
+          return out;
+        }
+
+        function renderTemplate(ch, data, idx) {
+          const wrap = document.createElement('div');
+          wrap.className = 'rrq-template';
+          const labels = { email: 'Email template', sms: 'SMS / Text', inperson: 'In-person script', followup: 'Follow-up reminder' };
+          wrap.innerHTML = `
+            <div class="rrq-template-head">
+              <span class="rrq-template-label">${labels[ch]} ${idx + 1}</span>
+              <span class="rrq-template-len">${data.len} characters</span>
+            </div>
+            ${data.subject ? `<div class="rrq-template-subject">Subject: ${data.subject}</div>` : ''}
+            <div class="rrq-template-body"></div>
+            <button class="rrq-copy" data-text="">Copy</button>
+          `;
+          const bodyEl = wrap.querySelector('.rrq-template-body');
+          bodyEl.innerHTML = data.text.split(/\n\s*\n/).filter(Boolean).map((para) => `<p>${para.replace(/</g, '&lt;')}</p>`).join('');
+          bodyEl.style.whiteSpace = 'normal';
+          const copyBtn = wrap.querySelector('.rrq-copy');
+          copyBtn.dataset.text = data.text;
+          copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(copyBtn.dataset.text).then(() => {
+              copyBtn.innerHTML = 'Copied ✓';
+              setTimeout(() => copyBtn.innerHTML = 'Copy', 1500);
+            });
+          });
+          return wrap;
+        }
+
+        function renderQR(link) {
+          const qrWrap = document.getElementById('rrq-qr');
+          const canvas = document.getElementById('rrq-canvas');
+          try {
+            const typeNumber = 0;
+            const errorCorrectionLevel = 'M';
+            const qr = qrcode(typeNumber, errorCorrectionLevel);
+            qr.addData(link);
+            qr.make();
+            const ctx = canvas.getContext('2d');
+            const cellSize = 6;
+            const margin = 4;
+            const count = qr.getModuleCount();
+            canvas.width = (count + margin * 2) * cellSize;
+            canvas.height = (count + margin * 2) * cellSize;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#615fff';
+            for (let r = 0; r < count; r++) {
+              for (let c = 0; c < count; c++) {
+                if (qr.isDark(r, c)) {
+                  ctx.fillRect((c + margin) * cellSize, (r + margin) * cellSize, cellSize, cellSize);
+                }
+              }
+            }
+            qrWrap.classList.add('show');
+          } catch (e) {
+            qrWrap.classList.remove('show');
+          }
+        }
+
+        function render() {
+          if (!validate()) return;
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Generating...';
+
+          setTimeout(() => {
+            const biz = document.getElementById('rrq-biz').value.trim();
+            const ind = getIndustry();
+            const cname = document.getElementById('rrq-cname').value.trim();
+            const svc = document.getElementById('rrq-svc').value.trim();
+            const occasion = document.querySelector('input[name="rrq-occasion"]:checked').value;
+            const tone = document.querySelector('input[name="rrq-tone"]:checked').value;
+            const link = makeLink(biz);
+
+            const templates = buildTemplates(biz, ind, cname, svc, occasion, tone, link);
+            const channels = ['email','sms','inperson','followup'];
+            channels.forEach((ch) => {
+              const panel = document.getElementById('panel-' + ch);
+              panel.innerHTML = '';
+              if (document.getElementById('ch-' + ch).checked) {
+                panel.appendChild(renderTemplate(ch, templates[ch], 0));
+              } else {
+                panel.innerHTML = '<p style="color:var(--text-3);font-size:14px;">This channel was not selected.</p>';
+              }
+            });
+
+            renderQR(link);
+            document.getElementById('rrq-linkout').textContent = link;
+            document.getElementById('rrq-occ-badge').textContent = occasionDescs[occasion].split(' ').slice(0, 2).join(' ');
+            genCount++;
+            document.getElementById('rrq-count').textContent = genCount;
+
+            empty.style.display = 'none';
+            results.classList.add('show');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Generate Review Request Kit';
+          }, 500);
+        }
+
+        form.addEventListener('submit', (e) => { e.preventDefault(); render(); });
+        regenBtn.addEventListener('click', render);
+      })();
+    </script>
+  </Fragment>
+
+  <Fragment slot="content">
+    <div class="lead-box">
+      <p><strong>The theStacc Review Request Generator</strong> creates personalized review request templates for email, SMS, in-person, and follow-up channels. Unlike other tools that give one generic template, this tool tailors every message to the occasion — first visit, repeat customer, complaint resolved, project complete, or service anniversary — with 3 tones (friendly, professional, brief) across 23 industries. It helps you build your Google review link placeholder. Best for local business owners who want more Google reviews without sounding robotic or pushy.</p>
+    </div>
+
+    <h2>How to Ask for Google Reviews by Occasion</h2>
+    <p>The biggest mistake businesses make when asking for reviews is using the same generic template for every customer. A first-time visitor needs a different approach than a loyal regular. A customer whose complaint you just resolved needs careful, appreciative language. This tool recognizes five distinct occasions and generates appropriate templates for each.</p>
+
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:18px;background:white;border:1px solid var(--border);">
+        <span style="flex-shrink:0;width:28px;height:28px;background:var(--brand-softer);color:var(--brand);font-family:'Geist Mono',monospace;font-size:11px;font-weight:700;display:grid;place-items:center;">1</span>
+        <div>
+          <p><strong>First Visit</strong></p>
+          <p>Welcome new customers warmly. Acknowledge their trust in choosing you for the first time. "Welcome to the family" language converts at 3x the rate of generic requests. Send within 1-2 hours of service.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:18px;background:white;border:1px solid var(--border);">
+        <span style="flex-shrink:0;width:28px;height:28px;background:var(--brand-softer);color:var(--brand);font-family:'Geist Mono',monospace;font-size:11px;font-weight:700;display:grid;place-items:center;">2</span>
+        <div>
+          <p><strong>Repeat Customer</strong></p>
+          <p>Acknowledge loyalty. These customers know your quality and leave the most detailed, credible reviews. Reference their history with your business. Response rates from repeat customers are 40% higher than first-time asks.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:18px;background:white;border:1px solid var(--border);">
+        <span style="flex-shrink:0;width:28px;height:28px;background:var(--brand-softer);color:var(--brand);font-family:'Geist Mono',monospace;font-size:11px;font-weight:700;display:grid;place-items:center;">3</span>
+        <div>
+          <p><strong>Complaint Resolved</strong></p>
+          <p>Turn a negative into a positive. Wait 24-48 hours after resolution. Acknowledge the issue briefly, focus on the fix, and ask if they are satisfied. These reviews are gold — they show potential customers that you stand behind your work.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:18px;background:white;border:1px solid var(--border);">
+        <span style="flex-shrink:0;width:28px;height:28px;background:var(--brand-softer);color:var(--brand);font-family:'Geist Mono',monospace;font-size:11px;font-weight:700;display:grid;place-items:center;">4</span>
+        <div>
+          <p><strong>Project Complete</strong></p>
+          <p>Strike while excitement is high. Ask the same day you complete a major project or purchase. Reference the specific work done. These reviews tend to be the longest and most detailed because the experience is fresh.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:18px;background:white;border:1px solid var(--border);">
+        <span style="flex-shrink:0;width:28px;height:28px;background:var(--brand-softer);color:var(--brand);font-family:'Geist Mono',monospace;font-size:11px;font-weight:700;display:grid;place-items:center;">5</span>
+        <div>
+          <p><strong>Service Anniversary</strong></p>
+          <p>Celebrate milestones with long-time customers. Marking a one-year anniversary creates an emotional moment that naturally leads to a review. These reviews carry the most weight because they represent sustained satisfaction.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>When to Send a Review Request by Channel</h2>
+    <p><strong>SMS / Text:</strong> Within 1 hour of service. Best between 10am-6pm. Text messages have a 98% open rate, making them the most effective channel for review requests. Keep it under 160 characters (1 SMS segment) to avoid splitting. This tool shows character counts for every SMS template.</p>
+    <p><strong>Email:</strong> Within 2 hours of service, or the same business day. Send between 9am-11am or 1pm-3pm for best open rates. Include the review link prominently. Do not bury it in paragraph text. The subject line should be personal and low-pressure.</p>
+    <p><strong>In-Person:</strong> At the moment of highest satisfaction. Right after completing the service, while the customer is paying or preparing to leave. Have a QR code displayed at the checkout counter. Train staff on the exact script — confidence matters.</p>
+    <p><strong>Follow-Up:</strong> 3-5 days after the initial request. Shorter than the first email. Acknowledge they are busy. Include the link again. For complaint resolutions, wait a full week to ensure the fix is permanent.</p>
+
+    <h2>Review Request Tips by Industry</h2>
+
+    <h3>Dentists & Dental Practices</h3>
+    <p>Ask right after the appointment, before the patient leaves the office. The front desk staff should have a script ready. Mention the specific treatment: "Thanks for coming in for your cleaning" feels more personal than "Thanks for your visit." Text messages work especially well for younger patients. For first visits, welcome them to the practice family.</p>
+
+    <h3>Plumbers & HVAC</h3>
+    <p>Have your technician ask in person when they finish the job, then follow up with a text within the hour. The customer is most satisfied when the problem is solved. That is your window. "Your drain is flowing perfectly now. Would you mind leaving us a quick Google review?" For repeat customers, acknowledge their loyalty: "Thanks for calling us again."</p>
+
+    <h3>Lawyers & Law Firms</h3>
+    <p>Timing is everything in legal. Do not ask during an active case. Ask after a successful resolution. Use a professional tone. Lawyers should be especially careful not to reference case details in review requests. Keep it about the client experience, not the outcome. For first consultations, focus on the quality of the initial advice.</p>
+
+    <h3>Restaurants & Cafes</h3>
+    <p>QR codes on the table or receipt are the most natural ask in a restaurant setting. Train servers to mention it when dropping off the check: "If you enjoyed your meal, we would love a quick review. There is a QR code on the table." Do not text or email unless you collect contact info through reservations. For first-time diners, a warm welcome increases review likelihood by 35%.</p>
+
+    <h3>Salons & Spas</h3>
+    <p>The mirror moment is your best opportunity. Right after the client sees their new look and loves it — that is when you ask. Have the stylist say: "You look amazing! If you have 30 seconds, a Google review would help other people find us." For repeat clients, reference their transformation journey. "You have been coming to us for a year now — your hair has never looked better!"</p>
+
+    <h2>Review Request Generator Comparison</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>theStacc</th><th>GatherUp</th><th>Grade.us</th><th>Birdeye</th></tr>
+        </thead>
+      <tbody>
+        <tr><td>Price</td><td><strong>Free</strong></td><td>$99-299/mo</td><td>$110-300/mo</td><td>$299+/mo</td></tr>
+        <tr><td>Occasion-based templates</td><td><strong>5 occasions</strong></td><td>No</td><td>No</td><td>No</td></tr>
+        <tr><td>Multi-channel (email + SMS + in-person)</td><td><strong>Yes</strong></td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td>Industry-specific language</td><td><strong>23 industries</strong></td><td>Limited</td><td>Limited</td><td>Limited</td></tr>
+        <tr><td>Tone options</td><td><strong>Friendly, Professional, Brief</strong></td><td>1 tone</td><td>1 tone</td><td>1 tone</td></tr>
+        <tr><td>Google review link finder</td><td><strong>Link helper + QR code</strong></td><td>Manual entry</td><td>Manual entry</td><td>Manual entry</td></tr>
+        <tr><td>Printable QR code</td><td><strong>Built-in</strong></td><td>Separate tool</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Follow-up reminder templates</td><td><strong>Yes</strong></td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+        <tr><td>Signup required</td><td><strong>No</strong></td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Frequently asked questions</h2>
+    <div class="faq-list">
+      {faqs.map((faq) => (
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false"><span class="faq-q-text">{faq.q}</span><span class="faq-toggle" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="2"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner"><p>{faq.a}</p></div></div>
+        </div>
+      ))}
+        </div>
+  </Fragment>
+
+  <Fragment slot="related">
+    <div class="related-grid">
+      <a href="/tools/review-response-generator/" class="related-tool">
+        <span class="label">Reviews</span>
+        <h3>Review Response Generator</h3>
+        <p>Reply to any Google review — 5 stars or 1 star — in your brand voice.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/review-qr-code-generator/" class="related-tool">
+        <span class="label">Reviews</span>
+        <h3>Review QR Code Generator</h3>
+        <p>Create print-ready QR codes that take customers straight to your review page.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+      <a href="/tools/gbp-post-generator/" class="related-tool">
+        <span class="label">Local SEO</span>
+        <h3>GBP Post Generator</h3>
+        <p>Generate 3 ready-to-publish Google Business Profile posts in 10 seconds.</p>
+        <span class="arrow-link">Open tool →</span>
+      </a>
+    </div>
+  </Fragment>
+</ToolLayout>

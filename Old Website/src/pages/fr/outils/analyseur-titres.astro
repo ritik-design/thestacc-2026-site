@@ -1,0 +1,52 @@
+---
+import ToolLayoutFr from '../../../components/tools/ToolLayoutFr.astro';
+---
+
+<ToolLayoutFr
+  title="Analyseur de titres SEO gratuit — Score et suggestions | theStacc"
+  description="Analysez vos titres d'articles et de pages pour le SEO. Score de lisibilité, force émotionnelle, puissance des mots, longueur optimale et suggestions d'amélioration. Gratuit."
+  toolName="Analyseur de titres SEO"
+  toolDescription="Obtenez un score pour vos titres de blog et de page. Analyse de la lisibilité, force émotionnelle, mots puissants et optimisation SEO. Suggestions instantanées."
+  enUrl="https://thestacc.com/tools/headline-analyzer/"
+>
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <div class="space-y-4">
+        <div>
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Votre titre <span class="text-red-500">*</span></label>
+          <input type="text" id="headline-input" required maxlength="200" placeholder="ex. : 10 façons d'améliorer votre SEO local en 2025" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <div class="mt-1 flex items-center justify-between">
+            <p class="text-[11px] text-[#79716b]">Longueur idéale : 50–70 caractères pour le SEO</p>
+            <p id="char-count" class="text-[11px] text-[#79716b]">0 / 200</p>
+          </div>
+        </div>
+        <button id="analyze-btn" class="w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+          Analyser le titre
+        </button>
+      </div>
+    </div>
+
+    <div id="results-section" class="mt-6 hidden space-y-6">
+      <div id="score-hero" class="rounded-2xl border border-[#e7e5e4] bg-white p-8 flex flex-col items-center text-center"></div>
+      <div id="metrics-section" class="grid grid-cols-2 gap-4 sm:grid-cols-4"></div>
+      <div id="word-analysis" class="rounded-2xl border border-[#e7e5e4] bg-white p-6"></div>
+      <div id="suggestions-section" class="rounded-2xl border border-[#e7e5e4] bg-white p-6"></div>
+    </div>
+
+    <noscript><div class="py-12 text-center"><p class="text-[15px] text-[#79716b]">Cet outil nécessite JavaScript.</p></div></noscript>
+    <script is:inline src="/js/headline-analyzer-engine.js"></script>
+    <script is:inline>
+      const input = document.getElementById('headline-input');
+      const counter = document.getElementById('char-count');
+      if (input && counter) {
+        input.addEventListener('input', () => { counter.textContent = `${input.value.length} / 200`; });
+      }
+    </script>
+  </Fragment>
+
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Pourquoi le titre est-il crucial pour le SEO ?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Le titre est le facteur le plus important pour le taux de clic (CTR) dans les résultats de recherche. Un bon titre peut doubler votre CTR, ce qui améliore indirectement vos positions. Google aussi utilise le titre pour comprendre le sujet de votre page.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Cet analyseur évalue votre titre selon plusieurs dimensions : longueur SEO optimale (50-70 caractères), présence de mots émotionnels, mots puissants (power words), équilibre entre mots communs et inhabituels, et lisibilité globale.</p>
+  </Fragment>
+</ToolLayoutFr>

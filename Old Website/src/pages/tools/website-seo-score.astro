@@ -1,0 +1,316 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free Website SEO Score Checker — Real DR + Traffic + AI Plan | theStacc';
+const pageDescription = 'Get your website SEO score across 8 dimensions in 15 seconds. Real Domain Rating, organic traffic, and ranking keywords from Google. Plus an AI-generated 60-day action plan. Free.';
+const pageUrl = 'https://thestacc.com/tools/website-seo-score/';
+const lastUpdated = '2026-05-10';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free Website SEO Score Checker',
+  description: 'Comprehensive website SEO scoring across 8 dimensions: on-page, technical, performance, authority/backlinks, organic performance, local SEO, content + AI readiness, and trust. Pulls real Domain Rating, referring domains, organic traffic estimate, and top ranking keywords from a live SEO database. Includes Google PageSpeed score and AI-generated 60-day action plan.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is a website SEO score?', a: 'A website SEO score is a 0-100 number that measures how well your site is optimized for search engines. It rolls up dozens of individual checks — title tags, meta descriptions, page speed, backlinks, schema markup, content depth — into a single grade (A-F). Most professional SEO tools score across 6-10 dimensions; this one uses 8: on-page SEO, technical SEO, page performance, authority/backlinks, organic performance, local SEO, content + AI readiness, and trust signals.' },
+  { q: 'What is a good SEO score?', a: 'A score of 80-100 is excellent (Grade A) and signals top-tier optimization. 65-79 is good (Grade B) and means you have a solid foundation with a few quick wins remaining. 50-64 is average (Grade C) — focused work could move you up significantly. Below 50 is poor (Grade D-F) and indicates multiple critical gaps holding your rankings back. Most small business websites score 35-55 on their first check; brands with active SEO programs sit at 75+.' },
+  { q: 'How is the SEO score calculated?', a: 'Eight dimensions, each weighted by its impact on rankings. On-page SEO (15 pts), technical SEO (15), page performance (15), authority + backlinks (15), organic performance (10), local SEO (10), content + AI readiness (15), and trust + security (5). Each dimension contains 2-6 specific checks with their own pass/fail/partial scoring. The total adds to 100. Real metrics like Domain Rating, ranking keywords, and PageSpeed score are pulled live from a SEO data provider and Google rather than estimated.' },
+  { q: 'How do I improve my website SEO score?', a: 'Start with the top 3 priority fixes the tool identifies — they\'re ranked by impact-to-effort ratio, so they deliver the biggest score lift per hour of work. Common quick wins (under 30 min): fix your title tag length, write a meta description, add LocalBusiness schema, enable HTTPS, add a viewport meta tag. Medium-effort fixes (1-3 hours): add FAQ schema, create an llms.txt file, embed Google Maps, add heading structure (1 H1, 3+ H2s). High-effort: build backlinks, add 800+ word service pages, optimize PageSpeed.' },
+  { q: 'What is Domain Rating (DR) and how is it calculated?', a: 'Domain Rating is a 0-100 score (sometimes called Domain Authority) that measures the strength of your backlink profile. It\'s calculated from the number of unique referring domains, the authority of those domains, and the topical relevance of the links. DR is a relative metric — sites with DR 60+ rank for competitive head terms, while sites with DR 10-30 typically rank for long-tail keywords only. Building DR takes months: focus on guest posts, podcasts, partnerships, and creating link-worthy content rather than buying links.' },
+  { q: 'What is AI readiness in an SEO score?', a: 'AI readiness measures how well your website is set up to be cited by AI-powered search: ChatGPT, Perplexity, Google AI Overviews, Gemini, and Claude. We check four signals: FAQ schema or question-format H2 headings (AI Overviews pull from these first), the presence of an /llms.txt file (emerging standard for AI guidance), whether your robots.txt blocks AI crawlers (GPTBot, ClaudeBot, PerplexityBot), and whether your content is structured with clear question-and-answer formatting that AI can extract. AI readiness is the 2026 differentiator — sites missing it lose visibility as AI search expands.' },
+  { q: 'Does this SEO checker actually crawl my website?', a: 'It fetches the rendered HTML of your homepage server-side using a real browser User-Agent, parses title, meta tags, headings, body text, images, links, schema, and Open Graph tags, then runs Google PageSpeed Insights for performance metrics. It also checks /robots.txt, /llms.txt, and /sitemap.xml. If your site renders content client-side via JavaScript (React, Vue), what we see may differ from the user-visible version — most modern sites use SSR or pre-rendering for SEO, which the tool handles correctly.' },
+  { q: 'Why does my SEO score differ between tools?', a: 'Each SEO tool uses its own scoring formula. Sitechecker focuses on technical errors (Critical/Warning categorization). Seobility weighs 200+ factors. Semrush emphasizes its proprietary "Site Health" score. Backlinko uses a 100-point on-page audit. Our tool combines on-page, technical, AND real authority/traffic data (which most free tools skip) — so a site can score 90 on technical-only tools but lower here because we factor in DR, ranking keywords, and AI readiness. The score gap between tools usually reveals what each tool prioritizes.' },
+  { q: 'Is the keyword and traffic data accurate?', a: 'Yes — the Domain Rating, referring domains, ranking keywords, and traffic estimates are pulled live from the same kind of SEO database used by enterprise platforms. The Domain Rating uses a 0-100 scale that aligns with industry-standard metrics. Traffic is an estimate based on observed rankings × keyword volume × position-CTR curves; actual traffic varies, but the relative magnitude is reliable. Note: very new sites (under 6 months old) or sites in rare niches may show "data unavailable" — coverage requires a minimum crawl footprint.' },
+  { q: 'Is this website SEO score checker really free?', a: 'Yes. No credit card. The tool is free to use 5 times per day per IP address. The full report (8-week action plan with hours and expected score lift) is unlocked with a brief lead form — that\'s how we keep the lights on. Everything else (overall score, all 8 dimension breakdowns, real DR/traffic/keyword metrics, top 3 priorities, top 8 ranking keywords) is fully visible without any signup. We never sell or share emails.' },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Website SEO Score Checker"
+  toolDescription="Get your real SEO score in 15 seconds. Domain Rating, organic traffic, ranking keywords + AI-generated 60-day action plan. Free, no signup for the score."
+  trustCount=""
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="url-input">Website URL <span class="text-red-500">*</span></label>
+          <input type="url" id="url-input" required placeholder="e.g., yoursite.com"
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 text-[11px] text-[#79716b]">Homepage URL. We crawl + check this page and pull domain-wide data from Google.</p>
+        </div>
+
+        <details class="mb-4">
+          <summary class="cursor-pointer text-[13px] font-medium text-[#615fff]">+ Add business name &amp; city for local SEO scoring</summary>
+          <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1" for="biz-name">Business name</label>
+              <input type="text" id="biz-name" maxlength="100" placeholder="e.g., Smith Family Dental" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-3.5 py-2.5 font-sans text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+            <div>
+              <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1" for="city-input">City / service area</label>
+              <input type="text" id="city-input" maxlength="80" placeholder="e.g., Austin, TX" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-3.5 py-2.5 font-sans text-[14px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+            </div>
+          </div>
+        </details>
+
+        <button id="check-btn" type="submit" class="w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+          Check My SEO Score
+        </button>
+        <p class="mt-2.5 text-center font-mono text-[11px] text-[#79716b]">Free · No signup for the score · 5 analyses per day</p>
+        <p id="form-error" class="mt-2 hidden text-xs text-red-500"></p>
+      </form>
+    </div>
+
+    <div id="loading-section" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+      <div class="flex items-center gap-3">
+        <span><svg class="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4f39f6" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="#4f39f6" stroke-width="3" stroke-linecap="round"/></svg></span>
+        <span data-step class="font-sans text-[14px] text-[#57534e]">Fetching your website and pulling live data...</span>
+      </div>
+      <p class="mt-2 font-mono text-[11px] text-[#79716b]">First analysis: 12-18 seconds (running multiple data fetches in parallel). Cached results return in &lt;200ms.</p>
+    </div>
+
+    <div id="error-section" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-5 flex items-start gap-3">
+      <svg class="mt-0.5 shrink-0" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      <div>
+        <p class="text-[15px] text-red-700 font-semibold">Couldn't analyze this site</p>
+        <p class="error-msg mt-1 text-[13px] text-red-600">Check the URL and try again. Make sure the website is publicly accessible.</p>
+      </div>
+    </div>
+
+    <div id="results-section" class="mt-6 hidden space-y-5"></div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">You found the gaps.<br/>Stacc fixes them on autopilot.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">30 SEO-optimized articles per month, automatic schema markup, GBP posting, on-page fixes — all running in the background. Starting at $99/mo.</p>
+        <a href="/demo/?source=site-score-results" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start your $1 trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days · Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / SPEAKABLE -->
+    <div class="speakable mb-8 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-5">
+      <p class="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[#4f39f6] mb-2">Summary · Last updated {lastUpdated}</p>
+      <p class="font-sans text-[16px] leading-[1.8] text-[#292524]">
+        The Free Website SEO Score Checker analyzes any website across 8 dimensions in 15 seconds: on-page SEO (15 pts), technical SEO (15), page performance from Google PageSpeed (15), authority + backlinks via real Domain Rating (15), organic performance via top ranking keywords + traffic estimate (10), local SEO (10), content + AI readiness (15), and trust + security (5). Total score 0-100 with grade A-F. Pulls live data from a backlink + ranking database (Domain Rating, referring domains, ranking keywords, organic traffic) and Google PageSpeed (Core Web Vitals). Includes an AI-generated 60-day action plan with hours and expected score lift per task. Free for 5 analyses per day per IP. Best for SEO consultants, agencies, content teams, and business owners benchmarking site health.
+      </p>
+    </div>
+
+    <!-- Stat block -->
+    <div class="mb-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">8</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">SEO dimensions scored</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">Live</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">DR + traffic from Google</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4 text-center">
+        <p class="font-sans text-[28px] font-bold text-[#4f39f6]">15s</p>
+        <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Per full analysis</p>
+      </div>
+    </div>
+
+    <!-- What is SEO score -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mb-3">What is a website SEO score?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong>A website SEO score is a 0-100 number that summarizes how well your site is optimized for search engines.</strong> It rolls up dozens of individual checks — title tags, meta descriptions, page speed, backlinks, schema markup, content depth — into a single grade A-F.
+    </p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      Think of it as a yearly physical for your website. The score itself doesn't directly affect rankings (Google doesn't use any single tool's score), but the underlying signals it measures are what Google actually weighs. A site with a strong SEO score has the foundation in place to rank — provided the content quality and backlink profile are competitive for the target keywords.
+    </p>
+
+    <!-- What is a good score -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">What is a good SEO score?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong>80-100 is excellent (Grade A). 65-79 is good (Grade B). 50-64 is average (Grade C). Below 50 indicates multiple critical gaps.</strong>
+    </p>
+    <ul class="list-disc pl-5 mb-6 space-y-1.5 text-[16px] text-[#57534e] leading-[1.75]">
+      <li><strong class="text-[#292524]">90-100 (A+):</strong> Top-tier site. Strong technical foundation, comprehensive content, healthy backlinks, AI-ready. Likely already ranking well.</li>
+      <li><strong class="text-[#292524]">75-89 (A/B):</strong> Solid SEO foundation. A few quick wins remain — usually around schema, AI readiness, or page speed.</li>
+      <li><strong class="text-[#292524]">60-74 (B/C):</strong> Average. Multiple optimization opportunities. Most small business sites land here on first check.</li>
+      <li><strong class="text-[#292524]">45-59 (D):</strong> Significant gaps. Probably missing schema, has thin content, or weak on-page basics. Improvable in 30-60 days.</li>
+      <li><strong class="text-[#292524]">Under 45 (F):</strong> Major SEO problems. Often a brand-new site, a single-page site, or one that doesn't pass basic technical checks.</li>
+    </ul>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">Most small business websites score 35-55 on first check. Brands with active SEO programs sit at 75+. The gap between average and excellent is usually 20-30 points and 60-90 days of focused work.</p>
+
+    <!-- How is score calculated -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">How is the SEO score calculated?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong>Eight dimensions, weighted by their impact on rankings.</strong> Each dimension contains 2-6 specific checks with pass/fail/partial scoring. Real metrics like Domain Rating, ranking keywords, and PageSpeed score are pulled live from an SEO data provider and Google rather than estimated.
+    </p>
+    <div class="overflow-x-auto rounded-xl border border-[#e7e5e4] bg-white mb-6">
+      <table class="w-full text-[14px]">
+        <thead class="bg-[#fafaf9]">
+          <tr>
+            <th class="px-4 py-3 text-left font-semibold text-[#292524]">Dimension</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#292524]">Weight</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#292524]">What it measures</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e7e5e4]">
+          <tr><td class="px-4 py-2.5 text-[#292524] font-medium">On-Page SEO</td><td class="px-4 py-2.5 text-[#79716b] font-mono">15 pts</td><td class="px-4 py-2.5 text-[#57534e]">Title, meta, H1, alt text, Open Graph</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#292524] font-medium">Technical SEO</td><td class="px-4 py-2.5 text-[#79716b] font-mono">15 pts</td><td class="px-4 py-2.5 text-[#57534e]">HTTPS, viewport, canonical, robots, sitemap, indexable</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#292524] font-medium">Page Performance</td><td class="px-4 py-2.5 text-[#79716b] font-mono">15 pts</td><td class="px-4 py-2.5 text-[#57534e]">Mobile PageSpeed, LCP, CLS, INP</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#292524] font-medium">Authority + Backlinks</td><td class="px-4 py-2.5 text-[#79716b] font-mono">15 pts</td><td class="px-4 py-2.5 text-[#57534e]">Domain Rating, referring domains, total backlinks</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#292524] font-medium">Organic Performance</td><td class="px-4 py-2.5 text-[#79716b] font-mono">10 pts</td><td class="px-4 py-2.5 text-[#57534e]">Total ranking keywords, top-3 rankings, est. traffic</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#292524] font-medium">Local SEO</td><td class="px-4 py-2.5 text-[#79716b] font-mono">10 pts</td><td class="px-4 py-2.5 text-[#57534e]">LocalBusiness schema, NAP, city mentions</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#292524] font-medium">Content + AI Readiness</td><td class="px-4 py-2.5 text-[#79716b] font-mono">15 pts</td><td class="px-4 py-2.5 text-[#57534e]">Content depth, FAQ schema, llms.txt, AI crawler access</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#292524] font-medium">Trust + Security</td><td class="px-4 py-2.5 text-[#79716b] font-mono">5 pts</td><td class="px-4 py-2.5 text-[#57534e]">HTTPS, privacy/contact info presence</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- How to improve -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">How do I improve my website SEO score?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong>Start with the top 3 priority fixes the tool identifies.</strong> They're ranked by impact-to-effort ratio — fixing them first delivers the biggest score lift per hour of work. Then work down the dimensions in this order:
+    </p>
+    <ol class="list-decimal pl-5 mb-6 space-y-2 text-[16px] text-[#57534e] leading-[1.75]">
+      <li><strong class="text-[#292524]">Quick wins first (under 30 minutes each).</strong> Title tag length, meta description, viewport meta tag, image alt text, Open Graph tags. These can lift your score 8-15 points in an afternoon.</li>
+      <li><strong class="text-[#292524]">Schema markup (1-2 hours).</strong> Add LocalBusiness schema with the specific subtype (Dentist, Plumber, Restaurant, etc.). Add FAQ schema if you have an FAQ section. Use our free <a href="/tools/schema-markup-generator/" class="text-[#615fff] hover:underline">schema markup generator</a>.</li>
+      <li><strong class="text-[#292524]">AI readiness (1-2 hours).</strong> Create an /llms.txt file. Reformat existing content with question-format H2 headings. Audit robots.txt to ensure GPTBot, ClaudeBot, and PerplexityBot aren't blocked.</li>
+      <li><strong class="text-[#292524]">Content depth (4-8 hours per page).</strong> Top pages should have 800-2,000 words covering all the relevant subtopics. Pair this with our <a href="/tools/on-page-seo-checker/" class="text-[#615fff] hover:underline">on-page SEO checker</a> to see what competitors cover.</li>
+      <li><strong class="text-[#292524]">Page speed (variable).</strong> Optimize images, defer JS, audit third-party scripts. Aim for mobile PageSpeed ≥75 and Core Web Vitals all in the green.</li>
+      <li><strong class="text-[#292524]">Backlinks (multi-month).</strong> Domain Rating grows slowly. Focus on guest posts, podcast appearances, partnerships, and creating link-worthy resources. 50+ unique referring domains is the typical inflection point.</li>
+    </ol>
+
+    <!-- DR explanation -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">What is Domain Rating (DR)?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong>Domain Rating is a 0-100 score that measures the strength of your backlink profile.</strong> Sometimes called Domain Authority. It's calculated from the number of unique referring domains, the authority of those domains, and the relevance of the links.
+    </p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      Rough benchmarks: Domain Rating 70+ is "household brand" territory (Forbes, Wikipedia, Amazon). 50-70 is "established business." 30-50 is "growing — ranking for moderate-difficulty keywords." 10-30 is "early stage — ranks for long-tail." Under 10 is "brand new or rarely linked."
+    </p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      DR builds slowly. The fastest path is creating link-worthy assets (data studies, free tools, original research, comprehensive guides) and getting them in front of journalists and industry influencers. Buying links is risky and Google penalizes it.
+    </p>
+
+    <!-- AI readiness -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">What is AI readiness in SEO?</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      <strong>AI readiness measures how well your website is set up to be cited by AI-powered search:</strong> ChatGPT, Perplexity, Google AI Overviews, Gemini, and Claude.
+    </p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      Four signals matter most. <strong class="text-[#292524]">FAQ schema and question-format H2s</strong> are what AI Overviews and Featured Snippets pull from first. <strong class="text-[#292524]">An /llms.txt file</strong> is the emerging standard for guiding AI crawlers — adding one is a 5-minute win that signals AI-readiness explicitly. <strong class="text-[#292524]">AI crawler access</strong> in robots.txt — make sure GPTBot, ClaudeBot, PerplexityBot, and Google-Extended aren't blocked. <strong class="text-[#292524]">Question-and-answer content structure</strong> with one-line direct answers below each question, then expansion.
+    </p>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-3">
+      AI readiness is the 2026 differentiator. As AI search expands (ChatGPT now has 800M weekly users, Perplexity 30M+), sites missing these signals lose visibility. The good news: AI readiness is mostly free to implement and most competitors haven't done it yet.
+    </p>
+
+    <!-- Comparison table -->
+    <h2 class="text-[22px] leading-[1.3] font-semibold text-[#292524] tracking-[-0.01em] mt-10 mb-3">How this tool differs from Sitechecker, Seobility, and Semrush</h2>
+    <p class="text-[16px] text-[#57534e] leading-[1.75] mb-4">We built this because most free SEO checkers fall into one of two camps: technical-only (lots of warnings, no real metrics) or paywalled-by-design (free preview, $99+/mo for actual data). Here's how we compare:</p>
+    <div class="overflow-x-auto rounded-xl border border-[#e7e5e4] bg-white">
+      <table class="w-full text-[14px]">
+        <thead class="bg-[#fafaf9]">
+          <tr>
+            <th class="px-4 py-3 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">Sitechecker</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">Seobility</th>
+            <th class="px-4 py-3 text-left font-semibold text-[#79716b]">Semrush</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-[#e7e5e4]">
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Free, no signup for score</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">3/day</td><td class="px-4 py-2.5 text-[#16a34a]">Free tier</td><td class="px-4 py-2.5 text-[#dc2626]">$140/mo</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Real Domain Rating</td><td class="px-4 py-2.5 text-[#16a34a]">✓ Live</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Real organic traffic estimate</td><td class="px-4 py-2.5 text-[#16a34a]">✓ Live</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Top ranking keywords list</td><td class="px-4 py-2.5 text-[#16a34a]">✓ Top 8</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#16a34a]">✓ (paid)</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">Google PageSpeed integration</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">AI readiness scoring</td><td class="px-4 py-2.5 text-[#292524] font-semibold">✓ Dedicated dimension</td><td class="px-4 py-2.5 text-[#79716b]">Partial</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#79716b]">Partial</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">llms.txt + AI crawler check</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">AI-generated 60-day plan</td><td class="px-4 py-2.5 text-[#292524] font-semibold">✓ With hours + lift</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#dc2626]">No</td><td class="px-4 py-2.5 text-[#dc2626]">No</td></tr>
+          <tr><td class="px-4 py-2.5 text-[#57534e]">8 weighted dimensions</td><td class="px-4 py-2.5 text-[#16a34a]">✓</td><td class="px-4 py-2.5 text-[#79716b]">Issue-based</td><td class="px-4 py-2.5 text-[#79716b]">5 dimensions</td><td class="px-4 py-2.5 text-[#79716b]">Site Health only</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FAQ -->
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently asked questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      {faqs.map((faq, idx) => (
+        <div class:list={[idx < faqs.length - 1 && 'border-b border-[#f3f4f6]']}>
+          <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+            <span class="font-sans text-[16px] font-semibold text-[#111827]">{faq.q}</span>
+            <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+          <div class="tool-faq-answer hidden px-6 pb-5">
+            <p class="font-sans text-[15px] leading-[1.7] text-[#4b5563]">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More free SEO tools</h2>
+        <p class="mt-1 font-sans text-[13px] text-[#79716b]">Use these to fix the gaps from your score report.</p>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <a href="/tools/on-page-seo-checker/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">On-Page SEO Checker</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">15-point page-level analysis vs SERP top 10</p>
+          </a>
+          <a href="/tools/seo-audit/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Free SEO Audit</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Whole-site audit across 50+ checks</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">JSON-LD for 23 industries</p>
+          </a>
+          <a href="/tools/meta-tag-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Meta Tag Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Title + meta + social previews</p>
+          </a>
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score titles on 8 dimensions</p>
+          </a>
+          <a href="/tools/gbp-post-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">GBP Post Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">3 ready-to-publish GBP posts</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+    <script is:inline src="/js/seo-score-engine.js"></script>
+  </Fragment>
+</ToolLayout>

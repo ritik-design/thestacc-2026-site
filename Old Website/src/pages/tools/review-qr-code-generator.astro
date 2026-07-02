@@ -1,0 +1,297 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Free Google Review QR Code Generator | theStacc';
+const pageDescription = 'Generate print-ready Google review QR codes in 10 seconds. Table tents, counter cards, posters, business cards. PDF download, no signup. Free.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Free Google Review QR Code Generator',
+  description: 'Generate print-ready Google review QR codes with customizable templates. Table tents, counter cards, posters, business cards. Download as PNG or SVG.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'How do I find my Google review link?', acceptedAnswer: { '@type': 'Answer', text: 'Search for your business on Google, click your business listing, click "Ask for reviews" in the Google Business Profile dashboard, and copy the link. You can also go to business.google.com, select your business, and find the review link under "Get more reviews."' } },
+    { '@type': 'Question', name: 'What size should a review QR code be for printing?', acceptedAnswer: { '@type': 'Answer', text: 'For table tents and counter cards, a QR code should be at least 1 inch (2.5 cm) square. For wall posters, 2-3 inches works well. The QR code must be large enough for phone cameras to scan from the expected viewing distance. Roughly 10x the scanning distance in inches.' } },
+    { '@type': 'Question', name: 'Do Google review QR codes expire?', acceptedAnswer: { '@type': 'Answer', text: 'No. Google review QR codes point to your Google review URL, which is permanent as long as your Google Business Profile exists. The QR code itself is just an encoding of that URL and never expires.' } },
+    { '@type': 'Question', name: 'Can I customize the color of my review QR code?', acceptedAnswer: { '@type': 'Answer', text: 'Yes. This tool lets you choose from 6 color themes (purple, blue, green, red, orange, black) that apply to both the QR code and the surrounding print template. Dark colors on white backgrounds scan most reliably.' } },
+    { '@type': 'Question', name: 'Is this QR code generator free?', acceptedAnswer: { '@type': 'Answer', text: 'Yes, 100% free. No signup required. Generate unlimited QR codes, choose from 6 print templates, customize colors, and download as PNG or SVG. Everything runs in your browser. No data is sent to any server.' } },
+  ],
+};
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free Google Review QR Code Generator"
+  toolDescription="Paste your Google review link, choose a template, and download a print-ready QR code. Table tents, counter cards, posters, and more. No signup."
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+
+    <!-- Card 1: Review Link + Business Info -->
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+
+      <!-- Collapsible Helper -->
+      <details class="mb-5 rounded-xl border border-[#ddd6fe] bg-[#f5f3ff] p-4">
+        <summary class="cursor-pointer font-sans text-[13px] font-semibold text-[#6d28d9]">How do I find my Google review link?</summary>
+        <ol class="mt-3 space-y-2 text-[13px] text-[#57534e] leading-relaxed">
+          <li><strong class="text-[#292524]">1.</strong> Go to <a href="https://business.google.com" target="_blank" rel="noopener noreferrer" class="underline text-[#4f39f6]">business.google.com</a> and sign in.</li>
+          <li><strong class="text-[#292524]">2.</strong> Select your business, then click <strong class="text-[#292524]">"Ask for reviews"</strong> (or "Get more reviews").</li>
+          <li><strong class="text-[#292524]">3.</strong> Copy the link. It will look like <code class="rounded bg-white px-1.5 py-0.5 text-[12px] font-mono text-[#292524]">https://g.page/r/...</code> or contain <code class="rounded bg-white px-1.5 py-0.5 text-[12px] font-mono text-[#292524]">search.google.com/local/writereview</code>.</li>
+        </ol>
+      </details>
+
+      <!-- Google Review Link -->
+      <div class="mb-5">
+        <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="review-url">Google Review Link <span class="text-red-500">*</span></label>
+        <input type="url" id="review-url" required placeholder="Paste your Google review link" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        <p id="url-status" class="mt-1 text-xs hidden"></p>
+      </div>
+
+      <!-- Business Name -->
+      <div class="mb-5">
+        <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz-name">Business Name <span class="text-red-500">*</span></label>
+        <input type="text" id="biz-name" required maxlength="60" placeholder="Your business name" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        <p class="mt-1 text-right font-mono text-xs text-[#79716b]"><span id="biz-count">0</span> / 60</p>
+      </div>
+
+      <!-- Headline Text -->
+      <div>
+        <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="headline">Headline Text <span class="font-normal normal-case tracking-normal text-[#79716b]">. Optional</span></label>
+        <input type="text" id="headline" maxlength="40" value="Love our service? Leave a review!" placeholder="Custom headline text" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        <p class="mt-1 text-right font-mono text-xs text-[#79716b]"><span id="hl-count">33</span> / 40</p>
+      </div>
+    </div>
+
+    <!-- Card 2: Template Selector + Color Theme -->
+    <div class="mt-6 rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+
+      <!-- Template Style -->
+      <div class="mb-6">
+        <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-3">Template Style</label>
+        <div id="template-grid" class="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <button type="button" class="tpl-btn cursor-pointer flex flex-col items-center gap-1.5 rounded-xl border-2 border-[#4f39f6] bg-[#f5f3ff] p-3 text-center transition-all" data-tpl="tableTent">
+            <div class="w-[34px] h-[44px] rounded border border-[#d6d3d1] bg-[#fafaf9]"></div>
+            <span class="text-[12px] font-semibold text-[#292524]">Table Tent</span>
+            <span class="text-[10px] text-[#79716b] font-mono">4.25" x 5.5"</span>
+          </button>
+          <button type="button" class="tpl-btn cursor-pointer flex flex-col items-center gap-1.5 rounded-xl border border-[#e7e5e4] p-3 text-center transition-all hover:border-[#c4b5fd]" data-tpl="counterCard">
+            <div class="w-[30px] h-[45px] rounded border border-[#d6d3d1] bg-[#fafaf9]"></div>
+            <span class="text-[12px] font-semibold text-[#292524]">Counter Card</span>
+            <span class="text-[10px] text-[#79716b] font-mono">4" x 6"</span>
+          </button>
+          <button type="button" class="tpl-btn cursor-pointer flex flex-col items-center gap-1.5 rounded-xl border border-[#e7e5e4] p-3 text-center transition-all hover:border-[#c4b5fd]" data-tpl="wallPoster">
+            <div class="w-[34px] h-[44px] rounded border border-[#d6d3d1] bg-[#fafaf9]"></div>
+            <span class="text-[12px] font-semibold text-[#292524]">Wall Poster</span>
+            <span class="text-[10px] text-[#79716b] font-mono">8.5" x 11"</span>
+          </button>
+          <button type="button" class="tpl-btn cursor-pointer flex flex-col items-center gap-1.5 rounded-xl border border-[#e7e5e4] p-3 text-center transition-all hover:border-[#c4b5fd]" data-tpl="businessCard">
+            <div class="w-[44px] h-[25px] rounded border border-[#d6d3d1] bg-[#fafaf9]"></div>
+            <span class="text-[12px] font-semibold text-[#292524]">Business Card</span>
+            <span class="text-[10px] text-[#79716b] font-mono">3.5" x 2"</span>
+          </button>
+          <button type="button" class="tpl-btn cursor-pointer flex flex-col items-center gap-1.5 rounded-xl border border-[#e7e5e4] p-3 text-center transition-all hover:border-[#c4b5fd]" data-tpl="receiptInsert">
+            <div class="w-[27px] h-[45px] rounded border border-[#d6d3d1] bg-[#fafaf9]"></div>
+            <span class="text-[12px] font-semibold text-[#292524]">Receipt Insert</span>
+            <span class="text-[10px] text-[#79716b] font-mono">3" x 5"</span>
+          </button>
+          <button type="button" class="tpl-btn cursor-pointer flex flex-col items-center gap-1.5 rounded-xl border border-[#e7e5e4] p-3 text-center transition-all hover:border-[#c4b5fd]" data-tpl="windowSticker">
+            <div class="w-[36px] h-[36px] rounded border border-[#d6d3d1] bg-[#fafaf9]"></div>
+            <span class="text-[12px] font-semibold text-[#292524]">Window Sticker</span>
+            <span class="text-[10px] text-[#79716b] font-mono">4" x 4"</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Color Theme -->
+      <div>
+        <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-3">Color Theme</label>
+        <div class="flex gap-3 flex-wrap">
+          <button type="button" class="color-btn w-8 h-8 rounded-full cursor-pointer ring-2 ring-offset-2 ring-[#615fff] transition-all" data-color="#615fff" style="background-color:#615fff" aria-label="Purple theme"></button>
+          <button type="button" class="color-btn w-8 h-8 rounded-full cursor-pointer transition-all hover:scale-110" data-color="#2563eb" style="background-color:#2563eb" aria-label="Blue theme"></button>
+          <button type="button" class="color-btn w-8 h-8 rounded-full cursor-pointer transition-all hover:scale-110" data-color="#16a34a" style="background-color:#16a34a" aria-label="Green theme"></button>
+          <button type="button" class="color-btn w-8 h-8 rounded-full cursor-pointer transition-all hover:scale-110" data-color="#dc2626" style="background-color:#dc2626" aria-label="Red theme"></button>
+          <button type="button" class="color-btn w-8 h-8 rounded-full cursor-pointer transition-all hover:scale-110" data-color="#ea580c" style="background-color:#ea580c" aria-label="Orange theme"></button>
+          <button type="button" class="color-btn w-8 h-8 rounded-full cursor-pointer transition-all hover:scale-110" data-color="#171717" style="background-color:#171717" aria-label="Black theme"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Live Preview -->
+    <div class="mt-6 rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-4">Live Preview</label>
+      <div class="flex justify-center">
+        <canvas id="preview-canvas" class="rounded-lg border border-[#f5f5f4]" style="max-width:400px;width:100%"></canvas>
+      </div>
+
+      <!-- Download Buttons -->
+      <div id="download-section" class="mt-6 hidden">
+        <div class="flex flex-col gap-2 sm:flex-row sm:justify-center">
+          <button type="button" id="btn-png" class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white transition-all hover:bg-[#4f39f6] active:scale-[0.98]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PNG
+          </button>
+          <button type="button" id="btn-svg" class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 py-3 font-mono text-sm font-semibold uppercase text-[#292524] transition-all hover:border-[#c4b5fd] active:scale-[0.98]">
+            Download SVG
+          </button>
+          <button type="button" id="btn-copy" class="cursor-pointer inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-mono text-sm font-semibold uppercase text-[#4f39f6] transition-all hover:bg-[#f5f3ff] active:scale-[0.98]">
+            Copy Review Link
+          </button>
+        </div>
+        <p class="mt-3 text-center font-sans text-[12px] text-[#79716b]">Tip: PNG is print-ready at 300 DPI. Use SVG for further editing in Canva or Illustrator.</p>
+      </div>
+    </div>
+
+    <!-- Email Gate Modal -->
+    <div id="email-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+      <div class="mx-4 w-full max-w-md rounded-2xl bg-white p-6 text-center">
+        <p class="font-sans text-[17px] font-semibold text-[#292524]">Download your print-ready QR materials</p>
+        <p class="mt-1 font-sans text-sm text-[#79716b]">Enter your email to download. We'll also send you tips on getting more reviews.</p>
+        <div class="mt-4 flex gap-2">
+          <input type="email" id="modal-email" placeholder="you@company.com" class="flex-1 rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none">
+          <button id="modal-submit" class="cursor-pointer rounded-lg border border-[#4f39f6] bg-[#615fff] px-5 py-2.5 font-mono text-sm font-semibold uppercase text-white hover:bg-[#4f39f6]">Download</button>
+        </div>
+        <p id="modal-error" class="mt-1.5 hidden text-xs text-red-500">Please enter a valid email</p>
+        <p class="mt-2 text-[11px] text-[#79716b]">No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+    </div>
+
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">A QR code gets you started.<br/>Stacc gets you 30+ reviews per month.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Automated review requests via email and SMS, review monitoring, and response management. Starting at $49/mo.</p>
+        <a href="/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start Your $1 Trial &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days · Cancel anytime</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">How to Get More Google Reviews with QR Codes</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Google reviews are the single most influential factor for local search rankings and customer trust. Businesses with 50+ reviews consistently outrank competitors in the Google Map Pack, and 93% of consumers say online reviews influence their purchasing decisions. The problem is not that customers are unwilling to leave reviews. It is that the process has too much friction.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A QR code eliminates every step between the customer's intent and the review form. Instead of asking someone to search for your business on Google, find the right listing, navigate to reviews, and click "Write a review," you hand them a single scan. Phone camera opens, tap the link, and they are on your Google review page in under 3 seconds.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The businesses that collect the most reviews are the ones that make it physically unavoidable. Place QR codes at the point of maximum satisfaction. The checkout counter after a successful purchase, the reception desk after a good appointment, the table after a great meal. Physical placement converts 3-5x better than follow-up emails because the experience is still fresh.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">This tool generates print-ready QR code materials in 6 template formats. Each template is designed for a specific placement: table tents for restaurants and waiting rooms, counter cards for checkout areas, wall posters for lobbies, business cards for technicians and field staff, receipt inserts for retail, and window stickers for storefronts. Choose the format that matches where your customers experience the most value.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Where to Place Your Review QR Code</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Placement matters more than design. The best position is wherever customers feel the most satisfied. Right after you have delivered value.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Dental offices and healthcare:</strong> Reception desk at checkout, treatment room wall (patients stare at the ceiling for 30 minutes. Give them something to scan), and appointment reminder cards. Table tent on the waiting room side table works well too.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Restaurants and cafes:</strong> Table tent at every table (customers scan while waiting for the check), counter card at the register, and window sticker on the entrance door. Receipt inserts work for takeout orders.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Plumbers, HVAC, and home services:</strong> Business card handed to the homeowner after the job is done, receipt insert stapled to the invoice, and a follow-up text with the review link. Field technicians should carry cards in their truck.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Salons and spas:</strong> Counter card at the checkout mirror, business card tucked into the appointment reminder, and wall poster near the styling stations. Clients have their phones out. Make it easy.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How to Find Your Google Review Link</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Your Google review link is a direct URL that opens the "Write a review" dialog for your business on Google. There are three ways to find it:</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Method 1. Google Business Profile dashboard:</strong> Go to <a href="https://business.google.com" target="_blank" rel="noopener noreferrer" class="underline text-[#4f39f6]">business.google.com</a>, select your business, and click "Ask for reviews" or "Get more reviews." Copy the short link provided.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Method 2. Google Search:</strong> Search for your exact business name on Google. In your Knowledge Panel (the card on the right), click "Ask for reviews." This generates the same review URL.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Method 3. Google Maps:</strong> Open Google Maps, find your business listing, click it, scroll to the reviews section, and copy the URL from "Write a review." The URL will contain your Place ID.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">All three methods produce a valid Google review link. The link typically starts with <code class="rounded bg-[#f5f5f4] px-1.5 py-0.5 text-[13px] font-mono text-[#292524]">https://g.page/r/</code> or contains <code class="rounded bg-[#f5f5f4] px-1.5 py-0.5 text-[13px] font-mono text-[#292524]">search.google.com/local/writereview</code>. Paste it into this tool and the QR code is generated instantly.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Print Specifications for Review QR Codes</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">For reliable scanning, follow these print guidelines. The QR code itself should be at least <strong class="text-[#292524]">1 inch (2.5 cm) square</strong> at a minimum. Larger is always better ,  1.5 to 2 inches is ideal for table tents and counter cards. Wall posters should use 2.5 to 3 inch QR codes for scanning from a few feet away.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Use a <strong class="text-[#292524]">high-contrast color combination</strong>. Dark modules on a white background. This tool generates QR codes with your chosen accent color on white, which provides maximum scan reliability. Avoid printing on glossy surfaces that create glare, and leave a quiet zone (white border) of at least 4 modules around the QR code.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">The PNG download from this tool is rendered at <strong class="text-[#292524]">300 DPI equivalent resolution</strong>, making it suitable for professional printing. For further customization, download the SVG version and edit it in Canva, Adobe Illustrator, or Figma.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">How do I find my Google review link?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Go to business.google.com, select your business, and click "Ask for reviews" to copy your direct review link. Alternatively, search for your business on Google and use the "Ask for reviews" button in your Knowledge Panel.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">What size should a review QR code be for printing?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">At minimum, 1 inch square. For table tents and counter cards, 1.5 to 2 inches is ideal. For wall posters meant to be scanned from a distance, use 2.5 to 3 inches. The general rule is 10x the scanning distance in inches.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Do Google review QR codes expire?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">No. The QR code encodes your Google review URL, which is permanent as long as your Google Business Profile exists. Print once and use it for years.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Can I customize the color of my review QR code?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Yes. Choose from 6 color themes that apply to both the QR code modules and the print template accents. Dark colors on white backgrounds provide the best scanning reliability.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">Is this QR code generator free?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Yes, 100% free with no signup required. Generate unlimited QR codes, customize templates and colors, and download as PNG or SVG. Everything runs in your browser. No data leaves your device.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPTS ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free Local SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/review-response-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Review Response Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Respond to Google reviews in seconds</p>
+          </a>
+          <a href="/tools/review-request-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Review Request Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Email, SMS, and in-person review request scripts</p>
+          </a>
+          <a href="/tools/gbp-post-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">GBP Post Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Generate ready-to-post GBP updates</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script is:inline src="/js/review-qr-engine.js"></script>
+  </Fragment>
+</ToolLayout>

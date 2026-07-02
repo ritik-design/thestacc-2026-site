@@ -1,0 +1,370 @@
+---
+const blogTiers = [
+  { count: 30, price: 99 },
+  { count: 50, price: 149 },
+  { count: 80, price: 199 },
+];
+
+const localTiers = [
+  { count: 30, price: 49 },
+  { count: 60, price: 79 },
+  { count: 80, price: 99 },
+];
+
+const socialTiers = [
+  { count: 30, price: 49, platforms: 3 },
+  { count: 60, price: 79, platforms: 6 },
+  { count: 120, price: 129, platforms: 14 },
+];
+
+---
+
+<section id="pricing" class="bg-white">
+  <!-- Header -->
+  <div class="px-6 pt-10 pb-0 text-center">
+    <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#615fff]">Software Pricing</p>
+    <h2 class="mt-4 font-sans text-[28px] leading-[36px] md:text-[42px] md:leading-[50px] font-normal text-[#292524]">
+      Pick the modules you need.
+    </h2>
+    <p class="mx-auto mt-4 max-w-[520px] font-sans text-[16px] leading-[24px] text-[#79716b]">
+      Start with one. Add more when you're ready. Save 15% when you bundle two or more.
+    </p>
+
+    <!-- Billing toggle -->
+    <div class="mt-8 inline-flex items-center gap-3">
+      <button id="billing-toggle" class="relative w-[44px] h-[24px] rounded-full bg-[#615fff] cursor-pointer transition-colors shrink-0" aria-label="Toggle billing period">
+        <div id="billing-toggle-dot" class="absolute top-[3px] left-[3px] w-[18px] h-[18px] rounded-full bg-white shadow-sm transition-transform" style="transform:translateX(20px)"></div>
+      </button>
+      <span id="btn-annual" class="cursor-pointer font-sans text-sm font-semibold text-[#292524] transition-colors">Billed yearly</span>
+      <span id="billing-save-badge" class="font-sans text-xs font-semibold text-[#615fff] bg-[#615fff]/10 px-2 py-0.5 rounded-md">Save 17%</span>
+    </div>
+  </div>
+
+  <!-- Pricing Cards -->
+  <div class="mt-10 mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 px-6">
+    <!-- Blog SEO Card -->
+    <div class="relative rounded-xl border border-[#615fff]/30 bg-white p-7 flex flex-col">
+      <span class="absolute -top-3 left-6 inline-flex items-center rounded-md bg-[#615fff] px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wide text-white">
+        Popular
+      </span>
+      <h3 class="font-sans text-xl font-semibold text-[#292524]">Blog SEO</h3>
+      <p class="mt-1 font-sans text-sm text-[#79716b]">AI-generated blog posts that rank on Google. Keyword research, planning, and publishing, all automated.</p>
+
+      <div class="mt-5">
+        <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-3">Articles per month</p>
+        <div class="flex gap-2">
+          {blogTiers.map((tier, i) => (
+            <button
+              data-blog-idx={i}
+              data-blog-price={tier.price}
+              data-blog-count={tier.count}
+              class={`blog-tier-btn cursor-pointer rounded-lg border px-4 py-2 font-mono text-[14px] font-semibold transition-colors ${i === 0 ? 'border-[#615fff] bg-[#615fff]/5 text-[#615fff]' : 'border-[#e7e5e4] text-[#292524] hover:border-[#d6d3d1]'}`}
+            >
+              {tier.count}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-5 flex items-baseline gap-1">
+        <span class="font-sans text-[42px] font-bold tracking-tight text-[#292524]">
+          $<span id="blog-price">{blogTiers[0].price}</span>
+        </span>
+        <span class="font-sans text-sm text-[#79716b]">/<span id="blog-billing-label">mo</span></span>
+      </div>
+      <p id="blog-original" class="hidden mt-1 font-sans text-sm font-medium text-[#79716b]">
+        $<span id="blog-original-price">{blogTiers[0].price}</span>/mo if billed monthly
+      </p>
+
+      <a href="/demo/"
+        class="cursor-pointer mt-6 inline-flex h-[44px] w-full items-center justify-center rounded-xl border border-[#615fff] bg-[#615fff] font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#615fff]">
+        Start Free Trial
+      </a>
+      <p class="mt-2 text-center font-sans text-sm font-medium text-[#79716b]">$1 for 3 days · Cancel anytime</p>
+
+      <div class="mt-7 flex flex-col gap-3 flex-1" id="blog-features">
+        {["30 SEO-optimized articles / month", "Keyword research & content planning", "Auto-publish to WordPress or Webflow", "Competitor content analysis", "Content calendar with scheduling", "AI-generated infographics", "SEO score optimization", "Priority support"].map(f => (
+          <div class="flex items-start gap-2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#615fff" class="mt-0.5 shrink-0">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span class="font-sans text-[14px] text-[#292524] blog-feature-text">{f}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Local SEO Card -->
+    <div class="relative rounded-xl border border-[#e7e5e4] bg-white p-7 flex flex-col">
+      <h3 class="font-sans text-xl font-semibold text-[#292524]">Local SEO</h3>
+      <p class="mt-1 font-sans text-sm text-[#79716b]">Dominate local search and the map pack. GBP optimization, review management, and local rank tracking.</p>
+
+      <div class="mt-5">
+        <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-3">Posts per month</p>
+        <div class="flex gap-2">
+          {localTiers.map((tier, i) => (
+            <button
+              data-local-idx={i}
+              data-local-price={tier.price}
+              data-local-count={tier.count}
+              class={`local-tier-btn cursor-pointer rounded-lg border px-4 py-2 font-mono text-[14px] font-semibold transition-colors ${i === 0 ? 'border-[#615fff] bg-[#615fff]/5 text-[#615fff]' : 'border-[#e7e5e4] text-[#292524] hover:border-[#d6d3d1]'}`}
+            >
+              {tier.count}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-5 flex items-baseline gap-1">
+        <span class="font-sans text-[42px] font-bold tracking-tight text-[#292524]">
+          $<span id="local-price">{localTiers[0].price}</span>
+        </span>
+        <span class="font-sans text-sm text-[#79716b]">/<span id="local-billing-label">mo</span></span>
+      </div>
+      <p id="local-original" class="hidden mt-1 font-sans text-sm font-medium text-[#79716b]">
+        $<span id="local-original-price">{localTiers[0].price}</span>/mo if billed monthly
+      </p>
+
+      <a href="/demo/"
+        class="cursor-pointer mt-6 inline-flex h-[44px] w-full items-center justify-center rounded-xl border border-[#615fff] bg-white font-sans text-[15px] font-semibold text-[#615fff] transition-colors hover:bg-[#615fff]/5">
+        Start Free Trial
+      </a>
+      <p class="mt-2 text-center font-sans text-sm font-medium text-[#79716b]">$1 for 3 days · Cancel anytime</p>
+
+      <div class="mt-7 flex flex-col gap-3 flex-1">
+        {["30 Google Business Profile posts / month", "GBP optimization & management", "Review monitoring & AI response", "Local keyword tracking", "City-specific landing pages", "Multi-location support", "Local citation building", "Local rank tracking"].map(f => (
+          <div class="flex items-start gap-2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#615fff" class="mt-0.5 shrink-0">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span class="font-sans text-[14px] text-[#292524] local-feature-text">{f}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Social Media Card -->
+    <div class="relative rounded-xl border border-[#e7e5e4] bg-white p-7 flex flex-col">
+      <span class="absolute -top-3 left-6 inline-flex items-center rounded-md bg-[#615fff] px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wide text-white">
+        New
+      </span>
+      <h3 class="font-sans text-xl font-semibold text-[#292524]">Social Media</h3>
+      <p class="mt-1 font-sans text-base text-[#79716b]">AI posts across every major platform. Content created, scheduled, and posted for you.</p>
+
+      <div class="mt-5">
+        <p class="font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-3">Posts per month</p>
+        <div class="flex gap-2">
+          {socialTiers.map((tier, i) => (
+            <button
+              data-social-idx={i}
+              data-social-price={tier.price}
+              data-social-count={tier.count}
+              data-social-platforms={tier.platforms}
+              class={`social-tier-btn cursor-pointer rounded-lg border px-4 py-2 font-mono text-[14px] font-semibold transition-colors ${i === 0 ? 'border-[#615fff] bg-[#615fff]/5 text-[#615fff]' : 'border-[#e7e5e4] text-[#292524] hover:border-[#d6d3d1]'}`}
+            >
+              {tier.count}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-5 flex items-baseline gap-1">
+        <span class="font-sans text-[42px] font-bold tracking-tight text-[#292524]">
+          $<span id="social-price">{socialTiers[0].price}</span>
+        </span>
+        <span class="font-sans text-sm text-[#79716b]">/<span id="social-billing-label">mo</span></span>
+      </div>
+      <p id="social-original" class="hidden mt-1 font-sans text-sm font-medium text-[#79716b]">
+        $<span id="social-original-price">{socialTiers[0].price}</span>/mo if billed monthly
+      </p>
+
+      <a href="/demo/"
+        class="cursor-pointer mt-6 inline-flex h-[44px] w-full items-center justify-center rounded-xl border border-[#44403c] bg-[#44403c] font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#292524]">
+        Start Free Trial
+      </a>
+      <p class="mt-2 text-center font-sans text-sm font-medium text-[#79716b]">$1 for 3 days · Cancel anytime</p>
+
+      <div class="mt-7 flex flex-col gap-3 flex-1">
+        {["30 posts/month across 3 platforms", "AI-generated platform-specific content", "Auto-posting & queue management", "Content calendar with scheduling", "Facebook, Instagram, LinkedIn, X, and more", "Multi-platform analytics dashboard", "Team collaboration roles"].map(f => (
+          <div class="flex items-start gap-2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#615fff" class="mt-0.5 shrink-0">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span class="font-sans text-[14px] text-[#292524] social-feature-text">{f}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Bundle banner -->
+  <div class="mx-auto mt-4 px-6">
+    <div class="flex flex-col md:flex-row items-center justify-between rounded-xl border border-[#e7e5e4] bg-[#fafaf9] px-7 py-5 gap-4">
+      <div>
+        <p class="font-sans text-[16px] font-medium text-[#292524]">Bundle any two or more modules and save 15%</p>
+        <p class="mt-1 font-sans text-[14px] text-[#79716b]">
+          All three modules for <span class="font-semibold text-[#615fff]">$<span id="bundle-total">167</span>/mo</span>
+          <span class="line-through text-[#79716b] ml-1">$<span id="bundle-original">197</span>/mo</span>
+        </p>
+      </div>
+      <a href="/demo/"
+        class="cursor-pointer inline-flex h-[44px] items-center gap-2 rounded-xl border border-[#615fff] bg-[#615fff] px-6 font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#615fff]">
+        Get the Bundle
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  const blogTiers = [
+    { count: 30, price: 99 },
+    { count: 50, price: 149 },
+    { count: 80, price: 199 },
+  ];
+  const localTiers = [
+    { count: 30, price: 49 },
+    { count: 60, price: 79 },
+    { count: 80, price: 99 },
+  ];
+  const socialTiers = [
+    { count: 30, price: 49, platforms: 3 },
+    { count: 60, price: 79, platforms: 6 },
+    { count: 120, price: 129, platforms: 14 },
+  ];
+
+  let blogIdx = 0;
+  let localIdx = 0;
+  let socialIdx = 0;
+  let isAnnual = true;
+
+  function round(n: number) { return Math.round(n); }
+
+  function updatePrices() {
+    const blogBase = blogTiers[blogIdx].price;
+    const localBase = localTiers[localIdx].price;
+    const socialBase = socialTiers[socialIdx].price;
+    const blogFinal = isAnnual ? round(blogBase * 0.83) : blogBase;
+    const localFinal = isAnnual ? round(localBase * 0.83) : localBase;
+    const socialFinal = isAnnual ? round(socialBase * 0.83) : socialBase;
+    const total = blogFinal + localFinal + socialFinal;
+    const bundleTotal = round(total * 0.85);
+
+    const blogPriceEl = document.getElementById('blog-price');
+    const localPriceEl = document.getElementById('local-price');
+    const socialPriceEl = document.getElementById('social-price');
+    const blogBillingLabel = document.getElementById('blog-billing-label');
+    const localBillingLabel = document.getElementById('local-billing-label');
+    const socialBillingLabel = document.getElementById('social-billing-label');
+    const blogOriginalEl = document.getElementById('blog-original');
+    const blogOriginalPriceEl = document.getElementById('blog-original-price');
+    const localOriginalEl = document.getElementById('local-original');
+    const localOriginalPriceEl = document.getElementById('local-original-price');
+    const socialOriginalEl = document.getElementById('social-original');
+    const socialOriginalPriceEl = document.getElementById('social-original-price');
+    const bundleTotalEl = document.getElementById('bundle-total');
+    const bundleOriginalEl = document.getElementById('bundle-original');
+
+    if (blogPriceEl) blogPriceEl.textContent = String(blogFinal);
+    if (localPriceEl) localPriceEl.textContent = String(localFinal);
+    if (socialPriceEl) socialPriceEl.textContent = String(socialFinal);
+    if (blogBillingLabel) blogBillingLabel.textContent = isAnnual ? 'mo (billed yearly)' : 'mo';
+    if (localBillingLabel) localBillingLabel.textContent = isAnnual ? 'mo (billed yearly)' : 'mo';
+    if (socialBillingLabel) socialBillingLabel.textContent = isAnnual ? 'mo (billed yearly)' : 'mo';
+    if (blogOriginalEl) blogOriginalEl.classList.toggle('hidden', !isAnnual);
+    if (blogOriginalPriceEl) blogOriginalPriceEl.textContent = String(blogBase);
+    if (localOriginalEl) localOriginalEl.classList.toggle('hidden', !isAnnual);
+    if (localOriginalPriceEl) localOriginalPriceEl.textContent = String(localBase);
+    if (socialOriginalEl) socialOriginalEl.classList.toggle('hidden', !isAnnual);
+    if (socialOriginalPriceEl) socialOriginalPriceEl.textContent = String(socialBase);
+    if (bundleTotalEl) bundleTotalEl.textContent = String(bundleTotal);
+    if (bundleOriginalEl) bundleOriginalEl.textContent = String(total);
+
+    // Update blog feature count text
+    const blogFeatureText = document.querySelector('.blog-feature-text');
+    if (blogFeatureText) {
+      blogFeatureText.textContent = `${blogTiers[blogIdx].count} SEO-optimized articles / month`;
+    }
+
+    // Update local feature count text
+    const localFeatureText = document.querySelector('.local-feature-text');
+    if (localFeatureText) {
+      localFeatureText.textContent = `${localTiers[localIdx].count} Google Business Profile posts / month`;
+    }
+
+    // Update social feature count text
+    const socialFeatureText = document.querySelector('.social-feature-text');
+    if (socialFeatureText) {
+      socialFeatureText.textContent = `${socialTiers[socialIdx].count} posts/month across ${socialTiers[socialIdx].platforms} platforms`;
+    }
+  }
+
+  // Blog tier buttons
+  document.querySelectorAll<HTMLButtonElement>('.blog-tier-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      blogIdx = parseInt(btn.getAttribute('data-blog-idx') || '0');
+      document.querySelectorAll('.blog-tier-btn').forEach((b, i) => {
+        b.classList.toggle('border-[#615fff]', i === blogIdx);
+        b.classList.toggle('bg-[#615fff]/5', i === blogIdx);
+        b.classList.toggle('text-[#615fff]', i === blogIdx);
+        b.classList.toggle('border-[#e7e5e4]', i !== blogIdx);
+        b.classList.toggle('text-[#292524]', i !== blogIdx);
+      });
+      updatePrices();
+    });
+  });
+
+  // Local tier buttons
+  document.querySelectorAll<HTMLButtonElement>('.local-tier-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      localIdx = parseInt(btn.getAttribute('data-local-idx') || '0');
+      document.querySelectorAll('.local-tier-btn').forEach((b, i) => {
+        b.classList.toggle('border-[#615fff]', i === localIdx);
+        b.classList.toggle('bg-[#615fff]/5', i === localIdx);
+        b.classList.toggle('text-[#615fff]', i === localIdx);
+        b.classList.toggle('border-[#e7e5e4]', i !== localIdx);
+        b.classList.toggle('text-[#292524]', i !== localIdx);
+      });
+      updatePrices();
+    });
+  });
+
+  // Social tier buttons
+  document.querySelectorAll<HTMLButtonElement>('.social-tier-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      socialIdx = parseInt(btn.getAttribute('data-social-idx') || '0');
+      document.querySelectorAll('.social-tier-btn').forEach((b, i) => {
+        b.classList.toggle('border-[#615fff]', i === socialIdx);
+        b.classList.toggle('bg-[#615fff]/5', i === socialIdx);
+        b.classList.toggle('text-[#615fff]', i === socialIdx);
+        b.classList.toggle('border-[#e7e5e4]', i !== socialIdx);
+        b.classList.toggle('text-[#292524]', i !== socialIdx);
+      });
+      updatePrices();
+    });
+  });
+
+  // Billing toggle
+  const btnAnnual = document.getElementById('btn-annual');
+  const billingToggle = document.getElementById('billing-toggle');
+  const billingDot = document.getElementById('billing-toggle-dot');
+  const billingSaveBadge = document.getElementById('billing-save-badge');
+
+  function setAnnual(annual: boolean) {
+    isAnnual = annual;
+    if (billingDot) billingDot.style.transform = annual ? 'translateX(20px)' : 'translateX(0)';
+    if (billingToggle) billingToggle.style.backgroundColor = annual ? '#615fff' : '#d6d3d1';
+    if (btnAnnual) btnAnnual.textContent = annual ? 'Billed yearly' : 'Billed monthly';
+    if (billingSaveBadge) billingSaveBadge.style.display = annual ? '' : 'none';
+    updatePrices();
+  }
+
+  billingToggle?.addEventListener('click', () => setAnnual(!isAnnual));
+  btnAnnual?.addEventListener('click', () => setAnnual(!isAnnual));
+
+  // Show annual prices on load
+  updatePrices();
+</script>

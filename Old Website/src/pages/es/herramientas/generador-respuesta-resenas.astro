@@ -1,0 +1,384 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Generador de Respuestas a Reseñas de Google Gratuito | theStacc';
+const pageDescription = 'Genera respuestas profesionales a reseñas de Google en 10 segundos. Específico por sector, optimizado para SEO, múltiples tonos. Pega cualquier reseña y obtén 3 respuestas listas para publicar. Gratis, sin registro.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Generador de Respuestas a Reseñas de Google Gratuito',
+  description: 'Genera respuestas profesionales a reseñas de Google en 10 segundos. Específico por sector, optimizado para SEO, múltiples tonos.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: '¿Cómo debo responder a una reseña negativa de Google?', acceptedAnswer: { '@type': 'Answer', text: 'Reconoce el feedback, muestra empatía sin admitir responsabilidad, ofrece resolver el problema de forma privada y limítate a menos de 150 palabras. Responde siempre dentro de las 24 horas. Google recompensa a quienes responden rápido.' } },
+    { '@type': 'Question', name: '¿Las respuestas a reseñas de Google ayudan con el SEO local?', acceptedAnswer: { '@type': 'Answer', text: 'Sí. Google confirma que la tasa de respuesta a reseñas es un factor de posicionamiento local. Los negocios que responden a las reseñas de forma habitual posicionan mejor en el Pack de Google Maps y en los resultados de búsqueda local.' } },
+    { '@type': 'Question', name: '¿Con qué rapidez debo responder a las reseñas de Google?', acceptedAnswer: { '@type': 'Answer', text: 'Dentro de las 24 horas para las reseñas negativas, dentro de las 48 horas para las positivas. Los tiempos de respuesta rápidos le señalan a Google que tu negocio está activo y comprometido.' } },
+    { '@type': 'Question', name: '¿Debo responder a todas las reseñas de Google?', acceptedAnswer: { '@type': 'Answer', text: 'Sí. Responder a todas las reseñas —positivas y negativas— mejora tu SEO local, genera confianza con los clientes potenciales y le demuestra a Google que tu negocio está activamente gestionado.' } },
+    { '@type': 'Question', name: '¿Es gratuito este generador de respuestas a reseñas?', acceptedAnswer: { '@type': 'Answer', text: 'Sí, 100% gratuito. Sin registro ni tarjeta de crédito requeridos. Obtienes 1 respuesta al instante. Introduce tu email para desbloquear las 3 variaciones y una guía de referencia de respuestas a reseñas.' } },
+  ],
+};
+
+const industries = [
+  'Dental / Ortodoncia','Legal / Bufete de abogados','Fontanería / HVAC','Electricidad',
+  'Tejados / Construcción','Inmobiliaria','Contabilidad / Impuestos','Restaurante / Cafetería',
+  'Salón / Spa / Belleza','Reparación / Detallado de Autos','Servicios de Limpieza','Paisajismo / Jardinería',
+  'Veterinaria / Mascotas','Quiropráctica / Fisioterapia','Servicios IT / Consultoría',
+  'Fitness / Gimnasio / Yoga','Fotografía / Videografía','Seguros / Servicios Financieros',
+  'Decoración de Interiores','Tutorías / Educación','Peluquería Canina / Guardería',
+  'Mudanzas / Almacenamiento','Control de Plagas',
+];
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Generador de Respuestas a Reseñas de Google Gratuito"
+  toolDescription="Pega cualquier reseña de Google y obtén 3 respuestas profesionales y optimizadas para SEO en 10 segundos. Con conciencia del sector y múltiples tonos. Sin registro."
+  lang="es"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <form id="form" novalidate>
+        <!-- Review Text -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="review-text">Texto de la Reseña <span class="text-red-500">*</span></label>
+          <textarea id="review-text" required minlength="10" maxlength="2000" rows="4" placeholder="Pega aquí la reseña de Google..." class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors resize-none"></textarea>
+          <div class="mt-1 flex items-center justify-between">
+            <p class="hidden text-xs text-red-500" id="err-review">Pega el texto completo de la reseña (al menos 10 caracteres)</p>
+            <p class="ml-auto font-mono text-xs text-[#79716b]"><span id="char-count">0</span> / 2.000</p>
+          </div>
+        </div>
+
+        <!-- Star Rating -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Puntuación con Estrellas <span class="text-red-500">*</span></label>
+          <input type="hidden" id="rating-val" value="" />
+          <div class="flex gap-1.5">
+            {[1,2,3,4,5].map(star => (
+              <button type="button" class="star-btn cursor-pointer p-1 transition-transform hover:scale-110" data-star={star}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#d6d3d1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+              </button>
+            ))}
+          </div>
+          <p class="mt-1.5 hidden text-[13px] text-[#6d28d9] font-medium" id="rating-hint"></p>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-rating">Por favor, selecciona una puntuación con estrellas</p>
+        </div>
+
+        <!-- Business Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="biz">Nombre del Negocio <span class="text-red-500">*</span></label>
+          <input type="text" id="biz" required maxlength="100" placeholder="ej., Clínica Dental Familia García" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-biz">Por favor, introduce el nombre de tu negocio</p>
+        </div>
+
+        <!-- Industry -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="ind">Sector <span class="text-red-500">*</span></label>
+          <select id="ind" required class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2379716b%22%20stroke-width%3D%222.5%22%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px] bg-[right_16px_center] bg-no-repeat">
+            <option value="" disabled selected>Selecciona tu sector</option>
+            {industries.map(ind => <option>{ind}</option>)}
+            <option value="__other__">Otro (escribe el tuyo)</option>
+          </select>
+          <p class="mt-1 hidden text-xs text-red-500" id="err-ind">Por favor, selecciona tu sector</p>
+          <input type="text" id="ind-other" placeholder="ej., Organización de bodas, Limpieza de piscinas, Estudio de tatuajes" maxlength="60" class="mt-1.5 hidden w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- City -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="city">Ciudad / Ubicación <span class="text-red-500">*</span></label>
+          <input type="text" id="city" required maxlength="60" placeholder="ej., Madrid, Barcelona" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 hidden text-xs text-red-500" id="err-city">Por favor, introduce tu ciudad o ubicación</p>
+        </div>
+
+        <!-- Reviewer Name -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="reviewer-name">Nombre del Revisor <span class="font-normal normal-case tracking-normal text-[#79716b]">. Opcional</span></label>
+          <input type="text" id="reviewer-name" maxlength="50" placeholder="ej., Juan (déjalo en blanco si es anónimo)" class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+
+        <!-- Response Tone -->
+        <div class="mb-5">
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-2">Tono de Respuesta</label>
+          <div class="flex flex-wrap gap-2">
+            {[
+              { val: 'professional', label: 'Profesional' },
+              { val: 'friendly', label: 'Amigable' },
+              { val: 'empathetic', label: 'Empático' },
+              { val: 'brief', label: 'Breve' },
+            ].map((t, i) => (
+              <label class="cursor-pointer">
+                <input type="radio" name="tone" value={t.val} checked={i === 0} class="peer sr-only" />
+                <span class="inline-block rounded-lg border border-[#e7e5e4] px-4 py-2 text-[13px] font-medium text-[#57534e] transition-all peer-checked:border-[#4f39f6] peer-checked:bg-[#f5f3ff] peer-checked:text-[#4f39f6]">{t.label}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Review Response Note -->
+        <div class="mb-5 flex items-start gap-2 rounded-lg bg-[#fffbeb] border border-[#fde68a] p-3">
+          <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></span>
+          <p class="text-[13px] text-[#92400e] leading-relaxed"><strong>La respuesta importa más que la reseña.</strong> El 89% de los consumidores lee las respuestas de los negocios a las reseñas. Una respuesta profesional a una reseña de 1 estrella puede ganar nuevos clientes.</p>
+        </div>
+
+        <button type="submit" id="gen-btn" class="w-full cursor-pointer rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase tracking-wide text-white transition-all hover:bg-[#4f39f6] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+          Generar 3 Variaciones de Respuesta
+        </button>
+      </form>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="mt-8 hidden">
+      <div class="mb-4 flex items-center justify-center gap-1.5 rounded-lg bg-[#fafaf9] border border-[#e7e5e4] px-4 py-2 font-mono text-xs text-[#79716b]">
+        Respuestas generadas esta sesión: <strong class="text-[#6d28d9]" id="gen-count">0</strong> &middot; Regenera en cualquier momento para obtener resultados diferentes
+      </div>
+
+      <!-- Flag Warning (hidden by default) -->
+      <div class="mb-4 hidden rounded-lg border border-[#fca5a5] bg-[#fef2f2] p-3 flex items-start gap-2">
+        <span class="mt-0.5 shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <p class="text-[13px] text-[#991b1b] leading-relaxed" id="flag-warning"></p>
+      </div>
+
+      <!-- Variation 1 (ungated) -->
+      <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6 mb-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]" id="lbl1">Concisa</span>
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-xs text-[#79716b]" id="st1"></span>
+            <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <span>Copiar</span>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3 whitespace-pre-wrap font-sans text-[15px] leading-[1.7] text-[#292524]" id="pt1"></div>
+        <div id="seo1" class="mt-2 hidden inline-flex items-center gap-1.5 rounded-md bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1 font-mono text-[11px] font-medium text-[#16a34a] seo-badge"></div>
+        <div id="tip1" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+      </div>
+
+      <!-- Email Gate -->
+      <div id="gate" class="mb-4 rounded-2xl border border-[#e7e5e4] bg-gradient-to-b from-[#fafaf9] to-white p-6 text-center">
+        <p class="font-sans text-[17px] font-semibold text-[#292524]">Desbloquea 2 estilos de respuesta más</p>
+        <p class="mt-1 font-sans text-sm text-[#79716b]">Obtén las versiones estándar y detallada. Más una guía de referencia de respuestas a reseñas.</p>
+        <div class="mt-4 flex gap-2 max-w-[400px] mx-auto">
+          <input type="email" id="gate-em" placeholder="tu@empresa.com" class="flex-1 rounded-lg border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <button id="unlock-btn" class="cursor-pointer rounded-lg bg-[#615fff] px-5 py-2.5 font-mono text-sm font-semibold uppercase text-white whitespace-nowrap hover:bg-[#4f39f6] transition-colors">Desbloquear</button>
+        </div>
+        <p id="gate-err" class="mt-1.5 hidden text-xs text-red-500">Por favor, introduce una dirección de email válida</p>
+        <p class="mt-2 text-[11px] text-[#79716b]">Sin spam. Cancela cuando quieras.</p>
+      </div>
+
+      <!-- Gated Variations 2 & 3 -->
+      <div id="gated" class="hidden space-y-4">
+        <!-- Variation 2 -->
+        <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]" id="lbl2">Estándar</span>
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#79716b]" id="st2"></span>
+              <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="2">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <span>Copiar</span>
+              </button>
+            </div>
+          </div>
+          <div class="mt-3 whitespace-pre-wrap font-sans text-[15px] leading-[1.7] text-[#292524]" id="pt2"></div>
+          <div id="seo2" class="mt-2 inline-flex items-center gap-1.5 rounded-md bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1 font-mono text-[11px] font-medium text-[#16a34a] seo-badge"></div>
+          <div id="tip2" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+        </div>
+
+        <!-- Variation 3 -->
+        <div class="rounded-2xl border border-[#ddd6fe] bg-[#f5f3ff] p-5 md:p-6">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-[#ede9fe] px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-[#6d28d9]" id="lbl3">Detallada</span>
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#79716b]" id="st3"></span>
+              <button class="btn-cp inline-flex items-center gap-1.5 rounded-lg border border-[#ddd6fe] bg-white px-3 py-1.5 font-mono text-xs font-medium text-[#57534e] cursor-pointer transition-colors hover:border-[#4f39f6] hover:text-[#4f39f6]" data-c="3">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                <span>Copiar</span>
+              </button>
+            </div>
+          </div>
+          <div class="mt-3 whitespace-pre-wrap font-sans text-[15px] leading-[1.7] text-[#292524]" id="pt3"></div>
+          <div id="seo3" class="mt-2 inline-flex items-center gap-1.5 rounded-md bg-[#f0fdf4] border border-[#bbf7d0] px-2.5 py-1 font-mono text-[11px] font-medium text-[#16a34a] seo-badge"></div>
+          <div id="tip3" class="mt-2.5 rounded-lg bg-white border border-[#e7e5e4] px-3.5 py-2.5 text-[13px] text-[#79716b] leading-relaxed"></div>
+        </div>
+      </div>
+
+      <!-- Google Response Preview -->
+      <div class="mt-6">
+        <p class="mb-2 font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Vista Previa en Google</p>
+        <div class="rounded-xl border border-[#dadce0] bg-white p-4 shadow-sm">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#4f39f6]">
+              <span id="pav" class="font-sans text-sm font-bold text-white">S</span>
+            </div>
+            <div>
+              <p class="font-sans text-[13px] font-medium text-[#70757a]">Respuesta del propietario</p>
+              <p class="font-sans text-[12px] text-[#70757a]">Ahora mismo</p>
+            </div>
+          </div>
+          <p id="pbd" class="font-sans text-[14px] leading-[1.6] text-[#3c4043]"><span class="text-[#79716b] italic">Tu vista previa de respuesta aparecerá aquí...</span></p>
+        </div>
+      </div>
+
+      <!-- Response Quality Scorecard -->
+      <div class="mt-4">
+        <p class="mb-2 font-mono text-xs font-medium uppercase tracking-wide text-[#79716b]">Calidad de la Respuesta</p>
+        <div id="scorecard" class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="regen" class="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-[#e7e5e4] bg-white px-5 py-2.5 font-mono text-sm font-medium text-[#292524] hover:bg-[#fafaf9] transition-colors">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Generar Otra
+        </button>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p id="cta-headline" class="font-sans text-[22px] font-bold leading-tight text-white">Esta herramienta ayuda con 1 reseña.<br/>Stacc gestiona todo tu SEO local.</p>
+        <p id="cta-subtext" class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">30 posts de GBP, 30 artículos de blog, redes sociales. Todo en piloto automático. Desde $49/mes.</p>
+        <a href="/es/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Empieza tu Prueba por $1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 durante 30 días &middot; Cancela cuando quieras</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">Cómo Responder a las Reseñas de Google (de la Forma Correcta)</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Responder a las reseñas de Google es una de las actividades con mayor ROI para cualquier negocio local. Impacta directamente en tu posicionamiento en búsquedas locales, influye en las decisiones de compra y genera confianza con los clientes potenciales que leen las reseñas antes de llamar.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">La regla de las 24 horas.</strong> Responde a las reseñas negativas dentro de las 24 horas. Cada hora que pasa hace más probable que el revisor comparta su experiencia en otro lugar. Y le señala a Google que no estás gestionando activamente tu perfil de negocio.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Nunca discutas en público.</strong> Tu respuesta no es solo para el revisor. Es para los próximos 100 clientes potenciales que leen el hilo. Una respuesta defensiva o combativa hace más daño que la reseña negativa original.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Lleva las quejas a un canal privado.</strong> Para reseñas de 1-2 estrellas, reconoce la experiencia e invita al revisor a contactarte directamente. Esto demuestra profesionalidad y evita un intercambio público.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Incluye tu nombre de negocio y ciudad de forma natural.</strong> Las respuestas a reseñas son indexadas por Google. Una respuesta que menciona "Clínica Dental García en Madrid" contribuye a tu posicionamiento en SEO local. Sin parecer keyword stuffing.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Mantente en menos de 150 palabras.</strong> Las respuestas concisas parecen profesionales. Las respuestas largas y divagadoras parecen defensivas. Di lo que necesitas decir y para.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Por Qué Responder a las Reseñas Importa para el SEO Local</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Google ha confirmado que las señales de reseñas —incluyendo la tasa de respuesta, la recencia y la velocidad— son factores de posicionamiento local. Los negocios que responden a las reseñas posicionan más alto en el Pack de Google Maps, el conjunto de 3 resultados locales que aparece por encima de los resultados orgánicos.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Las keywords de las reseñas también importan. Cuando un cliente menciona "mejor fontanero en Sevilla" y tú respondes con lenguaje que refuerza de forma natural esa keyword, ambas reseñas contribuyen a tus señales de relevancia local.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Consejos de Respuesta a Reseñas por Sector</h2>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Dentistas y Clínicas Dentales</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Los pacientes dentales suelen mencionar la ansiedad, los tiempos de espera y la amabilidad del personal. Tus respuestas deben enfatizar la comodidad, la atención al paciente y las cualificaciones de tu equipo. Nunca hagas referencia a tratamientos o diagnósticos específicos en respuestas públicas.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Fontaneros y Empresas de HVAC</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Los negocios de servicios reciben más quejas sobre precios que cualquier otra categoría. Responde con transparencia. Menciona que proporcionas presupuestos por adelantado y que respaldas tu trabajo. Para reseñas positivas, refuerza tu área de servicio: "Nos alegra haber podido ayudarte con tu calentador en el norte de Madrid."</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Abogados y Despachos de Abogados</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Las respuestas a reseñas legales requieren cuidado extra. Nunca hagas referencia a detalles del caso, resultados ni confirmes que alguien es cliente. Mantén las respuestas generales: "Nos tomamos muy en serio las preocupaciones de cada cliente y nos esforzamos por ofrecer la representación legal de mayor calidad."</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Restaurantes y Cafeterías</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Las reseñas de servicios de comida suelen mencionar platos específicos, tiempos de espera o ambiente. Haz referencia a los detalles que mencionan: "Nos alegra que hayas disfrutado de nuestra pasta artesanal." Para quejas sobre la calidad de la comida, invítalos a volver: "Nos encantaría tener la oportunidad de preparar una comida que supere tus expectativas."</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Preguntas Frecuentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Cómo debo responder a una reseña negativa de Google?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Reconoce el feedback, muestra empatía sin admitir responsabilidad, ofrece resolver el problema de forma privada y limítate a menos de 150 palabras. Responde siempre dentro de las 24 horas. Google recompensa a quienes responden rápido. Nunca discutas, te pongas a la defensiva ni hagas referencia a detalles que puedan crear problemas legales.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Las respuestas a reseñas de Google ayudan con el SEO local?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sí. Google confirma que la tasa de respuesta a reseñas es un factor de posicionamiento local. Los negocios que responden a las reseñas de forma habitual posicionan más alto en el Pack de Google Maps. Las keywords usadas de forma natural en las respuestas también pueden reforzar tus señales de relevancia local.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Con qué rapidez debo responder a las reseñas de Google?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Dentro de las 24 horas para las reseñas negativas, dentro de las 48 horas para las positivas. Los tiempos de respuesta rápidos le señalan a Google que tu negocio está activo y comprometido. Las respuestas tardías —especialmente a reseñas negativas— pueden llevar a más quejas públicas.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Debo responder a todas las reseñas de Google?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sí. Responder a todas las reseñas —positivas y negativas— mejora tu SEO local, genera confianza con los clientes potenciales y le demuestra a Google que tu negocio está activamente gestionado. El objetivo es una tasa de respuesta del 100%.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Es gratuito este generador de respuestas a reseñas?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sí, 100% gratuito. Sin registro ni tarjeta de crédito requeridos. Obtienes 1 respuesta al instante. Introduce tu email para desbloquear las 3 variaciones y una guía de referencia de respuestas a reseñas.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Más Herramientas SEO Local Gratuitas</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/es/herramientas/generador-post-gbp/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Generador de Post GBP</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Genera publicaciones GBP listas para publicar</p>
+          </a>
+          <a href="/es/herramientas/generador-qr-resenas/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Generador de QR para Reseñas</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Consigue más reseñas con códigos QR imprimibles</p>
+          </a>
+          <a href="/es/herramientas/puntuacion-seo-sitio/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Puntuación SEO del Sitio</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Comprueba la salud SEO de tu sitio en segundos</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta herramienta requiere JavaScript. Por favor, actívalo en tu navegador.</p></div></noscript>
+    <script is:inline src="/js/review-response-engine.js"></script>
+  </Fragment>
+</ToolLayout>

@@ -1,0 +1,127 @@
+---
+const plans = [
+  {
+    name: 'Local Growth',
+    tagline: 'Content + Local SEO, fully managed.',
+    price: 749,
+    annualPrice: 625,
+    features: [
+      '30 blog articles published/month',
+      '30 GBP posts/month',
+      'Daily review monitoring & responses',
+      'Weekly performance reports',
+      'Monthly strategy video call',
+      '1 location included (+$150/ea extra)',
+    ],
+    popular: false,
+    comparison: null,
+  },
+  {
+    name: 'Growth Pro',
+    tagline: 'Content + Local SEO + Social Media.',
+    price: 999,
+    annualPrice: 835,
+    features: [
+      'Everything in Local Growth',
+      '60 social posts/month across 6 platforms',
+      'Platform-specific content & hashtags',
+      'Optimized posting schedule',
+      'Daily engagement monitoring',
+      'Monthly analytics + strategy call',
+    ],
+    popular: true,
+    comparison: null,
+  },
+  {
+    name: 'Growth Complete',
+    tagline: 'Everything. Blog, local, social, website.',
+    price: 1299,
+    annualPrice: 999,
+    features: [
+      'Everything in Growth Pro',
+      'AI-built website, hosted & managed',
+      'Monthly site updates & SEO tuning',
+      'Speed monitoring & security patches',
+      'Weekly reports + monthly strategy call',
+      'US-based operations team',
+    ],
+    popular: false,
+    comparison: 'Compare: a part-time marketing hire costs <strong>$2,500–$4,000/mo</strong>. An agency retainer runs <strong>$3,000–$10,000/mo</strong>.',
+  },
+];
+---
+
+<section class="bg-white py-20 px-6">
+  <!-- Header -->
+  <div class="text-center max-w-2xl mx-auto mb-14">
+    <p class="font-mono text-[14px] font-medium uppercase tracking-[0.56px] text-[#615fff]">Managed Services</p>
+    <h2 class="mt-4 font-sans text-[28px] leading-[36px] md:text-[42px] md:leading-[50px] font-normal text-[#292524]">
+      Let us run your marketing.
+    </h2>
+    <p class="mt-4 font-sans text-[16px] leading-[24px] text-[#79716b]">
+      AI agents do the heavy lifting. A dedicated human manager handles QA, strategy, and your monthly check-in.
+    </p>
+  </div>
+
+  <!-- Cards -->
+  <div class="mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 px-6">
+    {plans.map((plan) => (
+      <div class={`relative rounded-xl border p-7 flex flex-col ${
+        plan.popular
+          ? 'border-[#615fff]/30 bg-white'
+          : 'border-[#e7e5e4] bg-white'
+      }`}>
+        {/* Most Popular badge */}
+        {plan.popular && (
+          <span class="absolute -top-3 left-6 inline-flex items-center rounded-md bg-[#615fff] px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wide text-white">
+            Most Popular
+          </span>
+        )}
+
+        {/* Plan name + tagline */}
+        <h3 class="font-sans text-xl font-semibold text-[#292524]">{plan.name}</h3>
+        <p class="mt-1 font-sans text-sm text-[#79716b]">{plan.tagline}</p>
+
+        {/* Price */}
+        <div class="mt-5 flex items-baseline gap-1">
+          <span class="font-sans text-[42px] font-bold tracking-tight text-[#292524]">
+            ${plan.price}
+          </span>
+          <span class="font-sans text-sm text-[#79716b]">/mo</span>
+        </div>
+        <p class="mt-1 font-sans text-sm font-medium text-[#79716b]">
+          or ${plan.annualPrice}/mo billed annually
+        </p>
+
+        {/* Features */}
+        <div class="mt-7 flex flex-col gap-3 flex-1">
+          {plan.features.map((feature) => (
+            <div class="flex items-start gap-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#615fff" class="mt-0.5 shrink-0">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+              <span class="font-sans text-[14px] text-[#292524]">{feature}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Comparison callout */}
+        {plan.comparison && (
+          <div class="mt-6 rounded-lg border border-[#e7e5e4] bg-[#fafaf9] px-4 py-3">
+            <p class="font-sans text-[13px] leading-[20px] text-[#79716b]" set:html={plan.comparison} />
+          </div>
+        )}
+
+        {/* CTA */}
+        <a
+          href="mailto:sidgangal@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cursor-pointer mt-6 inline-flex h-[44px] w-full items-center justify-center rounded-xl border border-[#615fff] bg-[#615fff] font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#615fff]"
+        >
+          Talk to Our Team
+        </a>
+      </div>
+    ))}
+  </div>
+</section>

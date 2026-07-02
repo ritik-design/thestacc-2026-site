@@ -1,0 +1,434 @@
+---
+import ToolLayout from '../../components/tools/ToolLayout.astro';
+import {
+  buildSoftwareApplicationSchema,
+  buildFAQSchema,
+  buildWebPageWithSpeakable,
+  buildBreadcrumbSchema,
+} from '../../lib/schema-builders';
+
+const pageTitle = 'Free CMS Detector — Identify 70+ Technologies Instantly | theStacc';
+const pageDescription = 'Detect the CMS, e-commerce platform, framework, web server, CDN, analytics, and 70+ other technologies powering any website. Free, instant, no signup.';
+const pageUrl = 'https://thestacc.com/tools/cms-detector/';
+const lastUpdated = '2026-05-11';
+
+const softwareSchema = buildSoftwareApplicationSchema({
+  name: 'Free CMS Detector',
+  description: 'Detect the CMS, e-commerce platform, framework, web server, programming language, CDN, hosting platform, analytics, and JavaScript libraries powering any website.',
+  url: pageUrl,
+});
+
+const faqs = [
+  { q: 'What is a CMS detector and why would I use one?', a: 'A CMS detector identifies which content management system, e-commerce platform, framework, web server, and other technologies are powering a website. It analyzes HTTP headers, HTML markup, cookies, meta tags, and script URLs to determine whether a site runs on WordPress, Shopify, Wix, Webflow, Drupal, Magento, custom code, or dozens of other platforms. You would use one to plan migrations, diagnose SEO issues, research competitors, or audit a site you inherited without documentation.' },
+  { q: 'How does this CMS detector work?', a: 'We fetch the public HTML of the URL you provide, then run it through a database of 70+ technology signatures. Each signature looks for unique fingerprints: WordPress sites contain /wp-content/ paths, Shopify sites use cdn.shopify.com, Drupal returns specific x-drupal-cache headers. We then score the matches — more independent signals means higher confidence in the detection. Results are cached for one hour to keep performance fast.' },
+  { q: 'What technologies can this detector identify?', a: 'The detector identifies CMS platforms (WordPress, Drupal, Joomla, Ghost, TYPO3, Wix, Squarespace, Webflow, Weebly, Duda), e-commerce platforms (Shopify, WooCommerce, Magento, BigCommerce, PrestaShop, OpenCart), modern frameworks (Next.js, Nuxt, Gatsby, Astro, Remix, SvelteKit), web servers (Nginx, Apache, IIS, LiteSpeed), programming languages (PHP, Node.js, Ruby, Python, ASP.NET, Java), CDNs (Cloudflare, Fastly, Akamai, CloudFront), hosting platforms (Vercel, Netlify, Heroku, Render), analytics tools (Google Analytics, Plausible, Mixpanel, Hotjar), marketing platforms (HubSpot, Mailchimp, Intercom), page builders (Elementor, Divi, WPBakery), and CSS frameworks (Bootstrap, Tailwind, Material UI).' },
+  { q: 'How accurate is the detection?', a: 'Detection accuracy depends on the technology and how it has been configured. CMSes that emit obvious fingerprints — WordPress, Shopify, Drupal — are detected with 95%+ accuracy. Frameworks like Astro and Next.js are detected with similar accuracy via build-time markers. Heavily customized or self-hosted setups with stripped headers may show lower confidence. Every detection is labeled with high, medium, or low confidence so you know how much to trust each result. Security headers are checked against six industry-standard policies.' },
+  { q: 'Why do some sites show "no CMS detected"?', a: 'A few reasons: the site might be a static HTML build with no CMS at all (common for portfolio sites and landing pages), the CMS may strip its identifying headers and meta tags for security, the site might be behind a strict WAF that blocks our fetch, or it could use an uncommon platform we have not added a signature for yet. Try a different page on the same domain — homepages often have less detectable markup than blog or product pages.' },
+  { q: 'Can it detect WordPress themes and plugins?', a: 'Theme detection is a separate, more invasive process and is not included in this tool yet. We do detect popular page builders like Elementor, Divi, and WPBakery when they are present in the HTML. Full WordPress theme and plugin detection is on the roadmap for a future version. For now, the detector focuses on the core platform and surrounding tech stack.' },
+  { q: 'How is this different from Wappalyzer or BuiltWith?', a: 'Wappalyzer is a browser extension that runs locally as you browse. BuiltWith is a paid lookup service with a large historical database and API access. This tool is web-based, free, requires no signup or installation, and is built specifically for SEO professionals and site owners — every detection links to relevant SEO tools and shows you how to optimize for the platform you find. It also checks security headers and provides plain-English explanations of what each technology does.' },
+  { q: 'Is this CMS detector free?', a: 'Yes, 100% free with no signup required. Enter any URL and get an instant tech stack report with confidence scores, security header checks, and categorized results. There are no rate limits for normal use. Detections are cached for one hour to keep performance fast and reduce server load.' },
+  { q: 'What are security headers and why do they matter?', a: 'Security headers are HTTP response headers that tell browsers how to handle your website securely. The six we check are Strict-Transport-Security (forces HTTPS), Content-Security-Policy (prevents XSS attacks), X-Frame-Options (prevents clickjacking), X-Content-Type-Options (prevents MIME sniffing), Referrer-Policy (controls referrer data), and Permissions-Policy (restricts browser features). Missing security headers do not directly affect SEO rankings, but they signal site maturity and protect your visitors. Google has indicated that site security is a minor ranking factor.' },
+  { q: `How can I use CMS detection data for competitive research?`, a: `Knowing your competitors' tech stacks reveals strategic intelligence. If your top competitor ranks well on Shopify, that tells you Shopify SEO is strong enough to win in your niche. If they run a Next.js stack with custom React components, that signals heavy engineering investment. If they use HubSpot for marketing automation, they likely have a dedicated marketing team. This intelligence helps you benchmark your own investment, identify platform-specific SEO opportunities, and choose the right tools for your own stack.` },
+];
+
+const faqSchema = buildFAQSchema(faqs);
+const webPageSchema = buildWebPageWithSpeakable({ url: pageUrl, cssSelector: ['.speakable'] });
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: 'https://thestacc.com/' },
+  { name: 'Free SEO Tools', url: 'https://thestacc.com/tools/' },
+  { name: 'CMS Detector', url: pageUrl },
+]);
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Free CMS Detector"
+  toolDescription="Detect the CMS, framework, web server, language, CDN, analytics, and 70+ other technologies powering any website. Free, instant, no signup."
+  wide={false}
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+
+    <div class="mx-auto max-w-2xl">
+      <!-- URL Input -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+        <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5" for="url-input">Website URL</label>
+        <div class="flex gap-3">
+          <input type="url" id="url-input" required placeholder="e.g., wordpress.org"
+            class="flex-1 rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors"
+          />
+          <button id="detect-btn" class="shrink-0 rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+            Detect Tech Stack
+          </button>
+        </div>
+        <p id="url-error" class="mt-1 hidden text-xs text-red-500">Please enter a valid URL</p>
+
+        <!-- Quick examples -->
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <span class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]">Try:</span>
+          {['wordpress.org', 'shopify.com', 'webflow.com', 'astro.build', 'vercel.com'].map((ex) => (
+            <button class="example-btn rounded-full border border-[#e7e5e4] bg-[#f5f5f4] px-3 py-1 font-mono text-[11px] text-[#57534e] hover:border-[#c4b5fd] hover:bg-[#f5f3ff] hover:text-[#4f39f6] cursor-pointer transition-colors" data-url={ex}>
+              {ex}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loading-section" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <div class="space-y-3">
+          {[
+            { id: 'fetch', label: 'Fetching website…' },
+            { id: 'parse', label: 'Parsing HTML & headers…' },
+            { id: 'cookies', label: 'Reading cookies & scripts…' },
+            { id: 'match', label: 'Matching tech signatures…' },
+            { id: 'score', label: 'Computing confidence scores…' },
+            { id: 'render', label: 'Building tech report…' },
+          ].map((step) => (
+            <div class="flex items-center gap-3 step" data-step={step.id}>
+              <span class="step-icon w-5 h-5 text-[#79716b]">
+                <svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/>
+                  <path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <span set:html={step.label} class="text-[14px] text-[#57534e]"></span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div id="error-section" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+        <svg class="mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        <p class="text-[15px] text-red-700 font-medium">Couldn't analyze the site</p>
+        <p id="error-msg" class="mt-1 text-[13px] text-red-600">Check the URL and try again. Make sure the website is publicly accessible.</p>
+      </div>
+
+      <!-- Results -->
+      <div id="results-section" class="mt-6 hidden space-y-6">
+        <!-- Primary detection -->
+        <div id="primary-card" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8 hidden">
+          <div class="flex items-center gap-2">
+            <span class="inline-block h-2 w-2 rounded-full bg-green-500"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Primary detection</span>
+          </div>
+          <div class="mt-3 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-3">
+                <h2 id="primary-name" class="font-sans text-[28px] font-bold tracking-[-0.02em] text-[#292524] md:text-[32px]"></h2>
+                <span id="primary-version" class="hidden rounded-md bg-[#f5f3ff] px-2 py-0.5 font-mono text-[12px] font-semibold text-[#4f39f6]"></span>
+              </div>
+              <p id="primary-category" class="mt-1 font-sans text-[14px] text-[#79716b]"></p>
+              <p id="primary-description" class="mt-2 font-sans text-[14px] text-[#57534e] max-w-[560px]"></p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span id="primary-confidence" class="rounded-full px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-wide"></span>
+              <span id="response-info" class="rounded-full bg-[#f5f5f4] px-3 py-1 font-mono text-[11px] text-[#57534e]"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- No primary fallback -->
+        <div id="no-primary" class="hidden rounded-2xl border border-[#fde68a] bg-[#fffbeb] p-6">
+          <p class="font-sans text-[15px] text-[#92400e]"><strong>No CMS clearly identified</strong> on this site. It may be a custom build, a static HTML page, or a heavily-modified install with identifying markers stripped. We did still detect some technologies below.</p>
+        </div>
+
+        <!-- Tech stack grid -->
+        <div id="categories-container" class="space-y-4"></div>
+
+        <!-- Empty state -->
+        <div id="no-results" class="hidden rounded-2xl border border-[#e7e5e4] bg-white p-8 text-center">
+          <svg class="mx-auto mb-3" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#79716b" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <p class="font-sans text-[16px] font-semibold text-[#292524]">No technologies detected</p>
+          <p class="mt-2 font-sans text-[14px] text-[#57534e] max-w-md mx-auto">The site may use uncommon technologies, strip its identifying markers, or block our crawler. Try a different page on the same domain.</p>
+        </div>
+
+        <!-- Insights -->
+        <div id="insights-card" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 hidden">
+          <h3 class="font-sans text-[16px] font-semibold text-[#292524]">Site insights</h3>
+          <div id="insights-list" class="mt-3 grid gap-3 sm:grid-cols-2"></div>
+        </div>
+
+        <!-- Security headers -->
+        <div id="security-card" class="rounded-2xl border border-[#e7e5e4] bg-white p-6 hidden">
+          <div class="flex items-center justify-between gap-2">
+            <h3 class="font-sans text-[16px] font-semibold text-[#292524]">Security headers</h3>
+            <span id="security-summary" class="font-mono text-[11px] uppercase tracking-wide text-[#79716b]"></span>
+          </div>
+          <div id="security-list" class="mt-3 grid gap-2 sm:grid-cols-2"></div>
+        </div>
+
+        <!-- Action row -->
+        <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+          <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p class="font-sans text-[15px] font-semibold text-[#292524]">Want more insight?</p>
+              <p class="mt-0.5 font-sans text-[13px] text-[#79716b]">Run a full SEO audit, copy the stack, or check meta tags.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button id="copy-stack-btn" class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-2 font-mono text-[12px] font-semibold uppercase text-[#57534e] hover:border-[#4f39f6] hover:text-[#4f39f6] cursor-pointer transition-colors">Copy Stack</button>
+              <a id="audit-link" href="/tools/seo-audit/" class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-2 font-mono text-[12px] font-semibold uppercase text-[#57534e] hover:border-[#4f39f6] hover:text-[#4f39f6] transition-colors">Run SEO Audit</a>
+              <a id="meta-link" href="/tools/meta-tag-analyzer/" class="rounded-lg border border-[#e7e5e4] bg-white px-4 py-2 font-mono text-[12px] font-semibold uppercase text-[#57534e] hover:border-[#4f39f6] hover:text-[#4f39f6] transition-colors">Meta Tags</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detection details (collapsible) -->
+        <details class="rounded-2xl border border-[#e7e5e4] bg-white">
+          <summary class="cursor-pointer px-6 py-4 font-sans text-[14px] font-semibold text-[#292524] hover:bg-[#fafafa]">Detection details (advanced)</summary>
+          <div id="detection-details" class="border-t border-[#e7e5e4] px-6 py-4"></div>
+        </details>
+      </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-section" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <div class="mx-auto max-w-lg">
+          <p id="cta-headline" class="font-sans text-[22px] font-bold leading-tight text-white">Now optimize what you found.</p>
+          <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Stacc handles SEO end-to-end on any CMS — titles, descriptions, schema, content, GBP. Starting at $99/mo.</p>
+          <a href="/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Start Your $1 Trial &rarr;</a>
+          <p class="mt-3 font-mono text-xs text-[#64748b]">$1 for 3 days · Cancel anytime</p>
+        </div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <!-- TL;DR / Speakable -->
+    <div class="speakable rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-5 mb-8">
+      <p class="font-sans text-[15px] leading-[1.7] text-[#57534e]">
+        <strong class="text-[#292524]">The theStacc CMS Detector</strong> identifies the content management system, e-commerce platform, framework, web server, programming language, CDN, hosting platform, analytics tools, and 70+ other technologies powering any website. Enter any URL and get an instant tech stack report with confidence scores, security header checks, and categorized results. The tool is built for SEO professionals, agencies, and business owners who need to understand what they or their competitors are running — for migrations, audits, competitive research, or simply figuring out what a website is built with.
+      </p>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">What Is a CMS and Why Does It Matter?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A Content Management System (CMS) is the software that lets you create, edit, and publish web pages without writing HTML by hand. Behind the scenes, it stores your content in a database, generates HTML when someone visits, and gives non-technical users a friendly editor for managing pages, blog posts, products, and media.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Knowing which CMS a website uses tells you a lot about how it operates. WordPress sites can be extended with plugins and themes, Shopify sites have a fixed e-commerce structure but easy storefront customization, Webflow sites give designers visual control without code, and custom-coded sites offer maximum flexibility but require developer time for every change. The CMS choice affects your SEO options, your content velocity, your hosting costs, and your migration difficulty.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">For agencies, knowing a prospect's CMS upfront saves hours of qualification. For competitive researchers, identifying competitors' stacks reveals what tools are working in your industry. For business owners who inherited a website without documentation, a CMS detector is often the fastest way to figure out what you actually own and what it would take to change anything.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">How CMS Detection Works</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Every CMS leaves fingerprints in the pages it generates. Some are intentional, like the <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">&lt;meta name="generator"&gt;</code> tag that WordPress, Drupal, and Astro add to identify themselves. Some are structural, like WordPress's <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">/wp-content/</code> directory paths or Shopify's <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">cdn.shopify.com</code> asset URLs. Some are protocol-level, like Cloudflare's <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">cf-ray</code> header or Vercel's <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">x-vercel-id</code>.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">A good CMS detector aggregates many signal types: HTTP headers from the server response, cookies set on first load, meta tags in the HTML, recognizable markup patterns, the URLs of loaded scripts and stylesheets, and the hostname itself. Each signal contributes to a confidence score. A site that emits the WordPress generator meta tag, sets WordPress login cookies, AND links to <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">/wp-content/</code> assets is almost certainly WordPress. A site with only one weak signal is "possibly" something but might be a false positive.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Modern frameworks like Next.js, Nuxt, Astro, and SvelteKit are detected via their build artifacts: directories like <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">/_next/static/</code>, <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">/_nuxt/</code>, <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">/_astro/</code>, and global JavaScript variables like <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">__NEXT_DATA__</code> or <code class="text-[13px] bg-[#f5f5f4] px-1 py-0.5 rounded">__NUXT__</code>. CDNs and hosting platforms surface in custom HTTP headers that they always set on every response.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">What You Can Do With This Information</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Plan a migration:</strong> If you discover a prospect runs WordPress, you know they can move to a different host with a couple of plugins and a few hours of work. If they run Webflow, migrating means rebuilding from scratch — a different conversation entirely. Quoting accurately starts with knowing what you are quoting against.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Diagnose SEO issues:</strong> Some CMS configurations have known SEO weaknesses. Default Wix sites historically had limited control over meta tags. Some Shopify themes auto-generate canonical tags incorrectly. Knowing the platform tells you which checklist to run and which specific gotchas to look for.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Compete more intelligently:</strong> If your top competitor ranks well on Shopify, that tells you Shopify SEO is strong enough to win in your niche — no need to over-engineer. If they run a Next.js stack with custom React components, that signals heavy engineering investment and a different competitive playing field.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Audit your own site:</strong> Sometimes the answer is "we don't actually know." A site you inherited, a project a former contractor built, a brand acquisition with no docs. The CMS detector is the fastest way to start mapping what you own and where to invest next.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">CMS Detector Comparison</h2>
+    <div class="overflow-x-auto mb-5">
+      <table class="w-full text-[14px]">
+        <thead>
+          <tr class="border-b-2 border-[#e7e5e4]">
+            <th class="py-3 pr-4 text-left font-semibold text-[#292524]">Feature</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#4f39f6]">theStacc</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">Wappalyzer</th>
+            <th class="py-3 px-4 text-center font-semibold text-[#57534e]">BuiltWith</th>
+            <th class="py-3 pl-4 text-center font-semibold text-[#57534e]">What CMS</th>
+          </tr>
+        </thead>
+        <tbody class="text-[#57534e]">
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Price</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Free</td><td class="py-2.5 px-4 text-center">Freemium</td><td class="py-2.5 px-4 text-center">Paid ($295+/mo)</td><td class="py-2.5 pl-4 text-center">Free</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Signup required</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">No</td><td class="py-2.5 px-4 text-center">No (extension)</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Browser extension needed</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">No</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Security header check</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — 6 headers</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Confidence scoring</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">High / Medium / Low</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Category grouping</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — 14 categories</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">Basic</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Detection signal details</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — expandable</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr class="border-b border-[#f3f4f6]"><td class="py-2.5 pr-4">Copy stack to clipboard</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">Yes</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+          <tr><td class="py-2.5 pr-4">Linked SEO tools</td><td class="py-2.5 px-4 text-center font-medium text-[#4f39f6]">Yes — audit, meta tags</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 px-4 text-center">No</td><td class="py-2.5 pl-4 text-center">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Use Cases by Role</h2>
+    <div class="space-y-3 mb-5">
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">SEO Agencies & Consultants</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Before pitching a prospect, run their site through the detector. If they are on WordPress with Elementor, you know exactly which plugins to recommend and what SEO limitations to address. If they are on Shopify, you know the URL structure constraints and which apps handle SEO. This intel turns generic pitches into specific, credible proposals that close faster.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Web Developers & Freelancers</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">When inheriting a project with no documentation, the CMS detector reveals the entire stack in seconds. Is it a custom Next.js app on Vercel? A WordPress site on shared hosting? A Webflow site that the client wants migrated? Knowing the full tech stack — including the CDN, analytics, and marketing tools — lets you scope projects accurately and avoid nasty surprises mid-build.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Marketing Teams</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Discover which tools your competitors use for analytics, marketing automation, and conversion tracking. If a competitor uses HubSpot, Hotjar, and Intercom, they are running a sophisticated inbound marketing operation. If they use only Google Analytics, there is an opportunity gap. Use this intelligence to benchmark your own martech stack and justify budget for missing tools.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Business Owners</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">If you inherited a website from a former employee, contractor, or acquisition, you may not know what platform it runs on or how to update it. The CMS detector tells you immediately. It also checks security headers, which matters for compliance and customer trust. A site missing basic security headers signals neglect — something to address before it becomes a liability.</p>
+      </div>
+      <div class="rounded-xl border border-[#e7e5e4] bg-white p-4">
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">Investors & Acquirers</p>
+        <p class="font-sans text-[13px] text-[#57534e] mt-1">Due diligence on digital assets starts with understanding the tech stack. A SaaS company running on a modern Jamstack framework signals engineering maturity. An e-commerce site on a deprecated Magento version signals technical debt and migration risk. The CMS detector gives you this information in seconds, without needing access to the company's internal systems.</p>
+      </div>
+    </div>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">CMS Choice and SEO Performance</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">All major CMSes can rank well on Google if configured correctly, but each has different default strengths and weaknesses. <strong class="text-[#292524]">WordPress</strong> with a good SEO plugin (Yoast or RankMath) gives you full control over titles, descriptions, schema, redirects, sitemaps, and crawl directives — at the cost of having to maintain plugins and updates. <strong class="text-[#292524]">Shopify</strong> handles e-commerce SEO well by default but limits control over URL structure and some technical SEO features.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">Webflow</strong> gives designers strong control over on-page elements and clean code output, but its CMS collections have caps on item counts and some operations require manual export. <strong class="text-[#292524]">Wix</strong> has improved SEO significantly in recent years with full control over titles, descriptions, structured data, and sitemap. <strong class="text-[#292524]">Squarespace</strong> handles basic SEO well out of the box but offers fewer technical controls than WordPress for advanced cases.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Modern <strong class="text-[#292524]">Jamstack frameworks</strong> like Astro, Next.js, and SvelteKit produce extremely fast, well-structured sites that rank well on technical merit but require developer involvement for content changes. <strong class="text-[#292524]">Headless CMS</strong> setups (Contentful, Sanity, Strapi powering a custom frontend) combine flexible authoring with custom-built frontend SEO, but cost more to build and maintain.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Frequently Asked Questions</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What is a CMS detector and why would I use one?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">A CMS detector identifies which content management system, e-commerce platform, framework, web server, and other technologies are powering a website. You would use one to plan migrations, diagnose SEO issues, research competitors, or audit a site you inherited without documentation.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How does this CMS detector work?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">We fetch the public HTML of the URL you provide, then run it through 70+ technology signatures. Each signature looks for unique fingerprints. We score the matches — more independent signals means higher confidence. Results are cached for one hour.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What technologies can this detector identify?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">CMS platforms (WordPress, Drupal, Joomla, Wix, Squarespace, Webflow), e-commerce (Shopify, WooCommerce, Magento), frameworks (Next.js, Astro, Remix), web servers (Nginx, Apache), languages (PHP, Node.js, Python), CDNs (Cloudflare, Fastly), hosting (Vercel, Netlify), analytics (Google Analytics, Plausible), and CSS frameworks (Bootstrap, Tailwind).</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How accurate is the detection?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">CMSes with obvious fingerprints are detected with 95%+ accuracy. Frameworks like Astro and Next.js are detected with similar accuracy via build-time markers. Heavily customized setups with stripped headers may show lower confidence. Every detection is labeled high, medium, or low confidence.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Why do some sites show "no CMS detected"?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">The site might be static HTML with no CMS, the CMS may strip identifying headers for security, the site might be behind a strict WAF, or it could use an uncommon platform. Try a different page on the same domain.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Can it detect WordPress themes and plugins?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Theme detection is not included yet. We do detect popular page builders like Elementor, Divi, and WPBakery when present. Full theme and plugin detection is on the roadmap for a future version.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How is this different from Wappalyzer or BuiltWith?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Wappalyzer is a browser extension that runs locally. BuiltWith is a paid lookup service with a large historical database. This tool is web-based, free, no signup, and built for SEO professionals — every detection links to relevant SEO tools and shows how to optimize for the platform.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">Is this CMS detector free?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Yes, 100% free with no signup. Enter any URL and get an instant tech stack report with confidence scores, security header checks, and categorized results. No rate limits for normal use. Detections are cached for one hour.</p>
+        </div>
+      </div>
+      <div class="border-b border-[#f3f4f6]">
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">What are security headers and why do they matter?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Security headers are HTTP response headers that tell browsers how to handle your website securely. The six we check are Strict-Transport-Security, Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy. Missing headers do not directly affect SEO but signal site maturity and protect visitors.</p>
+        </div>
+      </div>
+      <div>
+        <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+          <span class="font-sans text-[15px] font-semibold text-[#111827]">How can I use CMS detection data for competitive research?</span>
+          <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="tool-faq-answer hidden px-6 pb-5">
+          <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Knowing competitors' tech stacks reveals strategic intelligence. If they rank well on Shopify, that tells you Shopify SEO is strong enough for your niche. If they use HubSpot, Hotjar, and Intercom, they have a sophisticated inbound operation. Use this to benchmark your own investment and identify gaps.</p>
+        </div>
+      </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">More Free SEO Tools</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/tools/seo-audit/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">SEO Audit</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Full audit with authority data</p>
+          </a>
+          <a href="/tools/meta-tag-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Meta Tag Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">SERP comparison + AI rewrites</p>
+          </a>
+          <a href="/tools/website-seo-score/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Website SEO Score</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">6-category score with authority</p>
+          </a>
+          <a href="/tools/headline-analyzer/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Headline Analyzer</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Score headlines on 8 dimensions</p>
+          </a>
+          <a href="/tools/internal-link-suggester/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Internal Link Suggester</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Find link opportunities on any page</p>
+          </a>
+          <a href="/tools/schema-markup-generator/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Schema Markup Generator</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Generate JSON-LD with real PAA</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">This tool requires JavaScript. Please enable it in your browser.</p></div></noscript>
+    <script is:inline src="/js/cms-detector-engine.js"></script>
+  </Fragment>
+</ToolLayout>

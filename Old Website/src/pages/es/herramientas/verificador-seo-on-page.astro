@@ -1,0 +1,286 @@
+---
+import ToolLayout from '../../../components/tools/ToolLayout.astro';
+
+const pageTitle = 'Verificador de SEO On-Page Gratuito para Negocios Locales | theStacc';
+const pageDescription = 'Comprueba si tu página está optimizada para tu keyword objetivo. Análisis de 15 factores: ubicación de keywords, calidad de contenido y señales técnicas. Gratis, resultados instantáneos.';
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Verificador de SEO On-Page Gratuito',
+  description: 'Comprueba si tu página está optimizada para una keyword objetivo. Análisis de 15 factores: ubicación de keywords, calidad de contenido y señales técnicas con instrucciones específicas para corregir.',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  author: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: '¿Qué es el SEO on-page?', acceptedAnswer: { '@type': 'Answer', text: 'El SEO on-page es la práctica de optimizar páginas web individuales para que posicionen mejor para keywords específicas. Incluye colocar tu keyword objetivo en ubicaciones clave como el title tag, el encabezado H1, la meta descripción, la URL y el contenido del cuerpo, además de optimizar la longitud del contenido, la estructura de encabezados, los enlaces internos, el texto alternativo de imágenes y señales técnicas como la velocidad de página y el schema markup.' } },
+    { '@type': 'Question', name: '¿Cómo funciona este verificador de SEO on-page?', acceptedAnswer: { '@type': 'Answer', text: 'Introduce una URL y una keyword objetivo. La herramienta obtiene tu página, analiza 15 factores on-page agrupados en ubicación de keywords, calidad de contenido y señales técnicas, y puntúa cada uno. Obtienes una puntuación porcentual, un mapa de uso de keywords que muestra dónde aparece tu keyword, resultados de verificaciones agrupados con instrucciones de corrección, una vista previa de SERP y sugerencias de mejora priorizadas.' } },
+    { '@type': 'Question', name: '¿Qué es una buena puntuación de SEO on-page?', acceptedAnswer: { '@type': 'Answer', text: 'Una puntuación de 75% o superior (grado B) significa que tu página está bien optimizada para tu keyword objetivo. Las puntuaciones superiores al 90% son excelentes. La mayoría de páginas obtienen entre 40-60% en su primera verificación porque les falta la keyword en ubicaciones clave como el H1, la meta descripción o el texto alternativo de imágenes. Enfócate en las sugerencias principales para mejorar rápido.' } },
+    { '@type': 'Question', name: '¿Qué es la densidad de keywords y cuánto es demasiado?', acceptedAnswer: { '@type': 'Answer', text: 'La densidad de keywords es el porcentaje de veces que aparece tu keyword en relación al recuento total de palabras. Una densidad del 1-3% se considera óptima para la mayoría de páginas. Por debajo del 0,5% significa que estás utilizando poco tu keyword. Por encima del 3% existe riesgo de keyword stuffing, que Google puede penalizar. Escribe de forma natural para el usuario y comprueba la densidad después.' } },
+    { '@type': 'Question', name: '¿Dónde debe aparecer mi keyword objetivo en la página?', acceptedAnswer: { '@type': 'Answer', text: 'Por orden de prioridad: title tag (más importante), encabezado H1, primeras 100 palabras del contenido, meta descripción, subencabezados (H2/H3), slug de URL, texto alternativo de imágenes y a lo largo del contenido del cuerpo. El title tag y el H1 tienen el mayor peso para el posicionamiento.' } },
+    { '@type': 'Question', name: '¿Es gratuito este verificador de SEO on-page?', acceptedAnswer: { '@type': 'Answer', text: 'Sí, 100% gratuito sin registro requerido. Introduce cualquier URL y keyword objetivo para obtener un análisis completo de 15 puntos on-page con instrucciones de corrección. Todo se ejecuta en tu navegador.' } },
+  ],
+};
+---
+
+<ToolLayout
+  title={pageTitle}
+  description={pageDescription}
+  toolName="Verificador de SEO On-Page Gratuito"
+  toolDescription="Introduce una URL y keyword objetivo. Obtén un análisis de 15 factores: ubicación de keywords, profundidad de contenido y señales técnicas con instrucciones específicas de corrección."
+  lang="es"
+  schema={softwareSchema}
+  faqSchema={faqSchema}
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <!-- ==================== TOOL ==================== -->
+  <Fragment slot="tool">
+    <!-- Input Section -->
+    <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+      <div class="space-y-4">
+        <div>
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">URL de la página <span class="text-red-500">*</span></label>
+          <input type="url" id="url-input" required placeholder="ej., smithfamilydental.com/servicios"
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+        </div>
+        <div>
+          <label class="block font-mono text-xs font-medium uppercase tracking-wide text-[#79716b] mb-1.5">Keyword objetivo <span class="text-red-500">*</span></label>
+          <input type="text" id="keyword-input" required maxlength="100" placeholder="ej., dentista en Madrid, fontanero de urgencia"
+            class="w-full rounded-lg border border-[#e7e5e4] bg-white px-4 py-3 text-[15px] text-[#292524] placeholder:text-[#79716b] focus:border-[#4f39f6] focus:ring-1 focus:ring-[#4f39f6] outline-none transition-colors" />
+          <p class="mt-1 text-[11px] text-[#79716b]">El término de búsqueda para el que quieres posicionar esta página</p>
+        </div>
+        <button id="check-btn" class="w-full rounded-xl border border-[#4f39f6] bg-[#615fff] px-6 py-3.5 font-mono text-sm font-bold uppercase text-white hover:bg-[#4f39f6] cursor-pointer disabled:opacity-50 transition-colors">
+          Verificar SEO On-Page
+        </button>
+      </div>
+      <p id="form-error" class="mt-2 hidden text-xs text-red-500"></p>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading-section" class="mt-6 hidden rounded-2xl border border-[#e7e5e4] bg-white p-6">
+      <div class="space-y-3">
+        <div class="flex items-center gap-3 step" data-step="fetch">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Obteniendo tu página&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="keyword">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Analizando ubicación de keywords&hellip;</span>
+        </div>
+        <div class="flex items-center gap-3 step" data-step="scoring">
+          <span class="step-icon w-5 h-5 text-[#79716b]"><svg class="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/><path d="M12 2a10 10 0 019.8 8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <span class="text-[14px] text-[#57534e]">Puntuando la optimización&hellip;</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="error-section" class="mt-6 hidden rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+      <svg class="mx-auto mb-3" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      <p class="text-[15px] text-red-700 font-medium">Algo salió mal</p>
+      <p class="error-msg mt-1 text-[13px] text-red-600">Revisa la URL e inténtalo de nuevo. Asegúrate de que el sitio web sea accesible públicamente.</p>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results-section" class="mt-6 hidden space-y-6">
+      <!-- Score Gauge -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8 flex flex-col items-center">
+        <svg viewBox="0 0 200 200" class="w-48 h-48" id="score-gauge">
+          <circle cx="100" cy="100" r="85" fill="none" stroke="#e7e5e4" stroke-width="12"/>
+          <circle cx="100" cy="100" r="85" fill="none" stroke="#22C55E" stroke-width="12" stroke-linecap="round"
+            stroke-dasharray="534" stroke-dashoffset="534" transform="rotate(-90 100 100)"
+            id="gauge-arc" style="transition:stroke-dashoffset 1.5s ease-out,stroke 0.3s"/>
+          <text x="100" y="88" text-anchor="middle" font-size="48" font-weight="bold" fill="#292524" id="gauge-score">0</text>
+          <text x="100" y="108" text-anchor="middle" font-size="12" fill="#79716b" id="gauge-label">%</text>
+          <text x="100" y="130" text-anchor="middle" font-size="14" fill="#79716b" id="gauge-points">0/80 puntos</text>
+          <text x="100" y="155" text-anchor="middle" font-size="22" font-weight="bold" id="gauge-grade" fill="#22C55E">&mdash;</text>
+        </svg>
+        <p id="grade-label" class="mt-2 text-[15px] font-medium text-[#57534e]"></p>
+      </div>
+
+      <!-- Keyword Usage Map -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <h2 class="font-semibold text-[16px] text-[#292524] mb-4">Mapa de Uso de Keywords</h2>
+        <div id="keyword-map" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+      </div>
+
+      <!-- Grouped Check Lists -->
+      <div id="checks-section" class="space-y-5"></div>
+
+      <!-- Content Analysis Box -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <h2 class="font-semibold text-[16px] text-[#292524] mb-4">Análisis de Contenido</h2>
+        <div id="content-stats" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+      </div>
+
+      <!-- SERP Preview -->
+      <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6">
+        <h2 class="font-semibold text-[16px] text-[#292524] mb-4">Vista Previa en Google</h2>
+        <div id="serp-preview" class="rounded-lg border border-[#e7e5e4] bg-[#fafaf9] p-4"></div>
+        <div id="serp-warnings" class="mt-3 space-y-1"></div>
+      </div>
+
+      <!-- Top 5 Suggestions -->
+      <div id="suggestions-section" class="hidden rounded-2xl border-2 border-[#ddd6fe] bg-[#faf5ff] p-6">
+        <h2 class="font-semibold text-[16px] text-[#292524] mb-4">Principales Mejoras</h2>
+        <ol id="suggestions-list" class="space-y-3"></ol>
+      </div>
+    </div>
+    </div>
+  </Fragment>
+
+  <!-- ==================== CTA ==================== -->
+  <Fragment slot="cta">
+    <section id="cta-b" class="hidden relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.45) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center"><div class="mx-auto max-w-lg">
+        <p class="font-sans text-[22px] font-bold leading-tight text-white">Acabas de optimizar 1 página.<br/>Stacc publica 30 artículos optimizados al mes.</p>
+        <p class="mt-3 font-sans text-[15px] leading-relaxed text-[#94a3b8]">Cada artículo apunta a las keywords que buscan tus clientes &mdash; optimizado, publicado y posicionando. Desde $99/mes.</p>
+        <a href="/es/demo/" class="mt-6 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">Empieza tu Prueba por $1 &rarr;</a>
+        <p class="mt-3 font-mono text-xs text-[#64748b]">$1 durante 30 días &middot; Cancela cuando quieras</p></div>
+      </div>
+    </section>
+  </Fragment>
+
+  <!-- ==================== SEO CONTENT ==================== -->
+  <Fragment slot="content">
+    <h2 class="text-xl font-semibold text-[#292524] mb-3">¿Qué es el SEO On-Page y Por Qué Importa?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">El SEO on-page es la práctica de optimizar páginas web individuales para que posicionen mejor en los resultados de búsqueda para keywords específicas. A diferencia del SEO off-page (backlinks, citas) o el SEO técnico (velocidad del sitio, rastreabilidad), el SEO on-page se centra en el contenido y los elementos HTML que viven directamente en tu página. Es el único área del SEO sobre el que tienes control total.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">El principio básico es simple: Google necesita entender de qué trata tu página y si ofrece la mejor respuesta para una consulta de búsqueda determinada. Cuando alguien busca "fontanero urgente Madrid", Google escanea tu página en busca de señales de que es relevante para esa frase exacta. ¿Dónde aparece la keyword? ¿Está en el title tag, en el encabezado H1, en el primer párrafo? ¿Con qué profundidad cubre tu contenido el tema?</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Para los negocios locales, el SEO on-page es especialmente valioso porque tus competidores suelen descuidarlo por completo. La mayoría de sitios web de negocios locales tienen title tags genéricos como "Inicio" o "Servicios", meta descripciones ausentes, ninguna estrategia de keywords y contenido escaso que apenas le dice a Google qué hace el negocio. Corregir estos problemas puede llevarte de la tercera página a la primera en semanas, no en meses.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Esta herramienta analiza tu página frente a una keyword objetivo específica y te indica exactamente dónde aparece esa keyword, dónde falta y qué debes corregir. Cada recomendación es accionable y está priorizada por impacto.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Los 15 Factores On-Page que Verifica Esta Herramienta</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Esta herramienta evalúa 15 factores de SEO on-page organizados en tres grupos. Cada verificación se puntúa individualmente y el total determina tu porcentaje de optimización general.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Ubicación de Keywords (8 verificaciones)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Estas verificaciones evalúan si tu keyword objetivo aparece en las ubicaciones más importantes de la página. El <strong class="text-[#292524]">title tag</strong> tiene el mayor peso porque es un factor de posicionamiento confirmado de Google y el texto del enlace azul en los resultados de búsqueda. El <strong class="text-[#292524]">encabezado H1</strong> le indica tanto a los usuarios como a los motores de búsqueda el tema principal de la página. El uso de keywords en la <strong class="text-[#292524]">meta descripción</strong> mejora las tasas de clics. Las <strong class="text-[#292524]">primeras 100 palabras</strong> señalan relevancia temática. Los <strong class="text-[#292524]">subencabezados</strong> (H2/H3) refuerzan el tema de la keyword. La inclusión de la keyword en la <strong class="text-[#292524]">URL</strong> aporta una señal de relevancia adicional. El <strong class="text-[#292524]">texto alternativo de imágenes</strong> ayuda con el posicionamiento en Google Imágenes. Finalmente, la <strong class="text-[#292524]">densidad de keywords</strong> en el cuerpo debe estar entre el 1-3% para una optimización natural.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Calidad de Contenido (4 verificaciones)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Las verificaciones de calidad de contenido miden si tu página tiene suficiente sustancia para posicionar competitivamente. La <strong class="text-[#292524]">extensión del contenido</strong> importa porque Google tiende a posicionar mejor el contenido más largo y completo. Los <strong class="text-[#292524]">enlaces internos</strong> ayudan a Google a descubrir páginas relacionadas en tu sitio. Los <strong class="text-[#292524]">enlaces externos</strong> a fuentes autorizadas señalan que tu contenido está bien investigado. La <strong class="text-[#292524]">estructura de encabezados</strong> garantiza que tu página esté bien organizada con un único H1 y encabezados H2/H3 anidados lógicamente.</p>
+
+    <h3 class="text-[17px] font-semibold text-[#292524] mt-6 mb-2">Señales Técnicas (3 verificaciones)</h3>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La <strong class="text-[#292524]">optimización de imágenes</strong> verifica que todas las imágenes tengan texto alternativo descriptivo, lo que importa para la accesibilidad y la búsqueda por imágenes. El <strong class="text-[#292524]">schema markup</strong> (datos estructurados JSON-LD) ayuda a los motores de búsqueda a entender tu tipo de contenido y puede habilitar resultados enriquecidos. La <strong class="text-[#292524]">velocidad de página</strong> es un factor de posicionamiento confirmado que también afecta la experiencia del usuario. Estas tres señales técnicas completan el análisis on-page y a menudo revelan mejoras rápidas que el análisis solo de contenido pasa por alto.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">¿Dónde Debe Aparecer tu Keyword?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">No todas las ubicaciones de keywords tienen el mismo peso. Este es el orden de prioridad, de más a menos importante, según cómo Google pondera las señales on-page:</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">1. Title Tag</strong>. La ubicación on-page más importante. Tu keyword objetivo debe aparecer cerca del inicio del title tag. Un título como "Fontanero de Urgencia en Madrid | Servicio 24/7" es mucho más fuerte que "Nuestros Servicios | ABC Fontanería" para la keyword "fontanero de urgencia en Madrid".</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">2. Encabezado H1</strong>. Cada página debe tener exactamente un H1 y debe contener tu keyword. Este es normalmente el titular principal visible en la página. Google lo usa para confirmar el tema señalado por el title tag.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">3. Primeras 100 Palabras</strong>. Google presta más atención al contenido situado al inicio de la página. Mencionar tu keyword en el párrafo de apertura le indica inmediatamente a los motores de búsqueda de qué trata la página. No entierres tu keyword 500 palabras más adelante.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">4. Subencabezados (H2/H3)</strong>. Usar tu keyword o variaciones cercanas en al menos un subencabezado refuerza la relevancia temática y ayuda con los fragmentos destacados. También mejora la legibilidad para los usuarios que hojean la página.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">5. Contenido del Cuerpo</strong>. Tu keyword debe aparecer de forma natural a lo largo del contenido con una densidad del 1-3%. No la fuerces. Escribe para las personas primero, luego verifica que la keyword aparece suficientes veces.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">6. Slug de URL</strong>. Una URL como /fontanero-urgencia-madrid es más fuerte que /pagina-id-12345. Mantén las URLs cortas, legibles y con keywords.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">7. Texto Alternativo de Imágenes</strong>. Describe tus imágenes usando la keyword donde sea natural. Esto ayuda con el tráfico de Google Imágenes y el cumplimiento de accesibilidad.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3"><strong class="text-[#292524]">8. Meta Descripción</strong>. Aunque no es un factor de posicionamiento directo, incluir tu keyword en la meta descripción hace que Google la resalte en los resultados de búsqueda, lo que aumenta significativamente las tasas de clics.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">SEO On-Page para Negocios Locales</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Los negocios locales tienen una ventaja única con el SEO on-page: tus keywords objetivo casi siempre incluyen una ciudad o área de servicio. Keywords como "dentista en Madrid", "fontanero urgente Barcelona" o "abogado de accidentes Valencia" tienen una intención local clara. Google recompensa a las páginas que coinciden con esta intención con contenido específico y localizado.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La estrategia ganadora es sencilla. Crea una página dedicada para cada combinación de servicio y ciudad para la que quieres posicionar. "Implantes dentales en Madrid" debe tener su propia página, separada de "blanqueamiento dental en Madrid". Cada página debe tener un title tag único que contenga el servicio y la ciudad, un H1 que coincida y contenido del cuerpo que aborde específicamente ese servicio en esa ubicación.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Combina el SEO on-page con el <a href="/es/herramientas/generador-schema-markup/" class="text-[#615fff] hover:underline">schema markup de LocalBusiness</a>, un Perfil de Negocio en Google activo y reseñas de clientes. Este enfoque de múltiples señales es como los negocios locales dominan los resultados de búsqueda en su área.</p>
+
+    <h2 class="text-xl font-semibold text-[#292524] mt-8 mb-3">Densidad de Keywords: ¿Cuánto es Demasiado?</h2>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">La densidad de keywords es el porcentaje de veces que aparece tu keyword objetivo en relación al recuento total de palabras de la página. El rango óptimo es del <strong class="text-[#292524]">1-3%</strong> para la mayoría de páginas.</p>
+    <p class="text-[15px] text-[#57534e] leading-relaxed mb-3">Por debajo del 0,5% suele significar que no has mencionado tu keyword lo suficiente. Por encima del 3% empieza a resultar antinatural para los lectores y puede activar los filtros de keyword stuffing de Google. La mejor estrategia es escribir de forma natural para tu audiencia primero, y luego comprobar la densidad con esta herramienta.</p>
+
+    <h2 class="mt-10 font-sans text-[20px] font-bold tracking-[-0.02em] text-[#292524]">Preguntas Frecuentes</h2>
+    <div class="overflow-hidden rounded-2xl border border-[#e5e7eb] bg-white shadow-sm">
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Qué es el SEO on-page?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">El SEO on-page es optimizar páginas web individuales para posicionar mejor para keywords específicas. Incluye la ubicación de keywords en lugares clave (título, H1, contenido), calidad del contenido, estructura de encabezados, enlaces internos, optimización de imágenes y señales técnicas como el schema markup y la velocidad de página.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Cómo funciona este verificador de SEO on-page?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Introduce una URL y keyword objetivo. La herramienta obtiene la página, analiza 15 factores on-page en ubicación de keywords, calidad de contenido y señales técnicas, y devuelve un informe puntuado con un mapa de uso de keywords, vista previa de SERP y sugerencias de corrección priorizadas.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Qué es una buena puntuación de SEO on-page?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Una puntuación de 75% o superior (grado B) es buena. Por encima del 90% es excelente. La mayoría de páginas obtienen un 40-60% en la primera verificación por la ausencia de keywords en el H1, la meta descripción o el texto alternativo de imágenes. Enfócate en las principales sugerencias de mejora.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Qué es la densidad de keywords y cuánto es demasiado?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">La densidad de keywords es el porcentaje de veces que aparece tu keyword en relación al recuento total de palabras. El rango óptimo es del 1-3%. Por debajo del 0,5% significa infrauso; por encima del 3% se arriesga a penalizaciones por keyword stuffing. Escribe de forma natural y comprueba la densidad después.</p>
+      </div>
+    </div>
+    <div class="border-b border-[#f3f4f6]">
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Dónde debe aparecer mi keyword objetivo?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Por orden de prioridad: title tag, encabezado H1, primeras 100 palabras, subencabezados, contenido del cuerpo, slug de URL, texto alternativo de imágenes y meta descripción. El title tag y el H1 tienen el mayor peso para el posicionamiento.</p>
+      </div>
+    </div>
+    <div>
+      <button class="tool-faq-btn flex w-full cursor-pointer items-start justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-[#fafafa]" aria-expanded="false">
+        <span class="font-sans text-[15px] font-semibold text-[#111827]">¿Es gratuito este verificador de SEO on-page?</span>
+        <svg class="tool-faq-plus mt-0.5 shrink-0 text-[#9ca3af]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <svg class="tool-faq-minus hidden mt-0.5 shrink-0 text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="tool-faq-answer hidden px-6 pb-5">
+        <p class="font-sans text-[14px] leading-[1.7] text-[#4b5563]">Sí, 100% gratuito sin registro requerido. Introduce cualquier URL y keyword objetivo para obtener un análisis completo de 15 puntos con instrucciones de corrección. Todo se ejecuta en tu navegador.</p>
+      </div>
+    </div>
+  </div>
+  </Fragment>
+
+  <!-- ==================== RELATED TOOLS + SCRIPT ==================== -->
+  <Fragment slot="related">
+    <section class="border-t border-[#e7e5e4] px-6 py-10">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="font-sans text-[20px] font-semibold text-[#292524]">Más Herramientas SEO Gratuitas</h2>
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <a href="/es/herramientas/puntuacion-seo-sitio/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Puntuación SEO del Sitio</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Auditoría SEO completa en 6 categorías</p>
+          </a>
+          <a href="/es/herramientas/analizador-meta-tags/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Analizador de Meta Tags</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Verifica meta tags y vistas previas sociales</p>
+          </a>
+          <a href="/es/herramientas/generador-schema-markup/" class="group rounded-xl border border-[#e7e5e4] bg-white p-5 transition-colors hover:border-[#c4b5fd]">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f5f3ff]"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <p class="mt-3 font-sans text-[14px] font-semibold text-[#292524] group-hover:text-[#4f39f6]">Generador de Schema Markup</p>
+            <p class="mt-1 font-sans text-[13px] text-[#79716b]">Genera schema de LocalBusiness y FAQ</p>
+          </a>
+        </div>
+      </div>
+    </section>
+    <noscript><div class="mx-auto max-w-2xl px-6 py-12 text-center"><p class="text-[15px] text-[#79716b]">Esta herramienta requiere JavaScript. Por favor, actívalo en tu navegador.</p></div></noscript>
+    <script is:inline src="/js/on-page-checker-engine.js"></script>
+  </Fragment>
+</ToolLayout>

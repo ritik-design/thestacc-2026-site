@@ -1,0 +1,324 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/de/HeaderDe.astro';
+import Footer from '../../../components/de/FooterDe.astro';
+import { SITE_URL, buildBreadcrumbs } from '../../../utils/schema';
+
+const customers = [
+  { name: "ReplyDaddy",          logo: "/customer-logos/replydaddy.webp",          showName: true  },
+  { name: "NoobBookLM",          logo: "/customer-logos/noobbooklm.webp",          showName: true  },
+  { name: "ChartMath",           logo: "/customer-logos/chartmath.webp",           showName: true  },
+  { name: "Heaven Designs",      logo: "/customer-logos/heaven-designs.webp",      showName: false },
+  { name: "Solar EPC Company", logo: "/customer-logos/heaven-green-energy.webp", showName: false },
+  { name: "Qbits Energy",        logo: "/customer-logos/qbits.webp",               showName: false },
+  { name: "QuickEstimate",       logo: "/customer-logos/quickestimate.webp",       showName: false },
+  { name: "Suncart",             logo: "/customer-logos/suncart.svg",              showName: false },
+  { name: "Intello",             logo: "/customer-logos/intello.webp",             showName: false },
+];
+
+const features = [
+  { title: 'Automatische GBP-Beiträge', text: '30 Google-Business-Profile-Beiträge pro Monat — verknüpft mit Ihren Leistungen, aktuellen Angeboten und saisonalen Themen. Täglich veröffentlicht, ohne dass Sie einloggen.' },
+  { title: 'KI-Bewertungsantworten', text: 'Jede neue Bewertung erhält innerhalb einer Stunde einen KI-verfassten Antwortentwurf. Ihre Bewertungsrate bleibt hoch. Potenzielle Kunden sehen ein reaktionsschnelles Unternehmen.' },
+  { title: 'Lokales Keyword-Tracking', text: 'Verfolgen Sie Ihre Rankings für jeden lokalen Suchbegriff in Ihrer Stadt. Sehen Sie genau, wie sich Ihre Position täglich verändert — ohne manuell nach sich selbst zu googeln.' },
+  { title: 'Wettbewerber-GBP-Analyse', text: 'Sehen Sie, wie oft Ihre Wettbewerber posten, welche Keywords sie nutzen und wie Sie im Vergleich abschneiden. Informationen, die die meisten lokalen Unternehmen nie haben.' },
+  { title: 'Multi-Standort-Unterstützung', text: 'Verwalten Sie mehrere Unternehmensstandorte von einer Plattform aus. Jeder Standort erhält seinen eigenen lokalen Content-Stream, angepasst an seinen spezifischen Markt.' },
+  { title: 'Tägliches Monitoring', text: 'Stündliche Überprüfung auf neue Bewertungen, Fragen und GBP-Aktivitäten. Kein kritisches Update entgeht Ihnen, und Sie reagieren immer zuerst.' },
+];
+
+const howItWorksSteps = [
+  { n: '01', title: 'GBP-Profil verbinden', body: 'Verbinden Sie Ihr Google Business Profile in weniger als 5 Minuten. Stacc liest Ihre bestehenden Beiträge, Bewertungen und Profilinformationen, um Ihren Ausgangspunkt zu verstehen.' },
+  { n: '02', title: 'Lokale Keywords identifizieren', body: 'Stacc führt eine Keyword-Recherche für Ihren spezifischen Standort und Ihre Branche durch. Welche Begriffe suchen Kunden in Ihrer Nähe? Was tun Ihre Wettbewerber?' },
+  { n: '03', title: 'Automatische Beiträge starten', body: '30 GBP-Beiträge pro Monat — geplant und veröffentlicht. Jeder Beitrag ist auf aktuelle Angebote, Saisons und lokale Keywords abgestimmt.' },
+  { n: '04', title: 'Bewertungen überwachen und antworten', body: 'Bei jeder neuen Bewertung erstellt Stacc sofort einen professionellen Antwortentwurf. Genehmigen oder automatisch veröffentlichen. Ihr Bewertungs-Score verbessert sich kontinuierlich.' },
+];
+
+const faqs = [
+  {
+    q: "Warum sind Google-Business-Profile-Beiträge so wichtig?",
+    a: "Das Google Business Profile ist die sichtbarste Stelle in der lokalen Suche. Unternehmen, die regelmäßig posten, ranken höher in Google Maps und erhalten mehr Klicks auf ihre Website. Ein inaktives GBP ist für Google ein Signal, dass das Unternehmen möglicherweise nicht mehr aktiv ist. 30 Beiträge pro Monat halten Ihr Profil aktiv, relevant und sichtbar.",
+  },
+  {
+    q: "Wie schnell verbessert sich mein Maps-Ranking?",
+    a: "Die meisten Kunden sehen innerhalb von 30–60 Tagen konsequenter Aktivität messbare Ranking-Verbesserungen in Google Maps. Bewertungsantworten wirken sich sofort auf die Wahrnehmung aus — neue Kunden sehen ein engagiertes Unternehmen, bevor sie jemals anrufen.",
+  },
+  {
+    q: "Was passiert mit meinen bestehenden Bewertungen?",
+    a: "Stacc importiert Ihre bestehenden Bewertungen und bietet Ihnen die Möglichkeit, ausstehende Bewertungen nachträglich zu beantworten. Für neue Bewertungen wird innerhalb einer Stunde ein Antwortentwurf erstellt.",
+  },
+  {
+    q: "Kann ich die GBP-Beiträge vor der Veröffentlichung überprüfen?",
+    a: "Ja. Jeder Beitrag kann vor der Veröffentlichung in der Überprüfungswarteschlange bearbeitet oder genehmigt werden. Sie können auch die automatische Veröffentlichung aktivieren — die meisten Kunden tun dies nach dem ersten Monat, wenn sie die Qualität der Beiträge gesehen haben.",
+  },
+  {
+    q: "Was ist Multi-Standort-Unterstützung?",
+    a: "Wenn Sie mehrere Unternehmensstandorte haben, verwaltet Stacc jeden Standort separat. Jeder Standort erhält seinen eigenen lokalen Content-Stream, angepasst an seine spezifische Stadt, seinen Markt und seine lokalen Keywords. Ein Dashboard für alle Standorte.",
+  },
+  {
+    q: "Kann ich jederzeit kündigen?",
+    a: "Jederzeit. Keine Verträge, keine Strafen. Bei Kündigung bleiben Ihre Inhalte dauerhaft in Ihrem GBP. Nur die zukünftige automatische Veröffentlichung stoppt.",
+  },
+];
+
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      name: 'theStacc — Lokales SEO-Modul',
+      description: 'Automatisiertes Google-Business-Profile-Management mit täglichen Beiträgen, KI-Bewertungsantworten und lokalem Keyword-Tracking für lokale Unternehmen.',
+      url: `${SITE_URL}/de/module/lokales-seo/`,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      inLanguage: 'de',
+      offers: { '@type': 'Offer', price: '49.00', priceCurrency: 'USD' },
+      provider: { '@type': 'Organization', name: 'theStacc', url: SITE_URL },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/de/module/lokales-seo/`,
+      name: 'Lokales SEO-Modul | theStacc | Google Maps und lokale Suche dominieren',
+      url: `${SITE_URL}/de/module/lokales-seo/`,
+      inLanguage: 'de',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    buildBreadcrumbs(`${SITE_URL}/de/module/lokales-seo/`, [
+      { name: 'Startseite', url: `${SITE_URL}/de/` },
+      { name: 'Module', url: `${SITE_URL}/de/` },
+      { name: 'Lokales SEO', url: `${SITE_URL}/de/module/lokales-seo/` },
+    ]),
+  ],
+};
+---
+
+<BaseLayout
+  title="Lokales SEO-Modul | theStacc | Google Maps und lokale Suche dominieren"
+  description="Stacc veröffentlicht täglich Google-Business-Profile-Beiträge, antwortet auf Bewertungen mit KI und trackt Ihre lokalen Rankings. Für $49/Monat. Start für $1."
+  lang="de"
+>
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[760px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">Lokales SEO-Modul · $49/Monat zzgl. MwSt.</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Google Maps und lokale Suche<br class="hidden md:block" />
+            <span style="color:#4f39f6;">dauerhaft dominieren.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[560px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Stacc veröffentlicht täglich Google-Business-Profile-Beiträge, antwortet auf Bewertungen sofort mit KI und trackt jedes lokale Keyword in Ihrer Stadt. Automatisch. Auch wenn Sie sich seit Monaten nicht in Ihr GBP eingeloggt haben.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/de/demo/"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Für $1 heute starten
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/de/preise/"
+              class="inline-flex h-11 items-center rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]"
+            >
+              Preise ansehen
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            30 Tage Garantie · DSGVO-konform · Keine Kreditkarte erforderlich
+          </p>
+
+          <!-- Trust stats -->
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {[
+              { value: '10×',      label: 'Mehr GBP-Beiträge als Wettbewerber' },
+              { value: '<1 Std.',  label: 'Bewertungs-Reaktionszeit' },
+              { value: '4,7×',     label: 'Maps-Ranking-Verbesserung in 90 Tagen' },
+              { value: '4,9★',     label: 'Durchschnittsbewertung' },
+            ].map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]">{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SOCIAL PROOF STRIP ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-6">
+        <div class="mb-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-between">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#79716b]">Mit Stacc in Maps rankende Unternehmen</p>
+          <div class="flex items-center gap-1.5">
+            <div class="flex">
+              {[1,2,3,4,5].map(() => (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <span class="font-mono text-[11px] text-[#6b7280]">4,9 von 127 Bewertungen</span>
+          </div>
+        </div>
+        <div class="relative overflow-hidden">
+          <div class="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white to-transparent"></div>
+          <div class="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white to-transparent"></div>
+          <div class="flex animate-marquee">
+            {[...customers, ...customers].map((c) => (
+              <div class="flex shrink-0 items-center gap-2 mx-8">
+                <img src={c.logo} alt={c.name} width="120" height="40" class={c.showName ? "h-[28px] w-[28px] object-contain grayscale opacity-50" : "h-[32px] w-auto object-contain grayscale opacity-50"} loading="lazy" />
+                {c.showName && <span class="font-mono text-[15px] font-medium text-[#374151] whitespace-nowrap">{c.name}</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PROBLEM ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16 md:py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Das Problem</span>
+          <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2rem]">
+            Ein inaktives GBP-Profil ist ein unsichtbares Unternehmen.
+          </h2>
+          <p class="mx-auto mt-4 font-sans text-[15px] leading-relaxed text-[#57534e]">
+            Ihr Google Business Profile ist der wichtigste Faktor für lokale Rankings — wichtiger als Ihre Website. Unternehmen, die täglich posten, werden von Google bevorzugt behandelt. Die meisten lokalen Unternehmen posten einmal pro Monat, wenn überhaupt. Jeder Tag ohne Aktivität ist ein Tag, an dem Ihr Wettbewerber vor Ihnen erscheint.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-4xl grid grid-cols-1 gap-5 sm:grid-cols-3">
+          {[
+            { stat: '73 %', desc: 'der Kunden vertrauen einem Unternehmen mit regelmäßigen GBP-Updates mehr' },
+            { stat: '4×',   desc: 'mehr Profilaufrufe für Unternehmen, die wöchentlich posten' },
+            { stat: '89 %', desc: 'der Kunden lesen Antworten auf Bewertungen, bevor sie ein Unternehmen kontaktieren' },
+          ].map(s => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white px-6 py-8 text-center">
+              <p class="font-sans text-[2.5rem] font-bold tracking-tight text-[#4f39f6]">{s.stat}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.6] text-[#57534e]">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-16 md:py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">So funktioniert es</span>
+          <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2rem]">
+            Einmal verbinden. Dauerhaft sichtbar.
+          </h2>
+        </div>
+        <div class="mx-auto mt-10 max-w-4xl grid grid-cols-1 gap-5 md:grid-cols-2">
+          {howItWorksSteps.map(step => (
+            <div class="flex gap-5 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-7">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#4f39f6] font-mono text-[12px] font-bold text-white">{step.n}</span>
+              <div>
+                <h3 class="font-sans text-[15px] font-semibold text-[#111827]">{step.title}</h3>
+                <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{step.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FEATURES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16 md:py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Im Lieferumfang enthalten</span>
+          <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2rem]">
+            Alles für lokale Sichtbarkeit.
+          </h2>
+        </div>
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map(f => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-7">
+              <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#f0effe]">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              </div>
+              <h3 class="mt-4 font-sans text-[15px] font-semibold text-[#111827]">{f.title}</h3>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-16 md:py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Häufige Fragen</span>
+          <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2rem]">
+            Antworten, die Sie brauchen.
+          </h2>
+        </div>
+        <div class="mx-auto mt-12 max-w-3xl space-y-4">
+          {faqs.map(faq => (
+            <details class="group rounded-2xl border border-[#e7e5e4] bg-[#fafaf9]">
+              <summary class="flex cursor-pointer items-center justify-between gap-4 px-6 py-5">
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="shrink-0 transition-transform group-open:rotate-180" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <div class="border-t border-[#e7e5e4] px-6 py-5">
+                <p class="font-sans text-[14px] leading-[1.7] text-[#57534e]">{faq.a}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── CTA ─── -->
+    <section style="background:#ffffff;">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-[580px] text-center">
+          <h2 class="font-sans text-[2rem] font-semibold leading-[1.18] tracking-[-0.03em] text-[#292524] md:text-[2.4rem]">
+            Ihr Wettbewerber postet heute auf GBP. Sie noch nicht.
+          </h2>
+          <p class="mx-auto mt-4 font-sans text-[1rem] leading-[1.7]" style="color:#6b7280;">
+            Jeder Tag ohne GBP-Aktivität ist ein Tag, an dem Ihr Wettbewerber sichtbarer wird. Starten Sie für $49/Monat. Kein Vertrag. DSGVO-konform.
+          </p>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/de/demo/" class="inline-flex h-12 items-center gap-2 rounded-xl bg-[#4f39f6] px-8 font-sans text-[15px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+              Kostenlos starten
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="/de/preise/" class="inline-flex h-12 items-center rounded-xl border border-[#e7e5e4] bg-white/5 px-8 font-sans text-[15px] font-semibold text-white transition-colors hover:bg-white/10">
+              Preise ansehen
+            </a>
+          </div>
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#292524]/20">
+            $49/Monat zzgl. MwSt. · DSGVO-konform · Jederzeit kündbar
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>

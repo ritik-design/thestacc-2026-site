@@ -1,0 +1,183 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+
+const editorialSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': 'https://thestacc.com/pt-br/editorial/',
+      name: 'Padrões Editoriais | theStacc',
+      url: 'https://thestacc.com/pt-br/editorial/',
+      inLanguage: 'pt-BR',
+      isPartOf: { '@id': 'https://thestacc.com/#website' },
+      description: 'Como o theStacc cria, revisa e publica conteúdo. Nosso processo editorial, metodologia de verificação de fatos, política de divulgação em avaliações e padrões de qualidade de conteúdo.',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://thestacc.com/pt-br/' },
+        { '@type': 'ListItem', position: 2, name: 'Padrões Editoriais', item: 'https://thestacc.com/pt-br/editorial/' },
+      ],
+    },
+  ],
+};
+
+const standards = [
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+    title: 'Como Criamos Conteúdo',
+    body: 'Cada artigo do theStacc é planejado a partir de pesquisa de palavras-chave e análise de intenção de busca. Identificamos tópicos onde empresas precisam de orientação clara e acionável, e criamos conteúdo abrangente que responde ao escopo completo da consulta.',
+    detail: 'Nosso conteúdo utiliza fluxos de trabalho assistidos por IA para pesquisa e esboço inicial. Cada peça é então revisada, editada e verificada por nossa equipe editorial antes da publicação. Usamos IA como ferramenta para aumentar a produção, não como substituta do julgamento editorial.',
+    note: `Todo o conteúdo é atribuído a <a href="/author/siddharth-gangal/" class="text-[#4f39f6] hover:underline">Siddharth Gangal</a>, fundador do theStacc, que supervisiona a direção editorial e a revisão final.`,
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+    title: 'Processo de Verificação de Fatos',
+    body: 'Estatísticas, dados de preços, afirmações sobre funcionalidades e informações de produtos referenciadas em nosso conteúdo são verificadas em fontes primárias antes da publicação. Sempre que possível, linkamos diretamente para a fonte.',
+    checks: [
+      'Dados de preços verificados nas páginas oficiais de preços de cada produto',
+      'Estatísticas originadas de estudos nomeados, relatórios do setor ou dados oficiais da empresa',
+      'Comparações de funcionalidades baseadas em documentação disponível publicamente e testes práticos',
+      'Datas de publicação e atualização exibidas em todos os artigos',
+    ],
+    note: `Se você encontrar um erro em qualquer conteúdo nosso, <a href="/contact/" class="text-[#4f39f6] hover:underline">entre em contato</a> e corrigiremos prontamente.`,
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+    title: 'Divulgação em Avaliações e Comparações',
+    body: 'O theStacc é um produto comercial que compete com diversas ferramentas que avaliamos e comparamos. Divulgamos isso claramente em todas as páginas de avaliação e alternativas.',
+    quote: 'Esta avaliação foi escrita e publicada pelo Stacc, um produto concorrente. Temos interesse comercial como alternativa. Todos os dados de preços e funcionalidades foram verificados em fontes públicas.',
+    detail: 'Não aceitamos pagamento de nenhuma empresa em troca de avaliações favoráveis. Nossas notas refletem uma avaliação editorial genuína. Testamos produtos em primeira mão sempre que possível e cruzamos referências com avaliações de usuários disponíveis publicamente em plataformas como G2, Capterra e TrustRadius.',
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+    title: 'Atualização e Frescor do Conteúdo',
+    body: 'SEO e tecnologia de marketing evoluem rapidamente. Mantemos nosso conteúdo por meio de um processo sistemático de atualização.',
+    checks: [
+      'Datas de publicação e última atualização exibidas em todos os artigos',
+      'Revisões trimestrais de dados de preços e funcionalidades em avaliações de software',
+      'Conteúdo com estatísticas atualizado quando novos dados ficam disponíveis',
+      'Conteúdo desatualizado removido ou redirecionado quando não é mais preciso ou relevante',
+    ],
+  },
+  {
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+    title: 'Padrões do Glossário',
+    body: `Nosso <a href="/glossary/" class="text-[#4f39f6] hover:underline">glossário com mais de 690 termos</a> segue um formato consistente: uma definição concisa, explicação contextual, relevância prática e termos relacionados. As definições são escritas para serem precisas, acessíveis e úteis tanto para iniciantes quanto para profissionais de marketing experientes.`,
+  },
+];
+---
+
+<BaseLayout
+  title="Padrões Editoriais | theStacc"
+  description="Como o theStacc cria, revisa e publica conteúdo. Nosso processo editorial, metodologia de verificação de fatos, política de divulgação em avaliações e padrões de qualidade de conteúdo."
+  lang="pt-BR"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(editorialSchema)} />
+  </Fragment>
+
+  <Header />
+  <main class="flex-1">
+
+    <!-- ░░ DARK HERO ░░ -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.18) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <p class="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#4f39f6]">Padrões Editoriais</p>
+        <h1 class="mx-auto mt-4 max-w-[600px] font-sans text-[32px] font-bold leading-[1.15] tracking-[-0.03em] text-[#292524] md:text-[44px]">
+          Como criamos e garantimos a qualidade do nosso conteúdo.
+        </h1>
+        <p class="mx-auto mt-4 max-w-[500px] font-sans text-[15px] leading-[1.7] text-[#94a3b8]">
+          O theStacc publica guias de SEO, avaliações de software, comparações de ferramentas e conteúdo do setor. Veja como criamos, verificamos e mantemos esse conteúdo.
+        </p>
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-2">
+          {[
+            'Sem posicionamentos pagos',
+            'Preços verificados trimestralmente',
+            'Divulgação em todas as avaliações',
+          ].map(text => (
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-[#1e2633] bg-[rgba(15,23,42,0.05)] px-3 py-1 font-mono text-[11px] text-[#6b7280]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              {text}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ SEÇÕES DE PADRÕES ░░ -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-16">
+        <div class="mx-auto max-w-[760px] space-y-5">
+
+          {standards.map(s => (
+            <div class="overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+              <div class="flex items-center gap-3 border-b border-[#f5f5f4] px-6 py-4">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#e7e5e4] bg-[#f5f3ff]" set:html={s.icon}></div>
+                <h2 class="font-sans text-[16px] font-bold text-[#292524]">{s.title}</h2>
+              </div>
+              <div class="px-6 py-5 space-y-4">
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]" set:html={s.body}></p>
+                {s.detail && <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{s.detail}</p>}
+                {s.quote && (
+                  <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] px-5 py-4" style="border-left: 3px solid #4f39f6;">
+                    <p class="font-sans text-[13px] leading-[1.7] text-[#57534e] italic">"{s.quote}"</p>
+                  </div>
+                )}
+                {s.checks && (
+                  <ul class="space-y-2">
+                    {s.checks.map(c => (
+                      <li class="flex items-start gap-2.5 font-sans text-[14px] leading-[1.65] text-[#57534e]">
+                        <svg class="mt-0.5 shrink-0" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {s.note && <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]" set:html={s.note}></p>}
+              </div>
+            </div>
+          ))}
+
+          <!-- Dúvidas ou Correções -->
+          <div class="rounded-2xl border border-[#4f39f6] p-6 text-center" style="background:linear-gradient(135deg,#f5f3ff 0%,#fafaf9 100%);">
+            <p class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#4f39f6]">Dúvidas ou correções</p>
+            <p class="mt-2 font-sans text-[15px] font-semibold text-[#292524]">Encontrou um erro? Queremos saber.</p>
+            <p class="mt-2 font-sans text-[14px] leading-[1.7] text-[#57534e]">
+              Se você encontrar preços desatualizados, uma afirmação incorreta sobre funcionalidades ou qualquer coisa que não confira, entre em contato em <a href="/contact/" class="text-[#4f39f6] hover:underline">thestacc.com/contact</a>. Corrigimos problemas em até 48 horas.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ DARK FOOTER CTA ░░ -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.06) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <p class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">theStacc</p>
+        <h3 class="mt-3 font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-[#292524]">
+          Conteúdo construído para gerar confiança.
+        </h3>
+        <p class="mx-auto mt-3 max-w-[420px] font-sans text-[15px] leading-[1.7] text-[#57534e]">
+          Os mesmos padrões que aplicamos a nós mesmos estão incorporados em cada artigo que o theStacc publica para o seu negócio.
+        </p>
+        <a href="/pt-br/demo/"
+          class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">
+          Comece Seu Trial por $1
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#79716b]">$1 por 30 dias · Cancele quando quiser</p>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>

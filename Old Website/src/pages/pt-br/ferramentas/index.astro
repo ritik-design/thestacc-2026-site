@@ -1,0 +1,391 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+
+const pageTitle = 'Ferramentas Gratuitas de SEO Local | theStacc';
+const pageDescription = 'Ferramentas gratuitas de SEO criadas para dentistas, encanadores, advogados e empresas de serviços locais. Gerador de publicações no GBP, ferramentas de avaliações, verificador de pontuação de SEO e muito mais. Sem cadastro necessário.';
+
+const tools = [
+  {
+    category: 'SEO Local',
+    slug: 'local-seo',
+    items: [
+      {
+        name: 'Gerador de Publicações no GBP',
+        desc: 'Gere atualizações prontas para publicar no Google Business Profile com linguagem específica do setor e palavras-chave locais.',
+        url: '/tools/gbp-post-generator/',
+        icon: 'edit',
+      },
+      {
+        name: 'Gerador de Respostas a Avaliações',
+        desc: 'Responda avaliações do Google em segundos. Com consciência do setor, otimizado para SEO, múltiplas opções de tom.',
+        url: '/tools/review-response-generator/',
+        icon: 'chat',
+      },
+      {
+        name: 'Gerador de QR Code para Avaliações',
+        desc: 'Gere QR codes prontos para impressão e links de avaliação. Suportes de mesa, cartões e pôsteres incluídos.',
+        url: '/tools/review-qr-code-generator/',
+        icon: 'qr',
+      },
+      {
+        name: 'Modelos de Solicitação de Avaliação',
+        desc: 'Obtenha scripts de e-mail, SMS e pessoais para pedir avaliações aos clientes. Link de avaliação do Google incluído.',
+        url: '/tools/review-request-generator/',
+        icon: 'mail',
+      },
+    ],
+  },
+  {
+    category: 'Análise de SEO',
+    slug: 'seo-analysis',
+    items: [
+      {
+        name: 'Pontuação de SEO do Site',
+        desc: 'Verifique a saúde de SEO do seu site em 6 categorias: on-page, técnico, velocidade de conteúdo, SEO local, prontidão para IA e social.',
+        url: '/tools/website-seo-score/',
+        icon: 'chart',
+      },
+      {
+        name: 'Analisador de Meta Tags',
+        desc: 'Verifique suas meta tags e veja como sua página aparece no Google, Facebook, Twitter e LinkedIn.',
+        url: '/tools/meta-tag-analyzer/',
+        icon: 'tag',
+      },
+      {
+        name: 'Verificador de SEO On-Page',
+        desc: 'Verifique se sua página está otimizada para uma palavra-chave alvo. Análise de 15 pontos sobre posicionamento de palavras-chave, qualidade do conteúdo e sinais técnicos.',
+        url: '/tools/on-page-seo-checker/',
+        icon: 'target',
+      },
+      {
+        name: 'Auditoria de SEO (Lite)',
+        desc: 'Relatório de SEO com nota em 10 pontos. Verificações rápidas de aprovação/reprovação com instruções de correção em linguagem simples.',
+        url: '/tools/seo-audit/',
+        icon: 'clipboard',
+      },
+      {
+        name: 'Calculadora de ROI de SEO',
+        desc: 'Calcule o retorno projetado do seu SEO. Benchmarks do setor, gráfico de crescimento composto, comparação entre DIY, Agência e Stacc.',
+        url: '/tools/seo-roi-calculator/',
+        icon: 'dollar',
+      },
+    ],
+  },
+  {
+    category: 'Conteúdo',
+    slug: 'content',
+    items: [
+      {
+        name: 'Analisador de Títulos',
+        desc: 'Pontue seus títulos em 8 dimensões: equilíbrio de palavras, emoção, força de SEO, SEO local, clareza e muito mais.',
+        url: '/tools/headline-analyzer/',
+        icon: 'type',
+      },
+      {
+        name: 'Gerador de Schema Markup',
+        desc: 'Gere schema LocalBusiness, FAQ e Service em JSON-LD. Predefinições do setor para mais de 23 tipos de negócio. Copie ou baixe.',
+        url: '/tools/schema-markup-generator/',
+        icon: 'code',
+      },
+    ],
+  },
+];
+
+const iconPaths: Record<string, string> = {
+  edit:      '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>',
+  chat:      '<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>',
+  qr:        '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3"/><path d="M20 14v7h-3"/>',
+  mail:      '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
+  chart:     '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+  dollar:    '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>',
+  type:      '<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>',
+  code:      '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  tag:       '<path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>',
+  target:    '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  clipboard: '<path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>',
+};
+
+const totalTools = tools.reduce((sum, g) => sum + g.items.length, 0);
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Ferramentas Gratuitas de SEO Local',
+  description: pageDescription,
+  url: 'https://thestacc.com/pt-br/ferramentas/',
+  inLanguage: 'pt-BR',
+  publisher: { '@type': 'Organization', name: 'theStacc', url: 'https://thestacc.com' },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: 'https://thestacc.com/pt-br/' },
+      { '@type': 'ListItem', position: 2, name: 'Ferramentas Gratuitas de SEO', item: 'https://thestacc.com/pt-br/ferramentas/' },
+    ],
+  },
+};
+---
+
+<BaseLayout title={pageTitle} description={pageDescription} lang="pt-BR">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
+  </Fragment>
+
+  <Header />
+
+  <main class="flex-1">
+
+    <!-- ░░ HERO ░░ -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <!-- Grid overlay -->
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <!-- Purple glow -->
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.20) 0%, transparent 62%);"></div>
+
+      <div class="container-x relative z-10 py-20 text-center">
+        <p class="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Ferramentas Gratuitas</p>
+        <h1 class="mt-4 font-sans text-[40px] font-bold leading-[1.1] tracking-[-0.03em] text-[#292524] md:text-[56px]">
+          Ferramentas de SEO criadas para<br />negócios locais
+        </h1>
+        <p class="mx-auto mt-5 max-w-[520px] font-sans text-[17px] leading-[1.75] text-[#57534e]">
+          {totalTools} ferramentas gratuitas para publicações no GBP, gestão de avaliações, pontuação de SEO e conteúdo. Sem cadastro. Sem cartão de crédito. É só usar.
+        </p>
+
+        <!-- Trust badges -->
+        <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-4 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#57534e]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            100% Gratuito
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-4 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#57534e]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Sem Cadastro Necessário
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-4 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#57534e]">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Criado para Negócios Locais
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ FILTER TABS + TOOLS GRID ░░ -->
+    <section class="section border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x">
+
+        <!-- Category filter tabs -->
+        <div class="mb-10 flex flex-wrap items-center gap-2" id="filter-tabs">
+          <button
+            data-filter="all"
+            class="filter-tab active rounded-full border border-[#e7e5e4] bg-white px-4 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#292524] transition-all hover:border-[#4f39f6] hover:text-[#4f39f6]"
+          >
+            Todas as Ferramentas <span class="ml-1 text-[#79716b]">({totalTools})</span>
+          </button>
+          {tools.map((group) => (
+            <button
+              data-filter={group.slug}
+              class="filter-tab rounded-full border border-[#e7e5e4] bg-white px-4 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[#79716b] transition-all hover:border-[#4f39f6] hover:text-[#4f39f6]"
+            >
+              {group.category} <span class="ml-1 text-[#79716b]">({group.items.length})</span>
+            </button>
+          ))}
+        </div>
+
+        <!-- Tools grouped -->
+        {tools.map((group) => (
+          <div class="tool-group mb-14 last:mb-0" data-group={group.slug}>
+            <!-- Group label -->
+            <div class="mb-5 flex items-center gap-3">
+              <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#79716b]">{group.category}</span>
+              <div class="h-px flex-1 bg-[#e7e5e4]"></div>
+            </div>
+
+            <!-- Cards grid -->
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {group.items.map((tool) => (
+                <a
+                  href={tool.url}
+                  class="group flex flex-col rounded-2xl border border-[#e7e5e4] bg-white p-6 transition-all duration-200 hover:border-[#c4b5fd] hover:shadow-[0_4px_20px_rgba(79,57,246,0.08)]"
+                >
+                  <!-- Icon -->
+                  <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#f5f3ff] transition-colors group-hover:bg-[#ede9fe]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <Fragment set:html={iconPaths[tool.icon]} />
+                    </svg>
+                  </div>
+
+                  <!-- Name + desc -->
+                  <h3 class="mt-4 font-sans text-[16px] font-semibold leading-snug text-[#292524] transition-colors group-hover:text-[#4f39f6]">
+                    {tool.name}
+                  </h3>
+                  <p class="mt-2 flex-1 font-sans text-[13px] leading-[1.65] text-[#79716b]">
+                    {tool.desc}
+                  </p>
+
+                  <!-- Arrow CTA -->
+                  <div class="mt-5 inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4f39f6]">
+                    Usar Ferramenta Grátis
+                    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-0.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+
+      </div>
+    </section>
+
+    <!-- ░░ NOTIFY ME ░░ -->
+    <section class="section border-b border-[#e7e5e4]">
+      <div class="container-x">
+        <div class="mx-auto max-w-xl text-center">
+          <p class="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Fique por Dentro</p>
+          <h2 class="mt-3 font-sans text-[26px] font-bold tracking-[-0.02em] text-[#292524]">
+            Nova ferramenta a cada 2 semanas
+          </h2>
+          <p class="mt-2 font-sans text-[15px] leading-relaxed text-[#79716b]">
+            Deixe seu e-mail e avisaremos quando a próxima ferramenta for lançada.
+          </p>
+          <form id="notify-form" class="mt-6 flex max-w-md mx-auto gap-2">
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="voce@empresa.com"
+              class="flex-1 rounded-xl border border-[#e7e5e4] bg-white px-4 py-2.5 font-sans text-[15px] text-[#292524] placeholder:text-[#79716b] outline-none transition-colors focus:border-[#4f39f6] focus:ring-2 focus:ring-[#4f39f6]/10"
+            />
+            <button
+              type="submit"
+              class="cursor-pointer whitespace-nowrap rounded-xl border border-[#4f39f6] bg-[#615fff] px-5 py-2.5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-white transition-colors hover:bg-[#4f39f6]"
+            >
+              Notificar-me
+            </button>
+          </form>
+          <p id="notify-success" class="mt-3 hidden font-sans text-sm text-[#16a34a]">Pronto! Avisaremos quando a próxima ferramenta for lançada.</p>
+          <p id="notify-error" class="mt-3 hidden font-sans text-sm text-red-500">Algo deu errado. Por favor, tente novamente.</p>
+          <p class="mt-3 font-mono text-[11px] text-[#79716b]">Sem spam. Cancele a qualquer momento.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ CTA BANNER ░░ -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.4) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-20 text-center">
+        <p class="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[#818cf8]">Vá Além</p>
+        <h2 class="mt-4 font-sans text-[32px] font-bold leading-[1.15] tracking-[-0.03em] text-white md:text-[40px]">
+          Essas ferramentas ajudam você a fazer SEO manualmente.<br />O Stacc faz automaticamente.
+        </h2>
+        <p class="mx-auto mt-4 max-w-[440px] font-sans text-[16px] leading-[1.7] text-[#94a3b8]">
+          30 posts de blog, atualizações no GBP e redes sociais. Tudo no piloto automático. A partir de $49/mês.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="/pt-br/demo/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-7 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+          >
+            Comece Seu Trial por $1
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a
+            href="/pt-br/precos/"
+            class="inline-flex h-[46px] items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-7 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white/80 transition-colors hover:bg-white/10"
+          >
+            Ver Preços
+          </a>
+        </div>
+        <p class="mt-4 font-mono text-[11px] tracking-[0.08em] text-[#4b5563]">$1 por 30 dias · Cancele quando quiser</p>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+
+  <script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
+
+  <script>
+    // ── Category filter ──────────────────────────────────────────────────────
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.filter-tab');
+    const groups = document.querySelectorAll<HTMLElement>('.tool-group');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const filter = tab.dataset.filter ?? 'all';
+
+        // Update active tab styles
+        tabs.forEach((t) => {
+          t.classList.remove('active', 'border-[#4f39f6]', 'text-[#4f39f6]', 'bg-[#f5f3ff]');
+          t.classList.add('border-[#e7e5e4]', 'text-[#79716b]', 'bg-white');
+        });
+        tab.classList.add('active', 'border-[#4f39f6]', 'text-[#4f39f6]', 'bg-[#f5f3ff]');
+        tab.classList.remove('border-[#e7e5e4]', 'text-[#79716b]', 'bg-white');
+
+        // Show / hide groups
+        groups.forEach((group) => {
+          if (filter === 'all' || group.dataset.group === filter) {
+            group.style.display = '';
+          } else {
+            group.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Set initial active state properly
+    const allTab = document.querySelector<HTMLButtonElement>('[data-filter="all"]');
+    if (allTab) {
+      allTab.classList.add('border-[#4f39f6]', 'text-[#4f39f6]', 'bg-[#f5f3ff]');
+      allTab.classList.remove('border-[#e7e5e4]', 'text-[#79716b]', 'bg-white');
+    }
+
+    // ── Notify Me form ───────────────────────────────────────────────────────
+    const WEB3FORMS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY';
+
+    document.getElementById('notify-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target as HTMLFormElement;
+      const email = (form.querySelector('input[name="email"]') as HTMLInputElement).value.trim();
+      const successEl = document.getElementById('notify-success');
+      const errorEl   = document.getElementById('notify-error');
+      const btn       = form.querySelector('button') as HTMLButtonElement;
+
+      if (!email) return;
+      btn.disabled    = true;
+      btn.textContent = 'Enviando…';
+
+      try {
+        const res  = await fetch('https://api.web3forms.com/submit', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            email,
+            subject:    'Novo cadastro de notificação de ferramenta. theStacc Ferramentas',
+            from_name:  'theStacc Página de Ferramentas',
+            message:    `Novo cadastro de e-mail de /pt-br/ferramentas/\n\nE-mail: ${email}\nTimestamp: ${new Date().toISOString()}`,
+          }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          successEl?.classList.remove('hidden');
+          errorEl?.classList.add('hidden');
+          form.reset();
+        } else {
+          throw new Error('Failed');
+        }
+      } catch {
+        errorEl?.classList.remove('hidden');
+        successEl?.classList.add('hidden');
+      }
+
+      btn.disabled    = false;
+      btn.textContent = 'Notificar-me';
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,45 @@
+---
+/**
+ * ReviewAltCrossLink — Shows a cross-link card between review and alternatives pages.
+ * Placed at top of content area on review/alternatives pages.
+ */
+interface Props {
+  /** 'review' or 'alternatives' - which page type this is on */
+  pageType: 'review' | 'alternatives';
+  /** The tool slug (e.g., 'semrush') */
+  toolSlug: string;
+  /** Whether the target page exists */
+  targetExists: boolean;
+}
+
+const { pageType, toolSlug, targetExists } = Astro.props;
+
+const toolName = toolSlug
+  .split('-')
+  .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+  .join(' ');
+
+const isReview = pageType === 'review';
+const targetUrl = isReview ? `/alternatives/${toolSlug}` : `/reviews/${toolSlug}`;
+const label = isReview
+  ? `Looking for ${toolName} alternatives?`
+  : `Read our full ${toolName} review`;
+const linkText = isReview
+  ? `See top ${toolName} alternatives →`
+  : `${toolName} Review →`;
+const icon = isReview ? '🔄' : '📋';
+---
+
+{targetExists && (
+  <div class="review-alt-crosslink mb-6 rounded-[12px] border border-[#4f39f6]/15 bg-[#4f39f6]/5 px-5 py-4">
+    <div class="flex items-start gap-3">
+      <span class="text-lg mt-0.5">{icon}</span>
+      <div>
+        <p class="font-sans text-[14px] font-semibold text-[#292524]">{label}</p>
+        <a href={targetUrl} class="mt-1 inline-block font-sans text-[14px] font-medium text-[#4f39f6] hover:underline">
+          {linkText}
+        </a>
+      </div>
+    </div>
+  </div>
+)}

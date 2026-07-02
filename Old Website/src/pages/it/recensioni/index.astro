@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const enReviews = await getCollection('reviews');
+const langReviews = await getCollection('reviews_it');
+const langBySlug = new Map(langReviews.map(r => [r.data.slug, r]));
+const reviews = enReviews.filter(r => langBySlug.has(r.data.slug)).map(r => langBySlug.get(r.data.slug)!);
+
+const byDate = [...reviews].sort((a, b) =>
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+const byAlpha = [...reviews].sort((a, b) => a.data.title.localeCompare(b.data.title));
+const visibleByDate = byDate.filter(r => r.data.image);
+const visibleByAlpha = byAlpha.filter(r => r.data.image);
+
+function readTime(body: string): number {
+  const words = (body ?? '').split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+const howWeReview = [
+  { icon: '💰', label: 'Prezzi reali', detail: 'Verificati sulle pagine ufficiali' },
+  { icon: '⚖️', label: 'Pro e contro onesti', detail: 'Anche dove perdiamo il confronto' },
+  { icon: '🏁', label: 'Verdetto chiaro', detail: 'Per chi è adatto, chi dovrebbe evitarlo' },
+  { icon: '📊', label: 'Confronto funzionalità', detail: 'Comparato con le alternative' },
+];
+---
+
+<BaseLayout
+  title="Recensioni Strumenti SEO 2026 — Valutazioni Oneste | theStacc"
+  description="Recensioni approfondite e oneste di tutti i principali strumenti SEO e di content marketing. Prezzi reali, pro e contro veri, verdetti chiari."
+  lang="it"
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <Header />
+  <main class="flex-1">
+
+    <!-- HERO -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.18) 0%, transparent 62%);"></div>
+      <div class="container-x relative z-10 pt-12 pb-12">
+
+        <div class="flex items-center gap-2 mb-3">
+          <span class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#4f39f6]">Recensioni</span>
+          <span class="h-3 w-px bg-[#e7e5e4]"></span>
+          <span class="font-mono text-[10px] text-[#79716b]">{visibleByDate.length} strumenti recensiti</span>
+        </div>
+
+        <h1 class="font-sans text-[28px] font-bold leading-[1.18] tracking-[-0.025em] text-[#292524] md:text-[40px]">
+          Recensioni Strumenti SEO
+        </h1>
+        <p class="mt-3 max-w-[560px] font-sans text-[15px] leading-[1.7] text-[#57534e]">
+          Leggi prima di acquistare. Recensioni oneste e approfondite di ogni principale strumento SEO e di content AI. Prezzi reali, pro e contro reali, verdetti reali. Scritte da professionisti.
+        </p>
+
+        <div class="mt-6 flex flex-wrap gap-2">
+          {[
+            `${visibleByDate.length} strumenti recensiti`,
+            'Aggiornato marzo 2026',
+            'Verdetti reali',
+            'Concorrente dichiarato (trasparente)',
+          ].map(text => (
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-[#e7e5e4] bg-white px-3 py-1 font-mono text-[11px] text-[#6b7280]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              {text}
+            </span>
+          ))}
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HOW WE REVIEW -->
+    <div class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x">
+        <div class="flex items-center gap-6 overflow-x-auto py-4" style="-ms-overflow-style:none;scrollbar-width:none;">
+          {howWeReview.map(item => (
+            <div class="flex shrink-0 items-center gap-2.5">
+              <span class="text-[16px]">{item.icon}</span>
+              <div>
+                <p class="font-mono text-[11px] font-bold text-[#292524]">{item.label}</p>
+                <p class="font-mono text-[10px] text-[#79716b]">{item.detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- SORT + DISCLOSURE -->
+    <div class="sticky top-0 z-20 border-b border-[#e7e5e4] bg-white">
+      <div class="container-x flex items-center justify-between py-3">
+        <div class="flex items-center gap-1" id="sort-tabs">
+          <button data-sort="date" class="sort-tab active">Più recenti</button>
+          <button data-sort="alpha" class="sort-tab">A–Z</button>
+        </div>
+        <p class="hidden font-mono text-[10px] text-[#79716b] sm:block">
+          Trasparenza: scritto da theStacc, prodotto concorrente. Tutti i dati verificati pubblicamente.
+        </p>
+      </div>
+    </div>
+
+    <!-- CARD GRID -->
+    <section class="bg-[#fafaf9] px-6 py-10">
+      <div class="mx-auto max-w-6xl">
+
+        <div id="grid-date" class="sort-panel">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {visibleByDate.map((review) => (
+              <a href={`/it/recensioni/${review.data.slug}/`} class="group relative flex flex-col overflow-hidden rounded-xl border border-[#e7e5e4] bg-white transition-all hover:border-[#c4b5fd] hover:shadow-sm">
+                <div class="h-[3px] w-full bg-gradient-to-r from-[#4f39f6] via-[#818cf8] to-[#c4b5fd]"></div>
+                <div class="flex flex-1 flex-col p-6">
+                  <div class="flex items-center gap-2">
+                    <span class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">Recensione</span>
+                    <span class="ml-auto flex items-center gap-0.5">
+                      {[1,2,3,4,5].map(s => (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill={s <= 4 ? '#f59e0b' : 'none'} stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      ))}
+                    </span>
+                  </div>
+                  <h2 class="mt-2.5 flex-1 font-sans text-[16px] font-semibold leading-[1.4] text-[#292524] line-clamp-3 transition-colors group-hover:text-[#4f39f6]">{review.data.title}</h2>
+                  <p class="mt-2 font-sans text-[13px] leading-[1.6] text-[#79716b] line-clamp-2">{review.data.description}</p>
+                  <div class="mt-4 flex items-center justify-between border-t border-[#f5f5f4] pt-3">
+                    <span class="font-mono text-[10px] text-[#79716b]">{review.data.date} · {readTime(review.body ?? '')} min</span>
+                    <svg class="text-[#c4b5fd] transition-colors group-hover:text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div id="grid-alpha" class="sort-panel hidden">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {visibleByAlpha.map((review) => (
+              <a href={`/it/recensioni/${review.data.slug}/`} class="group relative flex flex-col overflow-hidden rounded-xl border border-[#e7e5e4] bg-white transition-all hover:border-[#c4b5fd] hover:shadow-sm">
+                <div class="h-[3px] w-full bg-gradient-to-r from-[#4f39f6] via-[#818cf8] to-[#c4b5fd]"></div>
+                <div class="flex flex-1 flex-col p-6">
+                  <div class="flex items-center gap-2">
+                    <span class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">Recensione</span>
+                    <span class="ml-auto flex items-center gap-0.5">
+                      {[1,2,3,4,5].map(s => (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill={s <= 4 ? '#f59e0b' : 'none'} stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      ))}
+                    </span>
+                  </div>
+                  <h2 class="mt-2.5 flex-1 font-sans text-[16px] font-semibold leading-[1.4] text-[#292524] line-clamp-3 transition-colors group-hover:text-[#4f39f6]">{review.data.title}</h2>
+                  <p class="mt-2 font-sans text-[13px] leading-[1.6] text-[#79716b] line-clamp-2">{review.data.description}</p>
+                  <div class="mt-4 flex items-center justify-between border-t border-[#f5f5f4] pt-3">
+                    <span class="font-mono text-[10px] text-[#79716b]">{review.data.date} · {readTime(review.body ?? '')} min</span>
+                    <svg class="text-[#c4b5fd] transition-colors group-hover:text-[#4f39f6]" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- DARK CTA -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.4) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <p class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#818cf8]">theStacc</p>
+        <h3 class="mt-3 font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-white">
+          Smetti di confrontare. Inizia a crescere.
+        </h3>
+        <p class="mx-auto mt-3 max-w-[440px] font-sans text-[15px] leading-[1.7] text-[#94a3b8]">
+          theStacc pubblica 30 articoli SEO sul tuo sito ogni mese. Automaticamente. Nessun writer. Nessun workflow.
+        </p>
+        <a
+          href="/it/demo/"
+          class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+        >
+          Inizia la prova a $1
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#4b5563]">$1 per 30 giorni · Cancella quando vuoi</p>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <style>
+  .sort-tab { cursor: pointer; padding: 0.4rem 0.875rem; font-family: var(--font-geist-mono); font-size: 12px; font-weight: 600; color: #57534e; background: transparent; border: none; white-space: nowrap; transition: color 0.1s, background 0.1s; }
+  .sort-tab:hover { color: #4f39f6; background: #f5f3ff; }
+  .sort-tab.active { color: #4f39f6; background: #f5f3ff; }
+  </style>
+
+  <script>
+  const sortTabs = document.querySelectorAll('.sort-tab');
+  const sortPanels = document.querySelectorAll('.sort-panel');
+  sortTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const sort = (tab as HTMLElement).dataset.sort;
+      sortTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      sortPanels.forEach((panel: any) => { const id = panel.id.replace('grid-', ''); panel.classList.toggle('hidden', id !== sort); });
+    });
+  });
+  </script>
+</BaseLayout>

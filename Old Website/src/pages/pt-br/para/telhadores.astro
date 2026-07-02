@@ -1,0 +1,715 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+
+const faqs = [
+  {
+    q: "Quanto tempo leva para minha empresa de telhados ranquear melhor no Google Maps?",
+    a: "A maioria das empresas de telhados nota movimentação significativa no Maps dentro de 60 a 90 dias de atividade consistente no GBP. Se você está entrando na temporada de chuvas, as empresas que construíram sua presença no GBP nos meses anteriores são as que capturam o pico de demanda. O algoritmo local do Google recompensa frequência, relevância e engajamento — os três que o Stacc fornece automaticamente todo mês.",
+  },
+  {
+    q: "Publicar no GBP realmente ajuda uma empresa de telhados a ranquear?",
+    a: "Sim. A própria documentação do Google afirma que perfis comerciais atualizados regularmente têm mais probabilidade de aparecer nos resultados de busca local. O algoritmo do Maps considera frequência de publicações, responsividade a avaliações e relevância de palavras-chave. Cada dia inativo, um telhador concorrente que publica consistentemente ganha terreno. O Stacc publica 30 vezes por mês para que seu perfil nunca fique inativo — inclusive nos meses que antecedem a temporada de chuvas.",
+  },
+  {
+    q: "Quais palavras-chave de telhados o Stacc foca?",
+    a: "O Stacc foca suas combinações de serviço + cidade principais — 'telhador perto de mim', 'troca de telhado [cidade]', 'empresa de telhados [cidade]', 'reparo de telhado por chuva [cidade]', 'vistoria de telhado [cidade]' e 'calha [cidade]'. Também focamos termos sazonais como 'reparo de telhado após tempestade' e 'reparo emergencial de telhado'. Todas as palavras-chave são calibradas para seus serviços e área de atendimento específicos.",
+  },
+  {
+    q: "Minha empresa já tem um Google Business Profile. Preciso fazer algo especial para configurar?",
+    a: "Basta conectar. O Stacc importa seus dados do GBP — nome da empresa, serviços, fotos, histórico de avaliações e posição de ranking atual — e monta um plano de conteúdo a partir daí. A configuração leva menos de cinco minutos. Depois disso, o Stacc cuida de tudo: escrita de publicações, publicação no horário, envio de alertas de avaliações e rastreamento do seu ranking no Maps mês a mês.",
+  },
+  {
+    q: "O que acontece quando recebo uma avaliação negativa?",
+    a: "O Stacc envia um alerta instantâneo quando uma nova avaliação aparece, positiva ou negativa. Você recebe o texto, a nota e um modelo de resposta para responder em menos de um minuto. Responder rapidamente a avaliações negativas é fundamental para empresas de telhados — uma resposta visível e profissional a uma reclamação sobre mão de obra diz a cada futuro proprietário que você está por trás do seu trabalho.",
+  },
+  {
+    q: "Vocês atendem empresas de telhados que cobrem múltiplas cidades?",
+    a: "Sim. Seja uma única área metropolitana ou múltiplas cidades, o Stacc monta estratégias de palavras-chave para cada área de atendimento. Empresas com múltiplas localidades recebem estratégias de GBP, calendários de conteúdo e relatórios de ranking separados para cada localidade — tudo gerenciado em um único painel.",
+  },
+  {
+    q: "Como o Stacc se diferencia de uma agência de marketing para telhadores?",
+    a: "Uma agência de marketing para telhadores escreve suas publicações no GBP manualmente, cobra de R$2.000 a R$6.000/mês e exige onboardings e contratos longos. O Stacc automatiza todo esse processo por $49/mês. O resultado é o mesmo. Os custos operacionais e a margem da agência desaparecem.",
+  },
+  {
+    q: "O Stacc ajuda com conteúdo de blog para telhados ou apenas GBP?",
+    a: "O módulo de SEO Local do Stacc cuida de publicações no GBP, monitoramento de avaliações e rastreamento de ranking. Se você quiser artigos sobre telhados publicados no seu site todo mês — do tipo que ranqueia para 'quanto dura um telhado' ou 'sinais de que precisa trocar o telhado' — esse é o módulo de Blog SEO por $99/mês. Muitas empresas de telhados usam os dois juntos para cobertura total de busca orgânica.",
+  },
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "theStacc",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "O Stacc publica no GBP da sua empresa de telhados todos os dias, gerencia suas avaliações e rastreia seu ranking no Maps — automaticamente. Conquiste mais serviços de telhados pelo Google por $49/mês.",
+      "offers": {
+        "@type": "Offer",
+        "price": "49",
+        "priceCurrency": "USD",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "billingDuration": "P1M"
+        }
+      },
+      "inLanguage": "pt-BR",
+      "url": "https://thestacc.com/pt-br/para/telhadores/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "inLanguage": "pt-BR",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início",
+          "item": "https://thestacc.com/pt-br/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Setores",
+          "item": "https://thestacc.com/pt-br/para/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Telhadores",
+          "item": "https://thestacc.com/pt-br/para/telhadores/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "inLanguage": "pt-BR",
+      "mainEntity": faqs.map(f => ({
+        "@type": "Question",
+        "name": f.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.a
+        }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  lang="pt-BR"
+  title="SEO para Telhadores | Mais Serviços pelo Google | theStacc"
+  description="O Stacc publica no GBP da sua empresa de telhados todos os dias, gerencia suas avaliações e rastreia seu ranking no Maps — automaticamente. Conquiste mais serviços de telhados pelo Google por $49/mês."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <Header />
+  <main>
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[780px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">SEO para Telhadores · Com Stacc</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Mais serviços de telhados pelo Google.<br />
+            <span style="color:#4f39f6;">Na temporada de chuvas ou não.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            390.000 pessoas pesquisam "telhador perto de mim" todo mês. 76% dos proprietários pesquisam empresas de telhados online antes de ligar. O Stacc garante que sua empresa apareça primeiro — publicando no seu GBP diariamente, gerenciando avaliações e monitorando seu ranking no Maps.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/pt-br/demo/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Comece por $1 hoje
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="#como-funciona"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]"
+            >
+              Veja como funciona
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            30 dias de garantia · Sem contratos · Publica no seu GBP todos os dias
+          </p>
+
+          <!-- Trust stats -->
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {[
+              { value: '390K', num: 390, prefix: '', suffix: 'K', decimals: 0, from: 0, label: 'Buscas mensais por "telhador perto de mim"' },
+              { value: '76%',  num: 76,  prefix: '', suffix: '%', decimals: 0, from: 0, label: 'Proprietários pesquisam online primeiro' },
+              { value: '4.7×', num: 4.7, prefix: '', suffix: '×', decimals: 1, from: 0, label: 'Melhora média no ranking no Maps' },
+              { value: '100%', num: 100, prefix: '', suffix: '%', decimals: 0, from: 0, label: 'Avaliações capturadas instantaneamente' },
+            ].map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]"
+                   data-count-up data-target={s.num} data-from={s.from} data-prefix={s.prefix} data-suffix={s.suffix} data-decimals={s.decimals}>{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SOCIAL PROOF STRIP ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-6">
+        <div class="mb-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-between">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#79716b]">Empresas locais ranqueando com o Stacc</p>
+          <div class="flex items-center gap-1.5">
+            <div class="flex">
+              {[1,2,3,4,5].map(() => (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <span class="font-mono text-[11px] text-[#6b7280]">4.9 de 127 avaliações</span>
+          </div>
+        </div>
+        <div class="relative overflow-hidden">
+          <div class="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white to-transparent"></div>
+          <div class="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white to-transparent"></div>
+          <div class="flex animate-marquee gap-0">
+            {['Telhados Silva — São Paulo, SP', 'Telhados Costa — Rio de Janeiro, RJ', 'Reforma Telhados BH — Belo Horizonte, MG', 'Telhados Paraná — Curitiba, PR', 'Telhados Sul — Florianópolis, SC', 'Telhados Porto — Porto Alegre, RS', 'Telhados Capital — Brasília, DF', 'Telhados Silva — São Paulo, SP', 'Telhados Costa — Rio de Janeiro, RJ', 'Reforma Telhados BH — Belo Horizonte, MG', 'Telhados Paraná — Curitiba, PR', 'Telhados Sul — Florianópolis, SC', 'Telhados Porto — Porto Alegre, RS', 'Telhados Capital — Brasília, DF'].map((name) => (
+              <div class="flex shrink-0 items-center gap-2 mx-8">
+                <div class="h-7 w-7 rounded-full bg-[#f5f3ff] border border-[#c7c0fc] flex items-center justify-center">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <span class="font-mono text-[13px] font-medium text-[#374151] whitespace-nowrap">{name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PAIN AGITATION ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">O problema</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Os serviços de alto valor em telhados vão para quem<br />aparece primeiro no Google Maps.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            78% dos proprietários verificam avaliações antes de contratar um telhador. A empresa de telhados no Map Pack com a melhor avaliação ganha. As que ficam abaixo do fold quase nunca são chamadas.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px bg-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] md:grid-cols-3">
+          <div class="bg-white px-8 py-10">
+            <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <p class="font-sans text-[1rem] font-semibold text-[#111827]">Uma tempestade atinge sua região. Proprietários pesquisam telhadores. Ligam para quem ranqueia primeiro.</p>
+            <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">Danos de tempestade criam picos massivos de busca local — e a empresa de telhados que ranqueia no Map Pack captura a maioria dessa intenção. O algoritmo do Maps constrói autoridade de ranking ao longo de meses de atividade consistente, não dias. As empresas que ganham na temporada de chuvas são as que construíram sua presença no GBP antes da chuva chegar.</p>
+          </div>
+
+          <div class="bg-white px-8 py-10">
+            <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <p class="font-sans text-[1rem] font-semibold text-[#111827]">Uma avaliação de 2 estrelas sobre um reparo com vazamento está custando serviços de R$50.000.</p>
+            <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">78% dos proprietários verificam avaliações antes de contratar um telhador. Telhado é uma compra de alto valor e alta confiança — proprietários estão tomando uma decisão de R$20.000 a R$80.000 com base na sua reputação. Uma avaliação negativa sem resposta sobre má mão de obra diz a cada futuro cliente exatamente o que eles temem.</p>
+          </div>
+
+          <div class="bg-white px-8 py-10">
+            <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-[#fca5a5] bg-[#fff1f2]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <p class="font-sans text-[1rem] font-semibold text-[#111827]">Você ranqueia pelo nome da sua empresa. Não por "troca de telhado perto de mim".</p>
+            <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">Proprietários que precisam de um telhado novo pesquisam "troca de telhado perto de mim", "telhador [cidade]" e "empresa de telhados [cidade]". Eles não pesquisam o nome da sua empresa — eles ainda não o conhecem. Se você não está no Map Pack para essas buscas, esses serviços de R$60.000 vão para quem está.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SERVICES GRID ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">O que o Stacc faz para empresas de telhados</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Cada alavanca que gera novos serviços pelo Google. Resolvida.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            O ranking no Maps para telhadores exige atividade consistente no GBP, respostas rápidas a avaliações e conteúdo com palavras-chave específicas — todo mês, sem exceção. O Stacc cuida de tudo automaticamente.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              title: 'Publicação no GBP',
+              body: '30 publicações otimizadas por localidade por mês focadas em conteúdo sazonal de preparação para chuvas, lembretes de vistoria de telhado, destaques de materiais, informações de garantia e projetos concluídos. Publicadas automaticamente no horário certo.',
+              icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z',
+            },
+            {
+              title: 'Palavras-chave para Telhados',
+              body: 'Combinações de serviço + cidade para cada tipo de serviço que sua empresa realiza — troca de telhado, reparo por tempestade, calhas, vistorias, telhado plano e reparos emergenciais. Tudo calibrado para sua área de atendimento específica.',
+              icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z',
+            },
+            {
+              title: 'Monitoramento de Avaliações',
+              body: 'Alertas instantâneos quando uma nova avaliação aparecer no Google. Rastreamento de tendência de estrelas semana a semana. Modelos de resposta para que você responda em menos de um minuto e proteja sua reputação de alto valor.',
+              icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
+            },
+            {
+              title: 'Rastreamento de Ranking Local',
+              body: 'Relatórios de ranking no Maps em grade mostrando exatamente onde sua empresa de telhados ranqueia para cada palavra-chave em toda a área de atendimento. Acompanhamento mês a mês para ver sua autoridade crescer antes da temporada de chuvas.',
+              icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+            },
+            {
+              title: 'Gestão Multi-área',
+              body: 'Atende múltiplas cidades ou regiões? Cada área de atendimento recebe sua própria estratégia de palavras-chave, calendário de conteúdo e relatório de desempenho — tudo em um único painel. Acompanhe a melhoria em cada área.',
+              icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z M9 22V12h6v10',
+            },
+            {
+              title: 'Construção de Citações',
+              body: 'Verificação de consistência NAP e envio a diretórios de prestadores de serviços — GetNinjas, Habitissimo, Buscapé Serviços e mais de 50 outros. Os sinais de autoridade que ajudam você a superar concorrentes oportunistas.',
+              icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1',
+            },
+          ].map(f => (
+            <div class="bg-white px-7 py-8">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d={f.icon}/>
+                </svg>
+              </div>
+              <p class="mt-5 font-mono text-[12px] font-semibold uppercase tracking-[0.1em] text-[#292524]">{f.title}</p>
+              <p class="mt-2 font-sans text-[13px] leading-[1.65] text-[#79716b]">{f.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── HOW IT WORKS ─── -->
+    <section id="como-funciona" class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Como funciona</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Conecte uma vez. O Stacc gerencia a presença<br />da sua empresa no Maps a partir desse dia.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Sem logins no GBP. Sem escrever publicações. Sem verificar avaliações manualmente. Configure uma vez e seu Google Business Profile funciona sozinho — construindo autoridade de ranking mês após mês antes da próxima temporada de chuvas.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-14 max-w-5xl">
+          <div class="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[#e7e5e4] bg-[#e7e5e4] md:grid-cols-3">
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">01</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">Conecte seu Google Business Profile</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">Pesquise sua empresa de telhados pelo nome. O Stacc importa seus dados atuais do GBP, histórico de avaliações e posição de ranking — e identifica exatamente quais palavras-chave de telhados você não está aparecendo em sua área de atendimento.</p>
+            </div>
+
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">02</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">A IA monta seu plano de conteúdo para telhados</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">30 publicações otimizadas por localidade por mês direcionadas aos seus serviços e área de atendimento específicos. Troca de telhado, danos por tempestade, calhas, vistorias e conteúdo de preparação sazonal — tudo escrito para construir autoridade no Maps antes que os proprietários precisem de você.</p>
+            </div>
+
+            <div class="bg-white px-8 py-10">
+              <div class="mb-6 flex items-center justify-between">
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#e7e5e4] bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <span class="font-mono text-[2.2rem] font-bold text-[#e7e5e4]">03</span>
+              </div>
+              <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#292524]">Publicações no ar. Rankings sobem. Serviços chegam.</p>
+              <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#79716b]">O conteúdo é publicado no seu GBP automaticamente todo mês. Alertas de avaliação chegam no instante em que aparecem. Seu relatório de ranking no Maps é atualizado mensalmente. Ligações de proprietários chegam enquanto você faz o trabalho no telhado.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── RESULTS METRICS ─── -->
+    <section class="border-b border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Em números</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2.4rem]">
+            O que os dados dizem sobre proprietários<br />e a busca local por telhados.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            A oportunidade é maior do que a maioria das empresas de telhados percebe — e a maioria dos concorrentes não está construindo autoridade no GBP antes da temporada de chuvas.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-px overflow-hidden rounded-2xl bg-white/5 sm:grid-cols-2 md:grid-cols-4" style="border:1px solid rgba(255,255,255,0.08);">
+          {[
+            { value: '390K', num: 390, prefix: '', suffix: 'K', decimals: 0, from: 0, label: 'Buscas mensais por "telhador perto de mim"', sub: 'pico após cada tempestade'                   },
+            { value: '76%',  num: 76,  prefix: '', suffix: '%', decimals: 0, from: 0, label: 'Proprietários pesquisam antes de ligar',      sub: 'seu GBP é a primeira impressão'          },
+            { value: '78%',  num: 78,  prefix: '', suffix: '%', decimals: 0, from: 0, label: 'Verificam avaliações antes de contratar',     sub: 'nota 4.8 estrelas gana serviços altos'   },
+            { value: '4.7×', num: 4.7, prefix: '', suffix: '×', decimals: 1, from: 0, label: 'Melhora média no ranking com Stacc',          sub: 'em até 90 dias de atividade consistente' },
+          ].map(s => (
+            <div class="flex flex-col items-center justify-center px-8 py-12 text-center" style="background:rgba(15,23,42,0.04);">
+              <p class="font-sans text-[2.8rem] font-semibold tracking-[-0.04em] text-[#292524]"
+                 data-count-up data-target={s.num} data-from={s.from} data-prefix={s.prefix} data-suffix={s.suffix} data-decimals={s.decimals}>{s.value}</p>
+              <p class="mt-2 font-sans text-[13px] font-semibold text-[#292524]/70">{s.label}</p>
+              <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.12em]" style="color:#4b5563;">{s.sub}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── COMPARISON TABLE ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Por que Stacc</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            A única opção que faz o trabalho completo.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Uma agência de marketing para telhadores cobra de R$2.000 a R$6.000/mês por uma fração do que o Stacc entrega. Fazer você mesmo significa que as publicações nunca saem. O Stacc automatiza tudo por $49.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl overflow-hidden rounded-2xl border border-[#e7e5e4]">
+          <div class="grid grid-cols-4 bg-[#f5f3ff] px-0">
+            <div class="px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-[#79716b]"></div>
+            <div class="border-l border-[#e7e5e4] px-6 py-4 text-center font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-[#6b7280]">Agência de Marketing para Telhados</div>
+            <div class="border-l border-[#e7e5e4] px-6 py-4 text-center font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-[#6b7280]">Você mesmo</div>
+            <div class="border-l border-[#4f39f6] bg-[#4f39f6] px-6 py-4 text-center font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-white">Stacc</div>
+          </div>
+          {[
+            { label: 'Custo mensal',                          agency: 'R$2.000–R$6.000', diy: 'Seu tempo', stacc: '$49'    },
+            { label: 'Publicações no GBP por mês',            agency: '8–12',             diy: '1–3',       stacc: '30'     },
+            { label: 'Palavras-chave para telhados',          agency: '✓',               diy: '✗',         stacc: '✓'      },
+            { label: 'Monitoramento e alertas de avaliações', agency: '✓',               diy: 'Manual',    stacc: '✓'      },
+            { label: 'Rastreamento de ranking local',         agency: '✓',               diy: '✗',         stacc: '✓'      },
+            { label: 'Suporte multi-área',                    agency: 'Custo extra',     diy: '✗',         stacc: '✓'      },
+            { label: 'Tempo exigido de você',                 agency: 'Reunião mensal',  diy: 'Alto',      stacc: 'Nenhum' },
+            { label: 'Contrato obrigatório',                  agency: '12 meses',        diy: '—',         stacc: 'Nunca'  },
+          ].map((row, i) => (
+            <div class={`grid grid-cols-4 border-t border-[#e7e5e4] ${i % 2 === 0 ? 'bg-white' : 'bg-[#fafaf9]'}`}>
+              <div class="px-6 py-4 font-sans text-[13px] font-medium text-[#374151]">{row.label}</div>
+              <div class="border-l border-[#e7e5e4] px-6 py-4 text-center font-sans text-[13px] text-[#6b7280]">{row.agency}</div>
+              <div class="border-l border-[#e7e5e4] px-6 py-4 text-center font-sans text-[13px] text-[#6b7280]">{row.diy}</div>
+              <div class="border-l border-[#c7c0fc] bg-[#f5f3ff] px-6 py-4 text-center font-sans text-[13px] font-semibold text-[#4f39f6]">{row.stacc}</div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-8 text-center">
+          <a
+            href="/pt-br/demo/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+          >
+            Comece por $1 hoje
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIAL ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#f5f3ff]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="rounded-2xl border border-[#c7c0fc] bg-white px-10 py-12 shadow-sm">
+            <div class="flex gap-1 mb-6">
+              {[1,2,3,4,5].map(() => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <blockquote class="font-sans text-[1.2rem] leading-[1.65] text-[#111827] font-medium">
+              "Antes ficávamos esperando indicações após cada chuva forte. Agora o Google nos manda proprietários. Três meses depois de começar com o Stacc, estamos no top 3 por 'telhador perto de mim' em toda nossa área metropolitana. As publicações no GBP saem todo dia. Alertas de avaliação são imediatos — respondo no mesmo dia. A última temporada de chuvas foi nosso melhor ano em receita. Por $49 por mês, o retorno é simplesmente absurdo."
+            </blockquote>
+            <div class="mt-8 flex items-center gap-4">
+              <div class="h-11 w-11 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                <span class="font-mono text-[14px] font-bold text-white">MD</span>
+              </div>
+              <div>
+                <p class="font-sans text-[14px] font-semibold text-[#111827]">M. Davis</p>
+                <p class="font-mono text-[11px] text-[#79716b]">Proprietário, Davis Telhados · Curitiba, PR</p>
+              </div>
+              <div class="ml-auto flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-[#fafaf9] px-3 py-1.5 shrink-0">
+                <span class="font-mono text-[11px] font-semibold text-[#059669]">↑ Melhor ano em receita</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── PRICING CARD ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Preços</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Menos do que os materiais de uma pequena reforma.<br/>Todo mês.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            Um único serviço de troca de telhado vale de R$20.000 a R$80.000. O Stacc gera mais deles pelo Google por $49/mês.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-8 max-w-lg rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] px-8 py-6">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4f39f6]">Por que $49. E não R$2.000/mês?</p>
+          <p class="mt-2 font-sans text-[14px] leading-[1.65] text-[#57534e]">
+            Agências de marketing para telhadores cobram pelo tempo humano: pesquisa de palavras-chave, criação de publicações, agendamento, monitoramento de avaliações e relatórios mensais. O Stacc automatiza cada uma dessas tarefas. O resultado é o mesmo. Os custos operacionais e a margem da agência desaparecem.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-8 max-w-lg">
+          <div class="overflow-hidden rounded-2xl border-2 border-[#4f39f6] bg-white shadow-[0_8px_40px_rgba(79,57,246,0.12)]">
+            <div class="bg-[#4f39f6] px-8 py-6">
+              <div class="flex items-start justify-between">
+                <div>
+                  <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">Módulo SEO Local · Telhados</p>
+                  <div class="mt-2 flex items-baseline gap-1">
+                    <span class="font-sans text-[3rem] font-bold text-white leading-none">$49</span>
+                    <span class="font-sans text-[16px] text-white/60">/mês</span>
+                  </div>
+                </div>
+                <div class="rounded-full bg-white/15 px-3 py-1">
+                  <span class="font-mono text-[11px] font-semibold text-white">Sem contratos</span>
+                </div>
+              </div>
+              <p class="mt-3 font-sans text-[14px] text-white/70">Publicações no GBP, monitoramento de avaliações, rastreamento de ranking. No piloto automático.</p>
+            </div>
+
+            <div class="px-8 py-7">
+              <ul class="space-y-4">
+                {[
+                  '30 publicações de telhados no GBP por mês direcionadas aos seus serviços e área',
+                  'Palavras-chave para troca de telhado, danos por tempestade, calhas, vistorias e reparo emergencial',
+                  'Alertas instantâneos de avaliações no Google',
+                  'Modelos de resposta para avaliações positivas, neutras e negativas',
+                  'Rastreamento de ranking local em grade em toda a sua área de atendimento',
+                  'Gestão multi-área em um único painel',
+                  'Construção de citações no GetNinjas, Habitissimo e mais de 50 diretórios',
+                  'Relatório mensal de desempenho de SEO local',
+                ].map(item => (
+                  <li class="flex items-start gap-3">
+                    <svg class="mt-0.5 shrink-0" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                    <span class="font-sans text-[14px] text-[#374151]">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div class="mt-8 space-y-3">
+                <a
+                  href="/pt-br/demo/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#4f39f6] font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+                >
+                  Comece por $1 — depois $49/mês
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 pt-1">
+                  {['30 dias de garantia', 'Sem contratos', 'Cancele quando quiser', 'Todas as áreas incluídas'].map(t => (
+                    <span class="font-mono text-[10px] uppercase tracking-[0.12em] text-[#79716b]">{t}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t border-[#e7e5e4] bg-[#fafaf9] px-8 py-5">
+              <div class="grid grid-cols-3 gap-4 text-center text-[12px]">
+                <div>
+                  <p class="font-semibold text-[#ef4444]">Agência de Marketing para Telhados</p>
+                  <p class="mt-1 font-mono font-bold text-[#111827]">R$2.000–R$6.000</p>
+                  <p class="text-[#9ca3af]">8–12 posts/mês</p>
+                </div>
+                <div>
+                  <p class="font-semibold text-[#f59e0b]">Você mesmo</p>
+                  <p class="mt-1 font-mono font-bold text-[#111827]">Seu tempo</p>
+                  <p class="text-[#9ca3af]">1–3 posts/mês</p>
+                </div>
+                <div>
+                  <p class="font-semibold text-[#4f39f6]">Stacc</p>
+                  <p class="mt-1 font-mono font-bold text-[#111827]">$49</p>
+                  <p class="text-[#9ca3af]">30 posts/mês</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">FAQ</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Perguntas que telhadores fazem antes de começar
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button
+                class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
+                aria-expanded={i === 0 ? 'true' : 'false'}
+              >
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0 transition-transform" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── OTHER INDUSTRIES ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Outros setores</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            O Stacc funciona para todo negócio local.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            O mesmo sistema automatizado de publicações no GBP, gestão de avaliações e rastreamento de ranking que funciona para telhadores funciona para qualquer prestador de serviço que depende da busca local.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-5xl grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+          {[
+            { label: 'SEO para Encanadores',      href: '/pt-br/para/encanadores/'   },
+            { label: 'SEO para Eletricistas',     href: '/pt-br/para/eletricistas/'  },
+            { label: 'SEO para Empreiteiros',     href: '/pt-br/para/empreiteiros/'  },
+            { label: 'SEO para Serviços de Limpeza', href: '/pt-br/para/servicos-limpeza/' },
+            { label: 'SEO para Mudanças',         href: '/pt-br/para/mudancas/'      },
+            { label: 'SEO para Dentistas',        href: '/pt-br/para/dentistas/'     },
+            { label: 'SEO para Restaurantes',     href: '/pt-br/para/restaurantes/'  },
+            { label: 'SEO para Contadores',       href: '/pt-br/para/contadores/'    },
+          ].map(item => (
+            <a
+              href={item.href}
+              class="flex items-center justify-between gap-2 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] px-4 py-3 transition-all hover:border-[#c7c0fc] hover:bg-[#f5f3ff]"
+            >
+              <span class="font-sans text-[13px] font-medium text-[#292524]">{item.label}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#a8a29e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.2) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Comece hoje</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Agora mesmo, um proprietário na sua cidade<br class="hidden md:block" /> está pesquisando "telhador perto de mim".<span style="color:#818cf8;"> Você está aparecendo?</span>
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Cada dia que seu Google Business Profile fica inativo é um dia que um concorrente recebe aquele serviço de R$50.000. O Stacc gerencia a presença da sua empresa de telhados no Maps automaticamente por $49 por mês. Menos do que o custo de uma tarde de mão de obra.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/pt-br/demo/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-6 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]"
+            >
+              Comece seu SEO para telhados por $1
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="/pt-br/precos/"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-6 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5"
+            >
+              Comparar todos os planos
+            </a>
+          </div>
+
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">30 dias de garantia de devolução · Sem contratos · Cancele quando quiser</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+
+  <script>
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+
+</BaseLayout>

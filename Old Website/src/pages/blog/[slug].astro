@@ -1,0 +1,729 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE_URL, organizationSchema, publisherRef, authorRef, websiteSchema, buildBreadcrumbs, buildSpeakable, buildFAQSchema, resolveImage } from '../../utils/schema';
+import CrossLinks from '../../components/common/CrossLinks.astro';
+import ExitIntent from '../../components/common/ExitIntent.astro';
+import { categoryToModule, categoryToTools, allModules } from '../../data/internal-links';
+import { isNoindexed } from '../../data/noindex-list';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+// Read time
+const wordCount = (post.body ?? '').split(/\s+/).filter(Boolean).length;
+const readTime = Math.max(1, Math.round(wordCount / 200));
+
+// Author initials for avatar
+const authorInitials = (post.data.author || 'Stacc Editorial')
+  .split(' ')
+  .map((w: string) => w[0] ?? '')
+  .join('')
+  .toUpperCase()
+  .slice(0, 2);
+
+// Extract FAQs
+function extractFAQs(body: string): { question: string; answer: string }[] {
+  const faqs: { question: string; answer: string }[] = [];
+  const faqMatch = body.match(/\n## (?:FAQ|Frequently Asked Questions?)\s*\n([\s\S]*?)(?=\n## [^#]|\n---\s*$|$)/i);
+  if (!faqMatch) return faqs;
+  const faqSection = faqMatch[0];
+  const h3Pattern = /### (.+?)\n+([\s\S]*?)(?=\n### |\n## |$)/g;
+  let match;
+  while ((match = h3Pattern.exec(faqSection)) !== null) {
+    const question = match[1].trim();
+    const answer = match[2].trim().replace(/\n+/g, ' ').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*([^*]+)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1');
+    if (question && answer) faqs.push({ question, answer });
+  }
+  if (faqs.length === 0) {
+    const boldPattern = /\*\*(.+?\??)\*\*\n+([\s\S]*?)(?=\n\*\*|\n## |\n---\s*$|$)/g;
+    while ((match = boldPattern.exec(faqSection)) !== null) {
+      const question = match[1].trim();
+      const answer = match[2].trim().replace(/\n+/g, ' ').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*([^*]+)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1');
+      if (question && answer) faqs.push({ question, answer });
+    }
+  }
+  return faqs.slice(0, 10);
+}
+
+const faqs = extractFAQs(post.body || '');
+const faqSchema = buildFAQSchema(faqs);
+
+// Internal linking
+const category = post.data.category || 'SEO Tips';
+const moduleLink = categoryToModule[category];
+const relatedTools = categoryToTools[category] || [];
+
+// ── Per-category sidebar CTA copy ──────────────────────────────────────────
+const ICON_LIGHTNING = `<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
+const ICON_MAP_PIN   = `<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+const ICON_SHARE     = `<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`;
+
+type CtaCfg = { icon: string; headline: string; body: string; features: string[]; ref: string; mobileHeadline: string; mobileBody: string };
+
+const ctaMap: Record<string, CtaCfg> = {
+  'Local SEO': {
+    icon: ICON_MAP_PIN,
+    headline: 'Dominate local search with automated GBP content',
+    body: '30 Google Business Profile posts every month. Plus local SEO blog articles and review automation.',
+    features: ['30 GBP posts/month', 'Local SEO blog articles', 'Review response automation', 'Auto-published monthly'],
+    ref: 'local-seo-sidebar',
+    mobileHeadline: 'Automate your Google Business Profile content',
+    mobileBody: '30 GBP posts, local SEO articles, and review responses. Published every month automatically.',
+  },
+  'Social Media': {
+    icon: ICON_SHARE,
+    headline: '30 social posts published every month. Automatically',
+    body: 'Platform-ready content for LinkedIn, Facebook, Instagram, and more. Scheduled and live without lifting a finger.',
+    features: ['30 social posts/month', 'Multi-platform content', 'Auto-scheduled publishing', 'SEO-aligned messaging'],
+    ref: 'social-sidebar',
+    mobileHeadline: 'Automate your social media content',
+    mobileBody: '30 social posts per month across all platforms. Written and published automatically.',
+  },
+};
+
+const defaultCta: CtaCfg = {
+  icon: ICON_LIGHTNING,
+  headline: '30 SEO blog articles published to your site every month',
+  body: 'Keyword-optimized, structured, and live. Zero effort on your end.',
+  features: ['30 blog articles/month', 'Keyword-optimized content', 'Auto-published to your site', 'SEO-structured format'],
+  ref: 'blog-sidebar',
+  mobileHeadline: '30 SEO blog articles published every month',
+  mobileBody: 'Keyword-optimized, scheduled, and live on your site. Automatically.',
+};
+
+const cta: CtaCfg = ctaMap[category] ?? defaultCta;
+
+// Related posts (same category, fallback to recent)
+const allPosts = await getCollection('blog');
+let relatedPosts = allPosts
+  .filter(p => p.data.slug !== post.data.slug && p.data.category === category && p.data.image)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+
+if (relatedPosts.length < 3) {
+  const existing = new Set([post.data.slug, ...relatedPosts.map(p => p.data.slug)]);
+  const fallback = allPosts
+    .filter(p => !existing.has(p.data.slug) && p.data.image)
+    .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+    .slice(0, 3 - relatedPosts.length);
+  relatedPosts = [...relatedPosts, ...fallback];
+}
+
+const postUrl = `${SITE_URL}/blog/${post.data.slug}/`;
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      '@id': `${postUrl}#article`,
+      headline: post.data.title,
+      description: post.data.description,
+      url: postUrl,
+      datePublished: post.data.date,
+      dateModified: post.data.lastUpdated || post.data.date,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+      author: authorRef,
+      publisher: publisherRef,
+      image: resolveImage(post.data.image),
+      articleSection: post.data.category,
+      inLanguage: 'en',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      speakable: buildSpeakable(['.blog-content > p:first-of-type', 'h1']),
+    },
+    buildBreadcrumbs(postUrl, [
+      { name: 'Home', url: SITE_URL },
+      { name: 'Blog', url: `${SITE_URL}/blog/` },
+      { name: post.data.title, url: postUrl },
+    ]),
+    organizationSchema,
+    websiteSchema,
+    ...(faqSchema ? [faqSchema] : []),
+  ],
+};
+---
+
+<BaseLayout
+  title={`${post.data.title} | theStacc`}
+  description={post.data.description}
+  ogImage={post.data.image}
+  noindex={isNoindexed(`/blog/${post.data.slug}/`)}
+>
+
+  <!-- Reading Progress Bar -->
+  <div id="reading-progress" class="pointer-events-none fixed left-0 top-0 z-[200] h-[3px]" style="width:0%;background:linear-gradient(to right,#4f39f6,#818cf8);transition:width 80ms linear;"></div>
+
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+    <article>
+
+      <!-- ░░ HERO ░░ -->
+      <div class="border-b border-[#e7e5e4] bg-white">
+        <div class="mx-auto max-w-[1320px] px-6 pt-8 pb-8">
+          <div class="max-w-[780px]">
+
+            <!-- Breadcrumb -->
+              <nav class="flex items-center gap-1.5" aria-label="Breadcrumb">
+                <a href="/blog/" class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#79716b] transition-colors hover:text-[#4f39f6]">Blog</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#d6d3d1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#4f39f6]">{post.data.category}</span>
+              </nav>
+
+              <!-- Category + read time pills -->
+              <div class="mt-3.5 flex flex-wrap items-center gap-2">
+                <span class="rounded-md bg-[#f5f3ff] px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[#4f39f6]">{post.data.category}</span>
+                <span class="flex items-center gap-1.5 font-mono text-[11px] text-[#79716b]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {readTime} min read
+                </span>
+                {post.data.lastUpdated && post.data.lastUpdated !== post.data.date && (
+                  <span class="font-mono text-[11px] text-[#4f39f6]">Updated {post.data.lastUpdated}</span>
+                )}
+              </div>
+
+              <!-- H1 -->
+              <h1 class="mt-4 font-sans text-[28px] font-bold leading-[1.18] tracking-[-0.025em] text-[#111827] md:text-[36px]">
+                {post.data.title}
+              </h1>
+
+              <!-- Description -->
+              <p class="mt-4 font-sans text-[17px] leading-[1.65] text-[#57534e]">{post.data.description}</p>
+
+              <!-- Author + meta row -->
+              <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-[#f5f5f4] pt-4">
+                <div class="flex items-center gap-2.5">
+                  <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#4f39f6] font-mono text-[10px] font-bold text-white">SG</div>
+                  <a href="/author/siddharth-gangal/" class="font-sans text-[13px] font-medium text-[#292524] transition-colors hover:text-[#4f39f6]">Siddharth Gangal</a>
+                </div>
+                <span class="text-[#d6d3d1]">·</span>
+                <span class="font-mono text-[11px] text-[#79716b]">{post.data.date}</span>
+              </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ░░ MOBILE TOC TOGGLE ░░ -->
+      <div class="border-b border-[#e7e5e4] bg-white lg:hidden">
+        <div class="mx-auto max-w-[1320px] px-6">
+          <button id="mobile-toc-toggle" aria-expanded="false" class="flex w-full cursor-pointer items-center justify-between py-3.5 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#57534e]">
+            <span class="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              In This Article
+            </span>
+            <svg id="toc-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div id="mobile-toc-panel" class="hidden pb-4">
+            <nav id="blog-toc-mobile" class="review-toc flex flex-col"></nav>
+          </div>
+        </div>
+      </div>
+
+      <!-- ░░ TWO COLUMN ░░ -->
+      <div class="mx-auto max-w-[1320px] px-6 py-10 lg:flex lg:items-start lg:gap-12">
+
+        <!-- Main Content -->
+        <div class="min-w-0 flex-1">
+          <div class="review-content blog-content overflow-x-hidden">
+            <Content />
+          </div>
+
+          <!-- Author Box (above CrossLinks) -->
+          <div class="mt-10 flex items-start gap-5 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+            <img
+              src="/images/siddharth-gangal.webp"
+              alt="Siddharth Gangal"
+              width="80"
+              height="80"
+              class="h-14 w-14 shrink-0 rounded-full object-cover ring-2 ring-white"
+              loading="lazy"
+            />
+            <div class="min-w-0">
+              <p class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Written by</p>
+              <a href="/author/siddharth-gangal/" class="mt-0.5 block font-sans text-[15px] font-bold text-[#111827] transition-colors hover:text-[#4f39f6]">Siddharth Gangal</a>
+              <p class="mt-1.5 font-sans text-[13px] leading-[1.65] text-[#57534e]">Siddharth is the founder of theStacc and Arka360, and a graduate of IIT Mandi. He spent years watching great businesses lose organic traffic to competitors who simply published more. So he built a system to fix that. He writes about SEO, content at scale, and the tactics that actually move rankings.</p>
+            </div>
+          </div>
+
+          <CrossLinks
+            heading="Explore More from theStacc"
+            moduleLinks={moduleLink ? [{ url: moduleLink.url, label: moduleLink.label }] : allModules.map(m => ({ url: m.url, label: m.label }))}
+            toolLinks={relatedTools.slice(0, 2)}
+            bestLinks={category === 'Local SEO'
+              ? [{ url: '/best/local-seo-tools', label: 'Best Local SEO Tools' }]
+              : [{ url: '/best/ai-seo-tools', label: 'Best AI SEO Tools' }]
+            }
+            homepageAnchor={moduleLink ? moduleLink.anchor : 'AI SEO automation platform'}
+          />
+
+          <!-- Related Posts -->
+          {relatedPosts.length > 0 && (
+            <div class="mt-10 border-t border-[#e7e5e4] pt-8">
+              <h3 class="font-sans text-[18px] font-bold text-[#111827]">Keep Reading</h3>
+              <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {relatedPosts.map(rp => (
+                  <a
+                    href={`/blog/${rp.data.slug}/`}
+                    class="group flex flex-col overflow-hidden rounded-xl border border-[#e7e5e4] bg-[#fafaf9] transition-all hover:border-[#c4b5fd] hover:shadow-sm"
+                  >
+                    <div class="flex flex-1 flex-col p-5">
+                      <span class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#4f39f6]">{rp.data.category}</span>
+                      <h4 class="mt-1.5 flex-1 font-sans text-[13px] font-semibold leading-[1.4] text-[#292524] line-clamp-2 transition-colors group-hover:text-[#4f39f6]">{rp.data.title}</h4>
+                      <span class="mt-3 font-mono text-[10px] text-[#79716b]">{rp.data.date}</span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <!-- Sidebar (desktop) -->
+        <aside class="hidden lg:block w-[272px] shrink-0 self-stretch">
+          <div id="blog-sidebar-inner" class="flex flex-col gap-4 pt-2">
+
+            <!-- CTA first (category-matched copy) -->
+            <div class="overflow-hidden rounded-2xl" style="background:#0d1117;border:1px solid rgba(79,57,246,0.25);">
+              <div class="p-5" style="background:linear-gradient(135deg,rgba(79,57,246,0.18) 0%,transparent 65%);">
+                <div class="mb-3 flex h-9 w-9 items-center justify-center rounded-xl" style="background:rgba(79,57,246,0.2);" set:html={cta.icon}></div>
+                <h4 class="font-sans text-[15px] font-bold leading-[1.3] text-white">{cta.headline}</h4>
+                <p class="mt-1.5 font-sans text-[12px] leading-[1.6] text-[#94a3b8]">{cta.body}</p>
+              </div>
+              <div class="px-5 py-3.5" style="border-top:1px solid rgba(255,255,255,0.07);">
+                <ul class="flex flex-col gap-2">
+                  {cta.features.map(item => (
+                    <li class="flex items-center gap-2.5 font-sans text-[12px] text-[#94a3b8]">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div class="px-5 pb-5 pt-4" style="border-top:1px solid rgba(255,255,255,0.07);">
+                <a
+                  href="/demo/"
+                                    class="block rounded-xl py-3 text-center font-mono text-[12px] font-bold uppercase tracking-[0.08em] text-white transition-colors hover:opacity-90"
+                  style="background:#4f39f6;"
+                >
+                  Start for $1 →
+                </a>
+                <p class="mt-2 text-center font-mono text-[10px] text-[#4b5563]">30-day trial · Cancel anytime</p>
+              </div>
+            </div>
+
+            <!-- TOC second -->
+            <div class="review-toc-card">
+              <h4>In This Article</h4>
+              <nav id="blog-toc" class="review-toc"></nav>
+            </div>
+
+          </div>
+        </aside>
+      </div>
+
+      <!-- Mobile sidebar CTA (category-matched, no sidebar on mobile) -->
+      <div class="mx-auto max-w-[1320px] px-6 pb-4 lg:hidden">
+        <div class="overflow-hidden rounded-2xl" style="background:#0d1117;border:1px solid rgba(79,57,246,0.25);">
+          <div class="p-5" style="background:linear-gradient(135deg,rgba(79,57,246,0.18) 0%,transparent 65%);">
+            <h4 class="font-sans text-[15px] font-bold leading-[1.3] text-white">{cta.mobileHeadline}</h4>
+            <p class="mt-1.5 font-sans text-[12px] leading-[1.6] text-[#94a3b8]">{cta.mobileBody}</p>
+          </div>
+          <div class="px-5 pb-5 pt-4" style="border-top:1px solid rgba(255,255,255,0.07);">
+            <a
+              href="/demo/"
+                            class="block rounded-xl bg-[#4f39f6] py-3 text-center font-mono text-[12px] font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#615fff]"
+            >
+              Start for $1 →
+            </a>
+            <p class="mt-2 text-center font-mono text-[10px] text-[#4b5563]">30-day trial · Cancel anytime</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ░░ DARK FOOTER CTA ░░ -->
+      <section class="relative overflow-hidden" style="background:#ffffff;">
+        <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+        <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.06) 0%, transparent 65%);"></div>
+        <div class="container-x relative z-10 py-14 text-center">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#4f39f6]">theStacc</p>
+          <h3 class="mt-3 font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-[#292524]">
+            Stop writing SEO content manually
+          </h3>
+          <p class="mx-auto mt-3 max-w-[420px] font-sans text-[15px] leading-[1.7] text-[#57534e]">
+            30 blog articles, 30 GBP posts, and social media content. Published every month. Automatically.
+          </p>
+          <a
+            href="/demo/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+          >
+            Start Your $1 Trial
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#79716b]">$1 for 3 days · Cancel anytime</p>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <!-- Floating Share Buttons (xl desktop only) -->
+  <div id="share-sidebar" class="fixed left-4 top-1/2 z-50 hidden -translate-y-1/2 xl:block">
+    <div id="share-inner" class="flex flex-col gap-2 opacity-0 transition-opacity duration-300">
+      <button
+        id="share-linkedin"
+        title="Share on LinkedIn"
+        class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#e7e5e4] bg-white shadow-sm transition-all hover:border-[#c4b5fd] hover:shadow-md"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#0077b5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </button>
+      <button
+        id="share-x"
+        title="Share on X"
+        class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#e7e5e4] bg-white shadow-sm transition-all hover:border-[#c4b5fd] hover:shadow-md"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#111827"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </button>
+      <button
+        id="copy-link-btn"
+        title="Copy link"
+        class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-[#e7e5e4] bg-white shadow-sm transition-all hover:border-[#c4b5fd] hover:shadow-md"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#57534e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </button>
+      <div id="copy-toast" class="pointer-events-none absolute left-12 top-1/2 -translate-y-1/2 rounded-lg bg-[#111827] px-3 py-1.5 font-mono text-[11px] font-semibold text-white opacity-0 transition-opacity duration-200 whitespace-nowrap">
+        Copied!
+      </div>
+    </div>
+  </div>
+
+  <Footer />
+  <ExitIntent />
+</BaseLayout>
+
+<script>
+  // ░░ READING PROGRESS BAR ░░
+  const progressBar = document.getElementById('reading-progress') as HTMLElement | null;
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    if (progressBar && docH > 0) {
+      progressBar.style.width = ((scrollTop / docH) * 100).toFixed(1) + '%';
+    }
+  }, { passive: true });
+
+  // ░░ EXTERNAL LINKS ░░
+  document.querySelectorAll('.blog-content a').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    if (href.startsWith('http')) {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
+    }
+  });
+
+  // ░░ REMOVE INLINE TOC FROM MARKDOWN CONTENT ░░
+  document.querySelectorAll('.blog-content h2').forEach((h2) => {
+    const text = (h2.textContent || '').toLowerCase().trim();
+    if (text === 'table of contents' || text === 'contents' || text.includes('table of contents')) {
+      const toRemove: Element[] = [];
+      let el = h2.nextElementSibling;
+      while (el && el.tagName !== 'H2') {
+        toRemove.push(el);
+        el = el.nextElementSibling;
+      }
+      toRemove.forEach(e => e.remove());
+      h2.remove();
+    }
+  });
+
+  // ░░ BUILD TOC ░░
+  const toc = document.getElementById('blog-toc');
+  const tocMobile = document.getElementById('blog-toc-mobile');
+  const h2s = document.querySelectorAll('.blog-content h2');
+  h2s.forEach((h2, i) => {
+    const id = 'section-' + i;
+    h2.id = id;
+    [toc, tocMobile].forEach((t) => {
+      if (!t) return;
+      const a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h2.textContent || '';
+      t.appendChild(a);
+    });
+  });
+
+  // ░░ SCROLLSPY ░░
+  const allTocLinks = [
+    ...(toc?.querySelectorAll('a') || []),
+    ...(tocMobile?.querySelectorAll('a') || []),
+  ];
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        allTocLinks.forEach((a) => a.classList.remove('active'));
+        const id = entry.target.id;
+        allTocLinks.filter((a) => a.getAttribute('href') === '#' + id).forEach((a) => a.classList.add('active'));
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px' });
+  h2s.forEach((h2) => io.observe(h2));
+
+  // ░░ MOBILE TOC TOGGLE ░░
+  const mobileToggle = document.getElementById('mobile-toc-toggle');
+  const mobileTocPanel = document.getElementById('mobile-toc-panel');
+  const tocChevron = document.getElementById('toc-chevron');
+  mobileToggle?.addEventListener('click', () => {
+    const open = mobileTocPanel?.classList.toggle('hidden') === false;
+    mobileToggle.setAttribute('aria-expanded', String(open));
+    tocChevron?.style.setProperty('transform', open ? 'rotate(180deg)' : '');
+  });
+
+  // ░░ QUICK SUMMARY BOX ░░
+  (function buildQuickSummary() {
+    const content = document.querySelector('.blog-content');
+    const firstP = content?.querySelector('p');
+    const headings = Array.from(content?.querySelectorAll('h2') || []).filter(h => {
+      const t = (h.textContent || '').toLowerCase();
+      return !t.includes('faq') && !t.includes('frequently asked');
+    }).slice(0, 6);
+    if (!firstP || headings.length < 3) return;
+    const div = document.createElement('div');
+    div.className = 'blog-quick-summary';
+    div.innerHTML = `<p class="blog-quick-summary-label">In This Guide</p><ul class="blog-quick-summary-list">${headings.map(h => `<li>${h.textContent}</li>`).join('')}</ul>`;
+    firstP.after(div);
+  })();
+
+  // ░░ INLINE CTA BLOCKS ░░
+  (function inlineCtAs() {
+    const content = document.querySelector('.blog-content');
+    const h2List = Array.from(content?.querySelectorAll('h2') || []);
+    const ctaHTML = `<div class="blog-inline-cta"><div class="blog-inline-cta-inner"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><div><p class="blog-inline-cta-label">Automate Your SEO Content</p><p class="blog-inline-cta-text">theStacc publishes 30 optimized blog articles to your site every month. No writers, no workflow, no guesswork.</p><a href="/demo/" class="blog-inline-cta-btn">Try it for $1 →</a></div></div></div>`;
+
+    function insertAfterSection(idx: number) {
+      if (!h2List[idx]) return;
+      const nextH2 = h2List[idx + 1];
+      let lastEl: Element = h2List[idx];
+      let el = h2List[idx].nextElementSibling;
+      while (el && el !== nextH2 && el.tagName !== 'H2') {
+        lastEl = el;
+        el = el.nextElementSibling;
+      }
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = ctaHTML;
+      const node = wrapper.firstElementChild;
+      if (node) lastEl.after(node);
+    }
+
+    if (h2List.length > 3) insertAfterSection(2);
+    if (h2List.length > 6) insertAfterSection(5);
+  })();
+
+  // ░░ TABLE HANDLING ░░
+  document.querySelectorAll('.blog-content table').forEach((table) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-scroll-wrapper';
+    table.parentNode?.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+    const colCount = table.querySelectorAll('thead th, thead td').length || table.querySelector('tr')?.children.length || 0;
+    if (colCount >= 8) { (table as HTMLElement).style.minWidth = '1000px'; }
+    else if (colCount >= 6) { (table as HTMLElement).style.minWidth = '800px'; }
+    else if (colCount >= 4) { (table as HTMLElement).style.minWidth = '650px'; }
+    else if (colCount >= 3) { (table as HTMLElement).style.minWidth = '500px'; }
+  });
+
+  let isFirstComparison = true;
+  document.querySelectorAll('.blog-content table').forEach((table) => {
+    const text = table.textContent || '';
+    if (text.includes('⭐')) { table.classList.add('rating-table'); }
+    else if (text.includes('✓') || text.includes('✗') || text.includes('Yes') || text.includes('No')) {
+      table.classList.add('comparison-table');
+      if (isFirstComparison) { table.classList.add('hero-comparison-table'); isFirstComparison = false; }
+    }
+  });
+
+  document.querySelectorAll('.blog-content table tbody tr').forEach((tr) => {
+    const fc = tr.querySelector('td:first-child');
+    if ((fc?.textContent || '').toLowerCase().match(/thestacc|stacc/)) {
+      (tr as HTMLElement).classList.add('stacc-row');
+    }
+  });
+
+  // ░░ CTA LINK BOXES ░░
+  document.querySelectorAll('.blog-content p').forEach((p) => {
+    const a = p.querySelector('a[href*="/pricing"]');
+    if (!a) return;
+    const text = p.textContent?.trim() || '';
+    const linkText = a.textContent?.trim() || '';
+    if (text === linkText || (p.children.length === 1 && p.firstElementChild?.tagName === 'STRONG')) {
+      p.classList.add('cta-box');
+    }
+  });
+
+  // ░░ INTERACTIVE CHECKBOXES ░░
+  document.querySelectorAll('.blog-content input[type="checkbox"]').forEach((cb) => {
+    (cb as HTMLInputElement).disabled = false;
+    cb.addEventListener('change', () => {
+      cb.closest('li')?.classList.toggle('checked', (cb as HTMLInputElement).checked);
+    });
+  });
+
+  // ░░ FAQ ACCORDION ░░
+  document.querySelectorAll('.blog-content h2').forEach((h2) => {
+    const text = h2.textContent?.trim().toLowerCase() || '';
+    if (!text.includes('faq') && !text.includes('frequently asked')) return;
+    h2.classList.add('faq-heading');
+    const faqBox = document.createElement('div');
+    faqBox.className = 'faq-box';
+    let el = h2.nextElementSibling;
+    const items: Element[] = [];
+    while (el && el.tagName !== 'H2' && el.tagName !== 'HR') { items.push(el); el = el.nextElementSibling; }
+    h2.parentNode?.insertBefore(faqBox, h2);
+    faqBox.appendChild(h2);
+    const hasH3s = items.some(item => item.tagName === 'H3');
+    if (hasH3s) {
+      const groups: { question: string; answerEls: Element[] }[] = [];
+      let current: { question: string; answerEls: Element[] } | null = null;
+      items.forEach((item) => {
+        if (item.tagName === 'H3') { current = { question: item.textContent || '', answerEls: [] }; groups.push(current); }
+        else if (current) { current.answerEls.push(item); }
+      });
+      groups.forEach((group) => {
+        const faqItem = document.createElement('div');
+        faqItem.className = 'faq-item';
+        const q = document.createElement('h3');
+        q.className = 'faq-question';
+        q.textContent = group.question;
+        q.setAttribute('role', 'button');
+        q.setAttribute('tabindex', '0');
+        faqItem.appendChild(q);
+        const answer = document.createElement('div');
+        answer.className = 'faq-answer';
+        group.answerEls.forEach((ansEl) => answer.appendChild(ansEl.cloneNode(true)));
+        faqItem.appendChild(answer);
+        faqBox.appendChild(faqItem);
+        q.addEventListener('click', () => faqItem.classList.toggle('open'));
+      });
+      items.forEach((item) => item.remove());
+    } else {
+      const faqItems: { questionText: string; answerHTML: string }[] = [];
+      items.forEach((item) => {
+        if (item.tagName !== 'P') return;
+        const strong = item.querySelector('strong');
+        if (strong && (item.firstChild === strong || item.innerHTML.trim().startsWith('<strong>'))) {
+          const clone = item.cloneNode(true) as HTMLElement;
+          clone.querySelector('strong')?.remove();
+          faqItems.push({ questionText: strong.textContent || '', answerHTML: clone.innerHTML.trim().replace(/^<br\s*\/?>/, '').trim() });
+        } else if (faqItems.length > 0) {
+          faqItems[faqItems.length - 1].answerHTML += (item as HTMLElement).outerHTML;
+        }
+      });
+      faqItems.forEach(({ questionText, answerHTML }) => {
+        const faqItem = document.createElement('div');
+        faqItem.className = 'faq-item';
+        const q = document.createElement('h3');
+        q.className = 'faq-question';
+        q.textContent = questionText;
+        q.setAttribute('role', 'button');
+        q.setAttribute('tabindex', '0');
+        faqItem.appendChild(q);
+        if (answerHTML) {
+          const answer = document.createElement('div');
+          answer.className = 'faq-answer';
+          answer.innerHTML = answerHTML;
+          faqItem.appendChild(answer);
+        }
+        faqBox.appendChild(faqItem);
+        q.addEventListener('click', () => faqItem.classList.toggle('open'));
+      });
+      items.forEach((item) => item.remove());
+    }
+  });
+
+  // ░░ FLOATING SHARE BUTTONS ░░
+  const shareInner = document.getElementById('share-inner');
+  window.addEventListener('scroll', () => {
+    if (!shareInner) return;
+    if (window.scrollY > 400) {
+      shareInner.style.opacity = '1';
+      shareInner.style.pointerEvents = 'auto';
+    } else {
+      shareInner.style.opacity = '0';
+      shareInner.style.pointerEvents = 'none';
+    }
+  }, { passive: true });
+
+  document.getElementById('share-linkedin')?.addEventListener('click', () => {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.title);
+    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`, '_blank', 'width=600,height=500');
+  });
+
+  document.getElementById('share-x')?.addEventListener('click', () => {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent(document.title.replace(' | theStacc', ''));
+    window.open(`https://twitter.com/intent/tweet?url=${url}&text=${title}`, '_blank', 'width=600,height=400');
+  });
+
+  const copyBtn = document.getElementById('copy-link-btn');
+  const copyToast = document.getElementById('copy-toast');
+  copyBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      if (copyToast) {
+        copyToast.style.opacity = '1';
+        setTimeout(() => { copyToast.style.opacity = '0'; }, 1800);
+      }
+    } catch {}
+  });
+
+  // ░░ SIDEBAR STICKY ░░
+  const sidebarInner = document.getElementById('blog-sidebar-inner');
+  const allH2s = Array.from(document.querySelectorAll('.blog-content h2'));
+  const stopH2 = allH2s.find((h2) => {
+    const t = h2.textContent?.trim().toLowerCase() || '';
+    return t.startsWith('more') || t.startsWith('related') || t.startsWith('the bottom line') || t.startsWith('bottom line');
+  }) || allH2s[allH2s.length - 1];
+
+  if (sidebarInner && stopH2) {
+    const topOffset = 88;
+    const aside = sidebarInner.parentElement as HTMLElement;
+    aside.style.position = 'relative';
+
+    const update = () => {
+      const stopRect = stopH2.getBoundingClientRect();
+      const sidebarH = sidebarInner.offsetHeight;
+      const asideRect = aside.getBoundingClientRect();
+      const sidebarBottom = topOffset + sidebarH;
+
+      if (asideRect.top > topOffset) {
+        sidebarInner.style.position = 'static';
+        sidebarInner.style.top = '';
+        sidebarInner.style.width = '';
+      } else if (stopRect.top > sidebarBottom) {
+        sidebarInner.style.position = 'fixed';
+        sidebarInner.style.top = topOffset + 'px';
+        sidebarInner.style.width = '272px';
+      } else {
+        const maxTop = (stopH2 as HTMLElement).offsetTop - aside.offsetTop - sidebarH;
+        sidebarInner.style.position = 'absolute';
+        sidebarInner.style.top = Math.max(0, maxTop) + 'px';
+        sidebarInner.style.width = '272px';
+      }
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  }
+</script>

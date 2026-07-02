@@ -1,0 +1,1050 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+import { SITE_URL, LOGO_URL, buildBreadcrumbs } from '../../utils/schema';
+
+const customers = [
+  { name: "ReplyDaddy",          logo: "/customer-logos/replydaddy.webp",          showName: true  },
+  { name: "NoobBookLM",          logo: "/customer-logos/noobbooklm.webp",          showName: true  },
+  { name: "ChartMath",           logo: "/customer-logos/chartmath.webp",           showName: true  },
+  { name: "Heaven Designs",      logo: "/customer-logos/heaven-designs.webp",      showName: false },
+  { name: "Solar EPC Company", logo: "/customer-logos/heaven-green-energy.webp", showName: false },
+  { name: "Qbits Energy",        logo: "/customer-logos/qbits.webp",               showName: false },
+  { name: "QuickEstimate",       logo: "/customer-logos/quickestimate.webp",       showName: false },
+  { name: "Suncart",             logo: "/customer-logos/suncart.svg",              showName: false },
+  { name: "Intello",             logo: "/customer-logos/intello.webp",             showName: false },
+];
+
+const blogTiers = [
+  { label: '30 artículos', count: 30, price: 99 },
+  { label: '50 artículos', count: 50, price: 149 },
+  { label: '80 artículos', count: 80, price: 199, best: true },
+];
+const localTiers = [
+  { label: '30 publicaciones', count: 30, price: 49 },
+  { label: '60 publicaciones', count: 60, price: 79 },
+  { label: '80 publicaciones', count: 80, price: 99, best: true },
+];
+const socialTiers = [
+  { label: '30 publicaciones', count: 30, price: 49 },
+  { label: '60 publicaciones', count: 60, price: 79 },
+  { label: '120 publicaciones', count: 120, price: 129, best: true },
+];
+
+const blogFeatures = [
+  'Investigación de palabras clave y análisis de competencia',
+  'Publicación automática en tu sitio',
+  'WordPress, Webflow, Ghost y más',
+  'Optimizado para SEO y en tu voz de marca',
+];
+const localFeatures = [
+  'Publicaciones automáticas en GBP',
+  'Respuestas a reseñas con IA',
+  'Seguimiento de palabras clave locales',
+  'Soporte para múltiples ubicaciones',
+];
+const socialFeatures = [
+  'Publicación automática y programación',
+  'Analíticas multiplataforma',
+  'Contenido con voz de marca',
+  '4 plataformas incluidas',
+];
+
+const managedPlans = [
+  {
+    name: 'Crecimiento Local',
+    tagline: 'Contenido + SEO Local, totalmente gestionado.',
+    price: 749,
+    annualPrice: 625,
+    features: [
+      '30 artículos de blog publicados/mes',
+      '30 publicaciones de GBP/mes',
+      'Monitoreo y respuestas de reseñas diarias',
+      'Informes de rendimiento semanales',
+      'Videollamada de estrategia mensual',
+      '1 ubicación incluida (+$150 c/u extra)',
+    ],
+    popular: false,
+    comparison: null as string | null,
+  },
+  {
+    name: 'Crecimiento Pro',
+    tagline: 'Contenido + SEO Local + Redes Sociales.',
+    price: 999,
+    annualPrice: 835,
+    features: [
+      'Todo en Crecimiento Local',
+      '60 publicaciones en redes en 6 plataformas/mes',
+      'Contenido y hashtags específicos por plataforma',
+      'Horario de publicación optimizado',
+      'Monitoreo de interacciones diario',
+      'Análisis mensual + llamada de estrategia',
+    ],
+    popular: true,
+    comparison: null as string | null,
+  },
+  {
+    name: 'Crecimiento Completo',
+    tagline: 'Todo. Blog, local, social y sitio web.',
+    price: 1299,
+    annualPrice: 999,
+    features: [
+      'Todo en Crecimiento Pro',
+      'Sitio web creado con IA, alojado y gestionado',
+      'Actualizaciones mensuales del sitio y ajuste SEO',
+      'Monitoreo de velocidad y parches de seguridad',
+      'Informes semanales + llamada de estrategia mensual',
+      'Equipo de operaciones basado en EE.UU.',
+    ],
+    popular: false,
+    comparison: 'Comparación: un empleado de marketing a tiempo parcial cuesta <strong>$2,500–$4,000/mes</strong>. Una agencia cobra <strong>$3,000–$10,000/mes</strong> de retención.',
+  },
+];
+
+const tabs = [
+  {
+    id: 'blog',
+    label: 'SEO Blog',
+    icon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>',
+    title: 'SEO Blog',
+    replaces: ['Plataforma SEO ($99–$399/mes)', 'redactores freelance ($2,000–$5,000/mes)', 'herramienta de calendario de contenido'],
+    narrative: "Los negocios que aparecen en la primera página publican 20–30 artículos al mes. El negocio promedio publica 2. Stacc redacta, optimiza y publica en tu sitio cada día. Aunque nunca hayas posicionado para una palabra clave en tu vida. Sin briefs. Sin editores. Sin plazos incumplidos.",
+    stats: [
+      { label: 'Velocidad de contenido vs. negocio promedio', value: '15× más', percent: 88, color: 'purple' },
+      { label: 'Costo vs. redactores freelance', value: '95% menos', percent: 95, color: 'green' },
+      { label: 'Tiempo hasta el primer movimiento de ranking', value: '60–90 días', percent: 65, color: 'amber' },
+    ],
+  },
+  {
+    id: 'local',
+    label: 'SEO Local',
+    icon: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>',
+    title: 'SEO Local',
+    replaces: ['Agencia de SEO local ($800–$2,000/mes)', 'herramienta de gestión de reseñas', 'rastreador de posicionamiento local'],
+    narrative: "Tu perfil de Google Business Profile es el espacio más valioso en la búsqueda local. Un perfil inactivo es invisible. Stacc publica 30 veces al mes, responde reseñas al instante y rastrea cada palabra clave en tu ciudad. Aunque no hayas iniciado sesión en tu GBP en meses.",
+    stats: [
+      { label: 'Publicaciones en GBP vs. negocio típico', value: '10× más', percent: 80, color: 'purple' },
+      { label: 'Tiempo de respuesta a reseñas', value: 'Menos de 1 h', percent: 95, color: 'green' },
+      { label: 'Mejora de posición en Maps a los 90 días', value: '4.7×', percent: 70, color: 'amber' },
+    ],
+  },
+  {
+    id: 'social',
+    label: 'Redes Sociales',
+    icon: '<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/>',
+    title: 'Redes Sociales',
+    replaces: ['Community manager ($2,500–$5,000/mes)', 'herramienta de programación', 'herramienta de diseño'],
+    narrative: "El algoritmo premia la consistencia. Los negocios que publican a diario obtienen más alcance, más seguidores, más clientes. Stacc genera contenido nativo para Instagram, LinkedIn, X y Facebook. Aunque hayas probado herramientas de programación antes y las hayas abandonado a las dos semanas.",
+    stats: [
+      { label: 'Publicaciones/mes vs. negocio típico', value: '10× más', percent: 80, color: 'purple' },
+      { label: 'Costo vs. community manager', value: '98% menos', percent: 98, color: 'green' },
+      { label: 'Tiempo ahorrado por semana', value: '5+ horas', percent: 85, color: 'amber' },
+    ],
+  },
+];
+
+const milestones = [
+  { month: 'Mes 3', stat: '+47%', desc: 'Páginas indexadas' },
+  { month: 'Mes 6', stat: '+180%', desc: 'Tráfico orgánico' },
+  { month: 'Mes 12', stat: '+320%', desc: 'Leads calificados' },
+];
+
+const testimonials = [
+  {
+    quote: "Pasamos de 0 a 47 leads mensuales en 4 meses. Stacc reemplazó nuestra agencia de $3,000/mes y los resultados son mejores.",
+    name: "Propietario/a",
+    role: "Clínica Dental · Chicago",
+    metric: "47 leads/mes",
+    init: "DP",
+  },
+  {
+    quote: "Era escéptico sobre el contenido de IA. Pero nuestras entradas del blog aparecen en la primera página y los clientes las mencionan durante las consultas. Es el marketing más creíble que hemos hecho.",
+    name: "Socio Director",
+    role: "Despacho de Abogados · Atlanta",
+    metric: "3× tráfico orgánico",
+    init: "LP",
+  },
+  {
+    quote: "Top 3 en Maps para 'reparación de climatización cerca de mí' en 90 días. Las publicaciones en GBP se publican cada día sin que toque nada. Nuestra valoración pasó de 4.1 a 4.8. Por $49 al mes, nada se acerca.",
+    name: "Sarah D.",
+    role: "Empresa de Climatización · Phoenix",
+    metric: "↑ Top 3 en Maps en 90 días",
+    init: "SD",
+  },
+  {
+    quote: "Visibilidad en Google Maps un 200% mayor en el primer trimestre. Recibimos llamadas de zonas en las que nunca habíamos posicionado. La configuración tardó 10 minutos.",
+    name: "Agente",
+    role: "Agencia Inmobiliaria · Dallas",
+    metric: "200% más vistas en Maps",
+    init: "RE",
+  },
+];
+
+const faqs = [
+  {
+    q: "Ya intenté el marketing de contenido antes y no funcionó.",
+    a: "La razón por la que la mayoría del marketing de contenido fracasa no es el contenido. Es la inconsistencia. Publicas 4 entradas, paras 6 semanas, publicas 2 más y luego lo abandonas porque no ves resultados. El algoritmo de Google premia la publicación sostenida y regular. Stacc publica todos los días, todos los meses, sin interrupciones. Los negocios que usan Stacc y que 'ya intentaron el contenido antes' son los que están viendo los mejores resultados. Porque esta vez, la publicación no se detiene.",
+  },
+  {
+    q: "¿Cuánto tiempo hasta ver resultados?",
+    a: "La mayoría de los negocios ven un movimiento significativo en el posicionamiento dentro de los 60–90 días de publicación constante. El primer mes, Google indexa el nuevo contenido. El segundo mes, los rankings empiezan a moverse. Para el mes 3–6, el tráfico crece de forma notable. El SEO no es un juego de un mes. Es una inversión de 6 meses que da dividendos durante años. Cada artículo que Stacc publica sigue trabajando para ti estés suscrito o no.",
+  },
+  {
+    q: "¿Vale la pena $99/mes? Son $1,200 al año.",
+    a: "Un redactor freelance cobra entre $150 y $500 por artículo. Con 30 artículos al mes, eso son $4,500–$15,000/mes. O $54,000–$180,000/año. Una plataforma SEO (Ahrefs, Semrush) cuesta $99–$399/mes solo por los datos, sin redacción incluida. Un solo cliente nuevo desde la búsqueda orgánica paga el costo anual completo de Stacc antes del almuerzo. Las matemáticas solo funcionan de una forma.",
+  },
+  {
+    q: "¿Tengo que escribir algo o estar muy involucrado?",
+    a: "Ni una sola palabra. Stacc se encarga de la investigación de palabras clave, el análisis de la competencia, la creación de contenido, la optimización SEO y la publicación en tu sitio. Totalmente automatizado. Puedes revisar las entradas antes de publicarlas si quieres, o activar la publicación automática y revisar mensualmente. La mayoría de los clientes dedican unas 1–2 horas al mes a revisar. El resto del tiempo es tuyo.",
+  },
+  {
+    q: "¿Puedo cancelar en cualquier momento? Me preocupa quedar atrapado.",
+    a: "Cancela cuando quieras. Sin contratos, sin penalizaciones, sin cargos por cancelación. El contenido que Stacc ha publicado permanece en tu sitio para siempre y sigue posicionando. No pierdes acceso al trabajo pasado cuando cancelas. Solo detienes la publicación futura. La mayoría de las personas que cancelan vuelven en 60 días cuando ven que su tráfico se estanca.",
+  },
+  {
+    q: "¿En qué se diferencia esto de ChatGPT o contratar a un asistente virtual?",
+    a: "ChatGPT escribe cuando lo activas. Stacc publica según un calendario, automáticamente, todos los días. Un asistente virtual escribe cuando está disponible, incumple plazos, necesita formación, se va de vacaciones. Stacc no. La diferencia real está en el sistema: investigación de palabras clave → optimización SEO → publicación en el CMS → seguimiento del posicionamiento, todo automatizado y conectado. ChatGPT es una herramienta. Stacc es el flujo de trabajo completo.",
+  },
+  {
+    q: "¿Qué plataformas CMS son compatibles?",
+    a: "WordPress, Webflow, Ghost, Shopify y cualquier plataforma que admita publicación vía API o webhook. Si tu CMS no aparece en la lista, contáctanos. Admitimos la mayoría de plataformas con una integración personalizada. La configuración tarda menos de 10 minutos.",
+  },
+  {
+    q: "¿Cómo funciona el 15% de descuento por paquete?",
+    a: "Selecciona dos o más módulos y el descuento se aplica automáticamente en la barra de resumen en la parte inferior de tu pantalla. Sin códigos de cupón. Sin cálculos manuales. El ahorro aparece al instante mientras construyes tu plan.",
+  },
+];
+
+const pricingSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${SITE_URL}/#software`,
+      name: 'theStacc',
+      description: 'Plataforma de automatización SEO con IA que redacta y publica contenido de blog, gestiona perfiles de Google Business y automatiza redes sociales para negocios locales.',
+      url: SITE_URL,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      offers: [
+        { '@type': 'Offer', name: 'SEO Blog', description: '30 artículos SEO escritos con IA publicados en tu sitio cada mes', price: '99.00', priceCurrency: 'USD', url: `${SITE_URL}/es/precios/` },
+        { '@type': 'Offer', name: 'SEO Local', description: 'Optimización y gestión del perfil de Google Business', price: '49.00', priceCurrency: 'USD', url: `${SITE_URL}/es/precios/` },
+        { '@type': 'Offer', name: 'Redes Sociales', description: 'Publicación y distribución automatizada en redes sociales', price: '49.00', priceCurrency: 'USD', url: `${SITE_URL}/es/precios/` },
+        { '@type': 'Offer', name: 'Paquete (Todos los Módulos)', description: 'SEO Blog + SEO Local + Redes Sociales', price: '167.00', priceCurrency: 'USD', url: `${SITE_URL}/es/precios/` },
+      ],
+      provider: { '@id': `${SITE_URL}/#organization` },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${SITE_URL}/es/precios/`,
+      name: 'Precios. TheStacc',
+      description: 'Elige el módulo de Stacc que necesitas. Blog SEO desde $99/mes, SEO Local desde $49/mes, Redes Sociales desde $49/mes. Sin contratos. Cancela cuando quieras.',
+      url: `${SITE_URL}/es/precios/`,
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    buildBreadcrumbs(`${SITE_URL}/es/precios/`, [
+      { name: 'Inicio', url: SITE_URL },
+      { name: 'Precios', url: `${SITE_URL}/es/precios/` },
+    ]),
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'theStacc',
+      url: SITE_URL,
+      logo: { '@type': 'ImageObject', url: LOGO_URL },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Precios de Stacc — SEO Blog, SEO Local y Redes Sociales desde $99/mes"
+  description="Elige el módulo de Stacc que necesitas. Blog SEO desde $99/mes, SEO Local desde $49/mes, Redes Sociales desde $49/mes. Sin contratos. Cancela cuando quieras."
+  lang="es"
+>
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(pricingSchema)} />
+
+    <!-- ─── HERO ─── -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 45%,transparent 90%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-x-0 top-0 h-[600px]" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.18) 0%, transparent 60%);" aria-hidden="true"></div>
+
+      <div class="container-x relative py-20 md:py-28">
+        <div class="mx-auto max-w-[820px] text-center">
+
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[#e7e5e4] bg-white px-3 py-1.5 backdrop-blur-sm">
+            <span class="h-1.5 w-1.5 rounded-full bg-[#4f39f6]"></span>
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#79716b]">3 módulos · 1 plataforma · Empieza por $1</span>
+          </div>
+
+          <h1 class="font-sans text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-[#292524] md:text-[3.5rem]">
+            Ellos publican a diario.
+            <span style="color:#4f39f6;"> Tú no. Esa es la diferencia.</span>
+          </h1>
+
+          <p class="mx-auto mt-6 max-w-[580px] font-sans text-[1.05rem] leading-[1.7]" style="color:#6b7280;">
+            Stacc investiga, redacta y publica contenido SEO, actualizaciones de Google Business Profile y publicaciones en redes sociales cada día. Automáticamente. Elige tus módulos y empieza por $1.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="#pricing"
+              class="inline-flex h-11 items-center gap-2 rounded-xl bg-[#4f39f6] px-6 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+            >
+              Arma mi plan
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="#compare"
+              class="inline-flex h-11 items-center gap-2 rounded-xl border border-[#e7e5e4] bg-white px-6 font-sans text-[14px] font-medium text-[#57534e] transition-colors hover:bg-[#f5f3ff]"
+            >
+              Ve qué reemplazas
+            </a>
+          </div>
+
+          <p class="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[#79716b]">
+            30 días de garantía · Sin tarjeta de crédito · Cancela cuando quieras
+          </p>
+
+          <!-- Trust stats -->
+          <div class="mx-auto mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {[
+              { value: '12,000+', num: 12000, prefix: '',  suffix: '+', decimals: 0, from: 0, label: 'Artículos publicados' },
+              { value: '340+',    num: 340,   prefix: '',  suffix: '+', decimals: 0, from: 0, label: 'Negocios creciendo' },
+              { value: '4.9★',    num: 4.9,   prefix: '',  suffix: '★', decimals: 1, from: 0, label: 'Valoración de clientes' },
+              { value: '0',       num: 0,     prefix: '',  suffix: '',  decimals: 0, from: 0, label: 'Penalizaciones de Google' },
+            ].map(s => (
+              <div class="text-center">
+                <p class="font-sans text-[1.4rem] font-semibold leading-none text-[#292524]"
+                   data-count-up data-target={s.num} data-from={s.from} data-prefix={s.prefix} data-suffix={s.suffix} data-decimals={s.decimals}>{s.value}</p>
+                <p class="mt-1 font-mono text-[10px] uppercase tracking-[0.14em]" style="color:#4b5563;">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── SOCIAL PROOF STRIP ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-6">
+        <div class="mb-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-between">
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#79716b]">Negocios creciendo con Stacc</p>
+          <div class="flex items-center gap-1.5">
+            <div class="flex">
+              {[1,2,3,4,5].map(() => (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              ))}
+            </div>
+            <span class="font-mono text-[11px] text-[#6b7280]">4.9 en 127 reseñas</span>
+          </div>
+        </div>
+        <div class="relative overflow-hidden">
+          <div class="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white to-transparent"></div>
+          <div class="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white to-transparent"></div>
+          <div class="flex animate-marquee">
+            {[...customers, ...customers].map((c) => (
+              <div class="flex shrink-0 items-center gap-2 mx-8">
+                <img src={c.logo} alt={c.name} width="120" height="40" class={c.showName ? "h-[28px] w-[28px] object-contain grayscale opacity-50" : "h-[32px] w-auto object-contain grayscale opacity-50"} loading="lazy" />
+                {c.showName && <span class="font-mono text-[15px] font-medium text-[#374151] whitespace-nowrap">{c.name}</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PRICING MODULES ─── -->
+    <section class="bg-white" id="pricing">
+
+      <!-- ── Controls bar ── -->
+      <div class="border-b border-[#e7e5e4]">
+        <div class="container-x py-4">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <!-- Left: path label + anchor tabs -->
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="flex items-center gap-1.5">
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Elige tu camino</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div class="inline-flex overflow-hidden rounded-full border border-[#e7e5e4] bg-[#fafaf9] p-1" role="group" aria-label="Opción de precios">
+                <a href="#software-pricing" class="rounded-full px-5 py-2 font-sans text-[13px] font-semibold bg-[#111827] text-white shadow-sm">Software</a>
+                <a href="#managed-pricing" class="rounded-full px-5 py-2 font-sans text-[13px] font-semibold text-[#9ca3af] hover:text-[#374151] transition-colors">Servicios</a>
+              </div>
+            </div>
+            <!-- Right: billing toggle (software only) -->
+            <div id="billing-controls" class="flex items-center gap-3">
+              <span id="mod-billing-label" class="cursor-pointer font-sans text-[13px] font-semibold text-[#374151]">Facturado anualmente</span>
+              <button id="mod-billing-toggle" class="relative h-[24px] w-[44px] shrink-0 cursor-pointer rounded-full bg-[#4f39f6] transition-colors" aria-label="Cambiar facturación anual" type="button">
+                <div id="mod-billing-dot" class="absolute top-[3px] left-[3px] h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-transform" style="transform:translateX(20px)"></div>
+              </button>
+              <span id="mod-save-badge" class="rounded-md bg-[#4f39f6]/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-[#4f39f6]">Ahorra 17%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SOFTWARE PANEL ── -->
+      <div id="software-pricing" class="container-x pb-8 pt-8">
+        <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Precios de Software</span>
+        <div class="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3" id="modules-grid">
+
+          <!-- Blog SEO Card -->
+          <div class="mod-card relative flex flex-col rounded-2xl border border-[#e7e5e4] bg-white p-7 transition-all duration-200" id="mod-blog" data-module="blog">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#f5f3ff]">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <h3 class="font-sans text-[18px] font-semibold text-[#111827]">SEO Blog</h3>
+            <p class="mt-1 font-sans text-[13px] leading-relaxed text-[#79716b]">Artículos SEO investigados, redactados y publicados a diario.</p>
+            <div class="mt-5">
+              <div class="flex items-baseline gap-1">
+                <span class="font-sans text-[2.75rem] font-bold tracking-tight text-[#111827]">$<span id="mod-blog-price">82</span></span>
+                <span class="font-sans text-[13px] text-[#9ca3af]">/mes</span>
+              </div>
+              <p id="mod-blog-saving" class="mt-1 font-sans text-[12px] font-semibold text-[#4f39f6]">Estás ahorrando $204/año</p>
+            </div>
+            <div class="mt-5 flex flex-wrap gap-2" role="radiogroup" aria-label="Cantidad de artículos de SEO Blog">
+              {blogTiers.map((tier, i) => (
+                <div class="relative">
+                  <button data-mod-tier="blog" data-tier-idx={i} class={`blog-tier-btn cursor-pointer rounded-lg border px-3.5 py-2 font-mono text-[13px] font-semibold transition-colors ${i === 0 ? 'border-[#4f39f6] bg-[#f5f3ff] text-[#4f39f6]' : 'border-[#e7e5e4] text-[#374151] hover:border-[#d4d0fb]'}`} role="radio" aria-checked={i === 0 ? 'true' : 'false'}>{tier.label}</button>
+                  {tier.best && <span class="absolute -top-2.5 -right-1 rounded-sm bg-[#4f39f6] px-1 py-0.5 font-mono text-[9px] font-bold uppercase text-white leading-none">Mejor</span>}
+                </div>
+              ))}
+            </div>
+            <div class="mt-6 flex flex-1 flex-col gap-3 border-t border-[#e7e5e4] pt-5">
+              {blogFeatures.map(f => (
+                <div class="flex items-start gap-2.5">
+                  <svg class="mt-0.5 shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span class="font-sans text-[13px] text-[#374151]">{f}</span>
+                </div>
+              ))}
+            </div>
+            <a href="https://app.thestacc.com/signup" class="mt-6 flex h-11 w-full items-center justify-center rounded-xl border-2 border-[#4f39f6] bg-[#4f39f6] font-sans text-[14px] font-semibold text-white transition-all hover:bg-[#5b4bff] hover:border-[#5b4bff]">Empezar</a>
+          </div>
+
+          <!-- Local SEO Card -->
+          <div class="mod-card relative flex flex-col rounded-2xl border border-[#e7e5e4] bg-white p-7 transition-all duration-200" id="mod-local" data-module="local">
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#f0fdf4]">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <h3 class="font-sans text-[18px] font-semibold text-[#111827]">SEO Local</h3>
+            <p class="mt-1 font-sans text-[13px] leading-relaxed text-[#79716b]">Publicaciones en Google Business Profile, reseñas y seguimiento local.</p>
+            <div class="mt-5">
+              <div class="flex items-baseline gap-1">
+                <span class="font-sans text-[2.75rem] font-bold tracking-tight text-[#111827]">$<span id="mod-local-price">41</span></span>
+                <span class="font-sans text-[13px] text-[#9ca3af]">/mes</span>
+              </div>
+              <p id="mod-local-saving" class="mt-1 font-sans text-[12px] font-semibold text-[#4f39f6]">Estás ahorrando $96/año</p>
+            </div>
+            <div class="mt-5 flex flex-wrap gap-2" role="radiogroup" aria-label="Cantidad de publicaciones de SEO Local">
+              {localTiers.map((tier, i) => (
+                <div class="relative">
+                  <button data-mod-tier="local" data-tier-idx={i} class={`local-tier-btn cursor-pointer rounded-lg border px-3.5 py-2 font-mono text-[13px] font-semibold transition-colors ${i === 0 ? 'border-[#4f39f6] bg-[#f5f3ff] text-[#4f39f6]' : 'border-[#e7e5e4] text-[#374151] hover:border-[#d4d0fb]'}`} role="radio" aria-checked={i === 0 ? 'true' : 'false'}>{tier.label}</button>
+                  {tier.best && <span class="absolute -top-2.5 -right-1 rounded-sm bg-[#4f39f6] px-1 py-0.5 font-mono text-[9px] font-bold uppercase text-white leading-none">Mejor</span>}
+                </div>
+              ))}
+            </div>
+            <div class="mt-6 flex flex-1 flex-col gap-3 border-t border-[#e7e5e4] pt-5">
+              {localFeatures.map(f => (
+                <div class="flex items-start gap-2.5">
+                  <svg class="mt-0.5 shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span class="font-sans text-[13px] text-[#374151]">{f}</span>
+                </div>
+              ))}
+            </div>
+            <a href="https://app.thestacc.com/signup" class="mt-6 flex h-11 w-full items-center justify-center rounded-xl border-2 border-[#4f39f6] bg-[#4f39f6] font-sans text-[14px] font-semibold text-white transition-all hover:bg-[#5b4bff] hover:border-[#5b4bff]">Empezar</a>
+          </div>
+
+          <!-- Social Media Card -->
+          <div class="mod-card relative flex flex-col rounded-2xl border border-[#e7e5e4] bg-white p-7 transition-all duration-200" id="mod-social" data-module="social">
+            <span class="absolute -top-3 left-5 inline-flex items-center rounded-md bg-[#4f39f6] px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-white">Nuevo</span>
+            <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#fffbeb]">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            </div>
+            <h3 class="font-sans text-[18px] font-semibold text-[#111827]">Redes Sociales</h3>
+            <p class="mt-1 font-sans text-[13px] leading-relaxed text-[#79716b]">Publicaciones con IA en Facebook, Instagram, LinkedIn y X.</p>
+            <div class="mt-5">
+              <div class="flex items-baseline gap-1">
+                <span class="font-sans text-[2.75rem] font-bold tracking-tight text-[#111827]">$<span id="mod-social-price">41</span></span>
+                <span class="font-sans text-[13px] text-[#9ca3af]">/mes</span>
+              </div>
+              <p id="mod-social-saving" class="mt-1 font-sans text-[12px] font-semibold text-[#4f39f6]">Estás ahorrando $96/año</p>
+            </div>
+            <div class="mt-5 flex flex-wrap gap-2" role="radiogroup" aria-label="Cantidad de publicaciones en Redes Sociales">
+              {socialTiers.map((tier, i) => (
+                <div class="relative">
+                  <button data-mod-tier="social" data-tier-idx={i} class={`social-tier-btn cursor-pointer rounded-lg border px-3.5 py-2 font-mono text-[13px] font-semibold transition-colors ${i === 0 ? 'border-[#4f39f6] bg-[#f5f3ff] text-[#4f39f6]' : 'border-[#e7e5e4] text-[#374151] hover:border-[#d4d0fb]'}`} role="radio" aria-checked={i === 0 ? 'true' : 'false'}>{tier.label}</button>
+                  {tier.best && <span class="absolute -top-2.5 -right-1 rounded-sm bg-[#4f39f6] px-1 py-0.5 font-mono text-[9px] font-bold uppercase text-white leading-none">Mejor</span>}
+                </div>
+              ))}
+            </div>
+            <div class="mt-6 flex flex-1 flex-col gap-3 border-t border-[#e7e5e4] pt-5">
+              {socialFeatures.map(f => (
+                <div class="flex items-start gap-2.5">
+                  <svg class="mt-0.5 shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <span class="font-sans text-[13px] text-[#374151]">{f}</span>
+                </div>
+              ))}
+            </div>
+            <a href="https://app.thestacc.com/signup" class="mt-6 flex h-11 w-full items-center justify-center rounded-xl border-2 border-[#4f39f6] bg-[#4f39f6] font-sans text-[14px] font-semibold text-white transition-all hover:bg-[#5b4bff] hover:border-[#5b4bff]">Empezar</a>
+          </div>
+        </div>
+
+        <!-- Bundle hint -->
+        <div class="mt-5">
+          <div class="flex items-center justify-center gap-3 rounded-2xl border border-dashed border-[#4f39f6]/25 bg-[#f5f3ff]/40 px-6 py-4 text-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <p class="font-sans text-[14px] text-[#57534e]">
+              Elige 2 o más módulos y obtén <span class="font-semibold text-[#4f39f6]">15% de descuento en tu total</span>. Se aplica automáticamente. Todos los módulos funcionan juntos desde el principio.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MANAGED PANEL ── -->
+      <div id="managed-pricing" class="border-t border-[#e7e5e4]">
+        <div class="container-x pb-6 pt-12 text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Servicios Gestionados</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Nos encargamos de todo tu marketing.
+          </h2>
+          <p class="mx-auto mt-4 max-w-[540px] font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            La IA hace el trabajo. Un manager dedicado gestiona la calidad, la estrategia y tu reunión mensual. Tú solo te presentas y revisas los resultados. Desde $749 frente a los $3,000–$10,000/mes de una agencia.
+          </p>
+        </div>
+        <div class="container-x grid grid-cols-1 gap-5 pb-16 md:grid-cols-3">
+          {managedPlans.map((plan) => (
+            <div class={`relative rounded-2xl border flex flex-col p-8 ${plan.popular ? 'border-[#4f39f6]/30 shadow-[0_8px_40px_rgba(79,57,246,0.1)]' : 'border-[#e7e5e4]'} bg-white`}>
+              {plan.popular && (
+                <span class="absolute -top-3.5 left-6 inline-flex items-center rounded-full bg-[#4f39f6] px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+                  Más Popular
+                </span>
+              )}
+              <h3 class="font-sans text-[18px] font-semibold text-[#111827]">{plan.name}</h3>
+              <p class="mt-1 font-sans text-[13px] text-[#79716b]">{plan.tagline}</p>
+              <div class="mt-5 flex items-baseline gap-1">
+                <span class="font-sans text-[2.75rem] font-bold tracking-tight text-[#111827]">${plan.price}</span>
+                <span class="font-sans text-[13px] text-[#9ca3af]">/mes</span>
+              </div>
+              <p class="mt-1 font-sans text-[12px] text-[#79716b]">o ${plan.annualPrice}/mes facturado anualmente</p>
+              <div class="mt-7 flex flex-col gap-3 flex-1">
+                {plan.features.map((feature) => (
+                  <div class="flex items-start gap-2.5">
+                    <svg class="mt-0.5 shrink-0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                    <span class="font-sans text-[13px] text-[#374151]">{feature}</span>
+                  </div>
+                ))}
+              </div>
+              {plan.comparison && (
+                <div class="mt-6 rounded-xl border border-[#e7e5e4] bg-[#fafaf9] px-4 py-3">
+                  <p class="font-sans text-[12px] leading-[20px] text-[#79716b]" set:html={plan.comparison} />
+                </div>
+              )}
+              <a href="/es/demo/" class="cursor-pointer mt-6 flex h-11 w-full items-center justify-center rounded-xl border border-[#4f39f6] bg-[#4f39f6] font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">
+                Hablar con nuestro equipo
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── WHAT YOU REPLACE (TABS) ─── -->
+    <section class="border-t border-[#e7e5e4] bg-white" id="compare">
+      <div class="container-x pt-20 pb-0 text-center">
+        <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Lo que realmente obtienes</span>
+        <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+          Una suscripción cancela 3 herramientas.
+        </h2>
+        <p class="mx-auto mt-4 max-w-[540px] font-sans text-[1rem] leading-relaxed text-[#57534e]">
+          Menos software. Menos costos. Mejores resultados. Aunque hayas probado herramientas individuales antes y las hayas abandonado.
+        </p>
+      </div>
+
+      <div class="container-x mt-10 flex flex-col items-center justify-center gap-2 sm:flex-row" role="tablist" aria-label="Detalles del módulo">
+        {tabs.map((tab, i) => (
+          <button
+            class={`compare-tab cursor-pointer flex items-center gap-2 rounded-xl border-2 px-5 py-2.5 font-sans text-[13px] font-semibold transition-all ${i === 0 ? 'border-[#4f39f6] bg-[#f5f3ff] text-[#4f39f6]' : 'border-[#e7e5e4] text-[#79716b] hover:border-[#d4d0fb] hover:text-[#374151]'}`}
+            role="tab" aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`panel-tab-${tab.id}`} id={`tab-${tab.id}`} data-tab={tab.id}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-[16px] w-[16px]" aria-hidden="true" set:html={tab.icon} />
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {tabs.map((tab, i) => (
+        <div
+          class={`compare-panel container-x mt-10 pb-0 transition-opacity duration-300 ${i === 0 ? 'block opacity-100' : 'hidden opacity-0'}`}
+          role="tabpanel" id={`panel-tab-${tab.id}`} aria-labelledby={`tab-${tab.id}`} data-panel={tab.id}
+        >
+          <div class="mx-auto grid max-w-[960px] grid-cols-1 items-start gap-10 md:grid-cols-2">
+            <div>
+              <h3 class="font-sans text-[1.5rem] font-semibold text-[#111827]">{tab.title}</h3>
+              <div class="mt-2 flex flex-wrap items-center gap-1.5 font-sans text-[13px] text-[#79716b]">
+                <span class="font-semibold">Reemplaza:</span>
+                {tab.replaces.map((r, ri) => (
+                  <span>
+                    <span class="text-[#ef4444] line-through decoration-[#ef4444]">{r}</span>
+                    {ri < tab.replaces.length - 1 && <span class="mx-0.5 text-[#d1d5db]">+</span>}
+                  </span>
+                ))}
+              </div>
+              <p class="mt-4 font-sans text-[15px] leading-[1.7] text-[#57534e]">{tab.narrative}</p>
+            </div>
+            <div class="rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+              <div class="flex flex-col gap-6">
+                {tab.stats.map(stat => (
+                  <div>
+                    <div class="flex items-baseline justify-between mb-2">
+                      <span class="font-mono text-[12px] font-semibold text-[#374151]">{stat.label}</span>
+                      <span class={`font-mono text-[13px] font-bold ${stat.color === 'purple' ? 'text-[#4f39f6]' : stat.color === 'green' ? 'text-[#16a34a]' : 'text-[#d97706]'}`}>{stat.value}</span>
+                    </div>
+                    <div class="h-2 w-full overflow-hidden rounded-full bg-[#e7e5e4]">
+                      <div
+                        class={`stat-bar h-full rounded-full ${stat.color === 'purple' ? 'bg-gradient-to-r from-[#a78bfa] to-[#4f39f6]' : stat.color === 'green' ? 'bg-gradient-to-r from-[#6ee7b7] to-[#16a34a]' : 'bg-gradient-to-r from-[#fcd34d] to-[#d97706]'}`}
+                        style={`width: 0%; --target-width: ${stat.percent}%`}
+                        data-width={stat.percent}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <!-- Summary -->
+      <div class="container-x mt-14 pb-20">
+        <div class="mx-auto max-w-[700px] overflow-hidden rounded-2xl border border-[#4f39f6]/15 bg-gradient-to-br from-[#fafaf9] to-[#f5f3ff] p-10 text-center">
+          <h3 class="font-sans text-[1.5rem] font-semibold tracking-[-0.02em] text-[#111827]">Los números se acumulan mes tras mes.</h3>
+          <p class="mx-auto mt-3 max-w-[440px] font-sans text-[14px] leading-relaxed text-[#57534e]">Cada artículo se suma al anterior. Cada reseña construye tu reputación. Cada publicación amplía tu alcance.</p>
+          <div class="mt-8 grid grid-cols-3 gap-4">
+            {[
+              { num: '12,000+', val: 12000, prefix: '',  suffix: '+', decimals: 0, from: 0, label: 'Artículos publicados' },
+              { num: '4.9★',    val: 4.9,   prefix: '',  suffix: '★', decimals: 1, from: 0, label: 'Valoración promedio' },
+              { num: '340+',    val: 340,   prefix: '',  suffix: '+', decimals: 0, from: 0, label: 'Negocios creciendo' },
+            ].map(c => (
+              <div class="text-center">
+                <p class="font-sans text-[2rem] font-bold tracking-tight text-[#111827]"
+                   data-count-up data-target={c.val} data-from={c.from} data-prefix={c.prefix} data-suffix={c.suffix} data-decimals={c.decimals}>{c.num}</p>
+                <p class="mt-1 font-sans text-[12px] text-[#79716b]">{c.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── GROWTH GRAPH ─── -->
+    <section class="border-t border-[#e7e5e4] bg-[#fafaf9]" id="growth">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Retornos compuestos</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Las matemáticas de las que tus competidores no pueden escapar.
+          </h2>
+          <p class="mx-auto mt-4 font-sans text-[1rem] leading-relaxed text-[#57534e]">
+            La mayoría de los negocios publican 2 entradas al mes. Los clientes de Stacc publican 30. Una línea sube. La otra se queda plana. La brecha nunca se cierra. Se agranda.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-[800px]">
+          <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 md:p-8">
+            <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+              <span class="font-mono text-[13px] font-semibold text-[#374151]">Crecimiento de tráfico orgánico</span>
+              <div class="flex gap-5 font-sans text-[12px] text-[#79716b]">
+                <span class="flex items-center gap-2"><span class="inline-block h-2.5 w-2.5 rounded-full bg-[#4f39f6]"></span>Con Stacc</span>
+                <span class="flex items-center gap-2"><span class="inline-block h-2.5 w-2.5 rounded-full bg-[#d1d5db]"></span>Promedio del sector</span>
+              </div>
+            </div>
+            <div class="relative w-full" id="growth-chart">
+              <svg viewBox="0 0 700 280" class="w-full" preserveAspectRatio="xMidYMid meet" aria-label="Crecimiento de tráfico orgánico: Stacc vs promedio del sector en 12 meses">
+                <line x1="0" y1="56" x2="700" y2="56" stroke="#f5f5f4" stroke-width="1"/>
+                <line x1="0" y1="112" x2="700" y2="112" stroke="#f5f5f4" stroke-width="1"/>
+                <line x1="0" y1="168" x2="700" y2="168" stroke="#f5f5f4" stroke-width="1"/>
+                <line x1="0" y1="224" x2="700" y2="224" stroke="#f5f5f4" stroke-width="1"/>
+                <polyline points="0,220 58,215 117,212 175,210 233,208 292,207 350,205 408,204 467,202 525,201 583,200 642,198 700,196" fill="none" stroke="#d1d5db" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <polygon class="growth-area" points="0,220 58,210 117,195 175,175 233,155 292,130 350,108 408,85 467,65 525,48 583,35 642,25 700,18 700,280 0,280" fill="url(#stacc-gradient)" opacity="0"/>
+                <polyline class="growth-line" points="0,220 58,210 117,195 175,175 233,155 292,130 350,108 408,85 467,65 525,48 583,35 642,25 700,18" fill="none" stroke="#4f39f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1200" stroke-dashoffset="1200"/>
+                <defs>
+                  <linearGradient id="stacc-gradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#4f39f6" stop-opacity="0.15"/>
+                    <stop offset="100%" stop-color="#4f39f6" stop-opacity="0.01"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <div class="flex justify-between px-1 pt-3 font-mono text-[11px] text-[#79716b]">
+              <span>Mes 1</span><span>Mes 3</span><span>Mes 6</span><span>Mes 9</span><span>Mes 12</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mx-auto mt-6 grid max-w-[800px] grid-cols-1 gap-4 sm:grid-cols-3">
+          {milestones.map(m => (
+            <div class="rounded-2xl border border-[#e7e5e4] bg-white p-6 text-center">
+              <p class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">{m.month}</p>
+              <p class="mt-2 font-sans text-[2rem] font-bold tracking-tight text-[#111827]">{m.stat}</p>
+              <p class="mt-1 font-sans text-[13px] text-[#79716b]">{m.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── TESTIMONIALS ─── -->
+    <section class="border-t border-[#e7e5e4]" style="background:#ffffff;">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Resultados reales · A los 90 días</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[2.4rem]">
+            El trial de $1 que cambió su negocio.
+          </h2>
+          <p class="mt-4 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Estos no son casos excepcionales. Es lo que la publicación constante hace en cualquier negocio local.
+          </p>
+        </div>
+
+        <div class="mx-auto mt-12 max-w-5xl grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {testimonials.map(t => (
+            <div class="rounded-2xl bg-white/5 border border-[#e7e5e4] px-8 py-8 flex flex-col">
+              <div class="flex gap-0.5 mb-5">
+                {[1,2,3,4,5].map(() => (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="#4f39f6" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                ))}
+              </div>
+              <blockquote class="font-sans text-[15px] leading-[1.7] text-white/85 flex-1">"{t.quote}"</blockquote>
+              <div class="mt-6 flex items-center gap-3">
+                <div class="h-10 w-10 rounded-full bg-[#4f39f6] flex items-center justify-center shrink-0">
+                  <span class="font-mono text-[11px] font-bold text-white">{t.init}</span>
+                </div>
+                <div>
+                  <p class="font-sans text-[13px] font-semibold text-[#292524]">{t.name}</p>
+                  <p class="font-mono text-[10px]" style="color:#6b7280;">{t.role}</p>
+                </div>
+                <div class="ml-auto rounded-full border border-[#e7e5e4] bg-white/5 px-3 py-1">
+                  <span class="font-mono text-[10px] font-semibold text-[#4ade80]">{t.metric}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── GUARANTEE ─── -->
+    <section class="border-b border-[#e7e5e4] bg-white">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-3xl">
+          <div class="overflow-hidden rounded-2xl border-2 border-[#4f39f6]/20 bg-[#f5f3ff]/40">
+            <div class="px-10 py-12 text-center">
+              <div class="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#4f39f6]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Nuestra garantía</span>
+              <h2 class="mt-3 font-sans text-[1.75rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.1rem]">
+                Apostamos nuestro dinero a nuestro algoritmo.
+              </h2>
+              <p class="mx-auto mt-4 max-w-[540px] font-sans text-[1rem] leading-relaxed text-[#57534e]">
+                Prueba Stacc durante 30 días. Publicaremos el contenido de tu primer mes, haremos seguimiento de tus rankings y monitorizaremos tus resultados. Si no ves movimiento — más páginas indexadas, mejores posiciones de palabras clave, mayor actividad en GBP — escríbenos y te devolvemos todo. Sin preguntas. Sin entrevista de salida.
+              </p>
+              <p class="mx-auto mt-4 max-w-[480px] font-sans text-[14px] leading-relaxed text-[#79716b]">
+                Ofrecemos esto porque hemos visto los datos: los negocios que publican de forma constante durante 30 días no cancelan. Los resultados son reales. Tenemos la confianza suficiente para apostarlo.
+              </p>
+
+              <div class="mt-8 flex flex-wrap items-center justify-center gap-5">
+                {['Garantía de devolución de 30 días','Sin contratos','Cancela cuando quieras','El contenido publicado es tuyo para siempre'].map(t => (
+                  <div class="flex items-center gap-2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                    <span class="font-sans text-[13px] font-medium text-[#374151]">{t}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div class="mt-8">
+                <a
+                  href="/es/demo/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex h-12 items-center gap-2 rounded-xl bg-[#4f39f6] px-7 font-sans text-[14px] font-semibold text-white transition-colors hover:bg-[#5b4bff]"
+                >
+                  Empieza por $1. Sin riesgo
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <p class="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[#79716b]">$1 hoy · luego tu plan elegido · cancela cuando quieras</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FAQ (above final CTA) ─── -->
+    <section class="border-b border-[#e7e5e4] bg-[#fafaf9]">
+      <div class="container-x py-20">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4f39f6]">Preguntas frecuentes</span>
+          <h2 class="mt-3 font-sans text-[1.9rem] font-semibold leading-[1.2] tracking-[-0.025em] text-[#111827] md:text-[2.4rem]">
+            Cada pregunta que vale la pena hacer. Respondida.
+          </h2>
+        </div>
+
+        <div class="mx-auto mt-10 max-w-3xl divide-y divide-[#e7e5e4] overflow-hidden rounded-2xl border border-[#e7e5e4] bg-white">
+          {faqs.map((faq, i) => (
+            <div class="faq-item">
+              <button
+                class="faq-btn flex w-full items-center justify-between gap-4 px-7 py-5 text-left"
+                aria-expanded={i === 0 ? 'true' : 'false'}
+              >
+                <span class="font-sans text-[15px] font-semibold text-[#111827]">{faq.q}</span>
+                <svg class="faq-icon-plus shrink-0" class:list={[i === 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <svg class="faq-icon-minus shrink-0" class:list={[i !== 0 && 'hidden']} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>
+              </button>
+              <div class="faq-answer px-7 pb-6" class:list={[i !== 0 && 'hidden']}>
+                <p class="font-sans text-[14px] leading-[1.75] text-[#57534e]">{faq.a}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ─── FINAL CTA ─── -->
+    <section class="relative overflow-hidden py-20 md:py-28" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at center, rgba(79,57,246,0.22) 0%, transparent 65%);" aria-hidden="true"></div>
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse at center,black 35%,transparent 85%);" aria-hidden="true"></div>
+
+      <div class="container-x relative">
+        <div class="mx-auto max-w-2xl text-center">
+          <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.16em]" style="color:#818cf8;">Empieza hoy</span>
+          <h2 class="mt-3 font-sans text-[2rem] font-semibold leading-[1.15] tracking-[-0.03em] text-white md:text-[2.75rem]">
+            Los negocios que están por encima de ti<br class="hidden md:block" /> empezaron hace meses.
+            <span style="color:#818cf8;"> No dejes que la brecha se agrande más.</span>
+          </h2>
+          <p class="mt-5 font-sans text-[1rem] leading-relaxed" style="color:#6b7280;">
+            Cada día sin publicación constante es un día que un competidor se hace más fuerte. Los negocios que están ganando ahora no son más inteligentes. Solo empezaron antes. Elige tu primer módulo. Los resultados se acumulan desde el primer día.
+          </p>
+
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/es/demo/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex h-12 items-center gap-2 rounded-xl bg-white px-7 font-sans text-[14px] font-semibold text-[#111827] transition-colors hover:bg-[#f9fafb]"
+            >
+              Empieza por $1 hoy
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a
+              href="#pricing"
+              class="inline-flex h-12 items-center gap-2 rounded-xl border border-white/15 px-7 font-sans text-[14px] font-medium text-white/70 transition-colors hover:bg-white/5"
+            >
+              Arma mi plan
+            </a>
+          </div>
+
+          <div class="mt-8 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <p class="font-sans text-[12px] text-white/60">30 días de garantía · Sin contratos · Cancela cuando quieras · El contenido queda para siempre</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+  </main>
+  <Footer />
+
+
+  <script>
+    // ─── MODULE SELECTOR ───
+
+    const blogTiers = [
+      { label: '30 artículos', count: 30, price: 99 },
+      { label: '50 artículos', count: 50, price: 149 },
+      { label: '80 artículos', count: 80, price: 199 },
+    ];
+    const localTiers = [
+      { label: '30 publicaciones', count: 30, price: 49 },
+      { label: '60 publicaciones', count: 60, price: 79 },
+      { label: '80 publicaciones', count: 80, price: 99 },
+    ];
+    const socialTiers = [
+      { label: '30 publicaciones', count: 30, price: 49 },
+      { label: '60 publicaciones', count: 60, price: 79 },
+      { label: '120 publicaciones', count: 120, price: 129 },
+    ];
+
+    type ModKey = 'blog' | 'local' | 'social';
+    const tiers: Record<ModKey, typeof blogTiers> = { blog: blogTiers, local: localTiers, social: socialTiers };
+    const modNames: Record<ModKey, string> = { blog: 'Blog SEO', local: 'Local SEO', social: 'Social' };
+
+    let selectedIdx: Record<ModKey, number> = { blog: 0, local: 0, social: 0 };
+    let isAnnual = true;
+
+    function round(n: number) { return Math.round(n); }
+
+    function getPrice(mod: ModKey) {
+      const base = tiers[mod][selectedIdx[mod]].price;
+      return isAnnual ? round(base * 0.83) : base;
+    }
+
+    function getSaving(mod: ModKey) {
+      const base = tiers[mod][selectedIdx[mod]].price;
+      return round(base * 12 - round(base * 0.83) * 12);
+    }
+
+    function updateAll() {
+      (['blog', 'local', 'social'] as ModKey[]).forEach(mod => {
+        const priceEl = document.getElementById(`mod-${mod}-price`);
+        const savingEl = document.getElementById(`mod-${mod}-saving`);
+        if (priceEl) priceEl.textContent = String(getPrice(mod));
+        if (savingEl) {
+          if (isAnnual) {
+            savingEl.textContent = `Estás ahorrando $${getSaving(mod)}/año`;
+            savingEl.classList.remove('hidden');
+          } else {
+            savingEl.classList.add('hidden');
+          }
+        }
+      });
+
+      const dot = document.getElementById('mod-billing-dot');
+      const toggle = document.getElementById('mod-billing-toggle');
+      const label = document.getElementById('mod-billing-label');
+      const badge = document.getElementById('mod-save-badge');
+      if (dot) dot.style.transform = isAnnual ? 'translateX(20px)' : 'translateX(0)';
+      if (toggle) toggle.style.backgroundColor = isAnnual ? '#4f39f6' : '#d1d5db';
+      if (label) label.textContent = isAnnual ? 'Facturado anualmente' : 'Facturado mensualmente';
+      if (badge) badge.style.display = isAnnual ? '' : 'none';
+
+    }
+
+    document.getElementById('mod-billing-toggle')?.addEventListener('click', () => { isAnnual = !isAnnual; updateAll(); });
+    document.getElementById('mod-billing-label')?.addEventListener('click', () => { isAnnual = !isAnnual; updateAll(); });
+
+    (['blog', 'local', 'social'] as const).forEach(mod => {
+      document.querySelectorAll<HTMLButtonElement>(`[data-mod-tier="${mod}"]`).forEach(btn => {
+        btn.addEventListener('click', () => {
+          selectedIdx[mod] = parseInt(btn.getAttribute('data-tier-idx') || '0');
+          document.querySelectorAll(`[data-mod-tier="${mod}"]`).forEach((b, i) => {
+            const isActive = i === selectedIdx[mod];
+            (b as HTMLElement).style.borderColor = isActive ? '#4f39f6' : '#e7e5e4';
+            (b as HTMLElement).style.backgroundColor = isActive ? 'rgba(79,57,246,0.06)' : 'transparent';
+            (b as HTMLElement).style.color = isActive ? '#4f39f6' : '#374151';
+          });
+          updateAll();
+        });
+      });
+    });
+
+    updateAll();
+
+
+    // ─── COMPARISON TABS ───
+
+    document.querySelectorAll<HTMLButtonElement>('.compare-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.getAttribute('data-tab');
+        document.querySelectorAll('.compare-tab').forEach(t => {
+          (t as HTMLElement).style.borderColor = '#e7e5e4';
+          (t as HTMLElement).style.backgroundColor = 'transparent';
+          (t as HTMLElement).style.color = '#79716b';
+          t.setAttribute('aria-selected', 'false');
+        });
+        (btn as HTMLElement).style.borderColor = '#4f39f6';
+        (btn as HTMLElement).style.backgroundColor = 'rgba(79,57,246,0.05)';
+        (btn as HTMLElement).style.color = '#4f39f6';
+        btn.setAttribute('aria-selected', 'true');
+
+        document.querySelectorAll('.compare-panel').forEach(p => {
+          p.classList.add('hidden', 'opacity-0');
+          p.classList.remove('block', 'opacity-100');
+        });
+        const panel = document.querySelector(`[data-panel="${tabId}"]`);
+        if (panel) {
+          panel.classList.remove('hidden', 'opacity-0');
+          panel.classList.add('block');
+          requestAnimationFrame(() => {
+            panel.classList.add('opacity-100');
+            panel.querySelectorAll<HTMLElement>('.stat-bar').forEach(bar => {
+              bar.style.transition = 'width 1.2s cubic-bezier(0.16,1,0.3,1)';
+              bar.style.width = bar.getAttribute('data-width') + '%';
+            });
+          });
+        }
+      });
+    });
+
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll<HTMLElement>('.stat-bar').forEach(bar => {
+            bar.style.transition = 'width 1.2s cubic-bezier(0.16,1,0.3,1)';
+            bar.style.width = bar.getAttribute('data-width') + '%';
+          });
+          statObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.compare-panel').forEach(p => statObserver.observe(p));
+
+
+    // ─── GROWTH CHART ───
+
+    const chartObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const line = entry.target.querySelector('.growth-line');
+          const area = entry.target.querySelector('.growth-area');
+          line?.classList.add('animate');
+          area?.classList.add('animate');
+          chartObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    const chart = document.getElementById('growth-chart');
+    if (chart) chartObserver.observe(chart);
+
+
+    // ─── FAQ ACCORDION ───
+
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        const answer = parent?.querySelector('.faq-answer');
+        const iconPlus = btn.querySelector('.faq-icon-plus');
+        const iconMinus = btn.querySelector('.faq-icon-minus');
+        const isOpen = !answer?.classList.contains('hidden');
+        document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+        document.querySelectorAll('.faq-icon-plus').forEach(i => i.classList.remove('hidden'));
+        document.querySelectorAll('.faq-icon-minus').forEach(i => i.classList.add('hidden'));
+        if (!isOpen) {
+          answer?.classList.remove('hidden');
+          iconPlus?.classList.add('hidden');
+          iconMinus?.classList.remove('hidden');
+        }
+      });
+    });
+  </script>
+
+  <style>
+    @keyframes drawLine { to { stroke-dashoffset: 0; } }
+    @keyframes fadeArea { to { opacity: 1; } }
+    .growth-line.animate { animation: drawLine 2s cubic-bezier(0.16,1,0.3,1) forwards; }
+    .growth-area.animate { animation: fadeArea 1.5s 0.6s cubic-bezier(0.16,1,0.3,1) forwards; }
+  </style>
+</BaseLayout>

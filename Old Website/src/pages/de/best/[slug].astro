@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/de/HeaderDe.astro';
+import Footer from '../../../components/de/FooterDe.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE_URL, organizationSchema, publisherRef, authorRef, websiteSchema, buildBreadcrumbs, buildSpeakable, resolveImage } from '../../../utils/schema';
+
+export async function getStaticPaths() {
+  const langPosts = await getCollection('best_de');
+  return langPosts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const wordCount = (post.body ?? '').split(/\s+/).filter(Boolean).length;
+const readTime = Math.max(1, Math.round(wordCount / 200));
+
+const deUrl = `${SITE_URL}/de/best/${post.data.slug}/`;
+const enUrl = `${SITE_URL}/best/${post.data.slug}/`;
+
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      '@id': `${deUrl}#article`,
+      headline: post.data.title,
+      description: post.data.description,
+      url: deUrl,
+      datePublished: post.data.date,
+      dateModified: post.data.date,
+      author: authorRef,
+      publisher: publisherRef,
+      image: resolveImage(post.data.image),
+      mainEntityOfPage: { '@type': 'WebPage', '@id': deUrl },
+      articleSection: 'Bestenlisten',
+      inLanguage: 'de',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      speakable: buildSpeakable(['.review-content > p:first-of-type', 'h1']),
+    },
+    buildBreadcrumbs(deUrl, [
+      { name: 'Home', url: `${SITE_URL}/de/` },
+      { name: 'Bestenlisten', url: `${SITE_URL}/de/best/` },
+      { name: post.data.title, url: deUrl },
+    ]),
+    organizationSchema,
+    websiteSchema,
+  ],
+};
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.image}
+  lang="de"
+>
+  <Fragment slot="head">
+  </Fragment>
+
+  <div id="reading-progress" class="pointer-events-none fixed left-0 top-0 z-[200] h-[3px]" style="width:0%;background:linear-gradient(to right,#4f39f6,#818cf8);transition:width 80ms linear;"></div>
+
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+    <article>
+
+      <!-- Hero (dark) -->
+      <div class="relative overflow-hidden" style="background:#0d1117;">
+        <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+        <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.35) 0%, transparent 60%);"></div>
+        <div class="relative z-10 mx-auto max-w-[1320px] px-6 pt-8 pb-10">
+          <div class="max-w-[820px]">
+
+            <div class="min-w-0">
+              <nav class="flex items-center gap-1.5" aria-label="Breadcrumb">
+                <a href="/de/best/" class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#6b7280] transition-colors hover:text-[#818cf8]">Bestenlisten</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <span class="font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#818cf8]">Rangliste</span>
+              </nav>
+
+              <div class="mt-3.5 flex flex-wrap items-center gap-2">
+                <span class="rounded-md px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[#818cf8]" style="background:rgba(79,57,246,0.15);">Bestenlisten</span>
+                <span class="flex items-center gap-1.5 font-mono text-[11px] text-[#6b7280]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {readTime} Min. Lesezeit
+                </span>
+              </div>
+
+              <h1 class="mt-4 font-sans text-[26px] leading-[34px] md:text-[34px] md:leading-[42px] lg:text-[40px] lg:leading-[50px] font-bold tracking-[-0.02em] text-white">
+                {post.data.title}
+              </h1>
+              <p class="mt-4 font-sans text-[16px] leading-[26px] text-[#9ca3af] max-w-xl">{post.data.description}</p>
+              <p class="mt-4 font-mono text-sm uppercase text-[#4b5563]">{post.data.author} &bull; {post.data.date}</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Content + Sidebar -->
+      <div class="mx-auto max-w-[1320px] px-6 py-12">
+        <div class="flex flex-col gap-10 lg:flex-row lg:gap-12">
+
+          <div class="min-w-0 flex-1">
+            <div class="review-content overflow-x-hidden">
+              <Content />
+            </div>
+          </div>
+
+          <aside class="w-full lg:w-[280px] shrink-0 space-y-6">
+            <div class="sticky top-20 space-y-5">
+              <div class="rounded-xl border border-[#e7e5e4] bg-white p-5 shadow-sm">
+                <p class="font-sans text-[14px] font-semibold text-[#292524]">Platz 1 verdienen</p>
+                <p class="mt-1.5 font-sans text-[13px] leading-[1.6] text-[#57534e]">theStacc automatisiert lokales SEO, Bewertungen und GBP-Inhalte — damit Ihr Unternehmen ganz oben erscheint.</p>
+                <ul class="mt-3 space-y-1.5">
+                  {['Google Maps Ranking', 'Review-Automatisierung', 'Lokale Blog-Artikel', 'Kostenlose Demo'].map(f => (
+                    <li class="flex items-center gap-2 font-sans text-[12px] text-[#57534e]">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <a href="/de/demo/" class="mt-4 flex h-9 items-center justify-center rounded-lg bg-[#4f39f6] font-sans text-[13px] font-semibold text-white transition-colors hover:bg-[#5b4bff]">Demo buchen</a>
+              </div>
+
+              <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9] p-4">
+                <p class="font-sans text-[12px] text-[#79716b]">Auf Englisch lesen:</p>
+                <a href={enUrl} class="mt-1 block font-sans text-[13px] font-medium text-[#4f39f6] hover:underline">Zum englischen Artikel →</a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  const bar = document.getElementById('reading-progress');
+  if (bar) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = docHeight > 0 ? `${(scrollTop / docHeight) * 100}%` : '0%';
+    }, { passive: true });
+  }
+</script>

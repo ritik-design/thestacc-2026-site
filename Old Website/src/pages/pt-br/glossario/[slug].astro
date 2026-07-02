@@ -1,0 +1,330 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/common/Header.astro';
+import Footer from '../../../components/common/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE_URL } from '../../../utils/schema';
+import { isNoindexed } from '../../../data/noindex-list';
+
+export async function getStaticPaths() {
+  const langTerms = await getCollection('glossary_ptbr');
+  return langTerms.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const allTerms = await getCollection('glossary_ptbr');
+const relatedSlugs = entry.data.relatedTerms || [];
+const relatedTerms = allTerms.filter(t => relatedSlugs.includes(t.data.slug));
+const categoryTerms = allTerms
+  .filter(t => t.data.category === entry.data.category && t.data.slug !== entry.data.slug)
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 6);
+
+const categoryColors: Record<string, string> = {
+  'Marketing': '#4f39f6',
+  'SEO': '#16a34a',
+  'Local SEO': '#ea580c',
+  'Social Media': '#db2777',
+  'AI & Emerging': '#7c3aed',
+};
+const difficultyLabels: Record<string, string> = {
+  'Beginner': 'Iniciante',
+  'Intermediate': 'Intermediário',
+  'Advanced': 'Avançado',
+};
+const difficultyColors: Record<string, string> = {
+  'Beginner': '#16a34a',
+  'Intermediate': '#d97706',
+  'Advanced': '#dc2626',
+};
+const catColor = categoryColors[entry.data.category] || '#4f39f6';
+const t = entry.data.term;
+
+const ptBrUrl = `${SITE_URL}/pt-br/glossario/${entry.data.slug}/`;
+const enUrl = `${SITE_URL}/glossary/${entry.data.slug}/`;
+
+// FAQ extraction
+const faqItems: { question: string; answer: string }[] = [];
+const bodyText = entry.body || '';
+const faqSectionMatch = bodyText.split(/^## Frequently Asked Questions/m)[1];
+if (faqSectionMatch) {
+  const faqBlock = faqSectionMatch.split(/^## /m)[0];
+  const faqParts = faqBlock.split(/^### /m).filter(Boolean);
+  for (const part of faqParts) {
+    const lines = part.trim().split('\n');
+    const question = lines[0].replace(/\??\s*$/, '?').trim();
+    const answer = lines.slice(1).join(' ').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*/g, '').trim();
+    if (question && answer) faqItems.push({ question, answer });
+  }
+}
+
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'DefinedTerm',
+      '@id': `${ptBrUrl}#term`,
+      name: entry.data.term,
+      description: entry.data.definition,
+      url: ptBrUrl,
+      inDefinedTermSet: {
+        '@type': 'DefinedTermSet',
+        '@id': `${SITE_URL}/pt-br/glossario/`,
+        name: 'Glossário de SEO e Marketing — theStacc',
+        url: `${SITE_URL}/pt-br/glossario/`,
+      },
+      termCode: entry.data.category,
+    },
+    {
+      '@type': 'Article',
+      '@id': `${ptBrUrl}#article`,
+      headline: `O que é ${entry.data.term}? Definição e Guia`,
+      description: entry.data.definition,
+      url: ptBrUrl,
+      datePublished: entry.data.date,
+      dateModified: entry.data.lastUpdated || entry.data.date,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': ptBrUrl },
+      author: { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: 'theStacc' },
+      publisher: { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: 'theStacc' },
+      inLanguage: 'pt-BR',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${ptBrUrl}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Início', item: `${SITE_URL}/pt-br/` },
+        { '@type': 'ListItem', position: 2, name: 'Glossário', item: `${SITE_URL}/pt-br/glossario/` },
+        { '@type': 'ListItem', position: 3, name: entry.data.term, item: ptBrUrl },
+      ],
+    },
+    ...(faqItems.length > 0 ? [{
+      '@type': 'FAQPage',
+      '@id': `${ptBrUrl}#faq`,
+      mainEntity: faqItems.map(faq => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+      })),
+    }] : []),
+  ],
+};
+---
+
+<BaseLayout
+  title={`${entry.data.term}: Definição e Guia Completo | theStacc`}
+  description={entry.data.definition}
+  lang="pt-BR"
+  noindex={isNoindexed(`/pt-br/glossario/${entry.data.slug}/`)}
+>
+  <Fragment slot="head">
+  </Fragment>
+  <Header />
+  <main class="flex-1">
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+
+    <!-- ░░ HERO ░░ -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.18) 0%, transparent 62%);"></div>
+
+      <div class="mx-auto max-w-[1080px] px-6 relative z-10 pt-8 pb-12">
+        <nav aria-label="Breadcrumb">
+          <ol class="flex items-center gap-1.5 font-mono text-[11px] text-[#a8a29e]">
+            <li><a href="/pt-br/" class="hover:text-[#57534e] transition-colors">Início</a></li>
+            <li class="before:content-['/'] before:mx-1.5"><a href="/pt-br/glossario/" class="hover:text-[#57534e] transition-colors">Glossário</a></li>
+            <li class="before:content-['/'] before:mx-1.5 text-[#79716b]">{entry.data.term}</li>
+          </ol>
+        </nav>
+
+        <div class="mt-5 flex flex-wrap items-center gap-2">
+          <span
+            class="rounded-lg px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.1em]"
+            style={`color: ${catColor}; background: ${catColor}22;`}
+          >{entry.data.category}</span>
+          <span
+            class="rounded-lg px-2.5 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.1em]"
+            style={`color: ${difficultyColors[entry.data.difficulty] || '#94a3b8'}; background: ${difficultyColors[entry.data.difficulty] || '#94a3b8'}22;`}
+          >{difficultyLabels[entry.data.difficulty] || entry.data.difficulty}</span>
+        </div>
+
+        <h1 class="mt-4 max-w-[680px] font-sans text-[28px] font-bold leading-[1.2] tracking-[-0.025em] text-[#292524] md:text-[36px]">
+          O que é {entry.data.term}?
+        </h1>
+        <p class="mt-3 max-w-[600px] font-sans text-[14px] leading-[1.7] text-[#64748b]">
+          Aprenda o que {t} significa, por que é importante para os resultados de busca, e como a publicação consistente de conteúdo mantém seu negócio visível no Google.
+        </p>
+
+        <div
+          class="glossary-quick-definition mt-5 max-w-[680px] rounded-xl border border-[#e7e5e4] bg-white/5 px-5 py-4"
+          style={`border-left: 3px solid ${catColor};`}
+        >
+          <p class="font-sans text-[15px] font-medium leading-[1.7] text-[#cbd5e1]">{entry.data.definition}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ CONTENT ░░ -->
+    <section class="bg-white px-6 py-10">
+      <div class="mx-auto max-w-[1080px]">
+        <div class="mb-8 lg:hidden">
+          <div class="rounded-xl border border-[#e7e5e4] bg-[#fafaf9]">
+            <button
+              id="toc-toggle"
+              class="flex w-full cursor-pointer items-center justify-between px-5 py-3.5"
+              aria-expanded="false"
+            >
+              <span class="font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-[#292524]">Nesta Página</span>
+              <svg id="toc-chevron" class="transition-transform text-[#79716b]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <nav id="glossary-toc-mobile" class="hidden flex-col gap-1 border-t border-[#e7e5e4] px-5 pb-4 pt-3"></nav>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-10 lg:flex-row lg:items-start">
+
+          <div class="glossary-content min-w-0 flex-1 max-w-full lg:max-w-[700px]">
+            <Content />
+
+            <div class="mt-10 rounded-2xl border border-[#e7e5e4] bg-[#fafaf9] p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#f5f3ff]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f39f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.86a.5.5 0 0 1-.62-.62l.86-2.873a2 2 0 0 1 .506-.854z"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-sans text-[15px] font-semibold text-[#292524]">De entender {t} a ranquear por ele</h3>
+                  <p class="mt-2 font-sans text-[14px] leading-[1.7] text-[#57534e]">Entender {t} é o ponto de partida. As empresas que realmente se beneficiam são as que executam consistentemente — com sistemas e automação. O theStacc elimina esse gargalo publicando 30 artigos otimizados por palavras-chave no seu site todo mês, automaticamente.</p>
+                  <a href="/pt-br/demo/" class="mt-4 inline-flex items-center gap-1.5 font-mono text-[12px] font-semibold text-[#4f39f6] transition-colors hover:text-[#3b27c9]">
+                    Veja como o theStacc funciona
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {relatedTerms.length > 0 && (
+              <div class="mt-10 border-t border-[#e7e5e4] pt-8">
+                <h2 class="font-sans text-[20px] font-semibold leading-[28px] text-[#292524] mb-4">Termos Relacionados</h2>
+                <div class="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                  {relatedTerms.map(rt => (
+                    <a
+                      href={`/pt-br/glossario/${rt.data.slug}/`}
+                      class="group rounded-xl border border-[#e7e5e4] bg-[#fafaf9] px-4 py-3 transition-all hover:border-[#c4b5fd] hover:bg-white hover:shadow-sm"
+                    >
+                      <div class="flex items-start justify-between gap-2">
+                        <span class="font-sans text-[14px] font-semibold text-[#292524] transition-colors group-hover:text-[#4f39f6]">{rt.data.term}</span>
+                        <span
+                          class="shrink-0 rounded-md px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase"
+                          style={`color: ${categoryColors[rt.data.category] || '#57534e'}; background: ${categoryColors[rt.data.category] || '#57534e'}18;`}
+                        >{rt.data.category}</span>
+                      </div>
+                      <p class="mt-1 line-clamp-2 font-sans text-[12px] leading-[18px] text-[#79716b]">{rt.data.definition}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <aside class="hidden lg:block w-[272px] shrink-0 self-stretch">
+            <div class="flex flex-col gap-4 sticky top-[80px]">
+              <div class="relative overflow-hidden rounded-2xl" style="background:#0d1117;">
+                <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -10%, rgba(79,57,246,0.55) 0%, transparent 70%);"></div>
+                <div class="relative z-10 p-5">
+                  <p class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#818cf8]">theStacc</p>
+                  <h4 class="mt-2 font-sans text-[14px] font-bold leading-[1.35] text-white">Quer ranquear para mais termos como "{t}"?</h4>
+                  <p class="mt-2 font-sans text-[12px] leading-[1.65] text-[#94a3b8]">O theStacc publica 30 artigos de SEO no seu site todo mês. Automaticamente.</p>
+                  <a
+                    href="/pt-br/demo/"
+                    class="mt-4 inline-flex h-9 items-center gap-1.5 rounded-lg border border-[#4f39f6] bg-[#615fff] px-4 font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+                  >
+                    Veja como funciona
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+
+              <div class="rounded-xl border border-[#e7e5e4] bg-white">
+                <div class="border-b border-[#f5f5f4] px-5 py-3">
+                  <span class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Nesta Página</span>
+                </div>
+                <nav id="glossary-toc-desktop" class="flex flex-col gap-0.5 px-5 py-3"></nav>
+              </div>
+
+              {categoryTerms.length > 0 && (
+                <div class="rounded-xl border border-[#e7e5e4] bg-white">
+                  <div class="border-b border-[#f5f5f4] px-5 py-3">
+                    <span class="font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#79716b]">Mais em {entry.data.category}</span>
+                  </div>
+                  <div class="flex flex-col px-5 py-3">
+                    {categoryTerms.map(ct => (
+                      <a href={`/pt-br/glossario/${ct.data.slug}/`} class="border-b border-[#f5f5f4] py-2 font-sans text-[13px] text-[#57534e] transition-colors last:border-0 hover:text-[#4f39f6]">{ct.data.term}</a>
+                    ))}
+                  </div>
+                  <div class="border-t border-[#f5f5f4] px-5 py-3">
+                    <a href="/pt-br/glossario/" class="font-mono text-[11px] font-semibold text-[#4f39f6] transition-colors hover:underline">Ver todos os termos →</a>
+                  </div>
+                </div>
+              )}
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ FOOTER CTA ░░ -->
+    <section class="relative overflow-hidden" style="background:#0d1117;">
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.4) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <h3 class="font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-white">
+          Construa rankings para termos como "{t}". Automaticamente.
+        </h3>
+        <p class="mx-auto mt-3 max-w-[440px] font-sans text-[15px] leading-[1.7] text-[#94a3b8]">
+          30 artigos otimizados por palavras-chave publicados no seu site todo mês. Os rankings se acumulam enquanto você foca no seu negócio.
+        </p>
+        <a
+          href="/pt-br/demo/"
+          class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]"
+        >
+          Começar por R$1
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#4b5563]">R$1 por 30 dias · Cancele quando quiser</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script>
+    const tocToggle = document.getElementById('toc-toggle');
+    const tocMobileNav = document.getElementById('glossary-toc-mobile');
+    const tocChevron = document.getElementById('toc-chevron');
+    tocToggle?.addEventListener('click', () => {
+      const isOpen = tocToggle.getAttribute('aria-expanded') === 'true';
+      tocToggle.setAttribute('aria-expanded', String(!isOpen));
+      tocMobileNav?.classList.toggle('hidden', isOpen);
+      tocMobileNav?.classList.toggle('flex', !isOpen);
+      tocChevron?.classList.toggle('rotate-180', !isOpen);
+    });
+
+    function buildTOC() {
+      const content = document.querySelector('.glossary-content');
+      if (!content) return;
+      const headings = content.querySelectorAll('h2');
+      const tocMobile = document.getElementById('glossary-toc-mobile');
+      const tocDesktop = document.getElementById('glossary-toc-desktop');
+      headings.forEach((heading, i) => {
+        const id = heading.id || `section-${i}`;
+        heading.id = id;
+        const link = `<a href="#${id}" class="block font-sans text-[13px] leading-[20px] py-1 text-[#57534e] hover:text-[#4f39f6] transition-colors glossary-toc-link" data-target="${id}">${heading.textContent}</a>`;
+        if (tocMobile) tocMobile.innerHTML += link;
+        if (tocDesktop) tocDesktop.innerHTML += link;
+      });
+    }
+    buildTOC();
+  </script>
+</BaseLayout>

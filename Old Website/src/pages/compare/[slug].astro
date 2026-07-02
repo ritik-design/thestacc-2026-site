@@ -1,0 +1,435 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/common/Header.astro';
+import Footer from '../../components/common/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import { SITE_URL, organizationSchema, publisherRef, authorRef, websiteSchema, buildBreadcrumbs, resolveImage } from '../../utils/schema';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('compare');
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const compareUrl = `${SITE_URL}/compare/${post.data.slug}/`;
+const schemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      '@id': `${compareUrl}#article`,
+      headline: post.data.title,
+      description: post.data.description,
+      url: compareUrl,
+      datePublished: post.data.date,
+      dateModified: post.data.date,
+      author: authorRef,
+      publisher: publisherRef,
+      image: resolveImage(post.data.image),
+      mainEntityOfPage: { '@type': 'WebPage', '@id': compareUrl },
+      articleSection: 'Comparisons',
+      inLanguage: 'en',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+    },
+    buildBreadcrumbs(compareUrl, [
+      { name: 'Home', url: SITE_URL },
+      { name: 'Compare', url: `${SITE_URL}/compare/` },
+      { name: post.data.title, url: compareUrl },
+    ]),
+    organizationSchema,
+    websiteSchema,
+  ],
+};
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.image}
+>
+  <Header />
+  <main>
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+    <article>
+      <!-- Hero -->
+      <div class="mx-auto max-w-[1320px] px-6 pt-12 pb-8">
+        <div class="max-w-[820px]">
+
+          <!-- Content -->
+          <div class="min-w-0">
+            <a
+              href="/compare"
+              class="inline-flex items-center gap-1.5 rounded-[8px] border border-[#e7e5e4] px-3 py-1 font-mono text-sm font-semibold uppercase text-[#292524] transition-colors hover:bg-[#fafaf9]"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>
+              </svg>
+              Comparisons
+            </a>
+
+            <h1 class="mt-6 font-sans text-[28px] leading-[36px] md:text-[36px] md:leading-[44px] lg:text-[40px] lg:leading-[48px] font-semibold text-[#292524]">
+              {post.data.title}
+            </h1>
+            <p class="mt-4 font-sans text-[16px] leading-[26px] text-[#79716b] max-w-xl">{post.data.description}</p>
+            <p class="mt-4 font-mono text-sm uppercase text-[#79716b]">
+              {post.data.author} &bull; {post.data.date}
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mobile TOC (shown below lg, hidden on lg+) -->
+      <div class="mx-auto max-w-[1320px] px-6 mt-2 lg:hidden">
+        <div class="review-toc-card">
+          <h4>In This Post</h4>
+          <nav id="review-toc-mobile" class="review-toc">
+            <!-- JS populates this -->
+          </nav>
+        </div>
+      </div>
+
+      <!-- Two-Column Layout: Content + Sidebar -->
+      <div class="mx-auto max-w-[1320px] px-6 mt-8 flex flex-col lg:flex-row gap-10 items-start">
+
+        <!-- Main Content -->
+        <div class="review-content flex-1 min-w-0 max-w-full border-t border-[#e7e5e4] pt-8 pb-12 overflow-x-hidden">
+          <Content />
+        </div>
+
+        <!-- Sidebar (desktop) -->
+        <aside class="hidden lg:block w-[280px] shrink-0">
+          <div id="sidebar-inner" class="flex flex-col gap-5">
+            <!-- CTA -->
+            <div class="review-sidebar-cta">
+              <h4>Skip the research. Get the traffic.</h4>
+              <p>theStacc publishes 30 SEO articles to your site every month. Automatically. No writers. No workflow.</p>
+              <a href="https://app.thestacc.com" class="review-sidebar-cta-btn">Start for $1 →</a>
+            </div>
+
+            <!-- TOC -->
+            <div class="review-toc-card">
+              <h4>In This Post</h4>
+              <nav id="review-toc" class="review-toc">
+                <!-- JS populates this -->
+              </nav>
+            </div>
+
+            <!-- Editorial Disclosure -->
+            <div class="review-disclosure-card">
+              <strong>Editorial Disclosure</strong>
+              <p>This post was written and published by Stacc. We compete with several tools reviewed here. All pricing and feature data verified against public sources as of March 2026.</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Mobile CTA + Disclosure (shown below content on mobile) -->
+      <div class="mx-auto max-w-[740px] px-6 pb-8 lg:hidden">
+        <div class="flex flex-col gap-5">
+          <div class="review-sidebar-cta">
+            <h4>Skip the research. Get the traffic.</h4>
+            <p>theStacc publishes 30 SEO articles to your site every month. Automatically. No writers. No workflow.</p>
+            <a href="https://app.thestacc.com" class="review-sidebar-cta-btn">Start for $1 →</a>
+          </div>
+          <div class="review-disclosure-card">
+            <strong>Editorial Disclosure</strong>
+            <p>This post was written and published by Stacc. We compete with several tools reviewed here. All pricing and feature data verified against public sources as of March 2026.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+    <!-- ░░ DARK FOOTER CTA ░░ -->
+    <section class="relative overflow-hidden" style="background:#ffffff;">
+      <div class="pointer-events-none absolute inset-0" style="background-image:linear-gradient(to right,rgba(15,23,42,0.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,0.05) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 0%,black 40%,transparent 85%);"></div>
+      <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse at 50% -5%, rgba(79,57,246,0.06) 0%, transparent 65%);"></div>
+      <div class="container-x relative z-10 py-16 text-center">
+        <p class="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[#4f39f6]">theStacc</p>
+        <h3 class="mt-3 font-sans text-[26px] font-bold leading-[1.2] tracking-[-0.02em] text-[#292524]">
+          Done comparing. Time to publish.
+        </h3>
+        <p class="mx-auto mt-3 max-w-[440px] font-sans text-[15px] leading-[1.7] text-[#57534e]">
+          Stop evaluating tools. theStacc writes, optimizes, and publishes 30 SEO articles to your site every month. Automatically.
+        </p>
+        <a href="/demo/"
+          class="mt-7 inline-flex h-[46px] items-center gap-2 rounded-xl border border-[#4f39f6] bg-[#615fff] px-8 font-mono text-[13px] font-semibold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#4f39f6]">
+          Start Your $1 Trial
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <p class="mt-3 font-mono text-[11px] tracking-[0.08em] text-[#79716b]">$1 for 3 days · Cancel anytime</p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  // === Open external links in new tabs ===
+  document.querySelectorAll('.review-content a').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    if (href.startsWith('http')) {
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
+    }
+  });
+
+  // === Build TOC from H2s (desktop + mobile) ===
+  const toc = document.getElementById('review-toc');
+  const tocMobile = document.getElementById('review-toc-mobile');
+  const h2s = document.querySelectorAll('.review-content h2');
+  h2s.forEach((h2, i) => {
+    const id = 'section-' + i;
+    h2.id = id;
+    [toc, tocMobile].forEach((t) => {
+      if (!t) return;
+      const a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = h2.textContent || '';
+      t.appendChild(a);
+    });
+  });
+
+  // === Scrollspy for TOC (both) ===
+  const allTocLinks = [
+    ...(toc?.querySelectorAll('a') || []),
+    ...(tocMobile?.querySelectorAll('a') || []),
+  ];
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        allTocLinks.forEach((a) => a.classList.remove('active'));
+        const id = entry.target.id;
+        allTocLinks.filter((a) => a.getAttribute('href') === '#' + id).forEach((a) => a.classList.add('active'));
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px' });
+  h2s.forEach((h2) => observer.observe(h2));
+
+  // === Wrap tables in scroll container (mobile-friendly) ===
+  document.querySelectorAll('.review-content table').forEach((table) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-scroll-wrapper';
+    table.parentNode?.insertBefore(wrapper, table);
+    wrapper.appendChild(table);
+    const colCount = table.querySelectorAll('thead th, thead td').length || table.querySelector('tr')?.children.length || 0;
+    if (colCount >= 8) {
+      (table as HTMLElement).style.minWidth = '1000px';
+    } else if (colCount >= 6) {
+      (table as HTMLElement).style.minWidth = '800px';
+    } else if (colCount >= 4) {
+      (table as HTMLElement).style.minWidth = '650px';
+    } else if (colCount >= 3) {
+      (table as HTMLElement).style.minWidth = '500px';
+    }
+  });
+
+  // === Classify tables ===
+  const tables = document.querySelectorAll('.review-content table');
+  let isFirstComparison = true;
+  tables.forEach((table) => {
+    const text = table.textContent || '';
+    if (text.includes('⭐')) {
+      table.classList.add('rating-table');
+    } else if (text.includes('✓') || text.includes('✗') || text.includes('Yes') || text.includes('No')) {
+      table.classList.add('comparison-table');
+      if (isFirstComparison) {
+        table.classList.add('hero-comparison-table');
+        isFirstComparison = false;
+      }
+    }
+  });
+
+  // === Highlight theStacc rows in tables ===
+  document.querySelectorAll('.review-content table tbody tr').forEach((tr) => {
+    const firstCell = tr.querySelector('td:first-child');
+    const text = (firstCell?.textContent || '').toLowerCase();
+    if (text.includes('thestacc') || text.includes('stacc')) {
+      (tr as HTMLElement).classList.add('stacc-row');
+    }
+  });
+
+  // === Style CTA links as boxes ===
+  document.querySelectorAll('.review-content p').forEach((p) => {
+    const a = p.querySelector('a[href*="/pricing"]');
+    if (!a) return;
+    const text = p.textContent?.trim() || '';
+    const linkText = a.textContent?.trim() || '';
+    if (text === linkText || (p.children.length === 1 && p.firstElementChild?.tagName === 'STRONG')) {
+      p.classList.add('cta-box');
+    }
+  });
+
+  // === Wrap FAQ section in a styled box ===
+  // Handles BOTH formats:
+  // Format A: **Question?** followed by answer text in same <p>
+  // Format B: ### Question? followed by <p> answer paragraphs
+  document.querySelectorAll('.review-content h2').forEach((h2) => {
+    const text = h2.textContent?.trim().toLowerCase() || '';
+    if (!text.includes('faq') && !text.includes('frequently asked')) return;
+
+    h2.classList.add('faq-heading');
+    const faqBox = document.createElement('div');
+    faqBox.className = 'faq-box';
+
+    // Collect all elements between this H2 and the next H2/HR
+    let el = h2.nextElementSibling;
+    const items: Element[] = [];
+    while (el && el.tagName !== 'H2' && el.tagName !== 'HR') {
+      items.push(el);
+      el = el.nextElementSibling;
+    }
+
+    h2.parentNode?.insertBefore(faqBox, h2);
+    faqBox.appendChild(h2);
+
+    // Detect format
+    const hasH3s = items.some(item => item.tagName === 'H3');
+
+    if (hasH3s) {
+      // FORMAT B: ### Question? followed by <p> answers
+      // First pass: group items by H3
+      const groups: { question: string; answerEls: Element[] }[] = [];
+      let current: { question: string; answerEls: Element[] } | null = null;
+
+      items.forEach((item) => {
+        if (item.tagName === 'H3') {
+          current = { question: item.textContent || '', answerEls: [] };
+          groups.push(current);
+        } else if (current) {
+          current.answerEls.push(item);
+        }
+      });
+
+      // Second pass: build FAQ items
+      groups.forEach((group) => {
+        const faqItem = document.createElement('div');
+        faqItem.className = 'faq-item';
+
+        const q = document.createElement('h3');
+        q.className = 'faq-question';
+        q.textContent = group.question;
+        q.setAttribute('role', 'button');
+        q.setAttribute('tabindex', '0');
+        faqItem.appendChild(q);
+
+        const answer = document.createElement('div');
+        answer.className = 'faq-answer';
+        group.answerEls.forEach((ansEl) => {
+          answer.appendChild(ansEl.cloneNode(true));
+        });
+        faqItem.appendChild(answer);
+
+        faqBox.appendChild(faqItem);
+
+        // Click handler with proper closure
+        q.addEventListener('click', () => {
+          faqItem.classList.toggle('open');
+        });
+      });
+
+      // Remove originals
+      items.forEach((item) => item.remove());
+
+    } else {
+      // FORMAT A: **Question?** in <p>. Answer is rest of same <p> or next <p>
+      // Group: bold <p> = question, following non-bold <p>s = answer
+      const faqItems: { questionText: string; answerHTML: string }[] = [];
+
+      items.forEach((item) => {
+        if (item.tagName !== 'P') { return; }
+        const strong = item.querySelector('strong');
+        if (strong && (item.firstChild === strong || item.innerHTML.trim().startsWith('<strong>'))) {
+          const questionText = strong.textContent || '';
+          const clone = item.cloneNode(true) as HTMLElement;
+          clone.querySelector('strong')?.remove();
+          let answerHTML = clone.innerHTML.trim().replace(/^<br\s*\/?>/, '').trim();
+          faqItems.push({ questionText, answerHTML });
+        } else if (faqItems.length > 0) {
+          // Non-bold paragraph. Append to previous question's answer
+          faqItems[faqItems.length - 1].answerHTML += (item as HTMLElement).outerHTML;
+        }
+      });
+
+      faqItems.forEach(({ questionText, answerHTML }) => {
+        const faqItem = document.createElement('div');
+        faqItem.className = 'faq-item';
+
+        const q = document.createElement('h3');
+        q.className = 'faq-question';
+        q.textContent = questionText;
+        q.setAttribute('role', 'button');
+        q.setAttribute('tabindex', '0');
+        faqItem.appendChild(q);
+
+        if (answerHTML) {
+          const answer = document.createElement('div');
+          answer.className = 'faq-answer';
+          answer.innerHTML = answerHTML;
+          faqItem.appendChild(answer);
+        }
+
+        faqBox.appendChild(faqItem);
+        q.addEventListener('click', () => {
+          faqItem.classList.toggle('open');
+        });
+      });
+
+      // Remove originals
+      items.forEach((item) => item.remove());
+    }
+  });
+
+  // === Hide editorial disclosure from article body (it's in sidebar) ===
+  const firstBlockquote = document.querySelector('.review-content > blockquote:first-child');
+  if (firstBlockquote && firstBlockquote.textContent?.includes('Expert Verified')) {
+    // Keep the Expert Verified badge visible. Don't hide it
+  }
+
+  // === Sidebar sticky. Stops near the end of the article ===
+  const sidebarInner = document.getElementById('sidebar-inner');
+  const allH2s = Array.from(document.querySelectorAll('.review-content h2'));
+  // Find the stop point: "More Best-List", "Bottom Line", "Final Verdict", or the last H2
+  const morePostsH2 = allH2s.find(
+    (h2) => {
+      const t = h2.textContent?.trim().toLowerCase() || '';
+      return t.startsWith('more best-list') || t.startsWith('the bottom line') || t.startsWith('bottom line') || t.startsWith('final verdict') || t.startsWith('related');
+    }
+  ) || allH2s[allH2s.length - 1]; // fallback: last H2
+  if (sidebarInner && morePostsH2) {
+    const topOffset = 80;
+    const aside = sidebarInner.parentElement as HTMLElement;
+    aside.style.position = 'relative';
+
+    const update = () => {
+      const stopRect = morePostsH2.getBoundingClientRect();
+      const sidebarH = sidebarInner.offsetHeight;
+      const asideRect = aside.getBoundingClientRect();
+
+      const stopFromTop = stopRect.top;
+      const sidebarBottom = topOffset + sidebarH;
+
+      if (asideRect.top > topOffset) {
+        sidebarInner.style.position = 'static';
+        sidebarInner.style.top = '';
+        sidebarInner.style.width = '';
+      } else if (stopFromTop > sidebarBottom) {
+        sidebarInner.style.position = 'fixed';
+        sidebarInner.style.top = topOffset + 'px';
+        sidebarInner.style.width = '280px';
+      } else {
+        const maxTop = morePostsH2.offsetTop - aside.offsetTop - sidebarH;
+        sidebarInner.style.position = 'absolute';
+        sidebarInner.style.top = Math.max(0, maxTop) + 'px';
+        sidebarInner.style.width = '280px';
+      }
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  }
+</script>
