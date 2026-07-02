@@ -377,3 +377,6 @@ After preserving these 5 pages:
 | Core English content coverage | ~97.5% |
 
 Remaining gaps: 1,534 international pages, 54 blog pagination pages (intentionally not needed), 10 renamed/consolidated pages.
+2026-07-02 11:34:42 UTC
+
+Trigger commit to force Cloudflare Pages redeploy.
